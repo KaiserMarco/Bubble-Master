@@ -11,7 +11,7 @@ import org.newdawn.slick.geom.Shape;
 
 public class Bubble extends Ostacolo
 {
-	private int ray;
+	private float ray;
 	
 	private Circle ostr;
 
@@ -27,7 +27,7 @@ public class Bubble extends Ostacolo
 	public Bubble( Ostacolo ost ) throws SlickException
 		{ this( ost.getX(), ost.getY(), (int) ost.getWidth() ); }
 	
-	public Bubble( int x, int y, int ray ) throws SlickException
+	public Bubble( float x, float y, float ray ) throws SlickException
 		{		
 			super( "bolla" );
 
@@ -140,11 +140,7 @@ public class Bubble extends Ostacolo
 							if(adjuste)
 								{
 									collide = true;
-									if(ostr.intersects( ost.component( "latoSx" ) ) || ostr.intersects( ost.component( "latoDx" ) ))
-										speedX = -speedX;
-									else if(ostr.intersects( ost.component( "latoSu" ) ) || ostr.intersects( ost.component( "latoGiu" ) ))
-										speedY = -speedY;
-									else if(ostr.intersects( ost.component( "spigADx" ) ))
+									if(ostr.intersects( ost.component( "spigADx" ) ))
 										{	
 											if(speedX < 0 && speedY > 0)
 												{
@@ -192,6 +188,10 @@ public class Bubble extends Ostacolo
 											else
 												speedX = -speedX;
 										}
+									else if(ostr.intersects( ost.component( "latoSx" ) ) || ostr.intersects( ost.component( "latoDx" ) ))
+										speedX = -speedX;
+									else if(ostr.intersects( ost.component( "latoSu" ) ) || ostr.intersects( ost.component( "latoGiu" ) ))
+										speedY = -speedY;
 								}
 						}
 				}
@@ -216,7 +216,7 @@ public class Bubble extends Ostacolo
 
 	public Ostacolo clone() {
 		try {
-			return new Bubble( (int) ostr.getX(), (int) ostr.getY(), ray );
+			return new Bubble( ostr.getX(), ostr.getY(), ray );
 		} catch (SlickException e) {
 			e.printStackTrace();
 			return null;
