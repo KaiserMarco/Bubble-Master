@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+	<!-- basedir -->
+	<basedir path="data" />
+	<!-- images -->
+	<image key="start" file="Image/Start.png" />
+	<image key="icon1" file="Image/Icon1.png" />
+	<image key="icon2" file="Image/Icon2.png" />
+	<image key="icon3" file="Image/Icon3.png" />
+	<image key="icon4" file="Image/Icon4.png" />
+	<image key="wall" file="Image/Wall.png" />
+	<image key="ground" file="Image/Battlefield.png" />
+	<image key="bomb" file="Image/Bomb.png" />
+	<image key="arrow" file="Image/Arrow.png" />
+	<image key="cursor" file="Image/Cursor.png" />
+	<image key="podio" file="Image/Podio.png" />
+	<image key="window" file="Image/Window.png" />
+	<!-- sound -->
+	<sound key="bomb_explosion" file="sounds/Explosion.wav" />
+	<sound key="power_up" file="sounds/Powerup.wav" />
+	<sound key="start" file="sounds/Start.wav" />
+	<sound key="bomb_set" file="sounds/Bomb_Set.wav" />
+	<!-- sheets -->
+	<sheet key="player1" file="Image/Player1.png" width="25" height="32" />
+	<sheet key="player2" file="Image/Player2.png" width="25" height="32" />
+	<sheet key="player3" file="Image/Player3.png" width="25" height="32" />
+	<sheet key="player4" file="Image/Player4.png" width="25" height="32" />
+	<sheet key="explosion" file="Image/Explosion.png" width="50" height="50" />
+</resources>
