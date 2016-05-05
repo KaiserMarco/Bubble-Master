@@ -43,25 +43,13 @@ public class Bubble extends Ostacolo
 	public Circle getArea()
 		{ return ostr; }
 
-	public void setXY(int x, int y, String function)
-		{
-			if(function.compareTo( "move" ) == 0)
-				ostr.setLocation( ostr.getX() + x, ostr.getY() + y );
-			
-			else if(function.compareTo( "restore" ) == 0)
-				ostr.setLocation( x, y );
-			
-			else if(function.compareTo( "setRay" ) == 0)
-				ray = x;
-		}
-
 	public boolean contains( int x, int y )
 		{ return ostr.contains( x, y ); }
 
-	public int getX()
+	public float getX()
 		{ return (int) ostr.getX(); }
 
-	public int getY()
+	public float getY()
 		{ return (int) ostr.getY(); }
 	
 	public void setMaxHeight( int val )
@@ -96,6 +84,21 @@ public class Bubble extends Ostacolo
 
 	public void setSpeedY( int val )
 		{ speedY = val; }
+
+	public void setXY( float x, float y, String function )
+		{
+			if(function.compareTo( "move" ) == 0)
+				{
+					ostr.setLocation( ostr.getX() + x, ostr.getY() + y );
+					setCenter( ostr, x, y );
+				}
+			
+			else if(function.compareTo( "restore" ) == 0)
+				ostr.setLocation( x, y );
+			
+			else if(function.compareTo( "setRay" ) == 0)
+				ray = x;
+		}
 	
 	private void setCenter( Shape ostr, float x, float y )
 		{
@@ -123,16 +126,19 @@ public class Bubble extends Ostacolo
 	public void update( GameContainer gc ) throws SlickException
 		{			
 			boolean collide = false;
-			boolean adjuste = false;
+			boolean adjuste;
 			float distX = 0, distY = 0;
 
 			setCenter( ostr, speedX, speedY );
 
 			Bubble circleTest = (Bubble) this.clone();
 			
+			System.out.println( "BAH" );
+			
 			// TODO SISTEMARE LA COMPENETRAZIONE SFERE-OSTACOLI
 			for(int i = 0; i < InGame.ostacoli.size(); i++)
 				{
+					System.out.println( "AGGIUSTO" );
 					Ostacolo ost = InGame.ostacoli.get( i );
 					if(!ost.ID.equals( "bolla" ))
 						{
@@ -140,7 +146,12 @@ public class Bubble extends Ostacolo
 							if(adjuste)
 								{
 									collide = true;
-									if(ostr.intersects( ost.component( "spigADx" ) ))
+									setXY( distX, distY, "move" );
+									if(ostr.intersects( ost.component( "latoSx" ) ) || ostr.intersects( ost.component( "latoDx" ) ))
+										speedX = -speedX;
+									else if(ostr.intersects( ost.component( "latoSu" ) ) || ostr.intersects( ost.component( "latoGiu" ) ))
+										speedY = -speedY;
+									else if(ostr.intersects( ost.component( "spigADx" ) ))
 										{	
 											if(speedX < 0 && speedY > 0)
 												{
@@ -188,10 +199,6 @@ public class Bubble extends Ostacolo
 											else
 												speedX = -speedX;
 										}
-									else if(ostr.intersects( ost.component( "latoSx" ) ) || ostr.intersects( ost.component( "latoDx" ) ))
-										speedX = -speedX;
-									else if(ostr.intersects( ost.component( "latoSu" ) ) || ostr.intersects( ost.component( "latoGiu" ) ))
-										speedY = -speedY;
 								}
 						}
 				}
@@ -203,9 +210,6 @@ public class Bubble extends Ostacolo
 					if(ostr.getY() + 2*ray >= maxH || ostr.getY() <= 0)
 						speedY = -speedY;
 				}
-			
-			if(adjuste)
-				setCenter( ostr, distX, distY );
 		}
 
 	public void setType(String type)

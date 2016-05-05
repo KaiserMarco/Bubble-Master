@@ -49,10 +49,10 @@ public class Sbarra extends Ostacolo{
 	public void draw( Graphics g ) throws SlickException
 		{ immagine.draw( ostr.getX(), ostr.getY(), ostr.getWidth(), ostr.getHeight() ); }
 	
-	public int getX()
+	public float getX()
 		{ return (int)ostr.getX(); }
 
-	public int getY()
+	public float getY()
 		{ return (int)ostr.getY(); }
 	
 	public float getWidth()
@@ -64,7 +64,7 @@ public class Sbarra extends Ostacolo{
 	public boolean contains( int x, int y )
 		{ return ostr.contains( x, y ); }
 	
-	public void setXY( int x, int y, String function )
+	public void setXY( float x, float y, String function )
 		{			
 			if(function.compareTo( "move" ) == 0)
 				ostr.setLocation( ostr.getX() + x, ostr.getY() + y );

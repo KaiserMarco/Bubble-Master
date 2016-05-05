@@ -19,8 +19,8 @@ public class Player extends Ostacolo
 	/**false = non sto saltando - true = sto saltando*/
 	private boolean jump = false;
 	
-	private int xPlayer;
-	private int yPlayer;
+	private float xPlayer;
+	private float yPlayer;
 	private int width = 60;
 	private int height = 70;
 	
@@ -37,7 +37,7 @@ public class Player extends Ostacolo
 	
 	private int dir = 0;
 	
-	public Player( int x, int y, int numPlayer ) throws SlickException
+	public Player( float x, float y, int numPlayer ) throws SlickException
 		{
 			super( "player" + (numPlayer + 1) );
 			
@@ -80,7 +80,7 @@ public class Player extends Ostacolo
 	public boolean contains( int x, int y )
 		{ return area.contains( x, y ); }
 
-	public void setXY( int x, int y, String function ) 
+	public void setXY( float x, float y, String function ) 
 		{
 			if(function.equals( "move" ))
 				{
@@ -109,10 +109,10 @@ public class Player extends Ostacolo
 		}
 	}
 
-	public int getX()	
+	public float getX()	
 		{ return xPlayer; }
 
-	public int getY()
+	public float getY()
 		{ return yPlayer; }
 
 	public Shape component( String part )

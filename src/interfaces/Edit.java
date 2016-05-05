@@ -172,7 +172,7 @@ public class Edit
 				{					
 					if(temp.ID.startsWith( "player" ))
 						{
-							int tmp = gc.getHeight();
+						float tmp = gc.getHeight();
 							for(int i = 0; i < ostacoli.size(); i++)
 								if(mouseY < ostacoli.get( i ).getY())
 									if(mouseX > ostacoli.get( i ).getX() && mouseX < ostacoli.get( i ).getX() + ostacoli.get( i ).getWidth())

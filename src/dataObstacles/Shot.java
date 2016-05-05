@@ -8,8 +8,8 @@ import org.newdawn.slick.geom.Rectangle;
 
 public class Shot 
 {
-	private int posX;
-	private int posY;
+	private float posX;
+	private float posY;
 	
 	int width = 20;
 	int height = 100;
@@ -19,7 +19,7 @@ public class Shot
 	public Shot() throws SlickException
 		{ immagine = new Image( "./data/Image/pole.png" ); }
 	
-	public void setXY( int x, int y )
+	public void setXY( float x, float y )
 		{
 			posX = x;
 			posY = y;
