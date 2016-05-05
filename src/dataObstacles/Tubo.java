@@ -22,7 +22,7 @@ public class Tubo extends Ostacolo{
 	public Rectangle latoSu, latoGiu, latoDx, latoSx;
 	public Rectangle spigASx, spigADx, spigBSx, spigBDx;
 	
-	public Tubo( float x, float y, String direction ) throws SlickException
+	public Tubo( int x, int y, String direction ) throws SlickException
 	{
 		super( "tubo" + direction );
 		
@@ -54,10 +54,10 @@ public class Tubo extends Ostacolo{
 	public void setType( String type )
 		{ this.type = type; }
 
-	public float getX()
+	public int getX()
 		{ return (int)ostr.getX(); }
 
-	public float getY()
+	public int getY()
 		{ return (int)ostr.getY(); }
 	
 	public float getWidth()
@@ -69,7 +69,7 @@ public class Tubo extends Ostacolo{
 	public boolean contains( int x, int y )
 		{ return ostr.contains( x, y ); }
 	
-	public void setXY( float x, float y, String function )
+	public void setXY( int x, int y, String function )
 		{			
 			if(function.compareTo( "move" ) == 0)
 				ostr.setLocation( ostr.getX() + x, ostr.getY() + y );

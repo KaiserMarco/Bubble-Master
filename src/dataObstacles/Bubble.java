@@ -11,7 +11,7 @@ import org.newdawn.slick.geom.Shape;
 
 public class Bubble extends Ostacolo
 {
-	private float ray;
+	private int ray;
 	
 	private Circle ostr;
 
@@ -27,7 +27,7 @@ public class Bubble extends Ostacolo
 	public Bubble( Ostacolo ost ) throws SlickException
 		{ this( ost.getX(), ost.getY(), (int) ost.getWidth() ); }
 	
-	public Bubble( float x, float y, float ray ) throws SlickException
+	public Bubble( int x, int y, int ray ) throws SlickException
 		{		
 			super( "bolla" );
 
@@ -38,7 +38,9 @@ public class Bubble extends Ostacolo
 		}
 	
 	public void draw( Graphics g ) throws SlickException
-		{ immagine.draw( ostr.getX(), ostr.getY(), ray*2, ray*2 ); }
+		{ immagine.draw( ostr.getX(), ostr.getY(), ray*2, ray*2 );
+		g.draw( ostr );
+		g.draw( new Circle( ostr.getCenterX(), ostr.getCenterY(), getWidth() ) );}
 	
 	public Circle getArea()
 		{ return ostr; }
@@ -46,10 +48,10 @@ public class Bubble extends Ostacolo
 	public boolean contains( int x, int y )
 		{ return ostr.contains( x, y ); }
 
-	public float getX()
+	public int getX()
 		{ return (int) ostr.getX(); }
 
-	public float getY()
+	public int getY()
 		{ return (int) ostr.getY(); }
 	
 	public void setMaxHeight( int val )
@@ -85,40 +87,34 @@ public class Bubble extends Ostacolo
 	public void setSpeedY( int val )
 		{ speedY = val; }
 
-	public void setXY( float x, float y, String function )
+	public void setXY( int x, int y, String function )
 		{
-			if(function.compareTo( "move" ) == 0)
+			if(function.equals( "move" ))
+				ostr.setLocation( ostr.getX() + x, ostr.getY() + y );
+			
+			else if(function.equals( "restore" ))
+				ostr.setLocation( x, y );
+			
+			else if(function.equals( "setRay" ))
+				ray = x;
+			
+			else if(function.equals( "collide" ))
 				{
 					ostr.setLocation( ostr.getX() + x, ostr.getY() + y );
 					setCenter( ostr, x, y );
 				}
-			
-			else if(function.compareTo( "restore" ) == 0)
-				ostr.setLocation( x, y );
-			
-			else if(function.compareTo( "setRay" ) == 0)
-				ray = x;
 		}
 	
-	private void setCenter( Shape ostr, float x, float y )
+	private void setCenter( Shape ostr, int x, int y )
 		{
 			ostr.setCenterX( ostr.getCenterX() + x );
 			ostr.setCenterY( ostr.getCenterY() + y );
 		}
 	
-	public boolean checkCollide( Bubble circleTest, Ostacolo ost, float distX, float distY )
+	// TODO DEVE DIVENTARE UN CONTROLLO DELLE LINEE SPIGOLO-CENTRO E MOVE-CENTRO
+	public boolean checkCollide( Bubble circleTest, Ostacolo ost )
 		{
-			float testSpeedX = -((float) speedX/5f), testSpeedY = -((float) speedY/5f);
-			if(circleTest.component( "rect" ).intersects( ost.component( "rect" ) ))
-				{
-					while(circleTest.ostr.intersects( ost.component( "rect" ) ))
-						{
-							distX = distX + testSpeedX;
-							distY = distY + testSpeedY;
-							circleTest.setCenter( circleTest.ostr, testSpeedX, testSpeedY );
-						}
-					return true;
-				}
+			if()
 		
 			return false;
 		}
@@ -126,27 +122,22 @@ public class Bubble extends Ostacolo
 	public void update( GameContainer gc ) throws SlickException
 		{			
 			boolean collide = false;
-			boolean adjuste;
-			float distX = 0, distY = 0;
+			boolean adjuste = false;
 
-			setCenter( ostr, speedX, speedY );
+			//setXY( speedX, speedY, "move" );
 
 			Bubble circleTest = (Bubble) this.clone();
-			
-			System.out.println( "BAH" );
 			
 			// TODO SISTEMARE LA COMPENETRAZIONE SFERE-OSTACOLI
 			for(int i = 0; i < InGame.ostacoli.size(); i++)
 				{
-					System.out.println( "AGGIUSTO" );
 					Ostacolo ost = InGame.ostacoli.get( i );
 					if(!ost.ID.equals( "bolla" ))
 						{
-							adjuste = checkCollide( circleTest, ost, distX, distY );
+							adjuste = checkCollide( circleTest, ost );
 							if(adjuste)
 								{
 									collide = true;
-									setXY( distX, distY, "move" );
 									if(ostr.intersects( ost.component( "latoSx" ) ) || ostr.intersects( ost.component( "latoDx" ) ))
 										speedX = -speedX;
 									else if(ostr.intersects( ost.component( "latoSu" ) ) || ostr.intersects( ost.component( "latoGiu" ) ))
@@ -220,7 +211,7 @@ public class Bubble extends Ostacolo
 
 	public Ostacolo clone() {
 		try {
-			return new Bubble( ostr.getX(), ostr.getY(), ray );
+			return new Bubble( (int) ostr.getX(), (int) ostr.getY(), ray );
 		} catch (SlickException e) {
 			e.printStackTrace();
 			return null;
