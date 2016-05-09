@@ -37,12 +37,13 @@ public class Edit
 	
 	public Edit( GameContainer gc ) throws SlickException
 	{		
+		double maxH = gc.getHeight()/(1.04);
 		sfondi = new ArrayList<Sfondo>();
-		sfondi.add( new Sfondo( new Image( "./data/Image/sfondo.png" ), sfondi.size() ) );
-		sfondi.add( new Sfondo( new Image( "./data/Image/sfondo2.png" ), sfondi.size() ) );
-		sfondi.add( new Sfondo( new Image( "./data/Image/sfondo3.jpg" ), sfondi.size() ) );
-		sfondi.add( new Sfondo( new Image( "./data/Image/sfondo4.jpg" ), sfondi.size() ) );
-		sfondi.add( new Sfondo( new Image( "./data/Image/sfondo6.jpg" ), sfondi.size() ) );
+		sfondi.add( new Sfondo( new Image( "./data/Image/sfondo.png" ), maxH ) );
+		sfondi.add( new Sfondo( new Image( "./data/Image/sfondo2.png" ), maxH ) );
+		sfondi.add( new Sfondo( new Image( "./data/Image/sfondo3.jpg" ), maxH ) );
+		sfondi.add( new Sfondo( new Image( "./data/Image/sfondo4.jpg" ), maxH ) );
+		sfondi.add( new Sfondo( new Image( "./data/Image/sfondo6.jpg" ), maxH ) );
 				
 		finish = new SimpleButton( gc.getWidth()/4, gc.getHeight()*9/10, "FINISH", Color.orange );
 		saveLevel = new SimpleButton( gc.getWidth()*3/4, gc.getHeight()*9/10, "SALVA LIVELLO", Color.orange );
@@ -104,6 +105,9 @@ public class Edit
 					}
 			}
 		
+		if(temp != null)
+			temp.setInsert( true, true );
+		
 		tempX = x;
 		tempY = y;
 	}
@@ -130,37 +134,51 @@ public class Edit
 									collide = true;
 							}
 						else if(!ostacoli.get( i ).ID.equals( "sbarra" ))
-							if(temp.component( "rect" ).intersects( ostacoli.get( i ).component( "rect" ) ))
+							{
+								if(temp.component( "rect" ).intersects( ostacoli.get( i ).component( "rect" ) ))
+									collide = true;
+							}
+						else if(ostacoli.get( i ).ID.equals( "sbarra" ))
+							if(temp.component( "rect" ).intersects( ostacoli.get( i ).component( "latoGiu" ) ) || temp.component( "rect" ).intersects( ostacoli.get( i ).component( "latoSx" ) ))
 								collide = true;
 					}
+		
+		if(temp != null)
+			if(collide)
+				temp.setInsert( false, false );
+			else
+				temp.setInsert( true, false );
 
 		if(input.isMousePressed( Input.MOUSE_LEFT_BUTTON ))
 			{
 				if(saveLevel.checkClick( mouseX, mouseY ))
 					{
-						if(gamer > 0 && ball > 0)
-							{
-								Begin.livelli.add( new Livello( ostacoli, sfondi.get( indexSfondo ) ) );
-								gamer = 0;
-								ball = 0;
-								
-								ostacoli.clear();
-							}
+						if(temp == null)
+							if(gamer > 0 && ball > 0)
+								{
+									Begin.livelli.add( new Livello( ostacoli, sfondi.get( indexSfondo ) ) );
+									gamer = 0;
+									ball = 0;
+									
+									ostacoli.clear();
+								}
 					}
 				else if(chooseLevel.checkClick( mouseX, mouseY ))
 					{
-						if(Begin.livelli.size() > 0)
-							{
-								Start.editGame = 0;
-								Start.chooseLevel = 1;
-							}
+						if(temp == null)
+							if(Begin.livelli.size() > 0)
+								{
+									Start.editGame = 0;
+									Start.chooseLevel = 1;
+								}
 					}
 				else
 					{
 						if(temp == null)
 							checkPressed( mouseX, mouseY );
 						else if(!collide)
-							{								
+							{
+								temp.setInsert( true, true );
 								ostacoli.add( temp );
 								temp = null;
 							}
@@ -172,7 +190,7 @@ public class Edit
 				{					
 					if(temp.ID.startsWith( "player" ))
 						{
-							float tmp = gc.getHeight();
+							double tmp = gc.getHeight();
 							for(int i = 0; i < ostacoli.size(); i++)
 								if(mouseY < ostacoli.get( i ).getY())
 									if(mouseX > ostacoli.get( i ).getX() && mouseX < ostacoli.get( i ).getX() + ostacoli.get( i ).getWidth())

@@ -2,6 +2,8 @@ package dataObstacles;
 
 import interfaces.InGame;
 
+import org.newdawn.slick.Animation;
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -19,8 +21,10 @@ public class Player extends Ostacolo
 	/**false = non sto saltando - true = sto saltando*/
 	private boolean jump = false;
 	
-	private int xPlayer, yPlayer;
-	private int width = 60, height = 70;
+	private int xPlayer;
+	private int yPlayer;
+	private int width = 60;
+	private int height = 70;
 	
 	private Shot fire;
 	private boolean shooting = false;
@@ -35,6 +39,16 @@ public class Player extends Ostacolo
 	
 	private int dir = 0;
 	
+	private boolean insert = false, checkInsert = false;
+	
+	private Color cg = new Color( 50, 170, 50, 100 ), cr = new Color( 170, 50, 50, 100 );
+	
+	private boolean moveDx = false, moveSx = false;
+	
+	private Image[] frames = { new Image( "./data/Image/pgdx1.png" ), new Image( "./data/Image/pgdx2.png" ), new Image( "./data/Image/pgdx3.png" ), new Image( "./data/Image/pgdx4.png" ), new Image( "./data/Image/pgdx5.png" ), new Image( "./data/Image/pgdx6.png" ), new Image( "./data/Image/pgdx7.png" ), new Image( "./data/Image/pgdx8.png" ), new Image( "./data/Image/pgdx9.png" ) }; 
+	
+	private Animation anim = new Animation( frames, 100 );
+	
 	public Player( int x, int y, int numPlayer ) throws SlickException
 		{
 			super( "player" + (numPlayer + 1) );
@@ -46,12 +60,12 @@ public class Player extends Ostacolo
 			// TODO SISTEMARE MEGLIO I PERSONAGGI
 			if(numPlayer == 0)
 				{
-					pgdx = new Image( "./data/Image/pg2.png" );
+					pgdx = new Image( "./data/Image/pgdx1.png" );
 					pgsx = new Image( "./data/Image/pg2sx.png" );
 				}
 			else
 				{
-					pgdx = new Image( "./data/Image/pg2.png" );
+					pgdx = new Image( "./data/Image/pgdx1.png" );
 					pgsx = new Image( "./data/Image/pg2sx.png" );
 				}
 			
@@ -64,9 +78,25 @@ public class Player extends Ostacolo
 	public void draw( Graphics g ) throws SlickException
 		{
 			if(dir == 0)
-				pgdx.draw( xPlayer, yPlayer, width, height );
+				{
+					if(moveDx)
+						g.drawAnimation( anim, xPlayer, yPlayer );
+					else
+						pgdx.draw( xPlayer, yPlayer, width, height );
+					if(Start.editGame == 1)
+						if(checkInsert)
+							{
+								if(!insert)
+									pgdx.draw( xPlayer, yPlayer, width, height, cr);
+								else
+									pgdx.draw( xPlayer, yPlayer, width, height, cg);
+							}
+				}
 			else
-				pgsx.draw( xPlayer, yPlayer, width, height );
+				if(moveSx)
+					g.drawAnimation( anim, xPlayer, yPlayer );
+				else
+					pgsx.draw( xPlayer, yPlayer, width, height );
 			
 			if(shooting)
 				{
@@ -95,8 +125,8 @@ public class Player extends Ostacolo
 			area.setLocation( xPlayer, yPlayer );
 		}
 	
-	public void setMaxHeight( int val )
-		{ this.maxHeight = val; }
+	public void setMaxHeight( double val )
+		{ this.maxHeight = (int) val; }
 
 	public Ostacolo clone() {
 		try {
@@ -115,6 +145,12 @@ public class Player extends Ostacolo
 
 	public Shape component( String part )
 		{ return area; }
+
+	public void setInsert(boolean insert, boolean change)
+		{
+			checkInsert = !change;
+			this.insert = insert;
+		}
 	
 	public void update( GameContainer gc ) throws SlickException
 		{
@@ -127,7 +163,10 @@ public class Player extends Ostacolo
 			Ostacolo ost = null;
 			
 			boolean hurt = false;
-			boolean glide = true;
+			boolean glide = false;
+			
+			moveDx = false;
+			moveSx = false;
 			
 			/*ZONA CONTROLLO COLLISIONE PERSONAGGIO - SFERE*/
 
@@ -167,11 +206,15 @@ public class Player extends Ostacolo
 					if(!hurt)
 						xPlayer = xPlayer + move;
 					if(glide)
-						if(yPlayer + height < maxHeight - 1 && !jump)
-							{
-								jump = true;
-								maxJump = 0;
-							}
+						{
+							if(yPlayer + height < maxHeight - 1 && !jump)
+								{
+									jump = true;
+									maxJump = 0;
+								}
+						}
+					else
+						moveDx = true;
 				}
 			else if(numPlayer == 0 && input.isKeyDown( Input.KEY_LEFT ))
 				{
@@ -199,11 +242,15 @@ public class Player extends Ostacolo
 					if(!hurt)
 						xPlayer = xPlayer - move;
 					if(glide)
-						if(yPlayer + height < maxHeight && !jump)
-							{
-								jump = true;
-								maxJump = 0;
-							}
+						{
+							if(yPlayer + height < maxHeight && !jump)
+								{
+									jump = true;
+									maxJump = 0;
+								}
+						}
+					else
+						moveSx = true;
 				}
 			
 			if(numPlayer == 0 && (input.isKeyPressed( Input.KEY_S )))
@@ -317,7 +364,7 @@ public class Player extends Ostacolo
 	public Shape getArea()
 		{ return null; }
 
-	public int getMaxHeight()
+	public double getMaxHeight()
 		{ return maxHeight; }
 
 	public int getSpeedX()

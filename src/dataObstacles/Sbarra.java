@@ -1,11 +1,14 @@
 package dataObstacles;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
+
+import bubbleMaster.Start;
 
 public class Sbarra extends Ostacolo{
 
@@ -18,6 +21,10 @@ public class Sbarra extends Ostacolo{
 	/*sottodivisione del rettangolo in lati e spigoli*/
 	public Rectangle latoSu, latoGiu, latoDx, latoSx;
 	public Rectangle spigASx, spigADx, spigBSx, spigBDx;
+	
+	private boolean insert = false, checkInsert = false;	
+
+	private Color cg = new Color( 50, 170, 50, 150 ), cr = new Color( 170, 50, 50, 150 );
 	
 	public Sbarra( int x, int y ) throws SlickException
 		{
@@ -47,7 +54,17 @@ public class Sbarra extends Ostacolo{
 		} }
 	
 	public void draw( Graphics g ) throws SlickException
-		{ immagine.draw( ostr.getX(), ostr.getY(), ostr.getWidth(), ostr.getHeight() ); }
+		{
+			immagine.draw( ostr.getX(), ostr.getY(), ostr.getWidth(), ostr.getHeight() );
+			if(Start.editGame == 1)
+				if(checkInsert)
+					{
+						if(!insert)
+							immagine.draw( ostr.getX(), ostr.getY(), ostr.getWidth(), ostr.getHeight(), cr);
+						else
+							immagine.draw( ostr.getX(), ostr.getY(), ostr.getWidth(), ostr.getHeight(), cg);
+					}
+		}
 	
 	public int getX()
 		{ return (int)ostr.getX(); }
@@ -63,6 +80,12 @@ public class Sbarra extends Ostacolo{
 	
 	public boolean contains( int x, int y )
 		{ return ostr.contains( x, y ); }
+
+	public void setInsert(boolean insert, boolean change)
+		{
+			checkInsert = !change;
+			this.insert = insert;
+		}
 	
 	public void setXY( int x, int y, String function )
 		{			
@@ -119,10 +142,10 @@ public class Sbarra extends Ostacolo{
 	public Shape getArea()
 		{ return null; }
 	
-	public void setMaxHeight( int val )
+	public void setMaxHeight( double val )
 		{}
 	
-	public int getMaxHeight()
+	public double getMaxHeight()
 		{ return 0; }
 
 	public int getSpeedX()
