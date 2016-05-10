@@ -32,7 +32,7 @@ public class Start extends BasicGame
 		{
 			AppGameContainer app = new AppGameContainer( new Start( "Bubble Master" ) );
 		 
-			app.setTargetFrameRate( 80 );
+			app.setTargetFrameRate( 90 );
 			app.setDisplayMode(800, 600, false);
 			app.start();
 		}

@@ -139,7 +139,7 @@ public class Edit
 									collide = true;
 							}
 						else if(ostacoli.get( i ).ID.equals( "sbarra" ))
-							if(temp.component( "rect" ).intersects( ostacoli.get( i ).component( "latoGiu" ) ) || temp.component( "rect" ).intersects( ostacoli.get( i ).component( "latoSx" ) ))
+							if(temp.component( "rect" ).intersects( ostacoli.get( i ).component( "latoGiu" ) ))
 								collide = true;
 					}
 		

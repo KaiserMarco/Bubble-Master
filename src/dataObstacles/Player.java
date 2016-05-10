@@ -2,13 +2,13 @@ package dataObstacles;
 
 import interfaces.InGame;
 
-import org.newdawn.slick.Animation;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
 
@@ -35,7 +35,8 @@ public class Player extends Ostacolo
 	
 	private int maxHeight;
 	
-	private int maxJump;
+	private int maxJump = 0;
+	private boolean glide = true;
 	
 	private int dir = 0;
 	
@@ -43,11 +44,15 @@ public class Player extends Ostacolo
 	
 	private Color cg = new Color( 50, 170, 50, 100 ), cr = new Color( 170, 50, 50, 100 );
 	
-	private boolean moveDx = false, moveSx = false;
+	private Image right[], left[], jump1[], jump2[];
 	
-	private Image[] frames = { new Image( "./data/Image/pgdx1.png" ), new Image( "./data/Image/pgdx2.png" ), new Image( "./data/Image/pgdx3.png" ), new Image( "./data/Image/pgdx4.png" ), new Image( "./data/Image/pgdx5.png" ), new Image( "./data/Image/pgdx6.png" ), new Image( "./data/Image/pgdx7.png" ), new Image( "./data/Image/pgdx8.png" ), new Image( "./data/Image/pgdx9.png" ) }; 
+	private float animTimeMove = 504, reachDelta = 0, animTimeJump1 = 205, animTimeJump2 = 205;
 	
-	private Animation anim = new Animation( frames, 100 );
+	private SpriteSheet sheetDx = new SpriteSheet( new Image( "./data/Image/animdx.png" ), 324, 41 ), sheetSx = new SpriteSheet( new Image( "./data/Image/animsx.png" ), 324, 41 );	
+	private SpriteSheet sheetJump1 = new SpriteSheet( new Image( "./data/Image/firstJump.png" ), 150, 48 ), sheetJump2 = new SpriteSheet( new Image( "./data/Image/secondoJump.png" ), 123, 44 );
+	
+	/*movimento a destra - movimento a sinistra - movimento in alto - movimento in basso*/
+	boolean movingDx, movingSx, movingJUp, movingJDw;
 	
 	public Player( int x, int y, int numPlayer ) throws SlickException
 		{
@@ -55,32 +60,100 @@ public class Player extends Ostacolo
 			
 			fire = new Shot();
 			
-			this.numPlayer = numPlayer;			
+			this.numPlayer = numPlayer;	
+			
+			right = new Image[9];
+			left = new Image[9];
+			jump1 = new Image[5];
+			jump2 = new Image[5];
 			
 			// TODO SISTEMARE MEGLIO I PERSONAGGI
 			if(numPlayer == 0)
 				{
 					pgdx = new Image( "./data/Image/pgdx1.png" );
-					pgsx = new Image( "./data/Image/pg2sx.png" );
+					pgsx = new Image( "./data/Image/pgsx1.png" );
 				}
 			else
 				{
 					pgdx = new Image( "./data/Image/pgdx1.png" );
-					pgsx = new Image( "./data/Image/pg2sx.png" );
+					pgsx = new Image( "./data/Image/pgsx1.png" );
 				}
 			
 			xPlayer = x;
 			yPlayer = y;
 			
 			area = new Rectangle( xPlayer, yPlayer, width, height );
+			
+			int widthS = 36, heightS = 41;
+			int widthJ = 31, heightJ = 48;
+			
+			for(int i = 0; i < 9; i++)
+				{
+					right[i] = sheetDx.getSubImage( widthS * i, 0, widthS, heightS);
+					left[i] = sheetSx.getSubImage( sheetSx.getWidth() - widthS * (i + 1), 0, widthS, heightS );
+				}
+			for(int i = 0; i < 5; i++)
+				{
+					jump1[i] = sheetJump1.getSubImage( widthJ * i, 0, widthJ, heightJ );
+					jump2[i] = sheetJump2.getSubImage( widthJ * i, 0, widthJ, heightJ );
+				}
 		}
 	
 	public void draw( Graphics g ) throws SlickException
 		{
+			float frameMove = animTimeMove/right.length, frameJump1 = animTimeJump1/jump1.length, frameJump2 = animTimeJump2/jump2.length;
+			/*if(glide)
+				{
+					if(maxJump > 0)
+						{
+							if(reachDelta < frameJump1)
+								jump1[0].draw( xPlayer, yPlayer, width, height );
+							else if(reachDelta < frameJump1*2)
+								jump1[1].draw( xPlayer, yPlayer, width, height );
+							else if(reachDelta < frameJump1*3)
+								jump1[2].draw( xPlayer, yPlayer, width, height );
+							else if(reachDelta < frameJump1*4)
+								jump1[3].draw( xPlayer, yPlayer, width, height );
+							else if(reachDelta <= frameJump1*5)
+								jump1[4].draw( xPlayer, yPlayer, width, height );
+						}
+					else
+						{
+							if(reachDelta < frameJump2)
+								jump2[0].draw( xPlayer, yPlayer, width, height );
+							else if(reachDelta < frameJump2*2)
+								jump2[1].draw( xPlayer, yPlayer, width, height );
+							else if(reachDelta < frameJump2*3)
+								jump2[2].draw( xPlayer, yPlayer, width, height );
+							else if(reachDelta < frameJump2*4)
+								jump2[3].draw( xPlayer, yPlayer, width, height );
+							else
+								jump2[4].draw( xPlayer, yPlayer, width, height );
+						}
+				}*/
 			if(dir == 0)
 				{
-					if(moveDx)
-						g.drawAnimation( anim, xPlayer, yPlayer );
+					if(movingDx)
+						{
+							if(reachDelta < frameMove)
+								right[0].draw( xPlayer, yPlayer, width, height );
+							else if(reachDelta < frameMove*2)
+								right[1].draw( xPlayer, yPlayer, width, height );
+							else if(reachDelta < frameMove*3)
+								right[2].draw( xPlayer, yPlayer, width, height );
+							else if(reachDelta < frameMove*4)
+								right[3].draw( xPlayer, yPlayer, width, height );
+							else if(reachDelta < frameMove*5)
+								right[4].draw( xPlayer, yPlayer, width, height );
+							else if(reachDelta < frameMove*6)
+								right[5].draw( xPlayer, yPlayer, width, height );
+							else if(reachDelta < frameMove*7)
+								right[6].draw( xPlayer, yPlayer, width, height );
+							else if(reachDelta < frameMove*8)
+								right[7].draw( xPlayer, yPlayer, width, height );
+							else if(reachDelta <= frameMove*9)
+								right[8].draw( xPlayer, yPlayer, width, height );
+						}
 					else
 						pgdx.draw( xPlayer, yPlayer, width, height );
 					if(Start.editGame == 1)
@@ -93,8 +166,27 @@ public class Player extends Ostacolo
 							}
 				}
 			else
-				if(moveSx)
-					g.drawAnimation( anim, xPlayer, yPlayer );
+				if(movingSx)
+					{
+						if(reachDelta < frameMove)
+							left[0].draw( xPlayer, yPlayer, width, height );
+						else if(reachDelta < frameMove*2)
+							left[1].draw( xPlayer, yPlayer, width, height );
+						else if(reachDelta < frameMove*3)
+							left[2].draw( xPlayer, yPlayer, width, height );
+						else if(reachDelta < frameMove*4)
+							left[3].draw( xPlayer, yPlayer, width, height );
+						else if(reachDelta < frameMove*5)
+							left[4].draw( xPlayer, yPlayer, width, height );
+						else if(reachDelta < frameMove*6)
+							left[5].draw( xPlayer, yPlayer, width, height );
+						else if(reachDelta < frameMove*7)
+							left[6].draw( xPlayer, yPlayer, width, height );
+						else if(reachDelta < frameMove*8)
+							left[7].draw( xPlayer, yPlayer, width, height );
+						else if(reachDelta <= frameMove*9)
+							left[8].draw( xPlayer, yPlayer, width, height );
+					}
 				else
 					pgsx.draw( xPlayer, yPlayer, width, height );
 			
@@ -152,21 +244,22 @@ public class Player extends Ostacolo
 			this.insert = insert;
 		}
 	
-	public void update( GameContainer gc ) throws SlickException
+	public void update( GameContainer gc )
+		{}
+	
+	public void update( GameContainer gc, int delta ) throws SlickException
 		{
 			Input input = gc.getInput();
 			
-			Rectangle testMove;
-			
 			int move = 2;
 			
-			Ostacolo ost = null;
+			/*la posizione del player un attimo prima di spostarsi*/
+			Rectangle previousArea = new Rectangle( area.getX(), area.getY(), width, height );
 			
-			boolean hurt = false;
-			boolean glide = false;
-			
-			moveDx = false;
-			moveSx = false;
+			movingDx = false;
+			movingSx = false;
+			movingJUp = false;
+			movingJDw = false;
 			
 			/*ZONA CONTROLLO COLLISIONE PERSONAGGIO - SFERE*/
 
@@ -178,162 +271,90 @@ public class Player extends Ostacolo
 							Start.endGame = 1;
 						}
 			
-			/*ZONA SPOSTAMENTI/SALTI*/	
+			/*ZONA SPOSTAMENTI/SALTI*/
 			
-			if(numPlayer == 0 && input.isKeyDown( Input.KEY_RIGHT ))
+			if(input.isKeyDown( Input.KEY_RIGHT ))
 				{
+					movingDx = true;
 					dir = 0;
-					testMove = new Rectangle( xPlayer + move, yPlayer, width, height );
-
-					if(testMove.getX() + width >= gc.getWidth())
-						xPlayer = gc.getWidth() - width;
-					
-					for(int i = 0; i < InGame.ostacoli.size(); i++)
-						{
-							ost = InGame.ostacoli.get( i );
-							if(!ost.ID.equals( "bolla" ))
-								{
-									if(testMove.intersects( ost.component( "latoSx" )))
-										{
-											hurt = true;
-											xPlayer = ost.getX() - width;
-										}
-									if(glide)
-										if(testMove.intersects( ost.component( "latoSu" ) ))
-											glide = false;
-								}
-						}
-					if(!hurt)
-						xPlayer = xPlayer + move;
-					if(glide)
-						{
-							if(yPlayer + height < maxHeight - 1 && !jump)
-								{
-									jump = true;
-									maxJump = 0;
-								}
-						}
-					else
-						moveDx = true;
+					setXY( move, 0, "move" );
 				}
-			else if(numPlayer == 0 && input.isKeyDown( Input.KEY_LEFT ))
+			else if(input.isKeyDown( Input.KEY_LEFT ))
 				{
+					movingSx = true;
 					dir = 1;
-					testMove = new Rectangle( xPlayer - move, yPlayer, width, height );
-
-					if(testMove.getX() <= 0)
-						xPlayer = 0;
-					
-					for(int i = 0; i < InGame.ostacoli.size(); i++)
-						{
-							ost = InGame.ostacoli.get( i );
-							if(!ost.ID.equals( "bolla" ))
-								{
-									if(testMove.intersects( ost.component( "latoDx" )))
-										{
-											hurt = true;
-											xPlayer = (int) (ost.getMaxX()) + 1;
-										}
-									if(glide)
-										if(testMove.intersects( ost.component( "latoSu" ) ))
-											glide = false;
-								}
-						}
-					if(!hurt)
-						xPlayer = xPlayer - move;
-					if(glide)
-						{
-							if(yPlayer + height < maxHeight && !jump)
-								{
-									jump = true;
-									maxJump = 0;
-								}
-						}
-					else
-						moveSx = true;
+					setXY( -move, 0, "move" );
 				}
-			
-			if(numPlayer == 0 && (input.isKeyPressed( Input.KEY_S )))
+			if(glide)
 				{
-					shooting = true;
-					fire.setXY( xPlayer + width/2 - fire.width/2, yPlayer - fire.height );
-					for(int i = 0; i < InGame.ostacoli.size(); i++)
-						if(InGame.ostacoli.get( i ).ID.equals( "bolla" ))
-							if(fire.collision( InGame.ostacoli.get( i ), i ))
-								break;
-				}
-			
-			hurt = false;
-			if(numPlayer == 0 && (input.isKeyDown( Input.KEY_SPACE ) || jump))
-				{
-					if(!jump)
+					if(input.isKeyPressed( Input.KEY_SPACE ) && !jump)
 						{
 							jump = true;
 							maxJump = 40;
 						}
-					
+					/*fase di salita*/
 					if(maxJump > 0)
 						{
-							testMove = new Rectangle( xPlayer, yPlayer - move, width, height );
-							
-							for(int i = 0; i < InGame.ostacoli.size(); i++)
-								{
-									ost = InGame.ostacoli.get( i );
-									if(!ost.ID.equals( "bolla" ))
-										{
-											if(testMove.intersects( ost.component( "latoGiu" )))
-												{
-													hurt = true;
-													yPlayer = (int) (ost.getY() + ost.getHeight());
-													maxJump = 0;
-												}
-										}
-								}
-							if(!hurt)
-								{
-									if(testMove.getY() <= 0)
-										{
-											yPlayer = 0;
-											maxJump = 0;
-										}
-									else
-										{
-											yPlayer = yPlayer - move;
-											maxJump = maxJump - 1;
-										}
-								}
+							movingJUp = true;
+							maxJump--;
+							setXY( 0, -move, "move" );
 						}
-					else if(maxJump == 0)
+					/*fase di discesa*/
+					else if(maxJump == 0 || glide)
 						{
-							testMove = new Rectangle( xPlayer, yPlayer + move, width, height );
-							for(int i = 0; i < InGame.ostacoli.size(); i++)
+							movingJDw = true;
+							setXY( 0, move, "move" );
+						}
+				}
+
+			if(movingDx || movingSx || movingJUp || movingJDw)
+				{
+					/*controlla se non sono stati superati i limiti della schermata*/
+					if(area.getX() + width > gc.getWidth())
+						setXY( gc.getWidth() - width, (int) area.getY(), "restore" );
+					else if(area.getX() < 0)
+						setXY( 0, (int) area.getY(), "restore" );
+					if(area.getY() + height > maxHeight)
+						{
+							maxJump = -1;
+							jump = false;
+							setXY( (int) area.getX(), maxHeight - height, "restore" );
+						}
+					else if(area.getY() < 0)
+						{
+							maxJump = 0;
+							setXY( (int) area.getX(), 0, "restore" );
+						}
+				
+					/*controlla la collisione con gli ostacoli del gioco (tranne le sfere)*/
+					for(int i = 0; i < InGame.ostacoli.size(); i++)
+						{
+							Ostacolo ost = InGame.ostacoli.get( i );
+							if(!ost.ID.equals( "bolla" ))
 								{
-									ost = InGame.ostacoli.get( i );
-									if(!ost.ID.equals( "bolla" ))
+									if(area.intersects( ost.component( "rect" ) ))
 										{
-											if(testMove.intersects( ost.component( "latoSu" )))
+											if(area.intersects( ost.component( "latoSu" ) ) && (previousArea.getY() + height <= ost.getY()))
 												{
-													hurt = true;
-													yPlayer = (int) (ost.getY() - height);
+													maxJump = -1;
 													jump = false;
+													setXY( (int) area.getX(), (int) (ost.getY() - height), "restore" );
+												}										
+											else if(area.intersects( ost.component( "latoGiu" ) ) && (previousArea.getY() > ost.getY() + ost.getHeight()))
+												{
+													maxJump = 0;
+													setXY( (int) area.getX(), (int) (ost.getY() + ost.getHeight()), "restore" );
 												}
+											else if(area.intersects( ost.component( "latoDx" ) ))
+												setXY( (int) (ost.getX() + ost.getWidth()) + 1, (int) area.getY(), "restore" );
+											else if(area.intersects( ost.component( "latoSx" ) ))
+												setXY( (int) (ost.getX() - width) - 1, (int) area.getY(), "restore" );	
 										}
-								}
-							if(!hurt)
-								{
-									if(testMove.getY() + height >= maxHeight)
-										{
-											yPlayer = maxHeight - height;
-											jump = false;
-										}
-									else
-										yPlayer = yPlayer + move;
 								}
 						}
 				}
 			
-			setXY( xPlayer, yPlayer, "restore" );
-			
+			/*controlla la collisione con una sfera*/
 			boolean check = true;
 			for(int i = 0; i < InGame.ostacoli.size(); i++)
 				if(InGame.ostacoli.get(i ).ID.equals( "bolla" ))
@@ -343,6 +364,14 @@ public class Player extends Ostacolo
 				{
 					Start.startGame = 0;
 					Start.endGame = 1;
+				}
+			
+			/*gestione dell'animazione*/
+			if(movingDx || movingSx || glide)
+				{
+					reachDelta = reachDelta + delta;
+					if(reachDelta > animTimeMove)
+						reachDelta = 0;
 				}
 		}
 

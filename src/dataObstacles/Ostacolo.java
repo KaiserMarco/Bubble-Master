@@ -55,6 +55,7 @@ public abstract class Ostacolo
 	public abstract void setXY( int x, int y, String function );
 	
 	public abstract void update( GameContainer gc ) throws SlickException;
+	public abstract void update( GameContainer gc, int delta ) throws SlickException;
 
 	public abstract Shape getArea();
 }

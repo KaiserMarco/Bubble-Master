@@ -245,4 +245,10 @@ public class Bubble extends Ostacolo
 			return null;
 		}
 	}
+
+	@Override
+	public void update(GameContainer gc, int delta) throws SlickException {
+		// TODO Auto-generated method stub
+		
+	}
 }
