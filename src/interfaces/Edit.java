@@ -185,6 +185,19 @@ public class Edit
 					}
 			}
 		
+		if(input.isMousePressed( Input.MOUSE_RIGHT_BUTTON ))
+			{
+				if(temp != null)
+					{
+						if(temp.ID.equals( "bolla" ))
+							ball = Math.max( ball - 1, 0);
+						else if(temp.ID.startsWith( "player" ))
+							gamer = Math.max( gamer - 1, 0 );
+						ostacoli.remove( temp );
+					}
+				temp = null;
+			}
+		
 		/*posizionamento del giocatore nel gioco*/
 		if(temp != null)
 			if(tempX != mouseX || tempY != mouseY)
