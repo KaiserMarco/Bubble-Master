@@ -114,7 +114,7 @@ public class Bubble extends Ostacolo
 	// TODO DEVE DIVENTARE UN CONTROLLO DELLE LINEE SPIGOLO-CENTRO E MOVE-CENTRO
 	public boolean checkCollide( Bubble circleTest, Ostacolo ost )
 		{
-			if()
+			//if(Math.sqrt( circleTest.getX() ))
 		
 			return false;
 		}
@@ -127,6 +127,7 @@ public class Bubble extends Ostacolo
 			//setXY( speedX, speedY, "move" );
 
 			Bubble circleTest = (Bubble) this.clone();
+			circleTest.setXY( -speedX, -speedY, "move" );
 			
 			// TODO SISTEMARE LA COMPENETRAZIONE SFERE-OSTACOLI
 			for(int i = 0; i < InGame.ostacoli.size(); i++)
@@ -134,62 +135,13 @@ public class Bubble extends Ostacolo
 					Ostacolo ost = InGame.ostacoli.get( i );
 					if(!ost.ID.equals( "bolla" ))
 						{
-							adjuste = checkCollide( circleTest, ost );
-							if(adjuste)
+							if(ostr.intersects( ost.component( "rect" ) ))
 								{
 									collide = true;
-									if(ostr.intersects( ost.component( "latoSx" ) ) || ostr.intersects( ost.component( "latoDx" ) ))
-										speedX = -speedX;
-									else if(ostr.intersects( ost.component( "latoSu" ) ) || ostr.intersects( ost.component( "latoGiu" ) ))
+									if(ostr.intersects( ost.component( "latoSu" ) ) || ostr.intersects( ost.component( "latoGiu" ) ))
 										speedY = -speedY;
-									else if(ostr.intersects( ost.component( "spigADx" ) ))
-										{	
-											if(speedX < 0 && speedY > 0)
-												{
-													speedX = -speedX;
-													speedY = -speedY;
-												}
-											else if(speedX > 0 && speedY > 0)
-												speedY = -speedY;
-											else
-												speedX = -speedX;
-										}
-									else if(ostr.intersects( ost.component( "spigBDx" ) ))
-										{
-											if(speedX < 0 && speedY < 0)
-												{
-													speedX = -speedX;
-													speedY = -speedY;
-												}
-											else if(speedX < 0 && speedY > 0)
-												speedX = -speedX;
-											else
-												speedY = -speedY;
-										}
-									else if(ostr.intersects( ost.component( "spigASx" ) ))
-										{
-											if(speedY > 0 && speedX > 0)
-												{
-													speedX = -speedX;
-													speedY = -speedY;
-												}
-											else if(speedX > 0 && speedY < 0)
-												speedX = -speedX;
-											else
-												speedY = -speedY;
-										}
-									else if(ostr.intersects( ost.component( "spigBSx" ) ))
-										{
-											if(speedX > 0 && speedY < 0)
-												{
-													speedX = -speedX;
-													speedY = -speedY;
-												}
-											else if(speedX < 0 && speedY < 0)
-												speedY = -speedY;
-											else
-												speedX = -speedX;
-										}
+									else if(ostr.intersects( ost.component( "latoDx" ) ) || ostr.intersects( ost.component( "latoSx" ) ))
+										speedX = -speedX;
 								}
 						}
 				}
