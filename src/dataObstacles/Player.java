@@ -20,10 +20,12 @@ public class Player extends Ostacolo
 
 	/**false = non sto saltando - true = sto saltando*/
 	private boolean jump = false;
+
+	private int offset = 15;
 	
 	private int xPlayer;
 	private int yPlayer;
-	private int width = 60;
+	private int widthI = 60, width = widthI - offset;
 	private int height = 70;
 	
 	private Shot fire;
@@ -40,16 +42,19 @@ public class Player extends Ostacolo
 	
 	private int dir = 0;
 	
+	int widthS = 36, heightS = 41;
+	int widthJ = 29, heightJ = 48;
+	
 	private boolean insert = false, checkInsert = false;
 	
 	private Color cg = new Color( 50, 170, 50, 100 ), cr = new Color( 170, 50, 50, 100 );
 	
-	private Image right[], left[], salto[];
+	private Image right[], left[], saltoDx[], saltoSx[];
 	
-	private float animTimeMove = 504, reachDelta = 0, animTimeJump = 205;
+	private float animTimeMove = 504, reachDelta = 0, animTimeJump = 396, reachDeltaJump = 0;
 	
 	private SpriteSheet sheetDx = new SpriteSheet( new Image( "./data/Image/animdx.png" ), 324, 41 ), sheetSx = new SpriteSheet( new Image( "./data/Image/animsx.png" ), 324, 41 );	
-	private SpriteSheet sheetJump = new SpriteSheet( new Image( "./data/Image/Jump.png" ), 150, 48 );
+	private SpriteSheet sheetJumpDx = new SpriteSheet( new Image( "./data/Image/jumpDx.png" ), 261, 48 ), sheetJumpSx = new SpriteSheet( new Image( "./data/Image/jumpSx.png" ), 261, 48 );
 	
 	/*movimento a destra - movimento a sinistra - movimento in alto - movimento in basso*/
 	boolean movingDx, movingSx, movingJ;
@@ -64,7 +69,8 @@ public class Player extends Ostacolo
 			
 			right = new Image[9];
 			left = new Image[9];
-			salto = new Image[9];
+			saltoDx = new Image[9];
+			saltoSx = new Image[9];
 
 			if(numPlayer == 0)
 				{
@@ -82,124 +88,123 @@ public class Player extends Ostacolo
 			
 			area = new Rectangle( xPlayer, yPlayer, width, height );
 			
-			int widthS = 36, heightS = 41;
-			int widthJ = 29, heightJ = 48;
-			
 			for(int i = 0; i < 9; i++)
 				{
 					right[i] = sheetDx.getSubImage( widthS * i, 0, widthS, heightS );
 					left[i] = sheetSx.getSubImage( sheetSx.getWidth() - widthS * (i + 1), 0, widthS, heightS );
-					salto[i] = sheetJump.getSubImage( widthJ * i, 0, widthJ, heightJ );
+					saltoDx[i] = sheetJumpDx.getSubImage( widthJ * i, 0, widthJ, heightJ );
+					saltoSx[i] = sheetJumpSx.getSubImage( sheetJumpSx.getWidth() - widthJ * (i + 1), 0, widthJ, heightJ );
 				}
 		}
 	
 	public void draw( Graphics g ) throws SlickException
-		{		
-			/*inserisce la trasparenza rosso/verde nella modalita' di editing*/
-			if(Start.editGame == 1)
-				if(checkInsert)
-					{
-						if(!insert)
-							pgdx.draw( xPlayer, yPlayer, width, height, cr);
-						else
-							pgdx.draw( xPlayer, yPlayer, width, height, cg);
-					}
-			
-			float frameMove = animTimeMove/right.length, frameJump = animTimeJump/salto.length;
+		{			
+			float frameMove = animTimeMove/right.length, frameJump = animTimeJump/saltoDx.length;
 			
 			if(dir == 0)
 				{
 					if(movingJ)
 						{
 							/*TODO SISTEMARE ANIMAZIONE SALTO*/
-							if(reachDelta < frameJump)
-								salto[0].draw( xPlayer, yPlayer, width, height );
-							else if(reachDelta < frameJump * 2)
-								salto[1].draw( xPlayer, yPlayer, width, height );
-							else if(reachDelta < frameJump * 3)
-								salto[2].draw( xPlayer, yPlayer, width, height );
-							else if(reachDelta < frameJump * 4)
-								salto[3].draw( xPlayer, yPlayer, width, height );
-							else if(reachDelta < frameJump * 5)
-								salto[4].draw( xPlayer, yPlayer, width, height );
-							else if(reachDelta < frameJump * 6)
-								salto[5].draw( xPlayer, yPlayer, width, height );
-							else if(reachDelta < frameJump * 7)
-								salto[6].draw( xPlayer, yPlayer, width, height );
-							else if(reachDelta < frameJump * 8)
-								salto[7].draw( xPlayer, yPlayer, width, height );
+							if(reachDeltaJump < frameJump)
+								saltoDx[0].draw( xPlayer, yPlayer, width, height );
+							else if(reachDeltaJump < frameJump * 2)
+								saltoDx[1].draw( xPlayer, yPlayer, width, height );
+							else if(reachDeltaJump < frameJump * 3)
+								saltoDx[2].draw( xPlayer, yPlayer, width, height );
+							else if(reachDeltaJump < frameJump * 4)
+								saltoDx[3].draw( xPlayer, yPlayer, width, height );
+							else if(reachDeltaJump < frameJump * 5)
+								saltoDx[4].draw( xPlayer, yPlayer, width, height );
+							else if(reachDeltaJump < frameJump * 6)
+								saltoDx[5].draw( xPlayer, yPlayer, width, height );
+							else if(reachDeltaJump < frameJump * 7)
+								saltoDx[6].draw( xPlayer, yPlayer, width, height );
+							else if(reachDeltaJump < frameJump * 8)
+								saltoDx[7].draw( xPlayer, yPlayer, width, height );
 							else
-								salto[8].draw( xPlayer, yPlayer, width, height );
+								saltoDx[8].draw( xPlayer, yPlayer, width, height );
 						}
 					else if(movingDx)
 						{
 							if(reachDelta < frameMove)
-								right[0].draw( xPlayer, yPlayer, width, height );
+								right[0].draw( xPlayer, yPlayer, widthI, height );
 							else if(reachDelta < frameMove*2)
-								right[1].draw( xPlayer, yPlayer, width, height );
+								right[1].draw( xPlayer, yPlayer, widthI, height );
 							else if(reachDelta < frameMove*3)
-								right[2].draw( xPlayer, yPlayer, width, height );
+								right[2].draw( xPlayer, yPlayer, widthI, height );
 							else if(reachDelta < frameMove*4)
-								right[3].draw( xPlayer, yPlayer, width, height );
+								right[3].draw( xPlayer, yPlayer, widthI, height );
 							else if(reachDelta < frameMove*5)
-								right[4].draw( xPlayer, yPlayer, width, height );
+								right[4].draw( xPlayer, yPlayer, widthI, height );
 							else if(reachDelta < frameMove*6)
-								right[5].draw( xPlayer, yPlayer, width, height );
+								right[5].draw( xPlayer, yPlayer, widthI, height );
 							else if(reachDelta < frameMove*7)
-								right[6].draw( xPlayer, yPlayer, width, height );
+								right[6].draw( xPlayer, yPlayer, widthI, height );
 							else if(reachDelta < frameMove*8)
-								right[7].draw( xPlayer, yPlayer, width, height );
+								right[7].draw( xPlayer, yPlayer, widthI, height );
 							else if(reachDelta <= frameMove*9)
-								right[8].draw( xPlayer, yPlayer, width, height );
+								right[8].draw( xPlayer, yPlayer, widthI, height );
 						}
 					else
-						pgdx.draw( xPlayer, yPlayer, width, height );
+						pgdx.draw( xPlayer, yPlayer, widthI, height );
 				}
 			else 
 				{
 					if(movingJ)
 						{
-							if(reachDelta < frameJump)
-								salto[0].draw( xPlayer, yPlayer, width, height );
-							else if(reachDelta < frameJump)
-								salto[0].draw( xPlayer, yPlayer, width, height );
-							else if(reachDelta < frameJump)
-								salto[0].draw( xPlayer, yPlayer, width, height );
-							else if(reachDelta < frameJump)
-								salto[0].draw( xPlayer, yPlayer, width, height );
-							else if(reachDelta < frameJump)
-								salto[0].draw( xPlayer, yPlayer, width, height );
-							else if(reachDelta < frameJump)
-								salto[0].draw( xPlayer, yPlayer, width, height );
-							else if(reachDelta < frameJump)
-								salto[0].draw( xPlayer, yPlayer, width, height );
-							else if(reachDelta < frameJump)
-								salto[0].draw( xPlayer, yPlayer, width, height );
+							if(reachDeltaJump < frameJump)
+								saltoSx[0].draw( xPlayer, yPlayer, width, height );
+							else if(reachDeltaJump < frameJump * 2)
+								saltoSx[1].draw( xPlayer, yPlayer, width, height );
+							else if(reachDeltaJump < frameJump * 3)
+								saltoSx[2].draw( xPlayer, yPlayer, width, height );
+							else if(reachDeltaJump < frameJump * 4)
+								saltoSx[3].draw( xPlayer, yPlayer, width, height );
+							else if(reachDeltaJump < frameJump * 5)
+								saltoSx[4].draw( xPlayer, yPlayer, width, height );
+							else if(reachDeltaJump < frameJump * 6)
+								saltoSx[5].draw( xPlayer, yPlayer, width, height );
+							else if(reachDeltaJump < frameJump * 7)
+								saltoSx[6].draw( xPlayer, yPlayer, width, height );
+							else if(reachDeltaJump < frameJump * 8)
+								saltoSx[7].draw( xPlayer, yPlayer, width, height );
+							else
+								saltoSx[8].draw( xPlayer, yPlayer, width, height );
 						}
 					else if(movingSx)
 						{
 							if(reachDelta < frameMove)
-								left[0].draw( xPlayer, yPlayer, width, height );
+								left[0].draw( xPlayer - offset, yPlayer, widthI, height );
 							else if(reachDelta < frameMove*2)
-								left[1].draw( xPlayer, yPlayer, width, height );
+								left[1].draw( xPlayer - offset, yPlayer, widthI, height );
 							else if(reachDelta < frameMove*3)
-								left[2].draw( xPlayer, yPlayer, width, height );
+								left[2].draw( xPlayer - offset, yPlayer, widthI, height );
 							else if(reachDelta < frameMove*4)
-								left[3].draw( xPlayer, yPlayer, width, height );
+								left[3].draw( xPlayer - offset, yPlayer, widthI, height );
 							else if(reachDelta < frameMove*5)
-								left[4].draw( xPlayer, yPlayer, width, height );
+								left[4].draw( xPlayer - offset, yPlayer, widthI, height );
 							else if(reachDelta < frameMove*6)
-								left[5].draw( xPlayer, yPlayer, width, height );
+								left[5].draw( xPlayer - offset, yPlayer, widthI, height );
 							else if(reachDelta < frameMove*7)
-								left[6].draw( xPlayer, yPlayer, width, height );
+								left[6].draw( xPlayer - offset, yPlayer, widthI, height );
 							else if(reachDelta < frameMove*8)
-								left[7].draw( xPlayer, yPlayer, width, height );
+								left[7].draw( xPlayer - offset, yPlayer, widthI, height );
 							else if(reachDelta <= frameMove*9)
-								left[8].draw( xPlayer, yPlayer, width, height );
+								left[8].draw( xPlayer - offset, yPlayer, widthI, height );
 						}
 					else
-						pgsx.draw( xPlayer, yPlayer, width, height );
+						pgsx.draw( xPlayer - offset, yPlayer, widthI, height );
 				}
+			/*inserisce la trasparenza rosso/verde nella modalita' di editing*/
+			if(Start.editGame == 1)
+				if(checkInsert)
+					{
+						if(!insert)
+							pgdx.draw( xPlayer, yPlayer, widthI, height, cr);
+						else
+							pgdx.draw( xPlayer, yPlayer, widthI, height, cg);
+					}
 			
 			if(shooting)
 				{
@@ -334,11 +339,13 @@ public class Player extends Ostacolo
 							maxJump = -1;
 							jump = false;
 							movingJ = false;
+							reachDeltaJump = 0;
 							setXY( (int) area.getX(), maxHeight - height, "restore" );
 						}
 					else if(area.getY() < 0)
 						{
 							maxJump = 0;
+							reachDeltaJump = animTimeJump/5;
 							setXY( (int) area.getX(), 0, "restore" );
 						}
 				
@@ -355,11 +362,13 @@ public class Player extends Ostacolo
 													maxJump = -1;
 													jump = false;
 													movingJ = false;
+													reachDeltaJump = 0;
 													setXY( (int) area.getX(), (int) (ost.getY() - height), "restore" );
 												}										
 											else if(area.intersects( ost.component( "latoGiu" ) ) && (previousArea.getY() > ost.getY() + ost.getHeight()))
 												{
 													maxJump = 0;
+													reachDeltaJump = animTimeJump/5;
 													setXY( (int) area.getX(), (int) (ost.getY() + ost.getHeight()), "restore" );
 												}
 											else if(area.intersects( ost.component( "latoDx" ) ))
@@ -384,12 +393,11 @@ public class Player extends Ostacolo
 				}
 			
 			/*gestione dell'animazione*/
-			if(movingDx || movingSx || glide)
-				{
-					reachDelta = reachDelta + delta;
-					if(reachDelta > animTimeMove)
-						reachDelta = 0;
-				}
+			if(movingDx || movingSx)
+				reachDelta = (reachDelta + delta) % animTimeMove;
+			if(jump)
+				if(reachDeltaJump < animTimeJump)
+					reachDeltaJump = reachDeltaJump + delta;
 		}
 
 	public void setType( String type )

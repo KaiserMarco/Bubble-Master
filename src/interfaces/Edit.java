@@ -185,6 +185,7 @@ public class Edit
 					}
 			}
 		
+		/*posizionamento del giocatore nel gioco*/
 		if(temp != null)
 			if(tempX != mouseX || tempY != mouseY)
 				{					
