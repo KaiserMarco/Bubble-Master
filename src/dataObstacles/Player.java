@@ -29,7 +29,7 @@ public class Player extends Ostacolo
 	private int height = 70;
 	
 	private Shot fire;
-	private boolean shooting = false;
+	private boolean shooting;
 	
 	private Rectangle area;
 	
@@ -105,7 +105,6 @@ public class Player extends Ostacolo
 				{
 					if(movingJ)
 						{
-							/*TODO SISTEMARE ANIMAZIONE SALTO*/
 							if(reachDeltaJump < frameJump)
 								saltoDx[0].draw( xPlayer, yPlayer, width, height );
 							else if(reachDeltaJump < frameJump * 2)
@@ -207,10 +206,7 @@ public class Player extends Ostacolo
 					}
 			
 			if(shooting)
-				{
-					fire.draw();
-					shooting = false;
-				}
+				fire.draw();
 		}
 
 	public boolean contains( int x, int y )
@@ -234,7 +230,10 @@ public class Player extends Ostacolo
 		}
 	
 	public void setMaxHeight( double val )
-		{ this.maxHeight = (int) val; }
+		{
+			this.maxHeight = (int) val;
+			fire.setFloor( val );
+		}
 
 	public Ostacolo clone() {
 		try {
@@ -299,15 +298,15 @@ public class Player extends Ostacolo
 					dir = 1;
 					setXY( -move, 0, "move" );
 				}
-			 if(input.isKeyPressed( Input.KEY_S ))
-	             {
-	                 shooting = true;
-	                 fire.setXY( xPlayer + width/2 - fire.width/2, yPlayer - fire.height );
-	                 for(int i = 0; i < InGame.ostacoli.size(); i++)
-	                     if(InGame.ostacoli.get( i ).ID.equals( "bolla" ))
-	                         if(fire.collision( InGame.ostacoli.get( i ), i ))
-	                             break;
-	             }
+			if(input.isKeyPressed( Input.KEY_S ) && !shooting)
+	            {
+	                shooting = true;
+	                fire.setXY( xPlayer + width/2 - fire.width/2, yPlayer - height );
+	            }
+			if(shooting)
+			 	 for(int i = 0; i < InGame.ostacoli.size(); i++)
+                	 if(fire.collision( InGame.ostacoli.get( i ), i, InGame.ostacoli.get( i ).ID ))
+                         shooting = false;
 			if(glide)
 				{
 					if(input.isKeyPressed( Input.KEY_SPACE ) && !jump)
