@@ -68,7 +68,7 @@ public class InGame
 	public void update(GameContainer gc, int delta) throws SlickException
 		{
 			for(int i = 0; i < players.size(); i++)
-				players.get( i ).update( gc );
+				players.get( i ).update( gc, delta );
 			
 			for(int i = 0; i < ostacoli.size(); i++)
 				ostacoli.get( i ).update( gc );

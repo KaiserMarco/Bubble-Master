@@ -31,10 +31,12 @@ public abstract class Ostacolo
 	public abstract void setSpeedX( int val );
 	public abstract void setSpeedY( int val );
 	
+	public abstract void setInsert( boolean insert, boolean change );
+	
 	public abstract Ostacolo clone();
 	
-	public abstract void setMaxHeight( int val );	
-	public abstract int getMaxHeight(); 
+	public abstract void setMaxHeight( double val );	
+	public abstract double getMaxHeight(); 
 	
 	public abstract void setType( String type );
 	
@@ -53,6 +55,7 @@ public abstract class Ostacolo
 	public abstract void setXY( int x, int y, String function );
 	
 	public abstract void update( GameContainer gc ) throws SlickException;
+	public abstract void update( GameContainer gc, int delta ) throws SlickException;
 
 	public abstract Shape getArea();
 }

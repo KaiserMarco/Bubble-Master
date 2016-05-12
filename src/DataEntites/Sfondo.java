@@ -6,20 +6,12 @@ import org.newdawn.slick.Image;
 public class Sfondo
 {
 	private Image sfondo;
-	private int maxHeight;
+	private double maxHeight;
 	
-	public Sfondo( Image sfondo, int index )
+	public Sfondo( Image sfondo, double maxH )
 		{
 			this.sfondo = sfondo;
-			
-			if(index == 0)
-				maxHeight = 438;
-			else if(index == 1 || index == 4)
-				maxHeight = 600;
-			else if(index == 2)
-				maxHeight = 420;
-			else if(index == 3)
-				maxHeight = 575;
+			this.maxHeight = maxH;
 		}
 	
 	public Image getSfondo()
@@ -28,7 +20,7 @@ public class Sfondo
 	public void setSfondo( Image sfondo )
 		{ this.sfondo = sfondo; }
 	
-	public int getMaxHeight()
+	public double getMaxHeight()
 		{ return maxHeight; }
 	
 	public void setMaxHeight( int maxH )

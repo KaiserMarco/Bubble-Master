@@ -22,6 +22,8 @@ public class Tubo extends Ostacolo{
 	public Rectangle latoSu, latoGiu, latoDx, latoSx;
 	public Rectangle spigASx, spigADx, spigBSx, spigBDx;
 	
+	private boolean insert = false;
+	
 	public Tubo( int x, int y, String direction ) throws SlickException
 	{
 		super( "tubo" + direction );
@@ -68,6 +70,12 @@ public class Tubo extends Ostacolo{
 	
 	public boolean contains( int x, int y )
 		{ return ostr.contains( x, y ); }
+	
+	public boolean getInsert()
+		{ return insert; }
+
+	public void setInsert(boolean insert, boolean change)
+		{ this.insert = insert; }
 	
 	public void setXY( int x, int y, String function )
 		{			
@@ -118,10 +126,10 @@ public class Tubo extends Ostacolo{
 	public void update(GameContainer gc) throws SlickException 
 		{}
 	
-	public void setMaxHeight( int val )
+	public void setMaxHeight( double val )
 		{}
 	
-	public int getMaxHeight()
+	public double getMaxHeight()
 		{ return 0; }
 	
 	public Shape getArea()
@@ -153,4 +161,10 @@ public class Tubo extends Ostacolo{
 	
 	public boolean isCollided()
 		{ return true; }
+
+	@Override
+	public void update(GameContainer gc, int delta) throws SlickException {
+		// TODO Auto-generated method stub
+		
+	}
 }
