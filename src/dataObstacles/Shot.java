@@ -2,8 +2,11 @@ package dataObstacles;
 
 import interfaces.InGame;
 
+import java.util.ArrayList;
+
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.geom.Rectangle;
 
 public class Shot 
@@ -14,10 +17,21 @@ public class Shot
 	int width = 20;
 	int height = 100;
 	
-	Image immagine;
+	private int widthC, heightC;
+	private int widthS, heightS;
+	
+	private Image shot[];
+	private ArrayList<Image> sparo;
+	
+	private SpriteSheet sheetShot = new SpriteSheet( new Image( "./data/Image/shot.png" ), 10, 17 ), sheetChain = new SpriteSheet( new Image( "./data/Image/chain.png" ), 6, 6 );
 	
 	public Shot() throws SlickException
-		{ immagine = new Image( "./data/Image/pole.png" ); }
+		{
+			sparo = new ArrayList<Image>();
+			shot = new Image[2];
+			shot[0] = sheetShot.getSubImage( , y, width, height );
+			shot[1] = sheetShot.getSubImage( , y, width, height );
+		}
 	
 	public void setXY( int x, int y )
 		{
@@ -26,7 +40,9 @@ public class Shot
 		}
 
 	public void draw() throws SlickException
-		{ immagine.draw( posX, posY, width, height ); }
+		{
+			
+		}
 	
 	public Rectangle getArea()
 		{ return new Rectangle( posX, posY, width, height ); }
