@@ -13,11 +13,8 @@ public class Shot
 {
 	private int posX, posY, startY;
 	
-	int width = 20;
-	int height = 100;
-	
-	private int widthS = 10, heightS = 16;
-	private int widthC = 6, heightC = 6;
+	private int widthS = 15, heightS = 21;
+	private int widthC = 9, heightC = 9;
 	
 	private Image shot[];
 	private ArrayList<Image> sparo;
@@ -35,45 +32,35 @@ public class Shot
 			posY = posY - heightS;
 		}
 	
-	public void setFloor( double val )
-		{ posY = (int) val; }
-	
 	public void setXY( int x, int y )
 		{
-			posX = x;
+			sparo.clear();
 			sparo.add( shot[0] );
+			posX = x;
 			posY = y - heightS;
-			startY = posY;
+			startY = y;
 		}
 
 	public void draw() throws SlickException
 		{
-			for(int i = 0; i < sparo.size(); i++)
+			for(int i = 0; i < sparo.size() - 1; i++)
 				{
-					if(i < sparo.size() - 2)
-						{
-							sparo.get( i ).draw( posX, startY, widthC, heightC );
-							startY = startY - heightC;
-						}
-					else
-						sparo.get( i ).draw( posX, posY, widthS, heightS );
+					sparo.get( i ).draw( posX, startY, widthC, heightC );
+					startY = startY - heightC;
 				}
+			sparo.get( sparo.size() - 1 ).draw( posX + widthC/2 - widthS/2, posY, widthS, heightS );
+			
+			startY = startY + heightC * (sparo.size() - 1);
 		}
 	
+	public int getWidth()
+		{ return widthS; }
+	
 	public Rectangle getArea()
-		{ return new Rectangle( posX, posY, width, posY - startY ); }
+		{ return new Rectangle( posX, posY, widthS, posY + startY ); }
 	
 	public boolean collision( Ostacolo ost, int index, String type ) throws SlickException
-		{
-			sparo.add( 0, shot[1] );
-			posY = posY - heightC;
-
-			if(posY <= 0)
-				{
-					sparo.clear();
-					return true;
-				}
-		
+		{		
 			if(getArea().intersects( ost.component( "rect" ) ))
 				{
 					if(type.equals( "bolla" ))
@@ -107,11 +94,19 @@ public class Shot
 								InGame.ostacoli.remove( index );
 						}
 					
-					sparo.clear();
-					
 					return true;
 				}
 			else
 				return false;
+		}
+	
+	public boolean update()
+		{
+			/*aggiunge un nuovo pezzo allo sparo*/
+			sparo.add( 0, shot[1] );
+			posY = posY - heightC;
+			if(posY <= 0)
+				return true;
+			return false;
 		}
 }

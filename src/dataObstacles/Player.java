@@ -230,10 +230,7 @@ public class Player extends Ostacolo
 		}
 	
 	public void setMaxHeight( double val )
-		{
-			this.maxHeight = (int) val;
-			fire.setFloor( val );
-		}
+		{ this.maxHeight = (int) val; }
 
 	public Ostacolo clone() {
 		try {
@@ -301,12 +298,17 @@ public class Player extends Ostacolo
 			if(input.isKeyPressed( Input.KEY_S ) && !shooting)
 	            {
 	                shooting = true;
-	                fire.setXY( xPlayer + width/2 - fire.width/2, yPlayer - height );
+	                fire.setXY( xPlayer + width/2 - fire.getWidth()/2, yPlayer );
 	            }
 			if(shooting)
-			 	 for(int i = 0; i < InGame.ostacoli.size(); i++)
-                	 if(fire.collision( InGame.ostacoli.get( i ), i, InGame.ostacoli.get( i ).ID ))
-                         shooting = false;
+				{					
+					if(fire.update())
+						shooting = false;
+					else
+						for(int i = 0; i < InGame.ostacoli.size(); i++)
+							if(fire.collision( InGame.ostacoli.get( i ), i, InGame.ostacoli.get( i ).ID ))
+								shooting = false;
+				}
 			if(glide)
 				{
 					if(input.isKeyPressed( Input.KEY_SPACE ) && !jump)
