@@ -14,7 +14,7 @@ public class Shot
 	private int posX, posY, startY;
 	
 	private int widthS = 15, heightS = 21;
-	private int widthC = 8, heightC = 8;
+	private int widthC = 9, heightC = 9;
 	
 	private Image shot[];
 	private ArrayList<Image> sparo;
