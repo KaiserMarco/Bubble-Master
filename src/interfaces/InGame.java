@@ -46,7 +46,7 @@ public class InGame
 						}
 					else if(obs.get( i ).ID.equals( "bolla" ))
 						{
-							ostacoli.add( new Bubble( ost.getX(), ost.getY(), (int) ost.getWidth() ) );
+							ostacoli.add( new Bubble( ost.getX(), ost.getY(), (int) ost.getWidth(), ost.getMaxWidth() ) );
 							ostacoli.get( ostacoli.size() - 1 ).setMaxHeight( sfondo.getMaxHeight() );
 						}
 					else

@@ -11,77 +11,102 @@ import org.newdawn.slick.geom.Rectangle;
 
 public class Shot 
 {
-	private int posX;
-	private int posY;
+	private int posX, posY, startY;
 	
-	int width = 20;
-	int height = 100;
-	
-	private int widthC, heightC;
-	private int widthS, heightS;
+	private int widthS = 15, heightS = 21;
+	private int widthC = 9, heightC = 9;
 	
 	private Image shot[];
 	private ArrayList<Image> sparo;
 	
-	private SpriteSheet sheetShot = new SpriteSheet( new Image( "./data/Image/shot.png" ), 10, 17 ), sheetChain = new SpriteSheet( new Image( "./data/Image/chain.png" ), 6, 6 );
+	private SpriteSheet sheetShot = new SpriteSheet( new Image( "./data/Image/shot.png" ), 10, 16 );
+	private SpriteSheet sheetChainHor = new SpriteSheet( new Image( "./data/Image/chainHor.png" ), 6, 6 );
 	
 	public Shot() throws SlickException
 		{
+			shot = new Image[2];			
+			shot[0] = sheetShot.getSubImage( 0, 0 );
+			shot[1] = sheetChainHor.getSubImage( 0, 0 );
+			
 			sparo = new ArrayList<Image>();
-			shot = new Image[2];
-			shot[0] = sheetShot.getSubImage( , y, width, height );
-			shot[1] = sheetShot.getSubImage( , y, width, height );
+			posY = posY - heightS;
 		}
 	
 	public void setXY( int x, int y )
 		{
+			sparo.clear();
+			sparo.add( shot[0] );
 			posX = x;
-			posY = y;
+			posY = y - heightS;
+			startY = y;
 		}
 
 	public void draw() throws SlickException
 		{
+			int saveY = startY;
+			for(int i = 0; i < sparo.size() - 1; i++)
+				{
+					startY = startY - heightC;
+					sparo.get( i ).draw( posX, startY, widthC, heightC );
+				}
+			sparo.get( sparo.size() - 1 ).draw( posX + widthC/2 - widthS/2, posY, widthS, heightS );
 			
+			startY = saveY;
 		}
 	
-	public Rectangle getArea()
-		{ return new Rectangle( posX, posY, width, height ); }
+	public int getWidth()
+		{ return widthS; }
 	
-	public boolean collision( Ostacolo ost, int index ) throws SlickException
-		{ 
-			if(this.getArea().intersects( ost.component( "" ) ))
+	public Rectangle getArea()
+		{ return new Rectangle( posX, posY, widthS, startY - posY ); }
+	
+	public boolean collision( Ostacolo ost, int index, String type ) throws SlickException
+		{		
+			if(posY <= 0)
+				return true;
+			if(getArea().intersects( ost.component( "rect" ) ))
 				{
-					if(ost.getWidth() > 6)
+					if(type.equals( "bolla" ))
 						{
-							ost.setXY( (int) ost.getWidth()/2, (int) ost.getWidth()/2, "setRay" );
-							
-							Bubble temp1 = new Bubble( ost );
-							Bubble temp2 = new Bubble( ost );
-							
-							temp1.setMaxHeight( ost.getMaxHeight() );
-							temp1.setSpeedX( ost.getSpeedX() );
-							if(ost.getSpeedY() > 0)
-								temp1.setSpeedY( ost.getSpeedY() );
+							if(ost.getWidth() > 6)
+								{
+									ost.setXY( (int) ost.getWidth()/2, (int) ost.getWidth()/2, "setRay" );
+									
+									Bubble temp1 = new Bubble( ost );
+									Bubble temp2 = new Bubble( ost );
+									
+									temp1.setMaxHeight( ost.getMaxHeight() );
+									temp1.setSpeedX( ost.getSpeedX() );
+									if(ost.getSpeedY() > 0)
+										temp1.setSpeedY( ost.getSpeedY() );
+									else
+										temp1.setSpeedY( -ost.getSpeedY() );
+									
+									temp2.setMaxHeight( ost.getMaxHeight() );
+									temp2.setSpeedX( -ost.getSpeedX() );
+									if(ost.getSpeedY() > 0)
+										temp2.setSpeedY( ost.getSpeedY() );
+									else
+										temp2.setSpeedY( -ost.getSpeedY() );
+									
+									InGame.ostacoli.remove( ost );
+									InGame.ostacoli.add( temp1 );
+									InGame.ostacoli.add( temp2 );
+								}
 							else
-								temp1.setSpeedY( -ost.getSpeedY() );
-							
-							temp2.setMaxHeight( ost.getMaxHeight() );
-							temp2.setSpeedX( -ost.getSpeedX() );
-							if(ost.getSpeedY() > 0)
-								temp2.setSpeedY( ost.getSpeedY() );
-							else
-								temp2.setSpeedY( -ost.getSpeedY() );
-							
-							InGame.ostacoli.remove( ost );
-							InGame.ostacoli.add( temp1 );
-							InGame.ostacoli.add( temp2 );
+								InGame.ostacoli.remove( index );
 						}
-					else
-						InGame.ostacoli.remove( index );
-					
+
 					return true;
 				}
 			else
 				return false;
+		}
+	
+	public void update()
+		{
+			/*aggiunge un nuovo pezzo allo sparo*/
+			sparo.add( 0, shot[1] );
+			posY = posY - heightC;
 		}
 }

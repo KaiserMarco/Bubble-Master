@@ -22,7 +22,7 @@ public class ChooseLevel
 	
 	public ChooseLevel( GameContainer gc ) throws SlickException
 		{
-			left = new SimpleButton( 2, gc.getHeight()/2, "left", Color.orange );
+			left = new SimpleButton( gc.getWidth()/400, gc.getHeight()/2, "left", Color.orange );
 			right = new SimpleButton( gc.getWidth() - 60, gc.getHeight()/2, "right", Color.orange );
 			start = new SimpleButton( gc.getWidth()/2 - 20, gc.getHeight()*4/5 - 20, "start", Color.orange );
 		}

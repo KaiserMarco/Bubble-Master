@@ -29,7 +29,7 @@ public class Player extends Ostacolo
 	private int height = 70;
 	
 	private Shot fire;
-	private boolean shooting = false;
+	private boolean shooting;
 	
 	private Rectangle area;
 	
@@ -42,8 +42,10 @@ public class Player extends Ostacolo
 	
 	private int dir = 0;
 	
-	int widthS = 36, heightS = 41;
-	int widthJ = 29, heightJ = 48;
+	/*altezza e larghezza dei frame dello spostamento laterale*/
+	private int widthS = 36, heightS = 41;
+	/*larghezza e altezza dei frame del salto*/
+	private int widthJ = 29, heightJ = 48;
 	
 	private boolean insert = false, checkInsert = false;
 	
@@ -53,8 +55,10 @@ public class Player extends Ostacolo
 	
 	private float animTimeMove = 504, reachDelta = 0, animTimeJump = 396, reachDeltaJump = 0;
 	
-	private SpriteSheet sheetDx = new SpriteSheet( new Image( "./data/Image/animdx.png" ), 324, 41 ), sheetSx = new SpriteSheet( new Image( "./data/Image/animsx.png" ), 324, 41 );	
-	private SpriteSheet sheetJumpDx = new SpriteSheet( new Image( "./data/Image/jumpDx.png" ), 261, 48 ), sheetJumpSx = new SpriteSheet( new Image( "./data/Image/jumpSx.png" ), 261, 48 );
+	private SpriteSheet sheetDx = new SpriteSheet( new Image( "./data/Image/animdx.png" ), 324, 41 );
+	private SpriteSheet sheetSx = new SpriteSheet( new Image( "./data/Image/animsx.png" ), 324, 41 );	
+	private SpriteSheet sheetJumpDx = new SpriteSheet( new Image( "./data/Image/jumpDx.png" ), 261, 48 );
+	private SpriteSheet sheetJumpSx = new SpriteSheet( new Image( "./data/Image/jumpSx.png" ), 261, 48 );
 	
 	/*movimento a destra - movimento a sinistra - movimento in alto - movimento in basso*/
 	boolean movingDx, movingSx, movingJ;
@@ -105,7 +109,6 @@ public class Player extends Ostacolo
 				{
 					if(movingJ)
 						{
-							/*TODO SISTEMARE ANIMAZIONE SALTO*/
 							if(reachDeltaJump < frameJump)
 								saltoDx[0].draw( xPlayer, yPlayer, width, height );
 							else if(reachDeltaJump < frameJump * 2)
@@ -207,10 +210,7 @@ public class Player extends Ostacolo
 					}
 			
 			if(shooting)
-				{
-					fire.draw();
-					shooting = false;
-				}
+				fire.draw();
 		}
 
 	public boolean contains( int x, int y )
@@ -299,15 +299,22 @@ public class Player extends Ostacolo
 					dir = 1;
 					setXY( -move, 0, "move" );
 				}
-			 if(input.isKeyPressed( Input.KEY_S ))
-	             {
-	                 shooting = true;
-	                 fire.setXY( xPlayer + width/2 - fire.width/2, yPlayer - fire.height );
-	                 for(int i = 0; i < InGame.ostacoli.size(); i++)
-	                     if(InGame.ostacoli.get( i ).ID.equals( "bolla" ))
-	                         if(fire.collision( InGame.ostacoli.get( i ), i ))
-	                             break;
-	             }
+			if(input.isKeyPressed( Input.KEY_S ) && !shooting)
+	            {
+	                shooting = true;
+	                fire.setXY( xPlayer + width/2 - fire.getWidth()/2, yPlayer + height - 1 );
+	            }
+			if(shooting)
+				{					
+					fire.update();
+					
+					for(int i = 0; i < InGame.ostacoli.size(); i++)
+						if(fire.collision( InGame.ostacoli.get( i ), i, InGame.ostacoli.get( i ).ID ))
+							{
+								shooting = false;
+								break;
+							}
+				}
 			if(glide)
 				{
 					if(input.isKeyPressed( Input.KEY_SPACE ) && !jump)
@@ -316,10 +323,8 @@ public class Player extends Ostacolo
 							jump = true;
 							maxJump = 40;
 						}
-					/*fase di salita*/
 					if(maxJump-- > 0)
 						setXY( 0, -move, "move" );
-					/*fase di discesa*/
 					else if(maxJump == 0 || glide)
 						{
 							movingJ = true;
@@ -438,4 +443,7 @@ public class Player extends Ostacolo
 	
 	public boolean isCollided()
 		{ return true; }
+
+	public double getMaxWidth()
+		{ return 0; }
 }

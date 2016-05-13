@@ -36,7 +36,8 @@ public abstract class Ostacolo
 	public abstract Ostacolo clone();
 	
 	public abstract void setMaxHeight( double val );	
-	public abstract double getMaxHeight(); 
+	public abstract double getMaxHeight();
+	public abstract double getMaxWidth();
 	
 	public abstract void setType( String type );
 	

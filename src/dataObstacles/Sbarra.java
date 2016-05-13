@@ -166,11 +166,11 @@ public class Sbarra extends Ostacolo{
 	public boolean isCollided()
 		{ return true; }
 
-	@Override
-	public void update(GameContainer gc, int delta) throws SlickException {
-		// TODO Auto-generated method stub
-		
-	}
+	public void update(GameContainer gc, int delta) throws SlickException 
+		{}
+
+	public double getMaxWidth()
+		{ return 0; }
 }
 
 

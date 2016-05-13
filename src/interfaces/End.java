@@ -23,17 +23,17 @@ public class End
 			
 			if(!balls)
 				{
-					replay = new SimpleButton( 330, 330, "RITENTA", Color.orange );
-					begin = new SimpleButton( 210, gc.getHeight()/4, "TORNA ALLA SCHERMATA PRINCIPALE", Color.orange );
+					replay = new SimpleButton( (float) (gc.getWidth()/2.4), (float) (gc.getHeight()/1.81), "RITENTA", Color.orange );
+					begin = new SimpleButton( (float) (gc.getWidth()/3.8), gc.getHeight()/4, "TORNA ALLA SCHERMATA PRINCIPALE", Color.orange );
 					
 					replay.draw( gc.getGraphics() );
 					begin.draw( gc.getGraphics() );
 				}
 			else
 				{
-					vittoria = new SimpleButton( 250, gc.getHeight()/4, "COMPLIMENTI PER LA VITTORIA", Color.orange );
-					replay = new SimpleButton( 330, 330, "RIGIOCA", Color.orange );
-					begin = new SimpleButton( 220, 360, "TORNA ALLA SCHERMATA PRINCIPALE", Color.orange );					
+					vittoria = new SimpleButton( (float) (gc.getWidth()/3.2), gc.getHeight()/4, "COMPLIMENTI PER LA VITTORIA", Color.orange );
+					replay = new SimpleButton( (float) (gc.getWidth()/2.4), (float) (gc.getHeight()/1.81), "RIGIOCA", Color.orange );
+					begin = new SimpleButton( (float) (gc.getWidth()/3.6), (float) (gc.getHeight()/1.6), "TORNA ALLA SCHERMATA PRINCIPALE", Color.orange );					
 
 					replay.draw( gc.getGraphics() );
 					vittoria.draw( gc.getGraphics() );
