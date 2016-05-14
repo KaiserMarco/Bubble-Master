@@ -8,6 +8,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Rectangle;
 
 import DataEntites.Sfondo;
 import bubbleMaster.Start;
@@ -35,6 +36,14 @@ public class Edit
 	
 	private int indexSfondo = 3;
 	
+	private Image up, down;
+	private int widthArrow, heightArrow;
+	
+	private boolean insertEditor;
+	private Rectangle choise, base;
+	private int widthChoise, heightChoise;
+	private int widthBase, heightBase;
+	
 	public Edit( GameContainer gc ) throws SlickException
 		{		
 			double maxH = gc.getHeight()/(1.04), maxW = gc.getWidth();
@@ -44,10 +53,15 @@ public class Edit
 			sfondi.add( new Sfondo( new Image( "./data/Image/sfondo3.jpg" ), maxH, maxW ) );
 			sfondi.add( new Sfondo( new Image( "./data/Image/sfondo4.jpg" ), maxH, maxW ) );
 			sfondi.add( new Sfondo( new Image( "./data/Image/sfondo6.jpg" ), maxH, maxW ) );
+			
+			up = new Image( "./data/Image/up.png" );
+			down = new Image( "./data/Image/down.png" );
+			widthArrow = gc.getWidth()/10;
+			heightArrow = gc.getHeight()/40;
 					
-			finish = new SimpleButton( gc.getWidth()/4, gc.getHeight()*9/10, "FINISH", Color.orange );
-			saveLevel = new SimpleButton( gc.getWidth()*3/4, gc.getHeight()*9/10, "SALVA LIVELLO", Color.orange );
-			chooseLevel = new SimpleButton( gc.getWidth()/2, gc.getHeight()*9/10, "SCEGLI LIVELLO", Color.orange );
+			finish = new SimpleButton( gc.getWidth()/4, gc.getHeight()*17/18, "FINISH", Color.orange );
+			saveLevel = new SimpleButton( gc.getWidth()*3/4, gc.getHeight()*17/18, "SALVA LIVELLO", Color.orange );
+			chooseLevel = new SimpleButton( gc.getWidth()/2, gc.getHeight()*17/18, "SCEGLI LIVELLO", Color.orange );
 			
 			temp = null;
 			
@@ -60,15 +74,20 @@ public class Edit
 			items.add( new Bubble( gc.getWidth()*6/7, gc.getHeight()*3/4, ray, maxW ) );
 			
 			ostacoli = new ArrayList<Ostacolo>();
+			
+			widthChoise = gc.getWidth()/8;
+			heightChoise = gc.getHeight()/30;
+			widthBase = (int) (gc.getWidth()/1.05);
+			heightBase = (int) (gc.getHeight()/1.04);
+			choise = new Rectangle( gc.getWidth()/2 - widthChoise/2, gc.getHeight() - heightChoise, widthChoise, heightChoise );
+			base = new Rectangle( gc.getWidth()/40, gc.getHeight()/24, widthBase, heightBase );
+			insertEditor = false;
 		}
 	
 	public void draw( GameContainer gc, Graphics g ) throws SlickException
 		{		
 			sfondi.get( indexSfondo ).draw( gc );
-			
-			for(int i = 0; i < items.size(); i++)
-				items.get( i ).draw( g );
-			
+						
 			for(int i = 0; i < ostacoli.size(); i++)
 				ostacoli.get( i ).draw( g );
 			
@@ -78,9 +97,29 @@ public class Edit
 			finish.draw( g );
 			saveLevel.draw( g );
 			chooseLevel.draw( g );
+			
+			g.fillRect( choise.getX(), choise.getY(), choise.getWidth(), choise.getHeight() );
+			if(insertEditor)
+				{
+					g.fillRect( base.getX(), base.getY(), base.getWidth(), base.getHeight() );
+					for(int i = 0; i < items.size(); i++)
+						items.get( i ).draw( g );
+					
+					down.draw( choise.getX() + widthChoise/2 - widthArrow/2, choise.getY() + gc.getHeight()/200, widthArrow, heightArrow );
+				}
+			else
+				up.draw( choise.getX() + widthChoise/2 - widthArrow/2, choise.getY() + gc.getHeight()/200, widthArrow, heightArrow );
 		}
 	
-	public void checkPressed( int x, int y ) throws SlickException
+	public void setChoise( GameContainer gc )
+		{
+			if(insertEditor)
+				choise.setLocation( choise.getX(), base.getY() - heightChoise );
+			else
+				choise.setLocation( choise.getX(), gc.getHeight() - heightChoise );
+		}
+	
+	public boolean checkPressed( int x, int y ) throws SlickException
 		{
 			for(int i = 0; i < items.size(); i++)
 				{
@@ -93,6 +132,12 @@ public class Edit
 								gamer++;
 							else if(temp.ID.equals( "bolla" ))
 								ball++;
+							temp.setInsert( true, true );
+							
+							tempX = x;
+							tempY = y;
+							
+							return true;
 						}
 				}
 			
@@ -102,14 +147,16 @@ public class Edit
 						{
 							temp = ostacoli.get( i );
 							ostacoli.remove( i );
+							temp.setInsert( true, true );
+							
+							tempX = x;
+							tempY = y;
+							
+							return false;
 						}
 				}
 			
-			if(temp != null)
-				temp.setInsert( true, true );
-			
-			tempX = x;
-			tempY = y;
+			return false;
 		}
 	
 	public void update( GameContainer gc )throws SlickException
@@ -121,7 +168,7 @@ public class Edit
 			boolean collide = false;
 			
 			int winner = -1;
-	
+			
 			if(temp != null)
 				if(temp.getY() + temp.getHeight() > sfondi.get( indexSfondo ).getMaxHeight())
 					collide = true;
@@ -151,7 +198,12 @@ public class Edit
 	
 			if(input.isMousePressed( Input.MOUSE_LEFT_BUTTON ))
 				{
-					if(saveLevel.checkClick( mouseX, mouseY ))
+					if(choise.contains( mouseX, mouseY ))
+						{
+							insertEditor = !insertEditor;
+							setChoise( gc );
+						}
+					else if(saveLevel.checkClick( mouseX, mouseY ))
 						{
 							if(temp == null)
 								if(gamer > 0 && ball > 0)
@@ -175,7 +227,13 @@ public class Edit
 					else
 						{
 							if(temp == null)
-								checkPressed( mouseX, mouseY );
+								{
+									if(checkPressed( mouseX, mouseY ))
+										{
+											insertEditor = false;
+											choise.setLocation( choise.getX(), gc.getHeight() - heightChoise );
+										}
+								}
 							else if(!collide)
 								{
 									temp.setInsert( true, true );
