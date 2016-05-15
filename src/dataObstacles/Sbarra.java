@@ -58,12 +58,10 @@ public class Sbarra extends Ostacolo{
 			immagine.draw( ostr.getX(), ostr.getY(), ostr.getWidth(), ostr.getHeight() );
 			if(Start.editGame == 1)
 				if(checkInsert)
-					{
-						if(!insert)
-							immagine.draw( ostr.getX(), ostr.getY(), ostr.getWidth(), ostr.getHeight(), cr);
-						else
-							immagine.draw( ostr.getX(), ostr.getY(), ostr.getWidth(), ostr.getHeight(), cg);
-					}
+					if(!insert)
+						immagine.draw( ostr.getX(), ostr.getY(), ostr.getWidth(), ostr.getHeight(), cr);
+					else
+						immagine.draw( ostr.getX(), ostr.getY(), ostr.getWidth(), ostr.getHeight(), cg);
 		}
 	
 	public int getX()

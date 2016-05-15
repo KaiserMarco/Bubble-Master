@@ -39,6 +39,8 @@ public class Edit
 	private Image up, down;
 	private int widthArrow, heightArrow;
 	
+	private Image choiseI, baseI;
+	
 	private boolean insertEditor;
 	private Rectangle choise, base;
 	private int widthChoise, heightChoise;
@@ -56,7 +58,7 @@ public class Edit
 			
 			up = new Image( "./data/Image/up.png" );
 			down = new Image( "./data/Image/down.png" );
-			widthArrow = gc.getWidth()/10;
+			widthArrow = gc.getWidth()/15;
 			heightArrow = gc.getHeight()/40;
 					
 			finish = new SimpleButton( gc.getWidth()/4, gc.getHeight()*17/18, "FINISH", Color.orange );
@@ -74,13 +76,16 @@ public class Edit
 			items.add( new Bubble( gc.getWidth()*6/7, gc.getHeight()*3/4, ray, maxW ) );
 			
 			ostacoli = new ArrayList<Ostacolo>();
+
+			choiseI = new Image( "./data/Image/choise.png" );
+			baseI = new Image( "./data/Image/base.png" );
 			
 			widthChoise = gc.getWidth()/8;
 			heightChoise = gc.getHeight()/30;
-			widthBase = (int) (gc.getWidth()/1.05);
+			widthBase = (int) (gc.getWidth()/1.11);
 			heightBase = (int) (gc.getHeight()/1.04);
 			choise = new Rectangle( gc.getWidth()/2 - widthChoise/2, gc.getHeight() - heightChoise, widthChoise, heightChoise );
-			base = new Rectangle( gc.getWidth()/40, gc.getHeight()/24, widthBase, heightBase );
+			base = new Rectangle( gc.getWidth()/2 - widthBase/2, gc.getHeight()/24, widthBase, heightBase );
 			insertEditor = false;
 		}
 	
@@ -98,15 +103,17 @@ public class Edit
 			saveLevel.draw( g );
 			chooseLevel.draw( g );
 			
-			g.fillRect( choise.getX(), choise.getY(), choise.getWidth(), choise.getHeight() );
 			if(insertEditor)
 				{
-					g.fillRect( base.getX(), base.getY(), base.getWidth(), base.getHeight() );
+					baseI.draw( base.getX(), base.getY(), base.getWidth(), base.getHeight() );
 					for(int i = 0; i < items.size(); i++)
 						items.get( i ).draw( g );
-					
-					down.draw( choise.getX() + widthChoise/2 - widthArrow/2, choise.getY() + gc.getHeight()/200, widthArrow, heightArrow );
 				}
+			
+			choiseI.draw( choise.getX(), choise.getY(), choise.getWidth(), choise.getHeight() );
+			
+			if(insertEditor)
+				down.draw( choise.getX() + widthChoise/2 - widthArrow/2, choise.getY() + gc.getHeight()/200, widthArrow, heightArrow );
 			else
 				up.draw( choise.getX() + widthChoise/2 - widthArrow/2, choise.getY() + gc.getHeight()/200, widthArrow, heightArrow );
 		}
@@ -114,30 +121,33 @@ public class Edit
 	public void setChoise( GameContainer gc )
 		{
 			if(insertEditor)
-				choise.setLocation( choise.getX(), base.getY() - heightChoise );
+				choise.setLocation( choise.getX(), base.getY() - heightChoise + gc.getWidth()/150 );
 			else
 				choise.setLocation( choise.getX(), gc.getHeight() - heightChoise );
 		}
 	
 	public boolean checkPressed( int x, int y ) throws SlickException
 		{
-			for(int i = 0; i < items.size(); i++)
+			if(insertEditor)
 				{
-					Ostacolo item = items.get( i );
-					if(item.contains( x, y ))
+					for(int i = 0; i < items.size(); i++)
 						{
-							temp = item.clone();
-							
-							if(temp.ID.startsWith( "player" ))
-								gamer++;
-							else if(temp.ID.equals( "bolla" ))
-								ball++;
-							temp.setInsert( true, true );
-							
-							tempX = x;
-							tempY = y;
-							
-							return true;
+							Ostacolo item = items.get( i );
+							if(item.contains( x, y ))
+								{
+									temp = item.clone();
+									
+									if(temp.ID.startsWith( "player" ))
+										gamer++;
+									else if(temp.ID.equals( "bolla" ))
+										ball++;
+									temp.setInsert( true, true );
+									
+									tempX = x;
+									tempY = y;
+									
+									return true;
+								}
 						}
 				}
 			
@@ -170,31 +180,31 @@ public class Edit
 			int winner = -1;
 			
 			if(temp != null)
-				if(temp.getY() + temp.getHeight() > sfondi.get( indexSfondo ).getMaxHeight())
-					collide = true;
-				else
-					for(int i = 0; i < ostacoli.size(); i++)
-						{
-							if(!temp.ID.startsWith( "player" ))
-								{
-									if(temp.component( "rect" ).intersects( ostacoli.get( i ).component( "rect" ) ))
+				{
+					if(temp.getY() + temp.getHeight() > sfondi.get( indexSfondo ).getMaxHeight())
+						collide = true;
+					else
+						for(int i = 0; i < ostacoli.size(); i++)
+							{
+								if(!temp.ID.startsWith( "player" ))
+									{
+										if(temp.component( "rect" ).intersects( ostacoli.get( i ).component( "rect" ) ))
+											collide = true;
+									}
+								else if(!ostacoli.get( i ).ID.equals( "sbarra" ))
+									{
+										if(temp.component( "rect" ).intersects( ostacoli.get( i ).component( "rect" ) ))
+											collide = true;
+									}
+								else if(ostacoli.get( i ).ID.equals( "sbarra" ))
+									if(temp.component( "rect" ).intersects( ostacoli.get( i ).component( "latoGiu" ) ))
 										collide = true;
-								}
-							else if(!ostacoli.get( i ).ID.equals( "sbarra" ))
-								{
-									if(temp.component( "rect" ).intersects( ostacoli.get( i ).component( "rect" ) ))
-										collide = true;
-								}
-							else if(ostacoli.get( i ).ID.equals( "sbarra" ))
-								if(temp.component( "rect" ).intersects( ostacoli.get( i ).component( "latoGiu" ) ))
-									collide = true;
-						}
-			
-			if(temp != null)
-				if(collide)
-					temp.setInsert( false, false );
-				else
-					temp.setInsert( true, false );
+							}
+					if(collide)
+						temp.setInsert( false, false );
+					else
+						temp.setInsert( true, false );
+				}
 	
 			if(input.isMousePressed( Input.MOUSE_LEFT_BUTTON ))
 				{
@@ -243,7 +253,7 @@ public class Edit
 						}
 				}
 			
-			if(input.isMousePressed( Input.MOUSE_RIGHT_BUTTON ))
+			if(input.isMousePressed( Input.MOUSE_RIGHT_BUTTON ) || input.isKeyPressed( Input.KEY_DELETE ))
 				{
 					if(temp != null)
 						{

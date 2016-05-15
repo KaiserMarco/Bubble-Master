@@ -60,7 +60,7 @@ public class Shot
 	public Rectangle getArea()
 		{ return new Rectangle( posX, posY, widthS, startY - posY ); }
 	
-	public boolean collision( Ostacolo ost, int index, String type ) throws SlickException
+	public boolean collision( Ostacolo ost, String type ) throws SlickException
 		{		
 			if(posY <= 0)
 				return true;
@@ -94,7 +94,7 @@ public class Shot
 									InGame.ostacoli.add( temp2 );
 								}
 							else
-								InGame.ostacoli.remove( index );
+								InGame.ostacoli.remove( ost );
 						}
 
 					return true;

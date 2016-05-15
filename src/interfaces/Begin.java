@@ -5,11 +5,17 @@ import java.util.ArrayList;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 
+import DataEntites.Sfondo;
 import bubbleMaster.Start;
 import dataButton.SimpleButton;
+import dataObstacles.Bubble;
+import dataObstacles.Ostacolo;
+import dataObstacles.Player;
+import dataObstacles.Sbarra;
 
 public class Begin 
 {
@@ -17,6 +23,10 @@ public class Begin
 	
 	/**array contente tutti i livelli creati*/
 	public static ArrayList<Livello> livelli;
+	/*sfondo del gioco*/
+	Sfondo sfondo;
+	/*ostacoli del gioco*/
+	ArrayList<Ostacolo> ost;
 	
 	public Begin( GameContainer gc ) throws SlickException
 		{
@@ -24,6 +34,27 @@ public class Begin
 			
 			editor = new SimpleButton( (int) (gc.getWidth()/(2.2)), (int) (gc.getWidth()/(2.2)), "EDIT", Color.orange );
 			choose = new SimpleButton( (int) (gc.getWidth()/(2.5)), gc.getHeight()/4, "SCEGLI LIVELLO", Color.orange );
+			
+			ost = new ArrayList<Ostacolo>();
+			sfondo = new Sfondo( new Image( "./data/Image/sfondo4.jpg" ), gc.getHeight()/(1.04), gc.getWidth() );
+			
+			/*livello 1*/
+			ost.add( new Sbarra( 100, 50 ) );
+			ost.add( new Bubble( 170, 90, 25, (int) sfondo.getMaxHeight() ) );
+			ost.add( new Player( 150, (int)sfondo.getMaxHeight() - 70, 0 ) );
+			
+			livelli.add( new Livello( ost, sfondo ) );
+			
+			/*livello 2*/
+			ost.clear();
+			ost.add( new Sbarra( 100, 50 ) );
+			ost.add( new Sbarra( 245, 300 ) );
+			ost.add( new Bubble( 170, 90, 25, gc.getWidth() ) );
+			ost.add( new Bubble( 315, 90, 25, gc.getWidth() ) );
+			ost.add( new Bubble( 522, 480, 25, gc.getWidth() ) );
+			ost.add( new Player( 150, (int) sfondo.getMaxHeight() - 70, 0 ) );
+			
+			livelli.add( new Livello( ost, sfondo ) );
 		}
 
 	public void draw( Graphics g ) throws SlickException

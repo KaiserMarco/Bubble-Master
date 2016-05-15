@@ -2,12 +2,17 @@ package dataObstacles;
  
 import interfaces.InGame;
  
+
+
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Shape;
+
+import bubbleMaster.Start;
  
 public class Bubble extends Ostacolo
 {
@@ -23,6 +28,10 @@ public class Bubble extends Ostacolo
     private double maxW;
      
     private boolean collided;
+	
+	private boolean insert = false, checkInsert = false;
+	
+	private Color cg = new Color( 50, 170, 50, 100 ), cr = new Color( 170, 50, 50, 100 );
      
     public Bubble( Ostacolo ost ) throws SlickException
         { this( ost.getX(), ost.getY(), (int) ost.getWidth(), ost.getMaxWidth() ); }
@@ -40,7 +49,18 @@ public class Bubble extends Ostacolo
         }
      
     public void draw( Graphics g ) throws SlickException
-        { immagine.draw( ostr.getX(), ostr.getY(), ray*2, ray*2 ); }
+        {
+    		immagine.draw( ostr.getX(), ostr.getY(), ray*2, ray*2 );
+    		
+    		if(Start.editGame == 1)
+    			{	
+    				if(checkInsert)
+    					if(!insert)
+    						immagine.draw( ostr.getX(), ostr.getY(), ray*2, ray*2, cr);
+    					else
+    						immagine.draw( ostr.getX(), ostr.getY(), ray*2, ray*2, cg);
+    			}
+		}
     
     public double getMaxWidth()
     	{ return maxW; }
@@ -194,12 +214,21 @@ public class Bubble extends Ostacolo
                         }
                 }
              
+            /*controllo collisione con i bordi della schermata*/
             if(!collide)
                 {
-                    if(ostr.getX() + 2*ray >= maxW || ostr.getX() <= 0)
-                        speedX = -speedX;
-                    if(ostr.getY() + 2*ray >= maxH || ostr.getY() <= 0)
-                        speedY = -speedY;
+                    if(ostr.getX() + 2*ray >= maxW)
+                    	if(speedX > 0)
+                    		speedX = -speedX;
+                    if(ostr.getX() <= 0)
+                    	if(speedX < 0)
+                    		speedX = -speedX;
+                    if(ostr.getY() + 2*ray >= maxH)
+                    	if(speedY > 0)
+                    		speedY = -speedY;
+                    if(ostr.getY() <= 0)
+                    	if(speedY < 0)
+                    		speedY = -speedY;
                 }
  
             setCenter( ostr, speedX, speedY );
@@ -220,8 +249,11 @@ public class Bubble extends Ostacolo
         }
     }
 
-	public void setInsert(boolean insert, boolean change) 
-		{}
+    public void setInsert(boolean insert, boolean change)
+		{
+			checkInsert = !change;
+			this.insert = insert;
+		}
 
 	public void update(GameContainer gc, int delta) throws SlickException 
 		{}

@@ -202,12 +202,10 @@ public class Player extends Ostacolo
 			/*inserisce la trasparenza rosso/verde nella modalita' di editing*/
 			if(Start.editGame == 1)
 				if(checkInsert)
-					{
-						if(!insert)
-							pgdx.draw( xPlayer, yPlayer, widthI, height, cr);
-						else
-							pgdx.draw( xPlayer, yPlayer, widthI, height, cg);
-					}
+					if(!insert)
+						pgdx.draw( xPlayer, yPlayer, widthI, height, cr);
+					else
+						pgdx.draw( xPlayer, yPlayer, widthI, height, cg);
 			
 			if(shooting)
 				fire.draw();
@@ -309,7 +307,7 @@ public class Player extends Ostacolo
 					fire.update();
 					
 					for(int i = 0; i < InGame.ostacoli.size(); i++)
-						if(fire.collision( InGame.ostacoli.get( i ), i, InGame.ostacoli.get( i ).ID ))
+						if(fire.collision( InGame.ostacoli.get( i ), InGame.ostacoli.get( i ).ID ))
 							{
 								shooting = false;
 								break;
