@@ -20,7 +20,7 @@ public class Start extends BasicGame
 	private Edit edit;
 	public static ChooseLevel cl;
 	
-	public static int chooseLevel = 0, startGame = 0, editGame = 0, endGame = 0;
+	public static int chooseLevel, startGame, editGame, endGame;
 	public static int begin = 1;
 	
 	public Start( String title )

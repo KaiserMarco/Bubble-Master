@@ -23,7 +23,7 @@ public class Edit
 {
 	private Ostacolo temp;
 	private int tempX, tempY;
-	private SimpleButton finish, saveLevel, chooseLevel;
+	private SimpleButton saveLevel, chooseLevel, back;
 	
 	private int ray = 25;
 	
@@ -60,8 +60,8 @@ public class Edit
 			down = new Image( "./data/Image/down.png" );
 			widthArrow = gc.getWidth()/15;
 			heightArrow = gc.getHeight()/40;
-					
-			finish = new SimpleButton( gc.getWidth()/4, gc.getHeight()*17/18, "FINISH", Color.orange );
+
+			back = new SimpleButton( gc.getWidth()/15, gc.getHeight()*17/18, "INDIETRO", Color.orange );
 			saveLevel = new SimpleButton( gc.getWidth()*3/4, gc.getHeight()*17/18, "SALVA LIVELLO", Color.orange );
 			chooseLevel = new SimpleButton( gc.getWidth()/2, gc.getHeight()*17/18, "SCEGLI LIVELLO", Color.orange );
 			
@@ -99,7 +99,7 @@ public class Edit
 			if(temp != null)
 				temp.draw( g );
 			
-			finish.draw( g );
+			back.draw( g );
 			saveLevel.draw( g );
 			chooseLevel.draw( g );
 			
@@ -212,6 +212,12 @@ public class Edit
 						{
 							insertEditor = !insertEditor;
 							setChoise( gc );
+						}
+					else if(back.checkClick( mouseX, mouseY ))
+						{
+							ostacoli.clear();
+							Start.editGame = 0;
+							Start.begin = 1;
 						}
 					else if(saveLevel.checkClick( mouseX, mouseY ))
 						{

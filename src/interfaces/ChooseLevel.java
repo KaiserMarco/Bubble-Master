@@ -16,7 +16,7 @@ public class ChooseLevel
 {	
 	private int pos = 0;
 	
-	private SimpleButton left, right, start;
+	private SimpleButton left, right, start, back;
 	
 	private Sfondo sfondo;
 	
@@ -25,6 +25,7 @@ public class ChooseLevel
 			left = new SimpleButton( gc.getWidth()/400, gc.getHeight()/2, "left", Color.orange );
 			right = new SimpleButton( gc.getWidth() - 60, gc.getHeight()/2, "right", Color.orange );
 			start = new SimpleButton( gc.getWidth()/2 - 20, gc.getHeight()*4/5 - 20, "start", Color.orange );
+			back = new SimpleButton( gc.getWidth()/15, gc.getHeight()*17/18, "INDIETRO", Color.orange );
 		}
 	
 	public void draw( GameContainer gc ) throws SlickException
@@ -39,6 +40,7 @@ public class ChooseLevel
 			left.draw( gc.getGraphics() );
 			right.draw( gc.getGraphics() );
 			start.draw( gc.getGraphics() );
+			back.draw( gc.getGraphics() );
 		}
 	
 	public int getIndexLevel()
@@ -47,16 +49,20 @@ public class ChooseLevel
 	public void update( GameContainer gc ) throws SlickException
 		{
 			Input input = gc.getInput();
-			boolean pressed = input.isMousePressed(Input.MOUSE_LEFT_BUTTON);
 			int mouseX = input.getMouseX();
 			int mouseY = input.getMouseY();
 			
-			if(pressed)
+			if(input.isMousePressed(Input.MOUSE_LEFT_BUTTON))
 				{
 					if(left.checkClick( mouseX, mouseY ))
 						pos = Math.max( pos - 1, 0 );
 					else if(right.checkClick( mouseX, mouseY ))
 						pos = Math.min( pos + 1, Begin.livelli.size() - 1);
+					else if(back.checkClick( mouseX, mouseY ))
+						{
+							Start.chooseLevel = 0;
+							Start.begin = 1;
+						}
 					else if(start.checkClick( mouseX, mouseY ))
 						{
 							Start.ig.addOstacoli( Begin.livelli.get( pos ).getElements(), Begin.livelli.get( pos ).getImage() );
