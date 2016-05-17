@@ -175,10 +175,18 @@ public class Edit
 			Input input = gc.getInput();
 			int mouseX = input.getMouseX();
 			int mouseY = input.getMouseY();
+			int move = 2;
 			
 			boolean collide = false;
 			
 			int winner = -1;
+			
+			if(input.isKeyPressed( Input.KEY_ESCAPE ))
+				{
+					Start.editGame = 0;
+					Start.begin = 1;
+					temp = null;
+				}
 			
 			if(temp != null)
 				{
@@ -206,7 +214,7 @@ public class Edit
 						temp.setInsert( true, false );
 				}
 	
-			if(input.isMousePressed( Input.MOUSE_LEFT_BUTTON ))
+			if(input.isMousePressed( Input.MOUSE_LEFT_BUTTON )|| input.isKeyPressed( Input.KEY_ENTER ))
 				{
 					if(choise.contains( mouseX, mouseY ))
 						{
@@ -273,9 +281,9 @@ public class Edit
 					temp = null;
 				}
 			
-			/*posizionamento del giocatore nel gioco*/
+			/*posizionamento degli oggetti nel gioco*/
 			if(temp != null)
-				if(tempX != mouseX || tempY != mouseY)
+				if(true)
 					{					
 						if(temp.ID.startsWith( "player" ))
 							{
@@ -296,7 +304,18 @@ public class Edit
 							}
 	
 						else
-							temp.setXY( mouseX - tempX, mouseY - tempY, "move" );
+							{
+								if(input.isKeyDown( Input.KEY_RIGHT ))
+										temp.setXY( move, 0, "move" );
+								if(input.isKeyDown( Input.KEY_LEFT ))
+									temp.setXY( -move, 0, "move" );
+								if(input.isKeyDown( Input.KEY_UP ))
+									temp.setXY( 0, -move, "move" );
+								if(input.isKeyDown( Input.KEY_DOWN ))
+									temp.setXY( 0, move, "move" );
+								else									
+									temp.setXY( mouseX - tempX, mouseY - tempY, "move" );
+							}
 						
 						if(temp.getX() <= 0)
 							temp.setXY( 0, temp.getY(), "restore" );

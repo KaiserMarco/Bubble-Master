@@ -71,23 +71,20 @@ public class Begin
 	public void update(GameContainer gc, int delta) throws SlickException 
 		{
 			Input input = gc.getInput();
-			if(input.isMousePressed(Input.MOUSE_LEFT_BUTTON))
-				{
-					int mouseX = input.getMouseX();
-					int mouseY = input.getMouseY();
+			int mouseX = input.getMouseX();
+			int mouseY = input.getMouseY();
 
-					if(editor.checkClick( mouseX, mouseY ))
+			if((editor.checkClick( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )) || input.isKeyPressed( Input.KEY_UP ))
+				{
+					Start.begin = 0;
+					Start.editGame = 1;
+				}
+			else if((choose.checkClick( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )) || input.isKeyPressed( Input.KEY_DOWN ))
+				{
+					if(livelli.size() > 0)
 						{
 							Start.begin = 0;
-							Start.editGame = 1;
-						}
-					else if(choose.checkClick( mouseX, mouseY ))
-						{
-							if(livelli.size() > 0)
-								{
-									Start.begin = 0;
-									Start.chooseLevel = 1;
-								}
+							Start.chooseLevel = 1;
 						}
 				}
 		}
