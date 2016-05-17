@@ -40,7 +40,7 @@ public class Begin
 			
 			/*livello 1*/
 			ost.add( new Sbarra( 100, 50 ) );
-			ost.add( new Bubble( 170, 90, 25, (int) sfondo.getMaxHeight() ) );
+			ost.add( new Bubble( 170, 90, 25, (int) sfondo.getMaxWidth() ) );
 			ost.add( new Player( 150, (int)sfondo.getMaxHeight() - 70, 0 ) );
 			
 			livelli.add( new Livello( ost, sfondo ) );

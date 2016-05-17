@@ -54,6 +54,7 @@ public class Player extends Ostacolo
 	private Image right[], left[], saltoDx[], saltoSx[];
 	
 	private float animTimeMove = 504, reachDelta = 0, animTimeJump = 396, reachDeltaJump = 0;
+	private int countShot;
 	
 	private SpriteSheet sheetDx = new SpriteSheet( new Image( "./data/Image/animdx.png" ), 324, 41 );
 	private SpriteSheet sheetSx = new SpriteSheet( new Image( "./data/Image/animsx.png" ), 324, 41 );	
@@ -99,6 +100,8 @@ public class Player extends Ostacolo
 					saltoDx[i] = sheetJumpDx.getSubImage( widthJ * i, 0, widthJ, heightJ );
 					saltoSx[i] = sheetJumpSx.getSubImage( sheetJumpSx.getWidth() - widthJ * (i + 1), 0, widthJ, heightJ );
 				}
+			
+			countShot = 0;
 		}
 	
 	public void draw( Graphics g ) throws SlickException
@@ -297,14 +300,15 @@ public class Player extends Ostacolo
 					dir = 1;
 					setXY( -move, 0, "move" );
 				}
-			if(input.isKeyPressed( Input.KEY_S ) && !shooting)
+			if(input.isKeyPressed( Input.KEY_S ) && !shooting && Start.startGame == 1)
 	            {
 	                shooting = true;
 	                fire.setXY( xPlayer + width/2 - fire.getWidth()/2, yPlayer + height - 1 );
 	            }
 			if(shooting)
-				{					
-					fire.update();
+				{
+					if(++countShot % 2 == 0)
+						fire.update();
 					
 					for(int i = 0; i < InGame.ostacoli.size(); i++)
 						if(fire.collision( InGame.ostacoli.get( i ), InGame.ostacoli.get( i ).ID ))
@@ -330,7 +334,7 @@ public class Player extends Ostacolo
 						}
 				}
 
-			if(movingDx || movingSx || movingJ)
+			if((movingDx || movingSx || movingJ) && Start.startGame == 1)
 				{
 					/*controlla se non sono stati superati i limiti della schermata*/
 					if(area.getX() + width > gc.getWidth())

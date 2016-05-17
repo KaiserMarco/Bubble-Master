@@ -4,8 +4,10 @@ import java.util.ArrayList;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 
+import bubbleMaster.Start;
 import DataEntites.Sfondo;
 import dataObstacles.Bubble;
 import dataObstacles.Ostacolo;
@@ -67,6 +69,12 @@ public class InGame
 	
 	public void update(GameContainer gc, int delta) throws SlickException
 		{
+			if(gc.getInput().isKeyPressed( Input.KEY_ESCAPE ))
+				{
+					Start.startGame = 0;
+					Start.begin = 1;
+				}
+		
 			for(int i = 0; i < players.size(); i++)
 				players.get( i ).update( gc, delta );
 			

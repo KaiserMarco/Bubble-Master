@@ -63,7 +63,7 @@ public class Edit
 
 			back = new SimpleButton( gc.getWidth()/15, gc.getHeight()*17/18, "INDIETRO", Color.orange );
 			saveLevel = new SimpleButton( gc.getWidth()*3/4, gc.getHeight()*17/18, "SALVA LIVELLO", Color.orange );
-			chooseLevel = new SimpleButton( gc.getWidth()/2, gc.getHeight()*17/18, "SCEGLI LIVELLO", Color.orange );
+			chooseLevel = new SimpleButton( gc.getWidth()*2/5, gc.getHeight()*17/18, "SCEGLI LIVELLO", Color.orange );
 			
 			temp = null;
 			
@@ -86,6 +86,7 @@ public class Edit
 			heightBase = (int) (gc.getHeight()/1.04);
 			choise = new Rectangle( gc.getWidth()/2 - widthChoise/2, gc.getHeight() - heightChoise, widthChoise, heightChoise );
 			base = new Rectangle( gc.getWidth()/2 - widthBase/2, gc.getHeight()/24, widthBase, heightBase );
+			
 			insertEditor = false;
 		}
 	
@@ -185,21 +186,20 @@ public class Edit
 						collide = true;
 					else
 						for(int i = 0; i < ostacoli.size(); i++)
-							{
-								if(!temp.ID.startsWith( "player" ))
+							if(!temp.ID.startsWith( "player" ))
 									{
 										if(temp.component( "rect" ).intersects( ostacoli.get( i ).component( "rect" ) ))
 											collide = true;
 									}
-								else if(!ostacoli.get( i ).ID.equals( "sbarra" ))
-									{
-										if(temp.component( "rect" ).intersects( ostacoli.get( i ).component( "rect" ) ))
-											collide = true;
-									}
-								else if(ostacoli.get( i ).ID.equals( "sbarra" ))
-									if(temp.component( "rect" ).intersects( ostacoli.get( i ).component( "latoGiu" ) ))
+							else if(!ostacoli.get( i ).ID.equals( "sbarra" ))
+								{
+									if(temp.component( "rect" ).intersects( ostacoli.get( i ).component( "rect" ) ))
 										collide = true;
-							}
+								}
+							else if(ostacoli.get( i ).ID.equals( "sbarra" ))
+								if(temp.component( "rect" ).intersects( ostacoli.get( i ).component( "latoGiu" ) ))
+									collide = true;
+					
 					if(collide)
 						temp.setInsert( false, false );
 					else
@@ -216,6 +216,7 @@ public class Edit
 					else if(back.checkClick( mouseX, mouseY ))
 						{
 							ostacoli.clear();
+							
 							Start.editGame = 0;
 							Start.begin = 1;
 						}

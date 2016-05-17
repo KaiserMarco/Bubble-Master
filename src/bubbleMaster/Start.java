@@ -75,5 +75,9 @@ public class Start extends BasicGame
 				e.update( gc );
 			else if(chooseLevel == 1)
 				cl.update( gc );
+			
+			gc.getInput().clearKeyPressedRecord();
+			gc.getInput().clearMousePressedRecord();
+			gc.getInput().clearControlPressedRecord();
 		}
 }
