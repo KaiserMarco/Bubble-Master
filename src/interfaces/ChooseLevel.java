@@ -56,7 +56,7 @@ public class ChooseLevel
 				pos = Math.max( pos - 1, 0 );
 			else if((right.checkClick( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )) || input.isKeyPressed( Input.KEY_RIGHT ))
 				pos = Math.min( pos + 1, Begin.livelli.size() - 1);
-			else if((back.checkClick( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )) || input.isKeyPressed( Input.KEY_BACK ))
+			else if((back.checkClick( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )) || input.isKeyPressed( Input.KEY_ESCAPE ))
 				{
 					Start.chooseLevel = 0;
 					Start.begin = 1;
