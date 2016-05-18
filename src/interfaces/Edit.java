@@ -29,6 +29,7 @@ public class Edit
 	
 	private ArrayList<Ostacolo> items;	
 	private ArrayList<Ostacolo> ostacoli;
+	private ArrayList<Ostacolo> tmpOst;
 	
 	private ArrayList<Sfondo> sfondi;
 	
@@ -62,7 +63,7 @@ public class Edit
 			heightArrow = gc.getHeight()/40;
 
 			chooseLevel = new SimpleButton( gc.getWidth()/15, gc.getHeight()*17/18, "SCEGLI LIVELLO", Color.orange );
-			back = new SimpleButton( gc.getWidth()*2/5, gc.getHeight()*17/18, "INDIETRO", Color.orange );
+			back = new SimpleButton( gc.getWidth()/15, gc.getHeight()*17/18, "INDIETRO", Color.orange );
 			saveLevel = new SimpleButton( gc.getWidth()*3/4, gc.getHeight()*17/18, "SALVA LIVELLO", Color.orange );
 			
 			temp = null;
@@ -88,6 +89,8 @@ public class Edit
 			base = new Rectangle( gc.getWidth()/2 - widthBase/2, gc.getHeight()/24, widthBase, heightBase );
 			
 			insertEditor = false;
+			
+			tmpOst = new ArrayList<Ostacolo>();
 		}
 	
 	public void draw( GameContainer gc, Graphics g ) throws SlickException
@@ -177,7 +180,9 @@ public class Edit
 			int mouseY = input.getMouseY();
 			int move = 2;
 			
-			boolean collide = false;
+			tmpOst.clear();
+			
+			boolean collide = false, fall = false;
 			
 			int winner = -1;
 			
@@ -186,6 +191,7 @@ public class Edit
 					Start.editGame = 0;
 					Start.begin = 1;
 					ostacoli.clear();
+					temp = null;
 				}
 			
 			if(temp != null)
@@ -213,38 +219,112 @@ public class Edit
 						temp.setInsert( false, false );
 					else
 						temp.setInsert( true, false );
-					
-					/*posizionamento degli oggetti nel gioco*/					
-					if(temp.ID.startsWith( "player" ))
+
+					/*posizionamento degli oggetti nel gioco*/
+					if(input.isKeyDown( Input.KEY_RIGHT ))
 						{
-							double tmp = gc.getHeight();
-							for(int i = 0; i < ostacoli.size(); i++)
-								if(mouseY < ostacoli.get( i ).getY())
-									if(mouseX > ostacoli.get( i ).getX() && mouseX < ostacoli.get( i ).getX() + ostacoli.get( i ).getWidth())
-										if(Math.abs( mouseY - ostacoli.get( i ).getY() ) < tmp)
-											{
-												tmp = Math.abs( mouseY - ostacoli.get( i ).getY() );
-												winner = i;
-											}
-							
-							if(winner == -1)
-								temp.setXY( mouseX - (int) temp.getWidth()/2, (int) (sfondi.get( indexSfondo ).getMaxHeight() - temp.getHeight()), "restore" );
-							else
-								temp.setXY( mouseX - (int) temp.getWidth()/2, (int) (ostacoli.get( winner ).getY() - temp.getHeight()), "restore" );
+							int stay = -1;
+							if(temp.getY() < sfondi.get( indexSfondo ).getMaxHeight())
+								for(int i = 0; i < ostacoli.size(); i++)
+									if(temp.component( "" ).intersects( ostacoli.get( i ).component( "rect" ) ))
+										stay = i;
+							temp.setXY( move, 0, "move" );
+							if(stay == -1 || !temp.component( "" ).intersects( ostacoli.get( stay ).component( "rect" ) ))
+								fall = true;
 						}
-	
-					else
+					if(input.isKeyDown( Input.KEY_LEFT ))
 						{
-							if(input.isKeyDown( Input.KEY_RIGHT ))
-								temp.setXY( move, 0, "move" );
-							if(input.isKeyDown( Input.KEY_LEFT ))
-								temp.setXY( -move, 0, "move" );
-							if(input.isKeyDown( Input.KEY_UP ))
-								temp.setXY( 0, -move, "move" );
-							if(input.isKeyDown( Input.KEY_DOWN ))
-								temp.setXY( 0, move, "move" );
-							else if(mouseX != tempX || mouseY != tempY)				
-								temp.setXY( mouseX - (int) temp.getWidth()/2, mouseY - (int) temp.getHeight()/2, "restore" );
+							int stay = -1;
+							if(temp.getY() < sfondi.get( indexSfondo ).getMaxHeight())
+								for(int i = 0; i < ostacoli.size(); i++)
+									if(temp.component( "" ).intersects( ostacoli.get( i ).component( "rect" ) ))
+										stay = i;
+							temp.setXY( -move, 0, "move" );
+							if(stay == -1 || !temp.component( "" ).intersects( ostacoli.get( stay ).component( "rect" ) ))
+								fall = true;
+						}
+					if(input.isKeyPressed( Input.KEY_UP ))
+						{
+							if(temp.ID.startsWith( "player" ))
+								{
+									for(int i = 0; i < ostacoli.size(); i++)
+										if(!temp.ID.equals( "bolla" ))
+											if(ostacoli.get( i ).getY() < temp.getY())
+												if((temp.getX() > ostacoli.get( i ).getX() && temp.getX() + temp.getWidth() < ostacoli.get( i ).getMaxX())
+												|| (temp.getX() > ostacoli.get( i ).getX() && temp.getX() < ostacoli.get( i ).getMaxX() && temp.getX() + temp.getWidth() > ostacoli.get( i ).getMaxX())
+												|| (temp.getX() < ostacoli.get( i ).getX() && temp.getX() < ostacoli.get( i ).getMaxX() && temp.getX() + temp.getWidth() > ostacoli.get( i ).getX())
+												|| (temp.getX() < ostacoli.get( i ).getX() && temp.getX() + temp.getWidth() > ostacoli.get( i ).getMaxX()))
+													tmpOst.add( ostacoli.get( i ) );
+									
+									if(tmpOst != null)
+										{
+											int min = 0, indMin = -1;
+											for(int i = 0; i < tmpOst.size(); i++)
+												if(tmpOst.get( i ).getY() > min)
+													{
+														min = tmpOst.get( i ).getY();
+														indMin = i;
+													}
+											if(indMin >= 0)
+												temp.setXY( temp.getX(), (int) (tmpOst.get( indMin ).getY() - temp.getHeight()), "restore" );
+										}
+								}
+						}
+					if(input.isKeyDown( Input.KEY_UP ))
+						if(!temp.ID.startsWith( "player" ))								
+							temp.setXY( 0, -move, "move" );
+					if(input.isKeyPressed( Input.KEY_DOWN ) || fall)
+						{
+							if(temp.ID.startsWith( "player" ))
+								{
+									for(int i = 0; i < ostacoli.size(); i++)
+										if(!temp.ID.equals( "bolla" ))
+											if(ostacoli.get( i ).getY() > temp.getY())
+												if((temp.getX() > ostacoli.get( i ).getX() && temp.getX() + temp.getWidth() < ostacoli.get( i ).getMaxX())
+												|| (temp.getX() < ostacoli.get( i ).getX() && temp.getX() + temp.getWidth() > ostacoli.get( i ).getMaxX()))
+													if(!ostacoli.get( i ).component( "rect" ).intersects( temp.component( "" ) ))
+														tmpOst.add( ostacoli.get( i ) );
+									
+									if(tmpOst != null)
+										{
+											int min = gc.getHeight(), indMin = -1;
+											for(int i = 0; i < tmpOst.size(); i++)
+												if(tmpOst.get( i ).getY() < min)
+													{
+														min = tmpOst.get( i ).getY();
+														indMin = i;
+													}											
+													
+											if(indMin == -1)
+												temp.setXY( temp.getX(), (int) (sfondi.get( indexSfondo ).getMaxHeight() - temp.getHeight()), "restore" );
+											else
+												temp.setXY( temp.getX(), (int) (ostacoli.get( indMin ).getY() - temp.getHeight()), "restore" );
+										}
+								}
+						}
+					if(input.isKeyDown( Input.KEY_DOWN ))
+						if(!temp.ID.startsWith( "player" ))
+							temp.setXY( 0, move, "move" );
+					if(mouseX != tempX || mouseY != tempY)	
+						{
+							temp.setXY( mouseX - (int) temp.getWidth()/2, mouseY - (int) temp.getHeight()/2, "restore" );		
+							if(temp.ID.startsWith( "player" ))
+								{
+									double tmp = gc.getHeight();
+									for(int i = 0; i < ostacoli.size(); i++)
+										if(mouseY < ostacoli.get( i ).getY())
+											if(mouseX > ostacoli.get( i ).getX() && mouseX < ostacoli.get( i ).getX() + ostacoli.get( i ).getWidth())
+												if(Math.abs( mouseY - ostacoli.get( i ).getY() ) < tmp)
+													{
+														tmp = Math.abs( mouseY - ostacoli.get( i ).getY() );
+														winner = i;
+													}
+									
+									if(winner == -1)
+										temp.setXY( mouseX - (int) temp.getWidth()/2, (int) (sfondi.get( indexSfondo ).getMaxHeight() - temp.getHeight()), "restore" );
+									else
+										temp.setXY( mouseX - (int) temp.getWidth()/2, (int) (ostacoli.get( winner ).getY() - temp.getHeight()), "restore" );
+								}
 						}
 					
 					if(temp.getX() <= 0)

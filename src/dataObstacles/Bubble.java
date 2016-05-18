@@ -23,7 +23,7 @@ public class Bubble extends Ostacolo
  
     private int speedX = 1, speedY = 1;
      
-    private Image immagine = new Image( "./data/Image/palla.png" );
+    private Image immagine = new Image( "./data/Image/Palla.png" );
      
     private double maxH;
     private double maxW;
