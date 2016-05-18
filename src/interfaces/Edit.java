@@ -228,6 +228,7 @@ public class Edit
 								for(int i = 0; i < ostacoli.size(); i++)
 									if(temp.component( "" ).intersects( ostacoli.get( i ).component( "rect" ) ))
 										stay = i;
+							
 							temp.setXY( move, 0, "move" );
 							if(stay == -1 || !temp.component( "" ).intersects( ostacoli.get( stay ).component( "rect" ) ))
 								fall = true;
@@ -239,6 +240,7 @@ public class Edit
 								for(int i = 0; i < ostacoli.size(); i++)
 									if(temp.component( "" ).intersects( ostacoli.get( i ).component( "rect" ) ))
 										stay = i;
+							
 							temp.setXY( -move, 0, "move" );
 							if(stay == -1 || !temp.component( "" ).intersects( ostacoli.get( stay ).component( "rect" ) ))
 								fall = true;
