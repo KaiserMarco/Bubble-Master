@@ -185,7 +185,7 @@ public class Edit
 				{
 					Start.editGame = 0;
 					Start.begin = 1;
-					temp = null;
+					ostacoli.clear();
 				}
 			
 			if(temp != null)
@@ -274,9 +274,18 @@ public class Edit
 							
 							temp = null;
 						}
+					else if(input.isMousePressed( Input.MOUSE_LEFT_BUTTON )|| input.isKeyPressed( Input.KEY_ENTER ))
+						{
+							if(!collide)
+								{
+									temp.setInsert( true, true );
+									ostacoli.add( temp );
+									temp = null;
+								}
+						}
 				}
 			
-			if(temp == null)
+			else if(temp == null)
 				{
 					if(input.isKeyPressed( Input.KEY_UP ) || (choise.contains( mouseX, mouseY )&& !insertEditor && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )))
 						{
@@ -314,23 +323,13 @@ public class Edit
 							Start.editGame = 0;
 							Start.begin = 1;
 						}
-				}
-	
-			if(input.isMousePressed( Input.MOUSE_LEFT_BUTTON )|| input.isKeyPressed( Input.KEY_ENTER ))
-				{
-					if(temp == null)
+					else if(input.isMousePressed( Input.MOUSE_LEFT_BUTTON )|| input.isKeyPressed( Input.KEY_ENTER ))
 						{
 							if(checkPressed( mouseX, mouseY ))
 								{
 									insertEditor = false;
 									choise.setLocation( choise.getX(), gc.getHeight() - heightChoise );
 								}
-						}
-					else if(!collide)
-						{
-							temp.setInsert( true, true );
-							ostacoli.add( temp );
-							temp = null;
 						}
 				}
 		}
