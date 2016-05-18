@@ -234,6 +234,7 @@ public class Player extends Ostacolo
 				}
 			
 			area.setLocation( xPlayer, yPlayer );
+			//System.out.println( "y = " + y + " yPlayer = " + yPlayer );
 		}
 	
 	public void setMaxHeight( double val )

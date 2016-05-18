@@ -185,6 +185,7 @@ public class Edit
 			boolean collide = false, fall = false;
 			
 			int winner = -1;
+			int stay = -1;
 			
 			if(input.isKeyPressed( Input.KEY_ESCAPE ))
 				{
@@ -220,37 +221,21 @@ public class Edit
 					else
 						temp.setInsert( true, false );
 
+					if(temp.ID.startsWith( "player" ))
+						if(temp.getY() + temp.getHeight() < sfondi.get( indexSfondo ).getMaxHeight() - 1)
+							for(int i = 0; i < ostacoli.size(); i++)
+								if(temp.component( "" ).intersects( ostacoli.get( i ).component( "rect" ) ))
+									{
+										stay = i;
+										break;
+									}
 					/*posizionamento degli oggetti nel gioco*/
 					if(input.isKeyDown( Input.KEY_RIGHT ))
-						{
-							int stay = -1;
-							if(temp.getY() < sfondi.get( indexSfondo ).getMaxHeight())
-								for(int i = 0; i < ostacoli.size(); i++)
-									if(temp.component( "" ).intersects( ostacoli.get( i ).component( "rect" ) ))
-										{
-											stay = i;
-											break;
-										}
-							
-							temp.setXY( move, 0, "move" );
-							if(stay == -1 || !temp.component( "" ).intersects( ostacoli.get( stay ).component( "rect" ) ))
-								fall = true;
-						}
+						temp.setXY( move, 0, "move" );
 					if(input.isKeyDown( Input.KEY_LEFT ))
-						{
-							int stay = -1;
-							if(temp.getY() < sfondi.get( indexSfondo ).getMaxHeight())
-								for(int i = 0; i < ostacoli.size(); i++)
-									if(temp.component( "" ).intersects( ostacoli.get( i ).component( "rect" ) ))
-										{
-											stay = i;
-											break;
-										}
-							
-							temp.setXY( -move, 0, "move" );
-							if(stay == -1 || !temp.component( "" ).intersects( ostacoli.get( stay ).component( "rect" ) ))
-								fall = true;
-						}
+						temp.setXY( -move, 0, "move" );
+					if(stay == -1 || (!temp.component( "" ).intersects( ostacoli.get( stay ).component( "rect" ) ) && temp.ID.startsWith( "player" )))
+						fall = true;
 					if(input.isKeyPressed( Input.KEY_UP ))
 						{
 							if(temp.ID.startsWith( "player" ))
@@ -259,10 +244,10 @@ public class Edit
 										if(!temp.ID.equals( "bolla" ))
 											if(ostacoli.get( i ).getY() < temp.getY())
 												if((temp.getX() > ostacoli.get( i ).getX() && temp.getX() + temp.getWidth() < ostacoli.get( i ).getMaxX())
-												|| (temp.getX() > ostacoli.get( i ).getX() && temp.getX() < ostacoli.get( i ).getMaxX() && temp.getX() + temp.getWidth() > ostacoli.get( i ).getMaxX())
-												|| (temp.getX() < ostacoli.get( i ).getX() && temp.getX() < ostacoli.get( i ).getMaxX() && temp.getX() + temp.getWidth() > ostacoli.get( i ).getX())
-												|| (temp.getX() < ostacoli.get( i ).getX() && temp.getX() + temp.getWidth() > ostacoli.get( i ).getX()))
-													tmpOst.add( ostacoli.get( i ) );
+												|| (temp.getX() < ostacoli.get( i ).getX() && temp.getX() + temp.getWidth() < ostacoli.get( i ).getMaxX())
+												|| (temp.getX() < ostacoli.get( i ).getMaxX() && temp.getX() + temp.getWidth() > ostacoli.get( i ).getMaxX()))
+													if(!temp.component( "rect" ).intersects( ostacoli.get( i ).component( "rect" ) ))
+														tmpOst.add( ostacoli.get( i ) );
 									
 									if(tmpOst != null)
 										{
@@ -274,7 +259,10 @@ public class Edit
 														indMin = i;
 													}
 											if(indMin >= 0)
-												temp.setXY( temp.getX(), (int) (tmpOst.get( indMin ).getY() - temp.getHeight()), "restore" );
+												{
+													temp.setXY( temp.getX(), (int) (tmpOst.get( indMin ).getY() - temp.getHeight()), "restore" );
+													System.out.println( "ostY = " +tmpOst.get( indMin ).getY() + " yPlay = " + temp.getY() );
+												}
 										}
 								}
 						}
@@ -289,10 +277,9 @@ public class Edit
 										if(!temp.ID.equals( "bolla" ))
 											if(ostacoli.get( i ).getY() > temp.getY())
 												if((temp.getX() > ostacoli.get( i ).getX() && temp.getX() + temp.getWidth() < ostacoli.get( i ).getMaxX())
-												|| (temp.getX() > ostacoli.get( i ).getX() && temp.getX() < ostacoli.get( i ).getMaxX() && temp.getX() + temp.getWidth() > ostacoli.get( i ).getMaxX())
-												|| (temp.getX() < ostacoli.get( i ).getX() && temp.getX() < ostacoli.get( i ).getMaxX() && temp.getX() + temp.getWidth() > ostacoli.get( i ).getX())
-												|| (temp.getX() < ostacoli.get( i ).getX() && temp.getX() + temp.getWidth() > ostacoli.get( i ).getX()))
-													if(!ostacoli.get( i ).component( "rect" ).intersects( temp.component( "" ) ))
+												|| (temp.getX() < ostacoli.get( i ).getX() && temp.getX() + temp.getWidth() < ostacoli.get( i ).getMaxX())
+												|| (temp.getX() < ostacoli.get( i ).getMaxX() && temp.getX() + temp.getWidth() > ostacoli.get( i ).getMaxX()))
+													if(!temp.component( "rect" ).intersects( ostacoli.get( i ).component( "rect" ) ))
 														tmpOst.add( ostacoli.get( i ) );
 									
 									if(tmpOst != null)
@@ -370,6 +357,8 @@ public class Edit
 								{
 									temp.setInsert( true, true );
 									ostacoli.add( temp );
+									if(temp.ID.equals( "sbarra" ))
+										System.out.print( temp.getY() );
 									temp = null;
 								}
 						}
