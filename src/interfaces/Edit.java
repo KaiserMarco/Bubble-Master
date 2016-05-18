@@ -213,6 +213,67 @@ public class Edit
 						temp.setInsert( false, false );
 					else
 						temp.setInsert( true, false );
+					
+					/*posizionamento degli oggetti nel gioco*/					
+					if(temp.ID.startsWith( "player" ))
+						{
+							double tmp = gc.getHeight();
+							for(int i = 0; i < ostacoli.size(); i++)
+								if(mouseY < ostacoli.get( i ).getY())
+									if(mouseX > ostacoli.get( i ).getX() && mouseX < ostacoli.get( i ).getX() + ostacoli.get( i ).getWidth())
+										if(Math.abs( mouseY - ostacoli.get( i ).getY() ) < tmp)
+											{
+												tmp = Math.abs( mouseY - ostacoli.get( i ).getY() );
+												winner = i;
+											}
+							
+							if(winner == -1)
+								temp.setXY( mouseX - (int) temp.getWidth()/2, (int) (sfondi.get( indexSfondo ).getMaxHeight() - temp.getHeight()), "restore" );
+							else
+								temp.setXY( mouseX - (int) temp.getWidth()/2, (int) (ostacoli.get( winner ).getY() - temp.getHeight()), "restore" );
+						}
+	
+					else
+						{
+							if(input.isKeyDown( Input.KEY_RIGHT ))
+								temp.setXY( move, 0, "move" );
+							if(input.isKeyDown( Input.KEY_LEFT ))
+								temp.setXY( -move, 0, "move" );
+							if(input.isKeyDown( Input.KEY_UP ))
+								temp.setXY( 0, -move, "move" );
+							if(input.isKeyDown( Input.KEY_DOWN ))
+								temp.setXY( 0, move, "move" );
+							else if(mouseX != tempX || mouseY != tempY)				
+								temp.setXY( mouseX - (int) temp.getWidth()/2, mouseY - (int) temp.getHeight()/2, "restore" );
+						}
+					
+					if(temp.getX() <= 0)
+						temp.setXY( 0, temp.getY(), "restore" );
+					else if(temp.ID.equals( "bolla" ))
+						{
+							if(temp.getX() + 2*temp.getWidth() >= gc.getWidth())
+								temp.setXY( gc.getWidth() - 2 * (int) temp.getWidth(), temp.getY(), "restore" );
+						}
+					else if(temp.getX() + temp.getWidth() >= gc.getWidth())
+						temp.setXY( gc.getWidth() - (int) temp.getWidth(), temp.getY(), "restore" );
+					
+					if(temp.getY() <= 0)
+						temp.setXY( temp.getX(), 0, "restore" );
+					
+					tempX = mouseX;
+					tempY = mouseY;
+					
+					/*cancellazione oggetti del gioco*/
+					if(input.isMousePressed( Input.MOUSE_RIGHT_BUTTON ) || input.isKeyPressed( Input.KEY_DELETE ))
+						{
+							if(temp.ID.equals( "bolla" ))
+								ball = Math.max( ball - 1, 0);
+							else if(temp.ID.startsWith( "player" ))
+								gamer = Math.max( gamer - 1, 0 );
+							ostacoli.remove( temp );
+							
+							temp = null;
+						}
 				}
 			
 			if(temp == null)
@@ -272,68 +333,5 @@ public class Edit
 							temp = null;
 						}
 				}
-			
-			if((input.isMousePressed( Input.MOUSE_RIGHT_BUTTON ) || input.isKeyPressed( Input.KEY_DELETE )) && temp != null)
-				{
-					if(temp.ID.equals( "bolla" ))
-						ball = Math.max( ball - 1, 0);
-					else if(temp.ID.startsWith( "player" ))
-						gamer = Math.max( gamer - 1, 0 );
-					ostacoli.remove( temp );
-					
-					temp = null;
-				}
-			
-			/*posizionamento degli oggetti nel gioco*/
-			if(temp != null)
-				{					
-					if(temp.ID.startsWith( "player" ))
-						{
-							double tmp = gc.getHeight();
-							for(int i = 0; i < ostacoli.size(); i++)
-								if(mouseY < ostacoli.get( i ).getY())
-									if(mouseX > ostacoli.get( i ).getX() && mouseX < ostacoli.get( i ).getX() + ostacoli.get( i ).getWidth())
-										if(Math.abs( mouseY - ostacoli.get( i ).getY() ) < tmp)
-											{
-												tmp = Math.abs( mouseY - ostacoli.get( i ).getY() );
-												winner = i;
-											}
-							
-							if(winner == -1)
-								temp.setXY( mouseX - (int) temp.getWidth()/2, (int) (sfondi.get( indexSfondo ).getMaxHeight() - temp.getHeight()), "restore" );
-							else
-								temp.setXY( mouseX - (int) temp.getWidth()/2, (int) (ostacoli.get( winner ).getY() - temp.getHeight()), "restore" );
-						}
-
-					else
-						{
-							if(input.isKeyDown( Input.KEY_RIGHT ))
-								temp.setXY( move, 0, "move" );
-							if(input.isKeyDown( Input.KEY_LEFT ))
-								temp.setXY( -move, 0, "move" );
-							if(input.isKeyDown( Input.KEY_UP ))
-								temp.setXY( 0, -move, "move" );
-							if(input.isKeyDown( Input.KEY_DOWN ))
-								temp.setXY( 0, move, "move" );
-							else if(mouseX != tempX || mouseY != tempY)				
-								temp.setXY( mouseX - (int) temp.getWidth()/2, mouseY - (int) temp.getHeight()/2, "restore" );
-						}
-					
-					if(temp.getX() <= 0)
-						temp.setXY( 0, temp.getY(), "restore" );
-					else if(temp.ID.equals( "bolla" ))
-						{
-							if(temp.getX() + 2*temp.getWidth() >= gc.getWidth())
-								temp.setXY( gc.getWidth() - 2 * (int) temp.getWidth(), temp.getY(), "restore" );
-						}
-					else if(temp.getX() + temp.getWidth() >= gc.getWidth())
-						temp.setXY( gc.getWidth() - (int) temp.getWidth(), temp.getY(), "restore" );
-					
-					if(temp.getY() <= 0)
-						temp.setXY( temp.getX(), 0, "restore" );
-					
-					tempX = mouseX;
-					tempY = mouseY;
-				}
-		}	
+		}
 }
