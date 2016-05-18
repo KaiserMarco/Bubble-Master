@@ -190,15 +190,16 @@ public class Edit
 			
 			if(temp != null)
 				{
-					if(temp.getY() + temp.getHeight() > sfondi.get( indexSfondo ).getMaxHeight())
+					if((temp.ID.equals( "bolla" ) && temp.getY() + temp.getHeight()*2 > sfondi.get( indexSfondo ).getMaxHeight())
+					|| (!temp.ID.equals( "bolla" ) && temp.getY() + temp.getHeight() > sfondi.get( indexSfondo ).getMaxHeight()))
 						collide = true;
 					else
 						for(int i = 0; i < ostacoli.size(); i++)
 							if(!temp.ID.startsWith( "player" ))
-									{
-										if(temp.component( "rect" ).intersects( ostacoli.get( i ).component( "rect" ) ))
-											collide = true;
-									}
+								{
+									if(temp.component( "rect" ).intersects( ostacoli.get( i ).component( "rect" ) ))
+										collide = true;
+								}
 							else if(!ostacoli.get( i ).ID.equals( "sbarra" ))
 								{
 									if(temp.component( "rect" ).intersects( ostacoli.get( i ).component( "rect" ) ))
