@@ -227,7 +227,10 @@ public class Edit
 							if(temp.getY() < sfondi.get( indexSfondo ).getMaxHeight())
 								for(int i = 0; i < ostacoli.size(); i++)
 									if(temp.component( "" ).intersects( ostacoli.get( i ).component( "rect" ) ))
-										stay = i;
+										{
+											stay = i;
+											break;
+										}
 							
 							temp.setXY( move, 0, "move" );
 							if(stay == -1 || !temp.component( "" ).intersects( ostacoli.get( stay ).component( "rect" ) ))
@@ -239,7 +242,10 @@ public class Edit
 							if(temp.getY() < sfondi.get( indexSfondo ).getMaxHeight())
 								for(int i = 0; i < ostacoli.size(); i++)
 									if(temp.component( "" ).intersects( ostacoli.get( i ).component( "rect" ) ))
-										stay = i;
+										{
+											stay = i;
+											break;
+										}
 							
 							temp.setXY( -move, 0, "move" );
 							if(stay == -1 || !temp.component( "" ).intersects( ostacoli.get( stay ).component( "rect" ) ))
@@ -255,7 +261,7 @@ public class Edit
 												if((temp.getX() > ostacoli.get( i ).getX() && temp.getX() + temp.getWidth() < ostacoli.get( i ).getMaxX())
 												|| (temp.getX() > ostacoli.get( i ).getX() && temp.getX() < ostacoli.get( i ).getMaxX() && temp.getX() + temp.getWidth() > ostacoli.get( i ).getMaxX())
 												|| (temp.getX() < ostacoli.get( i ).getX() && temp.getX() < ostacoli.get( i ).getMaxX() && temp.getX() + temp.getWidth() > ostacoli.get( i ).getX())
-												|| (temp.getX() < ostacoli.get( i ).getX() && temp.getX() + temp.getWidth() > ostacoli.get( i ).getMaxX()))
+												|| (temp.getX() < ostacoli.get( i ).getX() && temp.getX() + temp.getWidth() > ostacoli.get( i ).getX()))
 													tmpOst.add( ostacoli.get( i ) );
 									
 									if(tmpOst != null)
@@ -283,7 +289,9 @@ public class Edit
 										if(!temp.ID.equals( "bolla" ))
 											if(ostacoli.get( i ).getY() > temp.getY())
 												if((temp.getX() > ostacoli.get( i ).getX() && temp.getX() + temp.getWidth() < ostacoli.get( i ).getMaxX())
-												|| (temp.getX() < ostacoli.get( i ).getX() && temp.getX() + temp.getWidth() > ostacoli.get( i ).getMaxX()))
+												|| (temp.getX() > ostacoli.get( i ).getX() && temp.getX() < ostacoli.get( i ).getMaxX() && temp.getX() + temp.getWidth() > ostacoli.get( i ).getMaxX())
+												|| (temp.getX() < ostacoli.get( i ).getX() && temp.getX() < ostacoli.get( i ).getMaxX() && temp.getX() + temp.getWidth() > ostacoli.get( i ).getX())
+												|| (temp.getX() < ostacoli.get( i ).getX() && temp.getX() + temp.getWidth() > ostacoli.get( i ).getX()))
 													if(!ostacoli.get( i ).component( "rect" ).intersects( temp.component( "" ) ))
 														tmpOst.add( ostacoli.get( i ) );
 									

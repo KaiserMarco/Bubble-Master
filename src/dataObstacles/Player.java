@@ -212,6 +212,8 @@ public class Player extends Ostacolo
 			
 			if(shooting)
 				fire.draw();
+			
+			g.draw( area );
 		}
 
 	public boolean contains( int x, int y )

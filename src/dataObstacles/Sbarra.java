@@ -62,6 +62,9 @@ public class Sbarra extends Ostacolo{
 						immagine.draw( ostr.getX(), ostr.getY(), ostr.getWidth(), ostr.getHeight(), cr);
 					else
 						immagine.draw( ostr.getX(), ostr.getY(), ostr.getWidth(), ostr.getHeight(), cg);
+			
+			g.draw( ostr );
+			g.draw( new Rectangle( ostr.getX(), ostr.getY(), ostr.getMaxX() - ostr.getX(), heigth ) );
 		}
 	
 	public int getX()
@@ -129,7 +132,7 @@ public class Sbarra extends Ostacolo{
 		}
 
 	public float getMaxX()
-		{ return ostr.getMaxX(); }
+		{ return ostr.getX() + width; }
 
 	public void setType(String type) 
 		{}
@@ -138,7 +141,7 @@ public class Sbarra extends Ostacolo{
 		{}
 
 	public Shape getArea()
-		{ return null; }
+		{ return ostr; }
 	
 	public void setMaxHeight( double val )
 		{}
