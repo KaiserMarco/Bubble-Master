@@ -5,6 +5,7 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.UnicodeFont;
+import org.newdawn.slick.font.effects.ColorEffect;
 import org.newdawn.slick.geom.Rectangle;
 
 public class SimpleButton extends Button
@@ -25,14 +26,20 @@ public class SimpleButton extends Button
 	 * @param name - il nome del bottone
 	 * @throws SlickException 
 	*/
-	public SimpleButton( float x, float y, String name, Color color ) throws SlickException
+	@SuppressWarnings("unchecked")
+    public SimpleButton( float x, float y, String name, Color color ) throws SlickException
 		{
 			super();
-	
+			
 			c = color;
 			
-			if(font == null)
-				font = new UnicodeFont( "./data/fonts/prstart.ttf", (int)(15.f * ratioH), false, true );
+			if(font == null) {
+				font = new UnicodeFont( "./data/fonts/prstart.ttf", (int)(10.f * ratioH), false, true );
+				font.addAsciiGlyphs();
+		        font.addGlyphs( 600, 400 );
+		        font.getEffects().add( new ColorEffect( java.awt.Color.WHITE ) );
+		        font.loadGlyphs();
+			}
 			
 			int width = font.getWidth( name ), height = font.getHeight( name );
 			rect = new Rectangle( x, y, width + offset, height + offset );
