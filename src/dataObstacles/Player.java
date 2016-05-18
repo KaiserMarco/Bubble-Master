@@ -212,8 +212,6 @@ public class Player extends Ostacolo
 			
 			if(shooting)
 				fire.draw();
-			
-			g.draw( area );
 		}
 
 	public boolean contains( int x, int y )
@@ -234,7 +232,6 @@ public class Player extends Ostacolo
 				}
 			
 			area.setLocation( xPlayer, yPlayer );
-			//System.out.println( "y = " + y + " yPlayer = " + yPlayer );
 		}
 	
 	public void setMaxHeight( double val )

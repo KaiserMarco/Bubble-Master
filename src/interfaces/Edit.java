@@ -62,9 +62,9 @@ public class Edit
 			widthArrow = gc.getWidth()/15;
 			heightArrow = gc.getHeight()/40;
 
-			chooseLevel = new SimpleButton( gc.getWidth()/15, gc.getHeight()*17/18, "SCEGLI LIVELLO", Color.orange );
-			back = new SimpleButton( gc.getWidth()/15, gc.getHeight()*17/18, "INDIETRO", Color.orange );
-			saveLevel = new SimpleButton( gc.getWidth()*3/4, gc.getHeight()*17/18, "SALVA LIVELLO", Color.orange );
+			chooseLevel = new SimpleButton( gc.getWidth()/15, gc.getHeight()*21/22, "SCEGLI LIVELLO", Color.orange );
+			back = new SimpleButton( gc.getWidth()/15, gc.getHeight()*21/22, "INDIETRO", Color.orange );
+			saveLevel = new SimpleButton( gc.getWidth()*3/4, gc.getHeight()*21/22, "SALVA LIVELLO", Color.orange );
 			
 			temp = null;
 			
@@ -224,7 +224,7 @@ public class Edit
 					if(temp.ID.startsWith( "player" ))
 						if(temp.getY() + temp.getHeight() < sfondi.get( indexSfondo ).getMaxHeight() - 1)
 							for(int i = 0; i < ostacoli.size(); i++)
-								if(temp.component( "" ).intersects( ostacoli.get( i ).component( "rect" ) ))
+								if(temp.component( "rect" ).intersects( ostacoli.get( i ).component( "rect" ) ))
 									{
 										stay = i;
 										break;
@@ -234,7 +234,7 @@ public class Edit
 						temp.setXY( move, 0, "move" );
 					if(input.isKeyDown( Input.KEY_LEFT ))
 						temp.setXY( -move, 0, "move" );
-					if(stay == -1 || (!temp.component( "" ).intersects( ostacoli.get( stay ).component( "rect" ) ) && temp.ID.startsWith( "player" )))
+					if(stay == -1 || (!temp.component( "rect" ).intersects( ostacoli.get( stay ).component( "rect" ) ) && temp.ID.startsWith( "player" )))
 						fall = true;
 					if(input.isKeyPressed( Input.KEY_UP ))
 						{
@@ -259,14 +259,13 @@ public class Edit
 														indMin = i;
 													}
 											if(indMin >= 0)
-												{
-													temp.setXY( temp.getX(), (int) (tmpOst.get( indMin ).getY() - temp.getHeight()), "restore" );
-													System.out.println( "ostY = " +tmpOst.get( indMin ).getY() + " yPlay = " + temp.getY() );
-												}
+												temp.setXY( temp.getX(), (int) (tmpOst.get( indMin ).getY() - temp.getHeight()), "restore" );
+
+											fall = false;
 										}
 								}
 						}
-					if(input.isKeyDown( Input.KEY_UP ))
+					else if(input.isKeyDown( Input.KEY_UP ))
 						if(!temp.ID.startsWith( "player" ))								
 							temp.setXY( 0, -move, "move" );
 					if(input.isKeyPressed( Input.KEY_DOWN ) || fall)
@@ -275,7 +274,7 @@ public class Edit
 								{
 									for(int i = 0; i < ostacoli.size(); i++)
 										if(!temp.ID.equals( "bolla" ))
-											if(ostacoli.get( i ).getY() > temp.getY())
+											if(ostacoli.get( i ).getY() > temp.getY() + temp.getHeight())
 												if((temp.getX() > ostacoli.get( i ).getX() && temp.getX() + temp.getWidth() < ostacoli.get( i ).getMaxX())
 												|| (temp.getX() < ostacoli.get( i ).getX() && temp.getX() + temp.getWidth() < ostacoli.get( i ).getMaxX())
 												|| (temp.getX() < ostacoli.get( i ).getMaxX() && temp.getX() + temp.getWidth() > ostacoli.get( i ).getMaxX()))
@@ -299,7 +298,7 @@ public class Edit
 										}
 								}
 						}
-					if(input.isKeyDown( Input.KEY_DOWN ))
+					else if(input.isKeyDown( Input.KEY_DOWN ))
 						if(!temp.ID.startsWith( "player" ))
 							temp.setXY( 0, move, "move" );
 					if(mouseX != tempX || mouseY != tempY)	
@@ -324,22 +323,6 @@ public class Edit
 								}
 						}
 					
-					if(temp.getX() <= 0)
-						temp.setXY( 0, temp.getY(), "restore" );
-					else if(temp.ID.equals( "bolla" ))
-						{
-							if(temp.getX() + 2*temp.getWidth() >= gc.getWidth())
-								temp.setXY( gc.getWidth() - 2 * (int) temp.getWidth(), temp.getY(), "restore" );
-						}
-					else if(temp.getX() + temp.getWidth() >= gc.getWidth())
-						temp.setXY( gc.getWidth() - (int) temp.getWidth(), temp.getY(), "restore" );
-					
-					if(temp.getY() <= 0)
-						temp.setXY( temp.getX(), 0, "restore" );
-					
-					tempX = mouseX;
-					tempY = mouseY;
-					
 					/*cancellazione oggetti del gioco*/
 					if(input.isMousePressed( Input.MOUSE_RIGHT_BUTTON ) || input.isKeyPressed( Input.KEY_DELETE ))
 						{
@@ -357,10 +340,27 @@ public class Edit
 								{
 									temp.setInsert( true, true );
 									ostacoli.add( temp );
-									if(temp.ID.equals( "sbarra" ))
-										System.out.print( temp.getY() );
 									temp = null;
 								}
+						}
+					/*controllo estremi dello schermo*/
+					if(temp != null)
+						{
+							if(temp.getX() <= 0)
+								temp.setXY( 0, temp.getY(), "restore" );
+							else if(temp.ID.equals( "bolla" ))
+								{
+									if(temp.getX() + 2*temp.getWidth() >= gc.getWidth())
+										temp.setXY( gc.getWidth() - 2 * (int) temp.getWidth(), temp.getY(), "restore" );
+								}
+							else if(temp.getX() + temp.getWidth() >= gc.getWidth())
+								temp.setXY( gc.getWidth() - (int) temp.getWidth(), temp.getY(), "restore" );
+							
+							if(temp.getY() <= 0)
+								temp.setXY( temp.getX(), 0, "restore" );
+							
+							tempX = mouseX;
+							tempY = mouseY;
 						}
 				}
 			
@@ -403,13 +403,11 @@ public class Edit
 							Start.begin = 1;
 						}
 					else if(input.isMousePressed( Input.MOUSE_LEFT_BUTTON )|| input.isKeyPressed( Input.KEY_ENTER ))
-						{
-							if(checkPressed( mouseX, mouseY ))
-								{
-									insertEditor = false;
-									choise.setLocation( choise.getX(), gc.getHeight() - heightChoise );
-								}
-						}
+						if(checkPressed( mouseX, mouseY ))
+							{
+								insertEditor = false;
+								choise.setLocation( choise.getX(), gc.getHeight() - heightChoise );
+							}
 				}
 		}
 }
