@@ -62,9 +62,9 @@ public class Edit
 			widthArrow = gc.getWidth()/15;
 			heightArrow = gc.getHeight()/40;
 
-			chooseLevel = new SimpleButton( gc.getWidth()/15, gc.getHeight()*21/22, "SCEGLI LIVELLO", Color.orange );
-			back = new SimpleButton( gc.getWidth()/15, gc.getHeight()*21/22, "INDIETRO", Color.orange );
-			saveLevel = new SimpleButton( gc.getWidth()*3/4, gc.getHeight()*21/22, "SALVA LIVELLO", Color.orange );
+			chooseLevel = new SimpleButton( gc.getWidth()/15, gc.getHeight()*24/25, "SCEGLI LIVELLO", Color.orange );
+			back = new SimpleButton( gc.getWidth()/15, gc.getHeight()*24/25, "INDIETRO", Color.orange );
+			saveLevel = new SimpleButton( gc.getWidth()*3/4, gc.getHeight()*24/25, "SALVA LIVELLO", Color.orange );
 			
 			temp = null;
 			
@@ -154,21 +154,21 @@ public class Edit
 								}
 						}
 				}
-			
-			for(int i = 0; i < ostacoli.size(); i++)
-				{
-					if(ostacoli.get( i ).contains( x, y ))
-						{
-							temp = ostacoli.get( i );
-							ostacoli.remove( i );
-							temp.setInsert( true, true );
-							
-							tempX = x;
-							tempY = y;
-							
-							return false;
-						}
-				}
+			else
+				for(int i = 0; i < ostacoli.size(); i++)
+					{
+						if(ostacoli.get( i ).contains( x, y ))
+							{
+								temp = ostacoli.get( i );
+								ostacoli.remove( i );
+								temp.setInsert( true, true );
+								
+								tempX = x;
+								tempY = y;
+								
+								return false;
+							}
+					}
 			
 			return false;
 		}
@@ -221,6 +221,7 @@ public class Edit
 					else
 						temp.setInsert( true, false );
 
+					/*controlla che il personaggio non sia posizionato a mezz'aria*/
 					if(temp.ID.startsWith( "player" ))
 						if(temp.getY() + temp.getHeight() < sfondi.get( indexSfondo ).getMaxHeight() - 1)
 							for(int i = 0; i < ostacoli.size(); i++)
@@ -246,8 +247,7 @@ public class Edit
 												if((temp.getX() > ostacoli.get( i ).getX() && temp.getX() + temp.getWidth() < ostacoli.get( i ).getMaxX())
 												|| (temp.getX() < ostacoli.get( i ).getX() && temp.getX() + temp.getWidth() < ostacoli.get( i ).getMaxX())
 												|| (temp.getX() < ostacoli.get( i ).getMaxX() && temp.getX() + temp.getWidth() > ostacoli.get( i ).getMaxX()))
-													if(!temp.component( "rect" ).intersects( ostacoli.get( i ).component( "rect" ) ))
-														tmpOst.add( ostacoli.get( i ) );
+													tmpOst.add( ostacoli.get( i ) );
 									
 									if(tmpOst != null)
 										{
@@ -283,7 +283,7 @@ public class Edit
 									
 									if(tmpOst != null)
 										{
-											int min = gc.getHeight(), indMin = -1;
+											int min = (int) sfondi.get( indexSfondo ).getMaxHeight(), indMin = -1;
 											for(int i = 0; i < tmpOst.size(); i++)
 												if(tmpOst.get( i ).getY() < min)
 													{
@@ -292,7 +292,7 @@ public class Edit
 													}											
 													
 											if(indMin == -1)
-												temp.setXY( temp.getX(), (int) (sfondi.get( indexSfondo ).getMaxHeight() - temp.getHeight()), "restore" );
+												temp.setXY( temp.getX(), (int) (min - temp.getHeight()), "restore" );
 											else
 												temp.setXY( temp.getX(), (int) (ostacoli.get( indMin ).getY() - temp.getHeight()), "restore" );
 										}
@@ -323,6 +323,23 @@ public class Edit
 								}
 						}
 					
+					/*controllo estremi dello schermo*/
+					if(temp.getX() <= 0)
+						temp.setXY( 0, temp.getY(), "restore" );
+					else if(temp.ID.equals( "bolla" ))
+						{
+							if(temp.getX() + 2*temp.getWidth() >= gc.getWidth())
+								temp.setXY( gc.getWidth() - 2 * (int) temp.getWidth(), temp.getY(), "restore" );
+						}
+					else if(temp.getX() + temp.getWidth() >= gc.getWidth())
+						temp.setXY( gc.getWidth() - (int) temp.getWidth(), temp.getY(), "restore" );
+					
+					if(temp.getY() <= 0)
+						temp.setXY( temp.getX(), 0, "restore" );
+					
+					tempX = mouseX;
+					tempY = mouseY;
+					
 					/*cancellazione oggetti del gioco*/
 					if(input.isMousePressed( Input.MOUSE_RIGHT_BUTTON ) || input.isKeyPressed( Input.KEY_DELETE ))
 						{
@@ -342,25 +359,6 @@ public class Edit
 									ostacoli.add( temp );
 									temp = null;
 								}
-						}
-					/*controllo estremi dello schermo*/
-					if(temp != null)
-						{
-							if(temp.getX() <= 0)
-								temp.setXY( 0, temp.getY(), "restore" );
-							else if(temp.ID.equals( "bolla" ))
-								{
-									if(temp.getX() + 2*temp.getWidth() >= gc.getWidth())
-										temp.setXY( gc.getWidth() - 2 * (int) temp.getWidth(), temp.getY(), "restore" );
-								}
-							else if(temp.getX() + temp.getWidth() >= gc.getWidth())
-								temp.setXY( gc.getWidth() - (int) temp.getWidth(), temp.getY(), "restore" );
-							
-							if(temp.getY() <= 0)
-								temp.setXY( temp.getX(), 0, "restore" );
-							
-							tempX = mouseX;
-							tempY = mouseY;
 						}
 				}
 			
