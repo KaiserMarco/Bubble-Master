@@ -78,6 +78,7 @@ public class Begin
 				{
 					Start.begin = 0;
 					Start.editGame = 1;
+					Start.setPreviuosStats( "begin" );
 				}
 			else if((choose.checkClick( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )) || input.isKeyPressed( Input.KEY_UP ))
 				{
@@ -85,6 +86,7 @@ public class Begin
 						{
 							Start.begin = 0;
 							Start.chooseLevel = 1;
+							Start.setPreviuosStats( "begin" );
 						}
 				}
 		}

@@ -23,10 +23,10 @@ public class Start extends BasicGame
 	public static int chooseLevel, startGame, editGame, endGame;
 	public static int begin = 1;
 	
+	private static String previous;
+	
 	public Start( String title )
-		{
-			super( title );
-		}
+		{ super( title ); }
 
 	public static void main( String[] args ) throws SlickException
 		{
@@ -35,6 +35,25 @@ public class Start extends BasicGame
 			app.setTargetFrameRate( 90 );
 			app.setDisplayMode( 800, 600, false );
 			app.start();
+		}
+	
+	/*ricorda i precedenti valori delle interfacce*/
+	public static void setPreviuosStats( String prev )
+		{ previous = prev; }
+	
+	/*setta la precedente interfaccia*/
+	public static void recoverPreviousStats()
+		{
+			if(previous.equals( "chooseLevel" ))
+				chooseLevel = 1;
+			else if(previous.equals( "startGame" ))
+				startGame = 1;
+			else if(previous.equals( "editGame" ))
+				editGame = 1;
+			else if(previous.equals( "endGame" ))
+				endGame = 1;
+			else
+				begin = 1;
 		}
 
 	@Override

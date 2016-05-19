@@ -183,14 +183,23 @@ public class Edit
 			tmpOst.clear();
 			
 			boolean collide = false, fall = false;
-			int stay = -1;
-			
-			if(input.isKeyPressed( Input.KEY_ESCAPE ))
+			int stay = -1;			
+
+			if(input.isKeyPressed( Input.KEY_BACK ) || (back.checkClick( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )))
 				{
-					Start.editGame = 0;
-					Start.begin = 1;
 					ostacoli.clear();
 					temp = null;
+					Start.editGame = 0;
+					Start.recoverPreviousStats();
+					Start.setPreviuosStats( "editGame" );
+				}
+			else if(input.isKeyPressed( Input.KEY_ESCAPE ))
+				{
+					ostacoli.clear();
+					temp = null;
+					Start.editGame = 0;
+					Start.begin = 1;
+					Start.setPreviuosStats( "editGame" );
 				}
 			
 			if(temp != null)
@@ -361,18 +370,13 @@ public class Edit
 						}
 					else if(input.isKeyPressed( Input.KEY_LEFT ) || (chooseLevel.checkClick( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )))
 						{
-							if(Begin.livelli.size() > 0)
+							if(Begin.livelli.size() > 0 && temp == null)
 								{
+									ostacoli.clear();
 									Start.editGame = 0;
 									Start.chooseLevel = 1;
+									Start.setPreviuosStats( "editGame" );
 								}
-						}
-					else if(input.isKeyPressed( Input.KEY_ESCAPE ) || (back.checkClick( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )))
-						{
-							ostacoli.clear();
-							
-							Start.editGame = 0;
-							Start.begin = 1;
 						}
 					else if(input.isMousePressed( Input.MOUSE_LEFT_BUTTON )|| input.isKeyPressed( Input.KEY_ENTER ))
 						if(checkPressed( mouseX, mouseY ))

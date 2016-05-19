@@ -56,10 +56,11 @@ public class ChooseLevel
 				pos = Math.max( pos - 1, 0 );
 			else if((right.checkClick( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )) || input.isKeyPressed( Input.KEY_RIGHT ))
 				pos = Math.min( pos + 1, Begin.livelli.size() - 1);
-			else if((back.checkClick( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )) || input.isKeyPressed( Input.KEY_ESCAPE ))
+			else if((back.checkClick( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )) || input.isKeyPressed( Input.KEY_BACK ))
 				{
 					Start.chooseLevel = 0;
-					Start.begin = 1;
+					Start.recoverPreviousStats();
+					Start.setPreviuosStats( "chooseLevel" );
 				}
 			else if((start.checkClick( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )) || input.isKeyPressed( Input.KEY_ENTER ))
 				{
@@ -67,6 +68,13 @@ public class ChooseLevel
 					
 					Start.chooseLevel = 0;
 					Start.startGame = 1;
+					Start.setPreviuosStats( "chooseLevel" );
+				}
+			else if(input.isKeyPressed( Input.KEY_ESCAPE ))
+				{
+					Start.chooseLevel = 0;
+					Start.begin = 1;
+					Start.setPreviuosStats( "chooseLevel" );
 				}
 		}
 }

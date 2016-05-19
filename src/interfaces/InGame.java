@@ -73,6 +73,7 @@ public class InGame
 				{
 					Start.startGame = 0;
 					Start.begin = 1;
+					Start.setPreviuosStats( "startGame" );
 				}
 		
 			for(int i = 0; i < players.size(); i++)
