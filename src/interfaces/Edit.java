@@ -63,7 +63,7 @@ public class Edit
 			heightArrow = gc.getHeight()/40;
 
 			chooseLevel = new SimpleButton( gc.getWidth()/15, gc.getHeight()*24/25, "SCEGLI LIVELLO", Color.orange );
-			back = new SimpleButton( gc.getWidth()/15, gc.getHeight()*24/25, "INDIETRO", Color.orange );
+			back = new SimpleButton( 0, gc.getHeight()*24/25, "INDIETRO", Color.orange );
 			saveLevel = new SimpleButton( gc.getWidth()*3/4, gc.getHeight()*24/25, "SALVA LIVELLO", Color.orange );
 			
 			temp = null;
@@ -237,70 +237,44 @@ public class Edit
 						temp.setXY( -move, 0, "move" );
 					if(stay == -1 || (!temp.component( "rect" ).intersects( ostacoli.get( stay ).component( "rect" ) ) && temp.ID.startsWith( "player" )))
 						fall = true;
-					if(input.isKeyPressed( Input.KEY_UP ))
+					if(input.isKeyPressed( Input.KEY_UP ) && temp.ID.startsWith( "player" ))
 						{
-							if(temp.ID.startsWith( "player" ))
-								{
-									for(int i = 0; i < ostacoli.size(); i++)
-										if(!temp.ID.equals( "bolla" ))
-											if(ostacoli.get( i ).getY() < temp.getY())
-												if((temp.getX() > ostacoli.get( i ).getX() && temp.getX() + temp.getWidth() < ostacoli.get( i ).getMaxX())
-												|| (temp.getX() < ostacoli.get( i ).getX() && temp.getX() + temp.getWidth() < ostacoli.get( i ).getMaxX())
-												|| (temp.getX() < ostacoli.get( i ).getMaxX() && temp.getX() + temp.getWidth() > ostacoli.get( i ).getMaxX()))
-													tmpOst.add( ostacoli.get( i ) );
-									
-									if(tmpOst != null)
-										{
-											int min = 0, indMin = -1;
-											for(int i = 0; i < tmpOst.size(); i++)
-												if(tmpOst.get( i ).getY() > min)
-													{
-														min = tmpOst.get( i ).getY();
-														indMin = i;
-													}
-											if(indMin >= 0)
-												temp.setXY( temp.getX(), (int) (tmpOst.get( indMin ).getY() - temp.getHeight()), "restore" );
-
-											fall = false;
-										}
-								}
+							int tmp = gc.getHeight(), win = -1;
+							for(int i = 0; i < ostacoli.size(); i++)
+								if(ostacoli.get( i ).getY() < temp.getY())
+									if(!(temp.getX() > ostacoli.get( i ).getMaxX() || temp.getMaxX() < ostacoli.get( i ).getX()))
+										if(temp.getY() - ostacoli.get( i ).getY() < tmp)
+											{
+												tmp = temp.getY() - ostacoli.get( i ).getY();
+												win = i;
+											}							
+							if(win >= 0)
+								temp.setXY( temp.getX(), ostacoli.get( win ).getY() - (int) temp.getHeight(), "restore" );
 						}
 					else if(input.isKeyDown( Input.KEY_UP ))
 						if(!temp.ID.startsWith( "player" ))								
 							temp.setXY( 0, -move, "move" );
-					if(input.isKeyPressed( Input.KEY_DOWN ) || fall)
+					if((input.isKeyPressed( Input.KEY_DOWN ) || fall) && temp.ID.startsWith( "player" ) && stay >= 0)
 						{
-							if(temp.ID.startsWith( "player" ))
-								{
-									for(int i = 0; i < ostacoli.size(); i++)
-										if(!temp.ID.equals( "bolla" ))
-											if(ostacoli.get( i ).getY() > temp.getY() + temp.getHeight())
-												if((temp.getX() > ostacoli.get( i ).getX() && temp.getX() + temp.getWidth() < ostacoli.get( i ).getMaxX())
-												|| (temp.getX() < ostacoli.get( i ).getX() && temp.getX() + temp.getWidth() < ostacoli.get( i ).getMaxX())
-												|| (temp.getX() < ostacoli.get( i ).getMaxX() && temp.getX() + temp.getWidth() > ostacoli.get( i ).getMaxX()))
-													if(!temp.component( "rect" ).intersects( ostacoli.get( i ).component( "rect" ) ))
-														tmpOst.add( ostacoli.get( i ) );
-									
-									if(tmpOst != null)
-										{
-											int min = (int) sfondi.get( indexSfondo ).getMaxHeight(), indMin = -1;
-											for(int i = 0; i < tmpOst.size(); i++)
-												if(tmpOst.get( i ).getY() < min)
-													{
-														min = tmpOst.get( i ).getY();
-														indMin = i;
-													}											
-													
-											if(indMin == -1)
-												temp.setXY( temp.getX(), (int) (min - temp.getHeight()), "restore" );
-											else
-												temp.setXY( temp.getX(), (int) (ostacoli.get( indMin ).getY() - temp.getHeight()), "restore" );
-										}
-								}
+							int tmp = gc.getHeight(), win = -1;
+							for(int i = 0; i < ostacoli.size(); i++)
+								if(i != stay)
+									if(ostacoli.get( i ).getY() > temp.getY())
+										if(!(temp.getX() > ostacoli.get( i ).getMaxX() || temp.getMaxX() < ostacoli.get( i ).getX()))
+											if(Math.abs(temp.getY() - ostacoli.get( i ).getY()) < tmp)
+												{
+													tmp = Math.abs(temp.getY() - ostacoli.get( i ).getY());
+													win = i;
+												}							
+							if(win >= 0)
+								temp.setXY( temp.getX(), ostacoli.get( win ).getY() - (int) temp.getHeight(), "restore" );
+							else
+								temp.setXY( temp.getX(), (int) (sfondi.get( indexSfondo ).getMaxHeight() - temp.getHeight()), "restore" );
 						}
 					else if(input.isKeyDown( Input.KEY_DOWN ))
 						if(!temp.ID.startsWith( "player" ))
 							temp.setXY( 0, move, "move" );
+					/*spostamento oggetto tramite mouse*/
 					if(mouseX != tempX || mouseY != tempY)	
 						{
 							temp.setXY( mouseX - (int) temp.getWidth()/2, mouseY - (int) temp.getHeight()/2, "restore" );		
@@ -309,7 +283,7 @@ public class Edit
 									double tmp = gc.getHeight();
 									for(int i = 0; i < ostacoli.size(); i++)
 										if(mouseY < ostacoli.get( i ).getY())
-											if(mouseX > ostacoli.get( i ).getX() && mouseX < ostacoli.get( i ).getX() + ostacoli.get( i ).getWidth())
+											if(mouseX > ostacoli.get( i ).getX() && mouseX < ostacoli.get( i ).getMaxX())
 												if(Math.abs( mouseY - ostacoli.get( i ).getY() ) < tmp)
 													{
 														tmp = Math.abs( mouseY - ostacoli.get( i ).getY() );
@@ -351,6 +325,7 @@ public class Edit
 							
 							temp = null;
 						}
+					/*inserimento oggetto nel gioco*/
 					else if(input.isMousePressed( Input.MOUSE_LEFT_BUTTON )|| input.isKeyPressed( Input.KEY_ENTER ))
 						{
 							if(!collide)

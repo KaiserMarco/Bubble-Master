@@ -24,8 +24,8 @@ public class ChooseLevel
 		{
 			left = new SimpleButton( gc.getWidth()/400, gc.getHeight()/2, "left", Color.orange );
 			right = new SimpleButton( gc.getWidth() - 60, gc.getHeight()/2, "right", Color.orange );
-			start = new SimpleButton( gc.getWidth()/2 - 20, gc.getHeight()*4/5 - 20, "start", Color.orange );
-			back = new SimpleButton( gc.getWidth()/15, gc.getHeight()*17/18, "INDIETRO", Color.orange );
+			start = new SimpleButton( gc.getWidth()/2 - 20, gc.getHeight()*23/24, "start", Color.orange );
+			back = new SimpleButton( 0, gc.getHeight()*23/24, "INDIETRO", Color.orange );
 		}
 	
 	public void draw( GameContainer gc ) throws SlickException
