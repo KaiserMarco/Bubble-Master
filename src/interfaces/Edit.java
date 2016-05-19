@@ -183,8 +183,6 @@ public class Edit
 			tmpOst.clear();
 			
 			boolean collide = false, fall = false;
-			
-			int winner = -1;
 			int stay = -1;
 			
 			if(input.isKeyPressed( Input.KEY_ESCAPE ))
@@ -254,7 +252,7 @@ public class Edit
 					else if(input.isKeyDown( Input.KEY_UP ))
 						if(!temp.ID.startsWith( "player" ))								
 							temp.setXY( 0, -move, "move" );
-					if((input.isKeyPressed( Input.KEY_DOWN ) || fall) && temp.ID.startsWith( "player" ) && stay >= 0)
+					if((input.isKeyPressed( Input.KEY_DOWN ) || fall) && temp.ID.startsWith( "player" ))
 						{
 							int tmp = gc.getHeight(), win = -1;
 							for(int i = 0; i < ostacoli.size(); i++)
@@ -281,9 +279,10 @@ public class Edit
 							if(temp.ID.startsWith( "player" ))
 								{
 									double tmp = gc.getHeight();
+									int winner = -1;
 									for(int i = 0; i < ostacoli.size(); i++)
 										if(mouseY < ostacoli.get( i ).getY())
-											if(mouseX > ostacoli.get( i ).getX() && mouseX < ostacoli.get( i ).getMaxX())
+											if(!(mouseX + temp.getWidth()/2 < ostacoli.get( i ).getX() || mouseX - temp.getWidth()/2 > ostacoli.get( i ).getMaxX()))
 												if(Math.abs( mouseY - ostacoli.get( i ).getY() ) < tmp)
 													{
 														tmp = Math.abs( mouseY - ostacoli.get( i ).getY() );
