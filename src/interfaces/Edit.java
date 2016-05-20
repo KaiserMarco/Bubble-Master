@@ -139,10 +139,7 @@ public class Edit
 				if(insertEditor)
 					cursor.draw( items.get( indexCursor ).getX() - widthC, items.get( indexCursor ).getY(), widthC, heightC );	
 				else if(indexCursorButton >= 0)
-					{
-						System.out.println( indexCursorButton );
-						cursor.draw( buttons.get( indexCursorButton ).getX() - widthC, buttons.get( indexCursorButton ).getY(), widthC, heightC );
-					}
+					cursor.draw( buttons.get( indexCursorButton ).getX() - widthC, buttons.get( indexCursorButton ).getY(), widthC, heightC );
 				else if(ostacoli.size() >= 0)
 					cursor.draw( ostacoli.get( indexCursor ).getX() - widthC, ostacoli.get( indexCursor ).getY(), widthC, heightC );
 		}
@@ -155,11 +152,11 @@ public class Edit
 				choise.setLocation( choise.getX(), gc.getHeight() - heightChoise );
 		}
 	
-	public boolean checkPressed( int x, int y, GameContainer gc ) throws SlickException
+	public boolean checkPressed( int x, int y, GameContainer gc, String type ) throws SlickException
 		{
 			if(insertEditor)
 				{
-					if(showCursor)
+					if(type.equals( "keyboard" ))
 						{
 							temp = items.get( indexCursor ).clone();
 							if(temp.ID.startsWith( "player" ))
@@ -194,7 +191,10 @@ public class Edit
 										
 										tempX = x;
 										tempY = y;
-										
+
+										indexCursor = -1;
+										indexCursorButton = -1;
+										showCursor = false;
 										insertEditor = false;
 										
 										return true;
@@ -203,15 +203,11 @@ public class Edit
 				}
 			else
 				{
-					if(showCursor)
+					if(type.equals( "keyboard" ))
 						{
 							temp = ostacoli.get( indexCursor );
 							ostacoli.remove( indexCursor );
 							temp.setInsert( true, true );
-						
-							indexCursor = -1;
-							indexCursorButton = -1;
-							showCursor = false;
 							
 							tempX = gc.getInput().getMouseX();
 							tempY = gc.getInput().getMouseY();
@@ -230,6 +226,11 @@ public class Edit
 									}
 							}
 				}
+			
+			indexCursor = -1;
+			indexCursorButton = -1;
+			
+			showCursor = false;
 			
 			return false;
 		}
@@ -412,32 +413,30 @@ public class Edit
 			
 			else if(temp == null)
 				{				
-					if(input.isKeyPressed( Input.KEY_RIGHT ) && (indexCursor >= 0 || indexCursorButton >= 0))
+					if(input.isKeyPressed( Input.KEY_RIGHT ) && (indexCursor >= 0 || indexCursorButton >= 0) && showCursor)
 						{
 							if(insertEditor)
 								indexCursor = (++indexCursor)%items.size();							
 							else
 								{
-									if(showCursor && ostacoli.size() == 0 && indexCursorButton < 0)
-										indexCursorButton = 0;
-									else if(indexCursorButton >= 0)
+									if(indexCursor >= 0)
 										{
-											if(++indexCursorButton == buttons.size())
+											if(++indexCursor == ostacoli.size())
 												{
-													indexCursor = 0;
-													indexCursorButton = -1;
+													indexCursor = -1;
+													indexCursorButton = 0;
 												}
 										}
-									else if(indexCursor >= 0)
-										if(++indexCursor == ostacoli.size())
+									else if(++indexCursorButton == buttons.size())
+										if(ostacoli.size() > 0)
 											{
-												indexCursorButton = 0;
-												indexCursor = -1;
+												indexCursor = 0;
+												indexCursorButton = -1;
 											}
 								}
 							
 						}
-					if(input.isKeyPressed( Input.KEY_LEFT ) && (indexCursor >= 0 || indexCursorButton >= 0))
+					if(input.isKeyPressed( Input.KEY_LEFT ) && (indexCursor >= 0 || indexCursorButton >= 0) && showCursor)
 						{
 							if(insertEditor)
 								{
@@ -446,9 +445,14 @@ public class Edit
 								}
 							else
 								{
-									/*TODO COMPLETARE EVENTO*/
-									
-								}
+									if(indexCursor >= 0)
+										{
+											if(--indexCursor < 0)
+												indexCursorButton = buttons.size() - 1;
+										}
+									else if(--indexCursorButton < 0)
+										indexCursor = ostacoli.size() - 1;
+								}							
 						}
 					else if(input.isKeyPressed( Input.KEY_UP ) || (choise.contains( mouseX, mouseY )&& !insertEditor && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )))
 						{
@@ -461,8 +465,18 @@ public class Edit
 					else if(input.isKeyPressed( Input.KEY_TAB ) && !showCursor)
 						{
 							showCursor = true;
-							indexCursor = 0;
-							indexCursorButton = -1;
+							if(insertEditor)
+								indexCursor = 0;
+							else if(ostacoli.size() > 0)
+								{
+									indexCursor = 0;
+									indexCursorButton = -1;
+								}
+							else
+								{
+									indexCursor = -1;
+									indexCursorButton = 0;
+								}
 						}
 					else if(input.isKeyPressed( Input.KEY_DOWN ) || (choise.contains( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )))
 						{
@@ -498,8 +512,13 @@ public class Edit
 										Start.setPreviuosStats( "editGame" );
 									}
 						}
-					else if(input.isMousePressed( Input.MOUSE_LEFT_BUTTON )|| input.isKeyPressed( Input.KEY_ENTER ))
-						if(checkPressed( mouseX, mouseY, gc ))
+					else if(input.isMousePressed( Input.MOUSE_LEFT_BUTTON ))
+						{
+							if(checkPressed( mouseX, mouseY, gc, "mouse" ))
+								choise.setLocation( choise.getX(), gc.getHeight() - heightChoise );
+						}
+					else if(input.isKeyPressed( Input.KEY_ENTER ))
+						if(checkPressed( mouseX, mouseY, gc, "keyboard" ))
 							choise.setLocation( choise.getX(), gc.getHeight() - heightChoise );
 				}
 		}
