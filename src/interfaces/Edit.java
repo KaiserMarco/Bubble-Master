@@ -41,6 +41,11 @@ public class Edit
 	private int widthArrow, heightArrow;
 	
 	private Image choiseI, baseI;
+	private Image cursor;
+	
+	private boolean showCursor;
+	private int indexCursor;
+	private int widthC, heightC;
 	
 	private boolean insertEditor;
 	private Rectangle choise, base;
@@ -80,6 +85,10 @@ public class Edit
 
 			choiseI = new Image( "./data/Image/choise.png" );
 			baseI = new Image( "./data/Image/base.png" );
+			cursor = new Image( "./data/Image/cursore.png" );
+			
+			widthC = 45;
+			heightC = 25;
 			
 			widthChoise = gc.getWidth()/8;
 			heightChoise = gc.getHeight()/30;
@@ -89,6 +98,7 @@ public class Edit
 			base = new Rectangle( gc.getWidth()/2 - widthBase/2, gc.getHeight()/24, widthBase, heightBase );
 			
 			insertEditor = false;
+			indexCursor = -1;
 			
 			tmpOst = new ArrayList<Ostacolo>();
 		}
@@ -120,6 +130,12 @@ public class Edit
 				down.draw( choise.getX() + widthChoise/2 - widthArrow/2, choise.getY() + gc.getHeight()/200, widthArrow, heightArrow );
 			else
 				up.draw( choise.getX() + widthChoise/2 - widthArrow/2, choise.getY() + gc.getHeight()/200, widthArrow, heightArrow );
+			
+			if(showCursor)
+				if(insertEditor)
+					cursor.draw( items.get( indexCursor ).getX() - widthC, items.get( indexCursor ).getY(), widthC, heightC );	
+				else if(ostacoli.size() > 0)
+					cursor.draw( ostacoli.get( indexCursor ).getX() - widthC, ostacoli.get( indexCursor ).getY(), widthC, heightC );
 		}
 	
 	public void setChoise( GameContainer gc )
@@ -198,6 +214,15 @@ public class Edit
 					temp = null;
 					Start.editGame = 0;
 					Start.begin = 1;
+				}
+			else if(input.isKeyPressed( Input.KEY_TAB ))
+				{
+					showCursor = true;
+					indexCursor++;
+					if(insertEditor)
+						indexCursor = indexCursor%items.size();
+					else if(ostacoli.size() > 0)
+						indexCursor = indexCursor%ostacoli.size();
 				}
 			
 			if(temp != null)
@@ -282,6 +307,7 @@ public class Edit
 					/*spostamento oggetto tramite mouse*/
 					if(mouseX != tempX || mouseY != tempY)	
 						{
+							showCursor = false;
 							temp.setXY( mouseX - (int) temp.getWidth()/2, mouseY - (int) temp.getHeight()/2, "restore" );		
 							if(temp.ID.startsWith( "player" ))
 								{
@@ -336,6 +362,7 @@ public class Edit
 						{
 							if(!collide)
 								{
+									indexCursor = 0;
 									temp.setInsert( true, true );
 									ostacoli.add( temp );
 									temp = null;
@@ -379,6 +406,8 @@ public class Edit
 					else if(input.isMousePressed( Input.MOUSE_LEFT_BUTTON )|| input.isKeyPressed( Input.KEY_ENTER ))
 						if(checkPressed( mouseX, mouseY ))
 							{
+								indexCursor = 0;
+								showCursor = false;
 								insertEditor = false;
 								choise.setLocation( choise.getX(), gc.getHeight() - heightChoise );
 							}
