@@ -146,7 +146,7 @@ public class Edit
 				choise.setLocation( choise.getX(), gc.getHeight() - heightChoise );
 		}
 	
-	public boolean checkPressed( int x, int y ) throws SlickException
+	public boolean checkPressed( int x, int y, GameContainer gc ) throws SlickException
 		{
 			if(insertEditor)
 				{
@@ -162,6 +162,9 @@ public class Edit
 							indexCursor = -1;
 							showCursor = false;
 							insertEditor = false;
+							
+							tempX = gc.getInput().getMouseX();
+							tempY = gc.getInput().getMouseY();
 							
 							return true;
 						}
@@ -198,6 +201,9 @@ public class Edit
 						
 							indexCursor = -1;
 							showCursor = false;
+							
+							tempX = gc.getInput().getMouseX();
+							tempY = gc.getInput().getMouseY();
 						}
 					else
 						for(int i = 0; i < ostacoli.size(); i++)
@@ -404,6 +410,8 @@ public class Edit
 				{
 					if(input.isKeyPressed( Input.KEY_UP ) || (choise.contains( mouseX, mouseY )&& !insertEditor && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )))
 						{
+							indexCursor = -1;
+							showCursor = false;
 							insertEditor = true;
 							setChoise( gc );
 						}
@@ -429,6 +437,8 @@ public class Edit
 						{
 							if(Begin.livelli.size() > 0 && temp == null)
 								{
+									indexCursor = -1;
+									showCursor = false;
 									ostacoli.clear();
 									Start.editGame = 0;
 									Start.chooseLevel = 1;
@@ -436,7 +446,7 @@ public class Edit
 								}
 						}
 					else if(input.isMousePressed( Input.MOUSE_LEFT_BUTTON )|| input.isKeyPressed( Input.KEY_ENTER ))
-						if(checkPressed( mouseX, mouseY ))
+						if(checkPressed( mouseX, mouseY, gc ))
 							choise.setLocation( choise.getX(), gc.getHeight() - heightChoise );
 				}
 		}
