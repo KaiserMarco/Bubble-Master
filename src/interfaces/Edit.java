@@ -251,15 +251,6 @@ public class Edit
 					Start.editGame = 0;
 					Start.begin = 1;
 				}
-			else if(input.isKeyPressed( Input.KEY_TAB ))
-				{
-					showCursor = true;
-					indexCursor++;
-					if(insertEditor)
-						indexCursor = indexCursor%items.size();
-					else if(ostacoli.size() > 0)
-						indexCursor = indexCursor%ostacoli.size();
-				}
 			
 			if(temp != null)
 				{
@@ -407,13 +398,27 @@ public class Edit
 				}
 			
 			else if(temp == null)
-				{
-					if(input.isKeyPressed( Input.KEY_UP ) || (choise.contains( mouseX, mouseY )&& !insertEditor && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )))
+				{				
+					if(input.isKeyPressed( Input.KEY_RIGHT ) && indexCursor >= 0)
+						{
+							if(insertEditor)
+								indexCursor = (++indexCursor)%items.size();
+							else
+								indexCursor = (++indexCursor)%ostacoli.size();
+						}
+					if(input.isKeyPressed( Input.KEY_LEFT ) && indexCursor >= 0)
+						indexCursor = Math.max( --indexCursor, 0 );
+					else if(input.isKeyPressed( Input.KEY_UP ) || (choise.contains( mouseX, mouseY )&& !insertEditor && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )))
 						{
 							indexCursor = -1;
 							showCursor = false;
 							insertEditor = true;
 							setChoise( gc );
+						}
+					else if(input.isKeyPressed( Input.KEY_TAB ))
+						{
+							showCursor = true;
+							indexCursor = 0;
 						}
 					else if(input.isKeyPressed( Input.KEY_DOWN ) || (choise.contains( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )))
 						{
@@ -424,26 +429,28 @@ public class Edit
 						}
 					else if(input.isKeyPressed( Input.KEY_RIGHT ) || (saveLevel.checkClick( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )))
 						{
-							if(gamer > 0 && ball > 0)
-								{
-									Begin.livelli.add( new Livello( ostacoli, sfondi.get( indexSfondo ) ) );
-									gamer = 0;
-									ball = 0;
-									
-									ostacoli.clear();
-								}
+							if(!insertEditor)
+								if(gamer > 0 && ball > 0)
+									{
+										Begin.livelli.add( new Livello( ostacoli, sfondi.get( indexSfondo ) ) );
+										gamer = 0;
+										ball = 0;
+										
+										ostacoli.clear();
+									}
 						}
 					else if(input.isKeyPressed( Input.KEY_LEFT ) || (chooseLevel.checkClick( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )))
 						{
-							if(Begin.livelli.size() > 0 && temp == null)
-								{
-									indexCursor = -1;
-									showCursor = false;
-									ostacoli.clear();
-									Start.editGame = 0;
-									Start.chooseLevel = 1;
-									Start.setPreviuosStats( "editGame" );
-								}
+							if(!insertEditor)
+								if(Begin.livelli.size() > 0 && temp == null)
+									{
+										indexCursor = -1;
+										showCursor = false;
+										ostacoli.clear();
+										Start.editGame = 0;
+										Start.chooseLevel = 1;
+										Start.setPreviuosStats( "editGame" );
+									}
 						}
 					else if(input.isMousePressed( Input.MOUSE_LEFT_BUTTON )|| input.isKeyPressed( Input.KEY_ENTER ))
 						if(checkPressed( mouseX, mouseY, gc ))

@@ -54,7 +54,7 @@ public class End
 				{
 					Start.ig.addOstacoli( Begin.livelli.get( Start.cl.getIndexLevel() ).getElements(), Begin.livelli.get( Start.cl.getIndexLevel() ).getImage() );					
 					Start.endGame = 0;
-					Start.recoverPreviousStats();
+					Start.startGame = 1;
 				}
 			
 			else if((input.isMousePressed( Input.MOUSE_LEFT_BUTTON ) && begin.checkClick( mouseX, mouseY )) || (balls && input.isKeyPressed( Input.KEY_LEFT )) || (!balls && input.isKeyPressed( Input.KEY_UP )))
