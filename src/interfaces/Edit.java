@@ -150,41 +150,69 @@ public class Edit
 		{
 			if(insertEditor)
 				{
-					for(int i = 0; i < items.size(); i++)
+					if(showCursor)
 						{
-							Ostacolo item = items.get( i );
-							if(item.contains( x, y ))
-								{
-									temp = item.clone();
-									
-									if(temp.ID.startsWith( "player" ))
-										gamer++;
-									else if(temp.ID.equals( "bolla" ))
-										ball++;
-									temp.setInsert( true, true );
-									
-									tempX = x;
-									tempY = y;
-									
-									return true;
-								}
+							temp = items.get( indexCursor ).clone();
+							if(temp.ID.startsWith( "player" ))
+								gamer++;
+							else if(temp.ID.equals( "bolla" ))
+								ball++;
+							temp.setInsert( true, true );
+							
+							indexCursor = -1;
+							showCursor = false;
+							insertEditor = false;
+							
+							return true;
 						}
+					else
+						for(int i = 0; i < items.size(); i++)
+							{
+								Ostacolo item = items.get( i );
+								if(item.contains( x, y ))
+									{
+										temp = item.clone();
+										
+										if(temp.ID.startsWith( "player" ))
+											gamer++;
+										else if(temp.ID.equals( "bolla" ))
+											ball++;
+										temp.setInsert( true, true );
+										
+										tempX = x;
+										tempY = y;
+										
+										insertEditor = false;
+										
+										return true;
+									}
+							}
 				}
 			else
-				for(int i = 0; i < ostacoli.size(); i++)
-					{
-						if(ostacoli.get( i ).contains( x, y ))
+				{
+					if(showCursor)
+						{
+							temp = ostacoli.get( indexCursor );
+							ostacoli.remove( indexCursor );
+							temp.setInsert( true, true );
+						
+							indexCursor = -1;
+							showCursor = false;
+						}
+					else
+						for(int i = 0; i < ostacoli.size(); i++)
 							{
-								temp = ostacoli.get( i );
-								ostacoli.remove( i );
-								temp.setInsert( true, true );
-								
-								tempX = x;
-								tempY = y;
-								
-								return false;
+								if(ostacoli.get( i ).contains( x, y ))
+									{
+										temp = ostacoli.get( i );
+										ostacoli.remove( i );
+										temp.setInsert( true, true );
+										
+										tempX = x;
+										tempY = y;
+									}
 							}
-					}
+				}
 			
 			return false;
 		}
@@ -210,6 +238,8 @@ public class Edit
 				}
 			else if(input.isKeyPressed( Input.KEY_ESCAPE ))
 				{
+					indexCursor = -1;
+					showCursor = false;
 					ostacoli.clear();
 					temp = null;
 					Start.editGame = 0;
@@ -362,7 +392,7 @@ public class Edit
 						{
 							if(!collide)
 								{
-									indexCursor = 0;
+									indexCursor = -1;
 									temp.setInsert( true, true );
 									ostacoli.add( temp );
 									temp = null;
@@ -379,6 +409,8 @@ public class Edit
 						}
 					else if(input.isKeyPressed( Input.KEY_DOWN ) || (choise.contains( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )))
 						{
+							indexCursor = -1;
+							showCursor = false;
 							insertEditor = false;					
 							setChoise( gc );
 						}
@@ -405,12 +437,7 @@ public class Edit
 						}
 					else if(input.isMousePressed( Input.MOUSE_LEFT_BUTTON )|| input.isKeyPressed( Input.KEY_ENTER ))
 						if(checkPressed( mouseX, mouseY ))
-							{
-								indexCursor = 0;
-								showCursor = false;
-								insertEditor = false;
-								choise.setLocation( choise.getX(), gc.getHeight() - heightChoise );
-							}
+							choise.setLocation( choise.getX(), gc.getHeight() - heightChoise );
 				}
 		}
 }
