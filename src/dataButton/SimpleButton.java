@@ -19,6 +19,8 @@ public class SimpleButton extends Button
 	public static float ratioH = 1, ratioW = 1;
 	/* offset per lo spostamento */
 	private float offset = 20.f * ratioH;
+	
+	private float posX, posY;
 
 	/** crea un nuovo bottone
 	 * @param x - coordinata X
@@ -44,7 +46,8 @@ public class SimpleButton extends Button
 			int width = font.getWidth( name ), height = font.getHeight( name );
 			rect = new Rectangle( x, y, width + offset, height + offset );
 			this.name = name;
-			//System.out.println( name );
+			this.posX = x;
+			this.posY = y;
 		}
 
 	/** modifica il valore di attivazione*/
@@ -56,6 +59,12 @@ public class SimpleButton extends Button
 	*/
 	public boolean isActive()
 		{ return active; }
+	
+	public float getX()
+		{ return posX; }
+	
+	public float getY()
+		{ return posY; }
 
 	public void draw( Graphics g )
 		{

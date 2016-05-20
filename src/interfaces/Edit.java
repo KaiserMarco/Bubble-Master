@@ -29,7 +29,7 @@ public class Edit
 	
 	private ArrayList<Ostacolo> items;	
 	private ArrayList<Ostacolo> ostacoli;
-	private ArrayList<Ostacolo> tmpOst;
+	private ArrayList<SimpleButton> buttons;
 	
 	private ArrayList<Sfondo> sfondi;
 	
@@ -44,7 +44,7 @@ public class Edit
 	private Image cursor;
 	
 	private boolean showCursor;
-	private int indexCursor;
+	private int indexCursor, indexCursorButton;
 	private int widthC, heightC;
 	
 	private boolean insertEditor;
@@ -99,8 +99,13 @@ public class Edit
 			
 			insertEditor = false;
 			indexCursor = -1;
+			indexCursorButton = -1;
 			
-			tmpOst = new ArrayList<Ostacolo>();
+			buttons = new ArrayList<SimpleButton>();
+			
+			buttons.add( chooseLevel );
+			buttons.add( back );
+			buttons.add( saveLevel );
 		}
 	
 	public void draw( GameContainer gc, Graphics g ) throws SlickException
@@ -113,9 +118,11 @@ public class Edit
 			if(temp != null)
 				temp.draw( g );
 			
-			back.draw( g );
-			saveLevel.draw( g );
-			chooseLevel.draw( g );
+			for(int i = 0; i < buttons.size(); i++)
+				{
+					buttons.get( i ).draw( g );
+					System.out.print( buttons.get( i ).getX() + "\n" );
+				}
 			
 			if(insertEditor)
 				{
@@ -134,7 +141,9 @@ public class Edit
 			if(showCursor)
 				if(insertEditor)
 					cursor.draw( items.get( indexCursor ).getX() - widthC, items.get( indexCursor ).getY(), widthC, heightC );	
-				else if(ostacoli.size() > 0)
+				else if(indexCursorButton >= 0)
+					cursor.draw( buttons.get( indexCursorButton ).getX() - widthC, ostacoli.get( indexCursorButton ).getY(), widthC, heightC );
+				else if(ostacoli.size() >= 0)
 					cursor.draw( ostacoli.get( indexCursor ).getX() - widthC, ostacoli.get( indexCursor ).getY(), widthC, heightC );
 		}
 	
@@ -160,6 +169,7 @@ public class Edit
 							temp.setInsert( true, true );
 							
 							indexCursor = -1;
+							indexCursorButton = -1;
 							showCursor = false;
 							insertEditor = false;
 							
@@ -200,6 +210,7 @@ public class Edit
 							temp.setInsert( true, true );
 						
 							indexCursor = -1;
+							indexCursorButton = -1;
 							showCursor = false;
 							
 							tempX = gc.getInput().getMouseX();
@@ -230,13 +241,14 @@ public class Edit
 			int mouseY = input.getMouseY();
 			int move = 2;
 			
-			tmpOst.clear();
-			
 			boolean collide = false, fall = false;
 			int stay = -1;			
 
-			if(input.isKeyPressed( Input.KEY_BACK ) || (back.checkClick( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )))
+			if((indexCursorButton == 1 && input.isKeyPressed( Input.KEY_ENTER )) || (back.checkClick( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )))
 				{
+					indexCursor = -1;
+					indexCursorButton = -1;
+					showCursor = false;
 					ostacoli.clear();
 					temp = null;
 					Start.editGame = 0;
@@ -245,6 +257,7 @@ public class Edit
 			else if(input.isKeyPressed( Input.KEY_ESCAPE ))
 				{
 					indexCursor = -1;
+					indexCursorButton = -1;
 					showCursor = false;
 					ostacoli.clear();
 					temp = null;
@@ -399,35 +412,75 @@ public class Edit
 			
 			else if(temp == null)
 				{				
-					if(input.isKeyPressed( Input.KEY_RIGHT ) && indexCursor >= 0)
+					if(input.isKeyPressed( Input.KEY_RIGHT ) && (indexCursor >= 0 || indexCursorButton >= 0))
 						{
 							if(insertEditor)
-								indexCursor = (++indexCursor)%items.size();
+								indexCursor = (++indexCursor)%items.size();							
 							else
-								indexCursor = (++indexCursor)%ostacoli.size();
+								{
+									if(showCursor && ostacoli.size() == 0 && indexCursorButton < 0)
+										indexCursorButton = 0;
+									else if(indexCursorButton >= 0)
+										{
+											if(++indexCursorButton == buttons.size())
+												{
+													indexCursor = 0;
+													indexCursorButton = -1;
+												}
+											System.out.println( indexCursorButton + " " + buttons.size() );
+										}
+									else if(indexCursor >= 0)
+										if(++indexCursor == ostacoli.size())
+											{
+												indexCursorButton = 0;
+												indexCursor = -1;
+												System.out.println( indexCursor + " " + indexCursorButton );
+											}
+								}
+							
 						}
-					if(input.isKeyPressed( Input.KEY_LEFT ) && indexCursor >= 0)
-						indexCursor = Math.max( --indexCursor, 0 );
+					if(input.isKeyPressed( Input.KEY_LEFT ) && (indexCursor >= 0 || indexCursorButton >= 0))
+						{
+							if(insertEditor)
+								{
+									if(--indexCursor < 0)
+										indexCursor = items.size() - 1;
+								}
+							else
+								{
+									if(showCursor && ostacoli.size() == 0 && indexCursorButton < 0)
+										indexCursorButton = buttons.size() - 1;
+									else if(indexCursorButton >= 0)
+										if(--indexCursorButton < 0)
+											{
+												indexCursor = 0;
+												indexCursorButton = -1;
+											}
+								}
+						}
 					else if(input.isKeyPressed( Input.KEY_UP ) || (choise.contains( mouseX, mouseY )&& !insertEditor && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )))
 						{
 							indexCursor = -1;
+							indexCursorButton = -1;
 							showCursor = false;
 							insertEditor = true;
 							setChoise( gc );
 						}
-					else if(input.isKeyPressed( Input.KEY_TAB ))
+					else if(input.isKeyPressed( Input.KEY_TAB ) && !showCursor)
 						{
 							showCursor = true;
 							indexCursor = 0;
+							indexCursorButton = -1;
 						}
 					else if(input.isKeyPressed( Input.KEY_DOWN ) || (choise.contains( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )))
 						{
 							indexCursor = -1;
+							indexCursorButton = -1;
 							showCursor = false;
 							insertEditor = false;					
 							setChoise( gc );
 						}
-					else if(input.isKeyPressed( Input.KEY_RIGHT ) || (saveLevel.checkClick( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )))
+					else if((indexCursorButton == 2 && input.isKeyPressed( Input.KEY_ENTER )) || (saveLevel.checkClick( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )))
 						{
 							if(!insertEditor)
 								if(gamer > 0 && ball > 0)
@@ -439,12 +492,13 @@ public class Edit
 										ostacoli.clear();
 									}
 						}
-					else if(input.isKeyPressed( Input.KEY_LEFT ) || (chooseLevel.checkClick( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )))
+					else if((indexCursorButton == 0 && input.isKeyPressed( Input.KEY_ENTER )) || (chooseLevel.checkClick( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )))
 						{
 							if(!insertEditor)
 								if(Begin.livelli.size() > 0 && temp == null)
 									{
 										indexCursor = -1;
+										indexCursorButton = -1;
 										showCursor = false;
 										ostacoli.clear();
 										Start.editGame = 0;
