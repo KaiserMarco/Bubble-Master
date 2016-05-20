@@ -119,10 +119,7 @@ public class Edit
 				temp.draw( g );
 			
 			for(int i = 0; i < buttons.size(); i++)
-				{
-					buttons.get( i ).draw( g );
-					System.out.print( buttons.get( i ).getX() + "\n" );
-				}
+				buttons.get( i ).draw( g );
 			
 			if(insertEditor)
 				{
@@ -142,7 +139,10 @@ public class Edit
 				if(insertEditor)
 					cursor.draw( items.get( indexCursor ).getX() - widthC, items.get( indexCursor ).getY(), widthC, heightC );	
 				else if(indexCursorButton >= 0)
-					cursor.draw( buttons.get( indexCursorButton ).getX() - widthC, ostacoli.get( indexCursorButton ).getY(), widthC, heightC );
+					{
+						System.out.println( indexCursorButton );
+						cursor.draw( buttons.get( indexCursorButton ).getX() - widthC, buttons.get( indexCursorButton ).getY(), widthC, heightC );
+					}
 				else if(ostacoli.size() >= 0)
 					cursor.draw( ostacoli.get( indexCursor ).getX() - widthC, ostacoli.get( indexCursor ).getY(), widthC, heightC );
 		}
@@ -427,14 +427,12 @@ public class Edit
 													indexCursor = 0;
 													indexCursorButton = -1;
 												}
-											System.out.println( indexCursorButton + " " + buttons.size() );
 										}
 									else if(indexCursor >= 0)
 										if(++indexCursor == ostacoli.size())
 											{
 												indexCursorButton = 0;
 												indexCursor = -1;
-												System.out.println( indexCursor + " " + indexCursorButton );
 											}
 								}
 							
@@ -448,14 +446,8 @@ public class Edit
 								}
 							else
 								{
-									if(showCursor && ostacoli.size() == 0 && indexCursorButton < 0)
-										indexCursorButton = buttons.size() - 1;
-									else if(indexCursorButton >= 0)
-										if(--indexCursorButton < 0)
-											{
-												indexCursor = 0;
-												indexCursorButton = -1;
-											}
+									/*TODO COMPLETARE EVENTO*/
+									
 								}
 						}
 					else if(input.isKeyPressed( Input.KEY_UP ) || (choise.contains( mouseX, mouseY )&& !insertEditor && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )))
