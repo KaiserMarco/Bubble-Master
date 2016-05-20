@@ -55,14 +55,12 @@ public class End
 					Start.ig.addOstacoli( Begin.livelli.get( Start.cl.getIndexLevel() ).getElements(), Begin.livelli.get( Start.cl.getIndexLevel() ).getImage() );					
 					Start.endGame = 0;
 					Start.recoverPreviousStats();
-					Start.setPreviuosStats( "endGame" );
 				}
 			
 			else if((input.isMousePressed( Input.MOUSE_LEFT_BUTTON ) && begin.checkClick( mouseX, mouseY )) || (balls && input.isKeyPressed( Input.KEY_LEFT )) || (!balls && input.isKeyPressed( Input.KEY_UP )))
 				{
 					Start.endGame = 0;
 					Start.begin = 1;
-					Start.setPreviuosStats( "endGame" );
 				}
 		}
 }

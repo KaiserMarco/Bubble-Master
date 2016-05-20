@@ -6,6 +6,8 @@ import interfaces.Edit;
 import interfaces.End;
 import interfaces.InGame;
 
+import java.util.ArrayList;
+
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.GameContainer;
@@ -23,10 +25,14 @@ public class Start extends BasicGame
 	public static int chooseLevel, startGame, editGame, endGame;
 	public static int begin = 1;
 	
-	private static String previous;
+	private static ArrayList<String> previous;
 	
 	public Start( String title )
-		{ super( title ); }
+		{
+			super( title );
+			
+			previous = new ArrayList<String>();
+		}
 
 	public static void main( String[] args ) throws SlickException
 		{
@@ -39,21 +45,23 @@ public class Start extends BasicGame
 	
 	/*ricorda i precedenti valori delle interfacce*/
 	public static void setPreviuosStats( String prev )
-		{ previous = prev; }
+		{ previous.add( 0, prev ); }
 	
 	/*setta la precedente interfaccia*/
 	public static void recoverPreviousStats()
 		{
-			if(previous.equals( "chooseLevel" ))
+			if(previous.get( 0 ).equals( "chooseLevel" ))
 				chooseLevel = 1;
-			else if(previous.equals( "startGame" ))
+			else if(previous.get( 0 ).equals( "startGame" ))
 				startGame = 1;
-			else if(previous.equals( "editGame" ))
+			else if(previous.get( 0 ).equals( "editGame" ))
 				editGame = 1;
-			else if(previous.equals( "endGame" ))
+			else if(previous.get( 0 ).equals( "endGame" ))
 				endGame = 1;
 			else
 				begin = 1;
+			
+			previous.remove( 0 );
 		}
 
 	@Override

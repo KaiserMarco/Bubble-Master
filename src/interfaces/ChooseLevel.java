@@ -60,7 +60,6 @@ public class ChooseLevel
 				{
 					Start.chooseLevel = 0;
 					Start.recoverPreviousStats();
-					Start.setPreviuosStats( "chooseLevel" );
 				}
 			else if((start.checkClick( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )) || input.isKeyPressed( Input.KEY_ENTER ))
 				{
@@ -74,7 +73,6 @@ public class ChooseLevel
 				{
 					Start.chooseLevel = 0;
 					Start.begin = 1;
-					Start.setPreviuosStats( "chooseLevel" );
 				}
 		}
 }

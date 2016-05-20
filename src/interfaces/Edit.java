@@ -191,7 +191,6 @@ public class Edit
 					temp = null;
 					Start.editGame = 0;
 					Start.recoverPreviousStats();
-					Start.setPreviuosStats( "editGame" );
 				}
 			else if(input.isKeyPressed( Input.KEY_ESCAPE ))
 				{
@@ -199,7 +198,6 @@ public class Edit
 					temp = null;
 					Start.editGame = 0;
 					Start.begin = 1;
-					Start.setPreviuosStats( "editGame" );
 				}
 			
 			if(temp != null)
