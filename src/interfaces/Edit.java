@@ -413,7 +413,7 @@ public class Edit
 			
 			else if(temp == null)
 				{				
-					if(input.isKeyPressed( Input.KEY_RIGHT ) && (indexCursor >= 0 || indexCursorButton >= 0) && showCursor)
+					if(showCursor && input.isKeyPressed( Input.KEY_RIGHT ) && (indexCursor >= 0 || indexCursorButton >= 0))
 						{
 							if(insertEditor)
 								indexCursor = (++indexCursor)%items.size();							
@@ -433,10 +433,12 @@ public class Edit
 												indexCursor = 0;
 												indexCursorButton = -1;
 											}
+										else
+											indexCursorButton = 0;
 								}
 							
 						}
-					if(input.isKeyPressed( Input.KEY_LEFT ) && (indexCursor >= 0 || indexCursorButton >= 0) && showCursor)
+					if(showCursor && input.isKeyPressed( Input.KEY_LEFT ) && (indexCursor >= 0 || indexCursorButton >= 0))
 						{
 							if(insertEditor)
 								{
@@ -451,10 +453,13 @@ public class Edit
 												indexCursorButton = buttons.size() - 1;
 										}
 									else if(--indexCursorButton < 0)
-										indexCursor = ostacoli.size() - 1;
+										if(ostacoli.size() > 0)
+											indexCursor = ostacoli.size() - 1;
+										else
+											indexCursorButton = buttons.size() - 1;
 								}							
 						}
-					else if(input.isKeyPressed( Input.KEY_UP ) || (choise.contains( mouseX, mouseY )&& !insertEditor && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )))
+					else if((choise.contains( mouseX, mouseY ) && !insertEditor && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )) || input.isKeyPressed( Input.KEY_UP ))
 						{
 							indexCursor = -1;
 							indexCursorButton = -1;
@@ -462,7 +467,7 @@ public class Edit
 							insertEditor = true;
 							setChoise( gc );
 						}
-					else if(input.isKeyPressed( Input.KEY_TAB ) && !showCursor)
+					else if(!showCursor && (input.isKeyPressed( Input.KEY_LEFT ) || input.isKeyPressed( Input.KEY_UP ) || input.isKeyPressed( Input.KEY_DOWN ) || input.isKeyPressed( Input.KEY_RIGHT )))
 						{
 							showCursor = true;
 							if(insertEditor)

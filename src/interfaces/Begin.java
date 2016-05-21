@@ -27,6 +27,16 @@ public class Begin
 	Sfondo sfondo;
 	/*ostacoli del gioco*/
 	ArrayList<Ostacolo> ost;
+	/*immagine del cursore*/
+	private Image cursor;
+	/*indicatore di visualizzazione cursore*/
+	private boolean showCursor;
+	/**array contenente i bottoni della schermata*/
+	private ArrayList<SimpleButton> buttons;
+	/*posizione del cursore*/
+	private int indexCursor;
+	/*dimensioni del cursore*/
+	private int widthC, heightC;
 	
 	public Begin( GameContainer gc ) throws SlickException
 		{
@@ -55,35 +65,61 @@ public class Begin
 			ost.add( new Player( 150, (int) sfondo.getMaxHeight() - 70, 0 ) );
 			
 			livelli.add( new Livello( ost, sfondo ) );
+			
+			cursor = new Image( "./data/Image/cursore.png" );
+			showCursor = false;
+			
+			buttons = new ArrayList<SimpleButton>();
+			buttons.add( choose );
+			buttons.add( editor );			
+
+			widthC = 45;
+			heightC = 25;
+			
+			indexCursor = -1;
 		}
 
 	public void draw( Graphics g ) throws SlickException
 		{
-			editor.draw( g );
-			if(tasto != null)
-				tasto.draw( g );
+			for(int i = 0; i < buttons.size(); i++)
+				buttons.get( i ).draw( g );
 			
-			choose.draw( g );
-			if(tasto != null)
-				tasto.draw( g );
+			if(showCursor)
+				cursor.draw( buttons.get( indexCursor ).getX() - widthC, buttons.get( indexCursor ).getY(), widthC, heightC );
 		}
 
 	public void update(GameContainer gc, int delta) throws SlickException 
 		{
 			Input input = gc.getInput();
 			int mouseX = input.getMouseX();
-			int mouseY = input.getMouseY();
-
-			if((editor.checkClick( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )) || input.isKeyPressed( Input.KEY_DOWN ))
+			int mouseY = input.getMouseY();			
+			
+			if(!showCursor && (input.isKeyPressed( Input.KEY_UP ) || input.isKeyPressed( Input.KEY_DOWN ) || input.isKeyPressed( Input.KEY_LEFT ) || input.isKeyPressed( Input.KEY_RIGHT )))
 				{
+					indexCursor = 0;
+					showCursor = true;
+				}
+			
+			else if(indexCursor >= 0 && (input.isKeyPressed( Input.KEY_UP ) || input.isKeyPressed( Input.KEY_DOWN )))
+				if(indexCursor == 0)
+					indexCursor = 1;
+				else
+					indexCursor = 0;
+
+			if((editor.checkClick( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )) || (indexCursor == 1 && input.isKeyPressed( Input.KEY_ENTER )))
+				{
+					showCursor = false;
+					indexCursor = -1;
 					Start.begin = 0;
 					Start.editGame = 1;
 					Start.setPreviuosStats( "begin" );
 				}
-			else if((choose.checkClick( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )) || input.isKeyPressed( Input.KEY_UP ))
+			else if((choose.checkClick( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )) || (indexCursor == 0 && input.isKeyPressed( Input.KEY_ENTER )))
 				{
 					if(livelli.size() > 0)
 						{
+							showCursor = false;
+							indexCursor = -1;
 							Start.begin = 0;
 							Start.chooseLevel = 1;
 							Start.setPreviuosStats( "begin" );
