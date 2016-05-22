@@ -278,7 +278,7 @@ public class Player extends Ostacolo
 			
 			/*ZONA CONTROLLO COLLISIONE PERSONAGGIO - SFERE*/
 
-			for(int i = 0; i < InGame.ostacoli.size(); i++)
+			/*for(int i = 0; i < InGame.ostacoli.size(); i++)
 				if(InGame.ostacoli.get( i ).ID.equals( "bolla" ))
 					if(area.intersects( InGame.ostacoli.get( i ).component( "" ) ))
 						{
