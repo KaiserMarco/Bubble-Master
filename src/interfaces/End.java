@@ -91,7 +91,7 @@ public class End
 				else
 					indexCursor = 0;
 
-			if((input.isMousePressed( Input.MOUSE_LEFT_BUTTON ) && replay.checkClick( mouseX, mouseY )) || (balls && indexCursor == 0 && input.isKeyPressed( Input.KEY_ENTER )))
+			if((input.isMousePressed( Input.MOUSE_LEFT_BUTTON ) && replay.checkClick( mouseX, mouseY )) || (indexCursor == 0 && input.isKeyPressed( Input.KEY_ENTER )))
 				{
 					showCursor = false;
 					indexCursor = -1;
