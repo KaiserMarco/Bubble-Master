@@ -29,8 +29,6 @@ public class Begin
 	ArrayList<Ostacolo> ost;
 	/*immagine del cursore*/
 	private Image cursor;
-	/*indicatore di visualizzazione cursore*/
-	private boolean showCursor;
 	/**array contenente i bottoni della schermata*/
 	private ArrayList<SimpleButton> buttons;
 	/*posizione del cursore*/
@@ -67,7 +65,6 @@ public class Begin
 			livelli.add( new Livello( ost, sfondo ) );
 			
 			cursor = new Image( "./data/Image/cursore.png" );
-			showCursor = false;
 			
 			buttons = new ArrayList<SimpleButton>();
 			buttons.add( choose );
@@ -84,7 +81,7 @@ public class Begin
 			for(int i = 0; i < buttons.size(); i++)
 				buttons.get( i ).draw( g );
 			
-			if(showCursor)
+			if(indexCursor >= 0)
 				cursor.draw( buttons.get( indexCursor ).getX() - widthC, buttons.get( indexCursor ).getY(), widthC, heightC );
 		}
 
@@ -94,21 +91,18 @@ public class Begin
 			int mouseX = input.getMouseX();
 			int mouseY = input.getMouseY();			
 			
-			if(!showCursor && (input.isKeyPressed( Input.KEY_UP ) || input.isKeyPressed( Input.KEY_DOWN ) || input.isKeyPressed( Input.KEY_LEFT ) || input.isKeyPressed( Input.KEY_RIGHT )))
+			if((input.isKeyPressed( Input.KEY_UP ) || input.isKeyPressed( Input.KEY_DOWN ) || input.isKeyPressed( Input.KEY_LEFT ) || input.isKeyPressed( Input.KEY_RIGHT )))
 				{
-					indexCursor = 0;
-					showCursor = true;
+					if(indexCursor < 0)
+						indexCursor = 0;
+					else if(indexCursor == 0)
+						indexCursor = 1;
+					else
+						indexCursor = 0;
 				}
-			
-			else if(indexCursor >= 0 && (input.isKeyPressed( Input.KEY_UP ) || input.isKeyPressed( Input.KEY_DOWN )))
-				if(indexCursor == 0)
-					indexCursor = 1;
-				else
-					indexCursor = 0;
 
 			if((editor.checkClick( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )) || (indexCursor == 1 && input.isKeyPressed( Input.KEY_ENTER )))
 				{
-					showCursor = false;
 					indexCursor = -1;
 					Start.begin = 0;
 					Start.editGame = 1;
@@ -118,7 +112,6 @@ public class Begin
 				{
 					if(livelli.size() > 0)
 						{
-							showCursor = false;
 							indexCursor = -1;
 							Start.begin = 0;
 							Start.chooseLevel = 1;

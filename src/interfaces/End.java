@@ -17,8 +17,6 @@ public class End
 	private boolean balls;
 	/*immagine del cursore*/
 	private Image cursor;
-	/*indicatore di visualizzazione cursore*/
-	private boolean showCursor;
 	/**array contenente i bottoni della schermata*/
 	private ArrayList<SimpleButton> buttons;
 	/*posizione del cursore*/
@@ -29,7 +27,6 @@ public class End
 	public End() throws SlickException
 		{		
 			cursor = new Image( "./data/Image/cursore.png" );
-			showCursor = false;
 			
 			buttons = new ArrayList<SimpleButton>();			
 	
@@ -70,7 +67,7 @@ public class End
 			for(int i = 0; i < buttons.size(); i++)
 				buttons.get( i ).draw( gc.getGraphics() );
 			
-			if(showCursor)
+			if(indexCursor >= 0)
 				cursor.draw( buttons.get( indexCursor ).getX() - widthC, buttons.get( indexCursor ).getY(), widthC, heightC );
 		}
 
@@ -80,20 +77,18 @@ public class End
 			int mouseX = input.getMouseX();
 			int mouseY = input.getMouseY();
 			
-			if(!showCursor && (input.isKeyPressed( Input.KEY_UP ) || input.isKeyPressed( Input.KEY_DOWN ) || input.isKeyPressed( Input.KEY_LEFT ) || input.isKeyPressed( Input.KEY_RIGHT )))
+			if((input.isKeyPressed( Input.KEY_UP ) || input.isKeyPressed( Input.KEY_DOWN ) || input.isKeyPressed( Input.KEY_LEFT ) || input.isKeyPressed( Input.KEY_RIGHT )))
 				{
-					indexCursor = 0;
-					showCursor = true;
+					if(indexCursor < 0)
+						indexCursor = 0;
+					else if(indexCursor == 0)
+						indexCursor = 1;
+					else
+						indexCursor = 0;
 				}
-			else if(indexCursor >= 0 && (input.isKeyPressed( Input.KEY_LEFT ) || input.isKeyPressed( Input.KEY_RIGHT )))
-				if(indexCursor == 0)
-					indexCursor = 1;
-				else
-					indexCursor = 0;
 
 			if((input.isMousePressed( Input.MOUSE_LEFT_BUTTON ) && replay.checkClick( mouseX, mouseY )) || (indexCursor == 0 && input.isKeyPressed( Input.KEY_ENTER )))
 				{
-					showCursor = false;
 					indexCursor = -1;
 					Start.ig.addOstacoli( Begin.livelli.get( Start.cl.getIndexLevel() ).getElements(), Begin.livelli.get( Start.cl.getIndexLevel() ).getImage() );					
 					Start.endGame = 0;
@@ -102,7 +97,6 @@ public class End
 			
 			else if((input.isMousePressed( Input.MOUSE_LEFT_BUTTON ) && begin.checkClick( mouseX, mouseY )) || (balls && indexCursor == 1 && input.isKeyPressed( Input.KEY_ENTER )))
 				{
-					showCursor = false;
 					indexCursor = -1;
 					Start.endGame = 0;
 					Start.begin = 1;
