@@ -56,10 +56,10 @@ public class Tubo extends Ostacolo{
 	public void setType( String type )
 		{ this.type = type; }
 
-	public int getX()
+	public float getX()
 		{ return (int)ostr.getX(); }
 
-	public int getY()
+	public float getY()
 		{ return (int)ostr.getY(); }
 	
 	public float getWidth()
@@ -77,7 +77,7 @@ public class Tubo extends Ostacolo{
 	public void setInsert(boolean insert, boolean change)
 		{ this.insert = insert; }
 	
-	public void setXY( int x, int y, String function )
+	public void setXY( float x, float y, String function )
 		{			
 			if(function.compareTo( "move" ) == 0)
 				ostr.setLocation( ostr.getX() + x, ostr.getY() + y );
@@ -137,7 +137,7 @@ public class Tubo extends Ostacolo{
 
 	public Ostacolo clone() {		
 		try {
-			return new Tubo( getX(), getY(), type );
+			return new Tubo( (int) getX(), (int) getY(), type );
 		} catch (SlickException e) {
 			e.printStackTrace();
 			return null;

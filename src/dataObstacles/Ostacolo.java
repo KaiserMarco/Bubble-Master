@@ -23,8 +23,8 @@ public abstract class Ostacolo
 	
 	public abstract void draw( Graphics g ) throws SlickException;
 	
-	public abstract int getX();	
-	public abstract int getY();
+	public abstract float getX();	
+	public abstract float getY();
 	
 	public abstract int getSpeedX();
 	public abstract int getSpeedY();
@@ -53,7 +53,7 @@ public abstract class Ostacolo
 	
 	public abstract boolean contains( int x, int y );
 	
-	public abstract void setXY( int x, int y, String function );
+	public abstract void setXY( float x, float y, String function );
 	
 	public abstract void update( GameContainer gc ) throws SlickException;
 	public abstract void update( GameContainer gc, int delta ) throws SlickException;

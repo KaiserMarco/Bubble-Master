@@ -87,7 +87,7 @@ public class End
 						indexCursor = 0;
 				}
 
-			if((input.isMousePressed( Input.MOUSE_LEFT_BUTTON ) && replay.checkClick( mouseX, mouseY )) || (indexCursor == 0 && input.isKeyPressed( Input.KEY_ENTER )))
+			if((replay.checkClick( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )) || (indexCursor == 0 && input.isKeyPressed( Input.KEY_ENTER )))
 				{
 					indexCursor = -1;
 					Start.ig.addOstacoli( Begin.livelli.get( Start.cl.getIndexLevel() ).getElements(), Begin.livelli.get( Start.cl.getIndexLevel() ).getImage() );					
@@ -95,7 +95,7 @@ public class End
 					Start.startGame = 1;
 				}
 			
-			else if((input.isMousePressed( Input.MOUSE_LEFT_BUTTON ) && begin.checkClick( mouseX, mouseY )) || (balls && indexCursor == 1 && input.isKeyPressed( Input.KEY_ENTER )))
+			else if((begin.checkClick( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )) || (balls && indexCursor == 1 && input.isKeyPressed( Input.KEY_ENTER )))
 				{
 					indexCursor = -1;
 					Start.endGame = 0;

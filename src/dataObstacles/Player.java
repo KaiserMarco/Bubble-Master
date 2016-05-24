@@ -23,8 +23,8 @@ public class Player extends Ostacolo
 
 	private int offset = 15;
 	
-	private int xPlayer;
-	private int yPlayer;
+	private float xPlayer;
+	private float yPlayer;
 	private int widthI = 60, width = widthI - offset;
 	private int height = 70;
 	
@@ -37,8 +37,7 @@ public class Player extends Ostacolo
 	
 	private int maxHeight;
 	
-	private int maxJump = 0;
-	private boolean glide = true;
+	private int maxJump = 0, tempJump;
 	
 	private int dir = 0;
 	
@@ -217,7 +216,7 @@ public class Player extends Ostacolo
 	public boolean contains( int x, int y )
 		{ return area.contains( x, y ); }
 
-	public void setXY( int x, int y, String function ) 
+	public void setXY( float x, float y, String function ) 
 		{
 			if(function.equals( "move" ))
 				{
@@ -239,17 +238,17 @@ public class Player extends Ostacolo
 
 	public Ostacolo clone() {
 		try {
-			return new Player( xPlayer, yPlayer, numPlayer );
+			return new Player( (int) xPlayer, (int) yPlayer, numPlayer );
 		} catch (SlickException e) {
 			e.printStackTrace();
 			return null;
 		}
 	}
 
-	public int getX()	
+	public float getX()	
 		{ return xPlayer; }
 
-	public int getY()
+	public float getY()
 		{ return yPlayer; }
 
 	public Shape component( String part )
@@ -286,7 +285,7 @@ public class Player extends Ostacolo
 							Start.endGame = 1;
 						}
 			
-			/*ZONA SPOSTAMENTI/SALTI*/
+			/*ZONA SPOSTAMENTI-SALTI*/
 			
 			if(input.isKeyDown( Input.KEY_RIGHT ))
 				{
@@ -303,7 +302,7 @@ public class Player extends Ostacolo
 			if(input.isKeyPressed( Input.KEY_S ) && !shooting && Start.startGame == 1)
 	            {
 	                shooting = true;
-	                fire.setXY( xPlayer + width/2 - fire.getWidth()/2, yPlayer + height - 1 );
+	                fire.setXY( (int) xPlayer + width/2 - fire.getWidth()/2, (int) yPlayer + height - 1 );
 	            }
 			if(shooting)
 				{
@@ -317,72 +316,68 @@ public class Player extends Ostacolo
 								break;
 							}
 				}
-			if(glide)
+			
+			if(input.isKeyPressed( Input.KEY_SPACE ) && !jump)
 				{
-					if(input.isKeyPressed( Input.KEY_SPACE ) && !jump)
-						{
-							movingJ = true;
-							jump = true;
-							maxJump = 40;
-						}
-					if(maxJump-- > 0)
-						setXY( 0, -move, "move" );
-					else if(maxJump == 0 || glide)
-						{
-							movingJ = true;
-							setXY( 0, move, "move" );
-						}
+					movingJ = true;
+					jump = true;
+					maxJump = 1;
+					tempJump = 60;
 				}
-
-			if((movingDx || movingSx || movingJ) && Start.startGame == 1)
+			if(maxJump > 0)
+				setXY( 0, -move + 0.2f * (40 - tempJump--), "move" );
+			else
 				{
-					/*controlla se non sono stati superati i limiti della schermata*/
-					if(area.getX() + width > gc.getWidth())
-						setXY( gc.getWidth() - width, (int) area.getY(), "restore" );
-					else if(area.getX() < 0)
-						setXY( 0, (int) area.getY(), "restore" );
-					if(area.getY() + height > maxHeight)
+					movingJ = true;
+					setXY( 0, move, "move" );
+				}
+			
+			/*controlla se non sono stati superati i limiti della schermata*/
+			if(area.getX() + width > gc.getWidth())
+				setXY( gc.getWidth() - width, (int) area.getY(), "restore" );
+			else if(area.getX() < 0)
+				setXY( 0, (int) area.getY(), "restore" );
+			if(area.getY() + height > maxHeight)
+				{
+					maxJump = 0;
+					jump = false;
+					movingJ = false;
+					reachDeltaJump = 0;
+					setXY( (int) area.getX(), maxHeight - height, "restore" );
+				}
+			else if(area.getY() < 0)
+				{
+					maxJump = 0;
+					reachDeltaJump = animTimeJump/5;
+					setXY( (int) area.getX(), 0, "restore" );
+				}
+		
+			/*controlla la collisione con gli ostacoli del gioco (tranne le sfere)*/
+			for(int i = 0; i < InGame.ostacoli.size(); i++)
+				{
+					Ostacolo ost = InGame.ostacoli.get( i );
+					if(!ost.ID.equals( "bolla" ))
 						{
-							maxJump = -1;
-							jump = false;
-							movingJ = false;
-							reachDeltaJump = 0;
-							setXY( (int) area.getX(), maxHeight - height, "restore" );
-						}
-					else if(area.getY() < 0)
-						{
-							maxJump = 0;
-							reachDeltaJump = animTimeJump/5;
-							setXY( (int) area.getX(), 0, "restore" );
-						}
-				
-					/*controlla la collisione con gli ostacoli del gioco (tranne le sfere)*/
-					for(int i = 0; i < InGame.ostacoli.size(); i++)
-						{
-							Ostacolo ost = InGame.ostacoli.get( i );
-							if(!ost.ID.equals( "bolla" ))
+							if(area.intersects( ost.component( "rect" ) ))
 								{
-									if(area.intersects( ost.component( "rect" ) ))
+									if(area.intersects( ost.component( "latoSu" ) ) && (previousArea.getY() + height <= ost.getY()))
 										{
-											if(area.intersects( ost.component( "latoSu" ) ) && (previousArea.getY() + height <= ost.getY()))
-												{
-													maxJump = -1;
-													jump = false;
-													movingJ = false;
-													reachDeltaJump = 0;
-													setXY( (int) area.getX(), (int) (ost.getY() - height), "restore" );
-												}										
-											else if(area.intersects( ost.component( "latoGiu" ) ) && (previousArea.getY() > ost.getY() + ost.getHeight()))
-												{
-													maxJump = 0;
-													reachDeltaJump = animTimeJump/5;
-													setXY( (int) area.getX(), (int) (ost.getY() + ost.getHeight()), "restore" );
-												}
-											else if(area.intersects( ost.component( "latoDx" ) ))
-												setXY( (int) (ost.getX() + ost.getWidth()) + 1, (int) area.getY(), "restore" );
-											else if(area.intersects( ost.component( "latoSx" ) ))
-												setXY( (int) (ost.getX() - width) - 1, (int) area.getY(), "restore" );	
+											maxJump = 0;
+											jump = false;
+											movingJ = false;
+											reachDeltaJump = 0;
+											setXY( (int) area.getX(), (int) (ost.getY() - height), "restore" );
+										}										
+									else if(area.intersects( ost.component( "latoGiu" ) ) && (previousArea.getY() > ost.getY() + ost.getHeight()))
+										{
+											maxJump = 0;
+											reachDeltaJump = animTimeJump/5;
+											setXY( (int) area.getX(), (int) (ost.getY() + ost.getHeight()), "restore" );
 										}
+									else if(area.intersects( ost.component( "latoDx" ) ))
+										setXY( (int) (ost.getX() + ost.getWidth()) + 1, (int) area.getY(), "restore" );
+									else if(area.intersects( ost.component( "latoSx" ) ))
+										setXY( (int) (ost.getX() - width) - 1, (int) area.getY(), "restore" );	
 								}
 						}
 				}

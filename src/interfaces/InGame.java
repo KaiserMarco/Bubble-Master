@@ -43,12 +43,12 @@ public class InGame
 					Ostacolo ost = obs.get( i );
 					if(ost.ID.startsWith( "player" ))
 						{
-							players.add( new Player( ost.getX(), ost.getY(), numPlayer++ ) );
+							players.add( new Player( (int) ost.getX(), (int) ost.getY(), numPlayer++ ) );
 							players.get( players.size() - 1 ).setMaxHeight( sfondo.getMaxHeight() );
 						}
 					else if(obs.get( i ).ID.equals( "bolla" ))
 						{
-							ostacoli.add( new Bubble( ost.getX(), ost.getY(), (int) ost.getWidth(), ost.getMaxWidth() ) );
+							ostacoli.add( new Bubble( (int) ost.getX(), (int) ost.getY(), (int) ost.getWidth(), ost.getMaxWidth() ) );
 							ostacoli.get( ostacoli.size() - 1 ).setMaxHeight( sfondo.getMaxHeight() );
 						}
 					else

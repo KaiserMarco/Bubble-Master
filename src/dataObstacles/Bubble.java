@@ -17,7 +17,7 @@ import bubbleMaster.Start;
  
 public class Bubble extends Ostacolo
 {
-    private int ray;
+    private float ray;
      
     private Circle ostr;
  
@@ -35,7 +35,7 @@ public class Bubble extends Ostacolo
 	private Color cg = new Color( 50, 170, 50, 100 ), cr = new Color( 170, 50, 50, 100 );
      
     public Bubble( Ostacolo ost ) throws SlickException
-        { this( ost.getX(), ost.getY(), (int) ost.getWidth(), ost.getMaxWidth() ); }
+        { this( (int) ost.getX(), (int) ost.getY(), (int) ost.getWidth(), ost.getMaxWidth() ); }
      
     public Bubble( int x, int y, int ray, double maxW ) throws SlickException
         {       
@@ -69,7 +69,7 @@ public class Bubble extends Ostacolo
     public Circle getArea()
         { return ostr; }
  
-    public void setXY(int x, int y, String function)
+    public void setXY( float x, float y, String function )
         {
             if(function.compareTo( "move" ) == 0)
                 ostr.setLocation( ostr.getX() + x, ostr.getY() + y );
@@ -84,10 +84,10 @@ public class Bubble extends Ostacolo
     public boolean contains( int x, int y )
         { return ostr.contains( x, y ); }
  
-    public int getX()
+    public float getX()
         { return (int) ostr.getX(); }
  
-    public int getY()
+    public float getY()
         { return (int) ostr.getY(); }
      
     private void setCenter( Shape ostr, int x, int y )
@@ -243,7 +243,7 @@ public class Bubble extends Ostacolo
  
     public Ostacolo clone() {
         try {
-            return new Bubble( (int) ostr.getX(), (int) ostr.getY(), ray, maxW );
+            return new Bubble( (int) ostr.getX(), (int) ostr.getY(), (int) ray, maxW );
         } catch (SlickException e) {
             e.printStackTrace();
             return null;

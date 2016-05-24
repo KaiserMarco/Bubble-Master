@@ -155,7 +155,7 @@ public class Edit
 		{
 			if(insertEditor)
 				{
-					if(type.equals( "keyboard" ))
+					if(type.equals( "keyboard" ) && indexCursor >= 0)
 						{
 							temp = items.get( indexCursor ).clone();
 							if(temp.ID.startsWith( "player" ))
@@ -200,7 +200,7 @@ public class Edit
 				}
 			else
 				{
-					if(type.equals( "keyboard" ))
+					if(type.equals( "keyboard" ) && (indexCursor >= 0 || indexCursorButton >= 0))
 						{
 							temp = ostacoli.get( indexCursor );
 							ostacoli.remove( indexCursor );
@@ -306,7 +306,8 @@ public class Edit
 						fall = true;
 					if(input.isKeyPressed( Input.KEY_UP ) && temp.ID.startsWith( "player" ))
 						{
-							int tmp = gc.getHeight(), win = -1;
+							float tmp = gc.getHeight();
+							int win = -1;
 							for(int i = 0; i < ostacoli.size(); i++)
 								if(ostacoli.get( i ).getY() < temp.getY())
 									if(!(temp.getX() > ostacoli.get( i ).getMaxX() || temp.getMaxX() < ostacoli.get( i ).getX()))
@@ -316,14 +317,15 @@ public class Edit
 												win = i;
 											}							
 							if(win >= 0)
-								temp.setXY( temp.getX(), ostacoli.get( win ).getY() - (int) temp.getHeight(), "restore" );
+								temp.setXY( temp.getX(), ostacoli.get( win ).getY() - temp.getHeight(), "restore" );
 						}
 					else if(input.isKeyDown( Input.KEY_UP ))
 						if(!temp.ID.startsWith( "player" ))								
 							temp.setXY( 0, -move, "move" );
 					if((input.isKeyPressed( Input.KEY_DOWN ) || fall) && temp.ID.startsWith( "player" ))
 						{
-							int tmp = gc.getHeight(), win = -1;
+							float tmp = gc.getHeight();
+							int win = -1;
 							for(int i = 0; i < ostacoli.size(); i++)
 								if(i != stay)
 									if(ostacoli.get( i ).getY() > temp.getY())
@@ -334,7 +336,7 @@ public class Edit
 													win = i;
 												}							
 							if(win >= 0)
-								temp.setXY( temp.getX(), ostacoli.get( win ).getY() - (int) temp.getHeight(), "restore" );
+								temp.setXY( temp.getX(), ostacoli.get( win ).getY() - temp.getHeight(), "restore" );
 							else
 								temp.setXY( temp.getX(), (int) (sfondi.get( indexSfondo ).getMaxHeight() - temp.getHeight()), "restore" );
 						}
@@ -473,7 +475,7 @@ public class Edit
 										indexCursorButton = buttons.size() - 1;
 								}							
 						}
-					else if((choise.contains( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )) || input.isKeyPressed( Input.KEY_DOWN ))
+					else if((insertEditor && choise.contains( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )) || input.isKeyPressed( Input.KEY_DOWN ))
 						{
 							insertEditor = false;
 							indexCursor = -1;
@@ -482,7 +484,7 @@ public class Edit
 						}
 					else if(insertEditor && indexCursor < 0 && input.isKeyPressed( Input.KEY_UP ))
 						indexCursor = 0;
-					else if((choise.contains( mouseX, mouseY ) && !insertEditor && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )) || input.isKeyPressed( Input.KEY_UP ))
+					else if((choise.contains( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )) || input.isKeyPressed( Input.KEY_UP ))
 						{
 							insertEditor = true;
 							indexCursor = -1;

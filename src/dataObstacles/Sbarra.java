@@ -67,10 +67,10 @@ public class Sbarra extends Ostacolo{
 			g.draw( new Rectangle( ostr.getX(), ostr.getY(), ostr.getMaxX() - ostr.getX(), heigth ) );
 		}
 	
-	public int getX()
+	public float getX()
 		{ return (int)ostr.getX(); }
 
-	public int getY()
+	public float getY()
 		{ return (int)ostr.getY(); }
 	
 	public float getWidth()
@@ -88,7 +88,7 @@ public class Sbarra extends Ostacolo{
 			this.insert = insert;
 		}
 	
-	public void setXY( int x, int y, String function )
+	public void setXY( float x, float y, String function )
 		{			
 			if(function.compareTo( "move" ) == 0)
 				ostr.setLocation( ostr.getX() + x, ostr.getY() + y );
