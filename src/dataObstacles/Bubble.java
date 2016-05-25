@@ -145,6 +145,13 @@ public class Bubble extends Ostacolo
             collided = true;
             ost.setCollided( true );
         }
+    
+    public boolean collisionDetenction()
+    	{
+    		
+    	
+    		return false;
+    	}
  
     public void update( GameContainer gc ) throws SlickException
         {           
