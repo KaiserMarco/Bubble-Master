@@ -329,7 +329,7 @@ public class Player extends Ostacolo
 			else
 				{
 					movingJ = true;
-					setXY( 0, move, "move" );
+					setXY( 0, move + 0.1f * tempJump++, "move" );
 				}
 			
 			/*controlla se non sono stati superati i limiti della schermata*/
@@ -340,6 +340,7 @@ public class Player extends Ostacolo
 			if(area.getY() + height > maxHeight)
 				{
 					maxJump = 0;
+					tempJump = 0;
 					jump = false;
 					movingJ = false;
 					reachDeltaJump = 0;
@@ -348,6 +349,7 @@ public class Player extends Ostacolo
 			else if(area.getY() < 0)
 				{
 					maxJump = 0;
+					tempJump = 0;
 					reachDeltaJump = animTimeJump/5;
 					setXY( (int) area.getX(), 0, "restore" );
 				}
@@ -363,6 +365,7 @@ public class Player extends Ostacolo
 									if(area.intersects( ost.component( "latoSu" ) ) && (previousArea.getY() + height <= ost.getY()))
 										{
 											maxJump = 0;
+											tempJump = 0;
 											jump = false;
 											movingJ = false;
 											reachDeltaJump = 0;
@@ -371,6 +374,7 @@ public class Player extends Ostacolo
 									else if(area.intersects( ost.component( "latoGiu" ) ) && (previousArea.getY() > ost.getY() + ost.getHeight()))
 										{
 											maxJump = 0;
+											tempJump = 0;
 											reachDeltaJump = animTimeJump/5;
 											setXY( (int) area.getX(), (int) (ost.getY() + ost.getHeight()), "restore" );
 										}
