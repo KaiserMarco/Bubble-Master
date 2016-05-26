@@ -22,7 +22,7 @@ public class Tubo extends Ostacolo{
 	public Rectangle latoSu, latoGiu, latoDx, latoSx;
 	public Rectangle spigASx, spigADx, spigBSx, spigBDx;
 	
-	private boolean insert = false;
+	private boolean insert, collide;
 	
 	public Tubo( int x, int y, String direction ) throws SlickException
 	{
@@ -43,6 +43,9 @@ public class Tubo extends Ostacolo{
 		spigADx = new Rectangle( ostr.getX() + ostr.getWidth() - 1, ostr.getY(), 1, 1 );
 		spigBSx = new Rectangle( ostr.getX(), ostr.getY() + ostr.getHeight() - 1, 1, 1 );
 		spigBDx = new Rectangle( ostr.getX() + ostr.getWidth() - 1, ostr.getY() + ostr.getHeight() - 1, 1, 1 );
+		
+		insert = false;
+		collide = false;
 	}
 
 	public void draw( Graphics g ) throws SlickException
@@ -161,6 +164,12 @@ public class Tubo extends Ostacolo{
 	
 	public boolean isCollided()
 		{ return true; }
+	
+	public boolean getCollide()
+		{ return collide; }
+
+	public void setCollide( boolean val )
+		{ collide = val; }
 
 	public void update(GameContainer gc, int delta) throws SlickException 
 		{}

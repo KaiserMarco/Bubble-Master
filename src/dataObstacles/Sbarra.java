@@ -18,6 +18,8 @@ public class Sbarra extends Ostacolo{
 	
 	public Rectangle ostr;
 	
+	private boolean collide;
+	
 	/*sottodivisione del rettangolo in lati e spigoli*/
 	public Rectangle latoSu, latoGiu, latoDx, latoSx;
 	public Rectangle spigASx, spigADx, spigBSx, spigBDx;
@@ -43,6 +45,8 @@ public class Sbarra extends Ostacolo{
 			spigADx = new Rectangle( ostr.getX() + ostr.getWidth() - 1, ostr.getY(), 1, 1 );
 			spigBSx = new Rectangle( ostr.getX(), ostr.getY() + ostr.getHeight() - 1, 1, 1 );
 			spigBDx = new Rectangle( ostr.getX() + ostr.getWidth() - 1, ostr.getY() + ostr.getHeight() - 1, 1, 1 );
+			
+			collide = false;
 		}
 	
 	public Sbarra clone()
@@ -55,16 +59,16 @@ public class Sbarra extends Ostacolo{
 	
 	public void draw( Graphics g ) throws SlickException
 		{
-			immagine.draw( ostr.getX(), ostr.getY(), ostr.getWidth(), ostr.getHeight() );
+			immagine.draw( ostr.getX(), ostr.getY(), width, heigth );
 			if(Start.editGame == 1)
 				if(checkInsert)
 					if(!insert)
-						immagine.draw( ostr.getX(), ostr.getY(), ostr.getWidth(), ostr.getHeight(), cr);
+						immagine.draw( ostr.getX(), ostr.getY(), width, heigth, cr);
 					else
-						immagine.draw( ostr.getX(), ostr.getY(), ostr.getWidth(), ostr.getHeight(), cg);
+						immagine.draw( ostr.getX(), ostr.getY(), width, heigth, cg);
 			
-			g.draw( ostr );
-			g.draw( new Rectangle( ostr.getX(), ostr.getY(), ostr.getMaxX() - ostr.getX(), heigth ) );
+			//g.draw( ostr );
+			g.draw( new Rectangle( ostr.getX(), ostr.getY(), width + 1, heigth + 1 ) );
 		}
 	
 	public float getX()
@@ -78,6 +82,12 @@ public class Sbarra extends Ostacolo{
 	
 	public float getHeight()
 		{ return ostr.getHeight(); }
+	
+	public boolean getCollide()
+		{ return collide; }
+
+	public void setCollide( boolean val )
+		{ collide = val; }
 	
 	public boolean contains( int x, int y )
 		{ return ostr.contains( x, y ); }
@@ -173,25 +183,3 @@ public class Sbarra extends Ostacolo{
 	public double getMaxWidth()
 		{ return 0; }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

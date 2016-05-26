@@ -57,6 +57,9 @@ public abstract class Ostacolo
 	
 	public abstract void update( GameContainer gc ) throws SlickException;
 	public abstract void update( GameContainer gc, int delta ) throws SlickException;
+	
+	public abstract boolean getCollide();
+	public abstract void setCollide( boolean val );
 
 	public abstract Shape getArea();
 }

@@ -447,4 +447,10 @@ public class Player extends Ostacolo
 
 	public double getMaxWidth()
 		{ return 0; }
+
+	public boolean getCollide()
+	 { return false; }
+
+	public void setCollide( boolean val )
+	 {}
 }

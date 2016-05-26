@@ -45,15 +45,39 @@ public class Begin
 			
 			ost = new ArrayList<Ostacolo>();
 			sfondo = new Sfondo( new Image( "./data/Image/sfondo4.jpg" ), gc.getHeight()/(1.04), gc.getWidth() );
-			
+						
 			/*livello 1*/
+			ost.add( new Sbarra( 205, 155 ) );
+			ost.add( new Bubble( 140, 90, 25, (int) sfondo.getMaxWidth() ) );
+			ost.add( new Player( 250, (int)sfondo.getMaxHeight() - 70, 0 ) );
+			
+			livelli.add( new Livello( ost, sfondo ) );
+			
+			/*livello 2*/
+			ost.clear();
+			ost.add( new Sbarra( 205, 155 ) );
+			ost.add( new Bubble( 400, 240, 25, (int) sfondo.getMaxWidth() ) );
+			ost.add( new Player( 250, (int)sfondo.getMaxHeight() - 70, 0 ) );
+			
+			livelli.add( new Livello( ost, sfondo ) );
+			
+			/*livello 3*/
+			ost.clear();
+			ost.add( new Sbarra( 205, 155 ) );
+			ost.add( new Bubble( 360, 90, 25, (int) sfondo.getMaxWidth() ) );
+			ost.add( new Player( 250, (int)sfondo.getMaxHeight() - 70, 0 ) );
+			
+			livelli.add( new Livello( ost, sfondo ) );
+			
+			/*livello 4*/
+			ost.clear();
 			ost.add( new Sbarra( 100, (int) sfondo.getMaxHeight() - 50 ) );
 			ost.add( new Bubble( 170, 90, 25, (int) sfondo.getMaxWidth() ) );
 			ost.add( new Player( 250, (int)sfondo.getMaxHeight() - 70, 0 ) );
 			
 			livelli.add( new Livello( ost, sfondo ) );
 			
-			/*livello 2*/
+			/*livello 5*/
 			ost.clear();
 			ost.add( new Sbarra( 100, 50 ) );
 			ost.add( new Sbarra( 245, 300 ) );
