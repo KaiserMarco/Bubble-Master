@@ -146,15 +146,72 @@ public class Bubble extends Ostacolo
             ost.setCollided( true );
         }
     
-    public boolean collisionDetenction()
-    	{
-    		
+    public boolean collisionDetenction( Ostacolo ost )
+    	{  	
+    		int y, x;
     	
+    		/*SPIGOLO ASX*/
+    		y = (int) ost.component( "spigASx" ).getY();
+    		x = (int) ostr.getCenterX() + (y - (int) ostr.getCenterY())/(speedY)*(speedX);
+    		if((int) ost.component( "spigASx" ).getX() == x)
+    			if(Math.sqrt( speedX * speedX + speedY * speedY ) >= Math.sqrt( (ostr.getCenterX() - ost.getX())*(ostr.getCenterX() - ost.getX()) + (ostr.getCenterY() - ost.getY())*(ostr.getCenterY() - ost.getY())))
+    				if(speedX > 0 && speedY > 0)
+    					{
+    						speedX = -speedX;
+    						speedY = -speedY;
+    						return true;
+    					}
+    				else if(speedX < 0 && speedY > 0)
+    					{
+    						speedY = -speedY;
+    						return true;
+    					}
+    				else if(speedX < 0 && speedY > 0)
+    					{
+    						speedX = -speedX;
+    						return true;
+    					}
+    				else
+    					return false;
+    		
+    		/*SPIGOLO BSX*/
+    		y = (int) ost.component( "spigBSx" ).getY();
+    		x = (int) ostr.getCenterX() + (y - (int) ostr.getCenterY())/(speedY)*(speedX);
+    		if((int) ost.component( "spigBSx" ).getX() == x)
+    			if(Math.sqrt( speedX * speedX + speedY * speedY ) >= Math.sqrt( (ostr.getCenterX() - ost.getX())*(ostr.getCenterX() - ost.getX()) + (ostr.getCenterY() - ost.getY() + ost.getHeight())*(ostr.getCenterY() - ost.getY() + ost.getHeight())))
+    				if(speedX < 0 && speedY > 0)
+    					{
+    						speedX = -speedX;
+    						speedY = -speedY;
+    						return true;
+    					}
+    				else if(speedX > 0 && speedY > 0)
+    					{
+    						speedY = -speedY;
+    						return true;
+    					}
+    				else if(speedX < 0 && speedY < 0)
+    					{
+    						speedY = - speedY;
+    						return true;
+    					}
+    				else
+    					return false;
+    		
+    		/*SPIGOLO ADX*/
+    		
+    		
+    		
+    		
+    		
+    		
+    		/*SPIGOLO BDX*/
+    		
     		return false;
     	}
  
     public void update( GameContainer gc ) throws SlickException
-        {           
+        {
             boolean collide = false;
              
             // TODO SISTEMARE LA COMPENETRAZIONE SFERE-SBARRE
