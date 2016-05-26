@@ -134,161 +134,57 @@ public class Bubble extends Ostacolo
     
     public void setCollide( boolean val )
     	{}
-    
-    public boolean collisionDetenction( Ostacolo ost )
-    	{
-    		int y, x;
-    	
-    		/*SPIGOLO ASX*/
-    		y = (int) ost.component( "spigASx" ).getY();
-    		x = (int) ostr.getCenterX() + (y - (int) ostr.getCenterY())/(speedY)*(speedX);
-    		if((int) ost.component( "spigASx" ).getX() == x)
-    			if(ostr.intersects( ost.component( "spigASx" ) ))
-    				if(speedX > 0 && speedY > 0)
-    					{
-    						speedX = -speedX;
-    						speedY = -speedY;
-    						return true;
-    					}
-    				else if(speedX < 0 && speedY > 0)
-    					{
-    						speedY = -speedY;
-    						return true;
-    					}
-    				else if(speedX < 0 && speedY > 0)
-    					{
-    						speedX = -speedX;
-    						return true;
-    					}
-    				else
-    					return false;
-    		
-    		/*SPIGOLO BSX*/
-    		y = (int) ost.component( "spigBSx" ).getY();
-    		x = (int) ostr.getCenterX() + (y - (int) ostr.getCenterY())/(speedY)*(speedX);
-    		if((int) ost.component( "spigBSx" ).getX() == x)
-    			if(ostr.intersects( ost.component( "spigBSx" ) ))
-    				if(speedX > 0 && speedY < 0)
-    					{
-    						speedX = -speedX;
-    						speedY = -speedY;
-    						return true;
-    					}
-    				else if(speedX > 0 && speedY > 0)
-    					{
-    						speedY = -speedY;
-    						return true;
-    					}
-    				else if(speedX < 0 && speedY < 0)
-    					{
-    						speedY = -speedY;
-    						return true;
-    					}
-    				else
-    					return false;
-    		
-    		/*SPIGOLO ADX*/
-    		y = (int) ost.getY();
-    		x = (int) ostr.getCenterX() + (y - (int) ostr.getCenterY())/(speedY)*(speedX);
-    		if((int) ost.getMaxX() == x)
-    			if(ostr.intersects( ost.component( "spigADx" ) ))
-    				if(speedX < 0 && speedY > 0)
-    					{
-    						speedX = -speedX;
-    						speedY = -speedY;
-    						return true;
-    					}
-    				else if(speedX > 0 && speedY > 0)
-    					{
-    						speedY = -speedY;
-    						return true;
-    					}
-    				else if(speedX < 0 && speedY < 0)
-    					{
-    						speedY = -speedY;
-    						return true;
-    					}
-    				else
-    					return false;
-    		
-    		/*SPIGOLO BDX*/
-    		y = (int) (ost.getY() + ost.getHeight());
-    		x = (int) ostr.getCenterX() + (y - (int) ostr.getCenterY())/(speedY)*(speedX);
-    		if((int) ost.getMaxX() == x)
-    			if(ostr.intersects( ost.component( "spigBDx" ) ))
-    				if(speedX < 0 && speedY < 0)
-    					{
-    						speedX = -speedX;
-    						speedY = -speedY;
-    						return true;
-    					}
-    				else if(speedX < 0 && speedY > 0)
-    					{
-    						speedY = -speedY;
-    						return true;
-    					}
-    				else if(speedX > 0 && speedY < 0)
-    					{
-    						speedY = -speedY;
-    						return true;
-    					}
-
-    		return false;
-    	}
  
     public void update( GameContainer gc ) throws SlickException
         {
             for(int i = 0; i < InGame.ostacoli.size(); i++)
                 {
-                    Ostacolo ost = InGame.ostacoli.get( i );
-                    if(!ost.ID.equals( "bolla" ))
+                    if(!InGame.ostacoli.get( i ).ID.equals( "bolla" ))
                         {
+                        	Ostacolo ost = InGame.ostacoli.get( i );
                             if(ostr.intersects( ost.component( "rect" ) ) && !ost.getCollide())
                                 {
                             		ost.setCollide( true );
-                                    if(!collisionDetenction( ost ))
-	                                    {
-	                                    	if(ostr.intersects( ost.component( "latoSu" ) ))
-	                                			{
-	                                    			if(speedX < 0 && speedY > 0)
-	                                    				if(ostr.intersects( ost.component( "latoDx" ) ))
-	                                    					if(ostr.getCenterX() > ost.getMaxX())
-	                                    						speedX = -speedX;
-	                                    					else
-	                                    						speedY = -speedY;
-	                                    				else
-	                                    					speedY = -speedY;
-	                                    			else if(speedX > 0 && speedY > 0)
-	                                    				if(ostr.intersects( ost.component( "latoSx" ) ))
-	                                    					if(ostr.getCenterX() < ost.getX())
-	                                    						speedX = -speedX;
-	                                    					else
-	                                    						speedY = -speedY;
-	                                    				else
-	                                    					speedY = -speedY;
-	                                    		}
-	                                    	else if(ostr.intersects( ost.component( "latoGiu" ) ))
-	                                    		{
-	                                				if(speedX < 0 && speedY < 0)
-	                                					if(ostr.intersects( ost.component( "latoDx" ) ))
-	                                						if(ostr.getCenterX() > ost.getMaxX())
-	                                							speedX = -speedX;
-	                                						else
-	                                							speedY = -speedY;
-	                                					else
-	                                						speedY = -speedY;
-	                                				else if(speedX > 0 && speedY < 0)
-	                                					if(ostr.intersects( ost.component( "latoSx" ) ))
-	                                						if(ostr.getCenterX() < ost.getX())
-	                                							speedX = -speedX;
-	                                						else
-	                                							speedY = -speedY;
-	                                					else
-	                                						speedY = -speedY;
-	                                    		}
-	                                    	else if(ostr.intersects( ost.component( "latoDx" ) ) || ostr.intersects( ost.component( "latoSx" ) ))
-	                                    		speedX = -speedX;
-	                                    }
+                                	if(ostr.intersects( ost.component( "latoSu" ) ))
+                            			{
+                                			if(speedX < 0 && speedY > 0)
+                                				if(ostr.intersects( ost.component( "latoDx" ) ))
+                                					if(ostr.getCenterX() > ost.getMaxX())
+                                						speedX = -speedX;
+                                					else
+                                						speedY = -speedY;
+                                				else
+                                					speedY = -speedY;
+                                			else if(speedX > 0 && speedY > 0)
+                                				if(ostr.intersects( ost.component( "latoSx" ) ))
+                                					if(ostr.getCenterX() < ost.getX())
+                                						speedX = -speedX;
+                                					else
+                                						speedY = -speedY;
+                                				else
+                                					speedY = -speedY;
+                                		}
+                                	else if(ostr.intersects( ost.component( "latoGiu" ) ))
+                                		{
+                            				if(speedX < 0 && speedY < 0)
+                            					if(ostr.intersects( ost.component( "latoDx" ) ))
+                            						if(ostr.getCenterX() > ost.getMaxX())
+                            							speedX = -speedX;
+                            						else
+                            							speedY = -speedY;
+                            					else
+                            						speedY = -speedY;
+                            				else if(speedX > 0 && speedY < 0)
+                            					if(ostr.intersects( ost.component( "latoSx" ) ))
+                            						if(ostr.getCenterX() < ost.getX())
+                            							speedX = -speedX;
+                            						else
+                            							speedY = -speedY;
+                            					else
+                            						speedY = -speedY;
+                                		}
+                                	else if(ostr.intersects( ost.component( "latoDx" ) ) || ostr.intersects( ost.component( "latoSx" ) ))
+                                		speedX = -speedX;
                                 }
                             else
                             	ost.setCollide( false );
