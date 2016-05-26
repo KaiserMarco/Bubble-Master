@@ -433,10 +433,7 @@ public class Player extends Ostacolo
 	public int getSpeedY()
 		{ return 0; }
 
-	public void setSpeedX(int val)
-		{}
-
-	public void setSpeedY(int val)
+	public void setSpeed(Integer x, Integer y)
 		{}
 	
 	public void setCollided( boolean val )

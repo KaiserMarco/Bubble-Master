@@ -76,18 +76,16 @@ public class Shot
 									Bubble temp2 = new Bubble( ost );
 									
 									temp1.setMaxHeight( ost.getMaxHeight() );
-									temp1.setSpeedX( ost.getSpeedX() );
 									if(ost.getSpeedY() > 0)
-										temp1.setSpeedY( ost.getSpeedY() );
+										temp1.setSpeed( ost.getSpeedX(), ost.getSpeedY() );
 									else
-										temp1.setSpeedY( -ost.getSpeedY() );
+										temp1.setSpeed( ost.getSpeedX(), -ost.getSpeedY() );
 									
 									temp2.setMaxHeight( ost.getMaxHeight() );
-									temp2.setSpeedX( -ost.getSpeedX() );
 									if(ost.getSpeedY() > 0)
-										temp2.setSpeedY( ost.getSpeedY() );
+										temp2.setSpeed( -ost.getSpeedX(), ost.getSpeedY() );
 									else
-										temp2.setSpeedY( -ost.getSpeedY() );
+										temp2.setSpeed( -ost.getSpeedX(), -ost.getSpeedY() );
 									
 									InGame.ostacoli.remove( ost );
 									InGame.ostacoli.add( temp1 );

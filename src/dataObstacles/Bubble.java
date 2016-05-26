@@ -123,11 +123,13 @@ public class Bubble extends Ostacolo
     public int getSpeedY()
         { return speedY; }
  
-    public void setSpeedX( int val )
-        { speedX = val; }
- 
-    public void setSpeedY( int val )
-        { speedY = val; }
+    public void setSpeed( Integer x, Integer y )
+        {
+    		if(x != null)
+    			speedX = x;
+    		if(y != null)
+    			speedY = y;
+        }
     
     public boolean getCollide()
     	{ return true; }

@@ -28,8 +28,7 @@ public abstract class Ostacolo
 	
 	public abstract int getSpeedX();
 	public abstract int getSpeedY();
-	public abstract void setSpeedX( int val );
-	public abstract void setSpeedY( int val );
+	public abstract void setSpeed( Integer x, Integer y );
 	
 	public abstract void setInsert( boolean insert, boolean change );
 	
