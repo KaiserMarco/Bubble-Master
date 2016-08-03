@@ -10,6 +10,8 @@ import interfaces.InGame;
 
 
 
+
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -165,8 +167,12 @@ public class Bubble extends Ostacolo
     		else if(speedX < 0 && speedY < 0)
     			if(ost.component( "spigBDx" ).getX() != Math.abs(ost.getY() - ostr.getCenterY() + ostr.getCenterX()))
     				{
-						System.out.println( "spig.x = " + ost.component( "spigBDx" ).getX() );
-						System.out.println( "retta.x = " + (Math.abs(ost.getY() - ostr.getCenterY() + ostr.getCenterX())));
+						/*System.out.println( "spig.x = " + ost.component( "spigBDx" ).getX() );
+						System.out.println( "retta.x = " + (Math.abs(ost.getY() - ostr.getCenterY() + ostr.getCenterX())));*/
+    				
+    					System.out.println( "(centro.x, centro.y) = " + ostr.getCenterX() + " " + ostr.getCenterY() );
+    					System.out.println( "(spig.x, spig.y) = " + ost.component( "spigBDx" ).getX() + " " + ost.component( "spigBDx" ).getY() );
+    					
     					return false;
     				}
     		

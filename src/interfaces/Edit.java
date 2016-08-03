@@ -46,10 +46,12 @@ public class Edit
 	private int indexCursor, indexCursorButton;
 	private int widthC, heightC;
 	
-	private boolean insertEditor;
+	private boolean insertEditor, insertItem;
 	private Rectangle choise, base;
 	private int widthChoise, heightChoise;
 	private int widthBase, heightBase;
+	
+	private int minHighEditor;
 	
 	public Edit( GameContainer gc ) throws SlickException
 		{		
@@ -92,19 +94,24 @@ public class Edit
 			widthChoise = gc.getWidth()/8;
 			heightChoise = gc.getHeight()/30;
 			widthBase = (int) (gc.getWidth()/1.11);
-			heightBase = (int) (gc.getHeight()/1.04);
+			heightBase = 0;
 			choise = new Rectangle( gc.getWidth()/2 - widthChoise/2, gc.getHeight() - heightChoise, widthChoise, heightChoise );
-			base = new Rectangle( gc.getWidth()/2 - widthBase/2, gc.getHeight()/24, widthBase, heightBase );
+			
+			base = new Rectangle( gc.getWidth()/2 - widthBase/2, gc.getHeight(), widthBase, heightBase );
 			
 			insertEditor = false;
 			indexCursor = -1;
 			indexCursorButton = -1;
+			
+			insertItem = false;
 			
 			buttons = new ArrayList<SimpleButton>();
 			
 			buttons.add( chooseLevel );
 			buttons.add( back );
 			buttons.add( saveLevel );
+			
+			minHighEditor = gc.getHeight() - (int) (gc.getHeight()/1.04);
 		}
 	
 	public void draw( GameContainer gc, Graphics g ) throws SlickException
@@ -114,18 +121,14 @@ public class Edit
 			for(int i = 0; i < ostacoli.size(); i++)
 				ostacoli.get( i ).draw( g );
 			
-			if(temp != null)
-				temp.draw( g );
-			
 			for(int i = 0; i < buttons.size(); i++)
 				buttons.get( i ).draw( g );
-			
-			if(insertEditor)
-				{
-					baseI.draw( base.getX(), base.getY(), base.getWidth(), base.getHeight() );
-					for(int i = 0; i < items.size(); i++)
-						items.get( i ).draw( g );
-				}
+
+			baseI.draw( base.getX(), base.getY(), base.getWidth(), heightBase );
+
+			if(insertItem)
+				for(int i = 0; i < items.size(); i++)
+					items.get( i ).draw( g );
 			
 			choiseI.draw( choise.getX(), choise.getY(), choise.getWidth(), choise.getHeight() );
 			
@@ -141,15 +144,13 @@ public class Edit
 					cursor.draw( buttons.get( indexCursorButton ).getX() - widthC, buttons.get( indexCursorButton ).getY(), widthC, heightC );
 				else if(ostacoli.size() >= 0)
 					cursor.draw( ostacoli.get( indexCursor ).getX() - widthC, ostacoli.get( indexCursor ).getY(), widthC, heightC );
+			
+			if(temp != null)
+				temp.draw( g );
 		}
 	
 	public void setChoise( GameContainer gc )
-		{
-			if(insertEditor)
-				choise.setLocation( choise.getX(), base.getY() - heightChoise + gc.getWidth()/150 );
-			else
-				choise.setLocation( choise.getX(), gc.getHeight() - heightChoise );
-		}
+		{ choise.setLocation( choise.getX(), base.getY() - heightChoise + gc.getWidth()/150 ); }
 	
 	public boolean checkPressed( int x, int y, GameContainer gc, String type ) throws SlickException
 		{
@@ -239,7 +240,7 @@ public class Edit
 			temp = null;
 		}
 	
-	public void update( GameContainer gc )throws SlickException
+	public void update( GameContainer gc, int delta )throws SlickException
 		{
 			Input input = gc.getInput();
 			int mouseX = input.getMouseX();
@@ -247,7 +248,34 @@ public class Edit
 			int move = 2;
 			
 			boolean collide = false, fall = false;
-			int stay = -1;			
+			int stay = -1;
+			
+			// aggiornamento altezza editor
+			if(insertEditor)
+				if(base.getY() - delta/2 > minHighEditor)
+					{
+						base.setY( base.getY() - delta/2 );
+						heightBase = heightBase + delta/2;
+					}
+				else
+					{
+						insertItem = true;
+						base.setY( minHighEditor );
+						heightBase = gc.getHeight() - minHighEditor;
+					}
+			else
+				if(base.getY() + delta/2 < gc.getHeight())
+					{
+						insertItem = false;
+						base.setY( base.getY() + delta/2 );
+						heightBase = heightBase - delta/2;
+					}
+				else
+					{
+						base.setY( gc.getHeight() );
+						heightBase = 0;
+					}
+			setChoise( gc );
 
 			if((indexCursorButton == 1 && input.isKeyPressed( Input.KEY_ENTER )) || (back.checkClick( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )))
 				{
@@ -479,8 +507,7 @@ public class Edit
 						{
 							insertEditor = false;
 							indexCursor = -1;
-							indexCursorButton = -1;				
-							setChoise( gc );
+							indexCursorButton = -1;
 						}
 					else if(insertEditor && indexCursor < 0 && input.isKeyPressed( Input.KEY_UP ))
 						indexCursor = 0;
@@ -489,7 +516,6 @@ public class Edit
 							insertEditor = true;
 							indexCursor = -1;
 							indexCursorButton = -1;
-							setChoise( gc );
 						}
 					else if((indexCursorButton == 2 && input.isKeyPressed( Input.KEY_ENTER )) || (saveLevel.checkClick( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )))
 						{
