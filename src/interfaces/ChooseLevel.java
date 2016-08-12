@@ -44,7 +44,7 @@ public class ChooseLevel
 				documentFactory = DocumentBuilderFactory.newInstance();
 	 
 				builder = documentFactory.newDocumentBuilder();
-				document = builder.parse( new File( "livello1.xml" ) );
+				document = builder.parse( new File( "data/livello1.xml" ) );
 	 
 				NodeList persone = document.getElementsByTagName("persona");
 	 
