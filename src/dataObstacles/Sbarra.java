@@ -28,9 +28,11 @@ public class Sbarra extends Ostacolo{
 
 	private Color cg = new Color( 50, 170, 50, 150 ), cr = new Color( 170, 50, 50, 150 );
 	
+	public static final String ID = "sbarra";
+	
 	public Sbarra( int x, int y ) throws SlickException
 		{
-			super( "sbarra" );
+			super( ID );
 		
 			ostr = new Rectangle( x, y, width, heigth );
 			

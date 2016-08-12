@@ -188,7 +188,7 @@ public class Bubble extends Ostacolo
         {
             for(int i = 0; i < InGame.ostacoli.size(); i++)
                 {
-                    if(!InGame.ostacoli.get( i ).ID.equals( "bolla" ))
+                    if(!InGame.ostacoli.get( i ).getID().equals( "bolla" ))
                         {
                         	Ostacolo ost = InGame.ostacoli.get( i );
                             if(ostr.intersects( ost.component( "rect" ) ) && !ost.getCollide())

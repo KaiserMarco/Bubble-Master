@@ -310,7 +310,7 @@ public class Player extends Ostacolo
 						fire.update();
 					
 					for(int i = 0; i < InGame.ostacoli.size(); i++)
-						if(fire.collision( InGame.ostacoli.get( i ), InGame.ostacoli.get( i ).ID ))
+						if(fire.collision( InGame.ostacoli.get( i ), InGame.ostacoli.get( i ).getID() ))
 							{
 								shooting = false;
 								break;
@@ -358,7 +358,7 @@ public class Player extends Ostacolo
 			for(int i = 0; i < InGame.ostacoli.size(); i++)
 				{
 					Ostacolo ost = InGame.ostacoli.get( i );
-					if(!ost.ID.equals( "bolla" ))
+					if(!ost.getID().equals( "bolla" ))
 						{
 							if(area.intersects( ost.component( "rect" ) ))
 								{
@@ -389,7 +389,7 @@ public class Player extends Ostacolo
 			/*controlla la collisione con una sfera*/
 			boolean check = true;
 			for(int i = 0; i < InGame.ostacoli.size(); i++)
-				if(InGame.ostacoli.get(i ).ID.equals( "bolla" ))
+				if(InGame.ostacoli.get(i ).getID().equals( "bolla" ))
 					check = false;
 			
 			if(check)

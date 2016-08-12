@@ -13,7 +13,7 @@ public abstract class Ostacolo
 	public Shape latoSu, latoGiu, latoSx, latoDx;
 	public Shape spigASx, spigADx, spigBSx, spigBDx;
 	
-	public String ID; 
+	private String ID;
 	
 	public Ostacolo( String ID ) throws SlickException
 		{ this.ID = ID; }

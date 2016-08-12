@@ -1,7 +1,14 @@
 package interfaces;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 
+import org.jdom2.Comment;
+import org.jdom2.Document;
+import org.jdom2.Element;
+import org.jdom2.output.Format;
+import org.jdom2.output.XMLOutputter;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -52,6 +59,9 @@ public class Edit
 	private int widthBase, heightBase;
 	
 	private int minHighEditor;
+	
+	private Element livello;
+	private Document document;
 	
 	public Edit( GameContainer gc ) throws SlickException
 		{		
@@ -111,7 +121,7 @@ public class Edit
 			buttons.add( back );
 			buttons.add( saveLevel );
 			
-			minHighEditor = gc.getHeight() - (int) (gc.getHeight()/1.04);
+			minHighEditor = gc.getHeight() - (int) (gc.getHeight()/1.34);
 		}
 	
 	public void draw( GameContainer gc, Graphics g ) throws SlickException
@@ -159,9 +169,9 @@ public class Edit
 					if(type.equals( "keyboard" ) && indexCursor >= 0)
 						{
 							temp = items.get( indexCursor ).clone();
-							if(temp.ID.startsWith( "player" ))
+							if(temp.getID().startsWith( "player" ))
 								gamer++;
-							else if(temp.ID.equals( "bolla" ))
+							else if(temp.getID().equals( "bolla" ))
 								ball++;
 							temp.setInsert( true, true );
 							
@@ -182,9 +192,9 @@ public class Edit
 									{
 										temp = item.clone();
 										
-										if(temp.ID.startsWith( "player" ))
+										if(temp.getID().startsWith( "player" ))
 											gamer++;
-										else if(temp.ID.equals( "bolla" ))
+										else if(temp.getID().equals( "bolla" ))
 											ball++;
 										temp.setInsert( true, true );
 										
@@ -240,6 +250,45 @@ public class Edit
 			temp = null;
 		}
 	
+	private void addNewLevel()
+		{
+			try
+			{
+			    livello = new Element( "level" );
+			    document = new Document( livello );
+			    
+			    XMLOutputter outputter = new XMLOutputter();
+				// imposta un bel formato all'outputter 
+				outputter.setFormat( Format.getPrettyFormat() );
+				// creazione del file xml con il nome scelto
+	
+				Element item;
+			    livello.addContent( new Comment( "Objects" ) );
+			    for(int i = 0; i < ostacoli.size(); i++)
+			    	{									    			
+	    				item = new Element( "ostacolo" );
+	    				item.setAttribute( "x", ostacoli.get( i ).getX() + "" );
+	    				item.setAttribute( "y", ostacoli.get( i ).getY() + "" );
+	    				item.setAttribute( "ID", ostacoli.get( i ).getID() );
+	    				livello.addContent( item );
+			    	}
+				
+	    		item = new Element( "sfondo" );
+	    		item.setAttribute( "x", "0" );
+	    		item.setAttribute( "y", "0" );
+	    		item.setAttribute( "index", sfondi.get( indexSfondo ) + "" );
+	    		livello.addContent( item );
+	    		
+	    		outputter.output( document, new FileOutputStream( "data/livello10.xml" ) );
+			}
+			catch( IOException e ){
+				System.err.println( "Error while creating the level" );
+				e.printStackTrace(); 
+			}
+		
+			Begin.livelli.add( new Livello( ostacoli, sfondi.get( indexSfondo ) ) );
+		}
+	
 	public void update( GameContainer gc, int delta )throws SlickException
 		{
 			Input input = gc.getInput();
@@ -292,22 +341,22 @@ public class Edit
 			
 			if(temp != null)
 				{
-					if((temp.ID.equals( "bolla" ) && temp.getY() + temp.getHeight()*2 > sfondi.get( indexSfondo ).getMaxHeight())
-					|| (!temp.ID.equals( "bolla" ) && temp.getY() + temp.getHeight() > sfondi.get( indexSfondo ).getMaxHeight()))
+					if((temp.getID().equals( "bolla" ) && temp.getY() + temp.getHeight()*2 > sfondi.get( indexSfondo ).getMaxHeight())
+					|| (!temp.getID().equals( "bolla" ) && temp.getY() + temp.getHeight() > sfondi.get( indexSfondo ).getMaxHeight()))
 						collide = true;
 					else
 						for(int i = 0; i < ostacoli.size(); i++)
-							if(!temp.ID.startsWith( "player" ))
+							if(!temp.getID().startsWith( "player" ))
 								{
 									if(temp.component( "rect" ).intersects( ostacoli.get( i ).component( "rect" ) ))
 										collide = true;
 								}
-							else if(!ostacoli.get( i ).ID.equals( "sbarra" ))
+							else if(!ostacoli.get( i ).getID().equals( "sbarra" ))
 								{
 									if(temp.component( "rect" ).intersects( ostacoli.get( i ).component( "rect" ) ))
 										collide = true;
 								}
-							else if(ostacoli.get( i ).ID.equals( "sbarra" ))
+							else if(ostacoli.get( i ).getID().equals( "sbarra" ))
 								if(temp.component( "rect" ).intersects( ostacoli.get( i ).component( "latoGiu" ) ))
 									collide = true;
 					
@@ -317,7 +366,7 @@ public class Edit
 						temp.setInsert( true, false );
 
 					/*controlla che il personaggio non sia posizionato a mezz'aria*/
-					if(temp.ID.startsWith( "player" ))
+					if(temp.getID().startsWith( "player" ))
 						if(temp.getY() + temp.getHeight() < sfondi.get( indexSfondo ).getMaxHeight() - 1)
 							for(int i = 0; i < ostacoli.size(); i++)
 								if(temp.component( "rect" ).intersects( ostacoli.get( i ).component( "rect" ) ))
@@ -330,9 +379,9 @@ public class Edit
 						temp.setXY( move, 0, "move" );
 					if(input.isKeyDown( Input.KEY_LEFT ))
 						temp.setXY( -move, 0, "move" );
-					if(stay == -1 || (!temp.component( "rect" ).intersects( ostacoli.get( stay ).component( "rect" ) ) && temp.ID.startsWith( "player" )))
+					if(stay == -1 || (!temp.component( "rect" ).intersects( ostacoli.get( stay ).component( "rect" ) ) && temp.getID().startsWith( "player" )))
 						fall = true;
-					if(input.isKeyPressed( Input.KEY_UP ) && temp.ID.startsWith( "player" ))
+					if(input.isKeyPressed( Input.KEY_UP ) && temp.getID().startsWith( "player" ))
 						{
 							float tmp = gc.getHeight();
 							int win = -1;
@@ -348,9 +397,9 @@ public class Edit
 								temp.setXY( temp.getX(), ostacoli.get( win ).getY() - temp.getHeight(), "restore" );
 						}
 					else if(input.isKeyDown( Input.KEY_UP ))
-						if(!temp.ID.startsWith( "player" ))								
+						if(!temp.getID().startsWith( "player" ))								
 							temp.setXY( 0, -move, "move" );
-					if((input.isKeyPressed( Input.KEY_DOWN ) || fall) && temp.ID.startsWith( "player" ))
+					if((input.isKeyPressed( Input.KEY_DOWN ) || fall) && temp.getID().startsWith( "player" ))
 						{
 							float tmp = gc.getHeight();
 							int win = -1;
@@ -369,13 +418,13 @@ public class Edit
 								temp.setXY( temp.getX(), (int) (sfondi.get( indexSfondo ).getMaxHeight() - temp.getHeight()), "restore" );
 						}
 					else if(input.isKeyDown( Input.KEY_DOWN ))
-						if(!temp.ID.startsWith( "player" ))
+						if(!temp.getID().startsWith( "player" ))
 							temp.setXY( 0, move, "move" );
 					/*spostamento oggetto tramite mouse*/
 					if(mouseX != tempX || mouseY != tempY)	
 						{
 							temp.setXY( mouseX - (int) temp.getWidth()/2, mouseY - (int) temp.getHeight()/2, "restore" );		
-							if(temp.ID.startsWith( "player" ))
+							if(temp.getID().startsWith( "player" ))
 								{
 									double tmp = gc.getHeight();
 									int winner = -1;
@@ -398,7 +447,7 @@ public class Edit
 					/*controllo estremi dello schermo*/
 					if(temp.getX() <= 0)
 						temp.setXY( 0, temp.getY(), "restore" );
-					else if(temp.ID.equals( "bolla" ))
+					else if(temp.getID().equals( "bolla" ))
 						{
 							if(temp.getX() + 2*temp.getWidth() >= gc.getWidth())
 								temp.setXY( gc.getWidth() - 2 * (int) temp.getWidth(), temp.getY(), "restore" );
@@ -415,9 +464,9 @@ public class Edit
 					/*cancellazione oggetti del gioco*/
 					if(input.isMousePressed( Input.MOUSE_RIGHT_BUTTON ) || input.isKeyPressed( Input.KEY_DELETE ))
 						{
-							if(temp.ID.equals( "bolla" ))
+							if(temp.getID().equals( "bolla" ))
 								ball = Math.max( ball - 1, 0);
-							else if(temp.ID.startsWith( "player" ))
+							else if(temp.getID().startsWith( "player" ))
 								gamer = Math.max( gamer - 1, 0 );
 							ostacoli.remove( temp );
 							
@@ -517,12 +566,13 @@ public class Edit
 							indexCursor = -1;
 							indexCursorButton = -1;
 						}
+					//inserimento nuovo livello
 					else if((indexCursorButton == 2 && input.isKeyPressed( Input.KEY_ENTER )) || (saveLevel.checkClick( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )))
 						{
 							if(!insertEditor)
 								if(gamer > 0 && ball > 0)
 									{
-										Begin.livelli.add( new Livello( ostacoli, sfondi.get( indexSfondo ) ) );
+										addNewLevel();
 										gamer = 0;
 										ball = 0;
 										

@@ -1,7 +1,14 @@
 package interfaces;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 
+import org.jdom2.Comment;
+import org.jdom2.Document;
+import org.jdom2.Element;
+import org.jdom2.output.Format;
+import org.jdom2.output.XMLOutputter;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -35,6 +42,9 @@ public class Begin
 	private int indexCursor;
 	/*dimensioni del cursore*/
 	private int widthC, heightC;
+	
+	private Element livello;
+	private Document document;
 	
 	public Begin( GameContainer gc ) throws SlickException
 		{

@@ -42,7 +42,7 @@ public class End
 			buttons.clear();
 		
 			for(int i = 0; i < InGame.ostacoli.size(); i++)
-				if(InGame.ostacoli.get( i ).ID.equals( "bolla" ))
+				if(InGame.ostacoli.get( i ).getID().equals( "bolla" ))
 					balls = false;
 			
 			if(!balls)

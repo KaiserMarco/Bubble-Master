@@ -7,6 +7,7 @@ public class Sfondo
 {
 	private Image sfondo;
 	private double maxHeight, maxWidth;
+	private int index;
 	
 	public Sfondo( Image sfondo, double maxH, double maxW )
 		{
@@ -14,6 +15,12 @@ public class Sfondo
 			this.maxHeight = maxH;
 			this.maxWidth = maxW;
 		}
+	
+	public void setIndex( int index )
+		{ this.index = index; }
+	
+	public int getIndex()
+		{ return index; }
 	
 	public Image getSfondo()
 		{ return sfondo; }
