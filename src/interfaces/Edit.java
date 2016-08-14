@@ -4,6 +4,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.swing.JTextField;
+
 import org.jdom2.Comment;
 import org.jdom2.Document;
 import org.jdom2.Element;
@@ -252,6 +254,10 @@ public class Edit
 	
 	private void addNewLevel()
 		{
+			// TODO AGGIUNGERE TEXTBOX PER DECIDERE IL NOME DEL LIVELLO
+			JTextField numberEnter = new JTextField("Enter numbers here", 20);
+		
+		
 			try
 			{
 			    livello = new Element( "level" );
@@ -313,17 +319,11 @@ public class Edit
 						heightBase = gc.getHeight() - minHighEditor;
 					}
 			else
-				if(base.getY() + delta/2 < gc.getHeight())
-					{
-						insertItem = false;
-						base.setY( base.getY() + delta/2 );
-						heightBase = heightBase - delta/2;
-					}
-				else
-					{
-						base.setY( gc.getHeight() );
-						heightBase = 0;
-					}
+				{
+					insertItem = false;
+					base.setY( gc.getHeight() );
+					heightBase = 0;
+				}
 			setChoise( gc );
 
 			if((indexCursorButton == 1 && input.isKeyPressed( Input.KEY_ENTER )) || (back.checkClick( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )))
@@ -560,6 +560,7 @@ public class Edit
 						}
 					else if(insertEditor && indexCursor < 0 && input.isKeyPressed( Input.KEY_UP ))
 						indexCursor = 0;
+					//fa salire la schermata di selezione elemento
 					else if((choise.contains( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )) || input.isKeyPressed( Input.KEY_UP ))
 						{
 							insertEditor = true;

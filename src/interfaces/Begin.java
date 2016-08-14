@@ -60,7 +60,7 @@ public class Begin
 			
 			elements = new ArrayList<Ostacolo>();
 			
-			// LETTURA DA FILE .XML	PER CARICARE I LIVELLI DI GIOCO	
+			//caricamento livelli da file .xml
 			try {
 				documentFactory = DocumentBuilderFactory.newInstance();
 	 
@@ -105,6 +105,7 @@ public class Begin
 						sfondo = new Sfondo( new Image( "./data/Image/sfondo" + (Integer.parseInt( tmp ) + 1) + ".jpg" ), gc.getHeight()/(1.04), gc.getWidth() );
 						
 						Begin.livelli.add( new Livello( elements, sfondo ) );
+						
 						System.out.println( "livello " + files[j] + " caricato" );
 					}
 			}
