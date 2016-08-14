@@ -1,20 +1,21 @@
 package interfaces;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.File;
 import java.util.ArrayList;
 
-import org.jdom2.Comment;
-import org.jdom2.Document;
-import org.jdom2.Element;
-import org.jdom2.output.Format;
-import org.jdom2.output.XMLOutputter;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 import DataEntites.Sfondo;
 import bubbleMaster.Start;
@@ -43,8 +44,12 @@ public class Begin
 	/*dimensioni del cursore*/
 	private int widthC, heightC;
 	
-	private Element livello;
+	private DocumentBuilderFactory documentFactory;
+	private DocumentBuilder builder;
 	private Document document;
+	
+	/*gli elementi del livello (ostacoli, giocatori e sfondo)*/
+	private ArrayList<Ostacolo> elements;
 	
 	public Begin( GameContainer gc ) throws SlickException
 		{
@@ -53,50 +58,59 @@ public class Begin
 			editor = new SimpleButton( (int) (gc.getWidth()/(2.2)), (int) (gc.getWidth()/(2.2)), "EDIT", Color.orange );
 			choose = new SimpleButton( (int) (gc.getWidth()/(2.5)), gc.getHeight()/4, "SCEGLI LIVELLO", Color.orange );
 			
-			ost = new ArrayList<Ostacolo>();
-			sfondo = new Sfondo( new Image( "./data/Image/sfondo4.jpg" ), gc.getHeight()/(1.04), gc.getWidth() );
+			elements = new ArrayList<Ostacolo>();
+			
+			// LETTURA DA FILE .XML	PER CARICARE I LIVELLI DI GIOCO	
+			try {
+				documentFactory = DocumentBuilderFactory.newInstance();
+	 
+				builder = documentFactory.newDocumentBuilder();
+				
+				File levels = new File( "data/livelli" );
+				String[] files = levels.list();
+				
+				for(int j = 0; j < files.length; j++)
+					{				
+						document = builder.parse( new File( "data/livelli/" + files[j] ) );
+			 
+						NodeList ostacoli = document.getElementsByTagName( "ostacolo" );
+						NodeList back = document.getElementsByTagName( "sfondo" );
+						Sfondo sfondo;
+			 
+						String tmp;
+						for(int i = 0; i < ostacoli.getLength(); i++)
+							{
+								Node nodo = ostacoli.item( i );
+								
+								Element obs = (Element) nodo;
+								
+								tmp = obs.getAttribute( "x" );
+								int x = Integer.parseInt( tmp.substring( 0, tmp.length() - 2 ) );
+								tmp = obs.getAttribute( "y" );
+								int y = Integer.parseInt( tmp.substring( 0, tmp.length() - 2 ) );
+								String type = obs.getAttribute( "ID" );	
+								
+								if(type.equals( "bolla" ))
+									elements.add( new Bubble( x, y, 25, gc.getWidth() ) );
+								else if(type.equals( "sbarra" ))
+									elements.add( new Sbarra( x, y ) );
+								else if(type.startsWith( "player" ))
+									elements.add( new Player( x, y, 1 ) );
+							}
 						
-			/*livello 1*/
-			ost.add( new Sbarra( 205, 155 ) );
-			ost.add( new Bubble( 140, 90, 25, (int) sfondo.getMaxWidth() ) );
-			ost.add( new Player( 250, (int)sfondo.getMaxHeight() - 70, 0 ) );
-			
-			livelli.add( new Livello( ost, sfondo ) );
-			
-			/*livello 2*/
-			ost.clear();
-			ost.add( new Sbarra( 205, 155 ) );
-			ost.add( new Bubble( 400, 240, 25, (int) sfondo.getMaxWidth() ) );
-			ost.add( new Player( 250, (int)sfondo.getMaxHeight() - 70, 0 ) );
-			
-			livelli.add( new Livello( ost, sfondo ) );
-			
-			/*livello 3*/
-			ost.clear();
-			ost.add( new Sbarra( 205, 155 ) );
-			ost.add( new Bubble( 360, 90, 25, (int) sfondo.getMaxWidth() ) );
-			ost.add( new Player( 250, (int)sfondo.getMaxHeight() - 70, 0 ) );
-			
-			livelli.add( new Livello( ost, sfondo ) );
-			
-			/*livello 4*/
-			ost.clear();
-			ost.add( new Sbarra( 100, (int) sfondo.getMaxHeight() - 50 ) );
-			ost.add( new Bubble( 170, 90, 25, (int) sfondo.getMaxWidth() ) );
-			ost.add( new Player( 250, (int)sfondo.getMaxHeight() - 70, 0 ) );
-			
-			livelli.add( new Livello( ost, sfondo ) );
-			
-			/*livello 5*/
-			ost.clear();
-			ost.add( new Sbarra( 100, 50 ) );
-			ost.add( new Sbarra( 245, 300 ) );
-			ost.add( new Bubble( 170, 90, 25, gc.getWidth() ) );
-			ost.add( new Bubble( 315, 90, 25, gc.getWidth() ) );
-			ost.add( new Bubble( 522, 480, 25, gc.getWidth() ) );
-			ost.add( new Player( 150, (int) sfondo.getMaxHeight() - 70, 0 ) );
-			
-			livelli.add( new Livello( ost, sfondo ) );
+						Node nodo = back.item( 0 );
+						Element img = (Element) nodo;
+						tmp = img.getAttribute( "index" );
+						System.out.println( "./data/Image/sfondo" + (Integer.parseInt( tmp ) + 1) + ".jpg" );
+						sfondo = new Sfondo( new Image( "./data/Image/sfondo" + (Integer.parseInt( tmp ) + 1) + ".jpg" ), gc.getHeight()/(1.04), gc.getWidth() );
+						
+						Begin.livelli.add( new Livello( elements, sfondo ) );
+						System.out.println( "livello " + files[j] + " caricato" );
+					}
+			}
+			catch(Exception e) {
+				e.printStackTrace();
+			}
 			
 			cursor = new Image( "./data/Image/cursore.png" );
 			

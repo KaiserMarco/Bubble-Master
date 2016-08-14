@@ -276,10 +276,10 @@ public class Edit
 	    		item = new Element( "sfondo" );
 	    		item.setAttribute( "x", "0" );
 	    		item.setAttribute( "y", "0" );
-	    		item.setAttribute( "index", sfondi.get( indexSfondo ) + "" );
+	    		item.setAttribute( "index", indexSfondo + "" );
 	    		livello.addContent( item );
 	    		
-	    		outputter.output( document, new FileOutputStream( "data/livello10.xml" ) );
+	    		outputter.output( document, new FileOutputStream( "data/livelli/livello10.xml" ) );
 			}
 			catch( IOException e ){
 				System.err.println( "Error while creating the level" );

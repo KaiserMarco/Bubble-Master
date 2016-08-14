@@ -1,15 +1,7 @@
 package interfaces;
 
-import java.io.File;
 import java.util.ArrayList;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Input;
@@ -28,46 +20,12 @@ public class ChooseLevel
 	
 	private Sfondo sfondo;
 	
-	private DocumentBuilderFactory documentFactory;
-	private DocumentBuilder builder;
-	private Document document;
-	
 	public ChooseLevel( GameContainer gc ) throws SlickException
 		{
 			left = new SimpleButton( gc.getWidth()/400, gc.getHeight()/2, "left", Color.orange );
 			right = new SimpleButton( gc.getWidth() - 60, gc.getHeight()/2, "right", Color.orange );
 			start = new SimpleButton( gc.getWidth()/2 - 20, gc.getHeight()*23/24, "start", Color.orange );
-			back = new SimpleButton( 0, gc.getHeight()*23/24, "INDIETRO", Color.orange );
-			
-			// LETTURA DA FILE .XML			
-			try {
-				documentFactory = DocumentBuilderFactory.newInstance();
-	 
-				builder = documentFactory.newDocumentBuilder();
-				document = builder.parse( new File( "data/livello1.xml" ) );
-	 
-				NodeList persone = document.getElementsByTagName("persona");
-	 
-				System.out.println("Totale persone: " + persone.getLength());
-	 
-				for(int i=0; i<persone.getLength(); i++) {
-					Node nodo = persone.item(i);
-	 
-					if(nodo.getNodeType() == Node.ELEMENT_NODE) {
-						Element persona = (Element)nodo;
-	 
-						String nome = persona.getElementsByTagName("nome").item(0).getFirstChild().getNodeValue();
-						String cognome = persona.getElementsByTagName("cognome").item(0).getFirstChild().getNodeValue();
-						String telefono = persona.getElementsByTagName("telefono").item(0).getFirstChild().getNodeValue();
-	 
-						System.out.println("Nome: " + nome);
-						System.out.println("Cognome: " + cognome);
-						System.out.println("Telefono: " + telefono);
-					}
-				}
-			} catch(Exception e) {
-				e.printStackTrace();
-			}
+			back = new SimpleButton( 0, gc.getHeight()*23/24, "INDIETRO", Color.orange );			
 		}
 	
 	public void draw( GameContainer gc ) throws SlickException
