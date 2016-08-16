@@ -4,8 +4,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import javax.swing.JTextField;
-
 import org.jdom2.Comment;
 import org.jdom2.Document;
 import org.jdom2.Element;
@@ -32,8 +30,12 @@ public class Edit
 {
 	private Ostacolo temp;
 	private int tempX, tempY;
-	private SimpleButton saveLevel, chooseLevel, back;
 	
+	private SimpleButton saveLevel, chooseLevel, back;
+	//bottoni di inserimento elementi
+	private SimpleButton obstacles, players, spheres;
+	
+	//il raggio delle sfere
 	private int ray = 25;
 	
 	private ArrayList<Ostacolo> items;	
@@ -62,6 +64,7 @@ public class Edit
 	
 	private int minHighEditor;
 	
+	//elementi riguardanti la scrittura su file .xml
 	private Element livello;
 	private Document document;
 	
@@ -83,6 +86,10 @@ public class Edit
 			chooseLevel = new SimpleButton( gc.getWidth()/15, gc.getHeight()*24/25, "SCEGLI LIVELLO", Color.orange );
 			back = new SimpleButton( 0, gc.getHeight()*24/25, "INDIETRO", Color.orange );
 			saveLevel = new SimpleButton( gc.getWidth()*3/4, gc.getHeight()*24/25, "SALVA LIVELLO", Color.orange );
+			
+			obstacles = new SimpleButton( gc.getWidth()*8/9, gc.getHeight()/25, "Ostacoli", Color.green );
+			players = new SimpleButton( gc.getWidth()*7/8, gc.getHeight()/11, "Giocatori", Color.green );
+			spheres = new SimpleButton( gc.getWidth()*11/12, gc.getHeight()*10/71, "Sfere", Color.green );
 			
 			temp = null;
 			
@@ -122,6 +129,9 @@ public class Edit
 			buttons.add( chooseLevel );
 			buttons.add( back );
 			buttons.add( saveLevel );
+			buttons.add( obstacles );
+			buttons.add( players );
+			buttons.add( spheres );
 			
 			minHighEditor = gc.getHeight() - (int) (gc.getHeight()/1.34);
 		}
@@ -255,8 +265,6 @@ public class Edit
 	private void addNewLevel()
 		{
 			// TODO AGGIUNGERE TEXTBOX PER DECIDERE IL NOME DEL LIVELLO
-			JTextField numberEnter = new JTextField("Enter numbers here", 20);
-		
 		
 			try
 			{
@@ -484,13 +492,14 @@ public class Edit
 								}
 						}
 				}
-			
+			//se non ho cliccato su un elemento da inserire
 			else if(temp == null)
 				{				
+					//sposta di una posizione a destra il cursore
 					if(input.isKeyPressed( Input.KEY_RIGHT ))
 						{
 							if(insertEditor)
-								indexCursor = (++indexCursor)%items.size();							
+								indexCursor = (++indexCursor)%items.size();
 							else
 								{
 									if(indexCursor >= 0)
@@ -518,6 +527,7 @@ public class Edit
 										indexCursorButton = 0;
 								}							
 						}
+					//sposta di una posizione a sinistra il cursore
 					else if(input.isKeyPressed( Input.KEY_LEFT ))
 						{
 							if(insertEditor)
@@ -552,6 +562,7 @@ public class Edit
 										indexCursorButton = buttons.size() - 1;
 								}							
 						}
+					//abbassa la schermata di selezione elemento
 					else if((insertEditor && choise.contains( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )) || input.isKeyPressed( Input.KEY_DOWN ))
 						{
 							insertEditor = false;
@@ -560,7 +571,7 @@ public class Edit
 						}
 					else if(insertEditor && indexCursor < 0 && input.isKeyPressed( Input.KEY_UP ))
 						indexCursor = 0;
-					//fa salire la schermata di selezione elemento
+					//innalza la schermata di selezione elemento
 					else if((choise.contains( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )) || input.isKeyPressed( Input.KEY_UP ))
 						{
 							insertEditor = true;
@@ -580,6 +591,7 @@ public class Edit
 										resetStatus();
 									}
 						}
+					//spostamento nella sezione "scegli livello" (salva il livello se i requisiti minimi sono rispettati)
 					else if((indexCursorButton == 0 && input.isKeyPressed( Input.KEY_ENTER )) || (chooseLevel.checkClick( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )))
 						{
 							if(!insertEditor)
@@ -591,19 +603,18 @@ public class Edit
 										Start.setPreviuosStats( "editGame" );
 									}
 						}
-					else if(input.isMousePressed( Input.MOUSE_LEFT_BUTTON ))
-						{
-							if(checkPressed( mouseX, mouseY, gc, "mouse" ))
-								choise.setLocation( choise.getX(), gc.getHeight() - heightChoise );
-						}
+					//torna alla schermata precedente
 					else if(input.isKeyPressed( Input.KEY_BACK ))
 						{
 							resetStatus();
 							Start.editGame = 0;
 							Start.recoverPreviousStats();
 						}
-					else if(input.isKeyPressed( Input.KEY_ENTER ))
+					//seleziona un elemento da inserire (tramite mouse o tastiera)
+					else if(input.isKeyPressed( Input.KEY_ENTER ) || input.isMousePressed( Input.MOUSE_LEFT_BUTTON ))
 						if(checkPressed( mouseX, mouseY, gc, "keyboard" ))
+							choise.setLocation( choise.getX(), gc.getHeight() - heightChoise );
+						else if(checkPressed( mouseX, mouseY, gc, "mouse" ))
 							choise.setLocation( choise.getX(), gc.getHeight() - heightChoise );
 				}
 		}

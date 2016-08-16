@@ -2,6 +2,6 @@
 <level>
   <!--Objects-->
   <ostacolo x="457.0" y="506.0" ID="player1" />
-  <ostacolo x="685.0" y="450.0" ID="bolla" />
+  <ostacolo x="192.0" y="340.0" ID="bolla" />
   <sfondo x="0" y="0" index="3" />
 </level>
