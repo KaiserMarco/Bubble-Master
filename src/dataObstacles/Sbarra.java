@@ -12,9 +12,10 @@ import bubbleMaster.Start;
 
 public class Sbarra extends Ostacolo{
 
-	Image immagine = new Image( "./data/Image/sbarra.png" );
-	int width = 130;
-	int heigth = 20;
+	Image immagine;
+	Image hor = new Image( "./data/Image/sbarra.png" ), ver = new Image( "./data/Image/sbarraVer.png" );
+	int width;
+	int height;
 	
 	public Rectangle ostr;
 	
@@ -24,36 +25,35 @@ public class Sbarra extends Ostacolo{
 	public Rectangle latoSu, latoGiu, latoDx, latoSx;
 	public Rectangle spigASx, spigADx, spigBSx, spigBDx;
 	
-	private boolean insert = false, checkInsert = false;	
+	//insert = false -> oggetto rosso | insert = true -> oggetto verde
+	private boolean insert = false, checkInsert = false;
 
 	private Color cg = new Color( 50, 170, 50, 150 ), cr = new Color( 170, 50, 50, 150 );
 	
+	//determina la verticalita' o orizzontalita' della sbarra
+	private String type;
+	
 	public static final String ID = "sbarra";
 	
-	public Sbarra( int x, int y ) throws SlickException
+	public Sbarra( int x, int y, String type ) throws SlickException
 		{
 			super( ID );
+			
+			width = 130;
+			height = 20;
+			
+			immagine = hor;
+			
+			this.type = type;
 		
-			ostr = new Rectangle( x, y, width, heigth );
-			
-			/*creazione lati*/
-			latoSu = new Rectangle( ostr.getX() + 1, ostr.getY(), ostr.getWidth() - 2, 1 );
-			latoGiu = new Rectangle( ostr.getX() + 1, ostr.getY() + ostr.getHeight() - 1, ostr.getWidth() - 2, 1 );
-			latoSx = new Rectangle( ostr.getX(), ostr.getY() + 1, 1, ostr.getHeight() - 2 );
-			latoDx = new Rectangle( ostr.getX() + ostr.getWidth() - 1, ostr.getY() + 1, 1, ostr.getHeight() - 2 );
-			
-			/*creazione spigoli*/
-			spigASx = new Rectangle( ostr.getX(), ostr.getY(), 1, 1 );
-			spigADx = new Rectangle( ostr.getX() + ostr.getWidth() - 1, ostr.getY(), 1, 1 );
-			spigBSx = new Rectangle( ostr.getX(), ostr.getY() + ostr.getHeight() - 1, 1, 1 );
-			spigBDx = new Rectangle( ostr.getX() + ostr.getWidth() - 1, ostr.getY() + ostr.getHeight() - 1, 1, 1 );
+			ostr = new Rectangle( x, y, width, height );
 			
 			collide = false;
 		}
 	
 	public Sbarra clone()
 		{ try {
-			return new Sbarra( (int) ostr.getX(), (int) ostr.getY() );
+			return new Sbarra( (int) ostr.getX(), (int) ostr.getY(), type );
 		} catch (SlickException e) {
 			e.printStackTrace();
 			return null;
@@ -61,16 +61,15 @@ public class Sbarra extends Ostacolo{
 	
 	public void draw( Graphics g ) throws SlickException
 		{
-			immagine.draw( ostr.getX(), ostr.getY(), width, heigth );
+			immagine.draw( ostr.getX(), ostr.getY(), width, height );
 			if(Start.editGame == 1)
 				if(checkInsert)
 					if(!insert)
-						immagine.draw( ostr.getX(), ostr.getY(), width, heigth, cr);
+						immagine.draw( ostr.getX(), ostr.getY(), width, height, cr);
 					else
-						immagine.draw( ostr.getX(), ostr.getY(), width, heigth, cg);
+						immagine.draw( ostr.getX(), ostr.getY(), width, height, cg);
 			
 			//g.draw( ostr );
-			g.draw( new Rectangle( ostr.getX(), ostr.getY(), width + 1, heigth + 1 ) );
 		}
 	
 	public float getX()
@@ -107,16 +106,6 @@ public class Sbarra extends Ostacolo{
 			
 			else if(function.compareTo( "restore" ) == 0)
 				ostr.setLocation( x, y );
-			
-			latoSu.setLocation( ostr.getX() + 1, ostr.getY() );
-			latoGiu.setLocation( ostr.getX() + 1, ostr.getY() + ostr.getHeight() - 1 );
-			latoSx.setLocation( ostr.getX(), ostr.getY() + 1 );
-			latoDx.setLocation( ostr.getX() + ostr.getWidth() - 1, ostr.getY() + 1 );
-			
-			spigASx.setLocation( ostr.getX(), ostr.getY() );
-			spigADx.setLocation( ostr.getX() + ostr.getWidth() - 1, ostr.getY() );
-			spigBSx.setLocation( ostr.getX(), ostr.getY() + ostr.getHeight() - 1 );
-			spigBDx.setLocation( ostr.getX() + ostr.getWidth() - 1, ostr.getY() + ostr.getHeight() - 1 );
 		}
 
 	public Rectangle component( String part ) 
@@ -181,4 +170,65 @@ public class Sbarra extends Ostacolo{
 
 	public double getMaxWidth()
 		{ return 0; }
+
+    public void setOrienting()
+        {
+            if(type.equals( "ver" ))
+                {
+                    type = "hor";
+                    
+                    width = 130;
+                    height = 20;
+                    
+                    //modifica l'area dell'oggetto
+                    ostr.setX( getX() - width/2 + height/2 );
+                    ostr.setY( getY() + width/2 - height/2 );
+                    ostr.setWidth( width );
+                    ostr.setHeight( height );
+                    
+                    immagine = hor;
+                }
+            else
+                {           
+                    type = "ver";
+                    
+                    //modifica l'area dell'oggetto
+                    ostr.setX( getX() + width/2 - height/2 );
+                    ostr.setY( getY() - width/2 + height/2 );
+                    
+                    width = 20;
+                    height = 130;
+                    ostr.setWidth( width );
+                    ostr.setHeight( height );
+                    
+                    immagine = ver;
+                }
+        }
+
+    public String getOrienting()
+        { return type; }
+
+    public void setSpigoli()
+        {
+            /*creazione lati*/
+            latoSu = new Rectangle( ostr.getX() + 1, ostr.getY(), ostr.getWidth() - 2, 1 );
+            latoGiu = new Rectangle( ostr.getX() + 1, ostr.getY() + ostr.getHeight() - 1, ostr.getWidth() - 2, 1 );
+            latoSx = new Rectangle( ostr.getX(), ostr.getY() + 1, 1, ostr.getHeight() - 2 );
+            latoDx = new Rectangle( ostr.getX() + ostr.getWidth() - 1, ostr.getY() + 1, 1, ostr.getHeight() - 2 );
+            
+            /*creazione spigoli*/
+            spigASx = new Rectangle( ostr.getX(), ostr.getY(), 1, 1 );
+            spigADx = new Rectangle( ostr.getX() + ostr.getWidth() - 1, ostr.getY(), 1, 1 );
+            spigBSx = new Rectangle( ostr.getX(), ostr.getY() + ostr.getHeight() - 1, 1, 1 );
+            spigBDx = new Rectangle( ostr.getX() + ostr.getWidth() - 1, ostr.getY() + ostr.getHeight() - 1, 1, 1 );
+        }
+
+	public int getUnion()
+		{ return 0; }
+
+	public void setUnion(int val)
+		{}
+
+	public Point getMidArea()
+		{ return null; }
 }

@@ -31,9 +31,9 @@ public class Edit
 	private Ostacolo temp;
 	private int tempX, tempY;
 	
-	private SimpleButton saveLevel, chooseLevel, back;
+	private SimpleButton saveLevel, back;
 	//bottoni di inserimento elementi
-	private SimpleButton obstacles, players, spheres;
+	//private SimpleButton obstacles, players, spheres;
 	
 	//il raggio delle sfere
 	private int ray = 25;
@@ -68,6 +68,9 @@ public class Edit
 	private Element livello;
 	private Document document;
 	
+	//determina se stiamo inserendo il secondo tubo connesso
+	private boolean coppia;
+	
 	public Edit( GameContainer gc ) throws SlickException
 		{		
 			double maxH = gc.getHeight()/(1.04), maxW = gc.getWidth();
@@ -83,20 +86,18 @@ public class Edit
 			widthArrow = gc.getWidth()/15;
 			heightArrow = gc.getHeight()/40;
 
-			chooseLevel = new SimpleButton( gc.getWidth()/15, gc.getHeight()*24/25, "SCEGLI LIVELLO", Color.orange );
-			back = new SimpleButton( 0, gc.getHeight()*24/25, "INDIETRO", Color.orange );
+			back = new SimpleButton( gc.getWidth()/15, gc.getHeight()*24/25, "INDIETRO", Color.orange );
 			saveLevel = new SimpleButton( gc.getWidth()*3/4, gc.getHeight()*24/25, "SALVA LIVELLO", Color.orange );
 			
-			obstacles = new SimpleButton( gc.getWidth()*8/9, gc.getHeight()/25, "Ostacoli", Color.green );
+			/*obstacles = new SimpleButton( gc.getWidth()*8/9, gc.getHeight()/25, "Ostacoli", Color.green );
 			players = new SimpleButton( gc.getWidth()*7/8, gc.getHeight()/11, "Giocatori", Color.green );
-			spheres = new SimpleButton( gc.getWidth()*11/12, gc.getHeight()*10/71, "Sfere", Color.green );
+			spheres = new SimpleButton( gc.getWidth()*11/12, gc.getHeight()*10/71, "Sfere", Color.green );*/
 			
 			temp = null;
 			
 			items = new ArrayList<Ostacolo>();
-			items.add( new Sbarra( gc.getWidth()/9, gc.getHeight()*78/100 ) );
+			items.add( new Sbarra( gc.getWidth()/9, gc.getHeight()*78/100, "hor" ) );
 			items.add( new Tubo( gc.getWidth()*2/7, gc.getHeight()*3/4, "sx" ) );
-			items.add( new Tubo( gc.getWidth()*3/7, gc.getHeight()*3/4, "dx" ) );
 			items.add( new Player( gc.getWidth()*4/7, gc.getHeight()*3/4, 0 ) );
 			items.add( new Player( gc.getWidth()*5/7, gc.getHeight()*3/4, 1 ) );
 			items.add( new Bubble( gc.getWidth()*6/7, gc.getHeight()*3/4, ray, maxW ) );
@@ -104,9 +105,10 @@ public class Edit
 			ostacoli = new ArrayList<Ostacolo>();
 
 			choiseI = new Image( "./data/Image/choise.png" );
-			baseI = new Image( "./data/Image/base.png" );
+			baseI = new Image( "./data/Image/Window.png" );
 			cursor = new Image( "./data/Image/cursore.png" );
 			
+			//lunghezza e altezza del cursore
 			widthC = 45;
 			heightC = 25;
 			
@@ -126,14 +128,15 @@ public class Edit
 			
 			buttons = new ArrayList<SimpleButton>();
 			
-			buttons.add( chooseLevel );
 			buttons.add( back );
 			buttons.add( saveLevel );
-			buttons.add( obstacles );
+			/*buttons.add( obstacles );
 			buttons.add( players );
-			buttons.add( spheres );
+			buttons.add( spheres );*/
 			
 			minHighEditor = gc.getHeight() - (int) (gc.getHeight()/1.34);
+			
+			coppia = false;
 		}
 	
 	public void draw( GameContainer gc, Graphics g ) throws SlickException
@@ -203,6 +206,8 @@ public class Edit
 								if(item.contains( x, y ))
 									{
 										temp = item.clone();
+										if(item.getID().equals( "tubo" ))
+										    coppia = true;
 										
 										if(temp.getID().startsWith( "player" ))
 											gamer++;
@@ -253,6 +258,7 @@ public class Edit
 			return false;
 		}
 	
+	//resetta tutte le variabili e il vettore degi ostacoli del livello
 	public void resetStatus()
 		{
 			ostacoli.clear();
@@ -263,7 +269,7 @@ public class Edit
 		}
 	
 	private void addNewLevel()
-		{
+		{	    
 			// TODO AGGIUNGERE TEXTBOX PER DECIDERE IL NOME DEL LIVELLO
 		
 			try
@@ -283,13 +289,15 @@ public class Edit
 	    				item = new Element( "ostacolo" );
 	    				item.setAttribute( "x", ostacoli.get( i ).getX() + "" );
 	    				item.setAttribute( "y", ostacoli.get( i ).getY() + "" );
+	    				if(ostacoli.get( i ).getOrienting() != null)
+	    				    item.setAttribute( "type", ostacoli.get( i ).getOrienting() );
+	    				else
+	    				    item.setAttribute( "type", "null" );
 	    				item.setAttribute( "ID", ostacoli.get( i ).getID() );
 	    				livello.addContent( item );
 			    	}
 				
 	    		item = new Element( "sfondo" );
-	    		item.setAttribute( "x", "0" );
-	    		item.setAttribute( "y", "0" );
 	    		item.setAttribute( "index", indexSfondo + "" );
 	    		livello.addContent( item );
 	    		
@@ -303,6 +311,29 @@ public class Edit
 			Begin.livelli.add( new Livello( ostacoli, sfondi.get( indexSfondo ) ) );
 		}
 	
+	public void setEditor( int delta, GameContainer gc )
+	    {
+    	    if(insertEditor)
+                if(base.getY() - delta/2 > minHighEditor)
+                    {
+                        base.setY( base.getY() - delta/2 );
+                        heightBase = heightBase + delta/2;
+                    }
+                else
+                    {
+                        insertItem = true;
+                        base.setY( minHighEditor );
+                        heightBase = gc.getHeight() - minHighEditor;
+                    }
+            else
+                {
+                    insertItem = false;
+                    base.setY( gc.getHeight() );
+                    heightBase = 0;
+                }
+            setChoise( gc );
+	    }
+	
 	public void update( GameContainer gc, int delta )throws SlickException
 		{
 			Input input = gc.getInput();
@@ -311,28 +342,11 @@ public class Edit
 			int move = 2;
 			
 			boolean collide = false, fall = false;
+			//determina se il personaggio "tocca" un oggetto del livello o il pavimento
 			int stay = -1;
 			
 			// aggiornamento altezza editor
-			if(insertEditor)
-				if(base.getY() - delta/2 > minHighEditor)
-					{
-						base.setY( base.getY() - delta/2 );
-						heightBase = heightBase + delta/2;
-					}
-				else
-					{
-						insertItem = true;
-						base.setY( minHighEditor );
-						heightBase = gc.getHeight() - minHighEditor;
-					}
-			else
-				{
-					insertItem = false;
-					base.setY( gc.getHeight() );
-					heightBase = 0;
-				}
-			setChoise( gc );
+			setEditor( delta, gc );
 
 			if((indexCursorButton == 1 && input.isKeyPressed( Input.KEY_ENTER )) || (back.checkClick( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )))
 				{
@@ -349,29 +363,33 @@ public class Edit
 			
 			if(temp != null)
 				{
+			        //controlla se un l'oggetto da inserire non superi i confini dello schermo di gioco
 					if((temp.getID().equals( "bolla" ) && temp.getY() + temp.getHeight()*2 > sfondi.get( indexSfondo ).getMaxHeight())
 					|| (!temp.getID().equals( "bolla" ) && temp.getY() + temp.getHeight() > sfondi.get( indexSfondo ).getMaxHeight()))
 						collide = true;
 					else
 						for(int i = 0; i < ostacoli.size(); i++)
-							if(!temp.getID().startsWith( "player" ))
-								{
-									if(temp.component( "rect" ).intersects( ostacoli.get( i ).component( "rect" ) ))
-										collide = true;
-								}
-							else if(!ostacoli.get( i ).getID().equals( "sbarra" ))
-								{
-									if(temp.component( "rect" ).intersects( ostacoli.get( i ).component( "rect" ) ))
-										collide = true;
-								}
-							else if(ostacoli.get( i ).getID().equals( "sbarra" ))
-								if(temp.component( "rect" ).intersects( ostacoli.get( i ).component( "latoGiu" ) ))
-									collide = true;
+						    if(temp.getID().startsWith( "player" ))
+						        {
+						            if(!ostacoli.get( i ).getID().equals( "sbarra" ) && !ostacoli.get( i ).getID().equals( "tubo" ))
+						                {
+    						                if(temp.component( "rect" ).intersects( ostacoli.get( i ).component( "rect" ) ))
+    						                    collide = true;
+						                }
+						            else if(temp.component( "rect" ).intersects( ostacoli.get( i ).component( "latoGiu" ) ))
+                                        collide = true;
+						        }
+						    else if(temp.component( "rect" ).intersects( ostacoli.get( i ).component( "rect" ) ))
+						        collide = true;
 					
 					if(collide)
 						temp.setInsert( false, false );
 					else
 						temp.setInsert( true, false );
+
+					if(!temp.getID().equals( "bolla" ) && !temp.getID().startsWith( "player" ))
+					    if(input.isKeyPressed( Input.KEY_SPACE ))
+					        temp.setOrienting();
 
 					/*controlla che il personaggio non sia posizionato a mezz'aria*/
 					if(temp.getID().startsWith( "player" ))
@@ -382,7 +400,7 @@ public class Edit
 										stay = i;
 										break;
 									}
-					/*posizionamento degli oggetti nel gioco*/
+					/*posizionamento e spostamento degli oggetti nel gioco*/
 					if(input.isKeyDown( Input.KEY_RIGHT ))
 						temp.setXY( move, 0, "move" );
 					if(input.isKeyDown( Input.KEY_LEFT ))
@@ -488,11 +506,20 @@ public class Edit
 									indexCursor = -1;
 									temp.setInsert( true, true );
 									ostacoli.add( temp );
-									temp = null;
+									temp.setSpigoli();
+									// TODO inserimento tubo (e tutto ciò che ne comporta)
+									if(temp.getID().equals( "tubo" ) && coppia)
+									    {
+									        Ostacolo temp2 = temp.clone();
+									        temp = temp2;
+									        coppia = false;
+									    }
+									else
+									    temp = null;
 								}
 						}
 				}
-			//se non ho cliccato su un elemento da inserire
+			//se NON ho cliccato su un elemento da inserire
 			else if(temp == null)
 				{				
 					//sposta di una posizione a destra il cursore
@@ -566,6 +593,9 @@ public class Edit
 					else if((insertEditor && choise.contains( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )) || input.isKeyPressed( Input.KEY_DOWN ))
 						{
 							insertEditor = false;
+		                    base.setY( gc.getHeight() );
+		                    heightBase = 0;
+		                    setChoise( gc );
 							indexCursor = -1;
 							indexCursorButton = -1;
 						}
@@ -589,18 +619,6 @@ public class Edit
 										ball = 0;
 										
 										resetStatus();
-									}
-						}
-					//spostamento nella sezione "scegli livello" (salva il livello se i requisiti minimi sono rispettati)
-					else if((indexCursorButton == 0 && input.isKeyPressed( Input.KEY_ENTER )) || (chooseLevel.checkClick( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )))
-						{
-							if(!insertEditor)
-								if(Begin.livelli.size() > 0 && temp == null)
-									{
-										resetStatus();
-										Start.editGame = 0;
-										Start.chooseLevel = 1;
-										Start.setPreviuosStats( "editGame" );
 									}
 						}
 					//torna alla schermata precedente

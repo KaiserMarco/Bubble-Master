@@ -24,6 +24,7 @@ import dataObstacles.Bubble;
 import dataObstacles.Ostacolo;
 import dataObstacles.Player;
 import dataObstacles.Sbarra;
+import dataObstacles.Tubo;
 
 public class Begin 
 {
@@ -51,8 +52,13 @@ public class Begin
 	/*gli elementi del livello (ostacoli, giocatori e sfondo)*/
 	private ArrayList<Ostacolo> elements;
 	
+	//determina se visualizzare o meno i tasti di selezione
+	private boolean insertButton;
+	
 	public Begin( GameContainer gc ) throws SlickException
 		{
+	        insertButton = false;
+	    
 			livelli = new ArrayList<Livello>();
 			
 			editor = new SimpleButton( (int) (gc.getWidth()/(2.2)), (int) (gc.getWidth()/(2.2)), "EDIT", Color.orange );
@@ -89,11 +95,20 @@ public class Begin
 								tmp = obs.getAttribute( "y" );
 								int y = Integer.parseInt( tmp.substring( 0, tmp.length() - 2 ) );
 								String type = obs.getAttribute( "ID" );	
+								String orienting = obs.getAttribute( "type" );
 								
 								if(type.equals( "bolla" ))
-									elements.add( new Bubble( x, y, 25, gc.getWidth() ) );
+								    elements.add( new Bubble( x, y, 25, gc.getWidth() ) );
 								else if(type.equals( "sbarra" ))
-									elements.add( new Sbarra( x, y ) );
+								    {
+									    elements.add( new Sbarra( x, y, orienting ) );
+                                        elements.get( elements.size() - 1 ).setSpigoli();
+								    }
+								else if(type.equals( "tubo" ))
+                                    {
+                                        elements.add( new Tubo( x, y, orienting ) );
+                                        elements.get( elements.size() - 1 ).setSpigoli();
+                                    }
 								else if(type.startsWith( "player" ))
 									elements.add( new Player( x, y, 1 ) );
 							}
@@ -127,8 +142,9 @@ public class Begin
 
 	public void draw( Graphics g ) throws SlickException
 		{
-			for(int i = 0; i < buttons.size(); i++)
-				buttons.get( i ).draw( g );
+	        if(insertButton)
+    			for(int i = 0; i < buttons.size(); i++)
+    				buttons.get( i ).draw( g );
 			
 			if(indexCursor >= 0)
 				cursor.draw( buttons.get( indexCursor ).getX() - widthC, buttons.get( indexCursor ).getY(), widthC, heightC );
@@ -138,7 +154,13 @@ public class Begin
 		{
 			Input input = gc.getInput();
 			int mouseX = input.getMouseX();
-			int mouseY = input.getMouseY();			
+			int mouseY = input.getMouseY();
+			
+			//schermata iniziale del "premi un tasto qualsiasi"
+			if(!insertButton)
+    			for(int i = 0; i < 256; i++)
+    			    if(input.isKeyPressed( i ))
+                        insertButton = true;
 			
 			if((input.isKeyPressed( Input.KEY_UP ) || input.isKeyPressed( Input.KEY_DOWN ) || input.isKeyPressed( Input.KEY_LEFT ) || input.isKeyPressed( Input.KEY_RIGHT )))
 				{

@@ -28,7 +28,7 @@ public class Bubble extends Ostacolo
      
     private Circle ostr;
  
-    private int speedX = -1, speedY = -1;
+    private int speedX = -2, speedY = -2;
      
     private Image immagine = new Image( "./data/Image/Palla.png" );
      
@@ -283,4 +283,22 @@ public class Bubble extends Ostacolo
 
 	public void update(GameContainer gc, int delta) throws SlickException 
 		{}
+
+    public void setOrienting()
+    	{}
+
+    public String getOrienting()
+    	{ return null; }
+
+    public void setSpigoli()
+    	{}
+
+	public int getUnion()
+		{ return 0; }
+
+	public void setUnion(int val)
+		{}
+
+	public Point getMidArea()
+		{ return null; }
 }

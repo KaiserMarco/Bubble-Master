@@ -1,5 +1,6 @@
 package dataObstacles;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -7,14 +8,23 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
 
+import bubbleMaster.Start;
+
 public class Tubo extends Ostacolo{
 
-	Image tubosx = new Image( "./data/Image/tuboSx.png" );
-	Image tubodx = new Image( "./data/Image/tuboDx.png" );
-	int width = 65;
-	int heigth = 54;
+    Image immagine;
+	Image tubosx = new Image( "./data/Image/tuboSx.png" ), tubodx = new Image( "./data/Image/tuboDx.png" );
+	Image tuboup = new Image( "./data/Image/tuboUp.png" ), tubodown = new Image( "./data/Image/tuboDown.png" );    
+
+    private Color cg = new Color( 50, 170, 50, 150 ), cr = new Color( 170, 50, 50, 150 );
+    
+    //insert = false -> oggetto rosso | insert = true -> oggetto verde
+    private boolean insert = false, checkInsert = false;
 	
-	String type = "sx";
+	int width = 65;
+	int height = 54;
+	
+	String type;
 	
 	public Rectangle ostr;
 	
@@ -22,38 +32,35 @@ public class Tubo extends Ostacolo{
 	public Rectangle latoSu, latoGiu, latoDx, latoSx;
 	public Rectangle spigASx, spigADx, spigBSx, spigBDx;
 	
-	private boolean insert, collide;
+	private boolean collide;
 	
-	public Tubo( int x, int y, String direction ) throws SlickException
+	//indice del tubo a cui e' collegato
+	private int unione;
+	
+	public Tubo( int x, int y, String type ) throws SlickException
 	{
-		super( "tubo" + direction );
+		super( "tubo" );
 		
-		type = direction;
+		this.type = type;
 		
-		ostr = new Rectangle( x, y, width, heigth );
+		ostr = new Rectangle( x, y, width, height );
 		
-		/*creazione lati*/
-		latoSu = new Rectangle( ostr.getX() + 1, ostr.getY(), ostr.getWidth() - 2, 1 );
-		latoGiu = new Rectangle( ostr.getX() + 1, ostr.getY() + ostr.getHeight() - 1, ostr.getWidth() - 2, 1 );
-		latoSx = new Rectangle( ostr.getX(), ostr.getY() + 1, 1, ostr.getHeight() - 2 );
-		latoDx = new Rectangle( ostr.getX() + ostr.getWidth() - 1, ostr.getY() + 1, 1, ostr.getHeight() - 2 );
-		
-		/*creazione spigoli*/
-		spigASx = new Rectangle( ostr.getX(), ostr.getY(), 1, 1 );
-		spigADx = new Rectangle( ostr.getX() + ostr.getWidth() - 1, ostr.getY(), 1, 1 );
-		spigBSx = new Rectangle( ostr.getX(), ostr.getY() + ostr.getHeight() - 1, 1, 1 );
-		spigBDx = new Rectangle( ostr.getX() + ostr.getWidth() - 1, ostr.getY() + ostr.getHeight() - 1, 1, 1 );
-		
-		insert = false;
+		immagine = tubosx;
+
 		collide = false;
+		
+		unione = -1;
 	}
 
 	public void draw( Graphics g ) throws SlickException
 		{
-			if(type.equals( "sx" ))
-				tubosx.draw( ostr.getX(), ostr.getY(), ostr.getWidth(), ostr.getHeight() );
-			else
-				tubodx.draw( ostr.getX(), ostr.getY(), ostr.getWidth(), ostr.getHeight() );
+            immagine.draw( ostr.getX(), ostr.getY(), width, height );
+            if(Start.editGame == 1)
+                if(checkInsert)
+                    if(!insert)
+                        immagine.draw( ostr.getX(), ostr.getY(), width, height, cr);
+                    else
+                        immagine.draw( ostr.getX(), ostr.getY(), width, height, cg);
 		}
 	
 	public void setType( String type )
@@ -77,8 +84,11 @@ public class Tubo extends Ostacolo{
 	public boolean getInsert()
 		{ return insert; }
 
-	public void setInsert(boolean insert, boolean change)
-		{ this.insert = insert; }
+    public void setInsert(boolean insert, boolean change)
+        {
+            checkInsert = !change;
+            this.insert = insert;
+        }
 	
 	public void setXY( float x, float y, String function )
 		{			
@@ -87,16 +97,6 @@ public class Tubo extends Ostacolo{
 			
 			else if(function.compareTo( "restore" ) == 0)
 				ostr.setLocation( x, y );
-			
-			latoSu.setLocation( ostr.getX() + 1, ostr.getY() );
-			latoGiu.setLocation( ostr.getX() + 1, ostr.getY() + ostr.getHeight() - 1 );
-			latoSx.setLocation( ostr.getX(), ostr.getY() + 1 );
-			latoDx.setLocation( ostr.getX() + ostr.getWidth() - 1, ostr.getY() + 1 );
-			
-			spigASx.setLocation( ostr.getX(), ostr.getY() );
-			spigADx.setLocation( ostr.getX() + ostr.getWidth() - 1, ostr.getY() );
-			spigBSx.setLocation( ostr.getX(), ostr.getY() + ostr.getHeight() - 1 );
-			spigBDx.setLocation( ostr.getX() + ostr.getWidth() - 1, ostr.getY() + ostr.getHeight() - 1 );
 		}
 
 	public Rectangle component( String part ) 
@@ -173,4 +173,89 @@ public class Tubo extends Ostacolo{
 
 	public double getMaxWidth()
 		{ return 0; }
+
+	private void modificaArea( int type )
+	    {
+	        //se la modifica e' da orizzontale a verticale
+	        if(type == 1)
+    	        {
+	                width = 65;
+	                height = 54;
+	                
+                    ostr.setX( getX() - width/2 + height/2 );
+                    ostr.setY( getY() + width/2 - height/2 );
+                    ostr.setWidth( width );
+                    ostr.setHeight( height );
+    	        }
+	        //se la modifica e' da verticale a orizzontale
+	        else
+    	        {
+                    ostr.setX( getX() + width/2 - height/2 );
+                    ostr.setY( getY() - width/2 + height/2 );
+                
+                    width = 54;
+                    height = 65;
+                    ostr.setWidth( width );
+                    ostr.setHeight( height );
+    	        }
+	    }
+	
+	public void setOrienting()
+        {
+	        if(type.equals( "sx" ))
+	            {
+	                type = "up";
+	                immagine = tuboup;
+	                modificaArea( 1 );
+	            }
+	        else if(type.equals( "up" ))
+	            {
+	                type = "dx";
+	                immagine = tubodx;
+	                modificaArea( 2 );
+	            }
+	        else if(type.equals( "dx" ))
+	            {
+	                type = "down";
+	                immagine = tubodown;
+	                modificaArea( 1 );
+	            }
+	        else
+	            {
+	                type = "sx";
+	                immagine = tubosx;
+	                modificaArea( 2 );
+	            }
+        }
+
+	public String getOrienting()
+        { return type; }
+
+	public void setSpigoli()
+        {
+            /*creazione lati*/
+            latoSu = new Rectangle( ostr.getX() + 1, ostr.getY(), ostr.getWidth() - 2, 1 );
+            latoGiu = new Rectangle( ostr.getX() + 1, ostr.getY() + ostr.getHeight() - 1, ostr.getWidth() - 2, 1 );
+            latoSx = new Rectangle( ostr.getX(), ostr.getY() + 1, 1, ostr.getHeight() - 2 );
+            latoDx = new Rectangle( ostr.getX() + ostr.getWidth() - 1, ostr.getY() + 1, 1, ostr.getHeight() - 2 );
+            
+            /*creazione spigoli*/
+            spigASx = new Rectangle( ostr.getX(), ostr.getY(), 1, 1 );
+            spigADx = new Rectangle( ostr.getX() + ostr.getWidth() - 1, ostr.getY(), 1, 1 );
+            spigBSx = new Rectangle( ostr.getX(), ostr.getY() + ostr.getHeight() - 1, 1, 1 );
+            spigBDx = new Rectangle( ostr.getX() + ostr.getWidth() - 1, ostr.getY() + ostr.getHeight() - 1, 1, 1 );
+        }
+	
+	public void setUnion( int val )
+		{ unione = val; }
+	
+	public int getUnion()
+		{ return unione; }
+	
+	public Point getMidArea()
+		{
+			// TODO calcolare la meta' dell'area e ritornarla
+		
+			return new Point( 1, 1 );
+		}
 }

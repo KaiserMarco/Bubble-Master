@@ -59,6 +59,16 @@ public abstract class Ostacolo
 	
 	public abstract boolean getCollide();
 	public abstract void setCollide( boolean val );
+	
+	public abstract void setOrienting();
+	public abstract String getOrienting();
 
 	public abstract Shape getArea();
+	
+	public abstract void setSpigoli();
+	
+	public abstract int getUnion();
+	public abstract void setUnion( int val );
+	
+	public abstract Point getMidArea();
 }

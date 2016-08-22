@@ -446,8 +446,26 @@ public class Player extends Ostacolo
 		{ return 0; }
 
 	public boolean getCollide()
-	 { return false; }
+		{ return false; }
 
 	public void setCollide( boolean val )
-	 {}
+	 	{}
+
+    public void setOrienting()
+    	{}
+
+    public String getOrienting()
+    	{ return null; }
+
+    public void setSpigoli()
+    	{}
+
+	public int getUnion()
+		{ return 0; }
+
+	public void setUnion(int val)
+		{}
+
+	public Point getMidArea()
+		{ return null; }
 }
