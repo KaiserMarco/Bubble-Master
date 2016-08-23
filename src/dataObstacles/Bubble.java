@@ -28,7 +28,7 @@ public class Bubble extends Ostacolo
      
     private Circle ostr;
  
-    private int speedX = -2, speedY = -2;
+    private int speedX = -1, speedY = -1;
      
     private Image immagine = new Image( "./data/Image/Palla.png" );
      

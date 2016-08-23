@@ -54,7 +54,8 @@ public class Edit
 	private Image choiseI, baseI;
 	private Image cursor;
 	
-	private int indexCursor, indexCursorButton;
+	//indice relativo alla posizione del cursore
+	private int indexCursor, indexCursorButton, indexCursorSfondi;
 	private int widthC, heightC;
 	
 	private boolean insertEditor, insertItem;
@@ -130,6 +131,7 @@ public class Edit
 			insertEditor = false;
 			indexCursor = -1;
 			indexCursorButton = -1;
+			indexCursorSfondi = -1;
 			
 			insertItem = false;
 			
@@ -196,6 +198,9 @@ public class Edit
 				else if(ostacoli.size() >= 0)
 					cursor.draw( ostacoli.get( indexCursor ).getX() - widthC, ostacoli.get( indexCursor ).getY(), widthC, heightC );
 			
+			if(indexCursorSfondi >= 0)
+				cursor.draw( sfondi.get( indexCursorSfondi ).getX() - widthC, sfondi.get( indexCursorSfondi ).getY(), widthC, heightC );
+			
 			if(temp != null)
 				temp.draw( g );
 		}
@@ -212,6 +217,8 @@ public class Edit
 	
 	public boolean checkPressed( int x, int y, GameContainer gc, String type ) throws SlickException
 		{
+			// TODO IMPLEMENTARE SCELTA DI UNO SFONDO
+		
 			//se e' stato scelto un elemento nuovo da inserire
 			if(insertEditor)
 				{
@@ -409,8 +416,6 @@ public class Edit
 			int mouseX = input.getMouseX();
 			int mouseY = input.getMouseY();
 			int move = 2;
-			
-			// TODO IMPLEMENTARE LA SELEZIONE DI UNO SFONDO
 			
 			boolean collide = false, fall = false;
 			//determina se il personaggio "tocca" un oggetto del livello o il pavimento
@@ -632,7 +637,23 @@ public class Edit
 					if(input.isKeyPressed( Input.KEY_RIGHT ))
 						{
 							if(insertEditor)
-								indexCursor = (++indexCursor)%items.size();
+								{
+									if(indexCursor < 0 && indexCursorSfondi < 0)
+										indexCursorSfondi++;
+									else if(indexCursor < 0)
+										{
+											if(++indexCursorSfondi == sfondi.size())
+												{
+													indexCursor++;
+													indexCursorSfondi = -1;
+												}
+										}
+									else if(++indexCursor == items.size())
+										{
+											indexCursor = -1;
+											indexCursorSfondi++;
+										}
+								}
 							else
 								{
 									if(indexCursor >= 0)
@@ -665,8 +686,15 @@ public class Edit
 						{
 							if(insertEditor)
 								{
-									if(--indexCursor < 0)
-										indexCursor = items.size() - 1;
+									if(indexCursor < 0 && indexCursorSfondi < 0)
+										indexCursorSfondi = sfondi.size() - 1;
+									else if(indexCursor < 0)
+										{
+											if(--indexCursorSfondi < 0)
+												indexCursor = items.size() - 1;
+										}
+									else if(--indexCursor < 0)
+										indexCursorSfondi = sfondi.size() - 1;
 								}
 							else
 								{
@@ -734,7 +762,7 @@ public class Edit
 							Start.editGame = 0;
 							Start.recoverPreviousStats();
 						}
-					//seleziona un elemento da inserire (tramite mouse o tastiera)
+					//seleziona un elemento da inserire o scelta di uno sfondo (tramite mouse o tastiera)
 					else if(input.isKeyPressed( Input.KEY_ENTER ) || input.isMousePressed( Input.MOUSE_LEFT_BUTTON ))
 						if(checkPressed( mouseX, mouseY, gc, "keyboard" ))
 							choise.setLocation( choise.getX(), gc.getHeight() - heightChoise );

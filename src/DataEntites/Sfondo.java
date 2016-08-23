@@ -8,6 +8,7 @@ public class Sfondo
 	private Image sfondo;
 	private double maxHeight, maxWidth;
 	private int index;
+	private int x, y;
 	
 	public Sfondo( Image sfondo, double maxH, double maxW )
 		{
@@ -41,5 +42,15 @@ public class Sfondo
 		{ sfondo.draw( 0, 0, gc.getWidth(), gc.getHeight() ); }
 	
 	public void draw( int x, int y, int width, int height )
-		{ sfondo.draw( x, y, width, height ); }
+		{
+			sfondo.draw( x, y, width, height );
+			this.x = x;
+			this.y = y;
+		}
+	
+	public int getX()
+		{ return x; }
+
+	public int getY()
+		{ return y; }
 }
