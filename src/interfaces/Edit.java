@@ -81,12 +81,13 @@ public class Edit
 			//TODO voglio provare a caricare tutti questi dati tramite file .xml (se mi riesce e ho tempo, senno' pazienza e lascio cosi')
 		
 			double maxH = gc.getHeight()/(1.04), maxW = gc.getWidth();
+			int width = gc.getHeight()/10, height = gc.getWidth()/20;
 			sfondi = new ArrayList<Sfondo>();
-			sfondi.add( new Sfondo( new Image( "./data/Image/sfondo.png" ), maxH, maxW, gc.getWidth()/8, gc.getHeight()/2, gc.getHeight()/10, gc.getWidth()/20 ) );
-			sfondi.add( new Sfondo( new Image( "./data/Image/sfondo2.png" ), maxH, maxW, gc.getWidth()*29/100, gc.getHeight()/2, gc.getHeight()/10, gc.getWidth()/20 ) );
-			sfondi.add( new Sfondo( new Image( "./data/Image/sfondo3.jpg" ), maxH, maxW, gc.getWidth()*46/100, gc.getHeight()/2, gc.getHeight()/10, gc.getWidth()/20 ) );
-			sfondi.add( new Sfondo( new Image( "./data/Image/sfondo4.jpg" ), maxH, maxW, gc.getWidth()*63/100, gc.getHeight()/2, gc.getHeight()/10, gc.getWidth()/20 ) );
-			sfondi.add( new Sfondo( new Image( "./data/Image/sfondo6.jpg" ), maxH, maxW, gc.getWidth()*8/10, gc.getHeight()/2, gc.getHeight()/10, gc.getWidth()/20 ) );
+			sfondi.add( new Sfondo( new Image( "./data/Image/sfondo.png" ), maxH, maxW, gc.getWidth()/8, gc.getHeight()/2, width, height ) );
+			sfondi.add( new Sfondo( new Image( "./data/Image/sfondo2.png" ), maxH, maxW, gc.getWidth()*29/100, gc.getHeight()/2, width, height ) );
+			sfondi.add( new Sfondo( new Image( "./data/Image/sfondo3.jpg" ), maxH, maxW, gc.getWidth()*46/100, gc.getHeight()/2, width, height ) );
+			sfondi.add( new Sfondo( new Image( "./data/Image/sfondo4.jpg" ), maxH, maxW, gc.getWidth()*63/100, gc.getHeight()/2, width, height ) );
+			sfondi.add( new Sfondo( new Image( "./data/Image/sfondo6.jpg" ), maxH, maxW, gc.getWidth()*8/10, gc.getHeight()/2, width, height ) );
 			
 			up = new Image( "./data/Image/up.png" );
 			down = new Image( "./data/Image/down.png" );
@@ -174,13 +175,13 @@ public class Edit
 			baseI.draw( base.getX(), base.getY(), base.getWidth(), heightBase );
 
 			if(insertItem)
-				for(int i = 0; i < items.size(); i++)
-					{
+				{
+					for(int i = 0; i < items.size(); i++)
 						items.get( i ).draw( g );
-						
-						for(int j = 0; j < sfondi.size(); j++)
-							sfondi.get( j ).draw();
-					}
+
+					for(int i = 0; i < sfondi.size(); i++)
+						sfondi.get( i ).draw();
+				}
 			
 			choiseI.draw( choise.getX(), choise.getY(), choise.getWidth(), choise.getHeight() );
 			
@@ -223,8 +224,6 @@ public class Edit
 	
 	public boolean checkPressed( int x, int y, GameContainer gc, String type ) throws SlickException
 		{
-			// TODO IMPLEMENTARE SCELTA DI UNO SFONDO
-		
 			//se e' stato scelto un elemento nuovo da inserire
 			if(insertEditor)
 				{
@@ -267,7 +266,6 @@ public class Edit
 					//inserimento tramite click del mouse
 					else
 						{
-							System.out.println( "ecchime" );
 							for(int i = 0; i < items.size(); i++)
 								{
 									Ostacolo item = items.get( i );
