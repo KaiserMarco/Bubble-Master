@@ -8,7 +8,6 @@ import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
@@ -55,16 +54,27 @@ public class Begin
 	//determina se visualizzare o meno i tasti di selezione
 	private boolean insertButton;
 	
+	//deermina il punto in cui i bottoni dovranno fermarsi
+	private int xFinale1, xFinale2;
+	
+	//immagine schermata iniziale
+	private Sfondo pang;
+	
 	public Begin( GameContainer gc ) throws SlickException
 		{
 	        insertButton = false;
+
+	        xFinale1 = (int) (gc.getWidth()/(2.5));
+	        xFinale2 = (int) (gc.getWidth()/(2.2));
 	    
 			livelli = new ArrayList<Livello>();
 			
-			editor = new SimpleButton( (int) (gc.getWidth()/(2.2)), (int) (gc.getWidth()/(2.2)), "EDIT", Color.orange );
-			choose = new SimpleButton( (int) (gc.getWidth()/(2.5)), gc.getHeight()/4, "SCEGLI LIVELLO", Color.orange );
+			choose = new SimpleButton( 0, gc.getHeight()/4, "SCEGLI LIVELLO", Color.orange );
+			editor = new SimpleButton( gc.getWidth(), (int) (gc.getWidth()/(2.2)), "EDIT", Color.orange );
 			
 			elements = new ArrayList<Ostacolo>();
+			
+			pang = new Sfondo( new Image( "/data/Image/pang.png" ), 0, 0, 0, 0, gc.getWidth(), gc.getHeight() );
 			
 			//caricamento livelli da file .xml
 			try {
@@ -140,11 +150,13 @@ public class Begin
 			indexCursor = -1;
 		}
 
-	public void draw( Graphics g ) throws SlickException
+	public void draw( GameContainer gc ) throws SlickException
 		{
+			pang.draw( gc );
+		
 	        if(insertButton)
     			for(int i = 0; i < buttons.size(); i++)
-    				buttons.get( i ).draw( g );
+    				buttons.get( i ).draw( gc.getGraphics() );
 			
 			if(indexCursor >= 0)
 				cursor.draw( buttons.get( indexCursor ).getX() - widthC, buttons.get( indexCursor ).getY(), widthC, heightC );
@@ -155,6 +167,20 @@ public class Begin
 			Input input = gc.getInput();
 			int mouseX = input.getMouseX();
 			int mouseY = input.getMouseY();
+			
+			// TODO implementare slittamento bottoni (assurdo ma non funziona)
+			if(insertButton)
+				{
+					System.out.println( "xFinale1 = " + xFinale1 + " choose.X = " + choose.getX() );
+					if(choose.getX() + delta < xFinale1)
+						choose.setX( choose.getX() + delta );
+					else
+						choose.setX( xFinale1 );
+					if(editor.getX() - delta > xFinale2)
+						editor.setX( editor.getX() - delta );
+					else
+						editor.setX( xFinale2 );
+				}
 			
 			//schermata iniziale del "premi un tasto qualsiasi"
 			if(!insertButton)

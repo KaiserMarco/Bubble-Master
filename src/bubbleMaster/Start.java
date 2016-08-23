@@ -22,8 +22,8 @@ public class Start extends BasicGame
 	private Edit edit;
 	public static ChooseLevel cl;
 	
-	public static int chooseLevel, startGame, begin, endGame;
-	public static int editGame = 1;
+	public static int chooseLevel, startGame, endGame, editGame;
+	public static int begin = 1;
 	
 	private static ArrayList<String> previous;
 	
@@ -68,7 +68,7 @@ public class Start extends BasicGame
 	public void render(GameContainer gc, Graphics g) throws SlickException 
 		{		
 			if(begin == 1)
-				b.draw( g );
+				b.draw( gc );
 			else if(startGame == 1)
 				ig.draw( gc, g );
 			else if(editGame == 1)

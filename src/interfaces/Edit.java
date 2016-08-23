@@ -246,7 +246,7 @@ public class Edit
 									
 									indexCursor = -1;
 									indexCursorButton = -1;
-									insertEditor = false;									
+									insertEditor = false;
 
 									tempX = gc.getInput().getMouseX();
 									tempY = gc.getInput().getMouseY();
