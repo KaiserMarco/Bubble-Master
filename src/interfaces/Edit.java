@@ -58,6 +58,7 @@ public class Edit
 	private int widthC, heightC;
 	
 	private boolean insertEditor, insertItem;
+	/**base -> la finestra di selezione sfondo/elemento*/
 	private Rectangle choise, base;
 	private int widthChoise, heightChoise;
 	private int widthBase, heightBase;
@@ -119,6 +120,7 @@ public class Edit
 			
 			widthChoise = gc.getWidth()/8;
 			heightChoise = gc.getHeight()/30;
+			//lunghezza e altezza della base di selezione elementi
 			widthBase = (int) (gc.getWidth()/1.11);
 			heightBase = 0;
 			choise = new Rectangle( gc.getWidth()/2 - widthChoise/2, gc.getHeight() - heightChoise, widthChoise, heightChoise );
@@ -171,7 +173,13 @@ public class Edit
 
 			if(insertItem)
 				for(int i = 0; i < items.size(); i++)
-					items.get( i ).draw( g );
+					{
+						items.get( i ).draw( g );
+						
+						int offset = 135;
+						for(int j = 0; j < sfondi.size(); j++)
+							sfondi.get( j ).draw( 100 + offset * j, gc.getHeight()/2, 60, 40 );
+					}
 			
 			choiseI.draw( choise.getX(), choise.getY(), choise.getWidth(), choise.getHeight() );
 			
@@ -264,7 +272,7 @@ public class Edit
 			//se e' stato scelto un elemento gia' presente nel gioco
 			else
 				{
-					if(type.equals( "keyboard" ) && (indexCursor >= 0 || indexCursorButton >= 0))
+					if(type.equals( "keyboard" ) && indexCursor >= 0)
 						{
 							temp = ostacoli.get( indexCursor );
 							//modifica la posizione di un tubo gia' esistente
@@ -401,6 +409,8 @@ public class Edit
 			int mouseX = input.getMouseX();
 			int mouseY = input.getMouseY();
 			int move = 2;
+			
+			// TODO IMPLEMENTARE LA SELEZIONE DI UNO SFONDO
 			
 			boolean collide = false, fall = false;
 			//determina se il personaggio "tocca" un oggetto del livello o il pavimento

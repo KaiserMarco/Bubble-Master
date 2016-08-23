@@ -39,4 +39,7 @@ public class Sfondo
 	
 	public void draw( GameContainer gc )
 		{ sfondo.draw( 0, 0, gc.getWidth(), gc.getHeight() ); }
+	
+	public void draw( int x, int y, int width, int height )
+		{ sfondo.draw( x, y, width, height ); }
 }
