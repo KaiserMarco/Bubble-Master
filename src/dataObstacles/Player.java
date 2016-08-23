@@ -55,10 +55,10 @@ public class Player extends Ostacolo
 	private float animTimeMove = 504, reachDelta = 0, animTimeJump = 396, reachDeltaJump = 0;
 	private int countShot;
 	
-	private SpriteSheet sheetDx = new SpriteSheet( new Image( "./data/Image/animdx.png" ), 324, 41 );
-	private SpriteSheet sheetSx = new SpriteSheet( new Image( "./data/Image/animsx.png" ), 324, 41 );	
-	private SpriteSheet sheetJumpDx = new SpriteSheet( new Image( "./data/Image/jumpDx.png" ), 261, 48 );
-	private SpriteSheet sheetJumpSx = new SpriteSheet( new Image( "./data/Image/jumpSx.png" ), 261, 48 );
+	private SpriteSheet sheetDx;
+	private SpriteSheet sheetSx;	
+	private SpriteSheet sheetJumpDx;
+	private SpriteSheet sheetJumpSx;
 	
 	/*movimento a destra - movimento a sinistra - movimento in alto - movimento in basso*/
 	boolean movingDx, movingSx, movingJ;
@@ -76,15 +76,24 @@ public class Player extends Ostacolo
 			saltoDx = new Image[9];
 			saltoSx = new Image[9];
 
+			// TODO COMPLETARE ANIMAZIONE SALTO SECONDO PLAYER
 			if(numPlayer == 0)
 				{
 					pgdx = new Image( "./data/Image/pgdx1.png" );
 					pgsx = new Image( "./data/Image/pgsx1.png" );
+					sheetDx = new SpriteSheet( new Image( "./data/Image/animdx.png" ), 324, 41 );
+					sheetSx = new SpriteSheet( new Image( "./data/Image/animsx.png" ), 324, 41 );
+					sheetJumpDx = new SpriteSheet( new Image( "./data/Image/jumpDx.png" ), 261, 48 );
+					sheetJumpSx = new SpriteSheet( new Image( "./data/Image/jumpSx.png" ), 261, 48 );
 				}
 			else
 				{
-					pgdx = new Image( "./data/Image/pgdx1.png" );
-					pgsx = new Image( "./data/Image/pgsx1.png" );
+					pgdx = new Image( "./data/Image/pgdx2.png" );
+					pgsx = new Image( "./data/Image/pgsx2.png" );
+					sheetDx = new SpriteSheet( new Image( "./data/Image/animdx2.png" ), 324, 41 );
+					sheetSx = new SpriteSheet( new Image( "./data/Image/animsx2.png" ), 324, 41 );
+					sheetJumpDx = new SpriteSheet( new Image( "./data/Image/jumpDx.png" ), 261, 48 );
+					sheetJumpSx = new SpriteSheet( new Image( "./data/Image/jumpSx.png" ), 261, 48 );
 				}
 			
 			xPlayer = x;

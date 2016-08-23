@@ -171,7 +171,6 @@ public class Begin
 			// TODO implementare slittamento bottoni (assurdo ma non funziona)
 			if(insertButton)
 				{
-					System.out.println( "xFinale1 = " + xFinale1 + " choose.X = " + choose.getX() );
 					if(choose.getX() + delta < xFinale1)
 						choose.setX( choose.getX() + delta );
 					else
