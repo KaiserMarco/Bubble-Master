@@ -294,7 +294,7 @@ public class Bubble extends Ostacolo
     	{}
 
 	public int getUnion()
-		{ return 0; }
+		{ return -1; }
 
 	public void setUnion(int val)
 		{}

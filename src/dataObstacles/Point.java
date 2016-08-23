@@ -2,11 +2,17 @@ package dataObstacles;
 
 public class Point
 {
-	int x, y;
+	float x, y;
 	
-	public Point( int x, int y )
+	public Point( float x, float y )
 		{
 			this.x = x;
 			this.y = y;
 		}
+	
+	public float getX()
+		{ return x; }
+	
+	public float getY()
+		{ return y; }
 }

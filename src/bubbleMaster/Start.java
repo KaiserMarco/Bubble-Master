@@ -22,8 +22,8 @@ public class Start extends BasicGame
 	private Edit edit;
 	public static ChooseLevel cl;
 	
-	public static int chooseLevel, startGame, editGame, endGame;
-	public static int begin = 1;
+	public static int chooseLevel, startGame, begin, endGame;
+	public static int editGame = 1;
 	
 	private static ArrayList<String> previous;
 	

@@ -176,11 +176,14 @@ public class Tubo extends Ostacolo{
 
 	private void modificaArea( int type )
 	    {
+			int tmp;
+		
 	        //se la modifica e' da orizzontale a verticale
 	        if(type == 1)
     	        {
-	                width = 65;
-	                height = 54;
+	        		tmp = width;
+	                width = height;
+	                height = tmp;
 	                
                     ostr.setX( getX() - width/2 + height/2 );
                     ostr.setY( getY() + width/2 - height/2 );
@@ -191,10 +194,11 @@ public class Tubo extends Ostacolo{
 	        else
     	        {
                     ostr.setX( getX() + width/2 - height/2 );
-                    ostr.setY( getY() - width/2 + height/2 );
-                
-                    width = 54;
-                    height = 65;
+                    ostr.setY( getY() - width/2 + height/2 );                
+
+	        		tmp = width;
+	                width = height;
+	                height = tmp;
                     ostr.setWidth( width );
                     ostr.setHeight( height );
     	        }
@@ -252,10 +256,19 @@ public class Tubo extends Ostacolo{
 	public int getUnion()
 		{ return unione; }
 	
+	//calcola il punto a meta' dell'oggetto per generare la linea che unisce i tubi connessi
 	public Point getMidArea()
-		{
-			// TODO calcolare la meta' dell'area e ritornarla
-		
-			return new Point( 1, 1 );
-		}
+		{ return new Point( getX() + width/2, getY() + height/2 ); }
 }
+
+
+
+
+
+
+
+
+
+
+
+

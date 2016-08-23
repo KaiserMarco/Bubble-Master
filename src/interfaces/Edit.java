@@ -68,11 +68,16 @@ public class Edit
 	private Element livello;
 	private Document document;
 	
-	//determina se stiamo inserendo il secondo tubo connesso
-	private boolean coppia;
+	//determina se stiamo inserendo una NUOVA coppia di tubi
+	private boolean nuovaCoppiaTubi, nuovoTubo1, nuovoTubo2;
+	
+	//salva il valore del tubo rimanente
+	private int indiceTuboRimasto;
 	
 	public Edit( GameContainer gc ) throws SlickException
 		{		
+			//TODO voglio provare a caricare tutti questi dati tramite file .xml (se mi riesce e ho tempo, senno' pazienza e lascio cosi')
+		
 			double maxH = gc.getHeight()/(1.04), maxW = gc.getWidth();
 			sfondi = new ArrayList<Sfondo>();
 			sfondi.add( new Sfondo( new Image( "./data/Image/sfondo.png" ), maxH, maxW ) );
@@ -136,7 +141,10 @@ public class Edit
 			
 			minHighEditor = gc.getHeight() - (int) (gc.getHeight()/1.34);
 			
-			coppia = false;
+			nuovaCoppiaTubi = false;
+			nuovoTubo1 = false;
+			nuovoTubo2 = false;
+			indiceTuboRimasto = -1;
 		}
 	
 	public void draw( GameContainer gc, Graphics g ) throws SlickException
@@ -144,7 +152,18 @@ public class Edit
 			sfondi.get( indexSfondo ).draw( gc );
 						
 			for(int i = 0; i < ostacoli.size(); i++)
-				ostacoli.get( i ).draw( g );
+				{
+					ostacoli.get( i ).draw( g );
+					if(ostacoli.get( i ).getID().equals( "tubo" ))
+						{
+							Ostacolo tube = ostacoli.get( i );
+							
+							if(tube.getUnion() == -1)
+								g.drawGradientLine( tube.getMidArea().getX(), tube.getMidArea().getY(), Color.red, temp.getMidArea().getX(), temp.getMidArea().getY(), Color.red );
+							else
+								g.drawGradientLine( tube.getMidArea().getX(), tube.getMidArea().getY(), Color.red, ostacoli.get( tube.getUnion() ).getMidArea().getX(), ostacoli.get( tube.getUnion() ).getMidArea().getY(), Color.red );
+						}
+				}
 			
 			for(int i = 0; i < buttons.size(); i++)
 				buttons.get( i ).draw( g );
@@ -179,6 +198,7 @@ public class Edit
 	
 	public boolean checkPressed( int x, int y, GameContainer gc, String type ) throws SlickException
 		{
+			//se e' stato scelto un elemento nuovo da inserire
 			if(insertEditor)
 				{
 					if(type.equals( "keyboard" ) && indexCursor >= 0)
@@ -206,8 +226,12 @@ public class Edit
 								if(item.contains( x, y ))
 									{
 										temp = item.clone();
-										if(item.getID().equals( "tubo" ))
-										    coppia = true;
+										//sto inserendo una nuova coppia di tubi
+										if(temp.getID().equals( "tubo" ))
+											{
+												nuovaCoppiaTubi = true;
+												nuovoTubo1 = true;
+											}
 										
 										if(temp.getID().startsWith( "player" ))
 											gamer++;
@@ -226,6 +250,7 @@ public class Edit
 									}
 							}
 				}
+			//se e' stato scelto un elemento gia' presente nel gioco
 			else
 				{
 					if(type.equals( "keyboard" ) && (indexCursor >= 0 || indexCursorButton >= 0))
@@ -243,6 +268,21 @@ public class Edit
 								if(ostacoli.get( i ).contains( x, y ))
 									{
 										temp = ostacoli.get( i );
+										//sto modificando la posizione di un tubo gia' esistente
+										if(temp.getID().equals( "tubo" ))
+											{											
+												ostacoli.get( temp.getUnion() ).setUnion( - 1 );
+												
+												if(temp.getUnion() > i)											
+													indiceTuboRimasto = temp.getUnion() - 1;
+												else
+													indiceTuboRimasto = temp.getUnion();												
+											}
+										//sistema gli indici dei tubi puntati
+										for(int j = 0; j < ostacoli.size(); j++)
+											if(ostacoli.get( j ).getID().equals( "tubo" ) && ostacoli.get( j ).getUnion() > i)
+												ostacoli.get( j ).setUnion( ostacoli.get( j ).getUnion() - 1 );
+													
 										ostacoli.remove( i );
 										temp.setInsert( true, true );
 										
@@ -494,6 +534,10 @@ public class Edit
 								ball = Math.max( ball - 1, 0);
 							else if(temp.getID().startsWith( "player" ))
 								gamer = Math.max( gamer - 1, 0 );
+							//se il tubo ha un'altro tubo collegato, elimina anche il collegamento
+							if(temp.getID().equals( "tubo" ))
+								if(ostacoli.get( temp.getUnion() ) == temp )
+									ostacoli.remove( temp.getUnion() );
 							ostacoli.remove( temp );
 							
 							temp = null;
@@ -507,15 +551,42 @@ public class Edit
 									temp.setInsert( true, true );
 									ostacoli.add( temp );
 									temp.setSpigoli();
-									// TODO inserimento tubo (e tutto ciò che ne comporta)
-									if(temp.getID().equals( "tubo" ) && coppia)
+									// TODO inserimento tubo (e tutto cio' che ne comporta)
+									if(temp.getID().equals( "tubo" ))
 									    {
-									        Ostacolo temp2 = temp.clone();
-									        temp = temp2;
-									        coppia = false;
+											//inserisce una nuova coppia di tubi
+											if(nuovaCoppiaTubi)
+												{
+													if(nuovoTubo1)
+														{
+															Ostacolo temp2 = temp.clone();
+															
+															temp = null;
+															temp = temp2;
+															nuovoTubo1 = false;
+															nuovoTubo2 = true;
+														}
+													else if(nuovoTubo2)
+														{
+															//setto i nuovi indici dei tubi puntati
+															ostacoli.get( ostacoli.size() - 2 ).setUnion( ostacoli.size() - 1 );
+															ostacoli.get( ostacoli.size() - 1 ).setUnion( ostacoli.size() - 2 );
+															temp = null;
+															nuovoTubo2 = false;
+															nuovaCoppiaTubi = false;
+														}
+												}
+											//inserisco un elemento gia' esistente
+											else
+												{
+													ostacoli.get( indiceTuboRimasto ).setUnion( ostacoli.size() - 1 );
+													ostacoli.get( ostacoli.size() - 1 ).setUnion( indiceTuboRimasto );
+												
+													temp = null;
+												}
 									    }
 									else
-									    temp = null;
+										temp = null;
 								}
 						}
 				}

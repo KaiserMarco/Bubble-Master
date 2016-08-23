@@ -173,12 +173,15 @@ public class Sbarra extends Ostacolo{
 
     public void setOrienting()
         {
+    		int tmp;
+    	
             if(type.equals( "ver" ))
                 {
-                    type = "hor";
-                    
-                    width = 130;
-                    height = 20;
+                    type = "hor";                    
+
+	        		tmp = width;
+	                width = height;
+	                height = tmp;
                     
                     //modifica l'area dell'oggetto
                     ostr.setX( getX() - width/2 + height/2 );
@@ -195,9 +198,10 @@ public class Sbarra extends Ostacolo{
                     //modifica l'area dell'oggetto
                     ostr.setX( getX() + width/2 - height/2 );
                     ostr.setY( getY() - width/2 + height/2 );
-                    
-                    width = 20;
-                    height = 130;
+
+	        		tmp = width;
+	                width = height;
+	                height = tmp;
                     ostr.setWidth( width );
                     ostr.setHeight( height );
                     
@@ -224,7 +228,7 @@ public class Sbarra extends Ostacolo{
         }
 
 	public int getUnion()
-		{ return 0; }
+		{ return -1; }
 
 	public void setUnion(int val)
 		{}
