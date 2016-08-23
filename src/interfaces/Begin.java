@@ -117,7 +117,7 @@ public class Begin
 						Element img = (Element) nodo;
 						tmp = img.getAttribute( "index" );
 						System.out.println( "./data/Image/sfondo" + (Integer.parseInt( tmp ) + 1) + ".jpg" );
-						sfondo = new Sfondo( new Image( "./data/Image/sfondo" + (Integer.parseInt( tmp ) + 1) + ".jpg" ), gc.getHeight()/(1.04), gc.getWidth() );
+						sfondo = new Sfondo( new Image( "./data/Image/sfondo" + (Integer.parseInt( tmp ) + 1) + ".jpg" ), gc.getHeight()/(1.04), gc.getWidth(), 0, 0, gc.getWidth(), gc.getHeight() );
 						
 						Begin.livelli.add( new Livello( elements, sfondo ) );
 						
