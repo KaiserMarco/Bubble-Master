@@ -171,12 +171,13 @@ public class Begin
 			// TODO implementare slittamento bottoni (assurdo ma non funziona)
 			if(insertButton)
 				{
-					if(choose.getX() + delta < xFinale1)
-						choose.setX( choose.getX() + delta );
+					int move = delta/2;
+					if(choose.getX() + move < xFinale1)
+						choose.setX( choose.getX() + move );
 					else
 						choose.setX( xFinale1 );
-					if(editor.getX() - delta > xFinale2)
-						editor.setX( editor.getX() - delta );
+					if(editor.getX() - move*3/2 > xFinale2)
+						editor.setX( editor.getX() - move*3/2 );
 					else
 						editor.setX( xFinale2 );
 				}

@@ -46,6 +46,18 @@ public class Button
 	*/
 	public void setX( float x )
 		{ rect.setX( x ); }
+	
+	/** restituisce la coordinata x del bottone
+	 * @return rect.getX() - il valore della coordinata x del bottone
+	*/
+	public float getX()
+		{ return rect.getX(); }
+	
+	/** restituisce la coordinata y del bottone
+	 * @return name - il valore della coordinata x del bottone
+	*/
+	public float getY()
+		{ return rect.getY(); }
 
 	/** restituisce l'area occupata dal bottone
 	 * @return rect - area del bottone
