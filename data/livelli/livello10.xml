@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <level>
   <!--Objects-->
-  <ostacolo x="457.0" y="506.0" ID="player1" />
-  <ostacolo x="192.0" y="340.0" ID="bolla" />
-  <sfondo x="0" y="0" index="3" />
+  <ostacolo x="272.0" y="506.0" type="null" ID="player2" />
+  <ostacolo x="632.0" y="264.0" type="null" ID="bolla" />
+  <sfondo index="3" />
 </level>

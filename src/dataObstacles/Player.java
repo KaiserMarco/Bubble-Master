@@ -76,7 +76,6 @@ public class Player extends Ostacolo
 			saltoDx = new Image[9];
 			saltoSx = new Image[9];
 
-			// TODO COMPLETARE ANIMAZIONE SALTO SECONDO PLAYER
 			if(numPlayer == 0)
 				{
 					pgdx = new Image( "./data/Image/pgdx1.png" );
@@ -92,8 +91,8 @@ public class Player extends Ostacolo
 					pgsx = new Image( "./data/Image/pgsx2.png" );
 					sheetDx = new SpriteSheet( new Image( "./data/Image/animdx2.png" ), 324, 41 );
 					sheetSx = new SpriteSheet( new Image( "./data/Image/animsx2.png" ), 324, 41 );
-					sheetJumpDx = new SpriteSheet( new Image( "./data/Image/jumpDx.png" ), 261, 48 );
-					sheetJumpSx = new SpriteSheet( new Image( "./data/Image/jumpSx.png" ), 261, 48 );
+					sheetJumpDx = new SpriteSheet( new Image( "./data/Image/jumpDx2.png" ), 261, 48 );
+					sheetJumpSx = new SpriteSheet( new Image( "./data/Image/jumpSx2.png" ), 261, 48 );
 				}
 			
 			xPlayer = x;
