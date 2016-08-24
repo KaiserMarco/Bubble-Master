@@ -32,8 +32,6 @@ public class Edit
 	private int tempX, tempY;
 	
 	private SimpleButton saveLevel, back;
-	//bottoni di inserimento elementi
-	//private SimpleButton obstacles, players, spheres;
 	
 	//il raggio delle sfere
 	private int ray = 25;
@@ -97,10 +95,6 @@ public class Edit
 			back = new SimpleButton( gc.getWidth()/15, gc.getHeight()*24/25, "INDIETRO", Color.orange );
 			saveLevel = new SimpleButton( gc.getWidth()*3/4, gc.getHeight()*24/25, "SALVA LIVELLO", Color.orange );
 			
-			/*obstacles = new SimpleButton( gc.getWidth()*8/9, gc.getHeight()/25, "Ostacoli", Color.green );
-			players = new SimpleButton( gc.getWidth()*7/8, gc.getHeight()/11, "Giocatori", Color.green );
-			spheres = new SimpleButton( gc.getWidth()*11/12, gc.getHeight()*10/71, "Sfere", Color.green );*/
-			
 			temp = null;
 			
 			items = new ArrayList<Ostacolo>();
@@ -140,9 +134,6 @@ public class Edit
 			
 			buttons.add( back );
 			buttons.add( saveLevel );
-			/*buttons.add( obstacles );
-			buttons.add( players );
-			buttons.add( spheres );*/
 			
 			minHighEditor = gc.getHeight() - (int) (gc.getHeight()/1.34);
 			
@@ -256,9 +247,6 @@ public class Edit
 							else if(indexCursorSfondi >= 0)
 								{
 									indexSfondo = indexCursorSfondi;
-								
-									/*tempX = gc.getInput().getMouseX();
-									tempY = gc.getInput().getMouseY();*/
 								
 									return true;
 								}
