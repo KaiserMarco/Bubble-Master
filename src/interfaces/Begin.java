@@ -126,10 +126,12 @@ public class Begin
 						Node nodo = back.item( 0 );
 						Element img = (Element) nodo;
 						tmp = img.getAttribute( "index" );
-						System.out.println( "./data/Image/sfondo" + (Integer.parseInt( tmp ) + 1) + ".jpg" );
 						sfondo = new Sfondo( new Image( "./data/Image/sfondo" + (Integer.parseInt( tmp ) + 1) + ".jpg" ), gc.getHeight()/(1.04), gc.getWidth(), 0, 0, gc.getWidth(), gc.getHeight() );
 						
-						Begin.livelli.add( new Livello( elements, sfondo ) );
+						livelli.add( new Livello( elements, sfondo ) );
+						
+						for(int i  = 0; i < livelli.get( livelli.size() - 1 ).getElements().size(); i++)
+							System.out.println( "tipo ostacolo = " +  livelli.get( livelli.size() - 1 ).getElements().get( i ).getID() );
 						
 						System.out.println( "livello " + files[j] + " caricato" );
 					}

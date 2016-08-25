@@ -12,6 +12,8 @@ import interfaces.InGame;
 
 
 
+
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -312,11 +314,15 @@ public class Bubble extends Ostacolo
 		    				
 		    				setSpeed = false;
 	        			}
+        			if(countMove >= 26)
+        				{
+        					primoTubo = false;
+        					setPositionInTube( InGame.ostacoli.get( indexTube ), primoTubo );
+        				}
 	    		}
     		// la sfera e' nel secondo tubo
     		else if(countMove > 0)
     			{
-    				primoTubo = false;
     				secondoTubo = true;
     				
     				Ostacolo tubo = InGame.ostacoli.get( indexTube );
@@ -405,6 +411,27 @@ public class Bubble extends Ostacolo
 		        		}
 		        }
     	}
+    
+    public void setPositionInTube( Ostacolo ost, boolean primoTubo )
+    	{
+    		if(!primoTubo)
+    			{
+    				ostr.setCenterX( ost.getMidArea().getX() );
+					ostr.setCenterY( ost.getMidArea().getY() );
+    			}
+    		else
+    			{
+    				String pos = ost.getOrienting();
+    				if(pos.equals( "sx" ))
+    					setXY( ost.component( "latoSx" ).getX() - getWidth()*2, ost.component( "latoSx" ).getY() + ost.component( "latoSx" ).getHeight()/2, "restore" );
+    				else if(pos.equals( "dx" ))
+    					setXY( ost.component( "latoDx" ).getX() + 1, ost.component( "latoDx" ).getY() + ost.component( "latoDx" ).getHeight()/2, "restore" );
+    				else if(pos.equals( "up" ))
+    					setXY( ost.component( "latoSu" ).getX() + getWidth()*2, ost.component( "latoSu" ).getY() - getWidth()*2, "restore" );
+    				else
+    					setXY( ost.component( "latoGiu" ).getX() + getWidth()*2, ost.component( "latoGiu" ).getY(), "restore" );
+    			}
+    	}
  
     public void update( GameContainer gc, int delta ) throws SlickException
         {
@@ -419,12 +446,13 @@ public class Bubble extends Ostacolo
                         	if(!primoTubo && !secondoTubo)
                         		{
 		                        	if(ost.getID().equals( "tubo" ) && ostr.intersects( ost.component( "latoSu" ) ))
-		                        		{                        			
+		                        		{       
 		                        			if(!inTube && indexTube != i)
 		                        				{
 		                        					indexTube = i;
 		                        					primoTubo = true;
 		                        					countMove = 0;
+		                        					setPositionInTube( ost, primoTubo );
 		                        				}
 		                        		}
                         		}
@@ -455,7 +483,7 @@ public class Bubble extends Ostacolo
             if(ostr.getY() <= 0)
             	if(speedY < 0)
             		speedY = -speedY;
- 
+
             setCenter( ostr, speedX, speedY );
         }
  
