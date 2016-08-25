@@ -43,14 +43,10 @@ public class Bubble extends Ostacolo
 	
 	private Color cg = new Color( 50, 170, 50, 100 ), cr = new Color( 170, 50, 50, 100 );
 	
-	//determina se la sfera e' all'interno di un tubo
-	private boolean inTube;
 	//determina il tubo in cui e' entrata la sfera (ma non il tubo in uscita)
 	private int indexTube;
 	//determina se la sfera e' nel primo o secondo tubo
 	private boolean primoTubo, secondoTubo;
-	//determina quanto tempo deve rimanere la sfera all'interno del primo tubo
-	private int countMove;
 	//determina se le velocita' della sfera sono state settate
 	private boolean setSpeed;
      
@@ -68,7 +64,6 @@ public class Bubble extends Ostacolo
             
             this.maxW = maxW;
             
-            inTube = false;
             primoTubo = false;
             secondoTubo = false;
         }
@@ -300,13 +295,33 @@ public class Bubble extends Ostacolo
     
     public void gestioneSferaInTubo( int delta )
     	{
-    		// se la sfera e' ancora all'interno del primo tubo
-    		if(countMove < 26)
+			Ostacolo tubo = InGame.ostacoli.get( indexTube );
+    		// se la sfera e' nel PRIMO tubo
+    		if(primoTubo)
 	    		{
-        			countMove = countMove + delta;
+    				if(tubo.getOrienting().equals( "sx" ))
+    					{
+    						if(ostr.getCenterX() >= tubo.getMidArea().getX())
+    							primoTubo = false;
+    					}
+    				else if(tubo.getOrienting().equals( "dx" ))
+    					{
+    						if(ostr.getCenterX() < tubo.getMidArea().getX())
+    							primoTubo = false;
+    					}
+    				else if(tubo.getOrienting().equals( "up" ))
+    					{
+    						if(ostr.getCenterY() < tubo.getMidArea().getY())
+    							primoTubo = false;
+    					}
+    				else if(tubo.getOrienting().equals( "down" ))
+    					{
+    						if(ostr.getCenterY() >= tubo.getMidArea().getY())
+    							primoTubo = false;
+    					}
+
         			if(!setSpeed)
 	        			{
-		    				Ostacolo tubo = InGame.ostacoli.get( indexTube );
 		    				if(tubo.getOrienting().equals( "sx" ) || tubo.getOrienting().equals( "dx" ))
 		    					speedY = 0;
 		    				else if(tubo.getOrienting().equals( "down" ) || tubo.getOrienting().equals( "up" ))
@@ -314,43 +329,47 @@ public class Bubble extends Ostacolo
 		    				
 		    				setSpeed = false;
 	        			}
-        			if(countMove >= 26)
+        			if(!primoTubo)
         				{
-        					primoTubo = false;
+        					secondoTubo = true;
+        					setSpeed = true;
+        					indexTube = InGame.ostacoli.get( indexTube ).getUnion();
         					setPositionInTube( InGame.ostacoli.get( indexTube ), primoTubo );
         				}
 	    		}
-    		// la sfera e' nel secondo tubo
-    		else if(countMove > 0)
+    		// la sfera e' nel SECONDO tubo
+    		else if(secondoTubo)
     			{
-    				secondoTubo = true;
-    				
-    				Ostacolo tubo = InGame.ostacoli.get( indexTube );
-    				if(tubo.getOrienting().equals( "sx" ))
-    					{
-    						speedY = 0;
-    						speedX = -1;
-    					}
-    				else if(tubo.getOrienting().equals( "dx" ))
-    					{
-    						speedY = 0;
-    						speedX = 1;
-    					}
-    				else if(tubo.getOrienting().equals( "down" ))
-    					{
-    						speedX = 0;
-    						speedY = 1;
-    					}
-    				else
-    					{
-    						speedX = 0;
-    						speedY = -1;
-    					}
-        			countMove = countMove - delta;
+	    			if(!setSpeed)
+	    				{
+		    				if(tubo.getOrienting().equals( "sx" ))
+		    					{
+		    						speedY = 0;
+		    						speedX = -1;
+		    					}
+		    				else if(tubo.getOrienting().equals( "dx" ))
+		    					{
+		    						speedY = 0;
+		    						speedX = 1;
+		    					}
+		    				else if(tubo.getOrienting().equals( "down" ))
+		    					{
+		    						speedX = 0;
+		    						speedY = 1;
+		    					}
+		    				else
+		    					{
+		    						speedX = 0;
+		    						speedY = -1;
+		    					}
+		    				setSpeed = true;
+	    				}
+	    			if(!ostr.contains( tubo.component( "rect" ) ))
+	    				{
+	    					secondoTubo = false;
+	    					indexTube = -1;
+	    				}
     			}
-    		//la sfera e' fuori dal secondo tubo
-    		else
-    			secondoTubo = false;
     	}
     
     public void gestioneCollisioni( Ostacolo ost, boolean dritto )
@@ -414,11 +433,34 @@ public class Bubble extends Ostacolo
     
     public void setPositionInTube( Ostacolo ost, boolean primoTubo )
     	{
+    		//la sfera e' nel SECONDO tubo
     		if(!primoTubo)
     			{
     				ostr.setCenterX( ost.getMidArea().getX() );
 					ostr.setCenterY( ost.getMidArea().getY() );
+					
+					if(ost.getOrienting().equals( "sx" ))
+						{
+							speedX = -1;
+							speedY = 0;
+						}
+					else if(ost.getOrienting().equals( "dx" ))
+						{
+							speedX = 1;
+							speedY = 0;
+						}
+					else if(ost.getOrienting().equals( "up" ))
+						{
+							speedX = 0;
+							speedY = -1;
+						}
+					else
+						{
+							speedX = 0;
+							speedY = 1;
+						}
     			}
+    		//la sfera e' nel PRIMO tubo
     		else
     			{
     				String pos = ost.getOrienting();
@@ -445,26 +487,26 @@ public class Bubble extends Ostacolo
                         	
                         	if(!primoTubo && !secondoTubo)
                         		{
-		                        	if(ost.getID().equals( "tubo" ) && ostr.intersects( ost.component( "latoSu" ) ))
-		                        		{       
-		                        			if(!inTube && indexTube != i)
-		                        				{
-		                        					indexTube = i;
-		                        					primoTubo = true;
-		                        					countMove = 0;
-		                        					setPositionInTube( ost, primoTubo );
-		                        				}
+		                        	if(ost.getID().equals( "tubo" ) && ostr.intersects( ost.component( "latoIngresso" ) ))
+		                        		{     
+                    						primoTubo = true;
+                        					indexTube = i;
+                        					setPositionInTube( ost, primoTubo );
 		                        		}
                         		}
                         	else if(primoTubo || secondoTubo)
                 				gestioneSferaInTubo( delta );
-                        	if(secondoTubo)
+                        	if(ostr.intersects( ost.component( "rect" ) ) && !ost.getCollide())
                         		{
-                        			if(indexTube != i)
-                        				gestioneCollisioni( ost, true );
+                        			if((!secondoTubo && !primoTubo) || (secondoTubo && indexTube != i))
+                        				{
+                        					indexTube = -1;
+                        					if(speedX == 0 || speedY == 0)
+                        						gestioneCollisioni( ost, true );
+                        					else
+                        						gestioneCollisioni( ost, false );
+                        				}
                         		}
-                        	else if(ostr.intersects( ost.component( "rect" ) ) && !ost.getCollide())
-	                            gestioneCollisioni( ost, false );
                             else
                             	ost.setCollide( false );
                         }

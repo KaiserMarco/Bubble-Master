@@ -24,6 +24,7 @@ public class Tubo extends Ostacolo{
 	int width = 69;
 	int height = 60;
 	
+	//determina il tipo di direzione del tubo
 	String type;
 	
 	public Rectangle ostr;
@@ -50,6 +51,8 @@ public class Tubo extends Ostacolo{
 		collide = false;
 		
 		unione = -1;
+		
+		type = "sx";
 	}
 
 	public void draw( Graphics g ) throws SlickException
@@ -119,6 +122,15 @@ public class Tubo extends Ostacolo{
 				return spigBDx;
 			else if(part.equals( "rect" ))
 				return ostr;
+			else if(part.equals( "latoIngresso" ))
+				if(type.equals( "sx" ))
+					return latoSx;
+				else if(type.equals( "dx" ))
+					return latoDx;
+				else if(type.equals( "up" ))
+					return latoSu;
+				else if(type.equals( "down" ))
+					return latoGiu;
 			
 			return null;
 		}
