@@ -21,8 +21,8 @@ public class Tubo extends Ostacolo{
     //insert = false -> oggetto rosso | insert = true -> oggetto verde
     private boolean insert = false, checkInsert = false;
 	
-	int width = 65;
-	int height = 54;
+	int width = 69;
+	int height = 60;
 	
 	String type;
 	

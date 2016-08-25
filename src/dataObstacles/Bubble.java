@@ -414,7 +414,7 @@ public class Bubble extends Ostacolo
                         {
                         	Ostacolo ost = InGame.ostacoli.get( i );                        	
 
-                			// TODO IMPLEMENTARE CONTATTO CON IL TUBO
+                			// TODO IMPLEMENTARE SPOSTAMENTO DELLA SFERA ALL'INTERNO DEL TUBO
                         	
                         	if(!primoTubo && !secondoTubo)
                         		{
