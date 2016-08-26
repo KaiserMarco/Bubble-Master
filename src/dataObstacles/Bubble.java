@@ -484,9 +484,9 @@ public class Bubble extends Ostacolo
     				else if(pos.equals( "dx" ))
     					setXY( ost.component( "latoInggresso" ).getX() + getWidth(), ost.component( "latoIngresso" ).getY() + ost.getHeight()/2 - getWidth(), "restore" );
     				else if(pos.equals( "down" ))
-    					setXY( ost.component( "latoIngresso" ).getX() + ost.getWidth()/2 - getWidth(), ost.component( "latoIngresso" ).getY() + getWidth(), "restore" );
+    					setXY( ost.component( "latoIngresso" ).getX() - 1 + ost.getWidth()/2 - getWidth(), ost.component( "latoIngresso" ).getY() + getWidth(), "restore" );
     				else
-    					setXY( ost.component( "latoIngresso" ).getX() + ost.getWidth()/2 - getWidth(), ost.component( "latoIngresso" ).getY() - getWidth(), "restore" );
+    					setXY( ost.component( "latoIngresso" ).getX() - 1 + ost.getWidth()/2 - getWidth(), ost.component( "latoIngresso" ).getY() - getWidth(), "restore" );
     			}
     	}
  
@@ -500,10 +500,23 @@ public class Bubble extends Ostacolo
                         	if(!primoTubo && !secondoTubo)
                         		{
 		                        	if(ost.getID().equals( "tubo" ) && ostr.intersects( ost.component( "latoIngresso" ) ))
-		                        		{     
-                    						primoTubo = true;
-                        					indexTube = i;
-                        					setPositionInTube( ost, primoTubo );
+		                        		{
+		                        			//la direzione del tubo
+		                        			String pos = ost.getOrienting();
+		                        			//il lato di ingresso nel tubo
+		                        			Shape ingresso = ost.component( "latoIngresso" );
+		                        			if((pos.equals( "sx" ) || pos.equals( "dx" )) && ostr.getCenterY() > ingresso.getY() && ostr.getCenterY() < ingresso.getY() + ost.getHeight())
+		                        				{
+		                    						primoTubo = true;
+		                        					indexTube = i;
+		                        					setPositionInTube( ost, primoTubo );
+		                        				}
+		                        			else if((pos.equals( "down" ) | pos.equals( "up" )) && ostr.getCenterX() > ingresso.getX() && ostr.getCenterX() < ingresso.getX() + ost.getWidth())
+		                        				{
+	                    							primoTubo = true;
+	                        						indexTube = i;
+	                        						setPositionInTube( ost, primoTubo );
+		                        				}
 		                        		}
                         		}
                         	else if(primoTubo || secondoTubo)
