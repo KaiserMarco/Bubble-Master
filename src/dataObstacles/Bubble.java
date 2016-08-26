@@ -18,6 +18,7 @@ import interfaces.InGame;
 
 
 
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -446,6 +447,9 @@ public class Bubble extends Ostacolo
     
     public void setPositionInTube( Ostacolo ost, boolean primoTubo )
     	{
+    		//orientamento del tubo
+			String pos = ost.getOrienting();
+			
     		//la sfera e' nel SECONDO tubo
     		if(!primoTubo)
     			{
@@ -475,15 +479,14 @@ public class Bubble extends Ostacolo
     		//la sfera e' nel PRIMO tubo
     		else
     			{
-    				String pos = ost.getOrienting();
     				if(pos.equals( "sx" ))
-    					setXY( ost.component( "latoSx" ).getX() - getWidth()*2, ost.component( "latoSx" ).getY(), "restore" );
+    					setXY( ost.component( "latoIngresso" ).getX() - getWidth(), ost.component( "latoIngresso" ).getY() + ost.getHeight()/2 - getWidth(), "restore" );
     				else if(pos.equals( "dx" ))
-    					setXY( ost.component( "latoDx" ).getX() + 1, ost.component( "latoDx" ).getY(), "restore" );
-    				else if(pos.equals( "up" ))
-    					setXY( ost.component( "latoSu" ).getX(), ost.component( "latoSu" ).getY() - getWidth()*2, "restore" );
+    					setXY( ost.component( "latoInggresso" ).getX() + getWidth(), ost.component( "latoIngresso" ).getY() + ost.getHeight()/2 - getWidth(), "restore" );
+    				else if(pos.equals( "down" ))
+    					setXY( ost.component( "latoIngresso" ).getX() + ost.getWidth()/2 - getWidth(), ost.component( "latoIngresso" ).getY() + getWidth(), "restore" );
     				else
-    					setXY( ost.component( "latoGiu" ).getX(), ost.component( "latoGiu" ).getY(), "restore" );
+    					setXY( ost.component( "latoIngresso" ).getX() + ost.getWidth()/2 - getWidth(), ost.component( "latoIngresso" ).getY() - getWidth(), "restore" );
     			}
     	}
  
