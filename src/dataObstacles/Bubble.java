@@ -19,6 +19,7 @@ import interfaces.InGame;
 
 
 
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -504,14 +505,14 @@ public class Bubble extends Ostacolo
 		                        			//la direzione del tubo
 		                        			String pos = ost.getOrienting();
 		                        			//il lato di ingresso nel tubo
-		                        			Shape ingresso = ost.component( "latoIngresso" );
-		                        			if((pos.equals( "sx" ) || pos.equals( "dx" )) && ostr.getCenterY() > ingresso.getY() && ostr.getCenterY() < ingresso.getY() + ost.getHeight())
+		                        			Shape ingr = ost.component( "latoIngresso" );
+		                        			if((pos.equals( "sx" ) || pos.equals( "dx" )) && ostr.getCenterY() > ingr.getY() && ostr.getCenterY() < ingr.getY() + ost.getHeight())
 		                        				{
 		                    						primoTubo = true;
 		                        					indexTube = i;
 		                        					setPositionInTube( ost, primoTubo );
 		                        				}
-		                        			else if((pos.equals( "down" ) | pos.equals( "up" )) && ostr.getCenterX() > ingresso.getX() && ostr.getCenterX() < ingresso.getX() + ost.getWidth())
+		                        			else if(ostr.getCenterX() > ingr.getX() && ostr.getCenterX() < ingr.getX() + ost.getWidth())
 		                        				{
 	                    							primoTubo = true;
 	                        						indexTube = i;
@@ -525,13 +526,10 @@ public class Bubble extends Ostacolo
                         	if(!primoTubo && ostr.intersects( ost.component( "rect" ) ) && !ost.getCollide())
                         		{
                         			if(!secondoTubo || (secondoTubo && indexTube != i && previousIndexTube != i))
-                        				{
-                        					indexTube = -1;
-                        					if(speedX == 0 || speedY == 0)
-                        						gestioneCollisioni( ost, true );
-                        					else
-                        						gestioneCollisioni( ost, false );
-                        				}
+                    					if(speedX == 0 || speedY == 0)
+                    						gestioneCollisioni( ost, true );
+                    					else
+                    						gestioneCollisioni( ost, false );
                         		}
                             else
                             	ost.setCollide( false );
@@ -553,6 +551,32 @@ public class Bubble extends Ostacolo
             		speedY = -speedY;
 
             setCenter( ostr, speedX, speedY );
+            
+            if(!primoTubo)
+            	{
+            		if(speedX == 0 || speedY == 0)
+            			{
+	            			/*controllo collisione con i bordi della schermata*/
+	                        if(ostr.getX() + 2*ray >= maxW)
+	                        	if(speedX > 0)
+	                        		speedX = -speedX;
+	                        if(ostr.getX() <= 0)
+	                        	if(speedX < 0)
+	                        		speedX = -speedX;
+	                        if(ostr.getY() + 2*ray >= maxH)
+	                        	if(speedY > 0)
+	                        		speedY = -speedY;
+	                        if(ostr.getY() <= 0)
+	                        	if(speedY < 0)
+	                        		speedY = -speedY;
+	                        
+	                        for(int i = 0; i < InGame.ostacoli.size(); i++)
+	                        	if(!secondoTubo || (secondoTubo && indexTube != i && previousIndexTube != i))
+	                        		gestioneCollisioni( InGame.ostacoli.get( i ), true );
+
+	                        setCenter( ostr, speedX, speedY );
+            			}
+            	}
         }
  
     public void setType(String type)
