@@ -87,6 +87,10 @@ public class Begin
 				
 				for(int j = 0; j < files.length; j++)
 					{				
+						//resetto il vettore e lo sfondo
+						elements.clear();
+						sfondo = null;
+						
 						document = builder.parse( new File( "data/livelli/" + files[j] ) );
 			 
 						NodeList ostacoli = document.getElementsByTagName( "ostacolo" );
@@ -95,7 +99,7 @@ public class Begin
 			 
 						String tmp;
 						for(int i = 0; i < ostacoli.getLength(); i++)
-							{
+							{								
 								Node nodo = ostacoli.item( i );
 								
 								Element obs = (Element) nodo;
@@ -119,8 +123,10 @@ public class Begin
                                         elements.add( new Tubo( x, y, orienting ) );
                                         elements.get( elements.size() - 1 ).setSpigoli();
                                     }
-								else if(type.startsWith( "player" ))
+								else if(type.equals( "player1" ))
 									elements.add( new Player( x, y, 1 ) );
+								else if(type.equals( "player2" ))
+									elements.add( new Player( x, y, 2 ) );
 							}
 						
 						Node nodo = back.item( 0 );

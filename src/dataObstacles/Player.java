@@ -65,7 +65,7 @@ public class Player extends Ostacolo
 	
 	public Player( int x, int y, int numPlayer ) throws SlickException
 		{
-			super( "player" + (numPlayer + 1) );
+			super( "player" + numPlayer );
 			
 			fire = new Shot();
 			
@@ -76,7 +76,7 @@ public class Player extends Ostacolo
 			saltoDx = new Image[9];
 			saltoSx = new Image[9];
 
-			if(numPlayer == 0)
+			if(numPlayer == 1)
 				{
 					pgdx = new Image( "./data/Image/pgdx1.png" );
 					pgsx = new Image( "./data/Image/pgsx1.png" );

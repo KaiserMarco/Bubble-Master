@@ -43,7 +43,7 @@ public class InGame
 					Ostacolo ost = obs.get( i );
 					if(ost.getID().startsWith( "player" ))
 						{
-							players.add( new Player( (int) ost.getX(), (int) ost.getY(), numPlayer++ ) );
+							players.add( new Player( (int) ost.getX(), (int) ost.getY(), ++numPlayer ) );
 							players.get( players.size() - 1 ).setMaxHeight( sfondo.getMaxHeight() );
 						}
 					else if(obs.get( i ).getID().equals( "bolla" ))
@@ -54,6 +54,9 @@ public class InGame
 					else
 						ostacoli.add( ost );
 				}
+			
+			for(int i = 0; i < ostacoli.size(); i++)
+				System.out.println( "TYPE = " + ostacoli.get( i ).getID() );
 		}
 
 	public void draw( GameContainer gc, Graphics g) throws SlickException

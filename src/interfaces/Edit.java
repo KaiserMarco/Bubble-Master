@@ -100,8 +100,8 @@ public class Edit
 			items = new ArrayList<Ostacolo>();
 			items.add( new Sbarra( gc.getWidth()/9, gc.getHeight()*78/100, "hor" ) );
 			items.add( new Tubo( gc.getWidth()*2/7, gc.getHeight()*3/4, "sx" ) );
-			items.add( new Player( gc.getWidth()*4/7, gc.getHeight()*3/4, 0 ) );
-			items.add( new Player( gc.getWidth()*5/7, gc.getHeight()*3/4, 1 ) );
+			items.add( new Player( gc.getWidth()*4/7, gc.getHeight()*3/4, 1 ) );
+			items.add( new Player( gc.getWidth()*5/7, gc.getHeight()*3/4, 2 ) );
 			items.add( new Bubble( gc.getWidth()*6/7, gc.getHeight()*3/4, ray, maxW ) );
 			
 			ostacoli = new ArrayList<Ostacolo>();
@@ -428,7 +428,7 @@ public class Edit
 	    		item.setAttribute( "index", indexSfondo + "" );
 	    		livello.addContent( item );
 	    		
-	    		outputter.output( document, new FileOutputStream( "data/livelli/livello10.xml" ) );
+	    		outputter.output( document, new FileOutputStream( "data/livelli/livello3.xml" ) );
 			}
 			catch( IOException e ){
 				System.err.println( "Error while creating the level" );
