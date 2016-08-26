@@ -52,7 +52,16 @@ public class Tubo extends Ostacolo{
 		
 		unione = -1;
 		
-		type = "sx";
+		if(type.equals( "sx" ) || type.equals( "dx" ))
+			{
+				width = 69;
+				height = 60;
+			}
+		else
+			{
+				width = 60;
+				height = 69;
+			}
 	}
 
 	public void draw( Graphics g ) throws SlickException
@@ -217,7 +226,7 @@ public class Tubo extends Ostacolo{
 	    }
 	
 	public void setOrienting( String direction )
-        {			
+        {
 	        if(type.equals( "sx" ))
 	            {
 	                type = "up";
