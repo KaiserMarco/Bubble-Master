@@ -44,7 +44,7 @@ public class Bubble extends Ostacolo
 	private Color cg = new Color( 50, 170, 50, 100 ), cr = new Color( 170, 50, 50, 100 );
 	
 	//determina il tubo in cui e' entrata la sfera (ma non il tubo in uscita)
-	private int indexTube;
+	private int indexTube, previousIndexTube;
 	//determina se la sfera e' nel primo o secondo tubo
 	private boolean primoTubo, secondoTubo;
 	//determina se le velocita' della sfera sono state settate
@@ -66,6 +66,8 @@ public class Bubble extends Ostacolo
             
             primoTubo = false;
             secondoTubo = false;
+            indexTube = -1;
+            previousIndexTube = -1;
         }
      
     public void draw( Graphics g ) throws SlickException
@@ -293,7 +295,7 @@ public class Bubble extends Ostacolo
 				return collisionEdge( ost );
     	}
     
-    public void gestioneSferaInTubo( int delta )
+    public void gestioneSferaInTubo()
     	{
 			Ostacolo tubo = InGame.ostacoli.get( indexTube );
     		// se la sfera e' nel PRIMO tubo
@@ -311,21 +313,25 @@ public class Bubble extends Ostacolo
     					}
     				else if(tubo.getOrienting().equals( "up" ))
     					{
-    						if(ostr.getCenterY() < tubo.getMidArea().getY())
+    						if(ostr.getCenterY() >= tubo.getMidArea().getY())
     							primoTubo = false;
     					}
     				else if(tubo.getOrienting().equals( "down" ))
     					{
-    						if(ostr.getCenterY() >= tubo.getMidArea().getY())
+    						if(ostr.getCenterY() < tubo.getMidArea().getY())
     							primoTubo = false;
     					}
 
         			if(!setSpeed)
 	        			{
 		    				if(tubo.getOrienting().equals( "sx" ) || tubo.getOrienting().equals( "dx" ))
-		    					speedY = 0;
+		    					{
+		    						speedY = 0;
+		    					}
 		    				else if(tubo.getOrienting().equals( "down" ) || tubo.getOrienting().equals( "up" ))
-		    					speedX = 0;
+		    					{
+		    						speedX = 0;
+		    					}
 		    				
 		    				setSpeed = false;
 	        			}
@@ -333,6 +339,7 @@ public class Bubble extends Ostacolo
         				{
         					secondoTubo = true;
         					setSpeed = true;
+        					previousIndexTube = indexTube;
         					indexTube = InGame.ostacoli.get( indexTube ).getUnion();
         					setPositionInTube( InGame.ostacoli.get( indexTube ), primoTubo );
         				}
@@ -340,6 +347,7 @@ public class Bubble extends Ostacolo
     		// la sfera e' nel SECONDO tubo
     		else if(secondoTubo)
     			{
+    				previousIndexTube = -1;
 	    			if(!setSpeed)
 	    				{
 		    				if(tubo.getOrienting().equals( "sx" ))
@@ -364,7 +372,7 @@ public class Bubble extends Ostacolo
 		    					}
 		    				setSpeed = true;
 	    				}
-	    			if(!ostr.contains( tubo.component( "rect" ) ))
+	    			if(!ostr.intersects( tubo.component( "rect" ) ))
 	    				{
 	    					secondoTubo = false;
 	    					indexTube = -1;
@@ -436,8 +444,7 @@ public class Bubble extends Ostacolo
     		//la sfera e' nel SECONDO tubo
     		if(!primoTubo)
     			{
-    				ostr.setCenterX( ost.getMidArea().getX() );
-					ostr.setCenterY( ost.getMidArea().getY() );
+    				setXY( ost.getMidArea().getX() - getWidth(), ost.getMidArea().getY() - getWidth(), "restore" );
 					
 					if(ost.getOrienting().equals( "sx" ))
 						{
@@ -465,13 +472,13 @@ public class Bubble extends Ostacolo
     			{
     				String pos = ost.getOrienting();
     				if(pos.equals( "sx" ))
-    					setXY( ost.component( "latoSx" ).getX() - getWidth()*2, ost.component( "latoSx" ).getY() + ost.component( "latoSx" ).getHeight()/2, "restore" );
+    					setXY( ost.component( "latoSx" ).getX() - getWidth()*2, ost.component( "latoSx" ).getY(), "restore" );
     				else if(pos.equals( "dx" ))
-    					setXY( ost.component( "latoDx" ).getX() + 1, ost.component( "latoDx" ).getY() + ost.component( "latoDx" ).getHeight()/2, "restore" );
+    					setXY( ost.component( "latoDx" ).getX() + 1, ost.component( "latoDx" ).getY(), "restore" );
     				else if(pos.equals( "up" ))
-    					setXY( ost.component( "latoSu" ).getX() + getWidth()*2, ost.component( "latoSu" ).getY() - getWidth()*2, "restore" );
+    					setXY( ost.component( "latoSu" ).getX(), ost.component( "latoSu" ).getY() - getWidth()*2, "restore" );
     				else
-    					setXY( ost.component( "latoGiu" ).getX() + getWidth()*2, ost.component( "latoGiu" ).getY(), "restore" );
+    					setXY( ost.component( "latoGiu" ).getX(), ost.component( "latoGiu" ).getY(), "restore" );
     			}
     	}
  
@@ -495,10 +502,11 @@ public class Bubble extends Ostacolo
 		                        		}
                         		}
                         	else if(primoTubo || secondoTubo)
-                				gestioneSferaInTubo( delta );
+                				gestioneSferaInTubo();
+                        	
                         	if(ostr.intersects( ost.component( "rect" ) ) && !ost.getCollide())
                         		{
-                        			if((!secondoTubo && !primoTubo) || (secondoTubo && indexTube != i))
+                        			if((!secondoTubo && !primoTubo) || (secondoTubo && indexTube != i && previousIndexTube != i))
                         				{
                         					indexTube = -1;
                         					if(speedX == 0 || speedY == 0)
