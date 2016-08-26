@@ -60,7 +60,7 @@ public class InGame
 		{
 			sfondo.draw( gc );
 			
-			for(int i = 0; i < ostacoli.size(); i++)
+			for(int i = ostacoli.size() - 1; i >= 0; i--)
 				ostacoli.get( i ).draw( g );
 			
 			for(int i = 0; i < players.size(); i++)

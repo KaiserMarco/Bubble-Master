@@ -363,34 +363,38 @@ public class Edit
 	
 	private void setTubeInArray()
 		{
+			int j = 0;
 			for(int i  = 0; i < ostacoli.size(); i++)
 				{
-					int j = 0;
-					if(!ostacoli.get( i ).equals( "tubo" ))
-						for(j = i; j < ostacoli.size(); j++)
-							if(ostacoli.get( j ).equals( "tubo" ))
-								{
-									Ostacolo tmp = ostacoli.get( i ).clone();
+					if(!ostacoli.get( i ).getID().equals( "tubo" ))
+						{
+							for(j = i; j < ostacoli.size(); j++)
+								if(ostacoli.get( j ).getID().equals( "tubo" ))
+									{
+										Ostacolo tmp = ostacoli.get( i ).clone();
+										
+										ostacoli.remove( i );
+										ostacoli.add( i, ostacoli.get( j - 1 ).clone() );
+										ostacoli.get( i ).setUnion( ostacoli.get( j ).getUnion() );
+										ostacoli.get( i ).setSpigoli();
+										
+										ostacoli.remove( j );
+										ostacoli.add( j, tmp );
+										ostacoli.get( j ).setSpigoli();
+										
+										ostacoli.get( ostacoli.get( i ).getUnion() ).setUnion( i );
 									
-									ostacoli.remove( i );
-									ostacoli.add( i, ostacoli.get( j - 1 ).clone() );
-									
-									ostacoli.remove( j );
-									ostacoli.add( j, tmp );
-									
-									ostacoli.get( ostacoli.get( i ).getUnion() ).setUnion( i );
-								
-									break;
-								}
+										break;
+									}
+						}
 					if(j == ostacoli.size())
 						break;
 				}
 		}
 	
 	private void addNewLevel()
-		{	    
-			// TODO SISTEMARE I TUBI ALL'INIZIO DELL'ARRAY
-		
+		{		
+			//posiziona i tubi all'inizio dell'array
 			setTubeInArray();
 			
 			// TODO AGGIUNGERE TEXTBOX PER DECIDERE IL NOME DEL LIVELLO
