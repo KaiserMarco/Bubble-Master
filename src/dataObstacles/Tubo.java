@@ -152,7 +152,7 @@ public class Tubo extends Ostacolo{
 
 	public Ostacolo clone() {		
 		try {
-			return new Tubo( (int) getX(), (int) getY(), type );
+			return new Tubo( (int) getX(), (int) getY(), "sx" );
 		} catch (SlickException e) {
 			e.printStackTrace();
 			return null;
@@ -216,8 +216,8 @@ public class Tubo extends Ostacolo{
     	        }
 	    }
 	
-	public void setOrienting()
-        {
+	public void setOrienting( String direction )
+        {			
 	        if(type.equals( "sx" ))
 	            {
 	                type = "up";

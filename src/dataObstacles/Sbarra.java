@@ -171,7 +171,7 @@ public class Sbarra extends Ostacolo{
 	public double getMaxWidth()
 		{ return 0; }
 
-    public void setOrienting()
+    public void setOrienting( String direction )
         {
     		int tmp;
     	

@@ -60,7 +60,7 @@ public abstract class Ostacolo
 	public abstract boolean getCollide();
 	public abstract void setCollide( boolean val );
 	
-	public abstract void setOrienting();
+	public abstract void setOrienting( String direction );
 	public abstract String getOrienting();
 
 	public abstract Shape getArea();

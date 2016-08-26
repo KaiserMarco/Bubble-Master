@@ -561,7 +561,7 @@ public class Bubble extends Ostacolo
 	public void update(GameContainer gc) throws SlickException 
 		{}
 
-    public void setOrienting()
+    public void setOrienting( String direction )
     	{}
 
     public String getOrienting()

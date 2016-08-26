@@ -482,7 +482,7 @@ public class Edit
 
 					if(!temp.getID().equals( "bolla" ) && !temp.getID().startsWith( "player" ))
 					    if(input.isKeyPressed( Input.KEY_SPACE ))
-					        temp.setOrienting();
+					        temp.setOrienting( null );
 
 					/*controlla che il personaggio non sia posizionato a mezz'aria*/
 					if(temp.getID().startsWith( "player" ))
@@ -623,6 +623,7 @@ public class Edit
 													if(nuovoTubo1)
 														{
 															Ostacolo temp2 = temp.clone();
+															temp2.setOrienting( temp.getOrienting() );
 															
 															temp = temp2;
 															nuovoTubo1 = false;
