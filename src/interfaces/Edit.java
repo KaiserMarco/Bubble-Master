@@ -657,7 +657,6 @@ public class Edit
 													if(nuovoTubo1)
 														{
 															Ostacolo temp2 = temp.clone();
-															temp2.setOrienting( temp.getOrienting() );
 															
 															temp = temp2;
 															nuovoTubo1 = false;
