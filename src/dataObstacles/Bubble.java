@@ -14,6 +14,10 @@ import interfaces.InGame;
 
 
 
+
+
+
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -348,7 +352,7 @@ public class Bubble extends Ostacolo
     		else if(secondoTubo)
     			{
     				previousIndexTube = -1;
-	    			if(!setSpeed)
+	    			if(setSpeed)
 	    				{
 		    				if(tubo.getOrienting().equals( "sx" ))
 		    					{
@@ -370,11 +374,12 @@ public class Bubble extends Ostacolo
 		    						speedX = 0;
 		    						speedY = -1;
 		    					}
-		    				setSpeed = true;
+		    				setSpeed = false;
 	    				}
-	    			if(!ostr.intersects( tubo.component( "rect" ) ))
+	    			if(!(tubo.component( "rect" ).intersects( ostr )) && !(tubo.component( "latoIngresso" ).intersects( ostr )))
 	    				{
 	    					secondoTubo = false;
+	    					primoTubo = false;
 	    					indexTube = -1;
 	    				}
     			}
@@ -483,15 +488,12 @@ public class Bubble extends Ostacolo
     	}
  
     public void update( GameContainer gc, int delta ) throws SlickException
-        {
+        {    	
             for(int i = 0; i < InGame.ostacoli.size(); i++)
                 {
                     if(!InGame.ostacoli.get( i ).getID().equals( "bolla" ))
                         {
                         	Ostacolo ost = InGame.ostacoli.get( i );                        	
-
-                			// TODO IMPLEMENTARE SPOSTAMENTO DELLA SFERA ALL'INTERNO DEL TUBO
-                        	
                         	if(!primoTubo && !secondoTubo)
                         		{
 		                        	if(ost.getID().equals( "tubo" ) && ostr.intersects( ost.component( "latoIngresso" ) ))
@@ -504,9 +506,9 @@ public class Bubble extends Ostacolo
                         	else if(primoTubo || secondoTubo)
                 				gestioneSferaInTubo();
                         	
-                        	if(ostr.intersects( ost.component( "rect" ) ) && !ost.getCollide())
+                        	if(!primoTubo && ostr.intersects( ost.component( "rect" ) ) && !ost.getCollide())
                         		{
-                        			if((!secondoTubo && !primoTubo) || (secondoTubo && indexTube != i && previousIndexTube != i))
+                        			if(!secondoTubo || (secondoTubo && indexTube != i && previousIndexTube != i))
                         				{
                         					indexTube = -1;
                         					if(speedX == 0 || speedY == 0)
