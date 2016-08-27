@@ -39,10 +39,18 @@ public class Sbarra extends Ostacolo{
 		{
 			super( ID );
 			
-			width = 130;
-			height = 20;
-			
-			immagine = hor;
+			if(type.equals( "hor" ))
+				{
+					immagine = hor;					
+					width = 130;
+					height = 20;
+				}
+			else
+				{
+					immagine = ver;					
+					width = 20;
+					height = 130;
+				}
 			
 			this.type = type;
 		

@@ -74,7 +74,7 @@ public class Begin
 			
 			elements = new ArrayList<Ostacolo>();
 			
-			pang = new Sfondo( new Image( "/data/Image/pang.png" ), 0, 0, 0, 0, gc.getWidth(), gc.getHeight() );
+			pang = new Sfondo( new Image( "/data/Image/pang.png" ), 0, 0, 0, 0, gc.getWidth(), gc.getHeight(), "pang" );
 			
 			//caricamento livelli da file .xml
 			try {
@@ -131,8 +131,8 @@ public class Begin
 						
 						Node nodo = back.item( 0 );
 						Element img = (Element) nodo;
-						tmp = img.getAttribute( "index" );
-						sfondo = new Sfondo( new Image( "./data/Image/sfondo" + (Integer.parseInt( tmp ) + 1) + ".jpg" ), gc.getHeight()/(1.04), gc.getWidth(), 0, 0, gc.getWidth(), gc.getHeight() );
+						tmp = img.getAttribute( "name" );
+						sfondo = new Sfondo( new Image( "./data/Image/" + tmp + ".jpg" ), gc.getHeight()/(1.04), gc.getWidth(), 0, 0, gc.getWidth(), gc.getHeight(), "sfondo" + tmp );
 						
 						livelli.add( new Livello( elements, sfondo ) );
 						

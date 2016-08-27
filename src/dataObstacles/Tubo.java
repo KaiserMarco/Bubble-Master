@@ -25,7 +25,7 @@ public class Tubo extends Ostacolo{
 	int height = 60;
 	
 	//determina il tipo di direzione del tubo
-	String type;
+	String type = null;
 	
 	public Rectangle ostr;
 	
@@ -46,7 +46,14 @@ public class Tubo extends Ostacolo{
 		
 		ostr = new Rectangle( x, y, width, height );
 		
-		immagine = tubosx;
+		if(type.equals( "sx" ))
+			immagine = tubosx;
+		else if(type.equals( "dx" ))
+			immagine = tubodx;
+		else if(type.equals( "down" ))
+			immagine = tubodown;
+		else
+			immagine = tuboup;
 
 		collide = false;
 		

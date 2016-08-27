@@ -81,11 +81,11 @@ public class Edit
 			double maxH = gc.getHeight()/(1.04), maxW = gc.getWidth();
 			int width = gc.getHeight()/10, height = gc.getWidth()/20;
 			sfondi = new ArrayList<Sfondo>();
-			sfondi.add( new Sfondo( new Image( "./data/Image/sfondo.png" ), maxH, maxW, gc.getWidth()/8, gc.getHeight()/2, width, height ) );
-			sfondi.add( new Sfondo( new Image( "./data/Image/sfondo2.png" ), maxH, maxW, gc.getWidth()*29/100, gc.getHeight()/2, width, height ) );
-			sfondi.add( new Sfondo( new Image( "./data/Image/sfondo3.jpg" ), maxH, maxW, gc.getWidth()*46/100, gc.getHeight()/2, width, height ) );
-			sfondi.add( new Sfondo( new Image( "./data/Image/sfondo4.jpg" ), maxH, maxW, gc.getWidth()*63/100, gc.getHeight()/2, width, height ) );
-			sfondi.add( new Sfondo( new Image( "./data/Image/sfondo6.jpg" ), maxH, maxW, gc.getWidth()*8/10, gc.getHeight()/2, width, height ) );
+			sfondi.add( new Sfondo( new Image( "./data/Image/sfondo.png" ), maxH, maxW, gc.getWidth()/8, gc.getHeight()/2, width, height, "sfondo" ) );
+			sfondi.add( new Sfondo( new Image( "./data/Image/sfondo2.png" ), maxH, maxW, gc.getWidth()*29/100, gc.getHeight()/2, width, height, "sfondo2" ) );
+			sfondi.add( new Sfondo( new Image( "./data/Image/sfondo3.jpg" ), maxH, maxW, gc.getWidth()*46/100, gc.getHeight()/2, width, height, "sfondo3" ) );
+			sfondi.add( new Sfondo( new Image( "./data/Image/sfondo4.jpg" ), maxH, maxW, gc.getWidth()*63/100, gc.getHeight()/2, width, height, "sfondo4" ) );
+			sfondi.add( new Sfondo( new Image( "./data/Image/sfondo5.jpg" ), maxH, maxW, gc.getWidth()*8/10, gc.getHeight()/2, width, height, "sfondo5" ) );
 			
 			up = new Image( "./data/Image/up.png" );
 			down = new Image( "./data/Image/down.png" );
@@ -425,7 +425,9 @@ public class Edit
 			    	}
 				
 	    		item = new Element( "sfondo" );
-	    		item.setAttribute( "index", indexSfondo + "" );
+	    		item.setAttribute( "x", "0" );
+	    		item.setAttribute( "y", "0" );
+	    		item.setAttribute( "name", sfondi.get( indexSfondo ).getName() );
 	    		livello.addContent( item );
 	    		
 	    		outputter.output( document, new FileOutputStream( "data/livelli/livello3.xml" ) );

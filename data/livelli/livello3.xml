@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <level>
   <!--Objects-->
-  <ostacolo x="391.0" y="506.0" type="null" ID="player1" />
-  <ostacolo x="503.0" y="383.0" type="null" ID="bolla" />
-  <ostacolo x="213.0" y="409.0" type="null" ID="bolla" />
-  <sfondo index="3" />
+  <ostacolo x="376.0" y="259.0" type="sx" ID="tubo" />
+  <ostacolo x="511.0" y="129.0" type="up" ID="tubo" />
+  <ostacolo x="597.0" y="350.0" type="null" ID="bolla" />
+  <ostacolo x="196.0" y="132.0" type="null" ID="bolla" />
+  <ostacolo x="516.0" y="59.0" type="null" ID="player2" />
+  <ostacolo x="284.0" y="248.0" type="ver" ID="sbarra" />
+  <ostacolo x="390.0" y="189.0" type="null" ID="player1" />
+  <ostacolo x="120.0" y="439.0" type="hor" ID="sbarra" />
+  <ostacolo x="331.0" y="463.0" type="hor" ID="sbarra" />
+  <sfondo x="0" y="0" name="sfondo5" />
 </level>

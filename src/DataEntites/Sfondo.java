@@ -8,11 +8,12 @@ public class Sfondo
 {
 	private Image sfondo;
 	private double maxHeight, maxWidth;
-	private int index;
 	private int x, y, width, height;
 	private Rectangle ostr;
+	//il nome dello sfondo
+	private String name;
 	
-	public Sfondo( Image sfondo, double maxH, double maxW, int x, int y, int width, int height )
+	public Sfondo( Image sfondo, double maxH, double maxW, int x, int y, int width, int height, String name )
 		{
 			this.sfondo = sfondo;
 			this.maxHeight = maxH;
@@ -21,13 +22,11 @@ public class Sfondo
 			this.y = y;
 			this.width = width;
 			this.height = height;
+			this.name = name;
 		}
 	
-	public void setIndex( int index )
-		{ this.index = index; }
-	
-	public int getIndex()
-		{ return index; }
+	public String getName()
+		{ return name; }
 	
 	public Image getSfondo()
 		{ return sfondo; }
