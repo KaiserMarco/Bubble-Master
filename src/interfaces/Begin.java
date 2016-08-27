@@ -65,14 +65,14 @@ public class Begin
 	        insertButton = false;
 
 	        xFinale1 = gc.getWidth()*10/25;
-	        xFinale2 = gc.getWidth()*10/26;
+	        xFinale2 = gc.getWidth()*10/27;
 	        xFinale3 = gc.getHeight()/4*3;
 	    
 			livelli = new ArrayList<Livello>();
 			
 			choose = new SimpleButton( 0, gc.getHeight()/4, "GIOCA LIVELLO", Color.orange );
-			editor = new SimpleButton( gc.getWidth(), gc.getHeight()/2, "MODIFICA LIVELLO", Color.orange );
-			newLevel = new SimpleButton( gc.getWidth()*10/27, gc.getWidth(), "CREA NUOVO LIVELLO", Color.orange );
+			editor = new SimpleButton( gc.getWidth(), gc.getHeight()/2, "CREA NUOVO LIVELLO", Color.orange );
+			newLevel = new SimpleButton( gc.getWidth()*10/26, gc.getWidth(), "MODIFICA LIVELLO", Color.orange );
 			
 			elements = new ArrayList<Ostacolo>();
 			
