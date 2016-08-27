@@ -168,7 +168,7 @@ public class Tubo extends Ostacolo{
 
 	public Ostacolo clone() {		
 		try {
-			return new Tubo( (int) getX(), (int) getY(), "sx" );
+			return new Tubo( (int) getX(), (int) getY(), type );
 		} catch (SlickException e) {
 			e.printStackTrace();
 			return null;

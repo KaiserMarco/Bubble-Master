@@ -76,7 +76,7 @@ public class Edit
 	
 	public Edit( GameContainer gc ) throws SlickException
 		{		
-			//TODO voglio provare a caricare tutti questi dati tramite file .xml (se mi riesce e ho tempo, senno' pazienza e lascio cosi')
+			//TODO voglio provare a caricare tutti questi dati tramite file .xml/classe apposita (se mi riesce e ho tempo, senno' pazienza e lascio cosi')
 		
 			double maxH = gc.getHeight()/(1.04), maxW = gc.getWidth();
 			int width = gc.getHeight()/10, height = gc.getWidth()/20;
@@ -298,10 +298,10 @@ public class Edit
 				{
 					if(type.equals( "keyboard" ) && indexCursor >= 0)
 						{
-							temp = ostacoli.get( indexCursor );
+							temp = ostacoli.get( indexCursor ).clone();
 							//modifica la posizione di un tubo gia' esistente
 							if(temp.getID().equals( "tubo" ))
-								{											
+								{
 									ostacoli.get( temp.getUnion() ).setUnion( - 1 );
 									
 									if(temp.getUnion() > indexCursor)											
@@ -431,7 +431,7 @@ public class Edit
 	    		item.setAttribute( "name", sfondi.get( indexSfondo ).getName() );
 	    		livello.addContent( item );
 	    		
-	    		outputter.output( document, new FileOutputStream( "data/livelli/livello4.xml" ) );
+	    		outputter.output( document, new FileOutputStream( "data/livelli/livello5.xml" ) );
 			}
 			catch( IOException e ){
 				System.err.println( "Error while creating the level" );
@@ -673,7 +673,7 @@ public class Edit
 															nuovaCoppiaTubi = false;
 														}
 												}
-											//inserisco un elemento gia' esistente
+											//inserisce un tubo gia esistente
 											else
 												{
 													ostacoli.get( indiceTuboRimasto ).setUnion( ostacoli.size() - 1 );
