@@ -397,7 +397,6 @@ public class Bubble extends Ostacolo
 		    		ost.setCollide( true );
 		    		if(!collisionEdge( ost, dritto ))
 		        		{
-            				System.out.println( "eccalla" );
 		                	if(ostr.intersects( ost.component( "latoSu" ) ))
 		            			{
 		                			if(speedX <= 0 && speedY > 0)

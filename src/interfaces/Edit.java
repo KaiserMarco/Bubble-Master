@@ -17,14 +17,11 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
 
+import DataEntites.Elements;
 import DataEntites.Sfondo;
 import bubbleMaster.Start;
 import dataButton.SimpleButton;
-import dataObstacles.Bubble;
 import dataObstacles.Ostacolo;
-import dataObstacles.Player;
-import dataObstacles.Sbarra;
-import dataObstacles.Tubo;
 
 public class Edit
 {
@@ -32,10 +29,7 @@ public class Edit
 	private int tempX, tempY;
 	
 	private SimpleButton saveLevel, back;
-	
-	//il raggio delle sfere
-	private int ray = 25;
-	
+		
 	private ArrayList<Ostacolo> items;	
 	private ArrayList<Ostacolo> ostacoli;
 	private ArrayList<SimpleButton> buttons;
@@ -74,18 +68,16 @@ public class Edit
 	//salva il valore del tubo rimanente
 	private int indiceTuboRimasto;
 	
+	//l'oggetto Elements per recuperare le informazioni di gioco
+	private Elements elem;
+	
 	public Edit( GameContainer gc ) throws SlickException
-		{		
-			//TODO voglio provare a caricare tutti questi dati tramite file .xml/classe apposita (se mi riesce e ho tempo, senno' pazienza e lascio cosi')
-		
-			double maxH = gc.getHeight()/(1.04), maxW = gc.getWidth();
-			int width = gc.getHeight()/10, height = gc.getWidth()/20;
-			sfondi = new ArrayList<Sfondo>();
-			sfondi.add( new Sfondo( new Image( "./data/Image/sfondo.png" ), maxH, maxW, gc.getWidth()/8, gc.getHeight()/2, width, height, "sfondo" ) );
-			sfondi.add( new Sfondo( new Image( "./data/Image/sfondo2.png" ), maxH, maxW, gc.getWidth()*29/100, gc.getHeight()/2, width, height, "sfondo2" ) );
-			sfondi.add( new Sfondo( new Image( "./data/Image/sfondo3.jpg" ), maxH, maxW, gc.getWidth()*46/100, gc.getHeight()/2, width, height, "sfondo3" ) );
-			sfondi.add( new Sfondo( new Image( "./data/Image/sfondo4.jpg" ), maxH, maxW, gc.getWidth()*63/100, gc.getHeight()/2, width, height, "sfondo4" ) );
-			sfondi.add( new Sfondo( new Image( "./data/Image/sfondo5.jpg" ), maxH, maxW, gc.getWidth()*8/10, gc.getHeight()/2, width, height, "sfondo5" ) );
+		{
+			elem = new Elements( gc );
+			
+			sfondi = elem.getSfondi();			
+			items = elem.getItems();
+			ostacoli = new ArrayList<Ostacolo>();
 			
 			up = new Image( "./data/Image/up.png" );
 			down = new Image( "./data/Image/down.png" );
@@ -94,25 +86,14 @@ public class Edit
 
 			back = new SimpleButton( gc.getWidth()/15, gc.getHeight()*24/25, "INDIETRO", Color.orange );
 			saveLevel = new SimpleButton( gc.getWidth()*3/4, gc.getHeight()*24/25, "SALVA LIVELLO", Color.orange );
-			
-			temp = null;
-			
-			items = new ArrayList<Ostacolo>();
-			items.add( new Sbarra( gc.getWidth()/9, gc.getHeight()*78/100, "hor" ) );
-			items.add( new Tubo( gc.getWidth()*2/7, gc.getHeight()*3/4, "sx" ) );
-			items.add( new Player( gc.getWidth()*4/7, gc.getHeight()*3/4, 1 ) );
-			items.add( new Player( gc.getWidth()*5/7, gc.getHeight()*3/4, 2 ) );
-			items.add( new Bubble( gc.getWidth()*6/7, gc.getHeight()*3/4, ray, maxW ) );
-			
-			ostacoli = new ArrayList<Ostacolo>();
 
 			choiseI = new Image( "./data/Image/choise.png" );
 			baseI = new Image( "./data/Image/Window.png" );
 			cursor = new Image( "./data/Image/cursore.png" );
 			
 			//lunghezza e altezza del cursore
-			widthC = 45;
-			heightC = 25;
+			widthC = gc.getHeight()*10/133;
+			heightC = gc.getHeight()/24;
 			
 			widthChoise = gc.getWidth()/8;
 			heightChoise = gc.getHeight()/30;
@@ -140,6 +121,8 @@ public class Edit
 			nuovaCoppiaTubi = false;
 			nuovoTubo1 = false;
 			indiceTuboRimasto = -1;
+			
+			temp = null;
 		}
 	
 	public void draw( GameContainer gc, Graphics g ) throws SlickException
