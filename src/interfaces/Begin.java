@@ -27,7 +27,7 @@ import dataObstacles.Tubo;
 
 public class Begin 
 {
-	public SimpleButton editor, tasto, choose;
+	public SimpleButton editor, tasto, choose, newLevel;
 	
 	/**array contente tutti i livelli creati*/
 	public static ArrayList<Livello> livelli;
@@ -55,7 +55,7 @@ public class Begin
 	private boolean insertButton;
 	
 	//deermina il punto in cui i bottoni dovranno fermarsi
-	private int xFinale1, xFinale2;
+	private int xFinale1, xFinale2, xFinale3;
 	
 	//immagine schermata iniziale
 	private Sfondo pang;
@@ -64,13 +64,15 @@ public class Begin
 		{
 	        insertButton = false;
 
-	        xFinale1 = (int) (gc.getWidth()/(2.5));
-	        xFinale2 = (int) (gc.getWidth()/(2.2));
+	        xFinale1 = gc.getWidth()*10/25;
+	        xFinale2 = gc.getWidth()*10/26;
+	        xFinale3 = gc.getHeight()/4*3;
 	    
 			livelli = new ArrayList<Livello>();
 			
-			choose = new SimpleButton( 0, gc.getHeight()/4, "SCEGLI LIVELLO", Color.orange );
-			editor = new SimpleButton( gc.getWidth(), (int) (gc.getWidth()/(2.2)), "EDIT", Color.orange );
+			choose = new SimpleButton( 0, gc.getHeight()/4, "GIOCA LIVELLO", Color.orange );
+			editor = new SimpleButton( gc.getWidth(), gc.getHeight()/2, "MODIFICA LIVELLO", Color.orange );
+			newLevel = new SimpleButton( gc.getWidth()*10/27, gc.getWidth(), "CREA NUOVO LIVELLO", Color.orange );
 			
 			elements = new ArrayList<Ostacolo>();
 			
@@ -153,7 +155,8 @@ public class Begin
 			
 			buttons = new ArrayList<SimpleButton>();
 			buttons.add( choose );
-			buttons.add( editor );			
+			buttons.add( editor );
+			buttons.add( newLevel );
 
 			widthC = 45;
 			heightC = 25;
@@ -179,7 +182,16 @@ public class Begin
 			int mouseX = input.getMouseX();
 			int mouseY = input.getMouseY();
 			
-			// TODO implementare slittamento bottoni (assurdo ma non funziona)
+			//schermata iniziale del "premi un tasto qualsiasi"
+			if(!insertButton)
+    			for(int i = 0; i < 256; i++)
+    			    if(input.isKeyPressed( i ))
+                        insertButton = true;
+			
+			if(!insertButton)
+				if(input.isMousePressed( Input.MOUSE_LEFT_BUTTON ) || input.isMousePressed( Input.MOUSE_RIGHT_BUTTON ))
+					insertButton = true;
+
 			if(insertButton)
 				{
 					int move = delta/2;
@@ -191,39 +203,37 @@ public class Begin
 						editor.setX( editor.getX() - move*3/2 );
 					else
 						editor.setX( xFinale2 );
-				}
-			
-			//schermata iniziale del "premi un tasto qualsiasi"
-			if(!insertButton)
-    			for(int i = 0; i < 256; i++)
-    			    if(input.isKeyPressed( i ))
-                        insertButton = true;
-			
-			if((input.isKeyPressed( Input.KEY_UP ) || input.isKeyPressed( Input.KEY_DOWN ) || input.isKeyPressed( Input.KEY_LEFT ) || input.isKeyPressed( Input.KEY_RIGHT )))
-				{
-					if(indexCursor < 0)
-						indexCursor = 0;
-					else if(indexCursor == 0)
-						indexCursor = 1;
+					if(newLevel.getY() - move > xFinale3)
+						newLevel.setY( newLevel.getY() - move );
 					else
-						indexCursor = 0;
-				}
-
-			if((editor.checkClick( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )) || (indexCursor == 1 && input.isKeyPressed( Input.KEY_ENTER )))
-				{
-					indexCursor = -1;
-					Start.begin = 0;
-					Start.editGame = 1;
-					Start.setPreviuosStats( "begin" );
-				}
-			else if((choose.checkClick( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )) || (indexCursor == 0 && input.isKeyPressed( Input.KEY_ENTER )))
-				{
-					if(livelli.size() > 0)
+						newLevel.setY( xFinale3 );
+			
+					if((input.isKeyPressed( Input.KEY_UP ) || input.isKeyPressed( Input.KEY_DOWN ) || input.isKeyPressed( Input.KEY_LEFT ) || input.isKeyPressed( Input.KEY_RIGHT )))
+						{
+							if(indexCursor < 0)
+								indexCursor = 0;
+							else if(indexCursor == 0)
+								indexCursor = 1;
+							else
+								indexCursor = 0;
+						}
+		
+					if((editor.checkClick( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )) || (indexCursor == 1 && input.isKeyPressed( Input.KEY_ENTER )))
 						{
 							indexCursor = -1;
 							Start.begin = 0;
-							Start.chooseLevel = 1;
+							Start.editGame = 1;
 							Start.setPreviuosStats( "begin" );
+						}
+					else if((choose.checkClick( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )) || (indexCursor == 0 && input.isKeyPressed( Input.KEY_ENTER )))
+						{
+							if(livelli.size() > 0)
+								{
+									indexCursor = -1;
+									Start.begin = 0;
+									Start.chooseLevel = 1;
+									Start.setPreviuosStats( "begin" );
+								}
 						}
 				}
 		}
