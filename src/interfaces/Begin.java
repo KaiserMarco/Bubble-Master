@@ -110,7 +110,6 @@ public class Begin
 								int y = Integer.parseInt( tmp.substring( 0, tmp.length() - 2 ) );
 								tmp = obs.getAttribute( "union" );
 								int union = Integer.parseInt( tmp.substring( 0, tmp.length() ) );
-								System.out.println( "UNION = " + union );
 								String type = obs.getAttribute( "ID" );
 								String orienting = obs.getAttribute( "type" );
 								

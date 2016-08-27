@@ -20,6 +20,9 @@ import interfaces.InGame;
 
 
 
+
+
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -252,7 +255,7 @@ public class Bubble extends Ostacolo
 	    				return false;
     			}
 		
-	    	return true;
+	    	return false;
     	}
 
     //determina la collisione con gli spigoli con speedX o speedY nulla
@@ -394,6 +397,7 @@ public class Bubble extends Ostacolo
 		    		ost.setCollide( true );
 		    		if(!collisionEdge( ost, dritto ))
 		        		{
+            				System.out.println( "eccalla" );
 		                	if(ostr.intersects( ost.component( "latoSu" ) ))
 		            			{
 		                			if(speedX <= 0 && speedY > 0)
@@ -441,7 +445,10 @@ public class Bubble extends Ostacolo
 		            						speedY = -speedY;
 		                		}
 		                	else if(ostr.intersects( ost.component( "latoDx" ) ) || ostr.intersects( ost.component( "latoSx" ) ))
-		                		speedX = -speedX;
+		                		{
+		                			System.out.println( "eccalla" );
+		                			speedX = -speedX;
+		                		}
 		        		}
 		        }
     	}
@@ -485,7 +492,7 @@ public class Bubble extends Ostacolo
     				else if(pos.equals( "dx" ))
     					setXY( ost.component( "latoInggresso" ).getX() + getWidth(), ost.component( "latoIngresso" ).getY() + ost.getHeight()/2 - getWidth(), "restore" );
     				else if(pos.equals( "down" ))
-    					setXY( ost.component( "latoIngresso" ).getX() - 1 + ost.getWidth()/2 - getWidth(), ost.component( "latoIngresso" ).getY() + getWidth(), "restore" );
+    					setXY( ost.component( "latoIngresso" ).getX() + ost.getWidth()/2 - getWidth() - 4, ost.component( "latoIngresso" ).getY(), "restore" );
     				else
     					setXY( ost.component( "latoIngresso" ).getX() - 1 + ost.getWidth()/2 - getWidth(), ost.component( "latoIngresso" ).getY() - getWidth(), "restore" );
     			}
@@ -527,12 +534,15 @@ public class Bubble extends Ostacolo
                         		{
                         			if(!secondoTubo || (secondoTubo && indexTube != i && previousIndexTube != i))
                     					if(speedX == 0 || speedY == 0)
-                    						gestioneCollisioni( ost, true );
+                							gestioneCollisioni( ost, true );
                     					else
                     						gestioneCollisioni( ost, false );
                         		}
-                            else if(!ostr.intersects( ost.component( "rect"  ) ))
+                            else if(!ostr.intersects( ost.component( "latoDx" ) ) && (!ostr.intersects( ost.component( "latoSx" ) )) && (!ostr.intersects( ost.component( "latoSu" ) )) && (!ostr.intersects( ost.component( "latoGiu" ) ))
+                            		 && (!ostr.intersects( ost.component( "spigBSx" ) )) && (!ostr.intersects( ost.component( "spigBDx" ) )) || (!ostr.intersects( ost.component( "spigADx" ) )) && (!ostr.intersects( ost.component( "spigASx" ) )))
                             	ost.setCollide( false );
+                            else
+                            	ost.setCollide( true );
                         }
                 }
              

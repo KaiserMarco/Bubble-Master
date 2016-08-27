@@ -431,7 +431,7 @@ public class Edit
 	    		item.setAttribute( "name", sfondi.get( indexSfondo ).getName() );
 	    		livello.addContent( item );
 	    		
-	    		outputter.output( document, new FileOutputStream( "data/livelli/livello3.xml" ) );
+	    		outputter.output( document, new FileOutputStream( "data/livelli/livello4.xml" ) );
 			}
 			catch( IOException e ){
 				System.err.println( "Error while creating the level" );
