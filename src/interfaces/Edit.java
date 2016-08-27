@@ -416,6 +416,7 @@ public class Edit
 	    				item = new Element( "ostacolo" );
 	    				item.setAttribute( "x", ostacoli.get( i ).getX() + "" );
 	    				item.setAttribute( "y", ostacoli.get( i ).getY() + "" );
+	    				item.setAttribute( "union", ostacoli.get( i ).getUnion() + "" );
 	    				if(ostacoli.get( i ).getOrienting() != null)
 	    				    item.setAttribute( "type", ostacoli.get( i ).getOrienting() );
 	    				else

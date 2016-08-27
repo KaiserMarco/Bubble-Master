@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <level>
   <!--Objects-->
-  <ostacolo x="205.0" y="155.0" type="hor" ID="sbarra" />
-  <ostacolo x="140.0" y="90.0" ID="bolla" />
-  <ostacolo x="250.0" y="506.0" ID="player1" />
+  <ostacolo x="205.0" y="155.0" union="-1" type="hor" ID="sbarra" />
+  <ostacolo x="140.0" y="90.0" union="-1" ID="bolla" />
+  <ostacolo x="250.0" y="506.0" union="-1" ID="player1" />
   <sfondo x="0" y="0" name="sfondo4" />
 </level>

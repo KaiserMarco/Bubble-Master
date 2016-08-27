@@ -521,7 +521,7 @@ public class Bubble extends Ostacolo
 		                        		}
                         		}
                         	else if(primoTubo || secondoTubo)
-                				gestioneSferaInTubo();
+                				gestioneSferaInTubo();                        	
                         	
                         	if(!primoTubo && ostr.intersects( ost.component( "rect" ) ) && !ost.getCollide())
                         		{
@@ -531,7 +531,7 @@ public class Bubble extends Ostacolo
                     					else
                     						gestioneCollisioni( ost, false );
                         		}
-                            else
+                            else if(!ostr.intersects( ost.component( "rect"  ) ))
                             	ost.setCollide( false );
                         }
                 }

@@ -108,7 +108,10 @@ public class Begin
 								int x = Integer.parseInt( tmp.substring( 0, tmp.length() - 2 ) );
 								tmp = obs.getAttribute( "y" );
 								int y = Integer.parseInt( tmp.substring( 0, tmp.length() - 2 ) );
-								String type = obs.getAttribute( "ID" );	
+								tmp = obs.getAttribute( "union" );
+								int union = Integer.parseInt( tmp.substring( 0, tmp.length() ) );
+								System.out.println( "UNION = " + union );
+								String type = obs.getAttribute( "ID" );
 								String orienting = obs.getAttribute( "type" );
 								
 								if(type.equals( "bolla" ))
@@ -122,6 +125,7 @@ public class Begin
                                     {
                                         elements.add( new Tubo( x, y, orienting ) );
                                         elements.get( elements.size() - 1 ).setSpigoli();
+                                        elements.get( elements.size() - 1 ).setUnion( union );
                                     }
 								else if(type.equals( "player1" ))
 									elements.add( new Player( x, y, 1 ) );

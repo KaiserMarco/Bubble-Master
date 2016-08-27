@@ -54,9 +54,6 @@ public class InGame
 					else
 						ostacoli.add( ost );
 				}
-			
-			for(int i = 0; i < ostacoli.size(); i++)
-				System.out.println( "TYPE = " + ostacoli.get( i ).getID() );
 		}
 
 	public void draw( GameContainer gc, Graphics g) throws SlickException
