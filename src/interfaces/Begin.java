@@ -27,7 +27,7 @@ import dataObstacles.Tubo;
 
 public class Begin 
 {
-	public SimpleButton editor, tasto, choose, newLevel;
+	public SimpleButton editor, tasto, choose, newLvl;
 	
 	/**array contente tutti i livelli creati*/
 	public static ArrayList<Livello> livelli;
@@ -55,7 +55,7 @@ public class Begin
 	private boolean insertButton;
 	
 	//deermina il punto in cui i bottoni dovranno fermarsi
-	private int xFinale1, xFinale2, xFinale3;
+	private int xFinale1, xFinale2, yFinale3;
 	
 	//immagine schermata iniziale
 	private Sfondo pang;
@@ -65,14 +65,14 @@ public class Begin
 	        insertButton = false;
 
 	        xFinale1 = gc.getWidth()*10/25;
-	        xFinale2 = gc.getWidth()*10/27;
-	        xFinale3 = gc.getHeight()/4*3;
+	        xFinale2 = gc.getWidth()*10/22;
+	        yFinale3 = gc.getHeight()*3/4;
 	    
 			livelli = new ArrayList<Livello>();
 			
-			choose = new SimpleButton( 0, gc.getHeight()/4, "GIOCA LIVELLO", Color.orange );
-			editor = new SimpleButton( gc.getWidth(), gc.getHeight()/2, "CREA NUOVO LIVELLO", Color.orange );
-			newLevel = new SimpleButton( gc.getWidth()*10/26, gc.getWidth(), "MODIFICA LIVELLO", Color.orange );
+			choose = new SimpleButton( 0, gc.getHeight()/4, "SCEGLI LIVELLO", Color.orange );
+			editor = new SimpleButton( gc.getWidth(), gc.getHeight()/2, "EDITOR", Color.orange );
+			newLvl = new SimpleButton( gc.getWidth()*10/24, gc.getHeight(), "CREA LIVELLO", Color.orange );
 			
 			elements = new ArrayList<Ostacolo>();
 			
@@ -155,8 +155,8 @@ public class Begin
 			
 			buttons = new ArrayList<SimpleButton>();
 			buttons.add( choose );
-			buttons.add( editor );
-			buttons.add( newLevel );
+			buttons.add( editor );	
+			buttons.add( newLvl );
 
 			widthC = 45;
 			heightC = 25;
@@ -187,11 +187,11 @@ public class Begin
     			for(int i = 0; i < 256; i++)
     			    if(input.isKeyPressed( i ))
                         insertButton = true;
-			
+		
 			if(!insertButton)
 				if(input.isMousePressed( Input.MOUSE_LEFT_BUTTON ) || input.isMousePressed( Input.MOUSE_RIGHT_BUTTON ))
 					insertButton = true;
-
+			
 			if(insertButton)
 				{
 					int move = delta/2;
@@ -203,11 +203,14 @@ public class Begin
 						editor.setX( editor.getX() - move*3/2 );
 					else
 						editor.setX( xFinale2 );
-					if(newLevel.getY() - move > xFinale3)
-						newLevel.setY( newLevel.getY() - move );
+					if(newLvl.getY() - move/2 > yFinale3)
+						newLvl.setY( newLvl.getY() - move/2 );
 					else
-						newLevel.setY( xFinale3 );
+						newLvl.setY( yFinale3 );
+				}
 			
+			if(insertButton)
+				{
 					if((input.isKeyPressed( Input.KEY_UP ) || input.isKeyPressed( Input.KEY_DOWN ) || input.isKeyPressed( Input.KEY_LEFT ) || input.isKeyPressed( Input.KEY_RIGHT )))
 						{
 							if(indexCursor < 0)
