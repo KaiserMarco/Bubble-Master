@@ -46,8 +46,6 @@ public class SimpleButton extends Button
 			int width = font.getWidth( name ), height = font.getHeight( name );
 			rect = new Rectangle( x, y, width + offset, height + offset );
 			this.name = name;
-			/*this.posX = x;
-			this.posY = y;*/
 		}
 
 	/** modifica il valore di attivazione*/
@@ -59,12 +57,6 @@ public class SimpleButton extends Button
 	*/
 	public boolean isActive()
 		{ return active; }
-	
-	/*public float getX()
-		{ return posX; }
-	
-	public float getY()
-		{ return posY; }*/
 
 	public void draw( Graphics g )
 		{
@@ -86,9 +78,9 @@ public class SimpleButton extends Button
 				}
 		}
 	
-	/*public void setX( int x )
-		{ rect.setX( x ); }
-	
-	public void setY( int y )
-		{ rect.setY( y ); }*/
+	/** restituisce il nome del bottone
+	 * @return name - il nome
+	*/
+	/*public String getName()
+		{ return name; }*/
 }

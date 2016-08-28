@@ -2,6 +2,7 @@ package bubbleMaster;
 
 import interfaces.Begin;
 import interfaces.ChooseLevel;
+import interfaces.CreaLvl;
 import interfaces.Edit;
 import interfaces.End;
 import interfaces.InGame;
@@ -21,8 +22,9 @@ public class Start extends BasicGame
 	private End e;
 	private Edit edit;
 	public static ChooseLevel cl;
+	private CreaLvl crea;
 	
-	public static int chooseLevel, startGame, endGame, editGame;
+	public static int chooseLevel, startGame, endGame, editGame, creaLvl;
 	public static int begin = 1;
 	
 	private static ArrayList<String> previous;
@@ -58,6 +60,8 @@ public class Start extends BasicGame
 				editGame = 1;
 			else if(previous.get( 0 ).equals( "endGame" ))
 				endGame = 1;
+			else if(previous.get( 0 ).equals( "creaLvl" ))
+				creaLvl = 1;
 			else
 				begin = 1;
 			
@@ -77,6 +81,8 @@ public class Start extends BasicGame
 				e.draw( gc );
 			else if(chooseLevel == 1)
 				cl.draw( gc );
+			else if(creaLvl == 1)
+				crea.draw( gc );
 		}
 
 	@Override
@@ -87,6 +93,7 @@ public class Start extends BasicGame
 			e = new End();
 			edit = new Edit( gc );
 			cl = new ChooseLevel( gc );
+			crea = new CreaLvl();
 		}
 
 	@Override
@@ -102,6 +109,8 @@ public class Start extends BasicGame
 				e.update( gc );
 			else if(chooseLevel == 1)
 				cl.update( gc );
+			else if(creaLvl == 1)
+				crea.update( gc );
 			
 			gc.getInput().clearKeyPressedRecord();
 			gc.getInput().clearMousePressedRecord();

@@ -70,9 +70,10 @@ public class Begin
 	    
 			livelli = new ArrayList<Livello>();
 			
-			choose = new SimpleButton( 0, gc.getHeight()/4, "SCEGLI LIVELLO", Color.orange );
-			editor = new SimpleButton( gc.getWidth(), gc.getHeight()/2, "EDITOR", Color.orange );
-			newLvl = new SimpleButton( gc.getWidth()*10/24, gc.getHeight(), "CREA LIVELLO", Color.orange );
+			Color color = Color.orange;
+			choose = new SimpleButton( 0, gc.getHeight()/4, "SCEGLI LIVELLO", color );
+			editor = new SimpleButton( gc.getWidth(), gc.getHeight()/2, "EDITOR", color );
+			newLvl = new SimpleButton( gc.getWidth()*10/24, gc.getHeight(), "CREA LIVELLO", color );
 			
 			elements = new ArrayList<Ostacolo>();
 			
@@ -221,14 +222,14 @@ public class Begin
 								indexCursor = 0;
 						}
 		
-					if((editor.checkClick( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )) || (indexCursor == 1 && input.isKeyPressed( Input.KEY_ENTER )))
+					if((editor.checkClick( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )) || (indexCursor >= 0 && buttons.get( indexCursor ).getName().equals( "EDITOR" ) && input.isKeyPressed( Input.KEY_ENTER )))
 						{
 							indexCursor = -1;
 							Start.begin = 0;
 							Start.editGame = 1;
 							Start.setPreviuosStats( "begin" );
 						}
-					else if((choose.checkClick( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )) || (indexCursor == 0 && input.isKeyPressed( Input.KEY_ENTER )))
+					else if((choose.checkClick( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )) || (indexCursor >= 0 && buttons.get( indexCursor ).getName().equals( "SCEGLI LIVELLO" ) && input.isKeyPressed( Input.KEY_ENTER )))
 						{
 							if(livelli.size() > 0)
 								{
@@ -237,6 +238,13 @@ public class Begin
 									Start.chooseLevel = 1;
 									Start.setPreviuosStats( "begin" );
 								}
+						}
+					else if((newLvl.checkClick( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )) || (indexCursor >= 0 && buttons.get( indexCursor ).getName().equals( "CREA LIVELLO" ) && input.isKeyPressed( Input.KEY_ENTER )))
+						{
+							indexCursor = -1;
+							Start.begin = 0;
+							Start.creaLvl = 1;
+							Start.setPreviuosStats( "begin" );
 						}
 				}
 		}
