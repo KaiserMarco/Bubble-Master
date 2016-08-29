@@ -830,15 +830,14 @@ public class Edit
 							if(!insertEditor)
 								if(gamer > 0 && ball > 0)
 									{
-										System.out.println( "oki" );
 										addNewLevel();
 										gamer = 0;
 										ball = 0;
 										
 										resetStatus();
+										Start.chooseLevel = 1;
+										Start.editGame = 0;
 									}
-								else
-									System.out.println( "GAMER = " + gamer + " BALL = " + ball );
 						}
 					//torna alla schermata precedente
 					else if(input.isKeyPressed( Input.KEY_BACK ))

@@ -9,7 +9,6 @@ public class Sfondo
 	private Image sfondo;
 	private double maxHeight, maxWidth;
 	private int x, y, width, height;
-	private Rectangle ostr;
 	//il nome dello sfondo
 	private String name;
 	
@@ -61,8 +60,5 @@ public class Sfondo
 		{ return y; }
 	
 	public boolean contains( int x, int y )
-		{
-			ostr = new Rectangle( this.x, this.y, width, height );
-			return ostr.contains( x, y );
-		}
+		{ return new Rectangle( this.x, this.y, width, height ).contains( x, y ); }
 }
