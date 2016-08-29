@@ -3,9 +3,11 @@ package dataButton;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.UnicodeFont;
 import org.newdawn.slick.font.effects.ColorEffect;
+import org.newdawn.slick.geom.Polygon;
 import org.newdawn.slick.geom.Rectangle;
 
 public class SimpleButton extends Button
@@ -19,10 +21,12 @@ public class SimpleButton extends Button
 	public static float ratioH = 1, ratioW = 1;
 	/* offset per lo spostamento */
 	private float offset = 20.f * ratioH;
-	
-	//private float posX, posY;
+	/* i punti del bottone triangolare */
+	float[] points = new float[6];
+	/* lunghezza e altezza del bottone triangolare */
+	int width, height;
 
-	/** crea un nuovo bottone
+	/** crea un nuovo bottone rettangolare
 	 * @param x - coordinata X
 	 * @param y - coordinata Y
 	 * @param name - il nome del bottone
@@ -47,6 +51,35 @@ public class SimpleButton extends Button
 			rect = new Rectangle( x, y, width + offset, height + offset );
 			this.name = name;
 		}
+	
+	/** crea un nuovo bottone triangolare
+	 * @param x - coordinata X
+	 * @param y - coordinata Y
+	 * @param width - la lunghezza del bottone
+	 * @param heigth - l'altezza del bottone
+	 * @throws SlickException 
+	*/
+	public SimpleButton( float x, float y, String name, int width, int heigth, Image change )
+		{
+			this.name = name;
+			if(name.equals( "Right" ))
+				{
+					points[0] = x; points[1] = y;
+					points[2] = x; points[3] = y + heigth;
+					points[4] = x + width; points[5] = y + heigth/2;
+				}
+			else if(name.equals( "Left" ))
+				{
+					points[0] = x; points[1] = y + heigth/2;
+					points[2] = x + width; points[3] = y;
+					points[4] = x + width; points[5] = y + heigth;
+				}
+			rect = new Polygon( points );
+			
+			this.change = change;
+			this.width = width;
+			this.height = heigth;
+		}
 
 	/** modifica il valore di attivazione*/
 	public void setActive()
@@ -60,21 +93,32 @@ public class SimpleButton extends Button
 
 	public void draw( Graphics g )
 		{
+			g.setAntiAlias( true );
 			g.setColor( c );
 			g.fill( rect );
-	
-			super.draw( g );
-	
-			float width = 1.f * ratioH;
-			if(pressed)
-				font.drawString( rect.getX() + offset/2 + width, rect.getY() + offset/2 + width, name, Color.black );
-			else
-				font.drawString( rect.getX() + offset/2, rect.getY() + offset/2, name, Color.black );
-	
-			if(!active)
+			
+			if(name.equals( "Right" ) || name.equals( "Left" ))
 				{
-					g.setColor( new Color( 0, 0, 0, 100 ) );
-					g.fill( rect );
+					if(name.equals( "Right" ))
+						change.draw( points[0], points[1], width, height );
+					else
+						change.draw( points[0], points[3], width, height );
+				}
+			else
+				{
+					super.draw( g );
+		
+					float width = 1.f * ratioH;
+					if(pressed)
+						font.drawString( rect.getX() + offset/2 + width, rect.getY() + offset/2 + width, name, Color.black );
+					else
+						font.drawString( rect.getX() + offset/2, rect.getY() + offset/2, name, Color.black );
+					
+					if(!active)
+						{
+							g.setColor( new Color( 0, 0, 0, 100 ) );
+							g.fill( rect );
+						}
 				}
 		}
 	

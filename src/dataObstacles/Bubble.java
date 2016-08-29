@@ -444,10 +444,7 @@ public class Bubble extends Ostacolo
 		            						speedY = -speedY;
 		                		}
 		                	else if(ostr.intersects( ost.component( "latoDx" ) ) || ostr.intersects( ost.component( "latoSx" ) ))
-		                		{
-		                			System.out.println( "eccalla" );
-		                			speedX = -speedX;
-		                		}
+	                			speedX = -speedX;
 		        		}
 		        }
     	}

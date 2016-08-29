@@ -453,7 +453,7 @@ public class Edit
 	    		System.out.println( "nameLvl = " + nameLvl );
 	    		
 	    		if(nameLvl != null)
-	    			{	    				
+	    			{
 	    				Begin.livelli.remove( index );
 	    				Begin.livelli.add( index, new Livello( ostacoli, sfondi.get( indexSfondo ), nameLvl ) );
 
@@ -461,7 +461,7 @@ public class Edit
 	    			}
 	    		else
 	    			{
-						Begin.livelli.add( new Livello( ostacoli, sfondi.get( indexSfondo ), index + "" ) );						
+						Begin.livelli.add( new Livello( ostacoli, sfondi.get( indexSfondo ), index + "" ) );
 			    		outputter.output( document, new FileOutputStream( "data/livelli/livello" + index + ".xml" ) );
 	    			}
 	    		

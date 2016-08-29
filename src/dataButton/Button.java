@@ -2,16 +2,20 @@ package dataButton;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Rectangle;
+import org.newdawn.slick.geom.Shape;
 
 public class Button
 {
-	/* area del bottone */
-	protected Rectangle rect;
+	/* area del bottone rettangolare */
+	protected Shape rect;
 	/* nome del bottone */
 	protected String name;
 	/* determina se il bottone e' stato premuto */
 	protected boolean pressed = false;
+	/* immagine del bottone */
+	Image change = null;
 
 	public Button()
 		{}
@@ -63,7 +67,7 @@ public class Button
 	 * @return rect - area del bottone
 	*/
 	public Rectangle getRect()
-		{ return rect; }
+		{ return (Rectangle) rect; }
 
 	/** determina se i punti x e y sono all'interno dell'area
 	 * @param x - la coordinata X del mouse
