@@ -93,7 +93,7 @@ public class Start extends BasicGame
 			e = new End();
 			edit = new Edit( gc );
 			cl = new ChooseLevel( gc );
-			crea = new CreaLvl();
+			crea = new CreaLvl( gc );
 		}
 
 	@Override
@@ -108,9 +108,9 @@ public class Start extends BasicGame
 			else if(endGame == 1)
 				e.update( gc );
 			else if(chooseLevel == 1)
-				cl.update( gc );
+				cl.update( gc, edit );
 			else if(creaLvl == 1)
-				crea.update( gc );
+				crea.update( gc, delta );
 			
 			gc.getInput().clearKeyPressedRecord();
 			gc.getInput().clearMousePressedRecord();

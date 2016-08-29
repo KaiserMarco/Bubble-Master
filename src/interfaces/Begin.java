@@ -71,8 +71,8 @@ public class Begin
 			livelli = new ArrayList<Livello>();
 			
 			Color color = Color.orange;
-			choose = new SimpleButton( 0, gc.getHeight()/4, "SCEGLI LIVELLO", color );
-			editor = new SimpleButton( gc.getWidth(), gc.getHeight()/2, "EDITOR", color );
+			choose = new SimpleButton( 0, gc.getHeight()/4, "LIVELLI", color );
+			editor = new SimpleButton( gc.getWidth(), gc.getHeight()/2, "OPZIONI", color );
 			newLvl = new SimpleButton( gc.getWidth()*10/24, gc.getHeight(), "CREA LIVELLO", color );
 			
 			elements = new ArrayList<Ostacolo>();
@@ -96,6 +96,7 @@ public class Begin
 						
 						document = builder.parse( new File( "data/livelli/" + files[j] ) );
 			 
+						NodeList name = document.getElementsByTagName( "livello" );
 						NodeList ostacoli = document.getElementsByTagName( "ostacolo" );
 						NodeList back = document.getElementsByTagName( "sfondo" );
 						Sfondo sfondo;
@@ -139,8 +140,13 @@ public class Begin
 						Element img = (Element) nodo;
 						tmp = img.getAttribute( "name" );
 						sfondo = new Sfondo( new Image( "./data/Image/" + tmp + ".jpg" ), gc.getHeight()/(1.04), gc.getWidth(), 0, 0, gc.getWidth(), gc.getHeight(), "sfondo" + tmp );
+
+						System.out.println( "lungh nome = " + name.getLength() );
+						Node var = name.item( 0 );
+						Element node = (Element) var;
+						tmp = node.getAttribute( "nome" );
 						
-						livelli.add( new Livello( elements, sfondo ) );
+						livelli.add( new Livello( elements, sfondo, tmp ) );
 						
 						for(int i  = 0; i < livelli.get( livelli.size() - 1 ).getElements().size(); i++)
 							System.out.println( "tipo ostacolo = " +  livelli.get( livelli.size() - 1 ).getElements().get( i ).getID() );
@@ -157,7 +163,7 @@ public class Begin
 			buttons = new ArrayList<SimpleButton>();
 			buttons.add( choose );
 			buttons.add( editor );	
-			buttons.add( newLvl );
+			//buttons.add( newLvl );
 
 			widthC = 45;
 			heightC = 25;
@@ -243,7 +249,7 @@ public class Begin
 						{
 							indexCursor = -1;
 							Start.begin = 0;
-							Start.creaLvl = 1;
+							//Start.creaLvl = 1;
 							Start.setPreviuosStats( "begin" );
 						}
 				}

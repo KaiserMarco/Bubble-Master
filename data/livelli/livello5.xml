@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <level>
   <!--Objects-->
-  <ostacolo x="312.0" y="292.0" union="1" type="sx" ID="tubo" />
-  <ostacolo x="450.0" y="179.0" union="0" type="up" ID="tubo" />
-  <ostacolo x="638.0" y="319.0" union="-1" type="null" ID="bolla" />
-  <ostacolo x="285.0" y="506.0" union="-1" type="null" ID="player1" />
+  <livello nome="livello1" />
+  <ostacolo x="205.0" y="155.0" union="-1" type="hor" ID="sbarra" />
+  <ostacolo x="140.0" y="90.0" union="-1" type="null" ID="bolla" />
+  <ostacolo x="230.0" y="327.0" union="-1" type="hor" ID="sbarra" />
+  <ostacolo x="467.0" y="160.0" union="-1" type="ver" ID="sbarra" />
+  <ostacolo x="565.0" y="203.0" union="-1" type="null" ID="bolla" />
+  <ostacolo x="528.0" y="370.0" union="-1" type="null" ID="bolla" />
+  <ostacolo x="250.0" y="506.0" union="-1" type="null" ID="player1" />
   <sfondo x="0" y="0" name="sfondo4" />
 </level>

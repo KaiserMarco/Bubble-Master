@@ -16,7 +16,8 @@ public class ChooseLevel
 {	
 	private int pos = 0;
 	
-	private SimpleButton left, right, start, back;
+	private SimpleButton left, right, start, back, edit, newLvl;
+	private ArrayList<SimpleButton> buttons;
 	
 	private Sfondo sfondo;
 	
@@ -25,7 +26,17 @@ public class ChooseLevel
 			left = new SimpleButton( gc.getWidth()/400, gc.getHeight()/2, "left", Color.orange );
 			right = new SimpleButton( gc.getWidth() - 60, gc.getHeight()/2, "right", Color.orange );
 			start = new SimpleButton( gc.getWidth()/2 - 20, gc.getHeight()*23/24, "start", Color.orange );
-			back = new SimpleButton( 0, gc.getHeight()*23/24, "INDIETRO", Color.orange );			
+			back = new SimpleButton( 0, gc.getHeight()*23/24, "INDIETRO", Color.orange );
+			edit = new SimpleButton( gc.getWidth() - 95, gc.getHeight()*23/24, "modifica", Color.orange );
+			newLvl = new SimpleButton(gc.getWidth()/4 - 20, gc.getHeight()*23/24, "nuovo livello", Color.orange );
+			
+			buttons = new ArrayList<SimpleButton>();
+			buttons.add( left );
+			buttons.add( right );
+			buttons.add( back );
+			buttons.add( edit );
+			buttons.add( start );
+			buttons.add( newLvl );
 		}
 	
 	public void draw( GameContainer gc ) throws SlickException
@@ -37,16 +48,14 @@ public class ChooseLevel
 			for(int i = 0; i < obs.size(); i++)
 				obs.get( i ).draw( gc.getGraphics() );
 			
-			left.draw( gc.getGraphics() );
-			right.draw( gc.getGraphics() );
-			start.draw( gc.getGraphics() );
-			back.draw( gc.getGraphics() );
+			for(int i = 0; i < buttons.size(); i++)
+				buttons.get( i ).draw( gc.getGraphics() );
 		}
 	
 	public int getIndexLevel()
 		{ return pos; }
 	
-	public void update( GameContainer gc ) throws SlickException
+	public void update( GameContainer gc, Edit editor ) throws SlickException
 		{
 			Input input = gc.getInput();
 			int mouseX = input.getMouseX();
@@ -68,6 +77,21 @@ public class ChooseLevel
 					Start.chooseLevel = 0;
 					Start.startGame = 1;
 					Start.setPreviuosStats( "chooseLevel" );
+				}
+			else if((edit.checkClick( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )) || input.isKeyPressed( Input.KEY_BACKSLASH ))
+				{
+					Start.ig.addOstacoli( Begin.livelli.get( pos ).getElements(), Begin.livelli.get( pos ).getImage() );
+					editor.setElements( InGame.ostacoli, InGame.players, Begin.livelli.get( pos ).getName(), pos );
+				
+					Start.chooseLevel = 0;
+					Start.editGame = 1;
+					Start.setPreviuosStats( "chooseGame" );
+				}
+			else if((newLvl.checkClick( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )) || input.isKeyPressed( Input.KEY_BACKSLASH ))
+				{
+					Start.chooseLevel = 0;
+					Start.creaLvl = 1;
+					Start.setPreviuosStats( "creaLvl" );
 				}
 			else if(input.isKeyPressed( Input.KEY_ESCAPE ))
 				{

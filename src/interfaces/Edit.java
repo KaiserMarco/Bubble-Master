@@ -71,6 +71,12 @@ public class Edit
 	//l'oggetto Elements per recuperare le informazioni di gioco
 	private Elements elem;
 	
+	//il nome del livello
+	private String nameLvl;
+	
+	//determina l'indice del livello
+	private int index = -1;
+	
 	public Edit( GameContainer gc ) throws SlickException
 		{
 			elem = new Elements( gc );
@@ -177,6 +183,25 @@ public class Edit
 			
 			if(temp != null)
 				temp.draw( g );
+		}
+	
+	/**setta gli elementi base di modifica livello*/
+	public void setElements( ArrayList<Ostacolo> ostacoli, ArrayList<Ostacolo> giocatori, String nameLvl, int index )
+		{
+			for(int i = 0; i < ostacoli.size(); i++)
+				{
+					this.ostacoli.add( ostacoli.get( i ) );
+					if(ostacoli.get( i ).getID().equals( "bolla" ))
+						ball++;
+				}
+			
+			for(int i = 0; i < giocatori.size(); i++)
+				this.ostacoli.add( giocatori.get( i ) );
+			
+			gamer = giocatori.size();
+			
+			this.nameLvl = nameLvl;
+			this.index = index;
 		}
 	
 	public void setChoise( GameContainer gc )
@@ -394,6 +419,14 @@ public class Edit
 	
 				Element item;
 			    livello.addContent( new Comment( "Objects" ) );
+			    
+			    System.out.println( nameLvl );
+			    item = new Element( "livello" );
+			    if(nameLvl != null)
+			    	item.setAttribute( "nome", nameLvl );
+			    else
+			    	item.setAttribute( "nome", "livello5" );
+			    livello.addContent( item );
 			    for(int i = 0; i < ostacoli.size(); i++)
 			    	{									    			
 	    				item = new Element( "ostacolo" );
@@ -414,14 +447,24 @@ public class Edit
 	    		item.setAttribute( "name", sfondi.get( indexSfondo ).getName() );
 	    		livello.addContent( item );
 	    		
-	    		outputter.output( document, new FileOutputStream( "data/livelli/livello5.xml" ) );
+	    		if(nameLvl != null)
+	    			{
+	    				nameLvl = "livello5";	    				
+	    				Begin.livelli.remove( index );
+	    				Begin.livelli.add( index, new Livello( ostacoli, sfondi.get( indexSfondo ), nameLvl ) );
+	    				index = -1;
+	    			}
+	    		else
+					Begin.livelli.add( new Livello( ostacoli, sfondi.get( indexSfondo ), nameLvl ) );
+	    		
+	    		outputter.output( document, new FileOutputStream( "data/livelli/" + nameLvl + ".xml" ) );	    		
+
+				nameLvl = null;
 			}
 			catch( IOException e ){
 				System.err.println( "Error while creating the level" );
-				e.printStackTrace(); 
+				e.printStackTrace();
 			}
-		
-			Begin.livelli.add( new Livello( ostacoli, sfondi.get( indexSfondo ) ) );
 		}
 	
 	public void setEditor( int delta, GameContainer gc )
@@ -463,6 +506,7 @@ public class Edit
 
 			if((indexCursorButton == 1 && input.isKeyPressed( Input.KEY_ENTER )) || (back.checkClick( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )))
 				{
+					nameLvl = null;
 					resetStatus();
 					Start.editGame = 0;
 					Start.recoverPreviousStats();
@@ -786,16 +830,20 @@ public class Edit
 							if(!insertEditor)
 								if(gamer > 0 && ball > 0)
 									{
+										System.out.println( "oki" );
 										addNewLevel();
 										gamer = 0;
 										ball = 0;
 										
 										resetStatus();
 									}
+								else
+									System.out.println( "GAMER = " + gamer + " BALL = " + ball );
 						}
 					//torna alla schermata precedente
 					else if(input.isKeyPressed( Input.KEY_BACK ))
 						{
+							nameLvl = null;
 							resetStatus();
 							Start.editGame = 0;
 							Start.recoverPreviousStats();
