@@ -71,7 +71,8 @@ public class Edit
 	//l'oggetto Elements per recuperare le informazioni di gioco
 	private Elements elem;
 	
-	//il nome del livello
+	/**il nome del livello
+	 * null = inserimento nuovo livello - !null = modifica livello esistente*/
 	private String nameLvl;
 	
 	//determina l'indice del livello
@@ -425,9 +426,9 @@ public class Edit
 			    
 			    item = new Element( "livello" );
 			    if(nameLvl != null)
-			    	item.setAttribute( "nome", nameLvl );
+			    	item.setAttribute( "nome", "livello" + nameLvl );
 			    else
-			    	item.setAttribute( "nome", "livello5" );
+			    	item.setAttribute( "nome", "livello" + index );
 			    livello.addContent( item );
 			    for(int i = 0; i < ostacoli.size(); i++)
 			    	{									    			
@@ -449,9 +450,10 @@ public class Edit
 	    		item.setAttribute( "name", sfondi.get( indexSfondo ).getName() );
 	    		livello.addContent( item );
 	    		
+	    		System.out.println( "nameLvl = " + nameLvl );
+	    		
 	    		if(nameLvl != null)
-	    			{
-	    				nameLvl = "livello5";	    				
+	    			{	    				
 	    				Begin.livelli.remove( index );
 	    				Begin.livelli.add( index, new Livello( ostacoli, sfondi.get( indexSfondo ), nameLvl ) );
 
@@ -459,9 +461,14 @@ public class Edit
 	    			}
 	    		else
 	    			{
-						Begin.livelli.add( new Livello( ostacoli, sfondi.get( indexSfondo ), nameLvl ) );						
-			    		outputter.output( document, new FileOutputStream( "data/livelli/livello" + (index + 1) + ".xml" ) );
-	    			}	    		
+						Begin.livelli.add( new Livello( ostacoli, sfondi.get( indexSfondo ), index + "" ) );						
+			    		outputter.output( document, new FileOutputStream( "data/livelli/livello" + index + ".xml" ) );
+	    			}
+	    		
+	    		if(nameLvl != null)
+	    			System.out.println( "livello " + nameLvl + ".xml salvato" );
+	    		else
+	    			System.out.println( "livello livello" + index + ".xml salvato" );
 
 				nameLvl = null;
 				index = -1;

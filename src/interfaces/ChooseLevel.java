@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 
@@ -21,14 +22,21 @@ public class ChooseLevel
 	
 	private Sfondo sfondo;
 	
+	//lunghezza e altezza dello schermo
+	int width;
+	int height;
+	
 	public ChooseLevel( GameContainer gc ) throws SlickException
-		{
-			left = new SimpleButton( gc.getWidth()/400, gc.getHeight()/2, "left", Color.orange );
-			right = new SimpleButton( gc.getWidth() - 60, gc.getHeight()/2, "right", Color.orange );
-			start = new SimpleButton( gc.getWidth()/2 - 20, gc.getHeight()*23/24, "start", Color.orange );
-			back = new SimpleButton( 0, gc.getHeight()*23/24, "INDIETRO", Color.orange );
-			edit = new SimpleButton( gc.getWidth() - 95, gc.getHeight()*23/24, "modifica", Color.orange );
-			newLvl = new SimpleButton(gc.getWidth()/4 - 20, gc.getHeight()*23/24, "nuovo livello", Color.orange );
+		{	
+			width = gc.getWidth(); 
+			height = gc.getHeight();
+			
+			left = new SimpleButton( width/4, height*4/5, "Left", Color.orange );
+			right = new SimpleButton( width*2/3, height*4/5, "Right", Color.orange );
+			back = new SimpleButton( width*10/108, height*8/9, "Indietro", Color.orange );
+			start = new SimpleButton( width*10/33, height*8/9, "Gioca", Color.orange );
+			edit = new SimpleButton( width/2, height*8/9, "Modifica", Color.orange );
+			newLvl = new SimpleButton( width*3/4, height*8/9, "Nuovo livello", Color.orange );
 			
 			buttons = new ArrayList<SimpleButton>();
 			buttons.add( left );
@@ -42,14 +50,28 @@ public class ChooseLevel
 	public void draw( GameContainer gc ) throws SlickException
 		{
 			sfondo = Begin.livelli.get( pos ).getImage();
-			sfondo.draw( gc );
 		
 			ArrayList<Ostacolo> obs = Begin.livelli.get( pos ).getElements();
+			
+			Graphics g = gc.getGraphics();
+    		
+			float scale = 0.7f;
+			
+    		g.translate( width/2 - width*scale/2, width/25 );
+    		g.scale( scale, scale );
+    		
+    		g.setBackground( Color.blue );
+			sfondo.draw( gc );
+			g.setColor( Color.black );
+			g.drawRect( 0, 0, width, height );
+			
 			for(int i = 0; i < obs.size(); i++)
-				obs.get( i ).draw( gc.getGraphics() );
+				obs.get( i ).draw( g );
+			
+			g.resetTransform();
 			
 			for(int i = 0; i < buttons.size(); i++)
-				buttons.get( i ).draw( gc.getGraphics() );
+				buttons.get( i ).draw( g );
 		}
 	
 	public int getIndexLevel()
@@ -89,7 +111,7 @@ public class ChooseLevel
 				}
 			else if((newLvl.checkClick( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )) || input.isKeyPressed( Input.KEY_BACKSLASH ))
 				{
-					editor.setIndex( Begin.livelli.size() );
+					editor.setIndex( Begin.livelli.size() + 1 );
 				
 					Start.chooseLevel = 0;
 					Start.editGame = 1;

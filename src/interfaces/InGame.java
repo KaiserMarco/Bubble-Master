@@ -58,6 +58,7 @@ public class InGame
 
 	public void draw( GameContainer gc, Graphics g) throws SlickException
 		{
+			g.setAntiAlias( true );
 			sfondo.draw( gc );
 			
 			for(int i = ostacoli.size() - 1; i >= 0; i--)
@@ -72,7 +73,7 @@ public class InGame
 			if(gc.getInput().isKeyPressed( Input.KEY_ESCAPE ))
 				{
 					Start.startGame = 0;
-					Start.begin = 1;
+					Start.chooseLevel = 1;
 					Start.setPreviuosStats( "startGame" );
 				}
 		
