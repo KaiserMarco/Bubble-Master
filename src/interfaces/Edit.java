@@ -185,6 +185,9 @@ public class Edit
 				temp.draw( g );
 		}
 	
+	public void setIndex( int index )
+		{ this.index = index; }
+	
 	/**setta gli elementi base di modifica livello*/
 	public void setElements( ArrayList<Ostacolo> ostacoli, ArrayList<Ostacolo> giocatori, String nameLvl, int index )
 		{
@@ -420,7 +423,6 @@ public class Edit
 				Element item;
 			    livello.addContent( new Comment( "Objects" ) );
 			    
-			    System.out.println( nameLvl );
 			    item = new Element( "livello" );
 			    if(nameLvl != null)
 			    	item.setAttribute( "nome", nameLvl );
@@ -452,14 +454,17 @@ public class Edit
 	    				nameLvl = "livello5";	    				
 	    				Begin.livelli.remove( index );
 	    				Begin.livelli.add( index, new Livello( ostacoli, sfondi.get( indexSfondo ), nameLvl ) );
-	    				index = -1;
+
+	    	    		outputter.output( document, new FileOutputStream( "data/livelli/" + nameLvl + ".xml" ) );
 	    			}
 	    		else
-					Begin.livelli.add( new Livello( ostacoli, sfondi.get( indexSfondo ), nameLvl ) );
-	    		
-	    		outputter.output( document, new FileOutputStream( "data/livelli/" + nameLvl + ".xml" ) );	    		
+	    			{
+						Begin.livelli.add( new Livello( ostacoli, sfondi.get( indexSfondo ), nameLvl ) );						
+			    		outputter.output( document, new FileOutputStream( "data/livelli/livello" + (index + 1) + ".xml" ) );
+	    			}	    		
 
 				nameLvl = null;
+				index = -1;
 			}
 			catch( IOException e ){
 				System.err.println( "Error while creating the level" );

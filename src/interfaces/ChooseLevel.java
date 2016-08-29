@@ -89,9 +89,11 @@ public class ChooseLevel
 				}
 			else if((newLvl.checkClick( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )) || input.isKeyPressed( Input.KEY_BACKSLASH ))
 				{
+					editor.setIndex( Begin.livelli.size() );
+				
 					Start.chooseLevel = 0;
-					Start.creaLvl = 1;
-					Start.setPreviuosStats( "creaLvl" );
+					Start.editGame = 1;
+					Start.setPreviuosStats( "chooseLevel" );
 				}
 			else if(input.isKeyPressed( Input.KEY_ESCAPE ))
 				{
