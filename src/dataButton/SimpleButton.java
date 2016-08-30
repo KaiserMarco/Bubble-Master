@@ -102,6 +102,7 @@ public class SimpleButton extends Button
 	public boolean isActive()
 		{ return active; }
 	
+	/** modifica il nome del livello*/
 	public void setName( String name )
 		{ this.name = name; }
 
