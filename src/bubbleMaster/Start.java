@@ -15,6 +15,8 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 
+import Utils.Global;
+
 public class Start extends BasicGame
 {	
 	public static InGame ig;
@@ -40,8 +42,11 @@ public class Start extends BasicGame
 		{
 			AppGameContainer app = new AppGameContainer( new Start( "Bubble Master" ) );
 		 
-			app.setTargetFrameRate( 90 );
-			app.setDisplayMode( 800, 600, false );
+			app.setTargetFrameRate( Global.FRAME );
+			app.setDisplayMode( Global.W, Global.H, false );
+			
+			Global.computeRatio( app.getWidth(), app.getHeight() );
+			
 			app.start();
 		}
 	

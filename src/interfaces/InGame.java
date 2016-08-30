@@ -7,8 +7,8 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 
+import Utils.Sfondo;
 import bubbleMaster.Start;
-import DataEntites.Sfondo;
 import dataObstacles.Bubble;
 import dataObstacles.Ostacolo;
 import dataObstacles.Player;

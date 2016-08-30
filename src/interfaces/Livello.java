@@ -2,7 +2,7 @@ package interfaces;
 
 import java.util.ArrayList;
 
-import DataEntites.Sfondo;
+import Utils.Sfondo;
 import dataObstacles.Ostacolo;
 
 public class Livello

@@ -1,4 +1,4 @@
-package DataEntites;
+package Utils;
 
 import java.util.ArrayList;
 
@@ -18,7 +18,7 @@ public class Elements
 	private ArrayList<Ostacolo> items;
 	
 	//il raggio delle sfere
-	private int ray = 25;
+	private int ray;
 	
 	private double maxH, maxW;
 	private int width, height;
@@ -29,6 +29,8 @@ public class Elements
 			maxW = gc.getWidth();
 			width = gc.getHeight()/10;
 			height = gc.getWidth()/20;
+			
+			ray = gc.getWidth()/32;
 		
 			sfondi = new ArrayList<Sfondo>();
 			sfondi.add( new Sfondo( new Image( "./data/Image/sfondo.png" ), maxH, maxW, gc.getWidth()/8, gc.getHeight()/2, width, height, "sfondo" ) );

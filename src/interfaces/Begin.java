@@ -16,7 +16,8 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import DataEntites.Sfondo;
+import Utils.Global;
+import Utils.Sfondo;
 import bubbleMaster.Start;
 import dataButton.SimpleButton;
 import dataObstacles.Bubble;
@@ -117,23 +118,26 @@ public class Begin
 								String type = obs.getAttribute( "ID" );
 								String orienting = obs.getAttribute( "type" );
 								
+								float ratioW = Global.ratioW;
+								float ratioH = Global.ratioH;
+								
 								if(type.equals( "bolla" ))
-								    elements.add( new Bubble( x, y, gc.getWidth()/32, gc.getWidth(), gc ) );
+								    elements.add( new Bubble( (int) (x * ratioW), (int) (y * ratioH), gc.getWidth()/32, gc.getWidth(), gc ) );
 								else if(type.equals( "sbarra" ))
 								    {
-									    elements.add( new Sbarra( x, y, orienting, gc ) );
+									    elements.add( new Sbarra( (int) (x * ratioW), (int) (y * ratioH), orienting, gc ) );
                                         elements.get( elements.size() - 1 ).setSpigoli();
 								    }
 								else if(type.equals( "tubo" ))
                                     {
-                                        elements.add( new Tubo( x, y, orienting, gc ) );
+                                        elements.add( new Tubo( (int) (x * ratioW), (int) (y * ratioH), orienting, gc ) );
                                         elements.get( elements.size() - 1 ).setSpigoli();
                                         elements.get( elements.size() - 1 ).setUnion( union );
                                     }
 								else if(type.equals( "player1" ))
-									elements.add( new Player( x, y, 1, gc ) );
+									elements.add( new Player( (int) (x * ratioW), (int) (y * ratioH), 1, gc ) );
 								else if(type.equals( "player2" ))
-									elements.add( new Player( x, y, 2, gc ) );
+									elements.add( new Player( (int) (x * ratioW), (int) (y * ratioH), 2, gc ) );
 							}
 						
 						Node nodo = back.item( 0 );
@@ -200,7 +204,7 @@ public class Begin
 			
 			if(insertButton)
 				{
-					int move = delta/2;
+					float move = delta/2 * Global.ratioW;
 					if(choose.getX() + move < xFinale1)
 						choose.setX( choose.getX() + move );
 					else

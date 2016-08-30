@@ -1,4 +1,4 @@
-package DataEntites;
+package Utils;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Image;

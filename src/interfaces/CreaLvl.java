@@ -17,8 +17,8 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
 
-import DataEntites.Elements;
-import DataEntites.Sfondo;
+import Utils.Elements;
+import Utils.Sfondo;
 import bubbleMaster.Start;
 import dataButton.SimpleButton;
 import dataObstacles.Ostacolo;
