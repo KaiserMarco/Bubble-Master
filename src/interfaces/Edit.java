@@ -426,7 +426,7 @@ public class Edit
 			    
 			    item = new Element( "livello" );
 			    if(nameLvl != null)
-			    	item.setAttribute( "nome", "livello" + nameLvl );
+			    	item.setAttribute( "nome", nameLvl );
 			    else
 			    	item.setAttribute( "nome", "livello" + index );
 			    livello.addContent( item );
@@ -461,6 +461,7 @@ public class Edit
 	    			}
 	    		else
 	    			{
+	    				System.out.println( "sono qui" );
 						Begin.livelli.add( new Livello( ostacoli, sfondi.get( indexSfondo ), index + "" ) );
 			    		outputter.output( document, new FileOutputStream( "data/livelli/livello" + index + ".xml" ) );
 	    			}

@@ -94,8 +94,11 @@ public class ChooseLevel
 			int mouseX = input.getMouseX();
 			int mouseY = input.getMouseY();
 			
-			buttons.get( buttons.size() - 1 ).setX( width/2 - buttons.get( buttons.size() - 1 ).getLungh()/2 );
-			buttons.get( buttons.size() - 1 ).setY( height*4/5 + width/80 - buttons.get( buttons.size() - 1 ).getAlt()/2 );
+			if(buttons.get( buttons.size() - 1 ).getX() == 0)
+				{
+					buttons.get( buttons.size() - 1 ).setX( width/2 - buttons.get( buttons.size() - 1 ).getLungh()/2 );
+					buttons.get( buttons.size() - 1 ).setY( height*4/5 + width/80 - buttons.get( buttons.size() - 1 ).getAlt()/2 );
+				}
 			
 			if((left.checkClick( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )) || input.isKeyPressed( Input.KEY_LEFT ))
 				{
@@ -104,6 +107,9 @@ public class ChooseLevel
 					buttons.remove( buttons.size() - 1 );
 					buttons.add( nameLvl );
 					nameLvl.setName( Begin.livelli.get( pos ).getName() );
+					
+					buttons.get( buttons.size() - 1 ).setX( width/2 - buttons.get( buttons.size() - 1 ).getLungh()/2 );
+					buttons.get( buttons.size() - 1 ).setY( height*4/5 + width/80 - buttons.get( buttons.size() - 1 ).getAlt()/2 );
 				}
 			else if((right.checkClick( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )) || input.isKeyPressed( Input.KEY_RIGHT ))
 				{
@@ -112,6 +118,9 @@ public class ChooseLevel
 					buttons.remove( buttons.size() - 1 );
 					buttons.add( nameLvl );
 					nameLvl.setName( Begin.livelli.get( pos ).getName() );
+					
+					buttons.get( buttons.size() - 1 ).setX( width/2 - buttons.get( buttons.size() - 1 ).getLungh()/2 );
+					buttons.get( buttons.size() - 1 ).setY( height*4/5 + width/80 - buttons.get( buttons.size() - 1 ).getAlt()/2 );
 				}
 			else if((back.checkClick( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )) || input.isKeyPressed( Input.KEY_BACK ))
 				{
