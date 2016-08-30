@@ -138,11 +138,11 @@ public class ChooseLevel
 			else if((edit.checkClick( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )) || input.isKeyPressed( Input.KEY_BACKSLASH ))
 				{
 					Start.ig.addOstacoli( Begin.livelli.get( pos ).getElements(), Begin.livelli.get( pos ).getImage() );
-					editor.setElements( InGame.ostacoli, InGame.players, Begin.livelli.get( pos ).getName(), pos );
+					editor.setElements( InGame.ostacoli, InGame.players, Begin.livelli.get( pos ).getName(), pos, Begin.livelli.get( pos ).getImage() );
 				
 					Start.chooseLevel = 0;
 					Start.editGame = 1;
-					Start.setPreviuosStats( "chooseGame" );
+					Start.setPreviuosStats( "chooseLevel" );
 				}
 			else if((newLvl.checkClick( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )) || input.isKeyPressed( Input.KEY_BACKSLASH ))
 				{

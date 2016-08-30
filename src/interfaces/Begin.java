@@ -139,9 +139,8 @@ public class Begin
 						Node nodo = back.item( 0 );
 						Element img = (Element) nodo;
 						tmp = img.getAttribute( "name" );
-						sfondo = new Sfondo( new Image( "./data/Image/" + tmp + ".jpg" ), gc.getHeight()/(1.04), gc.getWidth(), 0, 0, gc.getWidth(), gc.getHeight(), "sfondo" + tmp );
+						sfondo = new Sfondo( new Image( "./data/Image/" + tmp + ".jpg" ), gc.getHeight()/(1.04), gc.getWidth(), 0, 0, gc.getWidth(), gc.getHeight(), tmp );
 
-						System.out.println( "lungh nome = " + name.getLength() );
 						Node var = name.item( 0 );
 						Element node = (Element) var;
 						tmp = node.getAttribute( "nome" );

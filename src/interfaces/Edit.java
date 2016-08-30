@@ -190,8 +190,12 @@ public class Edit
 		{ this.index = index; }
 	
 	/**setta gli elementi base di modifica livello*/
-	public void setElements( ArrayList<Ostacolo> ostacoli, ArrayList<Ostacolo> giocatori, String nameLvl, int index )
+	public void setElements( ArrayList<Ostacolo> ostacoli, ArrayList<Ostacolo> giocatori, String nameLvl, int index, Sfondo sfondo )
 		{
+			for(int i = 0; i < sfondi.size(); i++)
+				if(sfondi.get( i ).getName().equals( sfondo.getName() ))
+					indexSfondo = i;
+		
 			for(int i = 0; i < ostacoli.size(); i++)
 				{
 					this.ostacoli.add( ostacoli.get( i ) );
@@ -528,7 +532,7 @@ public class Edit
 				{
 					resetStatus();
 					Start.editGame = 0;
-					Start.begin = 1;
+					Start.chooseLevel = 1;
 				}
 			
 			if(temp != null)
