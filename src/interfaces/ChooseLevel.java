@@ -18,7 +18,7 @@ public class ChooseLevel
 {	
 	private int pos = 0;
 	
-	private SimpleButton left, right, start, back, edit, newLvl;
+	private SimpleButton left, right, start, back, edit, newLvl, nameLvl;
 	private ArrayList<SimpleButton> buttons;
 	
 	private Sfondo sfondo;
@@ -37,12 +37,13 @@ public class ChooseLevel
 			lvlDx = new Image( "data/Image/lvlDx.png" );
 			lvlSx = new Image( "data/Image/lvlSx.png" );
 			
-			left = new SimpleButton( width/4 - width/20, height*4/5, "Left", width/20, width/40, lvlSx );
-			right = new SimpleButton( height, height*4/5, "Right", width/20, width/40, lvlDx );
+			left = new SimpleButton( width/4 - width/15, height*4/5, "Left", width/15, width/40, lvlSx );
+			right = new SimpleButton( height, height*4/5, "Right", width/15, width/40, lvlDx );
 			back = new SimpleButton( width*10/108, height*8/9, "Indietro", Color.orange );
 			start = new SimpleButton( width*10/33, height*8/9, "Gioca", Color.orange );
 			edit = new SimpleButton( width/2, height*8/9, "Modifica", Color.orange );
 			newLvl = new SimpleButton( width*3/4, height*8/9, "Nuovo livello", Color.orange );
+			nameLvl = new SimpleButton( 0, 0, Begin.livelli.get( pos ).getName(), Color.white );
 			
 			buttons = new ArrayList<SimpleButton>();
 			buttons.add( left );
@@ -51,6 +52,7 @@ public class ChooseLevel
 			buttons.add( edit );
 			buttons.add( start );
 			buttons.add( newLvl );
+			buttons.add( nameLvl );
 		}
 	
 	public void draw( GameContainer gc ) throws SlickException
@@ -92,10 +94,25 @@ public class ChooseLevel
 			int mouseX = input.getMouseX();
 			int mouseY = input.getMouseY();
 			
+			buttons.get( buttons.size() - 1 ).setX( width/2 - buttons.get( buttons.size() - 1 ).getLungh()/2 );
+			buttons.get( buttons.size() - 1 ).setY( height*4/5 + width/80 - buttons.get( buttons.size() - 1 ).getAlt()/2 );
+			
 			if((left.checkClick( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )) || input.isKeyPressed( Input.KEY_LEFT ))
-				pos = Math.max( pos - 1, 0 );
+				{
+					pos = Math.max( pos - 1, 0 );
+					nameLvl = new SimpleButton( 0, 0, Begin.livelli.get( pos ).getName(), Color.white );					
+					buttons.remove( buttons.size() - 1 );
+					buttons.add( nameLvl );
+					nameLvl.setName( Begin.livelli.get( pos ).getName() );
+				}
 			else if((right.checkClick( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )) || input.isKeyPressed( Input.KEY_RIGHT ))
-				pos = Math.min( pos + 1, Begin.livelli.size() - 1);
+				{
+					pos = Math.min( pos + 1, Begin.livelli.size() - 1);
+					nameLvl = new SimpleButton( 0, 0, Begin.livelli.get( pos ).getName(), Color.white );					
+					buttons.remove( buttons.size() - 1 );
+					buttons.add( nameLvl );
+					nameLvl.setName( Begin.livelli.get( pos ).getName() );
+				}
 			else if((back.checkClick( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )) || input.isKeyPressed( Input.KEY_BACK ))
 				{
 					Start.chooseLevel = 0;
