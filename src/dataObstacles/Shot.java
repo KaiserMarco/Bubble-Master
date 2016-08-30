@@ -4,6 +4,7 @@ import interfaces.InGame;
 
 import java.util.ArrayList;
 
+import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
@@ -13,17 +14,26 @@ public class Shot
 {
 	private int posX, posY, startY;
 	
-	private int widthS = 15, heightS = 21;
-	private int widthC = 9, heightC = 9;
+	private int widthS, heightS;
+	private int widthC, heightC;
 	
 	private Image shot[];
 	private ArrayList<Image> sparo;
 	
-	private SpriteSheet sheetShot = new SpriteSheet( new Image( "./data/Image/shot.png" ), 10, 16 );
-	private SpriteSheet sheetChainHor = new SpriteSheet( new Image( "./data/Image/chainHor.png" ), 6, 6 );
+	private SpriteSheet sheetShot;
+	private SpriteSheet sheetChainHor;
 	
-	public Shot() throws SlickException
+	public Shot( GameContainer gc ) throws SlickException
 		{
+			widthS = gc.getHeight()/40;
+			heightS = gc.getHeight()*10/285;
+			
+			widthC = gc.getHeight()*10/666;
+			heightC = gc.getHeight()*10/666;
+			
+			sheetShot = new SpriteSheet( new Image( "./data/Image/shot.png" ), gc.getWidth()/80, gc.getWidth()/50 );
+			sheetChainHor = new SpriteSheet( new Image( "./data/Image/chainHor.png" ), gc.getHeight()/100, gc.getHeight()/100 );
+		
 			shot = new Image[2];			
 			shot[0] = sheetShot.getSubImage( 0, 0 );
 			shot[1] = sheetChainHor.getSubImage( 0, 0 );
@@ -60,7 +70,7 @@ public class Shot
 	public Rectangle getArea()
 		{ return new Rectangle( posX, posY, widthS, startY - posY ); }
 	
-	public boolean collision( Ostacolo ost, String type ) throws SlickException
+	public boolean collision( Ostacolo ost, String type, GameContainer gc ) throws SlickException
 		{		
 			if(posY <= 0)
 				return true;
@@ -68,12 +78,12 @@ public class Shot
 				{
 					if(type.equals( "bolla" ))
 						{
-							if(ost.getWidth() > 6)
+							if(ost.getWidth() > gc.getHeight()/100)
 								{
 									ost.setXY( (int) ost.getWidth()/2, (int) ost.getWidth()/2, "setRay" );
 									
-									Bubble temp1 = new Bubble( ost );
-									Bubble temp2 = new Bubble( ost );
+									Bubble temp1 = new Bubble( ost, gc );
+									Bubble temp2 = new Bubble( ost, gc );
 									
 									temp1.setMaxHeight( ost.getMaxHeight() );
 									if(ost.getSpeedY() > 0)

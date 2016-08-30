@@ -21,12 +21,12 @@ public class Player extends Ostacolo
 	/**false = non sto saltando - true = sto saltando*/
 	private boolean jump = false;
 
-	private int offset = 15;
+	private int offset;
 	
 	private float xPlayer;
 	private float yPlayer;
-	private int widthI = 60, width = widthI - offset;
-	private int height = 70;
+	private int widthI;
+	private int width, height;
 	
 	private Shot fire;
 	private boolean shooting;
@@ -42,9 +42,9 @@ public class Player extends Ostacolo
 	private int dir = 0;
 	
 	/*altezza e larghezza dei frame dello spostamento laterale*/
-	private int widthS = 36, heightS = 41;
+	private int widthS, heightS;
 	/*larghezza e altezza dei frame del salto*/
-	private int widthJ = 29, heightJ = 48;
+	private int widthJ, heightJ;
 	
 	private boolean insert = false, checkInsert = false;
 	
@@ -52,7 +52,7 @@ public class Player extends Ostacolo
 	
 	private Image right[], left[], saltoDx[], saltoSx[];
 	
-	private float animTimeMove = 504, reachDelta = 0, animTimeJump = 396, reachDeltaJump = 0;
+	private float animTimeMove, reachDelta, animTimeJump, reachDeltaJump;
 	private int countShot;
 	
 	private SpriteSheet sheetDx;
@@ -60,14 +60,22 @@ public class Player extends Ostacolo
 	private SpriteSheet sheetJumpDx;
 	private SpriteSheet sheetJumpSx;
 	
+	private int wMove, hMove;
+	private int wJump, hJump;
+	
 	/*movimento a destra - movimento a sinistra - movimento in alto - movimento in basso*/
 	boolean movingDx, movingSx, movingJ;
 	
-	public Player( int x, int y, int numPlayer ) throws SlickException
+	public Player( int x, int y, int numPlayer, GameContainer gc ) throws SlickException
 		{
 			super( "player" + numPlayer );
 			
-			fire = new Shot();
+			fire = new Shot( gc );
+			
+			offset = gc.getHeight()/40;
+			widthI = gc.getHeight()/10;
+			width = widthI - offset;
+			height = gc.getWidth()*100/1142;
 			
 			this.numPlayer = numPlayer;	
 			
@@ -75,24 +83,34 @@ public class Player extends Ostacolo
 			left = new Image[9];
 			saltoDx = new Image[9];
 			saltoSx = new Image[9];
+			
+			widthS = gc.getHeight()*100/1666;
+			heightS = gc.getWidth()*100/1951;
+			widthJ = gc.getHeight()*100/2068;
+			heightJ = gc.getWidth()*100/1666;
+			
+			wMove = gc.getWidth()*100/2469;
+			hMove = gc.getHeight()*100/1463;
+			wJump = gc.getWidth()*1000/3065;
+			hJump = gc.getHeight()*10/125;
 
 			if(numPlayer == 1)
 				{
 					pgdx = new Image( "./data/Image/pgdx1.png" );
 					pgsx = new Image( "./data/Image/pgsx1.png" );
-					sheetDx = new SpriteSheet( new Image( "./data/Image/animdx.png" ), 324, 41 );
-					sheetSx = new SpriteSheet( new Image( "./data/Image/animsx.png" ), 324, 41 );
-					sheetJumpDx = new SpriteSheet( new Image( "./data/Image/jumpDx.png" ), 261, 48 );
-					sheetJumpSx = new SpriteSheet( new Image( "./data/Image/jumpSx.png" ), 261, 48 );
+					sheetDx = new SpriteSheet( new Image( "./data/Image/animdx.png" ), wMove, hMove );
+					sheetSx = new SpriteSheet( new Image( "./data/Image/animsx.png" ), wMove, hMove );
+					sheetJumpDx = new SpriteSheet( new Image( "./data/Image/jumpDx.png" ), wJump, hJump );
+					sheetJumpSx = new SpriteSheet( new Image( "./data/Image/jumpSx.png" ), wJump, hJump );
 				}
 			else
 				{
 					pgdx = new Image( "./data/Image/pgdx2.png" );
 					pgsx = new Image( "./data/Image/pgsx2.png" );
-					sheetDx = new SpriteSheet( new Image( "./data/Image/animdx2.png" ), 324, 41 );
-					sheetSx = new SpriteSheet( new Image( "./data/Image/animsx2.png" ), 324, 41 );
-					sheetJumpDx = new SpriteSheet( new Image( "./data/Image/jumpDx2.png" ), 261, 48 );
-					sheetJumpSx = new SpriteSheet( new Image( "./data/Image/jumpSx2.png" ), 261, 48 );
+					sheetDx = new SpriteSheet( new Image( "./data/Image/animdx2.png" ), wMove, hMove );
+					sheetSx = new SpriteSheet( new Image( "./data/Image/animsx2.png" ), wMove, hMove );
+					sheetJumpDx = new SpriteSheet( new Image( "./data/Image/jumpDx2.png" ), wJump, hJump );
+					sheetJumpSx = new SpriteSheet( new Image( "./data/Image/jumpSx2.png" ), wJump, hJump );
 				}
 			
 			xPlayer = x;
@@ -107,6 +125,9 @@ public class Player extends Ostacolo
 					saltoDx[i] = sheetJumpDx.getSubImage( widthJ * i, 0, widthJ, heightJ );
 					saltoSx[i] = sheetJumpSx.getSubImage( sheetJumpSx.getWidth() - widthJ * (i + 1), 0, widthJ, heightJ );
 				}
+			
+			animTimeMove = gc.getHeight()*100/119; reachDelta = 0;
+			animTimeJump = gc.getWidth()*100/202; reachDeltaJump = 0;
 			
 			countShot = 0;
 		}
@@ -244,9 +265,9 @@ public class Player extends Ostacolo
 	public void setMaxHeight( double val )
 		{ this.maxHeight = (int) val; }
 
-	public Ostacolo clone() {
+	public Ostacolo clone( GameContainer gc ) {
 		try {
-			return new Player( (int) xPlayer, (int) yPlayer, numPlayer );
+			return new Player( (int) xPlayer, (int) yPlayer, numPlayer, gc );
 		} catch (SlickException e) {
 			e.printStackTrace();
 			return null;
@@ -318,7 +339,7 @@ public class Player extends Ostacolo
 						fire.update();
 					
 					for(int i = 0; i < InGame.ostacoli.size(); i++)
-						if(fire.collision( InGame.ostacoli.get( i ), InGame.ostacoli.get( i ).getID() ))
+						if(fire.collision( InGame.ostacoli.get( i ), InGame.ostacoli.get( i ).getID(), gc ))
 							{
 								shooting = false;
 								break;

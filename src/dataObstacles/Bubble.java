@@ -59,10 +59,10 @@ public class Bubble extends Ostacolo
 	//determina se le velocita' della sfera sono state settate
 	private boolean setSpeed;
      
-    public Bubble( Ostacolo ost ) throws SlickException
-        { this( (int) ost.getX(), (int) ost.getY(), (int) ost.getWidth(), ost.getMaxWidth() ); }
+    public Bubble( Ostacolo ost, GameContainer gc ) throws SlickException
+        { this( (int) ost.getX(), (int) ost.getY(), (int) ost.getWidth(), ost.getMaxWidth(), gc ); }
      
-    public Bubble( int x, int y, int ray, double maxW ) throws SlickException
+    public Bubble( int x, int y, int ray, double maxW, GameContainer gc ) throws SlickException
         {       
             super( "bolla" );
  
@@ -591,9 +591,9 @@ public class Bubble extends Ostacolo
     public float getMaxX()
         { return ray*2; }
  
-    public Ostacolo clone() {
+    public Ostacolo clone( GameContainer gc ) {
         try {
-            return new Bubble( (int) ostr.getX(), (int) ostr.getY(), (int) ray, maxW );
+            return new Bubble( (int) ostr.getX(), (int) ostr.getY(), (int) ray, maxW, gc );
         } catch (SlickException e) {
             e.printStackTrace();
             return null;

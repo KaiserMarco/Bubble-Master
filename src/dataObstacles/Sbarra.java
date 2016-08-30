@@ -35,21 +35,21 @@ public class Sbarra extends Ostacolo{
 	
 	public static final String ID = "sbarra";
 	
-	public Sbarra( int x, int y, String type ) throws SlickException
+	public Sbarra( int x, int y, String type, GameContainer gc ) throws SlickException
 		{
 			super( ID );
 			
 			if(type.equals( "hor" ))
 				{
 					immagine = hor;					
-					width = 130;
-					height = 20;
+					width = gc.getWidth()*10/61;
+					height = gc.getHeight()/30;
 				}
 			else
 				{
 					immagine = ver;					
-					width = 20;
-					height = 130;
+					width = gc.getHeight()/30;
+					height = gc.getWidth()*10/61;
 				}
 			
 			this.type = type;
@@ -59,9 +59,9 @@ public class Sbarra extends Ostacolo{
 			collide = false;
 		}
 	
-	public Sbarra clone()
+	public Sbarra clone( GameContainer gc )
 		{ try {
-			return new Sbarra( (int) ostr.getX(), (int) ostr.getY(), type );
+			return new Sbarra( (int) ostr.getX(), (int) ostr.getY(), type, gc );
 		} catch (SlickException e) {
 			e.printStackTrace();
 			return null;

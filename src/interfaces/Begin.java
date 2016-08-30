@@ -118,22 +118,22 @@ public class Begin
 								String orienting = obs.getAttribute( "type" );
 								
 								if(type.equals( "bolla" ))
-								    elements.add( new Bubble( x, y, 25, gc.getWidth() ) );
+								    elements.add( new Bubble( x, y, gc.getWidth()/32, gc.getWidth(), gc ) );
 								else if(type.equals( "sbarra" ))
 								    {
-									    elements.add( new Sbarra( x, y, orienting ) );
+									    elements.add( new Sbarra( x, y, orienting, gc ) );
                                         elements.get( elements.size() - 1 ).setSpigoli();
 								    }
 								else if(type.equals( "tubo" ))
                                     {
-                                        elements.add( new Tubo( x, y, orienting ) );
+                                        elements.add( new Tubo( x, y, orienting, gc ) );
                                         elements.get( elements.size() - 1 ).setSpigoli();
                                         elements.get( elements.size() - 1 ).setUnion( union );
                                     }
 								else if(type.equals( "player1" ))
-									elements.add( new Player( x, y, 1 ) );
+									elements.add( new Player( x, y, 1, gc ) );
 								else if(type.equals( "player2" ))
-									elements.add( new Player( x, y, 2 ) );
+									elements.add( new Player( x, y, 2, gc ) );
 							}
 						
 						Node nodo = back.item( 0 );
@@ -164,8 +164,8 @@ public class Begin
 			buttons.add( editor );	
 			//buttons.add( newLvl );
 
-			widthC = 45;
-			heightC = 25;
+			widthC = gc.getWidth()*100/1777;
+			heightC = gc.getHeight()/24;
 			
 			indexCursor = -1;
 		}

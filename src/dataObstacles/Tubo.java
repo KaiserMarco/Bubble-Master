@@ -38,7 +38,7 @@ public class Tubo extends Ostacolo{
 	//indice del tubo a cui e' collegato
 	private int unione;
 	
-	public Tubo( int x, int y, String type ) throws SlickException
+	public Tubo( int x, int y, String type, GameContainer gc ) throws SlickException
 	{
 		super( "tubo" );
 		
@@ -61,13 +61,13 @@ public class Tubo extends Ostacolo{
 		
 		if(type.equals( "sx" ) || type.equals( "dx" ))
 			{
-				width = 69;
-				height = 60;
+				width = gc.getWidth()/10;
+				height = gc.getHeight()/10;
 			}
 		else
 			{
-				width = 60;
-				height = 69;
+				width = gc.getHeight()/10;
+				height = gc.getWidth()/10;
 			}
 	}
 
@@ -166,9 +166,9 @@ public class Tubo extends Ostacolo{
 	public Shape getArea()
 		{ return null; }
 
-	public Ostacolo clone() {		
+	public Ostacolo clone( GameContainer gc ) {		
 		try {
-			return new Tubo( (int) getX(), (int) getY(), type );
+			return new Tubo( (int) getX(), (int) getY(), type, gc );
 		} catch (SlickException e) {
 			e.printStackTrace();
 			return null;

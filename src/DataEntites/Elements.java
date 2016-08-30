@@ -38,11 +38,11 @@ public class Elements
 			sfondi.add( new Sfondo( new Image( "./data/Image/sfondo5.jpg" ), maxH, maxW, gc.getWidth()*8/10, gc.getHeight()/2, width, height, "sfondo5" ) );			
 
 			items = new ArrayList<Ostacolo>();
-			items.add( new Sbarra( gc.getWidth()/9, gc.getHeight()*78/100, "hor" ) );
-			items.add( new Tubo( gc.getWidth()*2/7, gc.getHeight()*3/4, "sx" ) );
-			items.add( new Player( gc.getWidth()*4/7, gc.getHeight()*3/4, 1 ) );
-			items.add( new Player( gc.getWidth()*5/7, gc.getHeight()*3/4, 2 ) );
-			items.add( new Bubble( gc.getWidth()*6/7, gc.getHeight()*3/4, ray, maxW ) );
+			items.add( new Sbarra( gc.getWidth()/9, gc.getHeight()*78/100, "hor", gc ) );
+			items.add( new Tubo( gc.getWidth()*2/7, gc.getHeight()*3/4, "sx", gc ) );
+			items.add( new Player( gc.getWidth()*4/7, gc.getHeight()*3/4, 1, gc ) );
+			items.add( new Player( gc.getWidth()*5/7, gc.getHeight()*3/4, 2, gc ) );
+			items.add( new Bubble( gc.getWidth()*6/7, gc.getHeight()*3/4, ray, maxW, gc ) );
 		}
 	
 	public ArrayList<Sfondo> getSfondi()

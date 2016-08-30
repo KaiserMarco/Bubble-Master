@@ -32,7 +32,7 @@ public abstract class Ostacolo
 	
 	public abstract void setInsert( boolean insert, boolean change );
 	
-	public abstract Ostacolo clone();
+	public abstract Ostacolo clone( GameContainer gc );
 	
 	public abstract void setMaxHeight( double val );	
 	public abstract double getMaxHeight();

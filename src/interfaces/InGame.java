@@ -29,7 +29,7 @@ public class InGame
 			players = new ArrayList<Ostacolo>();
 		}
 	
-	public void addOstacoli( ArrayList<Ostacolo> obs, Sfondo sfondo ) throws SlickException
+	public void addOstacoli( ArrayList<Ostacolo> obs, Sfondo sfondo, GameContainer gc ) throws SlickException
 		{
 			players.clear();
 			ostacoli.clear();
@@ -43,12 +43,12 @@ public class InGame
 					Ostacolo ost = obs.get( i );
 					if(ost.getID().startsWith( "player" ))
 						{
-							players.add( new Player( (int) ost.getX(), (int) ost.getY(), ++numPlayer ) );
+							players.add( new Player( (int) ost.getX(), (int) ost.getY(), ++numPlayer, gc ) );
 							players.get( players.size() - 1 ).setMaxHeight( sfondo.getMaxHeight() );
 						}
 					else if(obs.get( i ).getID().equals( "bolla" ))
 						{
-							ostacoli.add( new Bubble( (int) ost.getX(), (int) ost.getY(), (int) ost.getWidth(), ost.getMaxWidth() ) );
+							ostacoli.add( new Bubble( (int) ost.getX(), (int) ost.getY(), (int) ost.getWidth(), ost.getMaxWidth(), gc ) );
 							ostacoli.get( ostacoli.size() - 1 ).setMaxHeight( sfondo.getMaxHeight() );
 						}
 					else

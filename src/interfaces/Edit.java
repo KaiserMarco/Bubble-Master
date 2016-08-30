@@ -239,7 +239,7 @@ public class Edit
 						{
 							if(indexCursor >= 0)
 								{
-									temp = items.get( indexCursor ).clone();
+									temp = items.get( indexCursor ).clone( gc );
 									if(temp.getID().equals( "tubo" ))
 										{
 											nuovaCoppiaTubi = true;
@@ -275,7 +275,7 @@ public class Edit
 									Ostacolo item = items.get( i );
 									if(item.contains( x, y ))
 										{
-											temp = item.clone();
+											temp = item.clone( gc );
 											//sto inserendo una nuova coppia di tubi
 											if(temp.getID().equals( "tubo" ))
 												{
@@ -314,7 +314,7 @@ public class Edit
 				{
 					if(type.equals( "keyboard" ) && indexCursor >= 0)
 						{
-							temp = ostacoli.get( indexCursor ).clone();
+							temp = ostacoli.get( indexCursor ).clone( gc );
 							//modifica la posizione di un tubo gia' esistente
 							if(temp.getID().equals( "tubo" ))
 								{
@@ -377,7 +377,7 @@ public class Edit
 			temp = null;
 		}
 	
-	private void setTubeInArray()
+	private void setTubeInArray( GameContainer gc )
 		{
 			int j = 0;
 			for(int i  = 0; i < ostacoli.size(); i++)
@@ -387,10 +387,10 @@ public class Edit
 							for(j = i; j < ostacoli.size(); j++)
 								if(ostacoli.get( j ).getID().equals( "tubo" ))
 									{
-										Ostacolo tmp = ostacoli.get( i ).clone();
+										Ostacolo tmp = ostacoli.get( i ).clone( gc );
 										
 										ostacoli.remove( i );
-										ostacoli.add( i, ostacoli.get( j - 1 ).clone() );
+										ostacoli.add( i, ostacoli.get( j - 1 ).clone( gc ) );
 										ostacoli.get( i ).setUnion( ostacoli.get( j ).getUnion() );
 										ostacoli.get( i ).setSpigoli();
 										
@@ -408,10 +408,10 @@ public class Edit
 				}
 		}
 	
-	private void addNewLevel()
+	private void addNewLevel( GameContainer gc )
 		{		
 			//posiziona i tubi all'inizio dell'array
-			setTubeInArray();
+			setTubeInArray( gc );
 			
 			// TODO AGGIUNGERE TEXTBOX PER DECIDERE IL NOME DEL LIVELLO
 		
@@ -512,7 +512,7 @@ public class Edit
 			Input input = gc.getInput();
 			int mouseX = input.getMouseX();
 			int mouseY = input.getMouseY();
-			int move = 2;
+			int move = gc.getHeight()/300;
 			
 			boolean collide = false, fall = false;
 			//determina se il personaggio "tocca" un oggetto del livello o il pavimento
@@ -703,7 +703,7 @@ public class Edit
 												{
 													if(nuovoTubo1)
 														{
-															Ostacolo temp2 = temp.clone();
+															Ostacolo temp2 = temp.clone( gc );
 															
 															temp = temp2;
 															nuovoTubo1 = false;
@@ -847,7 +847,7 @@ public class Edit
 							if(!insertEditor)
 								if(gamer > 0 && ball > 0)
 									{
-										addNewLevel();
+										addNewLevel( gc );
 										gamer = 0;
 										ball = 0;
 										

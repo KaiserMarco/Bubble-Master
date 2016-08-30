@@ -90,9 +90,9 @@ public class End
 			if((replay.checkClick( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )) || (indexCursor == 0 && input.isKeyPressed( Input.KEY_ENTER )))
 				{
 					indexCursor = -1;
-					Start.ig.addOstacoli( Begin.livelli.get( Start.cl.getIndexLevel() ).getElements(), Begin.livelli.get( Start.cl.getIndexLevel() ).getImage() );					
+					Start.ig.addOstacoli( Begin.livelli.get( Start.cl.getIndexLevel() ).getElements(), Begin.livelli.get( Start.cl.getIndexLevel() ).getImage(), gc );					
 					Start.endGame = 0;
-					Start.startGame = 1;
+					Start.chooseLevel = 1;
 				}
 			
 			else if((begin.checkClick( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )) || (balls && indexCursor == 1 && input.isKeyPressed( Input.KEY_ENTER )))
