@@ -316,27 +316,16 @@ public class Bubble extends Ostacolo
     		// se la sfera e' nel PRIMO tubo
     		if(primoTubo)
 	    		{
-    				if(tubo.getOrienting().equals( "sx" ))
-    					{
-    						if(ostr.getCenterX() >= tubo.getMidArea().getX())
-    							primoTubo = false;
-    					}
-    				else if(tubo.getOrienting().equals( "dx" ))
-    					{
-    						if(ostr.getCenterX() < tubo.getMidArea().getX())
-    							primoTubo = false;
-    					}
-    				else if(tubo.getOrienting().equals( "up" ))
-    					{
-    						if(ostr.getCenterY() >= tubo.getMidArea().getY())
-    							primoTubo = false;
-    					}
-    				else if(tubo.getOrienting().equals( "down" ))
-    					{
-    						if(ostr.getCenterY() < tubo.getMidArea().getY())
-    							primoTubo = false;
-    					}
+    				if(tubo.getOrienting().equals( "sx" ) && ostr.getCenterX() >= tubo.getMidArea().getX())
+						primoTubo = false;
+    				else if(tubo.getOrienting().equals( "dx" ) && ostr.getCenterX() < tubo.getMidArea().getX())
+						primoTubo = false;
+    				else if(tubo.getOrienting().equals( "up" ) && ostr.getCenterY() >= tubo.getMidArea().getY())
+						primoTubo = false;
+    				else if(tubo.getOrienting().equals( "down" ) && ostr.getCenterY() < tubo.getMidArea().getY())
+						primoTubo = false;
 
+    				// setta la velocita' nel PRIMO tubo
         			if(!setSpeed)
 	        			{
 		    				if(tubo.getOrienting().equals( "sx" ) || tubo.getOrienting().equals( "dx" ))
@@ -476,7 +465,7 @@ public class Bubble extends Ostacolo
     			}
     	}
     
-    /**gestisce collisioni fra tutte gli elementi*/
+    /**gestisce collisioni fra tutti gli elementi*/
     public void checkAll( int i, Ostacolo ost )
     	{	
 	    	if(!ost.getID().equals( "bolla" ))
