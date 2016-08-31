@@ -23,6 +23,13 @@ import interfaces.InGame;
 
 
 
+
+
+
+
+
+
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -65,8 +72,6 @@ public class Bubble extends Ostacolo
     public Bubble( int x, int y, int ray, double maxW, GameContainer gc ) throws SlickException
         {       
             super( "bolla" );
- 
-            collided = false;
              
             this.ray = ray;
             ostr = new Circle( x + ray, y + ray, ray );
@@ -374,7 +379,7 @@ public class Bubble extends Ostacolo
 		    						speedX = 0;
 		    						speedY = 1;
 		    					}
-		    				else
+		    				else if(tubo.getOrienting().equals( "up" ))
 		    					{
 		    						speedX = 0;
 		    						speedY = -1;
@@ -399,6 +404,7 @@ public class Bubble extends Ostacolo
 		        		{
 		                	if(ostr.intersects( ost.component( "latoSu" ) ))
 		            			{
+		                			System.out.println( "mavvafanculova" );
 		                			if(speedX <= 0 && speedY > 0)
 		                				if(dritto)
 		                					speedY = -speedY;
@@ -495,33 +501,36 @@ public class Bubble extends Ostacolo
     	}
  
     public void update( GameContainer gc, int delta ) throws SlickException
-        {    	
+        {
             for(int i = 0; i < InGame.ostacoli.size(); i++)
                 {
                     if(!InGame.ostacoli.get( i ).getID().equals( "bolla" ))
                         {
-                        	Ostacolo ost = InGame.ostacoli.get( i );                        	
-                        	if(!primoTubo && !secondoTubo)
+                        	Ostacolo ost = InGame.ostacoli.get( i );
+                        	//if(ost.getID().equals( "tubo" ))
+                        		//System.out.println( "latoIngre = " + ost.getOrienting() + " intersect = " + ostr.intersects( ost.component( "latoSu" ) ) );
+                        	if(ost.getID().equals( "tubo" ) && !primoTubo && !secondoTubo)
                         		{
-		                        	if(ost.getID().equals( "tubo" ) && ostr.intersects( ost.component( "latoIngresso" ) ))
-		                        		{
-		                        			//la direzione del tubo
-		                        			String pos = ost.getOrienting();
-		                        			//il lato di ingresso nel tubo
-		                        			Shape ingr = ost.component( "latoIngresso" );
-		                        			if((pos.equals( "sx" ) || pos.equals( "dx" )) && ostr.getCenterY() > ingr.getY() && ostr.getCenterY() < ingr.getY() + ost.getHeight())
-		                        				{
-		                    						primoTubo = true;
-		                        					indexTube = i;
-		                        					setPositionInTube( ost, primoTubo );
-		                        				}
-		                        			else if(ostr.getCenterX() > ingr.getX() && ostr.getCenterX() < ingr.getX() + ost.getWidth())
-		                        				{
-	                    							primoTubo = true;
-	                        						indexTube = i;
-	                        						setPositionInTube( ost, primoTubo );
-		                        				}
-		                        		}
+                        			if(ostr.intersects( ost.component( "rect" ) ))
+                        				System.out.println( "eccomi " );
+                        			//la direzione del tubo
+                        			String pos = ost.getOrienting();
+                        			//il lato di ingresso nel tubo
+                        			Shape ingr = ost.component( "latoIngresso" );
+                        			if((pos.equals( "sx" ) || pos.equals( "dx" )) && ostr.intersects( ingr ) && ostr.getCenterY() > ingr.getY() && ostr.getCenterY() < ingr.getY() + ost.getHeight())
+                        				{
+                    						primoTubo = true;
+                        					indexTube = i;
+                        					setPositionInTube( ost, primoTubo );
+                        				}
+                        			else if((pos.equals( "up" ) || pos.equals( "down" )) && ostr.intersects( ingr ) && ostr.getCenterX() > ost.getX() && ostr.getCenterX() < ost.getX() + ost.getWidth())
+                        				{
+	                        				System.out.println( "pT = " + primoTubo + " sT = " + secondoTubo );
+	                        				System.out.println( "eccallaaaaaaaa" );
+                							primoTubo = true;
+                    						indexTube = i;
+                    						setPositionInTube( ost, primoTubo );
+                        				}
                         		}
                         	else if(primoTubo || secondoTubo)
                 				gestioneSferaInTubo();                        	
@@ -534,8 +543,7 @@ public class Bubble extends Ostacolo
                     					else
                     						gestioneCollisioni( ost, false );
                         		}
-                            else if(!ostr.intersects( ost.component( "latoDx" ) ) && (!ostr.intersects( ost.component( "latoSx" ) )) && (!ostr.intersects( ost.component( "latoSu" ) )) && (!ostr.intersects( ost.component( "latoGiu" ) ))
-                            		 && (!ostr.intersects( ost.component( "spigBSx" ) )) && (!ostr.intersects( ost.component( "spigBDx" ) )) || (!ostr.intersects( ost.component( "spigADx" ) )) && (!ostr.intersects( ost.component( "spigASx" ) )))
+                            else if(!ostr.intersects( ost.component( "rect" ) ))
                             	ost.setCollide( false );
                             else
                             	ost.setCollide( true );
@@ -558,11 +566,10 @@ public class Bubble extends Ostacolo
 
             setCenter( ostr, speedX, speedY );
             
-            if(!primoTubo)
+            /*if(!primoTubo)
             	{
             		if(speedX == 0 || speedY == 0)
             			{
-	            			/*controllo collisione con i bordi della schermata*/
 	                        if(ostr.getX() + 2*ray >= maxW)
 	                        	if(speedX > 0)
 	                        		speedX = -speedX;
@@ -582,7 +589,7 @@ public class Bubble extends Ostacolo
 
 	                        setCenter( ostr, speedX, speedY );
             			}
-            	}
+            	}*/
         }
  
     public void setType(String type)

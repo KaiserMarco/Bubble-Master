@@ -6,8 +6,8 @@ public class Global
 	private static final float Width = 800;
 	private static final float Height = 600;
 	
-	public static final int W = 1200;
-	public static final int H = 900;
+	public static final int W = 800;
+	public static final int H = 600;
 	
 	public static final int FRAME = 90;
 	
