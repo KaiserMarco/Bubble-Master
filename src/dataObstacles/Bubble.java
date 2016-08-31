@@ -506,12 +506,10 @@ public class Bubble extends Ostacolo
                     if(!InGame.ostacoli.get( i ).getID().equals( "bolla" ))
                         {
                         	Ostacolo ost = InGame.ostacoli.get( i );
-                        	//if(ost.getID().equals( "tubo" ))
-                        		//System.out.println( "latoIngre = " + ost.getOrienting() + " intersect = " + ostr.intersects( ost.component( "latoSu" ) ) );
                         	if(ost.getID().equals( "tubo" ) && !primoTubo && !secondoTubo)
                         		{
                         			//la direzione del tubo
-                        			String pos = ost.getOrienting();
+                        			//String pos = ost.getOrienting();
                         			//il lato di ingresso nel tubo
                         			Shape ingr = ost.component( "latoIngresso" );
                         			if(ostr.intersects( ingr ) && ostr.getCenterY() > ingr.getY() && ostr.getCenterY() < ingr.getY() + ost.getHeight())
