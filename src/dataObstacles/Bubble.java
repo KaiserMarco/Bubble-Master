@@ -404,7 +404,6 @@ public class Bubble extends Ostacolo
 		        		{
 		                	if(ostr.intersects( ost.component( "latoSu" ) ))
 		            			{
-		                			System.out.println( "mavvafanculova" );
 		                			if(speedX <= 0 && speedY > 0)
 		                				if(dritto)
 		                					speedY = -speedY;
@@ -511,22 +510,18 @@ public class Bubble extends Ostacolo
                         		//System.out.println( "latoIngre = " + ost.getOrienting() + " intersect = " + ostr.intersects( ost.component( "latoSu" ) ) );
                         	if(ost.getID().equals( "tubo" ) && !primoTubo && !secondoTubo)
                         		{
-                        			if(ostr.intersects( ost.component( "rect" ) ))
-                        				System.out.println( "eccomi " );
                         			//la direzione del tubo
                         			String pos = ost.getOrienting();
                         			//il lato di ingresso nel tubo
                         			Shape ingr = ost.component( "latoIngresso" );
-                        			if((pos.equals( "sx" ) || pos.equals( "dx" )) && ostr.intersects( ingr ) && ostr.getCenterY() > ingr.getY() && ostr.getCenterY() < ingr.getY() + ost.getHeight())
+                        			if(ostr.intersects( ingr ) && ostr.getCenterY() > ingr.getY() && ostr.getCenterY() < ingr.getY() + ost.getHeight())
                         				{
                     						primoTubo = true;
                         					indexTube = i;
                         					setPositionInTube( ost, primoTubo );
                         				}
-                        			else if((pos.equals( "up" ) || pos.equals( "down" )) && ostr.intersects( ingr ) && ostr.getCenterX() > ost.getX() && ostr.getCenterX() < ost.getX() + ost.getWidth())
+                        			else if(ostr.intersects( ingr ) && ostr.getCenterX() > ost.getX() && ostr.getCenterX() < ost.getX() + ost.getWidth())
                         				{
-	                        				System.out.println( "pT = " + primoTubo + " sT = " + secondoTubo );
-	                        				System.out.println( "eccallaaaaaaaa" );
                 							primoTubo = true;
                     						indexTube = i;
                     						setPositionInTube( ost, primoTubo );
