@@ -415,6 +415,8 @@ public class Bubble extends Ostacolo
 		                	else if(ostr.intersects( ost.component( "latoDx" ) ) || ostr.intersects( ost.component( "latoSx" ) ))
 	                			speedX = -speedX;
 		        		}
+		    		if(secondoTubo)
+		    			secondoTubo = false;
 		        }
     	}
     
