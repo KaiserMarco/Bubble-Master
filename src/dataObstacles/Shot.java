@@ -86,13 +86,22 @@ public class Shot
 									Bubble temp2 = new Bubble( ost, gc );
 									
 									temp1.setMaxHeight( ost.getMaxHeight() );
-									if(ost.getSpeedY() > 0)
+									temp2.setMaxHeight( ost.getMaxHeight() );
+									
+									if(ost.getSpeedX() == 0)
+										temp1.setSpeed( -1, ost.getSpeedY() );
+									else if(ost.getSpeedY() == 0)
+										temp1.setSpeed( ost.getSpeedX(), -1 );
+									else if(ost.getSpeedY() > 0)
 										temp1.setSpeed( ost.getSpeedX(), ost.getSpeedY() );
 									else
 										temp1.setSpeed( ost.getSpeedX(), -ost.getSpeedY() );
 									
-									temp2.setMaxHeight( ost.getMaxHeight() );
-									if(ost.getSpeedY() > 0)
+									if(ost.getSpeedX() == 0)
+										temp2.setSpeed( 1, ost.getSpeedY() );
+									else if(ost.getSpeedY() == 0)
+										temp2.setSpeed( ost.getSpeedX(), 1 );
+									else if(ost.getSpeedY() > 0)
 										temp2.setSpeed( -ost.getSpeedX(), ost.getSpeedY() );
 									else
 										temp2.setSpeed( -ost.getSpeedX(), -ost.getSpeedY() );
