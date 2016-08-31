@@ -309,6 +309,7 @@ public class Bubble extends Ostacolo
 				return collisionEdge( ost );
     	}
     
+    /**determina se la sfera e' ancora nel primo tubo o se e' ancora nel secondo*/
     public void gestioneSferaInTubo()
     	{
 			Ostacolo tubo = InGame.ostacoli.get( indexTube );
@@ -339,13 +340,9 @@ public class Bubble extends Ostacolo
         			if(!setSpeed)
 	        			{
 		    				if(tubo.getOrienting().equals( "sx" ) || tubo.getOrienting().equals( "dx" ))
-		    					{
-		    						speedY = 0;
-		    					}
+		    					speedY = 0;
 		    				else if(tubo.getOrienting().equals( "down" ) || tubo.getOrienting().equals( "up" ))
-		    					{
-		    						speedX = 0;
-		    					}
+		    					speedX = 0;
 		    				
 		    				setSpeed = false;
 	        			}
@@ -362,30 +359,6 @@ public class Bubble extends Ostacolo
     		else if(secondoTubo)
     			{
     				previousIndexTube = -1;
-	    			if(setSpeed)
-	    				{
-		    				if(tubo.getOrienting().equals( "sx" ))
-		    					{
-		    						speedY = 0;
-		    						speedX = -1;
-		    					}
-		    				else if(tubo.getOrienting().equals( "dx" ))
-		    					{
-		    						speedY = 0;
-		    						speedX = 1;
-		    					}
-		    				else if(tubo.getOrienting().equals( "down" ))
-		    					{
-		    						speedX = 0;
-		    						speedY = 1;
-		    					}
-		    				else if(tubo.getOrienting().equals( "up" ))
-		    					{
-		    						speedX = 0;
-		    						speedY = -1;
-		    					}
-		    				setSpeed = false;
-	    				}
 	    			if(!(tubo.component( "rect" ).intersects( ostr )) && !(tubo.component( "latoIngresso" ).intersects( ostr )))
 	    				{
 	    					secondoTubo = false;
@@ -395,11 +368,13 @@ public class Bubble extends Ostacolo
     			}
     	}
     
+    /**determina la velocita' risultante nella collisione fra sfera e altri ostacoli*/
     public void gestioneCollisioni( Ostacolo ost, boolean dritto )
     	{
 	    	if(ostr.intersects( ost.component( "rect" ) ) && !ost.getCollide())
 		        {
 		    		ost.setCollide( true );
+		    		// se la sfera non ha colliso uno spigolo
 		    		if(!collisionEdge( ost, dritto ))
 		        		{
 		                	if(ostr.intersects( ost.component( "latoSu" ) ))
@@ -454,15 +429,29 @@ public class Bubble extends Ostacolo
 		        }
     	}
     
+    /**setta la posizione della sfera all'interno dei 2 tubi e la velocita' nel secondo*/
     public void setPositionInTube( Ostacolo ost, boolean primoTubo )
     	{
     		//orientamento del tubo
 			String pos = ost.getOrienting();
 			
-    		//la sfera e' nel SECONDO tubo
-    		if(!primoTubo)
+    		//la sfera e' nel PRIMO tubo
+    		if(primoTubo)
     			{
-    				setXY( ost.getMidArea().getX() - getWidth(), ost.getMidArea().getY() - getWidth(), "restore" );
+	    			if(pos.equals( "sx" ))
+						setXY( ost.component( "latoIngresso" ).getX() - getWidth(), ost.component( "latoIngresso" ).getY() + ost.getHeight()/2 - getWidth(), "restore" );
+					else if(pos.equals( "dx" ))
+						setXY( ost.component( "latoInggresso" ).getX() + getWidth(), ost.component( "latoIngresso" ).getY() + ost.getHeight()/2 - getWidth(), "restore" );
+					else if(pos.equals( "down" ))
+						setXY( ost.component( "latoIngresso" ).getX() + ost.getWidth()/2 - getWidth() - 4, ost.component( "latoIngresso" ).getY(), "restore" );
+					else
+						setXY( ost.component( "latoIngresso" ).getX() - 1 + ost.getWidth()/2 - getWidth(), ost.component( "latoIngresso" ).getY() - getWidth(), "restore" );   			
+    				
+    			}
+    		//la sfera e' nel SECONDO tubo
+    		else
+    			{
+	    			setXY( ost.getMidArea().getX() - getWidth(), ost.getMidArea().getY() - getWidth(), "restore" );
 					
 					if(ost.getOrienting().equals( "sx" ))
 						{
@@ -485,104 +474,87 @@ public class Bubble extends Ostacolo
 							speedY = 1;
 						}
     			}
-    		//la sfera e' nel PRIMO tubo
-    		else
-    			{
-    				if(pos.equals( "sx" ))
-    					setXY( ost.component( "latoIngresso" ).getX() - getWidth(), ost.component( "latoIngresso" ).getY() + ost.getHeight()/2 - getWidth(), "restore" );
-    				else if(pos.equals( "dx" ))
-    					setXY( ost.component( "latoInggresso" ).getX() + getWidth(), ost.component( "latoIngresso" ).getY() + ost.getHeight()/2 - getWidth(), "restore" );
-    				else if(pos.equals( "down" ))
-    					setXY( ost.component( "latoIngresso" ).getX() + ost.getWidth()/2 - getWidth() - 4, ost.component( "latoIngresso" ).getY(), "restore" );
-    				else
-    					setXY( ost.component( "latoIngresso" ).getX() - 1 + ost.getWidth()/2 - getWidth(), ost.component( "latoIngresso" ).getY() - getWidth(), "restore" );
-    			}
+    	}
+    
+    /**gestisce collisioni fra tutte gli elementi*/
+    public void checkAll( int i, Ostacolo ost )
+    	{	
+	    	if(!ost.getID().equals( "bolla" ))
+		        {
+		        	if(ost.getID().equals( "tubo" ) && !primoTubo && !secondoTubo)
+		        		{
+		        			//il lato di ingresso nel tubo
+		        			Shape ingr = ost.component( "latoIngresso" );
+		        			if(ostr.intersects( ingr ) && ostr.getCenterY() > ingr.getY() && ostr.getCenterY() < ingr.getY() + ost.getHeight())
+		        				{
+		    						primoTubo = true;
+		        					indexTube = i;
+		        					setPositionInTube( ost, primoTubo );
+		        				}
+		        			else if(ostr.intersects( ingr ) && ostr.getCenterX() > ost.getX() && ostr.getCenterX() < ost.getX() + ost.getWidth())
+		        				{
+									primoTubo = true;
+		    						indexTube = i;
+		    						setPositionInTube( ost, primoTubo );
+		        				}
+		        		}
+		        	else if(primoTubo || secondoTubo)
+						gestioneSferaInTubo();                        	
+		        	
+		        	if(!primoTubo && ostr.intersects( ost.component( "rect" ) ) && !ost.getCollide())
+		        		{
+		        			if(!secondoTubo || (secondoTubo && indexTube != i && previousIndexTube != i))
+		    					if(speedX == 0 || speedY == 0)
+									gestioneCollisioni( ost, true );
+		    					else
+		    						gestioneCollisioni( ost, false );
+		        		}
+		            else if(!ostr.intersects( ost.component( "rect" ) ))
+		            	ost.setCollide( false );
+		            else
+		            	ost.setCollide( true );
+		        }
+    	}
+    
+    public void checkBorders()
+    	{
+	    	if(ostr.getX() + 2*ray >= maxW)
+	        	if(speedX > 0)
+	        		speedX = -speedX;
+	        if(ostr.getX() <= 0)
+	        	if(speedX < 0)
+	        		speedX = -speedX;
+	        if(ostr.getY() + 2*ray >= maxH)
+	        	if(speedY > 0)
+	        		speedY = -speedY;
+	        if(ostr.getY() <= 0)
+	        	if(speedY < 0)
+	        		speedY = -speedY;
     	}
  
     public void update( GameContainer gc, int delta ) throws SlickException
         {
             for(int i = 0; i < InGame.ostacoli.size(); i++)
-                {
-                    if(!InGame.ostacoli.get( i ).getID().equals( "bolla" ))
-                        {
-                        	Ostacolo ost = InGame.ostacoli.get( i );
-                        	if(ost.getID().equals( "tubo" ) && !primoTubo && !secondoTubo)
-                        		{
-                        			//la direzione del tubo
-                        			//String pos = ost.getOrienting();
-                        			//il lato di ingresso nel tubo
-                        			Shape ingr = ost.component( "latoIngresso" );
-                        			if(ostr.intersects( ingr ) && ostr.getCenterY() > ingr.getY() && ostr.getCenterY() < ingr.getY() + ost.getHeight())
-                        				{
-                    						primoTubo = true;
-                        					indexTube = i;
-                        					setPositionInTube( ost, primoTubo );
-                        				}
-                        			else if(ostr.intersects( ingr ) && ostr.getCenterX() > ost.getX() && ostr.getCenterX() < ost.getX() + ost.getWidth())
-                        				{
-                							primoTubo = true;
-                    						indexTube = i;
-                    						setPositionInTube( ost, primoTubo );
-                        				}
-                        		}
-                        	else if(primoTubo || secondoTubo)
-                				gestioneSferaInTubo();                        	
-                        	
-                        	if(!primoTubo && ostr.intersects( ost.component( "rect" ) ) && !ost.getCollide())
-                        		{
-                        			if(!secondoTubo || (secondoTubo && indexTube != i && previousIndexTube != i))
-                    					if(speedX == 0 || speedY == 0)
-                							gestioneCollisioni( ost, true );
-                    					else
-                    						gestioneCollisioni( ost, false );
-                        		}
-                            else if(!ostr.intersects( ost.component( "rect" ) ))
-                            	ost.setCollide( false );
-                            else
-                            	ost.setCollide( true );
-                        }
-                }
+                checkAll( i, InGame.ostacoli.get( i ) );
              
             /*controllo collisione con i bordi della schermata*/
-            if(ostr.getX() + 2*ray >= maxW)
-            	if(speedX > 0)
-            		speedX = -speedX;
-            if(ostr.getX() <= 0)
-            	if(speedX < 0)
-            		speedX = -speedX;
-            if(ostr.getY() + 2*ray >= maxH)
-            	if(speedY > 0)
-            		speedY = -speedY;
-            if(ostr.getY() <= 0)
-            	if(speedY < 0)
-            		speedY = -speedY;
+            checkBorders();
 
             setCenter( ostr, speedX, speedY );
             
-            /*if(!primoTubo)
+            if(!primoTubo)
             	{
             		if(speedX == 0 || speedY == 0)
             			{
-	                        if(ostr.getX() + 2*ray >= maxW)
-	                        	if(speedX > 0)
-	                        		speedX = -speedX;
-	                        if(ostr.getX() <= 0)
-	                        	if(speedX < 0)
-	                        		speedX = -speedX;
-	                        if(ostr.getY() + 2*ray >= maxH)
-	                        	if(speedY > 0)
-	                        		speedY = -speedY;
-	                        if(ostr.getY() <= 0)
-	                        	if(speedY < 0)
-	                        		speedY = -speedY;
+                        	/*controllo collisione con i bordi della schermata*/
+	                        checkBorders();
 	                        
 	                        for(int i = 0; i < InGame.ostacoli.size(); i++)
-	                        	if(!secondoTubo || (secondoTubo && indexTube != i && previousIndexTube != i))
-	                        		gestioneCollisioni( InGame.ostacoli.get( i ), true );
+	                        	checkAll( i, InGame.ostacoli.get( i ) );
 
 	                        setCenter( ostr, speedX, speedY );
             			}
-            	}*/
+            	}
         }
  
     public void setType(String type)
