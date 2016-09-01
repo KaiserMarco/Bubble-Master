@@ -33,7 +33,7 @@ public class InGame
 	private int decrNumb;
 	
 	// i bottoni dell'interfaccia
-	private SimpleButton replay, begin;	
+	private SimpleButton replay, begin, choose;	
 	// lunghezza e altezza iniziali dei numeri
 	private int widthI, heightI;
 	/*immagine del cursore*/
@@ -70,9 +70,11 @@ public class InGame
 			
 			replay = new SimpleButton( Global.W/5, Global.H*3/4, "RITENTA", Color.orange );
 			begin = new SimpleButton( Global.W/2, Global.H*3/4, "TORNA ALLA SCHERMATA PRINCIPALE", Color.orange );
+			choose = new SimpleButton( Global.W*10/33, Global.H*6/7, "TORNA ALLA SCELTA LIVELLI", Color.orange );
 			
 			buttons.add( replay );
 			buttons.add( begin );
+			buttons.add( choose );
 		}
 	
 	public void addOstacoli( ArrayList<Ostacolo> obs, Sfondo sfondo, GameContainer gc ) throws SlickException
@@ -199,11 +201,18 @@ public class InGame
 							Global.inGame = true;
 						}
 					
-					else if((begin.checkClick( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )) || (input.isKeyPressed( Input.KEY_ENTER ) && buttons.get( indexCursor ).getName().startsWith( "TORNA ALLA" )))
+					else if((begin.checkClick( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )) || (input.isKeyPressed( Input.KEY_ENTER ) && buttons.get( indexCursor ).getName().startsWith( "TORNA ALLA SCHERMATA" )))
 						{
 							indexCursor = -1;
-							Start.endGame = 0;
+							Start.startGame = 0;
 							Start.begin = 1;
+						}
+					
+					else if((choose.checkClick( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )) || (input.isKeyPressed( Input.KEY_ENTER ) && buttons.get( indexCursor ).getName().startsWith( "TORNA ALLA SCELTA" )))
+						{
+							indexCursor = -1;
+							Start.startGame = 0;
+							Start.chooseLevel = 1;
 						}
 				}
 		}
