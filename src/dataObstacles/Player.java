@@ -391,6 +391,7 @@ public class Player extends Ostacolo
 									{
 										drawSumm = true;
 										Start.stats.stopTempo();
+										Global.inGame = false;
 									}
 								else
 									{
@@ -400,8 +401,7 @@ public class Player extends Ostacolo
 									}
 							}
 			
-			/*ZONA SPOSTAMENTI-SALTI*/
-			
+			/*ZONA SPOSTAMENTI-SALTI*/			
 			if(input.isKeyDown( Input.KEY_RIGHT ))
 				{
 					movingDx = true;
@@ -510,9 +510,10 @@ public class Player extends Ostacolo
 			
 			if(check && !drawSumm)
 				{				
-					// TODO GENERARE SCHERMATA CON TUTTI I RISULTATI
+					// TODO COMPLETARE SCHERMATA CON TUTTI I RISULTATI
 				
 					Start.stats.stopTempo();
+					Global.inGame = false;
 					drawSumm = true;
 				}
 			

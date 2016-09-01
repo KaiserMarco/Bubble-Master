@@ -134,6 +134,7 @@ public class ChooseLevel
 					
 					Start.stats.startTempo();
 					Global.drawCountdown = true;
+					Global.inGame = true;
 					
 					Start.chooseLevel = 0;
 					Start.startGame = 1;
