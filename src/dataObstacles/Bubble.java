@@ -84,7 +84,7 @@ public class Bubble extends Ostacolo
             previousIndexTube = -1;
         }
      
-    public void draw( Graphics g ) throws SlickException
+    public void draw( Graphics g, int i, int startY, boolean draw ) throws SlickException
         {
     		immagine.draw( ostr.getX(), ostr.getY(), ray*2, ray*2 );
     		

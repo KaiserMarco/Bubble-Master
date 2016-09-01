@@ -84,6 +84,9 @@ public class Player extends Ostacolo
 	private final int timerInv = 100, tickInv = 2000/timerInv;
 	private int currentTimeInv, currentTickInv;
 	
+	// determina se siamo o no a fine gioco
+	private boolean check = true;
+	
 	public Player( int x, int y, int numPlayer, GameContainer gc ) throws SlickException
 		{
 			super( "player" + numPlayer );
@@ -158,6 +161,8 @@ public class Player extends Ostacolo
 			currentTimeInv = 0;
 			
 			lifes  = Global.lifes;
+			
+			check = false;
 		}
 	
 	public void drawMoving()
@@ -259,25 +264,27 @@ public class Player extends Ostacolo
 				}
 		}
 	
-	public void draw( Graphics g ) throws SlickException
+	public void draw( Graphics g, int i, int startY, boolean player ) throws SlickException
 		{
-			if(!invincible)
-				drawMoving();
-			else if(invincible && currentTickInv > 0 && currentTickInv % 2 == 0)
-				drawMoving();
-			/*inserisce la trasparenza rosso/verde nella modalita' di editing*/
-			if(Start.editGame == 1)
-				if(checkInsert)
-					if(!insert)
-						pgdx.draw( xPlayer, yPlayer, widthI, height, cr);
-					else
-						pgdx.draw( xPlayer, yPlayer, widthI, height, cg);
+			if(player)
+				if(!invincible)
+					drawMoving();
+				else if(invincible && currentTickInv > 0 && currentTickInv % 2 == 0)
+					drawMoving();
 			
-			if(shooting)
-				fire.draw();
-			
-			for(int i = 0; i < Global.lifes/2; i++)
+			if(!check)
 				{
+					/*inserisce la trasparenza rosso/verde nella modalita' di editing*/
+					if(Start.editGame == 1)
+						if(checkInsert)
+							if(!insert)
+								pgdx.draw( xPlayer, yPlayer, widthI, height, cr);
+							else
+								pgdx.draw( xPlayer, yPlayer, widthI, height, cg);
+					
+					if(shooting)
+						fire.draw();
+					
 					int j;
 					for(j = 0; j < lifes/2; j++)
 						heart.draw( Global.W/40 + widthH*j, Global.H/30, widthH, heightH );
@@ -285,24 +292,17 @@ public class Player extends Ostacolo
 						halfHeart.draw( Global.W/40 + widthH*(j++), Global.H/30, widthH, heightH );
 					for(;j < Global.lifes/2; j++)
 						noHeart.draw( Global.W/40 + widthH*j, Global.H/30, widthH, heightH );
+						
 				}
 			
 			// TODO DA COMPLETARE
-			if(drawSumm)
+			else
 				{
 					// ascissa e ordinata delle stringhe da stampare
 					int x = Global.H/8, y = Global.H/6;
 				
 					String colpi = "COLPI SPARATI =       " + shots;
-					g.drawString( colpi, x, y );
-					
-					//trasformo il tempo da millisecondi a secondi
-					int timing = (int)Start.stats.getTempo()/1000;
-					int h = timing/3600;
-					int m = (timing - (h*3600))/60;
-					int s = timing - h*3600 - m*60;
-					String seconds = "TEMPO IMPIEGATO =     " + h + "h : " + m + "m : " + s + "s";
-					g.drawString( seconds, x, y + 50 );
+					g.drawString( colpi, x, y + 50 );
 					
 					String vite = "VITE PERSE =          " + (Global.lifes - lifes);
 					g.drawString( vite, x, y + 100 );
@@ -365,7 +365,7 @@ public class Player extends Ostacolo
 	public void update( GameContainer gc, int delta ) throws SlickException
 		{
 			Input input = gc.getInput();
-			
+			check = false;			
 			int move = Global.W/400;
 			
 			if(invincible)
@@ -397,6 +397,7 @@ public class Player extends Ostacolo
 										drawSumm = true;
 										Start.stats.stopTempo();
 										Global.inGame = false;
+										check = true;
 									}
 								else
 									{
@@ -508,7 +509,7 @@ public class Player extends Ostacolo
 				}
 			
 			/*controlla se sono state distrutte tute le sfere*/
-			boolean check = true;
+			check = true;
 			for(int i = 0; i < InGame.ostacoli.size(); i++)
 				if(InGame.ostacoli.get( i ).getID().equals( "bolla" ))
 					check = false;

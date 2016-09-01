@@ -138,7 +138,7 @@ public class Edit
 						
 			for(int i = 0; i < ostacoli.size(); i++)
 				{
-					ostacoli.get( i ).draw( g );
+					ostacoli.get( i ).draw( g, 0, 0, true );
 					if(ostacoli.get( i ).getID().equals( "tubo" ))
 						{
 							Ostacolo tube = ostacoli.get( i );
@@ -158,7 +158,7 @@ public class Edit
 			if(insertItem)
 				{
 					for(int i = 0; i < items.size(); i++)
-						items.get( i ).draw( g );
+						items.get( i ).draw( g, 0, 0, true );
 
 					for(int i = 0; i < sfondi.size(); i++)
 						sfondi.get( i ).draw();
@@ -183,7 +183,7 @@ public class Edit
 				cursor.draw( sfondi.get( indexCursorSfondi ).getX() - widthC, sfondi.get( indexCursorSfondi ).getY(), widthC, heightC );
 			
 			if(temp != null)
-				temp.draw( g );
+				temp.draw( g, 0, 0, true );
 		}
 	
 	public void setIndex( int index )

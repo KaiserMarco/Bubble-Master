@@ -67,7 +67,7 @@ public class Sbarra extends Ostacolo{
 			return null;
 		} }
 	
-	public void draw( Graphics g ) throws SlickException
+	public void draw( Graphics g, int i, int startY, boolean draw ) throws SlickException
 		{
 			immagine.draw( ostr.getX(), ostr.getY(), width, height );
 			if(Start.editGame == 1)

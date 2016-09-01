@@ -71,7 +71,7 @@ public class Tubo extends Ostacolo{
 			}
 	}
 
-	public void draw( Graphics g ) throws SlickException
+	public void draw( Graphics g, int i, int startY, boolean draw ) throws SlickException
 		{
             immagine.draw( ostr.getX(), ostr.getY(), width, height );
             if(Start.editGame == 1)

@@ -68,7 +68,7 @@ public class InGame
 			
 			buttons = new ArrayList<SimpleButton>();
 			
-			replay = new SimpleButton( Global.W/5, Global.H*3/4, "RITENTA", Color.orange );
+			replay = new SimpleButton( Global.W/5, Global.H*3/4, "RIGIOCA", Color.orange );
 			begin = new SimpleButton( Global.W/2, Global.H*3/4, "TORNA ALLA SCHERMATA PRINCIPALE", Color.orange );
 			choose = new SimpleButton( Global.W*10/33, Global.H*6/7, "TORNA ALLA SCELTA LIVELLI", Color.orange );
 			
@@ -116,17 +116,32 @@ public class InGame
 			sfondo.draw( gc );
 			
 			for(int i = ostacoli.size() - 1; i >= 0; i--)
-				ostacoli.get( i ).draw( g );
+				ostacoli.get( i ).draw( g, 0, 0, true );
 			
 			for(int i = 0; i < players.size(); i++)
-				players.get( i ).draw( g );
+				players.get( i ).draw( g, 0, 0, true );
 			
 			if(!Global.inGame)
 				{				
 					Image fine = new Image( "./data/Image/vuoto.png" );
 					Color black = new Color( 0, 0, 0, 185 );
 					fine.draw( 0, 0, Global.W, Global.H, black );
+
+					// ascissa e ordinata delle stringhe da stampare
+					int x = Global.H/8, y = Global.H/6;
+					
+					//trasformo il tempo da millisecondi a secondi
+					int timing = (int)Start.stats.getTempo()/1000;
+					int h = timing/3600;
+					int m = (timing - (h*3600))/60;
+					int s = timing - h*3600 - m*60;
+					String seconds = "TEMPO IMPIEGATO =     " + h + "h : " + m + "m : " + s + "s";
+					g.drawString( seconds, x, y );
 				
+					// TODO SETTARE CORRETTAMENTE I VALORI
+					for(int i = 0; i < players.size(); i++)
+						players.get( i ).draw( g, 0, 0, false );
+					
 					for(int i = 0; i < buttons.size(); i++)
 						buttons.get( i ).draw( gc.getGraphics() );
 					

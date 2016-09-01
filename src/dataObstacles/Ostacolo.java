@@ -21,7 +21,7 @@ public abstract class Ostacolo
 	public String getID()
 		{ return ID; }
 	
-	public abstract void draw( Graphics g ) throws SlickException;
+	public abstract void draw( Graphics g, int i, int startY, boolean draw ) throws SlickException;
 	
 	public abstract float getX();	
 	public abstract float getY();

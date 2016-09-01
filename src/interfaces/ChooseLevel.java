@@ -78,7 +78,7 @@ public class ChooseLevel
 			g.drawRect( 0, 0, width, height );
 			
 			for(int i = 0; i < obs.size(); i++)
-				obs.get( i ).draw( g );
+				obs.get( i ).draw( g, 0, 0, true );
 			
 			g.resetTransform();
 			
