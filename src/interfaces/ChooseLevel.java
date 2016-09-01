@@ -9,6 +9,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 
+import Utils.Global;
 import Utils.Sfondo;
 import bubbleMaster.Start;
 import dataButton.SimpleButton;
@@ -132,6 +133,7 @@ public class ChooseLevel
 					Start.ig.addOstacoli( Begin.livelli.get( pos ).getElements(), Begin.livelli.get( pos ).getImage(), gc );
 					
 					Start.stats.startTempo();
+					Global.drawCountdown = true;
 					
 					Start.chooseLevel = 0;
 					Start.startGame = 1;

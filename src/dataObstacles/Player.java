@@ -53,8 +53,6 @@ public class Player extends Ostacolo
 	
 	private Image right[], left[], saltoDx[], saltoSx[];
 	
-	private Image uno, due, tre;
-	
 	private float animTimeMove, reachDelta, animTimeJump, reachDeltaJump;
 	private int countShot;
 	
@@ -137,10 +135,6 @@ public class Player extends Ostacolo
 			countShot = 0;
 			
 			shots = 0;
-			
-			uno = new Image( "./data/Image/1.png" );
-			due = new Image( "./data/Image/2.png" );
-			tre = new Image( "./data/Image/3.png" );
 			
 			summary = new Rectangle( 0, 0, Global.W, Global.H );
 			drawSumm = false;

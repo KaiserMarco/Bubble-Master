@@ -4,9 +4,11 @@ import java.util.ArrayList;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 
+import Utils.Global;
 import Utils.Sfondo;
 import bubbleMaster.Start;
 import dataObstacles.Bubble;
@@ -22,11 +24,30 @@ public class InGame
 	public static ArrayList<Ostacolo> players;
 	
 	private Sfondo sfondo;
+	
+	private Image uno, due, tre;
+	private int animNumbers;
+	
+	private int decrNumb;
+	
+	// lunghezza e altezza iniziali dei numeri
+	private int widthI, heightI;
 
 	public InGame() throws SlickException
 		{
 			ostacoli = new ArrayList<Ostacolo>();
 			players = new ArrayList<Ostacolo>();
+			
+			tre = new Image( "./data/Image/3.png" );
+			due = new Image( "./data/Image/2.png" );
+			uno = new Image( "./data/Image/1.png" );
+			
+			widthI = Global.W/25;
+			heightI = Global.H/20;
+			
+			animNumbers = 30;
+			
+			decrNumb = 3;
 		}
 	
 	public void addOstacoli( ArrayList<Ostacolo> obs, Sfondo sfondo, GameContainer gc ) throws SlickException
@@ -57,7 +78,7 @@ public class InGame
 		}
 
 	public void draw( GameContainer gc, Graphics g) throws SlickException
-		{
+		{		
 			g.setAntiAlias( true );
 			sfondo.draw( gc );
 			
@@ -66,6 +87,30 @@ public class InGame
 			
 			for(int i = 0; i < players.size(); i++)
 				players.get( i ).draw( g );
+
+			// disegna il countdown iniziale
+			if(Global.drawCountdown)
+				{
+					if(animNumbers > 20)
+						tre.draw( Global.W/2 - (widthI*(10 - animNumbers%10))/2, Global.H/2 - (heightI*(10 - animNumbers%10))/2, widthI*(10 - animNumbers%10), heightI*(10 - animNumbers%10) );
+					else if(animNumbers > 10)
+						due.draw( Global.W/2 - (widthI*(10 - animNumbers%10))/2, Global.H/2 - (heightI*(10 - animNumbers%10))/2, widthI*(10 - animNumbers%10), heightI*(10 - animNumbers%10) );	
+					else if(animNumbers > 0)
+						uno.draw( Global.W/2 - (widthI*(10 - animNumbers%10))/2, Global.H/2 - (heightI*(10 - animNumbers%10))/2, widthI*(10 - animNumbers%10), heightI*(10 - animNumbers%10) );
+					else
+						{
+							Global.drawCountdown = false;
+							animNumbers = 30;
+						}
+					
+					if(decrNumb == 0)
+						{
+							animNumbers--;
+							decrNumb = 3;
+						}
+					else
+						decrNumb--;
+				}
 		}
 	
 	public void update(GameContainer gc, int delta) throws SlickException
@@ -77,15 +122,18 @@ public class InGame
 					Start.setPreviuosStats( "startGame" );
 				}
 		
-			for(int i = 0; i < players.size(); i++)
-				players.get( i ).update( gc, delta );
-			
-			for(int i = 0; i < ostacoli.size(); i++)
+			if(!Global.drawCountdown)
 				{
-					if(ostacoli.get( i ).getID().equals( "bolla" ))
-						ostacoli.get( i ).update( gc, delta );
-					else
-						ostacoli.get( i ).update( gc );
+					for(int i = 0; i < players.size(); i++)
+						players.get( i ).update( gc, delta );
+					
+					for(int i = 0; i < ostacoli.size(); i++)
+						{
+							if(ostacoli.get( i ).getID().equals( "bolla" ))
+								ostacoli.get( i ).update( gc, delta );
+							else
+								ostacoli.get( i ).update( gc );
+						}
 				}
 		}
 }

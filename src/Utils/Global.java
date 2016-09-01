@@ -14,6 +14,8 @@ public class Global
 	
 	public static float ratioW, ratioH;
 	
+	public static boolean drawCountdown;
+	
 	public static void computeRatio( float width, float height )
 		{
 			ratioW = width/Width;
