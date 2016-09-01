@@ -82,6 +82,7 @@ public class Player extends Ostacolo
 	
 	//determina se il personaggio e' vulnerabile
 	private boolean invincible;
+	private int timeInv;
 	
 	public Player( int x, int y, int numPlayer, GameContainer gc ) throws SlickException
 		{
@@ -155,6 +156,7 @@ public class Player extends Ostacolo
 			widthH = gc.getWidth()/40; heightH = gc.getHeight()/30;
 			
 			invincible = false;
+			timeInv = 0;
 			
 			lifes  = Global.lifes;
 		}
@@ -353,7 +355,13 @@ public class Player extends Ostacolo
 		{
 			Input input = gc.getInput();
 			
-			int move = 2;
+			int move = Global.W/400;
+			
+			if(timeInv != 0 && (int)System.currentTimeMillis() - timeInv >= 3000)
+				{
+					invincible = false;
+					timeInv = 0;
+				}
 			
 			/*la posizione del player un attimo prima di spostarsi*/
 			Rectangle previousArea = new Rectangle( area.getX(), area.getY(), width, height );
@@ -362,17 +370,22 @@ public class Player extends Ostacolo
 			movingSx = false;
 			
 			/*ZONA CONTROLLO COLLISIONE PERSONAGGIO - SFERE*/
-			for(int i = 0; i < InGame.ostacoli.size(); i++)
-				if(InGame.ostacoli.get( i ).getID().equals( "bolla" ))
-					if(area.intersects( InGame.ostacoli.get( i ).component( "" ) ))
-						if(--lifes == 0)
+			if(!invincible)
+				for(int i = 0; i < InGame.ostacoli.size(); i++)
+					if(InGame.ostacoli.get( i ).getID().equals( "bolla" ))
+						if(area.intersects( InGame.ostacoli.get( i ).component( "" ) ))
 							{
-								System.out.println( lifes );
-								drawSumm = true;
-								Start.stats.stopTempo();
+								if(--lifes == 0)
+									{
+										drawSumm = true;
+										Start.stats.stopTempo();
+									}
+								else
+									{
+										invincible = true;
+										timeInv = (int)System.currentTimeMillis();
+									}
 							}
-						else
-							invincible = true;
 			
 			/*ZONA SPOSTAMENTI-SALTI*/
 			
