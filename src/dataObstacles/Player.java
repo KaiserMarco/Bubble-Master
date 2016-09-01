@@ -82,7 +82,8 @@ public class Player extends Ostacolo
 	
 	//determina se il personaggio e' vulnerabile
 	private boolean invincible;
-	private int timeInv;
+	private final int timerInv = 100, tickInv = 3000/timerInv;
+	private int currentTimeInv, currentTickInv;
 	
 	public Player( int x, int y, int numPlayer, GameContainer gc ) throws SlickException
 		{
@@ -156,17 +157,14 @@ public class Player extends Ostacolo
 			widthH = gc.getWidth()/40; heightH = gc.getHeight()/30;
 			
 			invincible = false;
-			timeInv = 0;
+			currentTimeInv = 0;
 			
 			lifes  = Global.lifes;
 		}
 	
-	public void draw( Graphics g ) throws SlickException
-		{			
+	public void drawMoving()
+		{
 			float frameMove = animTimeMove/right.length, frameJump = animTimeJump/saltoDx.length;
-			
-			// TODO IMPLEMENTARE L'INVULNERABILITA DEL PERSONAGGIO
-			
 			if(dir == 0)
 				{
 					if(movingJ)
@@ -261,6 +259,15 @@ public class Player extends Ostacolo
 					else
 						pgsx.draw( xPlayer - offset, yPlayer, widthI, height );
 				}
+		}
+	
+	public void draw( Graphics g ) throws SlickException
+		{			
+			// TODO IMPLEMENTARE L'INVULNERABILITA DEL PERSONAGGIO
+			if(!invincible)
+				drawMoving();
+			else if(invincible && currentTickInv > 0 && currentTickInv % 2 == 0)
+				drawMoving();
 			/*inserisce la trasparenza rosso/verde nella modalita' di editing*/
 			if(Start.editGame == 1)
 				if(checkInsert)
@@ -288,7 +295,7 @@ public class Player extends Ostacolo
 					Image fine = new Image( "./data/Image/Window.png" );
 					fine.draw( 0, 0, Global.W, Global.H );
 				
-					String colpi = "COLPI SPARATI:       " + shots;
+					String colpi = "COLPI SPARATI:    " + shots;
 					g.drawString( colpi, 200, 100 );
 					
 					//trasformo il tempo da millisiscondi a secondi
@@ -357,10 +364,16 @@ public class Player extends Ostacolo
 			
 			int move = Global.W/400;
 			
-			if(timeInv != 0 && (int)System.currentTimeMillis() - timeInv >= 3000)
+			if(invincible)
 				{
-					invincible = false;
-					timeInv = 0;
+					currentTimeInv = currentTimeInv + delta;
+					if(currentTimeInv >= timerInv)
+						{
+							if(--currentTickInv == 0)
+								invincible = false;
+							else
+								currentTimeInv = 0;
+						}
 				}
 			
 			/*la posizione del player un attimo prima di spostarsi*/
@@ -383,7 +396,8 @@ public class Player extends Ostacolo
 								else
 									{
 										invincible = true;
-										timeInv = (int)System.currentTimeMillis();
+										currentTimeInv = 0;
+										currentTickInv = tickInv;
 									}
 							}
 			
