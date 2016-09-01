@@ -289,21 +289,25 @@ public class Player extends Ostacolo
 						noHeart.draw( Global.W/40 + widthH*j, Global.H/30, widthH, heightH );
 				}
 			
+			// TODO DA COMPLETARE
 			if(drawSumm)
 				{
 					Image fine = new Image( "./data/Image/Window.png" );
 					fine.draw( 0, 0, Global.W, Global.H );
 				
-					String colpi = "COLPI SPARATI:    " + shots;
+					String colpi = "COLPI SPARATI =     " + shots;
 					g.drawString( colpi, 200, 100 );
 					
-					//trasformo il tempo da millisiscondi a secondi
+					//trasformo il tempo da millisecondi a secondi
 					int timing = (int)Start.stats.getTempo()/1000;
 					int h = timing/3600;
 					int m = (timing - (h*3600))/60;
 					int s = timing - h*3600 - m*60;
-					String seconds = "TEMPO IMPIEGATO:   " + h + "h : " + m + "m : " + s + "s";
-					g.drawString( seconds, 200, 200 );
+					String seconds = "TEMPO IMPIEGATO =   " + h + "h : " + m + "m : " + s + "s";
+					g.drawString( seconds, 200, 150 );
+					
+					String vite = "VITE PERSE =        " + (Global.lifes - lifes);
+					g.drawString( vite, 200, 200 );
 				}
 		}
 
