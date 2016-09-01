@@ -73,6 +73,16 @@ public class Player extends Ostacolo
 	private Rectangle summary;
 	private boolean drawSumm;
 	
+	// l'immagine delle vite del personaggio
+	private Image heart, halfHeart, noHeart;
+	private int widthH, heightH;
+	
+	//le vite del personaggio
+	private int lifes;
+	
+	//determina se il personaggio e' vulnerabile
+	private boolean invincible;
+	
 	public Player( int x, int y, int numPlayer, GameContainer gc ) throws SlickException
 		{
 			super( "player" + numPlayer );
@@ -138,11 +148,22 @@ public class Player extends Ostacolo
 			
 			summary = new Rectangle( 0, 0, Global.W, Global.H );
 			drawSumm = false;
+			
+			heart = new Image( "./data/Image/heart.png" );
+			halfHeart = new Image( "./data/Image/halfHeart.png" );
+			noHeart = new Image( "./data/Image/noHeart.png" );
+			widthH = gc.getWidth()/40; heightH = gc.getHeight()/30;
+			
+			invincible = false;
+			
+			lifes  = Global.lifes;
 		}
 	
 	public void draw( Graphics g ) throws SlickException
 		{			
 			float frameMove = animTimeMove/right.length, frameJump = animTimeJump/saltoDx.length;
+			
+			// TODO IMPLEMENTARE L'INVULNERABILITA DEL PERSONAGGIO
 			
 			if(dir == 0)
 				{
@@ -249,6 +270,17 @@ public class Player extends Ostacolo
 			if(shooting)
 				fire.draw();
 			
+			for(int i = 0; i < Global.lifes/2; i++)
+				{
+					int j;
+					for(j = 0; j < lifes/2; j++)
+						heart.draw( Global.W/40 + widthH*j, Global.H/30, widthH, heightH );
+					if(lifes%2 == 1)
+						halfHeart.draw( Global.W/40 + widthH*(j++), Global.H/30, widthH, heightH );
+					for(;j < Global.lifes/2; j++)
+						noHeart.draw( Global.W/40 + widthH*j, Global.H/30, widthH, heightH );
+				}
+			
 			if(drawSumm)
 				{
 					Image fine = new Image( "./data/Image/Window.png" );
@@ -330,14 +362,17 @@ public class Player extends Ostacolo
 			movingSx = false;
 			
 			/*ZONA CONTROLLO COLLISIONE PERSONAGGIO - SFERE*/
-
-			/*for(int i = 0; i < InGame.ostacoli.size(); i++)
-				if(InGame.ostacoli.get( i ).ID.equals( "bolla" ))
+			for(int i = 0; i < InGame.ostacoli.size(); i++)
+				if(InGame.ostacoli.get( i ).getID().equals( "bolla" ))
 					if(area.intersects( InGame.ostacoli.get( i ).component( "" ) ))
-						{
-							Start.startGame = 0;
-							Start.endGame = 1;
-						}
+						if(--lifes == 0)
+							{
+								System.out.println( lifes );
+								drawSumm = true;
+								Start.stats.stopTempo();
+							}
+						else
+							invincible = true;
 			
 			/*ZONA SPOSTAMENTI-SALTI*/
 			
@@ -353,7 +388,7 @@ public class Player extends Ostacolo
 					dir = 1;
 					setXY( -move, 0, "move" );
 				}
-			if(input.isKeyPressed( Input.KEY_S ) && !shooting && Start.startGame == 1)
+			if(input.isKeyPressed( Input.KEY_S ) && !shooting && Start.startGame == 1 && !invincible)
 	            {
 	                shooting = true;
 	                shots++;
@@ -441,10 +476,10 @@ public class Player extends Ostacolo
 						}
 				}
 			
-			/*controlla la collisione con una sfera*/
+			/*controlla se sono state distrutte tute le sfere*/
 			boolean check = true;
 			for(int i = 0; i < InGame.ostacoli.size(); i++)
-				if(InGame.ostacoli.get(i ).getID().equals( "bolla" ))
+				if(InGame.ostacoli.get( i ).getID().equals( "bolla" ))
 					check = false;
 			
 			if(check && !drawSumm)

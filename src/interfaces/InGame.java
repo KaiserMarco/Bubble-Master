@@ -47,7 +47,7 @@ public class InGame
 			
 			animNumbers = 30;
 			
-			decrNumb = 3;
+			decrNumb = 4;
 		}
 	
 	public void addOstacoli( ArrayList<Ostacolo> obs, Sfondo sfondo, GameContainer gc ) throws SlickException
@@ -106,7 +106,7 @@ public class InGame
 					if(decrNumb == 0)
 						{
 							animNumbers--;
-							decrNumb = 3;
+							decrNumb = 4;
 						}
 					else
 						decrNumb--;

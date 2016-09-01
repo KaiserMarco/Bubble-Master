@@ -47,7 +47,7 @@ public class Sfondo
 	
 	/**disegna lo sfondo a schermo intero*/
 	public void draw( GameContainer gc )
-		{ sfondo.draw( 0, 0, gc.getWidth(), gc.getHeight() ); }
+		{ sfondo.draw( 0, 0, Global.W, Global.H ); }
 	
 	/**disegna lo sfondo nella selezione sfondo*/
 	public void draw()
