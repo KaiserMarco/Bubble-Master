@@ -82,7 +82,7 @@ public class Player extends Ostacolo
 	
 	//determina se il personaggio e' vulnerabile
 	private boolean invincible;
-	private final int timerInv = 100, tickInv = 3000/timerInv;
+	private final int timerInv = 100, tickInv = 2000/timerInv;
 	private int currentTimeInv, currentTickInv;
 	
 	public Player( int x, int y, int numPlayer, GameContainer gc ) throws SlickException
@@ -262,8 +262,7 @@ public class Player extends Ostacolo
 		}
 	
 	public void draw( Graphics g ) throws SlickException
-		{			
-			// TODO IMPLEMENTARE L'INVULNERABILITA DEL PERSONAGGIO
+		{
 			if(!invincible)
 				drawMoving();
 			else if(invincible && currentTickInv > 0 && currentTickInv % 2 == 0)
@@ -415,7 +414,7 @@ public class Player extends Ostacolo
 					dir = 1;
 					setXY( -move, 0, "move" );
 				}
-			if(input.isKeyPressed( Input.KEY_S ) && !shooting && Start.startGame == 1 && !invincible)
+			if(input.isKeyPressed( Input.KEY_S ) && !shooting && Start.startGame == 1)
 	            {
 	                shooting = true;
 	                shots++;
