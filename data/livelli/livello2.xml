@@ -3,7 +3,6 @@
   <!--Objects-->
   <livello nome="livello2000000" />
   <ostacolo x="205.0" y="155.0" union="-1" type="ver" ID="sbarra" />
-  <ostacolo x="140.0" y="90.0" union="-1" ID="bolla" />  
   <ostacolo x="240.0" y="90.0" union="-1" ID="bolla" />
   <ostacolo x="250.0" y="506.0" union="-1" ID="player1" />
   <sfondo x="0" y="0" name="sfondo3" />

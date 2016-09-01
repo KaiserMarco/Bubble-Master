@@ -131,6 +131,8 @@ public class ChooseLevel
 				{
 					Start.ig.addOstacoli( Begin.livelli.get( pos ).getElements(), Begin.livelli.get( pos ).getImage(), gc );
 					
+					Start.stats.startTempo();
+					
 					Start.chooseLevel = 0;
 					Start.startGame = 1;
 					Start.setPreviuosStats( "chooseLevel" );

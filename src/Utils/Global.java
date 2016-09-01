@@ -6,6 +6,7 @@ public class Global
 	private static final float Width = 800;
 	private static final float Height = 600;
 	
+	// lunghezza e altezza dello schermo attuale
 	public static final int W = 800;
 	public static final int H = 600;
 	

@@ -2,7 +2,6 @@ package bubbleMaster;
 
 import interfaces.Begin;
 import interfaces.ChooseLevel;
-import interfaces.CreaLvl;
 import interfaces.Edit;
 import interfaces.End;
 import interfaces.InGame;
@@ -16,6 +15,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 
 import Utils.Global;
+import Utils.Statistics;
 
 public class Start extends BasicGame
 {	
@@ -24,7 +24,7 @@ public class Start extends BasicGame
 	private End e;
 	private Edit edit;
 	public static ChooseLevel cl;
-	private CreaLvl crea;
+	public static Statistics stats;
 	
 	public static int chooseLevel, startGame, endGame, editGame, creaLvl;
 	public static int begin = 1;
@@ -36,6 +36,8 @@ public class Start extends BasicGame
 			super( title );
 			
 			previous = new ArrayList<String>();
+			
+			stats = new Statistics();
 		}
 
 	public static void main( String[] args ) throws SlickException
@@ -86,8 +88,6 @@ public class Start extends BasicGame
 				e.draw( gc );
 			else if(chooseLevel == 1)
 				cl.draw( gc );
-			else if(creaLvl == 1)
-				crea.draw( gc );
 		}
 
 	@Override
@@ -98,7 +98,6 @@ public class Start extends BasicGame
 			e = new End();
 			edit = new Edit( gc );
 			cl = new ChooseLevel( gc );
-			crea = new CreaLvl( gc );
 		}
 
 	@Override
@@ -114,8 +113,6 @@ public class Start extends BasicGame
 				e.update( gc );
 			else if(chooseLevel == 1)
 				cl.update( gc, edit );
-			else if(creaLvl == 1)
-				crea.update( gc, delta );
 			
 			gc.getInput().clearKeyPressedRecord();
 			gc.getInput().clearMousePressedRecord();

@@ -12,6 +12,7 @@ import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
 
+import Utils.Global;
 import bubbleMaster.Start;
 
 public class Player extends Ostacolo
@@ -52,6 +53,8 @@ public class Player extends Ostacolo
 	
 	private Image right[], left[], saltoDx[], saltoSx[];
 	
+	private Image uno, due, tre;
+	
 	private float animTimeMove, reachDelta, animTimeJump, reachDeltaJump;
 	private int countShot;
 	
@@ -66,6 +69,12 @@ public class Player extends Ostacolo
 	/*movimento a destra - movimento a sinistra - movimento in alto - movimento in basso*/
 	boolean movingDx, movingSx, movingJ;
 	
+	// determina il numero di colpi sparati
+	private int shots;
+	
+	private Rectangle summary;
+	private boolean drawSumm;
+	
 	public Player( int x, int y, int numPlayer, GameContainer gc ) throws SlickException
 		{
 			super( "player" + numPlayer );
@@ -74,25 +83,21 @@ public class Player extends Ostacolo
 			
 			offset = gc.getHeight()/40;
 			widthI = gc.getHeight()/10;
-			width = widthI - offset;
-			height = gc.getWidth()*100/1142;
+			
+			width = widthI - offset; height = gc.getWidth()*100/1142;
 			
 			this.numPlayer = numPlayer;	
 			
 			right = new Image[9];
 			left = new Image[9];
-			saltoDx = new Image[9];
-			saltoSx = new Image[9];
 			
-			widthS = gc.getHeight()*100/1666;
-			heightS = gc.getWidth()*100/1951;
-			widthJ = gc.getHeight()*100/2068;
-			heightJ = gc.getWidth()*100/1666;
+			saltoDx = new Image[9]; saltoSx = new Image[9];
 			
-			wMove = gc.getWidth()*100/2469;
-			hMove = gc.getHeight()*100/1463;
-			wJump = gc.getWidth()*1000/3065;
-			hJump = gc.getHeight()*10/125;
+			widthS = gc.getHeight()*100/1666; heightS = gc.getWidth()*100/1951;
+			widthJ = gc.getHeight()*100/2068; heightJ = gc.getWidth()*100/1666;
+			
+			wMove = gc.getWidth()*100/2469; hMove = gc.getHeight()*100/1463;
+			wJump = gc.getWidth()*1000/3065; hJump = gc.getHeight()*10/125;
 
 			if(numPlayer == 1)
 				{
@@ -130,6 +135,15 @@ public class Player extends Ostacolo
 			animTimeJump = gc.getWidth()*100/202; reachDeltaJump = 0;
 			
 			countShot = 0;
+			
+			shots = 0;
+			
+			uno = new Image( "./data/Image/1.png" );
+			due = new Image( "./data/Image/2.png" );
+			tre = new Image( "./data/Image/3.png" );
+			
+			summary = new Rectangle( 0, 0, Global.W, Global.H );
+			drawSumm = false;
 		}
 	
 	public void draw( Graphics g ) throws SlickException
@@ -240,6 +254,23 @@ public class Player extends Ostacolo
 			
 			if(shooting)
 				fire.draw();
+			
+			if(drawSumm)
+				{
+					Image fine = new Image( "./data/Image/Window.png" );
+					fine.draw( 0, 0, Global.W, Global.H );
+				
+					String colpi = "COLPI SPARATI:       " + shots;
+					g.drawString( colpi, 200, 100 );
+					
+					//trasformo il tempo da millisiscondi a secondi
+					int timing = (int)Start.stats.getTempo()/1000;
+					int h = timing/3600;
+					int m = (timing - (h*3600))/60;
+					int s = timing - h*3600 - m*60;
+					String seconds = "TEMPO IMPIEGATO:   " + h + "h : " + m + "m : " + s + "s";
+					g.drawString( seconds, 200, 200 );
+				}
 		}
 
 	public boolean contains( int x, int y )
@@ -331,6 +362,7 @@ public class Player extends Ostacolo
 			if(input.isKeyPressed( Input.KEY_S ) && !shooting && Start.startGame == 1)
 	            {
 	                shooting = true;
+	                shots++;
 	                fire.setXY( (int) xPlayer + width/2 - fire.getWidth()/2, (int) yPlayer + height - 1 );
 	            }
 			if(shooting)
@@ -421,10 +453,12 @@ public class Player extends Ostacolo
 				if(InGame.ostacoli.get(i ).getID().equals( "bolla" ))
 					check = false;
 			
-			if(check)
-				{
-					Start.startGame = 0;
-					Start.endGame = 1;
+			if(check && !drawSumm)
+				{				
+					// TODO GENERARE SCHERMATA CON TUTTI I RISULTATI
+				
+					Start.stats.stopTempo();
+					drawSumm = true;
 				}
 			
 			/*gestione dell'animazione*/
