@@ -4,5 +4,8 @@
   <livello nome="livello2000000" />
   <ostacolo x="205.0" y="155.0" union="-1" type="ver" ID="sbarra" />
   <ostacolo x="250.0" y="506.0" union="-1" ID="player1" />
+  <ostacolo x="350.0" y="506.0" union="-1" ID="player2" />
+  <ostacolo x="450.0" y="506.0" union="-1" ID="player1" />
+  <ostacolo x="550.0" y="506.0" union="-1" ID="player2" />
   <sfondo x="0" y="0" name="sfondo3" />
 </level>

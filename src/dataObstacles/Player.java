@@ -281,6 +281,12 @@ public class Player extends Ostacolo
 			for(;j < Global.lifes/2; j++)
 				noHeart.draw( Global.W/40 + widthH*j, Global.H/30, widthH, heightH );
 		}
+	
+	public Image getImage()
+		{ return pgdx; }
+	
+	public int getNumPlayer()
+		{ return numPlayer; }
 
 	public boolean contains( int x, int y )
 		{ return area.contains( x, y ); }

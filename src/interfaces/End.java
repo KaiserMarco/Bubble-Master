@@ -14,6 +14,7 @@ import Utils.Sfondo;
 import bubbleMaster.Start;
 import dataButton.SimpleButton;
 import dataObstacles.Ostacolo;
+import dataObstacles.Player;
 
 public class End 
 {
@@ -87,6 +88,9 @@ public class End
 			String seconds = "TEMPO IMPIEGATO =     " + h + "h : " + m + "m : " + s + "s";
 			g.drawString( seconds, x, y );
 			
+			int offset = Global.W/10, width = Global.W/17, height = Global.H/10;
+			for(int i = 0; i < players.size(); i++)
+				((Player) players.get( i )).getImage().draw( Global.W*10/26 + (width + offset) * i, Global.H/25, Global.W/17, height );
 			// TODO CAPIRE COME USARLI AL MEGLIO
 			
 			/*String colpi = "COLPI SPARATI =       " + shots;
