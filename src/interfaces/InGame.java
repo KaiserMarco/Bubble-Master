@@ -103,6 +103,8 @@ public class InGame
 						ostacoli.add( ost );
 				}
 			
+			Global.giocatori = numPlayer;
+			
 			cursor = new Image( "./data/Image/cursore.png" );
 			
 			indexCursor = -1;
@@ -118,6 +120,19 @@ public class InGame
 			
 			for(int i = 0; i < players.size(); i++)
 				players.get( i ).draw( g );
+			
+			if(!Global.inGame)
+				{				
+					Image fine = new Image( "./data/Image/vuoto.png" );
+					Color black = new Color( 0, 0, 0, 185 );
+					fine.draw( 0, 0, Global.W, Global.H, black );
+				
+					for(int i = 0; i < buttons.size(); i++)
+						buttons.get( i ).draw( gc.getGraphics() );
+					
+					if(indexCursor >= 0)
+						cursor.draw( buttons.get( indexCursor ).getX() - widthC, buttons.get( indexCursor ).getY(), widthC, heightC );
+				}
 
 			// disegna il countdown iniziale
 			if(Global.drawCountdown)
@@ -141,15 +156,6 @@ public class InGame
 						}
 					else
 						decrNumb--;
-				}
-			
-			if(!Global.inGame)
-				{
-					for(int i = 0; i < buttons.size(); i++)
-						buttons.get( i ).draw( gc.getGraphics() );
-					
-					if(indexCursor >= 0)
-						cursor.draw( buttons.get( indexCursor ).getX() - widthC, buttons.get( indexCursor ).getY(), widthC, heightC );
 				}
 		}
 	

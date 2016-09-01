@@ -25,6 +25,9 @@ public class Global
 	// determina se il gioco e' in una partita
 	public static boolean inGame = false;
 	
+	// il numero di giocatori della partita
+	public static int giocatori;
+	
 	// calcola il rapporto fra altezza e lunghezza attuali con quelli di default
 	public static void computeRatio( float width, float height )
 		{

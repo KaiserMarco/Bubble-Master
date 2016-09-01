@@ -68,9 +68,8 @@ public class Player extends Ostacolo
 	boolean movingDx, movingSx, movingJ;
 	
 	// determina il numero di colpi sparati
-	private int shots;
+	private int shots;	
 	
-	private Rectangle summary;
 	private boolean drawSumm;
 	
 	// l'immagine delle vite del personaggio
@@ -148,7 +147,6 @@ public class Player extends Ostacolo
 			
 			shots = 0;
 			
-			summary = new Rectangle( 0, 0, Global.W, Global.H );
 			drawSumm = false;
 			
 			heart = new Image( "./data/Image/heart.png" );
@@ -292,22 +290,25 @@ public class Player extends Ostacolo
 			// TODO DA COMPLETARE
 			if(drawSumm)
 				{
-					Image fine = new Image( "./data/Image/Window.png" );
-					fine.draw( 0, 0, Global.W, Global.H );
+					// ascissa e ordinata delle stringhe da stampare
+					int x = Global.H/8, y = Global.H/6;
 				
-					String colpi = "COLPI SPARATI =     " + shots;
-					g.drawString( colpi, 200, 100 );
+					String colpi = "COLPI SPARATI =       " + shots;
+					g.drawString( colpi, x, y );
 					
 					//trasformo il tempo da millisecondi a secondi
 					int timing = (int)Start.stats.getTempo()/1000;
 					int h = timing/3600;
 					int m = (timing - (h*3600))/60;
 					int s = timing - h*3600 - m*60;
-					String seconds = "TEMPO IMPIEGATO =   " + h + "h : " + m + "m : " + s + "s";
-					g.drawString( seconds, 200, 150 );
+					String seconds = "TEMPO IMPIEGATO =     " + h + "h : " + m + "m : " + s + "s";
+					g.drawString( seconds, x, y + 50 );
 					
-					String vite = "VITE PERSE =        " + (Global.lifes - lifes);
-					g.drawString( vite, 200, 200 );
+					String vite = "VITE PERSE =          " + (Global.lifes - lifes);
+					g.drawString( vite, x, y + 100 );
+					
+					String punti = "PUNTEGGIO OTTENUTO =   ";
+					g.drawString( punti, x, y + 150 );
 				}
 		}
 
