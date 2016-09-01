@@ -5,9 +5,7 @@ public class Statistics
 	private long tempo = 0;
 	
 	public Statistics()
-		{
-			
-		}
+		{ }
 	
 	public void startTempo()
 		{ tempo = System.currentTimeMillis(); }

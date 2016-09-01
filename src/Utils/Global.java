@@ -26,7 +26,7 @@ public class Global
 	public static boolean inGame = false;
 	
 	// il numero di giocatori della partita
-	public static int giocatori;
+	public static Sfondo sfondo;
 	
 	// calcola il rapporto fra altezza e lunghezza attuali con quelli di default
 	public static void computeRatio( float width, float height )
