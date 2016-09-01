@@ -2,6 +2,7 @@ package Utils;
 
 public class Statistics
 {
+	// determina il tempo impiegato a terminare il livello (vittoria o sconfitta)
 	private long tempo = 0;
 	
 	public Statistics()

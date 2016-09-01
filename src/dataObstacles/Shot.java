@@ -70,7 +70,7 @@ public class Shot
 	public Rectangle getArea()
 		{ return new Rectangle( posX, posY, widthS, startY - posY ); }
 	
-	public boolean collision( Ostacolo ost, String type, GameContainer gc ) throws SlickException
+	public boolean collision( Player play, Ostacolo ost, String type, GameContainer gc ) throws SlickException
 		{		
 			if(posY <= 0)
 				return true;
@@ -78,7 +78,13 @@ public class Shot
 				{
 					if(type.equals( "bolla" ))
 						{
-							if(ost.getWidth() > gc.getHeight()/100)
+							if(ost.getWidth() == gc.getWidth()/32)
+								play.setPoint( 50 );
+							else if(ost.getWidth() == gc.getWidth()/64)
+								play.setPoint( 150 );
+							else
+								play.setPoint( 300 );
+							if(ost.getWidth() > gc.getWidth()/128)
 								{
 									ost.setXY( (int) ost.getWidth()/2, (int) ost.getWidth()/2, "setRay" );
 									

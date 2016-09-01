@@ -82,6 +82,9 @@ public class Player extends Ostacolo
 	private final int timerInv = 100, tickInv = 2000/timerInv;
 	private int currentTimeInv, currentTickInv;
 	
+	// il punteggio del giocatore
+	private int points;
+	
 	public Player( int x, int y, int numPlayer, GameContainer gc ) throws SlickException
 		{
 			super( "player" + numPlayer );
@@ -154,6 +157,8 @@ public class Player extends Ostacolo
 			currentTimeInv = 0;
 			
 			lifes  = Global.lifes;
+			
+			points = 0;
 		}
 	
 	public void drawMoving()
@@ -287,6 +292,12 @@ public class Player extends Ostacolo
 	
 	public int getNumPlayer()
 		{ return numPlayer; }
+	
+	public int getShots()
+		{ return shots; }
+	
+	public int getLifes()
+		{ return lifes; }
 
 	public boolean contains( int x, int y )
 		{ return area.contains( x, y ); }
@@ -338,6 +349,12 @@ public class Player extends Ostacolo
 	public void update( GameContainer gc )
 		{}
 	
+	public void setPoint( int points )
+		{ this.points = this.points + points; }
+	
+	public int getPoints()
+		{ return points; }
+	
 	public void update( GameContainer gc, int delta ) throws SlickException
 		{
 			Input input = gc.getInput();
@@ -374,6 +391,7 @@ public class Player extends Ostacolo
 									}
 								else
 									{
+										points = points - 100;
 										invincible = true;
 										currentTimeInv = 0;
 										currentTickInv = tickInv;
@@ -405,7 +423,7 @@ public class Player extends Ostacolo
 						fire.update();
 					
 					for(int i = 0; i < InGame.ostacoli.size(); i++)
-						if(fire.collision( InGame.ostacoli.get( i ), InGame.ostacoli.get( i ).getID(), gc ))
+						if(fire.collision( this, InGame.ostacoli.get( i ), InGame.ostacoli.get( i ).getID(), gc ))
 							{
 								shooting = false;
 								break;
@@ -488,12 +506,7 @@ public class Player extends Ostacolo
 					check = false;
 			
 			if(check)
-				{
-					Start.stats.stopTempo();
-					
-					Start.startGame = 0;
-					Start.endGame = 1;
-				}
+				Global.inGame = false;
 			
 			/*gestione dell'animazione*/
 			if(movingDx || movingSx)

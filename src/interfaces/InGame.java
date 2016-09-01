@@ -137,6 +137,14 @@ public class InGame
 								ostacoli.get( i ).update( gc );
 						}
 				}
+			
+			if(!Global.inGame)
+				{
+					Start.stats.stopTempo();
+				
+					Start.startGame = 0;
+					Start.endGame = 1;					
+				}
 		}
 }
 

@@ -409,7 +409,7 @@ public class Edit
 		}
 	
 	private void addNewLevel( GameContainer gc )
-		{		
+		{
 			//posiziona i tubi all'inizio dell'array
 			setTubeInArray( gc );
 			

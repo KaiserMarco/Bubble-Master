@@ -78,7 +78,7 @@ public class End
 			// ascissa e ordinata delle stringhe da stampare
 			int x = Global.H/8, y = Global.H/6;
 
-			// TODO COMPLETARE CON TUTTE LE STATISTICHE
+			// TODO INSERIRE EVENTUALI ALTRE STATISTICHE
 			
 			//trasformo il tempo da millisecondi a secondi
 			int timing = (int)Start.stats.getTempo()/1000;
@@ -88,19 +88,31 @@ public class End
 			String seconds = "TEMPO IMPIEGATO =     " + h + "h : " + m + "m : " + s + "s";
 			g.drawString( seconds, x, y );
 			
-			int offset = Global.W/10, width = Global.W/17, height = Global.H/10;
-			for(int i = 0; i < players.size(); i++)
-				((Player) players.get( i )).getImage().draw( Global.W*10/26 + (width + offset) * i, Global.H/25, Global.W/17, height );
-			// TODO CAPIRE COME USARLI AL MEGLIO
-			
-			/*String colpi = "COLPI SPARATI =       " + shots;
+			String colpi = "COLPI SPARATI =       ";
 			g.drawString( colpi, x, y + 50 );
 			
-			String vite = "VITE PERSE =          " + (Global.lifes - lifes);
+			String vite = "VITE PERSE =          ";
 			g.drawString( vite, x, y + 100 );
 			
 			String punti = "PUNTEGGIO OTTENUTO =   ";
-			g.drawString( punti, x, y + 150 );*/
+			g.drawString( punti, x, y + 150 );
+			
+			int width = Global.W/17, height = Global.H/10;
+			int startX = Global.W*10/26, startY = Global.H/25;
+			int offset = Global.W/10;
+			for(int i = 0; i < players.size(); i++)
+				{
+					((Player) players.get( i )).getImage().draw( startX + (width + offset) * i, startY, Global.W/17, height );
+					
+					String ammo = "" + ((Player) players.get( i )).getShots();
+					g.drawString( ammo, startX + width/2 + (width + offset) * i, y + 50 );
+					
+					String lifes = "" + (Global.lifes - ((Player) players.get( i )).getLifes());
+					g.drawString( lifes, startX + width/2 + (width + offset) * i, y + 100 );
+					
+					String points = "" + ((Player) players.get( i )).getPoints();
+					g.drawString( points, startX + width/2 + (width + offset) * i, y + 150 );
+				}
 			
 			for(int i = 0; i < buttons.size(); i++)
 				buttons.get( i ).draw( gc.getGraphics() );
