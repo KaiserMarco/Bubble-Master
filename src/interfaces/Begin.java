@@ -28,7 +28,7 @@ import dataObstacles.Tubo;
 
 public class Begin 
 {
-	public SimpleButton editor, tasto, choose, newLvl;
+	public SimpleButton editor, tasto, options;
 	
 	/**array contente tutti i livelli creati*/
 	public static ArrayList<Livello> livelli;
@@ -56,7 +56,7 @@ public class Begin
 	private boolean insertButton;
 	
 	//deermina il punto in cui i bottoni dovranno fermarsi
-	private int xFinale1, xFinale2, yFinale3;
+	private int xFinale1, xFinale2;
 	
 	//immagine schermata iniziale
 	private Sfondo pang;
@@ -67,14 +67,12 @@ public class Begin
 
 	        xFinale1 = gc.getWidth()*10/25;
 	        xFinale2 = gc.getWidth()*10/22;
-	        yFinale3 = gc.getHeight()*3/4;
 	    
 			livelli = new ArrayList<Livello>();
 			
 			Color color = Color.orange;
-			choose = new SimpleButton( 0, gc.getHeight()/4, "LIVELLI", color );
-			editor = new SimpleButton( gc.getWidth(), gc.getHeight()/2, "OPZIONI", color );
-			newLvl = new SimpleButton( gc.getWidth()*10/24, gc.getHeight(), "CREA LIVELLO", color );
+			options = new SimpleButton( 0, gc.getHeight()/4, "OPZIONI", color );
+			editor = new SimpleButton( gc.getWidth(), gc.getHeight()/2, "LIVELLI", color );
 			
 			elements = new ArrayList<Ostacolo>();
 			
@@ -164,9 +162,8 @@ public class Begin
 			cursor = new Image( "./data/Image/cursore.png" );
 			
 			buttons = new ArrayList<SimpleButton>();
-			buttons.add( choose );
-			buttons.add( editor );	
-			//buttons.add( newLvl );
+			buttons.add( editor );
+			buttons.add( options );
 
 			widthC = gc.getWidth()*100/1777;
 			heightC = gc.getHeight()/24;
@@ -205,18 +202,14 @@ public class Begin
 			if(insertButton)
 				{
 					float move = delta/2 * Global.ratioW;
-					if(choose.getX() + move < xFinale1)
-						choose.setX( choose.getX() + move );
+					if(options.getX() + move < xFinale1)
+						options.setX( options.getX() + move );
 					else
-						choose.setX( xFinale1 );
+						options.setX( xFinale1 );
 					if(editor.getX() - move*3/2 > xFinale2)
 						editor.setX( editor.getX() - move*3/2 );
 					else
 						editor.setX( xFinale2 );
-					if(newLvl.getY() - move/2 > yFinale3)
-						newLvl.setY( newLvl.getY() - move/2 );
-					else
-						newLvl.setY( yFinale3 );
 				}
 			
 			if(insertButton)
@@ -231,29 +224,22 @@ public class Begin
 								indexCursor = 0;
 						}
 		
-					if((editor.checkClick( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )) || (indexCursor >= 0 && buttons.get( indexCursor ).getName().equals( "EDITOR" ) && input.isKeyPressed( Input.KEY_ENTER )))
+					if((editor.checkClick( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )) || (indexCursor >= 0 && buttons.get( indexCursor ).getName().equals( "LIVELLI" ) && input.isKeyPressed( Input.KEY_ENTER )))
 						{
 							indexCursor = -1;
 							Start.begin = 0;
-							Start.editGame = 1;
+							Start.chooseLevel = 1;
 							Start.setPreviuosStats( "begin" );
 						}
-					else if((choose.checkClick( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )) || (indexCursor >= 0 && buttons.get( indexCursor ).getName().equals( "SCEGLI LIVELLO" ) && input.isKeyPressed( Input.KEY_ENTER )))
+					else if((options.checkClick( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )) || (indexCursor >= 0 && buttons.get( indexCursor ).getName().equals( "OPZIONI" ) && input.isKeyPressed( Input.KEY_ENTER )))
 						{
 							if(livelli.size() > 0)
 								{
 									indexCursor = -1;
 									Start.begin = 0;
-									Start.chooseLevel = 1;
+									Start.settings = 1;
 									Start.setPreviuosStats( "begin" );
 								}
-						}
-					else if((newLvl.checkClick( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )) || (indexCursor >= 0 && buttons.get( indexCursor ).getName().equals( "CREA LIVELLO" ) && input.isKeyPressed( Input.KEY_ENTER )))
-						{
-							indexCursor = -1;
-							Start.begin = 0;
-							//Start.creaLvl = 1;
-							Start.setPreviuosStats( "begin" );
 						}
 				}
 		}

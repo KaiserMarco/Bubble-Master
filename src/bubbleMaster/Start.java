@@ -5,6 +5,7 @@ import interfaces.ChooseLevel;
 import interfaces.Edit;
 import interfaces.End;
 import interfaces.InGame;
+import interfaces.Settings;
 
 import java.util.ArrayList;
 
@@ -23,10 +24,11 @@ public class Start extends BasicGame
 	private Begin b;
 	private End e;
 	private Edit edit;
+	private Settings opt;
 	public static ChooseLevel cl;
 	public static Statistics stats;
 	
-	public static int chooseLevel, startGame, endGame, editGame, creaLvl;
+	public static int chooseLevel, startGame, endGame, editGame, creaLvl, settings;
 	public static int begin = 1;
 	
 	private static ArrayList<String> previous;
@@ -69,6 +71,8 @@ public class Start extends BasicGame
 				endGame = 1;
 			else if(previous.get( 0 ).equals( "creaLvl" ))
 				creaLvl = 1;
+			else if(previous.get( 0 ).equals( "settings" ))
+				settings = 1;
 			else
 				begin = 1;
 			
@@ -88,6 +92,8 @@ public class Start extends BasicGame
 				e.draw( gc );
 			else if(chooseLevel == 1)
 				cl.draw( gc );
+			else if(settings == 1)
+				opt.draw( gc );
 		}
 
 	@Override
@@ -98,6 +104,7 @@ public class Start extends BasicGame
 			e = new End();
 			edit = new Edit( gc );
 			cl = new ChooseLevel( gc );
+			opt = new Settings( gc );
 		}
 
 	@Override
@@ -113,6 +120,8 @@ public class Start extends BasicGame
 				e.update( gc );
 			else if(chooseLevel == 1)
 				cl.update( gc, edit );
+			else if(settings == 1)
+				opt.update( gc );
 			
 			gc.getInput().clearKeyPressedRecord();
 			gc.getInput().clearMousePressedRecord();
