@@ -168,6 +168,7 @@ public class Player extends Ostacolo
 				{
 					if(movingJ)
 						{
+							area = new Rectangle( xPlayer, yPlayer, width, height - offset/3 );
 							if(reachDeltaJump < frameJump)
 								saltoDx[0].draw( xPlayer, yPlayer, width, height );
 							else if(reachDeltaJump < frameJump * 2)
@@ -215,6 +216,7 @@ public class Player extends Ostacolo
 				{
 					if(movingJ)
 						{
+							area = new Rectangle( xPlayer, yPlayer, width, height - offset/3 );
 							if(reachDeltaJump < frameJump)
 								saltoSx[0].draw( xPlayer, yPlayer, width, height );
 							else if(reachDeltaJump < frameJump * 2)
@@ -285,6 +287,8 @@ public class Player extends Ostacolo
 				halfHeart.draw( Global.W/40 + widthH*(j++), Global.H/30, widthH, heightH );
 			for(;j < Global.lifes/2; j++)
 				noHeart.draw( Global.W/40 + widthH*j, Global.H/30, widthH, heightH );
+			
+			g.draw( area );
 		}
 	
 	public Image getImage()

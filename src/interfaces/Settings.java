@@ -40,13 +40,13 @@ public class Settings
 			int mouseX = input.getMouseX();
 			int mouseY = input.getMouseY();
 		
-			if((back.checkClick( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )) || input.isKeyPressed( Input.KEY_BACK ))
+			if(back.checkClick( mouseX, mouseY, input ) || input.isKeyPressed( Input.KEY_BACK ))
 				{
 					Start.settings = 0;
 					Start.recoverPreviousStats();
 				}
 		
-			else if((saveChanges.checkClick( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )) || input.isKeyPressed( Input.KEY_BACK ))
+			else if(saveChanges.checkClick( mouseX, mouseY, input ) || input.isKeyPressed( Input.KEY_BACK ))
 				{
 					// TODO IMPLEMENTARE
 				}

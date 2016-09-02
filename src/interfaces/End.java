@@ -75,10 +75,10 @@ public class End
 			Color black = new Color( 0, 0, 0, 185 );
 			fine.draw( 0, 0, Global.W, Global.H, black );
 
+			// TODO INSERIRE EVENTUALI ALTRE STATISTICHE
+
 			// ascissa e ordinata delle stringhe da stampare
 			int x = Global.H/8, y = Global.H/6;
-
-			// TODO INSERIRE EVENTUALI ALTRE STATISTICHE
 			
 			//trasformo il tempo da millisecondi a secondi
 			int timing = (int)Start.stats.getTempo()/1000;
@@ -137,7 +137,7 @@ public class End
 						indexCursor = 0;
 				}
 
-			if((replay.checkClick( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )) || (input.isKeyPressed( Input.KEY_ENTER ) && buttons.get( indexCursor ).getName().equals( "RITENTA" )))
+			if(replay.checkClick( mouseX, mouseY, input ) || (input.isKeyPressed( Input.KEY_ENTER ) && buttons.get( indexCursor ).getName().equals( "RITENTA" )))
 				{
 					indexCursor = -1;
 					Start.ig.addOstacoli( Begin.livelli.get( Start.cl.getIndexLevel() ).getElements(), Begin.livelli.get( Start.cl.getIndexLevel() ).getImage(), gc );
@@ -148,14 +148,14 @@ public class End
 					Start.startGame = 1;
 				}
 			
-			else if((begin.checkClick( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )) || (input.isKeyPressed( Input.KEY_ENTER ) && buttons.get( indexCursor ).getName().startsWith( "TORNA ALLA SCHERMATA" )))
+			else if(begin.checkClick( mouseX, mouseY, input ) || (input.isKeyPressed( Input.KEY_ENTER ) && buttons.get( indexCursor ).getName().startsWith( "TORNA ALLA SCHERMATA" )))
 				{
 					indexCursor = -1;
 					Start.endGame = 0;
 					Start.begin = 1;
 				}
 			
-			else if((choose.checkClick( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )) || (input.isKeyPressed( Input.KEY_ENTER ) && buttons.get( indexCursor ).getName().startsWith( "TORNA ALLA SCELTA" )))
+			else if(choose.checkClick( mouseX, mouseY, input ) || (input.isKeyPressed( Input.KEY_ENTER ) && buttons.get( indexCursor ).getName().startsWith( "TORNA ALLA SCELTA" )))
 				{
 					indexCursor = -1;
 					Start.endGame = 0;

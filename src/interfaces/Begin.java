@@ -224,14 +224,14 @@ public class Begin
 								indexCursor = 0;
 						}
 		
-					if((editor.checkClick( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )) || (indexCursor >= 0 && buttons.get( indexCursor ).getName().equals( "LIVELLI" ) && input.isKeyPressed( Input.KEY_ENTER )))
+					if(editor.checkClick( mouseX, mouseY, input ) || (indexCursor >= 0 && buttons.get( indexCursor ).getName().equals( "LIVELLI" ) && input.isKeyPressed( Input.KEY_ENTER )))
 						{
 							indexCursor = -1;
 							Start.begin = 0;
 							Start.chooseLevel = 1;
 							Start.setPreviuosStats( "begin" );
 						}
-					else if((options.checkClick( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )) || (indexCursor >= 0 && buttons.get( indexCursor ).getName().equals( "OPZIONI" ) && input.isKeyPressed( Input.KEY_ENTER )))
+					else if(options.checkClick( mouseX, mouseY, input ) || (indexCursor >= 0 && buttons.get( indexCursor ).getName().equals( "OPZIONI" ) && input.isKeyPressed( Input.KEY_ENTER )))
 						{
 							if(livelli.size() > 0)
 								{

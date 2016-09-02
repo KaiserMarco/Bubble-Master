@@ -521,7 +521,7 @@ public class Edit
 			// aggiornamento altezza editor
 			setEditor( delta, gc );
 
-			if((indexCursorButton == 1 && input.isKeyPressed( Input.KEY_ENTER )) || (back.checkClick( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )))
+			if((indexCursorButton >= 0 && buttons.get( indexCursorButton ).getName().equals( "INDIETRO" ) && input.isKeyPressed( Input.KEY_ENTER )) || back.checkClick( mouseX, mouseY, input ))
 				{
 					nameLvl = null;
 					resetStatus();
@@ -842,7 +842,7 @@ public class Edit
 							resetIndexCursor();
 						}
 					//inserimento nuovo livello
-					else if((indexCursorButton == 2 && input.isKeyPressed( Input.KEY_ENTER )) || (saveLevel.checkClick( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )))
+					else if((indexCursorButton >= 0 && buttons.get( indexCursorButton ).getName().equals( "SALVA LIVELLO" ) && input.isKeyPressed( Input.KEY_ENTER )) || saveLevel.checkClick( mouseX, mouseY, input ))
 						{
 							if(!insertEditor)
 								if(gamer > 0 && ball > 0)

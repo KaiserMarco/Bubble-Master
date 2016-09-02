@@ -3,6 +3,7 @@ package dataButton;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.Input;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
 
@@ -26,8 +27,16 @@ public class Button
 	public String getName()
 		{ return name; }
 	
-	public boolean checkClick( int x, int y )
-		{ return rect.contains( x, y ); }
+	public boolean checkClick( int x, int y, Input input )
+		{ 
+			if(rect.contains( x, y ))
+				if(input.isMousePressed( Input.MOUSE_LEFT_BUTTON ))
+					return true;
+				else
+					return false;
+			
+			return false;
+		}
 
 	/** restituisce lo stato del bottone
 	 * @return TRUE se il bottone e' premuto, FALSE altimenti

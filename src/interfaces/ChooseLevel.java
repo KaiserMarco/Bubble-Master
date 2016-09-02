@@ -101,7 +101,7 @@ public class ChooseLevel
 					buttons.get( buttons.size() - 1 ).setY( height*4/5 + width/80 - buttons.get( buttons.size() - 1 ).getAlt()/2 );
 				}
 			
-			if((left.checkClick( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )) || input.isKeyPressed( Input.KEY_LEFT ))
+			if(left.checkClick( mouseX, mouseY, input ) || input.isKeyPressed( Input.KEY_LEFT ))
 				{
 					pos = Math.max( pos - 1, 0 );
 					nameLvl = new SimpleButton( 0, 0, Begin.livelli.get( pos ).getName(), Color.white );					
@@ -112,7 +112,7 @@ public class ChooseLevel
 					buttons.get( buttons.size() - 1 ).setX( width/2 - buttons.get( buttons.size() - 1 ).getLungh()/2 );
 					buttons.get( buttons.size() - 1 ).setY( height*4/5 + width/80 - buttons.get( buttons.size() - 1 ).getAlt()/2 );
 				}
-			else if((right.checkClick( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )) || input.isKeyPressed( Input.KEY_RIGHT ))
+			else if(right.checkClick( mouseX, mouseY, input ) || input.isKeyPressed( Input.KEY_RIGHT ))
 				{
 					pos = Math.min( pos + 1, Begin.livelli.size() - 1);
 					nameLvl = new SimpleButton( 0, 0, Begin.livelli.get( pos ).getName(), Color.white );					
@@ -123,12 +123,12 @@ public class ChooseLevel
 					buttons.get( buttons.size() - 1 ).setX( width/2 - buttons.get( buttons.size() - 1 ).getLungh()/2 );
 					buttons.get( buttons.size() - 1 ).setY( height*4/5 + width/80 - buttons.get( buttons.size() - 1 ).getAlt()/2 );
 				}
-			else if((back.checkClick( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )) || input.isKeyPressed( Input.KEY_BACK ))
+			else if(back.checkClick( mouseX, mouseY, input ) || input.isKeyPressed( Input.KEY_BACK ))
 				{
 					Start.chooseLevel = 0;
 					Start.recoverPreviousStats();
 				}
-			else if((start.checkClick( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )) || input.isKeyPressed( Input.KEY_ENTER ))
+			else if(start.checkClick( mouseX, mouseY, input ) || input.isKeyPressed( Input.KEY_ENTER ))
 				{
 					Start.ig.addOstacoli( Begin.livelli.get( pos ).getElements(), Begin.livelli.get( pos ).getImage(), gc );
 					
@@ -140,7 +140,7 @@ public class ChooseLevel
 					Start.startGame = 1;
 					Start.setPreviuosStats( "chooseLevel" );
 				}
-			else if((edit.checkClick( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )) || input.isKeyPressed( Input.KEY_BACKSLASH ))
+			else if(edit.checkClick( mouseX, mouseY, input ) || input.isKeyPressed( Input.KEY_BACKSLASH ))
 				{
 					Start.ig.addOstacoli( Begin.livelli.get( pos ).getElements(), Begin.livelli.get( pos ).getImage(), gc );
 					editor.setElements( InGame.ostacoli, InGame.players, Begin.livelli.get( pos ).getName(), pos, Begin.livelli.get( pos ).getImage() );
@@ -149,7 +149,7 @@ public class ChooseLevel
 					Start.editGame = 1;
 					Start.setPreviuosStats( "chooseLevel" );
 				}
-			else if((newLvl.checkClick( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )) || input.isKeyPressed( Input.KEY_BACKSLASH ))
+			else if(newLvl.checkClick( mouseX, mouseY, input ) || input.isKeyPressed( Input.KEY_BACKSLASH ))
 				{
 					editor.setIndex( Begin.livelli.size() + 1 );
 				
