@@ -32,7 +32,7 @@ public class Player extends Ostacolo
 	private Shot fire;
 	private boolean shooting;
 	
-	private Rectangle area;
+	private Rectangle area, body, head;
 	
 	private int numPlayer;
 	
@@ -94,7 +94,8 @@ public class Player extends Ostacolo
 			offset = gc.getHeight()/40;
 			widthI = gc.getHeight()/10;
 			
-			width = widthI - offset; height = gc.getWidth()*100/1142;
+			width = widthI - offset;
+			height = gc.getWidth()*100/1142;
 			
 			this.numPlayer = numPlayer;	
 			
@@ -132,6 +133,8 @@ public class Player extends Ostacolo
 			yPlayer = y;
 			
 			area = new Rectangle( xPlayer, yPlayer, width, height );
+			body = new Rectangle( xPlayer, yPlayer + Global.H/40, width, Global.H/10 );
+			head = new Rectangle( xPlayer + width/2 - Global.W/600, yPlayer, width/2, Global.H/40 );
 			
 			for(int i = 0; i < 9; i++)
 				{
@@ -164,11 +167,16 @@ public class Player extends Ostacolo
 	public void drawMoving()
 		{
 			float frameMove = animTimeMove/right.length, frameJump = animTimeJump/saltoDx.length;
+			// il personaggio si muove verso destra
 			if(dir == 0)
 				{
 					if(movingJ)
 						{
+							// TODO MODELLARE MEGLIO QUESTE COMPONENTI
 							area = new Rectangle( xPlayer, yPlayer, width, height - offset/3 );
+							body = new Rectangle( xPlayer, yPlayer + Global.H/40, width, Global.H/12 );
+							head = new Rectangle( xPlayer + width/2 - Global.W/110, yPlayer, width/2, Global.H/40 );
+							
 							if(reachDeltaJump < frameJump)
 								saltoDx[0].draw( xPlayer, yPlayer, width, height );
 							else if(reachDeltaJump < frameJump * 2)
@@ -212,11 +220,14 @@ public class Player extends Ostacolo
 					else
 						pgdx.draw( xPlayer, yPlayer, widthI, height );
 				}
+			// il personaggio si muove verso sinistra
 			else 
 				{
 					if(movingJ)
 						{
 							area = new Rectangle( xPlayer, yPlayer, width, height - offset/3 );
+							body = new Rectangle( xPlayer, yPlayer + Global.H/40, width, Global.H/10 );
+							head = new Rectangle( xPlayer + Global.W/110, yPlayer, width/2, Global.H/40 );
 							if(reachDeltaJump < frameJump)
 								saltoSx[0].draw( xPlayer, yPlayer, width, height );
 							else if(reachDeltaJump < frameJump * 2)
@@ -287,6 +298,9 @@ public class Player extends Ostacolo
 				halfHeart.draw( Global.W/40 + widthH*(j++), Global.H/30, widthH, heightH );
 			for(;j < Global.lifes/2; j++)
 				noHeart.draw( Global.W/40 + widthH*j, Global.H/30, widthH, heightH );
+			
+			g.draw( body );
+			g.draw( head );
 		}
 	
 	public Image getImage()
@@ -302,7 +316,12 @@ public class Player extends Ostacolo
 		{ return lifes; }
 
 	public boolean contains( int x, int y )
-		{ return area.contains( x, y ); }
+		{
+			if(head.contains( x, y ) || body.contains( x, y ))
+				return true;
+			
+			return false;
+		}
 
 	public void setXY( float x, float y, String function ) 
 		{
@@ -319,6 +338,16 @@ public class Player extends Ostacolo
 				}
 			
 			area.setLocation( xPlayer, yPlayer );
+			if(dir == 0)
+				{
+					body.setLocation( xPlayer, yPlayer + Global.H/40 );
+					head.setLocation( xPlayer + width/2 - Global.W/110, yPlayer );
+				}
+			else
+				{
+					body.setLocation( xPlayer, yPlayer + Global.H/40 );
+					head.setLocation( xPlayer + Global.W/110, yPlayer );
+				}
 		}
 	
 	public void setMaxHeight( double val )
