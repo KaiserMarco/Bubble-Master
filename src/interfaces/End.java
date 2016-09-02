@@ -81,7 +81,9 @@ public class End
 			int x = Global.H/8, y = Global.H/6;
 			
 			//trasformo il tempo da millisecondi a secondi
-			int timing = (int)Start.stats.getTempo()/1000;
+			int timing = (int)(Start.stats.getTempo())/1000;
+			//g.setFont( new UnicodeFont( "./data/fonts/prstart.ttf", (int)(10.f), false, true ) );
+			g.scale( 1.1f, 1.1f );
 			int h = timing/3600;
 			int m = (timing - (h*3600))/60;
 			int s = timing - h*3600 - m*60;
@@ -113,6 +115,8 @@ public class End
 					String points = "" + ((Player) players.get( i )).getPoints();
 					g.drawString( points, startX + width/2 + (width + offset) * i, y + 150 );
 				}
+			
+			g.resetTransform();
 			
 			for(int i = 0; i < buttons.size(); i++)
 				buttons.get( i ).draw( gc.getGraphics() );

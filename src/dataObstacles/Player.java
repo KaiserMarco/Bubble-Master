@@ -413,10 +413,7 @@ public class Player extends Ostacolo
 						if(area.intersects( InGame.ostacoli.get( i ).component( "" ) ))
 							{
 								if(--lifes == 0)
-									{
-										Start.stats.stopTempo();
-										Global.inGame = false;
-									}
+									Global.inGame = false;
 								else
 									{
 										points = points - 100;
