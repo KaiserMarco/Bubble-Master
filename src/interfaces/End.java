@@ -83,7 +83,7 @@ public class End
 			//trasformo il tempo da millisecondi a secondi
 			int timing = (int)(Start.stats.getTempo())/1000;
 			//g.setFont( new UnicodeFont( "./data/fonts/prstart.ttf", (int)(10.f), false, true ) );
-			g.scale( 1.1f, 1.1f );
+			g.scale( 1.05f, 1.05f );
 			int h = timing/3600;
 			int m = (timing - (h*3600))/60;
 			int s = timing - h*3600 - m*60;

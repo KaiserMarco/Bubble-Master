@@ -132,10 +132,8 @@ public class Begin
                                         elements.get( elements.size() - 1 ).setSpigoli();
                                         elements.get( elements.size() - 1 ).setUnion( union );
                                     }
-								else if(type.equals( "player1" ))
-									elements.add( new Player( (int) (x * ratioW), (int) (y * ratioH), 1, gc ) );
-								else if(type.equals( "player2" ))
-									elements.add( new Player( (int) (x * ratioW), (int) (y * ratioH), 2, gc ) );
+								else if(type.startsWith( "player" ))
+									elements.add( new Player( (int) (x * ratioW), (int) (y * ratioH), Integer.parseInt( type.substring( type.length() - 1, type.length() ) ), gc ) );
 							}
 						
 						Node nodo = back.item( 0 );

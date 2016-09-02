@@ -119,7 +119,7 @@ public class Player extends Ostacolo
 					sheetJumpDx = new SpriteSheet( new Image( "./data/Image/jumpDx.png" ), wJump, hJump );
 					sheetJumpSx = new SpriteSheet( new Image( "./data/Image/jumpSx.png" ), wJump, hJump );
 				}
-			else
+			else if(numPlayer == 2)
 				{
 					pgdx = new Image( "./data/Image/pgdx2.png" );
 					pgsx = new Image( "./data/Image/pgsx2.png" );
@@ -127,6 +127,24 @@ public class Player extends Ostacolo
 					sheetSx = new SpriteSheet( new Image( "./data/Image/animsx2.png" ), wMove, hMove );
 					sheetJumpDx = new SpriteSheet( new Image( "./data/Image/jumpDx2.png" ), wJump, hJump );
 					sheetJumpSx = new SpriteSheet( new Image( "./data/Image/jumpSx2.png" ), wJump, hJump );
+				}
+			else if(numPlayer == 3)
+				{
+					pgdx = new Image( "./data/Image/pgdx3.png" );
+					pgsx = new Image( "./data/Image/pgsx3.png" );
+					sheetDx = new SpriteSheet( new Image( "./data/Image/animdx3.png" ), wMove, hMove );
+					sheetSx = new SpriteSheet( new Image( "./data/Image/animsx3.png" ), wMove, hMove );
+					sheetJumpDx = new SpriteSheet( new Image( "./data/Image/jumpDx3.png" ), wJump, hJump );
+					sheetJumpSx = new SpriteSheet( new Image( "./data/Image/jumpSx3.png" ), wJump, hJump );
+				}
+			else if(numPlayer == 4)
+				{
+					pgdx = new Image( "./data/Image/pgdx4.png" );
+					pgsx = new Image( "./data/Image/pgsx4.png" );
+					sheetDx = new SpriteSheet( new Image( "./data/Image/animdx4.png" ), wMove, hMove );
+					sheetSx = new SpriteSheet( new Image( "./data/Image/animsx4.png" ), wMove, hMove );
+					sheetJumpDx = new SpriteSheet( new Image( "./data/Image/jumpDx4.png" ), wJump, hJump );
+					sheetJumpSx = new SpriteSheet( new Image( "./data/Image/jumpSx4.png" ), wJump, hJump );
 				}
 			
 			xPlayer = x;

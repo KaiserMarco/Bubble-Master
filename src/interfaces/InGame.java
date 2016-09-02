@@ -130,12 +130,8 @@ public class InGame
 						players.get( i ).update( gc, delta );
 					
 					for(int i = 0; i < ostacoli.size(); i++)
-						{
-							if(ostacoli.get( i ).getID().equals( "bolla" ))
-								ostacoli.get( i ).update( gc, delta );
-							else
-								ostacoli.get( i ).update( gc );
-						}
+						if(ostacoli.get( i ).getID().equals( "bolla" ))
+							ostacoli.get( i ).update( gc, delta );
 				}
 			
 			if(!Global.inGame)
