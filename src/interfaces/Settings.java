@@ -15,6 +15,8 @@ public class Settings
 	private ArrayList<SimpleButton> buttons;
 	private SimpleButton saveChanges, back;
 	
+	// TODO IMPLEMENTARE TUTTO
+	
 	public Settings( GameContainer gc ) throws SlickException
 		{
 			Color color = Color.orange;
@@ -46,8 +48,7 @@ public class Settings
 		
 			else if((saveChanges.checkClick( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )) || input.isKeyPressed( Input.KEY_BACK ))
 				{
-					Start.chooseLevel = 0;
-					Start.recoverPreviousStats();
+					// TODO IMPLEMENTARE
 				}
 		}
 }
