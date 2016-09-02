@@ -287,8 +287,6 @@ public class Player extends Ostacolo
 				halfHeart.draw( Global.W/40 + widthH*(j++), Global.H/30, widthH, heightH );
 			for(;j < Global.lifes/2; j++)
 				noHeart.draw( Global.W/40 + widthH*j, Global.H/30, widthH, heightH );
-			
-			g.draw( area );
 		}
 	
 	public Image getImage()
