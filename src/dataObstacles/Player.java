@@ -190,7 +190,6 @@ public class Player extends Ostacolo
 				{
 					if(movingJ)
 						{
-							// TODO MODELLARE MEGLIO QUESTE COMPONENTI
 							area = new Rectangle( xPlayer, yPlayer, width, height - offset/3 );
 							body = new Rectangle( xPlayer, yPlayer + Global.H/40, width, Global.H/12 );
 							head = new Rectangle( xPlayer + width/2 - Global.W/110, yPlayer, width/2, Global.H/40 );
@@ -317,6 +316,9 @@ public class Player extends Ostacolo
 			for(;j < Global.lifes/2; j++)
 				noHeart.draw( Global.W/40 + widthH*j, Global.H/30, widthH, heightH );
 		}
+	
+	public void setLifes()
+		{ lifes = Global.lifes; }
 	
 	public Image getImage()
 		{ return pgdx; }

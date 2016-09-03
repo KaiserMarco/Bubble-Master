@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 
@@ -35,9 +34,6 @@ public class ChooseLevel
 		{	
 			width = gc.getWidth(); 
 			height = gc.getHeight();
-			
-			//left = new SimpleButton( width/4 - width/15, height*4/5, "Left", width/15, width/40, lvlSx );
-			//right = new SimpleButton( height, height*4/5, "Right", width/15, width/40, lvlDx );	
 			
 			int lungh = width/15, alt = width/40;
 			
@@ -74,9 +70,6 @@ public class ChooseLevel
 			
     		g.translate( width/2 - width*scale/2, width/25 );
     		g.scale( scale, scale );
-
-			/*System.out.println( height );
-			System.out.println( width );*/
     		
     		g.setBackground( Color.blue );
 			sfondo.draw( gc );
