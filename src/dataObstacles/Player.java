@@ -85,6 +85,9 @@ public class Player extends Ostacolo
 	// il punteggio del giocatore
 	private int points;
 	
+	// il valore dei frame di movimento e salto
+	float frameMove, frameJump;
+	
 	public Player( int x, int y, int numPlayer, GameContainer gc ) throws SlickException
 		{
 			super( "player" + numPlayer );
@@ -162,8 +165,8 @@ public class Player extends Ostacolo
 					saltoSx[i] = sheetJumpSx.getSubImage( sheetJumpSx.getWidth() - widthJ * (i + 1), 0, widthJ, heightJ );
 				}
 			
-			animTimeMove = gc.getHeight()*100/119; reachDelta = 0;
-			animTimeJump = gc.getWidth()*100/202; reachDeltaJump = 0;
+			animTimeMove = 504; reachDelta = 0;
+			animTimeJump = 396; reachDeltaJump = 0;
 			
 			countShot = 0;
 			
@@ -182,12 +185,16 @@ public class Player extends Ostacolo
 			points = 0;
 		}
 	
-	public void drawMoving()
+	public void drawMoving( Graphics g )
 		{
-			float frameMove = animTimeMove/right.length, frameJump = animTimeJump/saltoDx.length;
+			frameMove = animTimeMove/right.length;
+			frameJump = animTimeJump/saltoDx.length;
+			
+			System.out.println( "frameMove = " + frameMove );
 			// il personaggio si muove verso destra
 			if(dir == 0)
 				{
+					// il personaggio sta saltando
 					if(movingJ)
 						{
 							area = new Rectangle( xPlayer, yPlayer, width, height - offset/3 );
@@ -213,6 +220,7 @@ public class Player extends Ostacolo
 							else
 								saltoDx[8].draw( xPlayer, yPlayer, width, height );
 						}
+					// il personaggio sta camminando
 					else if(movingDx)
 						{
 							if(reachDelta < frameMove)
@@ -234,17 +242,20 @@ public class Player extends Ostacolo
 							else if(reachDelta <= frameMove*9)
 								right[8].draw( xPlayer, yPlayer, widthI, height );
 						}
+					// il personaggio e' fermo
 					else
 						pgdx.draw( xPlayer, yPlayer, widthI, height );
 				}
 			// il personaggio si muove verso sinistra
 			else 
 				{
+					// il personaggio sta saltando
 					if(movingJ)
 						{
 							area = new Rectangle( xPlayer, yPlayer, width, height - offset/3 );
 							body = new Rectangle( xPlayer, yPlayer + Global.H/40, width, Global.H/10 );
 							head = new Rectangle( xPlayer + Global.W/110, yPlayer, width/2, Global.H/40 );
+							
 							if(reachDeltaJump < frameJump)
 								saltoSx[0].draw( xPlayer, yPlayer, width, height );
 							else if(reachDeltaJump < frameJump * 2)
@@ -264,6 +275,7 @@ public class Player extends Ostacolo
 							else
 								saltoSx[8].draw( xPlayer, yPlayer, width, height );
 						}
+					// il personaggio sta camminando
 					else if(movingSx)
 						{
 							if(reachDelta < frameMove)
@@ -285,6 +297,7 @@ public class Player extends Ostacolo
 							else if(reachDelta <= frameMove*9)
 								left[8].draw( xPlayer - offset, yPlayer, widthI, height );
 						}
+					// il personaggio e' fermo
 					else
 						pgsx.draw( xPlayer - offset, yPlayer, widthI, height );
 				}
@@ -293,9 +306,9 @@ public class Player extends Ostacolo
 	public void draw( Graphics g ) throws SlickException
 		{
 			if(!invincible)
-				drawMoving();
+				drawMoving( g );
 			else if(invincible && currentTickInv > 0 && currentTickInv % 2 == 0)
-				drawMoving();
+				drawMoving( g );
 			
 			/*inserisce la trasparenza rosso/verde nella modalita' di editing*/
 			if(Start.editGame == 1)
@@ -316,18 +329,13 @@ public class Player extends Ostacolo
 			for(;j < Global.lifes/2; j++)
 				noHeart.draw( Global.W/40 + widthH*j, Global.H/30, widthH, heightH );
 		}
-    
-	// TODO VEDIAMO SE CI SARA' DA SISTEMARE
+
     public void updateStats()
     	{
 	    	width = width * Global.ratioW;
 			height = height * Global.ratioH;
 			xPlayer = xPlayer * Global.ratioW;
 			yPlayer = yPlayer * Global.ratioH;
-			
-			area = new Rectangle( xPlayer, yPlayer, width, height );
-			body = new Rectangle( xPlayer, yPlayer + Global.H/40, width, Global.H/10 );
-			head = new Rectangle( xPlayer + width/2 - Global.W/600, yPlayer, width/2, Global.H/40 );
     	}
 	
 	public void setLifes()
