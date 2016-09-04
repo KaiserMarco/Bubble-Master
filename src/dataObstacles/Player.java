@@ -92,6 +92,9 @@ public class Player extends Ostacolo
 		{
 			super( "player" + numPlayer );
 			
+			xPlayer = x;
+			yPlayer = y;
+			
 			fire = new Shot( gc );
 			
 			offset = gc.getHeight()/40;
@@ -151,9 +154,6 @@ public class Player extends Ostacolo
 					sheetJumpSx = new SpriteSheet( new Image( "./data/Image/jumpSx4.png" ), wJump, hJump );
 				}
 			
-			xPlayer = x;
-			yPlayer = y;
-			
 			area = new Rectangle( xPlayer, yPlayer, width, height );
 			body = new Rectangle( xPlayer, yPlayer + Global.H/40, width, Global.H/10 );
 			head = new Rectangle( xPlayer + width/2 - Global.W/600, yPlayer, width/2, Global.H/40 );
@@ -190,8 +190,7 @@ public class Player extends Ostacolo
 		{
 			frameMove = animTimeMove/right.length;
 			frameJump = animTimeJump/saltoDx.length;
-			
-			System.out.println( "frameMove = " + frameMove );
+
 			// il personaggio si muove verso destra
 			if(dir == 0)
 				{

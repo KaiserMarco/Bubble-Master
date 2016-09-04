@@ -119,7 +119,7 @@ public class InGame
 				{
 					Start.startGame = 0;
 					Start.chooseLevel = 1;
-					Start.setPreviuosStats( "startGame" );
+					Start.setPreviuosStats( "begin" );
 				}
 		
 			if(!Global.drawCountdown && Global.inGame)

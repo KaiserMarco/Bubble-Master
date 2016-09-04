@@ -18,9 +18,12 @@ public class ArrowButton
 	private int direction;
 	/* tipi di direzione della feccia*/
 	public static final int RIGHT = 0, LEFT = 1;
+	/* i punti della freccia */
+	private float[] points;
 
 	public ArrowButton( int direction, float points[], Color color )
 	{
+		this.points = points;
 		c = color;
 		this.direction = direction;
 		row = new Polygon( points );
@@ -72,12 +75,17 @@ public class ArrowButton
 		return row.getHeight();
 	}
 
-	/** sposta la coordinata X
+	/** sposta la coordinate X e Y
 	 * @param value - il valore di spostamento
 	*/
-	public void translateX( float value )
+	public void translate( float valueX, float valueY )
 	{
-		row.setX( row.getX() + value );
+		for(int i = 0; i < points.length; i++)
+			if(i % 2 == 0)
+				points[ i ] = points[ i ] * valueX;
+			else
+				points[ i ] = points[ i ] * valueY;
+		row = new Polygon ( points );
 	}
 
 	/** determina se le coordinate del mouse sono contenute nell'area

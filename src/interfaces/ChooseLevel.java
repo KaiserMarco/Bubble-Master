@@ -27,10 +27,11 @@ public class ChooseLevel
 	private Sfondo sfondo;
 	
 	//lunghezza e altezza dello schermo
-	float width, height;
-	
+	private float width, height;	
 	// altezza e lunghezza dei bottoni
-	float lungh, alt;
+	private float lungh, alt;
+	// valore dell'ordinata dei bottoni
+	private float buttonY;
 	
 	public ChooseLevel( GameContainer gc ) throws SlickException
 		{	
@@ -43,10 +44,12 @@ public class ChooseLevel
 			right = new ArrowButton( ArrowButton.RIGHT, new float[]{height, height*4/5, height, height*4/5 + alt, height + lungh, height*4/5 + alt/2}, Color.orange );
 			left = new ArrowButton( ArrowButton.LEFT, new float[]{width/4 - width/15, height*4/5 + alt/2, width/4 - width/15 + lungh, height*4/5, width/4 - width/15 + lungh, height*4/5 + alt}, Color.orange);
 			
-			back = new SimpleButton( width*10/108, height*8/9, "Indietro", Color.orange );
-			start = new SimpleButton( width*10/33, height*8/9, "Gioca", Color.orange );
-			edit = new SimpleButton( width/2, height*8/9, "Modifica", Color.orange );
-			newLvl = new SimpleButton( width*3/4, height*8/9, "Nuovo livello", Color.orange );
+			buttonY = height*8/9;
+			
+			back = new SimpleButton( width*10/108, buttonY, "Indietro", Color.orange );
+			start = new SimpleButton( width*10/33, buttonY, "Gioca", Color.orange );
+			edit = new SimpleButton( width/2, buttonY, "Modifica", Color.orange );
+			newLvl = new SimpleButton( width*3/4, buttonY, "Nuovo livello", Color.orange );
 			nameLvl = new SimpleButton( 0, 0, Begin.livelli.get( pos ).getName(), Color.white );
 			
 			buttons = new ArrayList<SimpleButton>();
@@ -102,6 +105,17 @@ public class ChooseLevel
 			
 			lungh = lungh * Global.ratioW;
 			alt = alt * Global.ratioH;
+
+			for(int i  = 0; i < buttons.size(); i++)
+				{
+					if(!buttons.get( i ).getName().equals( "newLvl" ))
+						{
+							buttons.get( i ).setX( buttons.get( i ).getX() * Global.ratioW );
+							buttons.get( i ).setY( buttonY * Global.ratioH );
+						}
+				}
+			for(int i = 0; i < arrows.size(); i++)
+				arrows.get( i ).translate( Global.ratioW, Global.ratioH );
 		}
 	
 	public void update( GameContainer gc, Edit editor ) throws SlickException
