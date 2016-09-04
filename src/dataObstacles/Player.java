@@ -107,11 +107,12 @@ public class Player extends Ostacolo
 			
 			saltoDx = new Image[9]; saltoSx = new Image[9];
 			
-			widthS = gc.getHeight()*100/1666; heightS = gc.getWidth()*100/1951;
-			widthJ = gc.getHeight()*100/2068; heightJ = gc.getWidth()*100/1666;
+			// questi valori devono restare assoluti (altrimenti l'animazione, giustamente, smatta)
+			widthS = 36; heightS = 41;
+			widthJ = 29; heightJ = 48;
 			
-			wMove = gc.getWidth()*100/2469; hMove = gc.getHeight()*100/1463;
-			wJump = gc.getWidth()*1000/3065; hJump = gc.getHeight()*10/125;
+			wMove = 32; hMove = 41;
+			wJump = 261; hJump = 48;
 
 			if(numPlayer == 1)
 				{
