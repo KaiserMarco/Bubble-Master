@@ -33,6 +33,8 @@ public class Start extends BasicGame
 	
 	private static ArrayList<String> previous;
 	
+	private static AppGameContainer app;
+	
 	public Start( String title )
 		{
 			super( title );
@@ -44,7 +46,7 @@ public class Start extends BasicGame
 
 	public static void main( String[] args ) throws SlickException
 		{
-			AppGameContainer app = new AppGameContainer( new Start( "Bubble Master" ) );
+			app = new AppGameContainer( new Start( "Bubble Master" ) );
 		 
 			app.setTargetFrameRate( Global.FRAME );
 			app.setDisplayMode( Global.W, Global.H, false );
@@ -54,8 +56,11 @@ public class Start extends BasicGame
 			app.start();
 		}
 	
+	public static void setAppDisplay() throws SlickException
+		{ app.setDisplayMode( Global.W, Global.H, false); }
+	
 	/*ricorda i precedenti valori delle interfacce*/
-	public static void setPreviuosStats( String prev )
+	public static void setPreviuosStats( String prev ) throws SlickException
 		{ previous.add( 0, prev ); }
 	
 	/*setta la precedente interfaccia*/

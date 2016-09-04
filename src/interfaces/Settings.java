@@ -8,12 +8,13 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Rectangle;
 
 import Utils.Global;
 import bubbleMaster.Start;
-import dataObstacles.Player;
 import dataButton.ArrowButton;
 import dataButton.SimpleButton;
+import dataObstacles.Player;
 
 public class Settings
 {
@@ -25,7 +26,14 @@ public class Settings
 	
 	private int vite;
 	
+	private ArrayList<String> dimensions;
+	private ArrayList<Rectangle> dimensioni;
+	
+	private String risoluzione, widthP, heightP;
+	
 	private Image sfondo;
+	
+	private boolean drawChoiseRes;
 	
 	// TODO IMPLEMENTARE TUTTO
 	
@@ -50,6 +58,26 @@ public class Settings
 			lifes = "VITE = ";
 			
 			vite = Global.lifes;
+			
+			dimensioni = new ArrayList<Rectangle>();
+			
+			dimensioni.add( new Rectangle( Global.W*10/26, Global.H/5, Global.W/10, Global.H/30 ) );
+			dimensioni.add( new Rectangle( dimensioni.get( dimensioni.size() - 1 ).getMaxX(), Global.H/5, Global.W/100, dimensioni.get( 0 ).getHeight() ) );
+			dimensioni.add( new Rectangle( Global.W*10/26, dimensioni.get( dimensioni.size() - 1 ).getMaxY(), Global.W/10, Global.H/30 ) );
+			dimensioni.add( new Rectangle( Global.W*10/26, dimensioni.get( dimensioni.size() - 1 ).getMaxY(), Global.W/10, Global.H/30 ) );
+			dimensioni.add( new Rectangle( Global.W*10/26, dimensioni.get( dimensioni.size() - 1 ).getMaxY(), Global.W/10, Global.H/30 ) );
+			
+			dimensions = new ArrayList<String>();
+			
+			dimensions.add( "800x600" );
+			dimensions.add( "1200x900" );
+			dimensions.add( "1280x720" );
+			
+			widthP = "800";
+			heightP = "600";
+			risoluzione = widthP + "x" + heightP;
+			
+			drawChoiseRes = false;
 		}
 	
 	public void draw( GameContainer gc )
@@ -61,6 +89,8 @@ public class Settings
 			for(int i = 0; i < buttons.size(); i++)
 				buttons.get( i ).draw( g );
 			
+			g.setColor( Color.red );
+			
 			g.drawString( resolution, Global.W/5, Global.H/5 );
 			g.drawString( lifes, Global.W/5, Global.H/3 );
 			
@@ -68,9 +98,32 @@ public class Settings
 			right.draw( g );
 			
 			g.drawString( "" + vite, Global.W*10/32 + (Global.W/2 - Global.W*10/32)/2, Global.H/3 );
+			
+			int i;
+			for(i = 0; i < 2; i++)
+				{
+					g.setColor( Color.gray );
+					g.fill( dimensioni.get( i ) );
+					g.setColor( Color.black );
+					g.draw( dimensioni.get( i ) );
+				}
+			
+			g.drawString( risoluzione, dimensioni.get( 0 ).getX(), dimensioni.get( 0 ).getY() );
+			
+			if(drawChoiseRes)
+				{
+					for(; i < dimensioni.size(); i++)
+						{
+							g.setColor( Color.white );
+							g.fill( dimensioni.get( i ) );
+							g.setColor( Color.black );
+							g.draw( dimensioni.get( i ) );
+							g.drawString( dimensions.get( i - 2 ), dimensioni.get( i ).getX(), dimensioni.get( i ).getY() );
+						}
+				}
 		}
 	
-	public void update( GameContainer gc )
+	public void update( GameContainer gc ) throws SlickException
 		{
 			Input input = gc.getInput();
 			int mouseX = input.getMouseX();
@@ -81,17 +134,38 @@ public class Settings
 					Start.settings = 0;
 					Start.recoverPreviousStats();
 				}
-			
-			else if(right.contains( mouseX, mouseY , input ))
+			else if(dimensioni.get( 1 ).contains( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON ))
+				drawChoiseRes = !drawChoiseRes;
+			else if(drawChoiseRes)
+					{
+						if(dimensioni.get( 2 ).contains( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON ))
+							{
+								widthP = "800";
+								heightP = "600";
+								drawChoiseRes = false;
+							}
+						else if(dimensioni.get( 3 ).contains( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON ))
+							{
+								widthP = "1200";
+								heightP = "900";
+								drawChoiseRes = false;
+							}
+						else if(dimensioni.get( 4 ).contains( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON ))
+							{
+								widthP = "1280";
+								heightP = "720";
+								drawChoiseRes = false;
+							}
+						risoluzione = widthP + "x" + heightP;
+					}
+			else if(right.contains( mouseX, mouseY, input ))
 				vite = Math.min( ++vite, 8 );
 			
 			else if(left.contains( mouseX, mouseY, input ))
 				vite = Math.max( 1, --vite );
 		
 			else if(saveChanges.checkClick( mouseX, mouseY, input ) || input.isKeyPressed( Input.KEY_BACK ))
-				{
-					// TODO IMPLEMENTARE
-				
+				{				
 					Global.lifes = vite;
 					for(int i = 0; i < Begin.livelli.size(); i++)
 						for(int j = 0; j < Begin.livelli.get( i ).getElements().size(); j++)
@@ -99,9 +173,9 @@ public class Settings
 								if(Begin.livelli.get( i ).getElements().get( k ).getID().startsWith( "player" ))
 									((Player) Begin.livelli.get( i ).getElements().get( k )).setLifes();
 				
-				
-				
-				
+					Global.W = Integer.parseInt( widthP );
+					Global.H = Integer.parseInt( heightP );					
+					Start.setAppDisplay();
 				}
 		}
 }
