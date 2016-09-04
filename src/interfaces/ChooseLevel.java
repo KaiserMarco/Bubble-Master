@@ -27,15 +27,18 @@ public class ChooseLevel
 	private Sfondo sfondo;
 	
 	//lunghezza e altezza dello schermo
-	int width;
-	int height;
+	float width, height;
+	
+	// altezza e lunghezza dei bottoni
+	float lungh, alt;
 	
 	public ChooseLevel( GameContainer gc ) throws SlickException
 		{	
 			width = gc.getWidth(); 
 			height = gc.getHeight();
 			
-			int lungh = width/15, alt = width/40;
+			lungh = width/15;
+			alt = width/40;
 			
 			right = new ArrowButton( ArrowButton.RIGHT, new float[]{height, height*4/5, height, height*4/5 + alt, height + lungh, height*4/5 + alt/2}, Color.orange );
 			left = new ArrowButton( ArrowButton.LEFT, new float[]{width/4 - width/15, height*4/5 + alt/2, width/4 - width/15 + lungh, height*4/5, width/4 - width/15 + lungh, height*4/5 + alt}, Color.orange);
@@ -90,6 +93,16 @@ public class ChooseLevel
 	
 	public int getIndexLevel()
 		{ return pos; }
+	
+	/**setta i valori degli oggetti in proporzione alla variazione di risoluzione*/
+	public void setUpdates()
+		{
+			width = width * Global.ratioW;
+			height = height * Global.ratioH;
+			
+			lungh = lungh * Global.ratioW;
+			alt = alt * Global.ratioH;
+		}
 	
 	public void update( GameContainer gc, Edit editor ) throws SlickException
 		{
