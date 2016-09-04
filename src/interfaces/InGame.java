@@ -11,9 +11,7 @@ import org.newdawn.slick.SlickException;
 import Utils.Global;
 import Utils.Sfondo;
 import bubbleMaster.Start;
-import dataObstacles.Bubble;
 import dataObstacles.Ostacolo;
-import dataObstacles.Player;
 
 public class InGame 
 {	
