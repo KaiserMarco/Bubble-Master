@@ -27,7 +27,7 @@ public class Player extends Ostacolo
 	private float xPlayer;
 	private float yPlayer;
 	private int widthI;
-	private int width, height;
+	private float width, height;
 	
 	private Shot fire;
 	private boolean shooting;
@@ -316,6 +316,19 @@ public class Player extends Ostacolo
 			for(;j < Global.lifes/2; j++)
 				noHeart.draw( Global.W/40 + widthH*j, Global.H/30, widthH, heightH );
 		}
+    
+	// TODO VEDIAMO SE CI SARA' DA SISTEMARE
+    public void updateStats()
+    	{
+	    	width = width * Global.ratioW;
+			height = height * Global.ratioH;
+			xPlayer = xPlayer * Global.ratioW;
+			yPlayer = yPlayer * Global.ratioH;
+			
+			area = new Rectangle( xPlayer, yPlayer, width, height );
+			body = new Rectangle( xPlayer, yPlayer + Global.H/40, width, Global.H/10 );
+			head = new Rectangle( xPlayer + width/2 - Global.W/600, yPlayer, width/2, Global.H/40 );
+    	}
 	
 	public void setLifes()
 		{ lifes = Global.lifes; }
@@ -460,7 +473,7 @@ public class Player extends Ostacolo
 	            {
 	                shooting = true;
 	                shots++;
-	                fire.setXY( (int) xPlayer + width/2 - fire.getWidth()/2, (int) yPlayer + height - 1 );
+	                fire.setXY( (int) (xPlayer + width/2 - fire.getWidth()/2), (int) (yPlayer + height - 1) );
 	            }
 			if(shooting)
 				{

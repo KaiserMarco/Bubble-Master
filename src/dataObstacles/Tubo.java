@@ -8,6 +8,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
 
+import Utils.Global;
 import bubbleMaster.Start;
 
 public class Tubo extends Ostacolo{
@@ -21,8 +22,8 @@ public class Tubo extends Ostacolo{
     //insert = false -> oggetto rosso | insert = true -> oggetto verde
     private boolean insert = false, checkInsert = false;
 	
-	int width = 69;
-	int height = 60;
+    //lunghezza e altezza del tubo
+	float width, height;
 	
 	//determina il tipo di direzione del tubo
 	String type = null;
@@ -81,6 +82,16 @@ public class Tubo extends Ostacolo{
                     else
                         immagine.draw( ostr.getX(), ostr.getY(), width, height, cg);
 		}
+    
+    public void updateStats()
+    	{
+    		width = width * Global.ratioW;
+    		height = height * Global.ratioH; 
+    		setXY( getX() * Global.ratioW, getY() * Global.ratioH, "restore" );
+
+    		ostr = new Rectangle( getX(), getY(), width, height );
+    		setSpigoli();
+    	}
 	
 	public void setType( String type )
 		{ this.type = type; }
@@ -204,7 +215,7 @@ public class Tubo extends Ostacolo{
 
 	private void modificaArea( int type )
 	    {
-			int tmp;
+			float tmp;
 		
 	        //se la modifica e' da orizzontale a verticale
 	        if(type == 1)

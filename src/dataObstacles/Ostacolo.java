@@ -71,4 +71,6 @@ public abstract class Ostacolo
 	public abstract void setUnion( int val );
 	
 	public abstract Point getMidArea();
+	
+	public abstract void updateStats();
 }

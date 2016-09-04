@@ -30,6 +30,8 @@ import interfaces.InGame;
 
 
 
+
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -38,6 +40,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Shape;
 
+import Utils.Global;
 import bubbleMaster.Start;
  
 public class Bubble extends Ostacolo
@@ -97,6 +100,16 @@ public class Bubble extends Ostacolo
     						immagine.draw( ostr.getX(), ostr.getY(), ray*2, ray*2, cg);
     			}
 		}
+    
+    public void updateStats()
+    	{
+    		ray = ray * Global.ratioW;
+    		System.out.println( "ray = " + ray );
+    		ostr.setCenterX( getX() * Global.ratioW );
+    		ostr.setCenterY( getY() * Global.ratioH );
+    		
+    		ostr = new Circle( ostr.getCenterX(), ostr.getCenterY(), ray );
+    	}
     
     public double getMaxWidth()
     	{ return maxW; }

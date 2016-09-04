@@ -7,12 +7,12 @@ import org.newdawn.slick.geom.Rectangle;
 public class Sfondo
 {
 	private Image sfondo;
-	private double maxHeight, maxWidth;
-	private int x, y, width, height;
+	private float maxHeight, maxWidth;
+	private float x, y, width, height;
 	//il nome dello sfondo
 	private String name;
 	
-	public Sfondo( Image sfondo, double maxH, double maxW, int x, int y, int width, int height, String name )
+	public Sfondo( Image sfondo, float maxH, float maxW, int x, int y, int width, int height, String name )
 		{
 			this.sfondo = sfondo;
 			this.maxHeight = maxH;
@@ -33,13 +33,28 @@ public class Sfondo
 	public void setSfondo( Image sfondo )
 		{ this.sfondo = sfondo; }
 	
-	public double getMaxWidth()
-		{ return maxWidth; }
+	public void setWidth( float val )
+		{ width = val; }
 	
-	public double getMaxHeight()
+	public void setHeight( float val )
+		{ height = val; }
+	
+	public float getWidth()
+		{ return width; }
+	
+	public float getHeight()
+		{ return height; }
+	
+	public float getMaxWidth()
+		{ return maxWidth; }
+
+	public void setMaxWidth( float val )
+		{ maxWidth = val; }
+	
+	public float getMaxHeight()
 		{ return maxHeight; }
 	
-	public void setMaxHeight( int maxH )
+	public void setMaxHeight( float maxH )
 		{ this.maxHeight = maxH; }
 	
 	public void drawArea( GameContainer gc )
@@ -53,10 +68,10 @@ public class Sfondo
 	public void draw()
 		{ sfondo.draw( x, y, width, height ); }
 	
-	public int getX()
+	public float getX()
 		{ return x; }
 
-	public int getY()
+	public float getY()
 		{ return y; }
 	
 	public boolean contains( int x, int y )

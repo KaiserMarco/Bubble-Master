@@ -8,14 +8,16 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
 
+import Utils.Global;
 import bubbleMaster.Start;
 
 public class Sbarra extends Ostacolo{
 
-	Image immagine;
-	Image hor = new Image( "./data/Image/sbarra.png" ), ver = new Image( "./data/Image/sbarraVer.png" );
-	int width;
-	int height;
+	private Image immagine;
+	private Image hor = new Image( "./data/Image/sbarra.png" ), ver = new Image( "./data/Image/sbarraVer.png" );
+	
+	// lunghezza e altezza della sbarra
+	private float width, height;
 	
 	public Rectangle ostr;
 	
@@ -76,9 +78,17 @@ public class Sbarra extends Ostacolo{
 						immagine.draw( ostr.getX(), ostr.getY(), width, height, cr);
 					else
 						immagine.draw( ostr.getX(), ostr.getY(), width, height, cg);
-			
-			//g.draw( ostr );
 		}
+    
+    public void updateStats()
+    	{
+    		width = width * Global.ratioW;
+    		height = height * Global.ratioH; 
+    		setXY( getX() * Global.ratioW, getY() * Global.ratioH, "restore" );
+    		
+    		ostr = new Rectangle( getX(), getY(), width, height );
+    		setSpigoli();
+    	}
 	
 	public float getX()
 		{ return (int)ostr.getX(); }
@@ -181,7 +191,7 @@ public class Sbarra extends Ostacolo{
 
     public void setOrienting( String direction )
         {
-    		int tmp;
+    		float tmp;
     	
             if(type.equals( "ver" ))
                 {

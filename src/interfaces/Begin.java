@@ -139,7 +139,7 @@ public class Begin
 						Node nodo = back.item( 0 );
 						Element img = (Element) nodo;
 						tmp = img.getAttribute( "name" );
-						sfondo = new Sfondo( new Image( "./data/Image/" + tmp + ".jpg" ), gc.getHeight()/(1.04), gc.getWidth(), 0, 0, gc.getWidth(), gc.getHeight(), tmp );
+						sfondo = new Sfondo( new Image( "./data/Image/" + tmp + ".jpg" ), gc.getHeight()*100/104, gc.getWidth(), 0, 0, gc.getWidth(), gc.getHeight(), tmp );
 
 						Node var = name.item( 0 );
 						Element node = (Element) var;

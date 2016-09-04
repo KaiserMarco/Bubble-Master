@@ -20,12 +20,12 @@ public class Elements
 	//il raggio delle sfere
 	private int ray;
 	
-	private double maxH, maxW;
+	private float maxH, maxW;
 	private int width, height;
 	
 	public Elements( GameContainer gc ) throws SlickException
 		{
-			maxH = gc.getHeight()/(1.04);
+			maxH = gc.getHeight()*100/104;
 			maxW = gc.getWidth();
 			width = gc.getHeight()/10;
 			height = gc.getWidth()/20;

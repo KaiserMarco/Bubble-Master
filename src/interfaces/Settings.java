@@ -167,14 +167,34 @@ public class Settings
 			else if(saveChanges.checkClick( mouseX, mouseY, input ) || input.isKeyPressed( Input.KEY_BACK ))
 				{				
 					Global.lifes = vite;
-					for(int i = 0; i < Begin.livelli.size(); i++)
-						for(int j = 0; j < Begin.livelli.get( i ).getElements().size(); j++)
-							for(int k = 0; k < Begin.livelli.get( i ).getElements().size(); k++)
-								if(Begin.livelli.get( i ).getElements().get( k ).getID().startsWith( "player" ))
-									((Player) Begin.livelli.get( i ).getElements().get( k )).setLifes();
 				
 					Global.W = Integer.parseInt( widthP );
-					Global.H = Integer.parseInt( heightP );					
+					Global.H = Integer.parseInt( heightP );
+					Global.computeRatio( Global.W, Global.H );
+					if(Global.W != 1 || Global.H != 1)
+						for(int i = 0; i < Begin.livelli.size(); i++)
+							{
+								for(int j = 0; j < Begin.livelli.get( i ).getElements().size(); j++)
+									{
+										Begin.livelli.get( i ).getElements().get( j ).updateStats();
+										if(vite != Global.lifes)
+											if(Begin.livelli.get( i ).getElements().get( j ).getID().startsWith( "player" ))
+												((Player) Begin.livelli.get( i ).getElements().get( j )).setLifes();
+									}
+									
+								Begin.livelli.get( i ).getImage().setMaxHeight( Begin.livelli.get( i ).getImage().getMaxHeight() * Global.ratioH );
+								Begin.livelli.get( i ).getImage().setHeight( Begin.livelli.get( i ).getImage().getHeight() * Global.ratioH );
+								Begin.livelli.get( i ).getImage().setMaxWidth( Begin.livelli.get( i ).getImage().getMaxWidth() * Global.ratioW );
+								Begin.livelli.get( i ).getImage().setWidth( Begin.livelli.get( i ).getImage().getWidth() * Global.ratioW );
+							}
+					System.out.println( Global.ratioW + " " + Global.ratioH );
+					
+					for(int i  = 0; i < buttons.size(); i++)
+						{
+							buttons.get( i ).setX( buttons.get( i ).getX() * Global.ratioW );
+							buttons.get( i ).setY( buttons.get( i ).getY() * Global.ratioH );
+						}
+					
 					Start.setAppDisplay();
 				}
 		}

@@ -29,10 +29,15 @@ public class Global
 	// il numero di giocatori della partita
 	public static Sfondo sfondo;
 	
+	private static float currentW = Width, currentH = Height;
+	
 	// calcola il rapporto fra altezza e lunghezza attuali con quelli di default
 	public static void computeRatio( float width, float height )
 		{
-			ratioW = width/Width;
-			ratioH = height/Height;
+			ratioW = width/currentW;
+			ratioH = height/currentH;
+			
+			currentW = width;
+			currentH = height;
 		}
 }
