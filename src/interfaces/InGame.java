@@ -117,6 +117,8 @@ public class InGame
 		{		
 			if(gc.getInput().isKeyPressed( Input.KEY_ESCAPE ))
 				{
+					animNumbers = 30;
+					decrNumb = 4;
 					Start.startGame = 0;
 					Start.chooseLevel = 1;
 					Start.setPreviuosStats( "begin" );
