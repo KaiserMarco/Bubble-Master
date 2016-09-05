@@ -103,7 +103,7 @@ public class Bubble extends Ostacolo
     
     public void updateStats()
     	{
-    		ray = ray * Global.ratioW;
+    		ray = ray * Global.ratioH;
     		ostr.setCenterX( getX() * Global.ratioW );
     		ostr.setCenterY( getY() * Global.ratioH );
     		
