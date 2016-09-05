@@ -74,6 +74,14 @@ public class ArrowButton
 	{
 		return row.getHeight();
 	}
+	
+	/** restituisce la lunghezza dell'area
+	 * @return height - l'altezza dell'area
+	*/
+	public float getWidth()
+	{
+		return row.getWidth();
+	}
 
 	/** sposta la coordinate X e Y
 	 * @param value - il valore di spostamento
@@ -85,7 +93,8 @@ public class ArrowButton
 				points[ i ] = points[ i ] * valueX;
 			else
 				points[ i ] = points[ i ] * valueY;
-		row = new Polygon ( points );
+		
+		row = new Polygon( points );
 	}
 
 	/** determina se le coordinate del mouse sono contenute nell'area

@@ -225,13 +225,6 @@ public class Begin
 					if(editor.checkClick( mouseX, mouseY, input ) || (indexCursor >= 0 && buttons.get( indexCursor ).getName().equals( "LIVELLI" ) && input.isKeyPressed( Input.KEY_ENTER )))
 						{
 							indexCursor = -1;
-							if(Global.ratioW != 1 || Global.ratioH != 1)
-								{
-									Start.cl.setUpdates();
-									
-									Global.ratioW = 1;
-									Global.ratioH = 1;
-								}
 							Start.begin = 0;
 							Start.chooseLevel = 1;
 							Start.setPreviuosStats( "begin" );

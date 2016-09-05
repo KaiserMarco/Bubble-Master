@@ -105,17 +105,25 @@ public class ChooseLevel
 			
 			lungh = lungh * Global.ratioW;
 			alt = alt * Global.ratioH;
+			
+			buttonY = buttonY * Global.ratioH;
+			
+			for(int i = 0; i < arrows.size(); i++)
+				arrows.get( i ).translate( Global.ratioW, Global.ratioH );
 
 			for(int i  = 0; i < buttons.size(); i++)
 				{
-					if(!buttons.get( i ).getName().equals( "newLvl" ))
+					if(i != buttons.size() - 1)
 						{
 							buttons.get( i ).setX( buttons.get( i ).getX() * Global.ratioW );
-							buttons.get( i ).setY( buttonY * Global.ratioH );
+							buttons.get( i ).setY( buttonY );
+						}
+					else
+						{
+							buttons.get( buttons.size() - 1 ).setX( width/2 - buttons.get( buttons.size() - 1 ).getLungh()/2 );
+							buttons.get( buttons.size() - 1 ).setY( arrows.get( 0 ).getY() + arrows.get( 0 ).getHeight()/2 - buttons.get( buttons.size() - 1 ).getAlt()/2 );
 						}
 				}
-			for(int i = 0; i < arrows.size(); i++)
-				arrows.get( i ).translate( Global.ratioW, Global.ratioH );
 		}
 	
 	public void update( GameContainer gc, Edit editor ) throws SlickException
@@ -127,7 +135,7 @@ public class ChooseLevel
 			if(buttons.get( buttons.size() - 1 ).getX() == 0)
 				{
 					buttons.get( buttons.size() - 1 ).setX( width/2 - buttons.get( buttons.size() - 1 ).getLungh()/2 );
-					buttons.get( buttons.size() - 1 ).setY( height*4/5 + width/80 - buttons.get( buttons.size() - 1 ).getAlt()/2 );
+					buttons.get( buttons.size() - 1 ).setY( arrows.get( 0 ).getY() + arrows.get( 0 ).getHeight()/2 - buttons.get( buttons.size() - 1 ).getAlt()/2 );
 				}
 			
 			if(left.contains( mouseX, mouseY, input ) || input.isKeyPressed( Input.KEY_LEFT ))

@@ -171,27 +171,34 @@ public class Settings
 					Global.W = Integer.parseInt( widthP );
 					Global.H = Integer.parseInt( heightP );
 					Global.computeRatio( Global.W, Global.H );
-					if(Global.W != 1 || Global.H != 1)
-						for(int i = 0; i < Begin.livelli.size(); i++)
-							{
-								for(int j = 0; j < Begin.livelli.get( i ).getElements().size(); j++)
-									{
-										Begin.livelli.get( i ).getElements().get( j ).updateStats();
-										if(vite != Global.lifes)
-											if(Begin.livelli.get( i ).getElements().get( j ).getID().startsWith( "player" ))
-												((Player) Begin.livelli.get( i ).getElements().get( j )).setLifes();
-									}
-									
-								Begin.livelli.get( i ).getImage().setMaxHeight( Begin.livelli.get( i ).getImage().getMaxHeight() * Global.ratioH );
-								Begin.livelli.get( i ).getImage().setHeight( Begin.livelli.get( i ).getImage().getHeight() * Global.ratioH );
-								Begin.livelli.get( i ).getImage().setMaxWidth( Begin.livelli.get( i ).getImage().getMaxWidth() * Global.ratioW );
-								Begin.livelli.get( i ).getImage().setWidth( Begin.livelli.get( i ).getImage().getWidth() * Global.ratioW );
-							}
-					
-					for(int i  = 0; i < buttons.size(); i++)
+					if(Global.ratioW != 1 || Global.ratioH != 1)
 						{
-							buttons.get( i ).setX( buttons.get( i ).getX() * Global.ratioW );
-							buttons.get( i ).setY( buttons.get( i ).getY() * Global.ratioH );
+							for(int i = 0; i < Begin.livelli.size(); i++)
+								{
+									for(int j = 0; j < Begin.livelli.get( i ).getElements().size(); j++)
+										{
+											Begin.livelli.get( i ).getElements().get( j ).updateStats();
+											if(vite != Global.lifes)
+												if(Begin.livelli.get( i ).getElements().get( j ).getID().startsWith( "player" ))
+													((Player) Begin.livelli.get( i ).getElements().get( j )).setLifes();
+										}
+										
+									Begin.livelli.get( i ).getImage().setMaxHeight( Begin.livelli.get( i ).getImage().getMaxHeight() * Global.ratioH );
+									Begin.livelli.get( i ).getImage().setHeight( Begin.livelli.get( i ).getImage().getHeight() * Global.ratioH );
+									Begin.livelli.get( i ).getImage().setMaxWidth( Begin.livelli.get( i ).getImage().getMaxWidth() * Global.ratioW );
+									Begin.livelli.get( i ).getImage().setWidth( Begin.livelli.get( i ).getImage().getWidth() * Global.ratioW );
+								}
+						
+							for(int i  = 0; i < buttons.size(); i++)
+								{
+									if(buttons.get( i ).getName().equals( "INDIETRO" ))
+										System.out.println( "X = " + buttons.get( i ).getY() );
+									buttons.get( i ).setX( buttons.get( i ).getX() * Global.ratioW );
+									buttons.get( i ).setY( buttons.get( i ).getY() * Global.ratioH );
+									if(buttons.get( i ).getName().equals( "INDIETRO" ))
+										System.out.println( "X = " + buttons.get( i ).getY() );
+								}
+							Start.cl.setUpdates();
 						}
 					
 					Start.setAppDisplay();
