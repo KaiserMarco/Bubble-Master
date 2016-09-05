@@ -35,7 +35,8 @@ public class Settings
 	
 	private boolean drawChoiseRes;
 	
-	// TODO IMPLEMENTARE TUTTO
+	// l'ordinata, l'ascissa, la lunghezza e l'altezza dei bottoni risoluzione
+	private float xRes, yRes, wRes, hRes;
 	
 	public Settings( GameContainer gc ) throws SlickException
 		{
@@ -61,11 +62,16 @@ public class Settings
 			
 			dimensioni = new ArrayList<Rectangle>();
 			
-			dimensioni.add( new Rectangle( Global.W*10/26, Global.H/5, Global.W/10, Global.H/30 ) );
-			dimensioni.add( new Rectangle( dimensioni.get( dimensioni.size() - 1 ).getMaxX(), Global.H/5, Global.W/100, dimensioni.get( 0 ).getHeight() ) );
-			dimensioni.add( new Rectangle( Global.W*10/26, dimensioni.get( dimensioni.size() - 1 ).getMaxY(), Global.W/10, Global.H/30 ) );
-			dimensioni.add( new Rectangle( Global.W*10/26, dimensioni.get( dimensioni.size() - 1 ).getMaxY(), Global.W/10, Global.H/30 ) );
-			dimensioni.add( new Rectangle( Global.W*10/26, dimensioni.get( dimensioni.size() - 1 ).getMaxY(), Global.W/10, Global.H/30 ) );
+			xRes = Global.W*10/26;
+			yRes = Global.H/5;
+			wRes = Global.W/10;
+			hRes = Global.H/30;
+			
+			dimensioni.add( new Rectangle( xRes, yRes, wRes, hRes ) );
+			dimensioni.add( new Rectangle( dimensioni.get( dimensioni.size() - 1 ).getMaxX(), yRes, Global.W/100, dimensioni.get( 0 ).getHeight() ) );
+			dimensioni.add( new Rectangle( xRes, dimensioni.get( dimensioni.size() - 1 ).getMaxY(), wRes, hRes ) );
+			dimensioni.add( new Rectangle( xRes, dimensioni.get( dimensioni.size() - 1 ).getMaxY(), wRes, hRes ) );
+			dimensioni.add( new Rectangle( xRes, dimensioni.get( dimensioni.size() - 1 ).getMaxY(), wRes, hRes ) );
 			
 			dimensions = new ArrayList<String>();
 			
@@ -97,7 +103,8 @@ public class Settings
 			left.draw( g );
 			right.draw( g );
 			
-			g.drawString( "" + vite, Global.W*10/32 + (Global.W/2 - Global.W*10/32)/2, Global.H/3 );
+			g.setColor( Color.black );
+			g.drawString( "" + vite, left.getMaxX() + (right.getX() - left.getMaxX())/2, right.getY() );
 			
 			int i;
 			for(i = 0; i < 2; i++)
@@ -191,14 +198,25 @@ public class Settings
 						
 							for(int i  = 0; i < buttons.size(); i++)
 								{
-									if(buttons.get( i ).getName().equals( "INDIETRO" ))
-										System.out.println( "X = " + buttons.get( i ).getY() );
 									buttons.get( i ).setX( buttons.get( i ).getX() * Global.ratioW );
 									buttons.get( i ).setY( buttons.get( i ).getY() * Global.ratioH );
-									if(buttons.get( i ).getName().equals( "INDIETRO" ))
-										System.out.println( "X = " + buttons.get( i ).getY() );
 								}
 							Start.cl.setUpdates();
+							
+							xRes = xRes * Global.ratioW;
+							yRes = yRes * Global.ratioH;
+							wRes = wRes * Global.ratioW;
+							hRes = hRes * Global.ratioH;
+							
+							dimensioni.clear();
+							dimensioni.add( new Rectangle( xRes, yRes, wRes, hRes ) );
+							dimensioni.add( new Rectangle( dimensioni.get( dimensioni.size() - 1 ).getMaxX(), yRes, Global.W/100, dimensioni.get( 0 ).getHeight() ) );
+							dimensioni.add( new Rectangle( xRes, dimensioni.get( dimensioni.size() - 1 ).getMaxY(), wRes, hRes ) );
+							dimensioni.add( new Rectangle( xRes, dimensioni.get( dimensioni.size() - 1 ).getMaxY(), wRes, hRes ) );
+							dimensioni.add( new Rectangle( xRes, dimensioni.get( dimensioni.size() - 1 ).getMaxY(), wRes, hRes ) );
+
+							left.translate( Global.ratioW, Global.ratioH );
+							right.translate( Global.ratioW, Global.ratioH );
 						}
 					
 					Start.setAppDisplay();
