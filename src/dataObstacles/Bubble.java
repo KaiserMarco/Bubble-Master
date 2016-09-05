@@ -545,7 +545,7 @@ public class Bubble extends Ostacolo
             /*controllo collisione con i bordi della schermata*/
             checkBorders();
 
-            setCenter( ostr, speedX, speedY );
+            setCenter( ostr, (int) (speedX * Global.ratioW), (int) (speedY * Global.ratioH) );
             
             if(!primoTubo)
             	{
@@ -557,7 +557,7 @@ public class Bubble extends Ostacolo
 	                        for(int i = 0; i < InGame.ostacoli.size(); i++)
 	                        	checkAll( i, InGame.ostacoli.get( i ) );
 
-	                        setCenter( ostr, speedX, speedY );
+	                        setCenter( ostr, (int) (speedX * Global.ratioW), (int) (speedY * Global.ratioH) );
             			}
             	}
         }
