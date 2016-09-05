@@ -187,7 +187,6 @@ public class Settings
 								Begin.livelli.get( i ).getImage().setMaxWidth( Begin.livelli.get( i ).getImage().getMaxWidth() * Global.ratioW );
 								Begin.livelli.get( i ).getImage().setWidth( Begin.livelli.get( i ).getImage().getWidth() * Global.ratioW );
 							}
-					System.out.println( Global.ratioW + " " + Global.ratioH );
 					
 					for(int i  = 0; i < buttons.size(); i++)
 						{

@@ -336,6 +336,8 @@ public class Player extends Ostacolo
 			height = height * Global.ratioH;
 			xPlayer = xPlayer * Global.ratioW;
 			yPlayer = yPlayer * Global.ratioH;
+			
+			maxHeight = (int) (maxHeight * Global.ratioH);
     	}
 	
 	public void setLifes()
