@@ -277,6 +277,14 @@ public class Bubble extends Ostacolo
 	    	return false;
     	}
 
+    // TODO REALIZZARE LA NUOVA COLLISIONE
+    private boolean newCollisionEdge( Ostacolo ost, boolean dritto )
+    	{
+    		
+    	
+    		return false;
+    	}
+    
     //determina la collisione con gli spigoli con speedX o speedY nulla
     private boolean collisionEdge( Ostacolo ost, boolean dritto )
     	{
