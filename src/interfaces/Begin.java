@@ -61,6 +61,8 @@ public class Begin
 	//immagine schermata iniziale
 	private Sfondo pang;
 	
+	private float checkRatioW, checkRatioH;
+	
 	public Begin( GameContainer gc ) throws SlickException
 		{
 	        insertButton = false;
@@ -167,6 +169,9 @@ public class Begin
 			heightC = gc.getHeight()/24;
 			
 			indexCursor = -1;
+			
+			checkRatioW = Global.ratioW;
+			checkRatioH = Global.ratioH;
 		}
 
 	public void draw( GameContainer gc ) throws SlickException
@@ -180,12 +185,30 @@ public class Begin
 			if(indexCursor >= 0)
 				cursor.draw( buttons.get( indexCursor ).getX() - widthC, buttons.get( indexCursor ).getY(), widthC, heightC );
 		}
+	
+	public void setStats()
+		{
+			for(int i = 0; i < buttons.size(); i++)
+				{
+					buttons.get( i ).setX( buttons.get( i ).getX() * Global.ratioW );
+					buttons.get( i ).setY( buttons.get( i ).getY() * Global.ratioH );
+				}
+
+			xFinale1 = (int) (xFinale1 * Global.ratioW);
+			xFinale2 = (int) (xFinale2 * Global.ratioH);
+			
+			checkRatioW = Global.ratioW;
+			checkRatioH = Global.ratioH;
+		}
 
 	public void update(GameContainer gc, int delta) throws SlickException 
 		{
 			Input input = gc.getInput();
 			int mouseX = input.getMouseX();
 			int mouseY = input.getMouseY();
+			
+			if(checkRatioW != Global.ratioW || checkRatioH != Global.ratioH)
+				setStats();
 			
 			//schermata iniziale del "premi un tasto qualsiasi"
 			if(!insertButton)
