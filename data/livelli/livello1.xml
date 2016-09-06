@@ -3,11 +3,8 @@
   <!--Objects-->
   <livello nome="livello1" />
   <ostacolo x="205.0" y="155.0" union="-1" type="hor" ID="sbarra" />
-  <ostacolo x="140.0" y="90.0" union="-1" type="null" ID="bolla" />
-  <ostacolo x="230.0" y="327.0" union="-1" type="hor" ID="sbarra" />
-  <ostacolo x="467.0" y="160.0" union="-1" type="ver" ID="sbarra" />
-  <ostacolo x="565.0" y="203.0" union="-1" type="null" ID="bolla" />
-  <ostacolo x="528.0" y="370.0" union="-1" type="null" ID="bolla" />
+  <ostacolo x="339.0" y="175.0" union="-1" type="null" ID="bolla" />
+  <ostacolo x="386.0" y="225.0" union="-1" type="hor" ID="sbarra" />
   <ostacolo x="250.0" y="506.0" union="-1" type="null" ID="player2" />
   <sfondo x="0" y="0" name="sfondo4" />
 </level>
