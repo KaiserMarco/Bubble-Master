@@ -601,8 +601,8 @@ public class Bubble extends Ostacolo
 		        				}
 		        		}
 		        	else if(primoTubo || secondoTubo)
-						gestioneSferaInTubo();                        	
-		        	
+						gestioneSferaInTubo();
+
 		        	if(!primoTubo)
 		        		{
 		        			if(!secondoTubo || (secondoTubo && indexTube != i && previousIndexTube != i))
@@ -611,7 +611,7 @@ public class Bubble extends Ostacolo
 		    					else if(!collisioneAvvenuta)
 		    						gestioneCollisioni( ost, false );
 		    					else if(ostr.intersects( ost.component( "spigBDx" ) ) || ostr.intersects( ost.component( "spigBSx" ) )
-		    							|| ostr.intersects( ost.component( "spigASx" ) ) || ostr.intersects( ost.component( "spigADx" ) ))
+    							|| ostr.intersects( ost.component( "spigASx" ) ) || ostr.intersects( ost.component( "spigADx" ) ))
 		    						{
 		    							collisioneAvvenuta = false;
 		    							speedX = -speedX;
