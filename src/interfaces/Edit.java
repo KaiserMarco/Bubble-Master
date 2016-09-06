@@ -465,7 +465,6 @@ public class Edit
 	    			}
 	    		else
 	    			{
-	    				System.out.println( "sono qui" );
 						Begin.livelli.add( new Livello( ostacoli, sfondi.get( indexSfondo ), index + "" ) );
 			    		outputter.output( document, new FileOutputStream( "data/livelli/livello" + index + ".xml" ) );
 	    			}

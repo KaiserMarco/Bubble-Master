@@ -195,97 +195,7 @@ public class Bubble extends Ostacolo
     public void setCollide( boolean val )
     	{}
     
-    //determina la collisione con gli spigoli con speedX o speedY nulla
-    private boolean collisionEdge( Ostacolo ost )
-    	{
-    		if(ostr.intersects( ost.component( "spigASx" ) ))
-	    		{
-	    			if(speedX == 0 && speedY > 0)
-	    				{
-	    					if(ostr.getCenterX() < ost.getX())
-	    						{
-	    							speedX = -1;
-	    							speedY = -speedY;
-	    						}
-	    				}
-	    			else if(speedX > 0 && speedY == 0)
-	    				{
-	    					if(ostr.getCenterY() < ost.getY())
-	    						{
-	    							speedX = -speedX;
-	    							speedY = -1;
-	    						}
-	    				}
-	    			else
-	    				return false;
-	    		}
-    		else if(ostr.intersects( ost.component( "spigADx" ) ))
-    			{
-	    			if(speedX == 0 && speedY > 0)
-						{
-							if(ostr.getCenterX() > ost.getMaxX())
-								{
-									speedX = 1;
-									speedY = -speedY;
-								}
-						}
-					else if(speedX < 0 && speedY == 0)
-						{
-							if(ostr.getCenterY() < ost.getY())
-								{
-									speedX = -speedX;
-									speedY = -1;
-								}
-						}
-	    			else
-	    				return false;
-    			}
-    		else if(ostr.intersects( ost.component( "spigBSx" ) ))
-	    		{
-	    			if(speedX == 0 && speedY < 0)
-	    				{
-	    					if(ostr.getCenterX() < ost.getX())
-	    						{
-	    							speedX = -1;
-	    							speedY = -speedY;
-	    						}
-	    				}
-	    			else if(speedX > 0 && speedY == 0)
-	    				{
-	    					if(ostr.getCenterY() > ost.getY() + ost.getHeight())
-	    						{
-	    							speedX = -speedX;
-	    							speedY = -1;
-	    						}
-	    				}
-	    			else
-	    				return false;
-	    		}
-    		else if(ostr.intersects( ost.component( "spigBDx" ) ))
-    			{
-	    			if(speedX == 0 && speedY > 0)
-						{
-							if(ostr.getCenterX() > ost.getMaxX())
-								{
-									speedX = 1;
-									speedY = -speedY;
-								}
-						}
-					else if(speedX < 0 && speedY == 0)
-						{
-							if(ostr.getCenterY() > ost.getY() + ost.getHeight())
-								{
-									speedX = -speedX;
-									speedY = -1;
-								}
-						}
-	    			else
-	    				return false;
-    			}
-		
-	    	return false;
-    	}
-
+    // collisione con lo spigolo in maniera diretta
     private boolean newCollisionEdge( Ostacolo ost, boolean dritto )
     	{
     		Rectangle check;
@@ -319,52 +229,6 @@ public class Bubble extends Ostacolo
     			}
     	
     		return false;
-    	}
-    
-    //determina la collisione con gli spigoli con speedX o speedY nulla
-    private boolean collisionEdge( Ostacolo ost, boolean dritto )
-    	{
-    		if(!dritto)
-    			{
-		    		if(speedX > 0 && speedY > 0)
-		    			{
-		    				if(ost.component( "spigASx" ).getX() != Math.abs(ost.getY() - ostr.getCenterY() + ostr.getCenterX()))
-		    					return false;
-		    			}
-		    			
-		    		else if(speedX < 0 && speedY > 0)
-		    			{
-		    				if(ost.component( "spigADx" ).getX() != Math.abs(ost.getY() - ostr.getCenterY() + ostr.getCenterX()))
-		    					return false;
-		    			}
-		    			
-		    		else if(speedX > 0 && speedY < 0)
-		    			{
-		    				if(ost.component( "spigBSx" ).getX() != Math.abs(ost.getY() - ostr.getCenterY() + ostr.getCenterX()))
-		    					return false;
-		    			}
-		    		
-		    		else if(speedX < 0 && speedY < 0)
-		    			if(ost.component( "spigBDx" ).getX() != Math.abs(ost.getY() - ostr.getCenterY() + ostr.getCenterX()))
-		    				{
-								/*System.out.println( "spig.x = " + ost.component( "spigBDx" ).getX() );
-								System.out.println( "retta.x = " + (Math.abs(ost.getY() - ostr.getCenterY() + ostr.getCenterX())));*/
-		    				
-		    					System.out.println( "(centro.x, centro.y) = " + ostr.getCenterX() + " " + ostr.getCenterY() );
-		    					System.out.println( "(spig.x, spig.y) = " + ost.component( "spigBDx" ).getX() + " " + ost.component( "spigBDx" ).getY() );
-		    					
-		    					return false;
-		    				}
-		    		
-					speedX = -speedX;
-					speedY = -speedY;
-					
-					System.out.println( "touch!" );
-					
-					return true;
-    			}
-    		else
-				return collisionEdge( ost );
     	}
     
     /**determina se la sfera e' ancora nel primo tubo o se e' ancora nel secondo*/
@@ -419,14 +283,9 @@ public class Bubble extends Ostacolo
     public void gestioneCollisioni( Ostacolo ost, boolean dritto )
     	{
     		collisioneAvvenuta = newCollisionEdge( ost, dritto );
-    		/*if(collisioneAvvenuta)
-				System.out.println( "spigolo toccato di punta" );*/
-    	
-    		// TODO CERCARE DI IMPLEMENTARLO COME SI DEVE
-	    	if(ostr.intersects( ost.component( "spigBDx" ) ) || ostr.intersects( ost.component( "spigBSx" ) )
-			|| ostr.intersects( ost.component( "spigASx" ) ) || ostr.intersects( ost.component( "spigADx" ) )
-			|| ostr.intersects( ost.component( "latoDx" ) ) || ostr.intersects( ost.component( "latoSu" ) )
-			|| ostr.intersects( ost.component( "latoSx" ) ) || ostr.intersects( ost.component( "latoGiu" ) ))
+    		
+    		// TODO VEDIAMO SE POSSO TOGLIERE TUTTA QUESTA ROBA IN UN COLPO SOLO
+	    	if(ostr.intersects( ost.component( "rect" ) ))
 		        {
 	    			// alto a sinistra
 	    			if(speedX < 0 && speedY < 0)
@@ -466,7 +325,7 @@ public class Bubble extends Ostacolo
 											speedX = -speedX;
 											speedY = -speedY;
 										}
-		    						else if(ostr.intersects( ost.component( "latoSx" ) ) && ostr.getCenterY() > ost.component( "spigBSx" ).getY())
+		    						else if(ostr.intersects( ost.component( "latoSx" ) ) && ostr.getCenterY() < ost.component( "spigBSx" ).getY())
 			    						speedX = -speedX;
 			    					else if(ostr.intersects( ost.component( "latoGiu" ) ))
 			    						speedY = -speedY;
@@ -490,7 +349,6 @@ public class Bubble extends Ostacolo
 	    									speedX = -speedX;
 	    									speedY = -speedY;
 	    								}
-
 	    	    					else if(ostr.intersects( ost.component( "latoSx" ) ) && ostr.getCenterY() > ost.component( "spigASx" ).getMaxX())
 	    	    						speedX = -speedX;
 	    	    					else if(ostr.intersects( ost.component( "latoSu" ) ))
