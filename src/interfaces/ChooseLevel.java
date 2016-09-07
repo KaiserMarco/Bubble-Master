@@ -140,6 +140,7 @@ public class ChooseLevel
 			
 			if(left.contains( mouseX, mouseY, input ) || input.isKeyPressed( Input.KEY_LEFT ))
 				{
+					left.setPressed();
 					pos = Math.max( pos - 1, 0 );
 					nameLvl = new SimpleButton( 0, 0, Begin.livelli.get( pos ).getName(), Color.white );					
 					buttons.remove( buttons.size() - 1 );
@@ -151,6 +152,7 @@ public class ChooseLevel
 				}
 			else if(right.contains( mouseX, mouseY, input ) || input.isKeyPressed( Input.KEY_RIGHT ))
 				{
+					right.setPressed();
 					pos = Math.min( pos + 1, Begin.livelli.size() - 1);
 					nameLvl = new SimpleButton( 0, 0, Begin.livelli.get( pos ).getName(), Color.white );					
 					buttons.remove( buttons.size() - 1 );

@@ -136,7 +136,7 @@ public class Settings
 			int mouseX = input.getMouseX();
 			int mouseY = input.getMouseY();
 		
-			if(back.checkClick( mouseX, mouseY, input ) || input.isKeyPressed( Input.KEY_BACK ))
+			if(back.checkClick( mouseX, mouseY, input ) || input.isKeyPressed( Input.KEY_BACK ) || input.isKeyPressed( Input.KEY_ESCAPE ))
 				{
 					Start.settings = 0;
 					Start.recoverPreviousStats();

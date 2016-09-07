@@ -12,5 +12,6 @@
   <ostacolo x="242.0" y="162.0" union="-1" type="null" ID="bolla" />
   <ostacolo x="69.0" y="340.0" union="-1" type="null" ID="bolla" />
   <ostacolo x="287.0" y="221.0" union="-1" type="null" ID="player1" />
+  <ostacolo x="13.0" y="99.0" union="-1" type="hor" ID="sbarra" />
   <sfondo x="0" y="0" name="sfondo5" />
 </level>

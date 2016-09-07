@@ -156,98 +156,6 @@ public class Bubble extends Ostacolo
     public void setCollide( boolean val )
     	{}
     
-    //determina la collisione con gli spigoli con speedX o speedY nulla
-    // TODO PER LA COLLISIONE CON GLI SPIGOLI PER LE VELOCITA NULLE SI VEDRA
-    private boolean collisionEdge( Ostacolo ost )
-    	{
-    		if(ostr.intersects( ost.component( "spigASx" ) ))
-	    		{
-	    			if(speedX == 0 && speedY > 0)
-	    				{
-	    					if(ostr.getCenterX() < ost.getX())
-	    						{
-	    							speedX = -1;
-	    							speedY = -speedY;
-	    						}
-	    				}
-	    			else if(speedX > 0 && speedY == 0)
-	    				{
-	    					if(ostr.getCenterY() < ost.getY())
-	    						{
-	    							speedX = -speedX;
-	    							speedY = -1;
-	    						}
-	    				}
-	    			else
-	    				return false;
-	    		}
-    		else if(ostr.intersects( ost.component( "spigADx" ) ))
-    			{
-	    			if(speedX == 0 && speedY > 0)
-						{
-							if(ostr.getCenterX() > ost.getMaxX())
-								{
-									speedX = 1;
-									speedY = -speedY;
-								}
-						}
-					else if(speedX < 0 && speedY == 0)
-						{
-							if(ostr.getCenterY() < ost.getY())
-								{
-									speedX = -speedX;
-									speedY = -1;
-								}
-						}
-	    			else
-	    				return false;
-    			}
-    		else if(ostr.intersects( ost.component( "spigBSx" ) ))
-	    		{
-	    			if(speedX == 0 && speedY < 0)
-	    				{
-	    					if(ostr.getCenterX() < ost.getX())
-	    						{
-	    							speedX = -1;
-	    							speedY = -speedY;
-	    						}
-	    				}
-	    			else if(speedX > 0 && speedY == 0)
-	    				{
-	    					if(ostr.getCenterY() > ost.getY() + ost.getHeight())
-	    						{
-	    							speedX = -speedX;
-	    							speedY = -1;
-	    						}
-	    				}
-	    			else
-	    				return false;
-	    		}
-    		else if(ostr.intersects( ost.component( "spigBDx" ) ))
-    			{
-	    			if(speedX == 0 && speedY > 0)
-						{
-							if(ostr.getCenterX() > ost.getMaxX())
-								{
-									speedX = 1;
-									speedY = -speedY;
-								}
-						}
-					else if(speedX < 0 && speedY == 0)
-						{
-							if(ostr.getCenterY() > ost.getY() + ost.getHeight())
-								{
-									speedX = -speedX;
-									speedY = -1;
-								}
-						}
-	    			else
-	    				return false;
-    			}
-		
-	    	return false;
-    	}
-    
     /**determina se la sfera e' ancora nel primo tubo o se e' ancora nel secondo*/
     public void gestioneSferaInTubo()
     	{
@@ -297,12 +205,12 @@ public class Bubble extends Ostacolo
     	}
     
     /**determina la velocita' risultante nella collisione fra sfera e altri ostacoli*/
-    public void gestioneCollisioni( Ostacolo ost, boolean dritto )
+    public void gestioneCollisioni( Ostacolo ost )
     	{
 	    	if(ostr.intersects( ost.component( "rect" ) ))
 		        {
-					// alto a sinistra
-					if(speedX < 0 && speedY < 0)
+					// alto a sinistra || in alto
+					if((speedX < 0 && speedY < 0) || (speedX == 0 && speedY < 0))
 						{
 							if(ostr.intersects( ost.component( "spigADx" ) ))
 								speedX = -speedX;
@@ -325,8 +233,8 @@ public class Bubble extends Ostacolo
 							else if(ostr.intersects( ost.component( "latoGiu" ) ))
 								speedY = -speedY;
 						}
-					// alto a destra
-					else if(speedX > 0 && speedY < 0)
+					// alto a destra || a destra
+					else if((speedX > 0 && speedY < 0) || (speedX > 0 && speedY == 0))
 						{
 		    				if(ostr.intersects( ost.component( "spigASx" ) ))
 								speedX = -speedX;
@@ -349,8 +257,8 @@ public class Bubble extends Ostacolo
 							else if(ostr.intersects( ost.component( "latoGiu" ) ))
 								speedY = -speedY;
 						}
-					// basso a destra
-					else if(speedX > 0 && speedY > 0)
+					// basso a destra || in basso
+					else if((speedX > 0 && speedY > 0) || (speedX == 0 && speedY > 0))
 						{
 		    				if(ostr.intersects( ost.component( "spigBSx" ) ))
 								speedX = -speedX;
@@ -373,8 +281,8 @@ public class Bubble extends Ostacolo
 							else if(ostr.intersects( ost.component( "latoSu" ) ))
 								speedY = -speedY;
 						}
-					// basso a sinistra
-					else if(speedX < 0 && speedY > 0)
+					// basso a sinistra || a sinistra
+					else if((speedX < 0 && speedY > 0) || (speedX < 0 && speedY == 0))
 						{
 		    				if(ostr.intersects( ost.component( "spigBDx" ) ))
 								speedX = -speedX;
@@ -476,16 +384,9 @@ public class Bubble extends Ostacolo
 						gestioneSferaInTubo();                        	
 		        	
 		        	if(!primoTubo)
-		        		{
-			        		if(!primoTubo && ostr.intersects( ost.component( "rect" ) ))
-				        		{
-					        		if(!secondoTubo || (secondoTubo && indexTube != i && previousIndexTube != i))
-			        					if(speedX == 0 || speedY == 0)
-			    							gestioneCollisioni( ost, true );
-			        					else
-			        						gestioneCollisioni( ost, false );
-				        		}
-		        		}
+		        		if(!primoTubo && ostr.intersects( ost.component( "rect" ) ))
+			        		if(!secondoTubo || (secondoTubo && indexTube != i && previousIndexTube != i))
+	        					gestioneCollisioni( ost );
 		        }
     	}
     

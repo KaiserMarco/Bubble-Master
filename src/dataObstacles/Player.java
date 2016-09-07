@@ -88,6 +88,9 @@ public class Player extends Ostacolo
 	// il valore dei frame di movimento e salto
 	float frameMove, frameJump;
 	
+	// salva il rapporto fra risoluzione di default e quella attuale (valore usato per i salti)
+	private float lastRatioH;
+	
 	public Player( int x, int y, int numPlayer, GameContainer gc ) throws SlickException
 		{
 			super( "player" + numPlayer );
@@ -301,6 +304,8 @@ public class Player extends Ostacolo
 					else
 						pgsx.draw( xPlayer - offset, yPlayer, widthI, height );
 				}
+
+			lastRatioH = 600/Global.H;
 		}
 	
 	public void draw( Graphics g ) throws SlickException
@@ -338,6 +343,8 @@ public class Player extends Ostacolo
 			yPlayer = yPlayer * Global.ratioH;
 			
 			maxHeight = (int) (maxHeight * Global.ratioH);
+			
+			lastRatioH = 600/Global.H;
     	}
 	
 	public void setLifes()
@@ -506,7 +513,7 @@ public class Player extends Ostacolo
 					tempJump = 60;
 				}
 			if(maxJump > 0)
-				setXY( 0, -move + 0.2f * (40 - tempJump--), "move" );
+				setXY( 0, (-move + 0.2f * (40 - tempJump--) * lastRatioH), "move" );
 			else
 				{
 					movingJ = true;
@@ -562,7 +569,7 @@ public class Player extends Ostacolo
 									else if(area.intersects( ost.component( "latoDx" ) ))
 										setXY( (int) (ost.getX() + ost.getWidth()) + 1, (int) area.getY(), "restore" );
 									else if(area.intersects( ost.component( "latoSx" ) ))
-										setXY( (int) (ost.getX() - width) - 1, (int) area.getY(), "restore" );	
+										setXY( (int) (ost.getX() - width) - 1, (int) area.getY(), "restore" );
 								}
 						}
 				}
