@@ -231,9 +231,7 @@ public class Sbarra extends Ostacolo{
         { return type; }
 
     public void setSpigoli()
-        {
-    		System.out.println( "sono qui" );
-    	
+        {    	
             /*creazione lati*/
             latoSu = new Rectangle( ostr.getX() + 1, ostr.getY(), ostr.getWidth() - 2, 1 );
             latoGiu = new Rectangle( ostr.getX() + 1, ostr.getY() + ostr.getHeight() - 1, ostr.getWidth() - 2, 1 );

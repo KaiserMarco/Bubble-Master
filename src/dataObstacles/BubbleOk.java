@@ -325,7 +325,7 @@ public class Bubble extends Ostacolo
 	    			if(pos.equals( "sx" ))
 						setXY( ost.component( "latoIngresso" ).getX() - getWidth(), ost.component( "latoIngresso" ).getY() + ost.getHeight()/2 - getWidth(), "restore" );
 					else if(pos.equals( "dx" ))
-						setXY( ost.component( "latoInggresso" ).getX() + getWidth(), ost.component( "latoIngresso" ).getY() + ost.getHeight()/2 - getWidth(), "restore" );
+						setXY( ost.component( "latoIngresso" ).getX() + getWidth(), ost.component( "latoIngresso" ).getY() + ost.getHeight()/2 - getWidth(), "restore" );
 					else if(pos.equals( "down" ))
 						setXY( ost.component( "latoIngresso" ).getX() + ost.getWidth()/2 - getWidth() - 4, ost.component( "latoIngresso" ).getY(), "restore" );
 					else

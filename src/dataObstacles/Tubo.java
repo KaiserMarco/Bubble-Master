@@ -70,6 +70,8 @@ public class Tubo extends Ostacolo{
 				width = gc.getHeight()/10;
 				height = gc.getWidth()/10;
 			}
+		
+		ostr = new Rectangle( x, y, width, height );
 	}
 
 	public void draw( Graphics g ) throws SlickException
