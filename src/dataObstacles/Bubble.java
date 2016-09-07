@@ -175,7 +175,6 @@ public class Bubble extends Ostacolo
     				// setta la velocita' nel PRIMO tubo
         			if(!setSpeed)
 	        			{
-        					System.out.println( "so qua" );
 		    				if(tubo.getOrienting().equals( "sx" ) || tubo.getOrienting().equals( "dx" ))
 		    					speedY = 0;
 		    				else if(tubo.getOrienting().equals( "down" ) || tubo.getOrienting().equals( "up" ))
