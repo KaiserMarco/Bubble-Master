@@ -200,7 +200,7 @@ public class Player extends Ostacolo
 					// il personaggio sta saltando
 					if(movingJ)
 						{
-							area = new Rectangle( xPlayer, yPlayer, width, height - offset/3 );
+							area = new Rectangle( xPlayer, yPlayer, width, height );
 							body = new Rectangle( xPlayer, yPlayer + Global.H/40, width, Global.H/12 );
 							head = new Rectangle( xPlayer + width/2 - Global.W/110, yPlayer, width/2, Global.H/40 );
 							
@@ -255,7 +255,7 @@ public class Player extends Ostacolo
 					// il personaggio sta saltando
 					if(movingJ)
 						{
-							area = new Rectangle( xPlayer, yPlayer, width, height - offset/3 );
+							area = new Rectangle( xPlayer, yPlayer, width, height );
 							body = new Rectangle( xPlayer, yPlayer + Global.H/40, width, Global.H/10 );
 							head = new Rectangle( xPlayer + Global.W/110, yPlayer, width/2, Global.H/40 );
 							
@@ -501,10 +501,7 @@ public class Player extends Ostacolo
 					
 					for(int i = 0; i < InGame.ostacoli.size(); i++)
 						if(fire.collision( this, InGame.ostacoli.get( i ), InGame.ostacoli.get( i ).getID(), gc ))
-							{
-								shooting = false;
-								break;
-							}
+							shooting = false;
 				}
 			
 			if(input.isKeyPressed( Input.KEY_SPACE ) && !jump)
@@ -514,12 +511,12 @@ public class Player extends Ostacolo
 					maxJump = 1;
 					tempJump = 60;
 				}
-			if(maxJump > 0)
+			if(maxJump == 1)
 				setXY( 0, (-move + 0.2f * (40 - tempJump--) * lastRatioH), "move" );
 			else
 				{
 					movingJ = true;
-					setXY( 0, move + 0.1f * tempJump++, "move" );
+					setXY( 0, (move + 0.1f * tempJump++) * lastRatioH, "move" );
 				}
 			
 			/*controlla se non sono stati superati i limiti della schermata*/
@@ -552,9 +549,9 @@ public class Player extends Ostacolo
 						{
 							if(area.intersects( ost.component( "rect" ) ))
 								{
-									System.out.println( "collidere collide" );
 									if(area.intersects( ost.component( "latoSu" ) ) && (previousArea.getY() + height <= ost.getY()))
 										{
+											System.out.println( "collidere collide" );
 											maxJump = 0;
 											tempJump = 0;
 											jump = false;

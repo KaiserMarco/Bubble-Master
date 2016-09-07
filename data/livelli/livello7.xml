@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<level>
+  <!--Objects-->
+  <livello nome="livello7" />
+  <ostacolo x="157.0" y="527.0" union="-1" type="hor" ID="sbarra" />
+  <ostacolo x="305.0" y="506.0" union="-1" type="null" ID="player1" />
+  <ostacolo x="407.0" y="519.0" union="-1" type="hor" ID="sbarra" />
+  <ostacolo x="655.0" y="150.0" union="-1" type="null" ID="bolla" />
+  <sfondo x="0" y="0" name="sfondo4" />
+</level>
