@@ -333,6 +333,8 @@ public class Player extends Ostacolo
 				halfHeart.draw( Global.W/40 + widthH*(j++), Global.H/30, widthH, heightH );
 			for(;j < Global.lifes/2; j++)
 				noHeart.draw( Global.W/40 + widthH*j, Global.H/30, widthH, heightH );
+			
+			g.draw( area );
 		}
 
     public void updateStats()
@@ -450,9 +452,6 @@ public class Player extends Ostacolo
 						}
 				}
 			
-			/*la posizione del player un attimo prima di spostarsi*/
-			Rectangle previousArea = new Rectangle( area.getX(), area.getY(), width, height );
-			
 			movingDx = false;
 			movingSx = false;
 			
@@ -472,6 +471,9 @@ public class Player extends Ostacolo
 										currentTickInv = tickInv;
 									}
 							}
+			
+			/*la posizione del player un attimo prima di spostarsi*/
+			Rectangle previousArea = new Rectangle( area.getX(), area.getY(), width, height );
 			
 			/*ZONA SPOSTAMENTI-SALTI*/			
 			if(input.isKeyDown( Input.KEY_RIGHT ))
@@ -550,6 +552,7 @@ public class Player extends Ostacolo
 						{
 							if(area.intersects( ost.component( "rect" ) ))
 								{
+									System.out.println( "collidere collide" );
 									if(area.intersects( ost.component( "latoSu" ) ) && (previousArea.getY() + height <= ost.getY()))
 										{
 											maxJump = 0;

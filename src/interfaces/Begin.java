@@ -212,13 +212,14 @@ public class Begin
 			
 			//schermata iniziale del "premi un tasto qualsiasi"
 			if(!insertButton)
-    			for(int i = 0; i < 256; i++)
-    			    if(input.isKeyPressed( i ))
-                        insertButton = true;
-		
-			if(!insertButton)
-				if(input.isMousePressed( Input.MOUSE_LEFT_BUTTON ) || input.isMousePressed( Input.MOUSE_RIGHT_BUTTON ))
-					insertButton = true;
+				{
+	    			for(int i = 0; i < 256; i++)
+	    			    if(input.isKeyPressed( i ))
+	                        insertButton = true;
+	    			
+					if(input.isMousePressed( Input.MOUSE_LEFT_BUTTON ) || input.isMousePressed( Input.MOUSE_RIGHT_BUTTON ))
+						insertButton = true;
+				}
 			
 			if(insertButton)
 				{
@@ -231,10 +232,7 @@ public class Begin
 						editor.setX( editor.getX() - move*3/2 );
 					else
 						editor.setX( xFinale2 );
-				}
-			
-			if(insertButton)
-				{
+					
 					if((input.isKeyPressed( Input.KEY_UP ) || input.isKeyPressed( Input.KEY_DOWN ) || input.isKeyPressed( Input.KEY_LEFT ) || input.isKeyPressed( Input.KEY_RIGHT )))
 						{
 							if(indexCursor < 0)
