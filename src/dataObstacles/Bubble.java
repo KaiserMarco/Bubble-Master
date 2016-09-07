@@ -350,20 +350,20 @@ public class Bubble extends Ostacolo
     	{
     		//orientamento del tubo
 			String pos = ost.getOrienting();
-			// la to ingresso del tubo
-			Shape ingr = ost.component( "latoIngresso" );
+			// spigolo di riferimento per l'ingresso
+			Shape ingr = ost.component( "spigASx" );
 			
     		//la sfera e' nel PRIMO tubo
     		if(primoTubo)
     			{
 	    			if(pos.equals( "sx" ))
-						setXY( ingr.getX() - getWidth(), ingr.getY() + ost.getHeight()/2 - getWidth(), "restore" );
+						setXY( ostr.getX(), ingr.getY() + ost.getHeight()/2 - getWidth(), "restore" );
 					else if(pos.equals( "dx" ))
-						setXY( ingr.getX() + getWidth(), ingr.getY() + ost.getHeight()/2 - getWidth(), "restore" );
+						setXY( ostr.getX(), ingr.getY() + ost.getHeight()/2 - getWidth(), "restore" );
 					else if(pos.equals( "down" ))
-						setXY( ingr.getX() + ost.getWidth()/2 - getWidth() - 4, ingr.getY(), "restore" );
+						setXY( ingr.getX() + ost.getWidth()/2 - getWidth(), ostr.getY(), "restore" );
 					else
-						setXY( ingr.getX() - 1 + ost.getWidth()/2 - getWidth(), ingr.getY() - getWidth(), "restore" );
+						setXY( ingr.getX() + ost.getWidth()/2 - getWidth(), ostr.getY(), "restore" );
     				
     			}
     		//la sfera e' nel SECONDO tubo
