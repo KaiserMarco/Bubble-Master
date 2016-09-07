@@ -175,6 +175,7 @@ public class Bubble extends Ostacolo
     				// setta la velocita' nel PRIMO tubo
         			if(!setSpeed)
 	        			{
+        					System.out.println( "so qua" );
 		    				if(tubo.getOrienting().equals( "sx" ) || tubo.getOrienting().equals( "dx" ))
 		    					speedY = 0;
 		    				else if(tubo.getOrienting().equals( "down" ) || tubo.getOrienting().equals( "up" ))
@@ -350,18 +351,20 @@ public class Bubble extends Ostacolo
     	{
     		//orientamento del tubo
 			String pos = ost.getOrienting();
+			// la to ingresso del tubo
+			Shape ingr = ost.component( "latoIngresso" );
 			
     		//la sfera e' nel PRIMO tubo
     		if(primoTubo)
     			{
 	    			if(pos.equals( "sx" ))
-						setXY( ost.component( "latoIngresso" ).getX() - getWidth(), ost.component( "latoIngresso" ).getY() + ost.getHeight()/2 - getWidth(), "restore" );
+						setXY( ingr.getX() - getWidth(), ingr.getY() + ost.getHeight()/2 - getWidth(), "restore" );
 					else if(pos.equals( "dx" ))
-						setXY( ost.component( "latoIngresso" ).getX() + getWidth(), ost.component( "latoIngresso" ).getY() + ost.getHeight()/2 - getWidth(), "restore" );
+						setXY( ingr.getX() + getWidth(), ingr.getY() + ost.getHeight()/2 - getWidth(), "restore" );
 					else if(pos.equals( "down" ))
-						setXY( ost.component( "latoIngresso" ).getX() + ost.getWidth()/2 - getWidth() - 4, ost.component( "latoIngresso" ).getY(), "restore" );
+						setXY( ingr.getX() + ost.getWidth()/2 - getWidth() - 4, ingr.getY(), "restore" );
 					else
-						setXY( ost.component( "latoIngresso" ).getX() - 1 + ost.getWidth()/2 - getWidth(), ost.component( "latoIngresso" ).getY() - getWidth(), "restore" );   			
+						setXY( ingr.getX() - 1 + ost.getWidth()/2 - getWidth(), ingr.getY() - getWidth(), "restore" );
     				
     			}
     		//la sfera e' nel SECONDO tubo
