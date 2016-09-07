@@ -38,6 +38,8 @@ public class Settings
 	// l'ordinata, l'ascissa, la lunghezza e l'altezza dei bottoni risoluzione
 	private float xRes, yRes, wRes, hRes;
 	
+	private boolean mouseDown = false;
+	
 	public Settings( GameContainer gc ) throws SlickException
 		{
 			Color color = Color.orange;
@@ -135,13 +137,130 @@ public class Settings
 			Input input = gc.getInput();
 			int mouseX = input.getMouseX();
 			int mouseY = input.getMouseY();
+			
+			if(input.isMouseButtonDown( Input.MOUSE_LEFT_BUTTON )) {
+                if(!mouseDown) {
+                    mouseDown = true;
+                    
+                    if(back.checkClick( mouseX, mouseY, input )) {
+                        if(!back.isPressed())
+                            back.setPressed();
+                    }
+                    else if(right.contains( mouseX, mouseY, input )) {
+                        if(!right.isPressed())
+                            right.setPressed();
+                    }
+                    else if(left.contains( mouseX, mouseY, input )) {
+                        if(!left.isPressed())
+                            left.setPressed();
+                    }
+                    else if(saveChanges.contains( mouseX, mouseY )) {
+                        if(!saveChanges.isPressed())
+                            saveChanges.setPressed();
+                    }
+                }
+            }
+            else {
+                if(mouseDown || checkKeyPressed( input )) {
+                    mouseDown = false;
+                    
+                    if(left.isPressed()) {
+                        boolean pressed = true;
+                        
+                        if(left.isPressed()) {
+                            left.setPressed();
+                            pressed = left.contains( mouseX, mouseY, input );
+                        }
+                        
+                        if(pressed)
+                            vite = Math.max( 1, --vite );
+                    }
+                    else if(right.isPressed()) {
+                        boolean pressed = true;
+                        
+                        if(right.isPressed()) {
+                            right.setPressed();
+                            pressed = right.contains( mouseX, mouseY, input );
+                        }
+                        
+                        if(pressed)
+                            vite = Math.min( ++vite, 8 );
+                    }
+                    else if(back.isPressed()) {
+                        boolean pressed = true;
+                        
+                        if(back.isPressed()) {
+                            back.setPressed();
+                            pressed = back.checkClick( mouseX, mouseY, input );
+                        }
+                        
+                        if(pressed) {
+                            Start.settings = 0;
+                            Start.recoverPreviousStats();
+                        }
+                    }
+                    else if(saveChanges.isPressed() || input.isKeyPressed( Input.KEY_BACK )) {
+                        boolean pressed = true;
+                        
+                        if(saveChanges.isPressed()) {
+                            saveChanges.setPressed();
+                            pressed = saveChanges.checkClick( mouseX, mouseY, input );
+                        }
+                        
+                        if(pressed) {
+                            Global.lifes = vite;
+                            
+                            Global.W = Integer.parseInt( widthP );
+                            Global.H = Integer.parseInt( heightP );
+                            Global.computeRatio( Global.W, Global.H );
+                            if(Global.ratioW != 1 || Global.ratioH != 1)
+                                {
+                                    for(int i = 0; i < Begin.livelli.size(); i++)
+                                        {
+                                            for(int j = 0; j < Begin.livelli.get( i ).getElements().size(); j++)
+                                                {
+                                                    Begin.livelli.get( i ).getElements().get( j ).updateStats();
+                                                    if(vite != Global.lifes)
+                                                        if(Begin.livelli.get( i ).getElements().get( j ).getID().startsWith( "player" ))
+                                                            ((Player) Begin.livelli.get( i ).getElements().get( j )).setLifes();
+                                                }
+                                                
+                                            Begin.livelli.get( i ).getImage().setMaxHeight( Begin.livelli.get( i ).getImage().getMaxHeight() * Global.ratioH );
+                                            Begin.livelli.get( i ).getImage().setHeight( Begin.livelli.get( i ).getImage().getHeight() * Global.ratioH );
+                                            Begin.livelli.get( i ).getImage().setMaxWidth( Begin.livelli.get( i ).getImage().getMaxWidth() * Global.ratioW );
+                                            Begin.livelli.get( i ).getImage().setWidth( Begin.livelli.get( i ).getImage().getWidth() * Global.ratioW );
+                                        }
+                                
+                                    for(int i  = 0; i < buttons.size(); i++)
+                                        {
+                                            buttons.get( i ).setX( buttons.get( i ).getX() * Global.ratioW );
+                                            buttons.get( i ).setY( buttons.get( i ).getY() * Global.ratioH );
+                                        }
+                                    Start.cl.setUpdates();
+                                    
+                                    xRes = xRes * Global.ratioW;
+                                    yRes = yRes * Global.ratioH;
+                                    wRes = wRes * Global.ratioW;
+                                    hRes = hRes * Global.ratioH;
+                                    
+                                    dimensioni.clear();
+                                    dimensioni.add( new Rectangle( xRes, yRes, wRes, hRes ) );
+                                    dimensioni.add( new Rectangle( dimensioni.get( dimensioni.size() - 1 ).getMaxX(), yRes, Global.W/100, dimensioni.get( 0 ).getHeight() ) );
+                                    dimensioni.add( new Rectangle( xRes, dimensioni.get( dimensioni.size() - 1 ).getMaxY(), wRes, hRes ) );
+                                    dimensioni.add( new Rectangle( xRes, dimensioni.get( dimensioni.size() - 1 ).getMaxY(), wRes, hRes ) );
+                                    dimensioni.add( new Rectangle( xRes, dimensioni.get( dimensioni.size() - 1 ).getMaxY(), wRes, hRes ) );
+
+                                    left.translate( Global.ratioW, Global.ratioH );
+                                    right.translate( Global.ratioW, Global.ratioH );
+                                }
+                            
+                            Start.setAppDisplay();
+                        }
+                    }
+                }
+            }
 		
-			if(back.checkClick( mouseX, mouseY, input ) || input.isKeyPressed( Input.KEY_BACK ) || input.isKeyPressed( Input.KEY_ESCAPE ))
-				{
-					Start.settings = 0;
-					Start.recoverPreviousStats();
-				}
-			else if(dimensioni.get( 1 ).contains( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON ))
+			if(dimensioni.get( 1 ).contains( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON ))
 				drawChoiseRes = !drawChoiseRes;
 			else if(drawChoiseRes)
 					{
@@ -165,63 +284,14 @@ public class Settings
 							}
 						risoluzione = widthP + "x" + heightP;
 					}
-			else if(right.contains( mouseX, mouseY, input ))
-				vite = Math.min( ++vite, 8 );
-			
-			else if(left.contains( mouseX, mouseY, input ))
-				vite = Math.max( 1, --vite );
-		
-			else if(saveChanges.checkClick( mouseX, mouseY, input ) || input.isKeyPressed( Input.KEY_BACK ))
-				{				
-					Global.lifes = vite;
-				
-					Global.W = Integer.parseInt( widthP );
-					Global.H = Integer.parseInt( heightP );
-					Global.computeRatio( Global.W, Global.H );
-					if(Global.ratioW != 1 || Global.ratioH != 1)
-						{
-							for(int i = 0; i < Begin.livelli.size(); i++)
-								{
-									for(int j = 0; j < Begin.livelli.get( i ).getElements().size(); j++)
-										{
-											Begin.livelli.get( i ).getElements().get( j ).updateStats();
-											if(vite != Global.lifes)
-												if(Begin.livelli.get( i ).getElements().get( j ).getID().startsWith( "player" ))
-													((Player) Begin.livelli.get( i ).getElements().get( j )).setLifes();
-										}
-										
-									Begin.livelli.get( i ).getImage().setMaxHeight( Begin.livelli.get( i ).getImage().getMaxHeight() * Global.ratioH );
-									Begin.livelli.get( i ).getImage().setHeight( Begin.livelli.get( i ).getImage().getHeight() * Global.ratioH );
-									Begin.livelli.get( i ).getImage().setMaxWidth( Begin.livelli.get( i ).getImage().getMaxWidth() * Global.ratioW );
-									Begin.livelli.get( i ).getImage().setWidth( Begin.livelli.get( i ).getImage().getWidth() * Global.ratioW );
-								}
-						
-							for(int i  = 0; i < buttons.size(); i++)
-								{
-									buttons.get( i ).setX( buttons.get( i ).getX() * Global.ratioW );
-									buttons.get( i ).setY( buttons.get( i ).getY() * Global.ratioH );
-								}
-							Start.cl.setUpdates();
-							
-							xRes = xRes * Global.ratioW;
-							yRes = yRes * Global.ratioH;
-							wRes = wRes * Global.ratioW;
-							hRes = hRes * Global.ratioH;
-							
-							dimensioni.clear();
-							dimensioni.add( new Rectangle( xRes, yRes, wRes, hRes ) );
-							dimensioni.add( new Rectangle( dimensioni.get( dimensioni.size() - 1 ).getMaxX(), yRes, Global.W/100, dimensioni.get( 0 ).getHeight() ) );
-							dimensioni.add( new Rectangle( xRes, dimensioni.get( dimensioni.size() - 1 ).getMaxY(), wRes, hRes ) );
-							dimensioni.add( new Rectangle( xRes, dimensioni.get( dimensioni.size() - 1 ).getMaxY(), wRes, hRes ) );
-							dimensioni.add( new Rectangle( xRes, dimensioni.get( dimensioni.size() - 1 ).getMaxY(), wRes, hRes ) );
-
-							left.translate( Global.ratioW, Global.ratioH );
-							right.translate( Global.ratioW, Global.ratioH );
-						}
-					
-					Start.setAppDisplay();
-				}
 		}
+	
+	private boolean checkKeyPressed( final Input input )
+    {
+        return input.isKeyDown( Input.KEY_ENTER ) ||
+               input.isKeyDown( Input.KEY_RIGHT ) ||
+               input.isKeyDown( Input.KEY_LEFT );
+    }
 }
 
 

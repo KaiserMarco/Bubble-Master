@@ -26,7 +26,7 @@ import dataObstacles.Player;
 import dataObstacles.Sbarra;
 import dataObstacles.Tubo;
 
-public class Begin 
+public class Begin
 {
 	public SimpleButton editor, tasto, options;
 	
@@ -62,6 +62,8 @@ public class Begin
 	private Sfondo pang;
 	
 	private float checkRatioW, checkRatioH;
+	
+	private boolean mouseDown = false;
 	
 	public Begin( GameContainer gc ) throws SlickException
 		{
@@ -212,14 +214,13 @@ public class Begin
 			
 			//schermata iniziale del "premi un tasto qualsiasi"
 			if(!insertButton)
-				{
-	    			for(int i = 0; i < 256; i++)
-	    			    if(input.isKeyPressed( i ))
-	                        insertButton = true;
-	    			
-					if(input.isMousePressed( Input.MOUSE_LEFT_BUTTON ) || input.isMousePressed( Input.MOUSE_RIGHT_BUTTON ))
-						insertButton = true;
-				}
+    			for(int i = 0; i < 256; i++)
+    			    if(input.isKeyPressed( i ))
+                        insertButton = true;
+		
+			if(!insertButton)
+				if(input.isMousePressed( Input.MOUSE_LEFT_BUTTON ) || input.isMousePressed( Input.MOUSE_RIGHT_BUTTON ))
+					insertButton = true;
 			
 			if(insertButton)
 				{
@@ -242,24 +243,55 @@ public class Begin
 							else
 								indexCursor = 0;
 						}
-		
-					if(editor.checkClick( mouseX, mouseY, input ) || (indexCursor >= 0 && buttons.get( indexCursor ).getName().equals( "LIVELLI" ) && input.isKeyPressed( Input.KEY_ENTER )))
-						{
-							indexCursor = -1;
-							Start.begin = 0;
-							Start.chooseLevel = 1;
-							Start.setPreviuosStats( "begin" );
-						}
-					else if(options.checkClick( mouseX, mouseY, input ) || (indexCursor >= 0 && buttons.get( indexCursor ).getName().equals( "OPZIONI" ) && input.isKeyPressed( Input.KEY_ENTER )))
-						{
-							if(livelli.size() > 0)
-								{
-									indexCursor = -1;
-									Start.begin = 0;
-									Start.settings = 1;
-									Start.setPreviuosStats( "begin" );
-								}
-						}
+					
+					if(input.isMouseButtonDown( Input.MOUSE_LEFT_BUTTON )) {
+					    if(!mouseDown) {
+    				        mouseDown = true;
+    				        
+    				        for(SimpleButton button : buttons) {
+        				        if(button.checkClick( mouseX, mouseY, input )) {
+        					        if(!button.isPressed())
+        					            button.setPressed();
+        					    }
+    				        }
+					    }
+					}
+					else {
+					    if(mouseDown || input.isKeyDown( Input.KEY_ENTER )) {
+    					    mouseDown = false;
+    					    
+    					    if(editor.isPressed() || (indexCursor == 0 && input.isKeyDown( Input.KEY_ENTER ))) {
+    					        boolean pressed = true;
+    					        
+    					        if(editor.isPressed()) {
+    					            editor.setPressed();
+    					            pressed = editor.checkClick( mouseX, mouseY, input );
+    					        }
+    					        
+    					        if(pressed) {
+    					            indexCursor = -1;
+                                    Start.begin = 0;
+                                    Start.chooseLevel = 1;
+                                    Start.setPreviuosStats( "begin" );
+    					        }
+    					    }
+    					    else if(options.isPressed() || (indexCursor == 1 && input.isKeyDown( Input.KEY_ENTER ))) {
+    					        boolean pressed = true;
+                                
+                                if(options.isPressed()) {
+                                    options.setPressed();
+                                    pressed = options.checkClick( mouseX, mouseY, input );
+                                }
+                                
+                                if(pressed && livelli.size() > 0) {
+                                    indexCursor = -1;
+                                    Start.begin = 0;
+                                    Start.settings = 1;
+                                    Start.setPreviuosStats( "begin" );
+                                }
+    					    }
+					    }
+					}
 				}
 		}
 }

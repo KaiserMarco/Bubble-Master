@@ -105,13 +105,7 @@ public class ArrowButton
 	*/
 	public boolean contains( int x, int y, Input input )
 	{
-		if(row.contains( x, y ))
-			if(input.isMousePressed( Input.MOUSE_LEFT_BUTTON ))
-				return true;
-			else
-				return false;
-		
-		return false;
+		return row.contains( x, y );
 	}
 
 	/** disegna la feccia

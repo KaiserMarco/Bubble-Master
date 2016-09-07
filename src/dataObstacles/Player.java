@@ -551,7 +551,6 @@ public class Player extends Ostacolo
 								{
 									if(area.intersects( ost.component( "latoSu" ) ) && (previousArea.getY() + height <= ost.getY()))
 										{
-											System.out.println( "collidere collide" );
 											maxJump = 0;
 											tempJump = 0;
 											jump = false;

@@ -13,7 +13,7 @@ import Utils.Sfondo;
 import bubbleMaster.Start;
 import dataObstacles.Ostacolo;
 
-public class InGame 
+public class InGame
 {	
 	/**array contenente gli ostacoli della partita*/
 	public static ArrayList<Ostacolo> ostacoli;

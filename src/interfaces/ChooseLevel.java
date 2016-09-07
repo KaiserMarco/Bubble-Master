@@ -33,8 +33,10 @@ public class ChooseLevel
 	// valore dell'ordinata dei bottoni
 	private float buttonY;
 	
+	private boolean mouseDown = false;
+	
 	public ChooseLevel( GameContainer gc ) throws SlickException
-		{	
+		{
 			width = gc.getWidth(); 
 			height = gc.getHeight();
 			
@@ -138,70 +140,146 @@ public class ChooseLevel
 					buttons.get( buttons.size() - 1 ).setY( arrows.get( 0 ).getY() + arrows.get( 0 ).getHeight()/2 - buttons.get( buttons.size() - 1 ).getAlt()/2 );
 				}
 			
-			if(left.contains( mouseX, mouseY, input ) || input.isKeyPressed( Input.KEY_LEFT ))
-				{
-					left.setPressed();
-					pos = Math.max( pos - 1, 0 );
-					nameLvl = new SimpleButton( 0, 0, Begin.livelli.get( pos ).getName(), Color.white );					
-					buttons.remove( buttons.size() - 1 );
-					buttons.add( nameLvl );
-					nameLvl.setName( Begin.livelli.get( pos ).getName() );
-					
-					buttons.get( buttons.size() - 1 ).setX( width/2 - buttons.get( buttons.size() - 1 ).getLungh()/2 );
-					buttons.get( buttons.size() - 1 ).setY( height*4/5 + width/80 - buttons.get( buttons.size() - 1 ).getAlt()/2 );
-				}
-			else if(right.contains( mouseX, mouseY, input ) || input.isKeyPressed( Input.KEY_RIGHT ))
-				{
-					right.setPressed();
-					pos = Math.min( pos + 1, Begin.livelli.size() - 1);
-					nameLvl = new SimpleButton( 0, 0, Begin.livelli.get( pos ).getName(), Color.white );					
-					buttons.remove( buttons.size() - 1 );
-					buttons.add( nameLvl );
-					nameLvl.setName( Begin.livelli.get( pos ).getName() );
-					
-					buttons.get( buttons.size() - 1 ).setX( width/2 - buttons.get( buttons.size() - 1 ).getLungh()/2 );
-					buttons.get( buttons.size() - 1 ).setY( height*4/5 + width/80 - buttons.get( buttons.size() - 1 ).getAlt()/2 );
-				}
-			else if(back.checkClick( mouseX, mouseY, input ) || input.isKeyPressed( Input.KEY_BACK ))
-				{
-					Start.chooseLevel = 0;
-					Start.recoverPreviousStats();
-				}
-			else if(start.checkClick( mouseX, mouseY, input ) || input.isKeyPressed( Input.KEY_ENTER ))
-				{
-					Start.ig.addOstacoli( Begin.livelli.get( pos ).getElements(), Begin.livelli.get( pos ).getImage(), gc );
-					
-					Start.stats.startTempo();
-					Global.drawCountdown = true;
-					Global.inGame = true;
-					
-					Start.chooseLevel = 0;
-					Start.startGame = 1;
-					Start.setPreviuosStats( "chooseLevel" );
-				}
-			else if(edit.checkClick( mouseX, mouseY, input ) || input.isKeyPressed( Input.KEY_BACKSLASH ))
-				{
-					Start.ig.addOstacoli( Begin.livelli.get( pos ).getElements(), Begin.livelli.get( pos ).getImage(), gc );
-					editor.setElements( InGame.ostacoli, InGame.players, Begin.livelli.get( pos ).getName(), pos, Begin.livelli.get( pos ).getImage() );
-				
-					Start.chooseLevel = 0;
-					Start.editGame = 1;
-					Start.setPreviuosStats( "chooseLevel" );
-				}
-			else if(newLvl.checkClick( mouseX, mouseY, input ) || input.isKeyPressed( Input.KEY_BACKSLASH ))
-				{
-					editor.setIndex( Begin.livelli.size() + 1 );
-				
-					Start.chooseLevel = 0;
-					Start.editGame = 1;
-					Start.setPreviuosStats( "chooseLevel" );
-				}
-			else if(input.isKeyPressed( Input.KEY_ESCAPE ))
+			if(input.isMouseButtonDown( Input.MOUSE_LEFT_BUTTON )) {
+			    if(!mouseDown) {
+                    mouseDown = true;
+                    
+                    for(SimpleButton button : buttons) {
+                        if(button.checkClick( mouseX, mouseY, input )) {
+                            if(!button.isPressed())
+                                button.setPressed();
+                        }
+                    }
+                    
+                    if(left.contains( mouseX, mouseY, input )) {
+                        if(!left.isPressed())
+                            left.setPressed();
+                    }
+                    else if(right.contains( mouseX, mouseY, input )) {
+                        if(!right.isPressed())
+                            right.setPressed();
+                    }
+			    }
+			}
+			else {
+			    if(mouseDown || checkKeyPressed( input )) {
+			        mouseDown = false;
+			        
+			        if(left.isPressed() || input.isKeyPressed( Input.KEY_LEFT )) {
+                        boolean pressed = true;
+                        
+                        if(left.isPressed()) {
+                            left.setPressed();
+                            pressed = left.contains( mouseX, mouseY, input );
+                        }
+                        
+                        if(pressed && pos > 0) {
+                            nameLvl = new SimpleButton( 0, 0, Begin.livelli.get( --pos ).getName(), Color.white );                    
+                            buttons.remove( buttons.size() - 1 );
+                            buttons.add( nameLvl );
+                            nameLvl.setName( Begin.livelli.get( pos ).getName() );
+                        }
+                    }
+			        else if(right.isPressed() || input.isKeyPressed( Input.KEY_RIGHT )) {
+                        boolean pressed = true;
+                        
+                        if(right.isPressed()) {
+                            right.setPressed();
+                            pressed = right.contains( mouseX, mouseY, input );
+                        }
+                        
+                        if(pressed && pos < Begin.livelli.size() - 1) {
+                            nameLvl = new SimpleButton( 0, 0, Begin.livelli.get( ++pos ).getName(), Color.white );                    
+                            buttons.remove( buttons.size() - 1 );
+                            buttons.add( nameLvl );
+                            nameLvl.setName( Begin.livelli.get( pos ).getName() );
+                            
+                            buttons.get( buttons.size() - 1 ).setX( width/2 - buttons.get( buttons.size() - 1 ).getLungh()/2 );
+                            buttons.get( buttons.size() - 1 ).setY( height*4/5 + width/80 - buttons.get( buttons.size() - 1 ).getAlt()/2 );
+                        }
+                    }
+			        else if(back.isPressed()) {
+                        boolean pressed = true;
+                        
+                        if(back.isPressed()) {
+                            back.setPressed();
+                            pressed = back.checkClick( mouseX, mouseY, input );
+                        }
+                        
+                        if(pressed) {
+                            Start.chooseLevel = 0;
+                            Start.recoverPreviousStats();
+                        }
+                    }
+			        else if(start.isPressed() || input.isKeyPressed( Input.KEY_ENTER )) {
+                        boolean pressed = true;
+                        
+                        if(start.isPressed()) {
+                            start.setPressed();
+                            pressed = start.checkClick( mouseX, mouseY, input );
+                        }
+                        
+                        if(pressed) {
+                            Start.ig.addOstacoli( Begin.livelli.get( pos ).getElements(), Begin.livelli.get( pos ).getImage(), gc );
+                            
+                            Start.stats.startTempo();
+                            Global.drawCountdown = true;
+                            Global.inGame = true;
+                            
+                            Start.chooseLevel = 0;
+                            Start.startGame = 1;
+                            Start.setPreviuosStats( "chooseLevel" );
+                        }
+                    }
+			        else if(edit.isPressed()) {
+                        boolean pressed = true;
+                        
+                        if(edit.isPressed()) {
+                            edit.setPressed();
+                            pressed = edit.checkClick( mouseX, mouseY, input );
+                        }
+                        
+                        if(pressed) {
+                            Start.ig.addOstacoli( Begin.livelli.get( pos ).getElements(), Begin.livelli.get( pos ).getImage(), gc );
+                            editor.setElements( InGame.ostacoli, InGame.players, Begin.livelli.get( pos ).getName(), pos, Begin.livelli.get( pos ).getImage() );
+                        
+                            Start.chooseLevel = 0;
+                            Start.editGame = 1;
+                            Start.setPreviuosStats( "chooseLevel" );
+                        }
+                    }
+			        else if(newLvl.isPressed()) {
+                        boolean pressed = true;
+                        
+                        if(newLvl.isPressed()) {
+                            newLvl.setPressed();
+                            pressed = newLvl.checkClick( mouseX, mouseY, input );
+                        }
+                        
+                        if(pressed) {
+                            editor.setIndex( Begin.livelli.size() + 1 );
+                            
+                            Start.chooseLevel = 0;
+                            Start.editGame = 1;
+                            Start.setPreviuosStats( "chooseLevel" );
+                        }
+                    }
+			    }
+			}
+			
+			if(input.isKeyPressed( Input.KEY_ESCAPE ))
 				{
 					Start.chooseLevel = 0;
 					Start.begin = 1;
 				}
 		}
+	
+	private boolean checkKeyPressed( final Input input )
+	{
+	    return input.isKeyDown( Input.KEY_ENTER ) ||
+	           input.isKeyDown( Input.KEY_RIGHT ) ||
+	           input.isKeyDown( Input.KEY_LEFT );
+	}
 }
 
 

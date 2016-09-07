@@ -28,15 +28,7 @@ public class Button
 		{ return name; }
 	
 	public boolean checkClick( int x, int y, Input input )
-		{ 
-			if(rect.contains( x, y ))
-				if(input.isMousePressed( Input.MOUSE_LEFT_BUTTON ))
-					return true;
-				else
-					return false;
-			
-			return false;
-		}
+		{ return rect.contains( x, y ); }
 
 	/** restituisce lo stato del bottone
 	 * @return TRUE se il bottone e' premuto, FALSE altimenti
