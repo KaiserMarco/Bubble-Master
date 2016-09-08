@@ -12,6 +12,7 @@ import org.newdawn.slick.SlickException;
 import Utils.Global;
 import Utils.Sfondo;
 import bubbleMaster.Start;
+import dataButton.Button;
 import dataButton.SimpleButton;
 import dataObstacles.Ostacolo;
 import dataObstacles.Player;
@@ -35,7 +36,7 @@ public class End
 	
 	private boolean mouseDown = false;
 	
-	private static final String REPLAY = "RIGIOCA";
+	private static final String REPLAY = "RIGIOCA", HOME = "TORNA ALLA SCHERMATA PRINCIPALE", LEVELS = "TORNA ALLA SCHERMATA DEI LIVELLI";
 	
 	public End() throws SlickException
 		{
@@ -47,8 +48,8 @@ public class End
 			buttons = new ArrayList<SimpleButton>();
 			
 			replay = new SimpleButton( Global.W/5, Global.H*3/4, REPLAY, Color.orange );
-			begin = new SimpleButton( Global.W/2, Global.H*3/4, "TORNA ALLA SCHERMATA PRINCIPALE", Color.orange );
-			choose = new SimpleButton( Global.W*10/33, Global.H*6/7, "TORNA ALLA SCELTA LIVELLI", Color.orange );
+			begin = new SimpleButton( Global.W/2, Global.H*3/4, HOME, Color.orange );
+			choose = new SimpleButton( Global.W*10/33, Global.H*6/7, LEVELS, Color.orange );
 			
 			buttons.add( replay );
 			buttons.add( begin );
@@ -128,6 +129,20 @@ public class End
 			if(indexCursor >= 0)
 				cursor.draw( buttons.get( indexCursor ).getX() - widthC, buttons.get( indexCursor ).getY(), widthC, heightC );
 		}
+	
+	private void returnToBegin()
+		{ Start.begin = 1; }
+	
+	private int checkButton( Button button, Input input, int i )
+		{
+			if(button.isPressed())
+				return 1;
+			else if(indexCursor >= 0 && indexCursor == i)
+				if(input.isKeyPressed( Input.KEY_ENTER ))
+					return 2;
+		
+			return 0;
+		}
 
 	public void update(GameContainer gc) throws SlickException
 		{
@@ -135,85 +150,86 @@ public class End
 			int mouseX = input.getMouseX();
 			int mouseY = input.getMouseY();
 			
-			if((input.isKeyPressed( Input.KEY_UP ) || input.isKeyPressed( Input.KEY_DOWN ) || input.isKeyPressed( Input.KEY_LEFT ) || input.isKeyPressed( Input.KEY_RIGHT )))
+			if((input.isKeyPressed( Input.KEY_UP ) || input.isKeyPressed( Input.KEY_DOWN )
+			|| input.isKeyPressed( Input.KEY_LEFT ) || input.isKeyPressed( Input.KEY_RIGHT )))
                 {
                     if(indexCursor < 0)
                         indexCursor = 0;
-                    else if(indexCursor == 0)
-                        indexCursor = 1;
                     else
-                        indexCursor = 0;
+                    	indexCursor = (indexCursor + 1)%buttons.size();
                 }
 			
-			if(input.isMouseButtonDown( Input.MOUSE_LEFT_BUTTON )) {
-                if(!mouseDown) {
-                    mouseDown = true;
-                    
-                    for(SimpleButton button : buttons) {
-                        if(button.checkClick( mouseX, mouseY, input )) {
-                            if(!button.isPressed())
-                                button.setPressed();
-                        }
-                    }
-                }
-            }
-            else {
-                if(mouseDown || checkKeyPressed( input )) {
-                    mouseDown = false;
-                    
-                    if(replay.isPressed() || (buttons.get( indexCursor ).getName().equals( REPLAY ) && input.isKeyPressed( Input.KEY_ENTER )))
-                        {
-                            boolean pressed = true;
-                            
-                            if(replay.isPressed()) {
-                                replay.setPressed();
-                                pressed = replay.checkClick( mouseX, mouseY, input );
-                            }
-                            
-                            if(pressed) {
-                                indexCursor = -1;
-                                Start.ig.addOstacoli( Begin.livelli.get( Start.cl.getIndexLevel() ).getElements(), Begin.livelli.get( Start.cl.getIndexLevel() ).getImage(), gc );
-                                Global.drawCountdown = true;
-                                Start.stats.startTempo();
-                                Global.inGame = true;
-                                Start.endGame = 0;
-                                Start.startGame = 1;
-                            }
-                        }
-                    
-                    else if(begin.isPressed() || (buttons.get( indexCursor ).getName().startsWith( "TORNA ALLA SCHERMATA" ) && input.isKeyPressed( Input.KEY_ENTER )))
-                        {
-                            boolean pressed = true;
-                            
-                            if(begin.isPressed()) {
-                                begin.setPressed();
-                                pressed = begin.checkClick( mouseX, mouseY, input );
-                            }
-                            
-                            if(pressed) {
-                                indexCursor = -1;
-                                Start.endGame = 0;
-                                Start.begin = 1;
-                            }
-                        }
-                    
-                    else if(choose.isPressed() || (buttons.get( indexCursor ).getName().startsWith( "TORNA ALLA SCELTA" ) && input.isKeyPressed( Input.KEY_ENTER )))
-                        {
-                            boolean pressed = true;
-                            
-                            if(choose.isPressed()) {
-                                choose.setPressed();
-                                pressed = choose.checkClick( mouseX, mouseY, input );
-                            }
-                            
-                            if(pressed) {
-                                indexCursor = -1;
-                                Start.endGame = 0;
-                                Start.chooseLevel = 1;
-                            }
-                        }
-                }
-            }
+			if(input.isKeyPressed( Input.KEY_ESCAPE ))
+				returnToBegin();
+			
+			if(input.isMouseButtonDown( Input.MOUSE_LEFT_BUTTON ))
+				{
+	                if(!mouseDown)
+		                {
+		                    mouseDown = true;
+		                    
+		                    for(SimpleButton button : buttons)
+		                        if(button.checkClick( mouseX, mouseY, input ))
+		                        	if(!button.isPressed())
+	                            		button.setPressed();
+		                }
+	            }
+            else
+	            {
+	                if(mouseDown || checkKeyPressed( input ))
+		                {
+		                    mouseDown = false;
+		                    
+		                    for(int i = 0; i < buttons.size(); i++)
+		                    	{
+		                    		int value = checkButton( buttons.get( i ), input, i );
+		                        	boolean pressed = true;
+		                    		if(value == 1)
+		                    			{
+			                                buttons.get( i ).setPressed();
+			                                pressed = buttons.get( i ).checkClick( mouseX, mouseY, input );
+				                            
+				                            if(pressed)
+					                            {
+				                                	Start.endGame = 0;
+					                                indexCursor = -1;
+				                            		if(buttons.get( i ).getName().equals( REPLAY ))
+					                            		{
+							                                Start.ig.addOstacoli( Begin.livelli.get( Start.cl.getIndexLevel() ).getElements(), Begin.livelli.get( Start.cl.getIndexLevel() ).getImage(), gc );
+							                                Global.drawCountdown = true;
+							                                Start.stats.startTempo();
+							                                Global.inGame = true;
+							                                Start.startGame = 1;
+					                            		}
+				                            		else if(buttons.get( i ).getName().equals( HOME ))
+				                            			returnToBegin();
+				                            		else if(buttons.get( i ).getName().equals( LEVELS ))
+				                                        Start.chooseLevel = 1;
+					                            }
+				                            break;
+		                    			}
+		                    		else if(value == 2)
+		                    			{
+			                    			Start.endGame = 0;
+			                                indexCursor = -1;
+			                        		if(buttons.get( i ).getName().equals( REPLAY ))
+			                            		{
+					                                Start.ig.addOstacoli( Begin.livelli.get( Start.cl.getIndexLevel() ).getElements(), Begin.livelli.get( Start.cl.getIndexLevel() ).getImage(), gc );
+					                                Global.drawCountdown = true;
+					                                Start.stats.startTempo();
+					                                Global.inGame = true;
+					                                Start.startGame = 1;
+			                            		}
+			                        		else if(buttons.get( i ).getName().equals( HOME ))
+	                            				returnToBegin();
+		                            		else if(buttons.get( i ).getName().equals( LEVELS ))
+		                                        Start.chooseLevel = 1;
+			                        		
+			                        		break;
+		                    			}
+		                    	}
+		                }
+	            }
 		}
 	
 	private boolean checkKeyPressed( final Input input )
