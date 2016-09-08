@@ -193,7 +193,10 @@ public class End
 			                                pressed = buttons.get( i ).checkClick( mouseX, mouseY, input );
 				                            // pressed tramite mouse || value==2 tramite tastiera
 				                            if(pressed || value == 2)
-					                            {
+					                            {				                    			
+					                    			for(SimpleButton button : buttons)
+					                    				if(button.isPressed())
+					                    					button.setPressed();
 				                                	Start.endGame = 0;
 					                                indexCursor = -1;
 				                            		if(buttons.get( i ).getName().equals( REPLAY ))
@@ -218,5 +221,5 @@ public class End
 		}
 	
 	private boolean checkKeyPressed( final Input input )
-    	{ return input.isKeyDown( Input.KEY_ENTER ); }
+    	{ return input.isKeyDown( Input.KEY_ENTER );  }
 }

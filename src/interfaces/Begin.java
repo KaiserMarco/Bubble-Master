@@ -19,6 +19,7 @@ import org.w3c.dom.NodeList;
 import Utils.Global;
 import Utils.Sfondo;
 import bubbleMaster.Start;
+import dataButton.Button;
 import dataButton.SimpleButton;
 import dataObstacles.Bubble;
 import dataObstacles.Ostacolo;
@@ -65,6 +66,8 @@ public class Begin
 	
 	private boolean mouseDown = false;
 	
+	private static final String OPTIONS = "OPZIONI", LEVELS = "LIVELLI";
+	
 	public Begin( GameContainer gc ) throws SlickException
 		{
 	        insertButton = false;
@@ -75,8 +78,8 @@ public class Begin
 			livelli = new ArrayList<Livello>();
 			
 			Color color = Color.orange;
-			options = new SimpleButton( 0, gc.getHeight()/4, "OPZIONI", color );
-			editor = new SimpleButton( gc.getWidth(), gc.getHeight()/2, "LIVELLI", color );
+			options = new SimpleButton( 0, gc.getHeight()/4, OPTIONS, color );
+			editor = new SimpleButton( gc.getWidth(), gc.getHeight()/2, LEVELS, color );
 			
 			elements = new ArrayList<Ostacolo>();
 			
@@ -202,6 +205,17 @@ public class Begin
 			checkRatioW = Global.ratioW;
 			checkRatioH = Global.ratioH;
 		}
+	
+	private int checkButton( Button button, Input input, int i )
+		{
+			if(button.isPressed())
+				return 1;
+			else if(indexCursor >= 0 && indexCursor == i)
+				if(input.isKeyPressed( Input.KEY_ENTER ))
+					return 2;
+		
+			return 0;
+		}
 
 	public void update(GameContainer gc, int delta) throws SlickException 
 		{
@@ -244,54 +258,55 @@ public class Begin
 								indexCursor = 0;
 						}
 					
-					if(input.isMouseButtonDown( Input.MOUSE_LEFT_BUTTON )) {
-					    if(!mouseDown) {
-    				        mouseDown = true;
-    				        
-    				        for(SimpleButton button : buttons) {
-        				        if(button.checkClick( mouseX, mouseY, input )) {
-        					        if(!button.isPressed())
-        					            button.setPressed();
-        					    }
-    				        }
-					    }
-					}
-					else {
-					    if(mouseDown || input.isKeyDown( Input.KEY_ENTER )) {
-    					    mouseDown = false;
-    					    
-    					    if(editor.isPressed() || (indexCursor == 0 && input.isKeyDown( Input.KEY_ENTER ))) {
-    					        boolean pressed = true;
-    					        
-    					        if(editor.isPressed()) {
-    					            editor.setPressed();
-    					            pressed = editor.checkClick( mouseX, mouseY, input );
-    					        }
-    					        
-    					        if(pressed) {
-    					            indexCursor = -1;
-                                    Start.begin = 0;
-                                    Start.chooseLevel = 1;
-                                    Start.setPreviuosStats( "begin" );
-    					        }
-    					    }
-    					    else if(options.isPressed() || (indexCursor == 1 && input.isKeyDown( Input.KEY_ENTER ))) {
-    					        boolean pressed = true;
-                                
-                                if(options.isPressed()) {
-                                    options.setPressed();
-                                    pressed = options.checkClick( mouseX, mouseY, input );
-                                }
-                                
-                                if(pressed && livelli.size() > 0) {
-                                    indexCursor = -1;
-                                    Start.begin = 0;
-                                    Start.settings = 1;
-                                    Start.setPreviuosStats( "begin" );
-                                }
-    					    }
-					    }
-					}
+					if(input.isMouseButtonDown( Input.MOUSE_LEFT_BUTTON ))
+						{
+			                if(!mouseDown)
+				                {
+				                    mouseDown = true;
+				                    
+				                    for(SimpleButton button : buttons)
+				                        if(button.checkClick( mouseX, mouseY, input ))
+				                        	if(!button.isPressed())
+			                            		button.setPressed();
+				                }
+			            }
+		            else
+			            {
+			                if(mouseDown || checkKeyPressed( input ))
+				                {
+				                    mouseDown = false;
+				                    
+				                    for(int i = 0; i < buttons.size(); i++)
+				                    	{
+				                    		int value = checkButton( buttons.get( i ), input, i );
+				                        	boolean pressed = true;
+				                        	// se e' stato premuto il tasto
+				                    		if(value > 0)
+				                    			{
+					                                for(SimpleButton button: buttons)
+					                                	if(button.isPressed())
+					                                		button.setPressed();
+					                                pressed = buttons.get( i ).checkClick( mouseX, mouseY, input );
+						                            // pressed tramite mouse || value==2 tramite tastiera
+						                            if(pressed || value == 2)
+							                            {
+				                                			Start.begin = 0;
+						                                	indexCursor = -1;
+				                                    		Start.setPreviuosStats( "begin" ); 
+						                            		if(buttons.get( i ).getName().equals( OPTIONS ))
+							                            		Start.settings = 1;
+						                            		else if(buttons.get( i ).getName().equals( LEVELS ))
+						                                        Start.chooseLevel = 1;
+						                            		
+								                            break;
+							                            }
+				                    			}
+				                    	}
+				                }
+			            }
 				}
 		}
+	
+	private boolean checkKeyPressed( final Input input )
+    	{ return input.isKeyDown( Input.KEY_ENTER ); }
 }

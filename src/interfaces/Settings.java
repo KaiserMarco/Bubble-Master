@@ -302,11 +302,11 @@ public class Settings
 		}
 	
 	private boolean checkKeyPressed( final Input input )
-    {
-        return input.isKeyDown( Input.KEY_ENTER ) ||
-               input.isKeyDown( Input.KEY_RIGHT ) ||
-               input.isKeyDown( Input.KEY_LEFT );
-    }
+	    {
+	        return input.isKeyDown( Input.KEY_ENTER ) ||
+	               input.isKeyDown( Input.KEY_RIGHT ) ||
+	               input.isKeyDown( Input.KEY_LEFT );
+	    }
 }
 
 
