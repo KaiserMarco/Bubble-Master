@@ -24,8 +24,6 @@ public class Settings
 	
 	private String resolution, lifes;
 	
-	private int vite;
-	
 	private ArrayList<String> dimensions;
 	private ArrayList<Rectangle> dimensioni;
 	
@@ -40,6 +38,13 @@ public class Settings
 	
 	private boolean mouseDown = false;
 	
+	// le vite del personaggio
+	private int vite;
+	// lunghezza e altezza dei cuori
+	private int widthH, heightH;
+	// le immagini del cuore
+	private Image heart, halfHeart, noHeart;
+	
 	public Settings( GameContainer gc ) throws SlickException
 		{
 			Color color = Color.orange;
@@ -49,7 +54,7 @@ public class Settings
 			int width = Global.W/20, height = Global.H/50;
 			
 			left = new ArrowButton( ArrowButton.LEFT, new float[]{ Global.W*10/32, Global.H/3 + height/2, Global.W*10/32 + width, Global.H/3, Global.W*10/32 + width, Global.H/3 + height }, Color.white );
-			right = new ArrowButton( ArrowButton.RIGHT, new float[]{ Global.W/2, Global.H/3, Global.W/2, Global.H/3 + height, Global.W/2 + width, Global.H/3 + height/2 },Color.white );
+			right = new ArrowButton( ArrowButton.RIGHT, new float[]{ Global.W*52/100, Global.H/3, Global.W*52/100, Global.H/3 + height, Global.W*52/100 + width, Global.H/3 + height/2 },Color.white );
 			
 			buttons = new ArrayList<SimpleButton>();
 			buttons.add( back );
@@ -68,6 +73,11 @@ public class Settings
 			yRes = Global.H/5;
 			wRes = Global.W/10;
 			hRes = Global.H/30;
+			
+			heart = new Image( "./data/Image/heart.png" );
+			halfHeart = new Image( "./data/Image/halfHeart.png" );
+			noHeart = new Image( "./data/Image/noHeart.png" );
+			widthH = gc.getWidth()/40; heightH = gc.getHeight()/30;
 			
 			dimensioni.add( new Rectangle( xRes, yRes, wRes, hRes ) );
 			dimensioni.add( new Rectangle( dimensioni.get( dimensioni.size() - 1 ).getMaxX(), yRes, Global.W/100, dimensioni.get( 0 ).getHeight() ) );
@@ -104,9 +114,14 @@ public class Settings
 			
 			left.draw( g );
 			right.draw( g );
-			
-			g.setColor( Color.black );
-			g.drawString( "" + vite, left.getMaxX() + (right.getX() - left.getMaxX())/2, right.getY() );
+
+			int j, startX = (int) (left.getMaxX() + (right.getX() - left.getMaxX())/2 - widthH*2), startY = (int)(left.getY() + left.getHeight()/2 - heightH/2);
+			for(j = 0; j < vite/2; j++)
+				heart.draw( startX + widthH*j, startY, widthH, heightH );
+			if(vite%2 == 1)
+				halfHeart.draw( startX + widthH*(j++), startY, widthH, heightH );
+			for(;j < 4; j++)
+				noHeart.draw( startX + widthH*j, startY, widthH, heightH );
 			
 			int i;
 			for(i = 0; i < 2; i++)
