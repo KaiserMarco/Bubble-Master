@@ -76,9 +76,11 @@ public class End
 			for(int i = 0; i < ostacoli.size(); i++)
 				ostacoli.get( i ).draw( g );
 			
-			Image fine = new Image( "./data/Image/vuoto.png" );
 			Color black = new Color( 0, 0, 0, 185 );
-			fine.draw( 0, 0, Global.W, Global.H, black );
+			g.setColor( black );
+			g.fillRect( 0, 0, Global.W, Global.H );
+			
+			g.setColor( Color.lightGray );
 
 			// TODO INSERIRE EVENTUALI ALTRE STATISTICHE
 
@@ -124,7 +126,7 @@ public class End
 			g.resetTransform();
 			
 			for(int i = 0; i < buttons.size(); i++)
-				buttons.get( i ).draw( gc.getGraphics() );
+				buttons.get( i ).draw( g );
 			
 			if(indexCursor >= 0)
 				cursor.draw( buttons.get( indexCursor ).getX() - widthC, buttons.get( indexCursor ).getY(), widthC, heightC );
@@ -184,12 +186,13 @@ public class End
 		                    	{
 		                    		int value = checkButton( buttons.get( i ), input, i );
 		                        	boolean pressed = true;
-		                    		if(value == 1)
+		                        	// se e' stato premuto il tasto
+		                    		if(value > 0)
 		                    			{
 			                                buttons.get( i ).setPressed();
 			                                pressed = buttons.get( i ).checkClick( mouseX, mouseY, input );
-				                            
-				                            if(pressed)
+				                            // pressed tramite mouse || value==2 tramite tastiera
+				                            if(pressed || value == 2)
 					                            {
 				                                	Start.endGame = 0;
 					                                indexCursor = -1;
@@ -205,27 +208,9 @@ public class End
 				                            			returnToBegin();
 				                            		else if(buttons.get( i ).getName().equals( LEVELS ))
 				                                        Start.chooseLevel = 1;
+				                            		
+						                            break;
 					                            }
-				                            break;
-		                    			}
-		                    		else if(value == 2)
-		                    			{
-			                    			Start.endGame = 0;
-			                                indexCursor = -1;
-			                        		if(buttons.get( i ).getName().equals( REPLAY ))
-			                            		{
-					                                Start.ig.addOstacoli( Begin.livelli.get( Start.cl.getIndexLevel() ).getElements(), Begin.livelli.get( Start.cl.getIndexLevel() ).getImage(), gc );
-					                                Global.drawCountdown = true;
-					                                Start.stats.startTempo();
-					                                Global.inGame = true;
-					                                Start.startGame = 1;
-			                            		}
-			                        		else if(buttons.get( i ).getName().equals( HOME ))
-	                            				returnToBegin();
-		                            		else if(buttons.get( i ).getName().equals( LEVELS ))
-		                                        Start.chooseLevel = 1;
-			                        		
-			                        		break;
 		                    			}
 		                    	}
 		                }
@@ -233,7 +218,5 @@ public class End
 		}
 	
 	private boolean checkKeyPressed( final Input input )
-    {
-        return input.isKeyDown( Input.KEY_ENTER );
-    }
+    	{ return input.isKeyDown( Input.KEY_ENTER ); }
 }
