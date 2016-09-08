@@ -20,6 +20,7 @@ import org.newdawn.slick.geom.Rectangle;
 import Utils.Elements;
 import Utils.Sfondo;
 import bubbleMaster.Start;
+import dataButton.Button;
 import dataButton.SimpleButton;
 import dataObstacles.Ostacolo;
 
@@ -78,6 +79,10 @@ public class Edit
 	//determina l'indice del livello
 	private int index = -1;
 	
+	private final static String SAVE = "SALVA LIVELLO", BACK = "INDIETRO";
+	
+	private boolean mouseDown = false;
+	
 	public Edit( GameContainer gc ) throws SlickException
 		{
 			elem = new Elements( gc );
@@ -91,8 +96,8 @@ public class Edit
 			widthArrow = gc.getWidth()/15;
 			heightArrow = gc.getHeight()/40;
 
-			back = new SimpleButton( gc.getWidth()/15, gc.getHeight()*24/25, "INDIETRO", Color.orange );
-			saveLevel = new SimpleButton( gc.getWidth()*3/4, gc.getHeight()*24/25, "SALVA LIVELLO", Color.orange );
+			back = new SimpleButton( gc.getWidth()/15, gc.getHeight()*24/25, BACK, Color.orange );
+			saveLevel = new SimpleButton( gc.getWidth()*3/4, gc.getHeight()*24/25, SAVE, Color.orange );
 
 			choiseI = new Image( "./data/Image/choise.png" );
 			baseI = new Image( "./data/Image/Window.png" );
@@ -506,12 +511,25 @@ public class Edit
             setChoise( gc );
 	    }
 	
+	private int checkButton( Button button, Input input, int i )
+		{
+			if(button.isPressed())
+				return 1;
+			else if(indexCursor >= 0 && indexCursor == i)
+				if(input.isKeyPressed( Input.KEY_ENTER ))
+					return 2;
+		
+			return 0;
+		}
+	
 	public void update( GameContainer gc, int delta )throws SlickException
 		{
 			Input input = gc.getInput();
 			int mouseX = input.getMouseX();
 			int mouseY = input.getMouseY();
 			int move = gc.getHeight()/300;
+			
+			// TODO ENORME LAVORO DI CODE REFACTORING
 			
 			boolean collide = false, fall = false;
 			//determina se il personaggio "tocca" un oggetto del livello o il pavimento
@@ -840,29 +858,67 @@ public class Edit
 							insertEditor = true;
 							resetIndexCursor();
 						}
-					//inserimento nuovo livello
-					else if((indexCursorButton >= 0 && buttons.get( indexCursorButton ).getName().equals( "SALVA LIVELLO" ) && input.isKeyPressed( Input.KEY_ENTER )) || saveLevel.checkClick( mouseX, mouseY, input ))
+					
+					if(input.isMouseButtonDown( Input.MOUSE_LEFT_BUTTON ))
 						{
-							if(!insertEditor)
-								if(gamer > 0 && ball > 0)
-									{
-										addNewLevel( gc );
-										gamer = 0;
-										ball = 0;
-										
-										resetStatus();
-										Start.chooseLevel = 1;
-										Start.editGame = 0;
-									}
-						}
-					//torna alla schermata precedente
-					else if(input.isKeyPressed( Input.KEY_BACK ))
-						{
-							nameLvl = null;
-							resetStatus();
-							Start.editGame = 0;
-							Start.recoverPreviousStats();
-						}
+			                if(!mouseDown)
+				                {
+				                    mouseDown = true;
+				                    
+				                    for(SimpleButton button : buttons)
+				                        if(button.checkClick( mouseX, mouseY, input ))
+				                        	if(!button.isPressed())
+			                            		button.setPressed();
+				                }
+			            }
+		            else
+			            {
+			                if(mouseDown || checkKeyPressed( input ))
+				                {
+				                    mouseDown = false;
+				                    
+				                    for(int i = 0; i < buttons.size(); i++)
+				                    	{
+				                    		int value = checkButton( buttons.get( i ), input, i );
+				                        	boolean pressed = true;
+				                        	// se e' stato premuto il tasto
+				                    		if(value > 0)
+				                    			{
+					                                for(SimpleButton button: buttons)
+					                                	if(button.isPressed())
+					                                		button.setPressed();
+					                                pressed = buttons.get( i ).checkClick( mouseX, mouseY, input );
+						                            // pressed tramite mouse || value==2 tramite tastiera
+						                            if(pressed || value == 2)
+							                            {
+				                                			Start.editGame = 0;
+						                                	indexCursor = -1;
+				                                    		Start.setPreviuosStats( "begin" ); 
+						                            		if(buttons.get( i ).getName().equals( BACK ))
+							                            		{
+						                            				nameLvl = null;
+						            								resetStatus();
+						            								Start.recoverPreviousStats();
+							                            		}
+						                            		else if(buttons.get( i ).getName().equals( SAVE ))
+						                            			{
+						                            				if(!insertEditor)
+						                            					if(gamer > 0 && ball > 0)
+						            										{
+						            											addNewLevel( gc );
+						            											gamer = 0;
+						            											ball = 0;
+						            										
+						            											resetStatus();
+						            											Start.recoverPreviousStats();
+						            										}
+						                            			}
+						                            		
+								                            break;
+							                            }
+				                    			}
+				                    	}
+				                }
 					//controlla selezione sfondo/elemento tramite tastiera
 					else if(input.isKeyPressed( Input.KEY_ENTER ))
 						{
@@ -872,6 +928,11 @@ public class Edit
 					else if(input.isMousePressed( Input.MOUSE_LEFT_BUTTON ))
 						if(checkPressed( mouseX, mouseY, gc, "mouse" ))
 							choise.setLocation( choise.getX(), gc.getHeight() - heightChoise );
+			            }
 				}
+				
 		}
+	
+	private boolean checkKeyPressed( final Input input )
+    	{ return input.isKeyDown( Input.KEY_ENTER ); }
 }

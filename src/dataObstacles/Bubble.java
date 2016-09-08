@@ -19,7 +19,7 @@ public class Bubble extends Ostacolo
      
     private Circle ostr;
  
-    private int speedX = -1, speedY = -1;
+    private float speedX = -1, speedY = -1;
      
     private Image immagine = new Image( "./data/Image/Palla.png" );
      
@@ -136,18 +136,16 @@ public class Bubble extends Ostacolo
     public boolean isCollided()
         { return collided; }
  
-    public int getSpeedX()
+    public float getSpeedX()
         { return speedX; }
  
-    public int getSpeedY()
+    public float getSpeedY()
         { return speedY; }
  
-    public void setSpeed( Integer x, Integer y )
+    public void setSpeed( float x, float y )
         {
-    		if(x != null)
-    			speedX = x;
-    		if(y != null)
-    			speedY = y;
+    		speedX = x;
+    		speedY = y;
         }
     
     public boolean getCollide()

@@ -26,10 +26,6 @@ public abstract class Ostacolo
 	public abstract float getX();	
 	public abstract float getY();
 	
-	public abstract int getSpeedX();
-	public abstract int getSpeedY();
-	public abstract void setSpeed( Integer x, Integer y );
-	
 	public abstract void setInsert( boolean insert, boolean change );
 	
 	public abstract Ostacolo clone( GameContainer gc );
