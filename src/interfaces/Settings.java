@@ -50,6 +50,10 @@ public class Settings
 	private static final String BACK = "INDIETRO", APPLY = "APPLICA";
 	
 	private int indexCursor;
+	/*dimensioni del cursore*/
+	private int widthC, heightC;
+	/*immagine del cursore*/
+	private Image cursor;
 	
 	public Settings( GameContainer gc ) throws SlickException
 		{
@@ -108,6 +112,11 @@ public class Settings
 			drawChoiseRes = false;
 			
 			indexCursor = -1;
+
+			widthC = gc.getWidth()*100/1777;
+			heightC = gc.getHeight()/24;
+			
+			cursor = new Image( "./data/Image/cursore.png" );
 		}
 	
 	public void draw( GameContainer gc )
@@ -157,6 +166,9 @@ public class Settings
 							g.drawString( dimensions.get( i - 2 ), dimensioni.get( i ).getX(), dimensioni.get( i ).getY() );
 						}
 				}
+			
+			if(indexCursor >= 0)
+					cursor.draw( buttons.get( indexCursor ).getX() - widthC, buttons.get( indexCursor ).getY(), widthC, heightC );
 		}
 	
 	private int checkButton( Button button, Input input, int i )
@@ -237,8 +249,17 @@ public class Settings
 			Input input = gc.getInput();
 			int mouseX = input.getMouseX();
 			int mouseY = input.getMouseY();
-			
-			// TODO INSERIRE IL CURSORE
+
+			if((input.isKeyPressed( Input.KEY_UP ) || input.isKeyPressed( Input.KEY_DOWN )
+			|| input.isKeyPressed( Input.KEY_LEFT ) || input.isKeyPressed( Input.KEY_RIGHT )))
+				{
+					if(indexCursor < 0)
+						indexCursor = 0;
+					else if(indexCursor == 0)
+						indexCursor = 1;
+					else
+						indexCursor = 0;
+				}
 			
 			if(input.isMouseButtonDown( Input.MOUSE_LEFT_BUTTON ))
 				{
