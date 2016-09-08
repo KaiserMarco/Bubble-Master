@@ -167,15 +167,6 @@ public class Sbarra extends Ostacolo{
 	
 	public double getMaxHeight()
 		{ return 0; }
-
-	public int getSpeedX()
-		{ return 0; }
-
-	public int getSpeedY()
-		{ return 0; }
-
-	public void setSpeed(Integer x, Integer y)
-		{}
 	
 	public void setCollided( boolean val )
 		{}

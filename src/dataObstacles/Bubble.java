@@ -19,7 +19,7 @@ public class Bubble extends Ostacolo
      
     private Circle ostr;
  
-    private float speedX = -1, speedY = -1;
+    private float speedX, speedY;
      
     private Image immagine = new Image( "./data/Image/Palla.png" );
      
@@ -38,6 +38,8 @@ public class Bubble extends Ostacolo
 	private boolean primoTubo, secondoTubo;
 	//determina se le velocita' della sfera sono state settate
 	private boolean setSpeed;
+	
+	private float backupSpeedX, backupSpeedY;
      
     public Bubble( Ostacolo ost, GameContainer gc ) throws SlickException
         { this( (int) ost.getX(), (int) ost.getY(), (int) ost.getWidth(), ost.getMaxWidth(), gc ); }
@@ -55,6 +57,8 @@ public class Bubble extends Ostacolo
             secondoTubo = false;
             indexTube = -1;
             previousIndexTube = -1;
+            speedX = -1;
+            speedY = -1;
         }
      
     public void draw( Graphics g ) throws SlickException
@@ -76,6 +80,10 @@ public class Bubble extends Ostacolo
     		ray = ray * Global.ratioH;
     		ostr.setCenterX( ostr.getCenterX() * Global.ratioW );
     		ostr.setCenterY( ostr.getCenterY() * Global.ratioH );
+    		
+    		speedX = speedX * Global.ratioW;
+    		speedY = speedY * Global.ratioH;
+    		//System.out.println( speedX + " " + speedY );
     		
     		ostr = new Circle( ostr.getCenterX(), ostr.getCenterY(), ray );
     		maxW = maxW * Global.ratioW;
@@ -205,6 +213,7 @@ public class Bubble extends Ostacolo
     /**determina la velocita' risultante nella collisione fra sfera e altri ostacoli*/
     public void gestioneCollisioni( Ostacolo ost )
     	{
+    		//System.out.println( speedX + " " + speedY );
 	    	if(ostr.intersects( ost.component( "rect" ) ))
 		        {
 					// alto a sinistra || in alto
@@ -340,6 +349,9 @@ public class Bubble extends Ostacolo
 		    		
 		    		if(secondoTubo)
 		    			secondoTubo = false;
+		    		
+		    		backupSpeedX = Math.abs( speedX );
+		    		backupSpeedY = Math.abs( speedY );
 		        }
     	}
     
@@ -350,6 +362,8 @@ public class Bubble extends Ostacolo
 			String pos = ost.getOrienting();
 			// spigolo di riferimento per l'ingresso
 			Shape ingr = ost.component( "spigASx" );
+			
+			// TODO LAVORARE MEGLIO SUI BACKUPSPEED
 			
     		//la sfera e' nel PRIMO tubo
     		if(primoTubo)
@@ -371,23 +385,23 @@ public class Bubble extends Ostacolo
 					
 					if(ost.getOrienting().equals( "sx" ))
 						{
-							speedX = -1;
+							speedX = -backupSpeedX;
 							speedY = 0;
 						}
 					else if(ost.getOrienting().equals( "dx" ))
 						{
-							speedX = 1;
+							speedX = backupSpeedX;
 							speedY = 0;
 						}
 					else if(ost.getOrienting().equals( "up" ))
 						{
 							speedX = 0;
-							speedY = -1;
+							speedY = -backupSpeedY;
 						}
 					else
 						{
 							speedX = 0;
-							speedY = 1;
+							speedY = backupSpeedY;
 						}
     			}
     	}
@@ -395,6 +409,7 @@ public class Bubble extends Ostacolo
     /**gestisce collisioni fra tutti gli elementi*/
     public void checkAll( int i, Ostacolo ost )
     	{	
+			System.out.println( speedX + " " + speedY );
 	    	if(!ost.getID().equals( "bolla" ))
 		        {
 		        	if(ost.getID().equals( "tubo" ) && !primoTubo && !secondoTubo)
@@ -472,8 +487,10 @@ public class Bubble extends Ostacolo
         { return ray*2; }
  
     public Ostacolo clone( GameContainer gc ) {
-        try {
-            return new Bubble( (int) ostr.getX(), (int) ostr.getY(), (int) ray, maxW, gc );
+        try {        	
+            Bubble b = new Bubble( (int) ostr.getX(), (int) ostr.getY(), (int) ray, maxW, gc );
+            b.setSpeed( speedX, speedY );
+            return b;
         } catch (SlickException e) {
             e.printStackTrace();
             return null;

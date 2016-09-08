@@ -189,15 +189,6 @@ public class Tubo extends Ostacolo{
 			return null;
 		}
 	}
-
-	public int getSpeedX()
-		{ return 0; }
-
-	public int getSpeedY()
-		{ return 0; }
-
-	public void setSpeed(Integer x, Integer y)
-		{}
 	
 	public void setCollided( boolean val )
 		{}
