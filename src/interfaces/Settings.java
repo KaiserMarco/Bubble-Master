@@ -13,6 +13,7 @@ import org.newdawn.slick.geom.Rectangle;
 import Utils.Global;
 import bubbleMaster.Start;
 import dataButton.ArrowButton;
+import dataButton.Button;
 import dataButton.SimpleButton;
 import dataObstacles.Player;
 
@@ -20,6 +21,7 @@ public class Settings
 {
 	private ArrayList<SimpleButton> buttons;
 	private SimpleButton saveChanges, back;
+	private ArrayList<ArrowButton> arrows;
 	private ArrowButton left, right;
 	
 	private String resolution, lifes;
@@ -45,16 +47,24 @@ public class Settings
 	// le immagini del cuore
 	private Image heart, halfHeart, noHeart;
 	
+	private static final String BACK = "INDIETRO", APPLY = "APPLICA";
+	
+	private int indexCursor;
+	
 	public Settings( GameContainer gc ) throws SlickException
 		{
 			Color color = Color.orange;
-			back = new SimpleButton( gc.getWidth()/5, gc.getHeight()*8/9, "INDIETRO", color );
-			saveChanges = new SimpleButton( gc.getWidth()*2/3, gc.getHeight()*8/9, "APPLICA", color );
+			back = new SimpleButton( gc.getWidth()/5, gc.getHeight()*8/9, BACK, color );
+			saveChanges = new SimpleButton( gc.getWidth()*2/3, gc.getHeight()*8/9, APPLY, color );
 			
 			int width = Global.W/20, height = Global.H/50;
 			
 			left = new ArrowButton( ArrowButton.LEFT, new float[]{ Global.W*10/32, Global.H/3 + height/2, Global.W*10/32 + width, Global.H/3, Global.W*10/32 + width, Global.H/3 + height }, Color.white );
 			right = new ArrowButton( ArrowButton.RIGHT, new float[]{ Global.W*52/100, Global.H/3, Global.W*52/100, Global.H/3 + height, Global.W*52/100 + width, Global.H/3 + height/2 },Color.white );
+			
+			arrows = new ArrayList<ArrowButton>();
+			arrows.add( left );
+			arrows.add( right );
 			
 			buttons = new ArrayList<SimpleButton>();
 			buttons.add( back );
@@ -96,6 +106,8 @@ public class Settings
 			risoluzione = widthP + "x" + heightP;
 			
 			drawChoiseRes = false;
+			
+			indexCursor = -1;
 		}
 	
 	public void draw( GameContainer gc )
@@ -147,133 +159,167 @@ public class Settings
 				}
 		}
 	
+	private int checkButton( Button button, Input input, int i )
+		{
+			if(button.isPressed())
+				return 1;
+			else if(indexCursor >= 0 && indexCursor == i)
+				if(input.isKeyPressed( Input.KEY_ENTER ))
+					return 2;
+		
+			return 0;
+		}
+	
+	private int checkArrow( ArrowButton button, Input input, int i )
+		{
+			if(button.isPressed())
+				return 1;
+			else if(indexCursor >= 0 && indexCursor == i)
+				if(input.isKeyPressed( Input.KEY_ENTER ))
+					return 2;
+		
+			return 0;
+		}
+	
+	private void applicaCambiamenti() throws SlickException
+		{
+			Global.lifes = vite;
+	        
+	        Global.W = Integer.parseInt( widthP );
+	        Global.H = Integer.parseInt( heightP );
+	        Global.computeRatio( Global.W, Global.H );
+	        if(Global.ratioW != 1 || Global.ratioH != 1)
+	            {
+	                for(int i = 0; i < Begin.livelli.size(); i++)
+	                    {
+	                        for(int j = 0; j < Begin.livelli.get( i ).getElements().size(); j++)
+	                            {
+	                                Begin.livelli.get( i ).getElements().get( j ).updateStats();
+	                                if(vite != Global.lifes)
+	                                    if(Begin.livelli.get( i ).getElements().get( j ).getID().startsWith( "player" ))
+	                                        ((Player) Begin.livelli.get( i ).getElements().get( j )).setLifes();
+	                            }
+	                            
+	                        Begin.livelli.get( i ).getImage().setMaxHeight( Begin.livelli.get( i ).getImage().getMaxHeight() * Global.ratioH );
+	                        Begin.livelli.get( i ).getImage().setHeight( Begin.livelli.get( i ).getImage().getHeight() * Global.ratioH );
+	                        Begin.livelli.get( i ).getImage().setMaxWidth( Begin.livelli.get( i ).getImage().getMaxWidth() * Global.ratioW );
+	                        Begin.livelli.get( i ).getImage().setWidth( Begin.livelli.get( i ).getImage().getWidth() * Global.ratioW );
+	                    }
+	            
+	                for(SimpleButton button: buttons)
+	                    {
+	                        button.setX( button.getX() * Global.ratioW );
+	                        button.setY( button.getY() * Global.ratioH );
+	                    }
+	                Start.cl.setUpdates();
+	                
+	                xRes = xRes * Global.ratioW;
+	                yRes = yRes * Global.ratioH;
+	                wRes = wRes * Global.ratioW;
+	                hRes = hRes * Global.ratioH;
+	                
+	                dimensioni.clear();
+	                dimensioni.add( new Rectangle( xRes, yRes, wRes, hRes ) );
+	                dimensioni.add( new Rectangle( dimensioni.get( dimensioni.size() - 1 ).getMaxX(), yRes, Global.W/100, dimensioni.get( 0 ).getHeight() ) );
+	                dimensioni.add( new Rectangle( xRes, dimensioni.get( dimensioni.size() - 1 ).getMaxY(), wRes, hRes ) );
+	                dimensioni.add( new Rectangle( xRes, dimensioni.get( dimensioni.size() - 1 ).getMaxY(), wRes, hRes ) );
+	                dimensioni.add( new Rectangle( xRes, dimensioni.get( dimensioni.size() - 1 ).getMaxY(), wRes, hRes ) );
+	
+	                left.translate( Global.ratioW, Global.ratioH );
+	                right.translate( Global.ratioW, Global.ratioH );
+	            }
+	        
+	        Start.setAppDisplay();
+		}
+	
 	public void update( GameContainer gc ) throws SlickException
 		{
 			Input input = gc.getInput();
 			int mouseX = input.getMouseX();
 			int mouseY = input.getMouseY();
 			
-			if(input.isMouseButtonDown( Input.MOUSE_LEFT_BUTTON )) {
-                if(!mouseDown) {
-                    mouseDown = true;
-                    
-                    if(back.checkClick( mouseX, mouseY, input )) {
-                        if(!back.isPressed())
-                            back.setPressed();
-                    }
-                    else if(right.contains( mouseX, mouseY, input )) {
-                        if(!right.isPressed())
-                            right.setPressed();
-                    }
-                    else if(left.contains( mouseX, mouseY, input )) {
-                        if(!left.isPressed())
-                            left.setPressed();
-                    }
-                    else if(saveChanges.contains( mouseX, mouseY )) {
-                        if(!saveChanges.isPressed())
-                            saveChanges.setPressed();
-                    }
-                }
-            }
-            else {
-                if(mouseDown || checkKeyPressed( input )) {
-                    mouseDown = false;
-                    
-                    if(left.isPressed()) {
-                        boolean pressed = true;
-                        
-                        if(left.isPressed()) {
-                            left.setPressed();
-                            pressed = left.contains( mouseX, mouseY, input );
-                        }
-                        
-                        if(pressed)
-                            vite = Math.max( 1, --vite );
-                    }
-                    else if(right.isPressed()) {
-                        boolean pressed = true;
-                        
-                        if(right.isPressed()) {
-                            right.setPressed();
-                            pressed = right.contains( mouseX, mouseY, input );
-                        }
-                        
-                        if(pressed)
-                            vite = Math.min( ++vite, 8 );
-                    }
-                    else if(back.isPressed()) {
-                        boolean pressed = true;
-                        
-                        if(back.isPressed()) {
-                            back.setPressed();
-                            pressed = back.checkClick( mouseX, mouseY, input );
-                        }
-                        
-                        if(pressed) {
-                            Start.settings = 0;
-                            Start.recoverPreviousStats();
-                        }
-                    }
-                    else if(saveChanges.isPressed() || input.isKeyPressed( Input.KEY_BACK )) {
-                        boolean pressed = true;
-                        
-                        if(saveChanges.isPressed()) {
-                            saveChanges.setPressed();
-                            pressed = saveChanges.checkClick( mouseX, mouseY, input );
-                        }
-                        
-                        if(pressed) {
-                            Global.lifes = vite;
-                            
-                            Global.W = Integer.parseInt( widthP );
-                            Global.H = Integer.parseInt( heightP );
-                            Global.computeRatio( Global.W, Global.H );
-                            if(Global.ratioW != 1 || Global.ratioH != 1)
-                                {
-                                    for(int i = 0; i < Begin.livelli.size(); i++)
-                                        {
-                                            for(int j = 0; j < Begin.livelli.get( i ).getElements().size(); j++)
-                                                {
-                                                    Begin.livelli.get( i ).getElements().get( j ).updateStats();
-                                                    if(vite != Global.lifes)
-                                                        if(Begin.livelli.get( i ).getElements().get( j ).getID().startsWith( "player" ))
-                                                            ((Player) Begin.livelli.get( i ).getElements().get( j )).setLifes();
-                                                }
-                                                
-                                            Begin.livelli.get( i ).getImage().setMaxHeight( Begin.livelli.get( i ).getImage().getMaxHeight() * Global.ratioH );
-                                            Begin.livelli.get( i ).getImage().setHeight( Begin.livelli.get( i ).getImage().getHeight() * Global.ratioH );
-                                            Begin.livelli.get( i ).getImage().setMaxWidth( Begin.livelli.get( i ).getImage().getMaxWidth() * Global.ratioW );
-                                            Begin.livelli.get( i ).getImage().setWidth( Begin.livelli.get( i ).getImage().getWidth() * Global.ratioW );
-                                        }
-                                
-                                    for(int i  = 0; i < buttons.size(); i++)
-                                        {
-                                            buttons.get( i ).setX( buttons.get( i ).getX() * Global.ratioW );
-                                            buttons.get( i ).setY( buttons.get( i ).getY() * Global.ratioH );
-                                        }
-                                    Start.cl.setUpdates();
-                                    
-                                    xRes = xRes * Global.ratioW;
-                                    yRes = yRes * Global.ratioH;
-                                    wRes = wRes * Global.ratioW;
-                                    hRes = hRes * Global.ratioH;
-                                    
-                                    dimensioni.clear();
-                                    dimensioni.add( new Rectangle( xRes, yRes, wRes, hRes ) );
-                                    dimensioni.add( new Rectangle( dimensioni.get( dimensioni.size() - 1 ).getMaxX(), yRes, Global.W/100, dimensioni.get( 0 ).getHeight() ) );
-                                    dimensioni.add( new Rectangle( xRes, dimensioni.get( dimensioni.size() - 1 ).getMaxY(), wRes, hRes ) );
-                                    dimensioni.add( new Rectangle( xRes, dimensioni.get( dimensioni.size() - 1 ).getMaxY(), wRes, hRes ) );
-                                    dimensioni.add( new Rectangle( xRes, dimensioni.get( dimensioni.size() - 1 ).getMaxY(), wRes, hRes ) );
-
-                                    left.translate( Global.ratioW, Global.ratioH );
-                                    right.translate( Global.ratioW, Global.ratioH );
-                                }
-                            
-                            Start.setAppDisplay();
-                        }
-                    }
-                }
-            }
+			// TODO INSERIRE IL CURSORE
+			
+			if(input.isMouseButtonDown( Input.MOUSE_LEFT_BUTTON ))
+				{
+	                if(!mouseDown)
+		                {
+		                    mouseDown = true;
+		                    
+		                    for(SimpleButton button : buttons)
+		                        if(button.checkClick( mouseX, mouseY, input ))
+		                        	if(!button.isPressed())
+	                            		button.setPressed();
+		                    
+		                    for(ArrowButton arrow: arrows)
+		                    	if(arrow.contains( mouseX, mouseY, input ))
+		                    		if(!arrow.isPressed())
+		                    			arrow.setPressed();
+		                }
+	            }
+	        else
+	            {
+	                if(mouseDown || checkKeyPressed( input ))
+		                {
+		                    mouseDown = false;
+		                    int i = 0;
+		                    for(i = 0; i < buttons.size(); i++)
+		                    	{
+		                    		int value = checkButton( buttons.get( i ), input, i );
+		                        	boolean pressed = true;
+		                        	// se e' stato premuto il tasto
+		                    		if(value > 0)
+		                    			{
+			                                for(SimpleButton button: buttons)
+			                                	if(button.isPressed())
+			                                		button.setPressed();
+			                                pressed = buttons.get( i ).checkClick( mouseX, mouseY, input );
+				                            // pressed tramite mouse || value==2 tramite tastiera
+				                            if(pressed || value == 2)
+					                            {
+				                            		if(buttons.get( i ).getName().equals( BACK ))
+				                            			{
+			                                    			Start.setPreviuosStats( "begin" ); 
+					                                		indexCursor = -1;
+			                                				Start.settings = 0;
+					                            			Start.begin = 1;
+				                            			}
+				                            		else if(buttons.get( i ).getName().equals( APPLY ))
+				                                        applicaCambiamenti();
+				                            		
+						                            break;
+					                            }
+		                    			}
+		                    	}
+		                    if(i == buttons.size())
+			                    // se non e' stato premuto un bottone controllo le frecce
+		                    	for(i = 0; i < arrows.size(); i++)
+		                    		{
+			                    		int value = checkArrow( arrows.get( i ), input, i );
+			                        	boolean pressed = true;
+			                        	// se e' stato premuto il tasto
+			                    		if(value > 0)
+			                    			{
+				                                for(ArrowButton button: arrows)
+				                                	if(button.isPressed())
+				                                		button.setPressed();
+				                                pressed = arrows.get( i ).contains( mouseX, mouseY, input );
+					                            // pressed tramite mouse || value==2 tramite tastiera
+					                            if(pressed || value == 2)
+						                            {
+			                                    		// premuta freccia sinistra
+					                            		if(i == 0)
+					                                        vite = Math.max( 1, --vite );
+					                            		// premuta freccia destra
+					                            		else if(i == 1)
+					                                        vite = Math.min( ++vite, 8 );
+					                            		
+							                            break;
+						                            }
+			                    			}
+		                    		}
+		                }
+	            }
 		
 			if(dimensioni.get( 1 ).contains( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON ))
 				drawChoiseRes = !drawChoiseRes;
