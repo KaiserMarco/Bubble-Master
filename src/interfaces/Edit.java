@@ -529,10 +529,8 @@ public class Edit
 			int mouseY = input.getMouseY();
 			int move = gc.getHeight()/300;
 			
-			// TODO ENORME LAVORO DI CODE REFACTORING
-			
 			boolean collide = false, fall = false;
-			//determina se il personaggio "tocca" un oggetto del livello o il pavimento
+			//determina se il personaggio "tocca" un oggetto o il pavimento
 			int stay = -1;
 			
 			// aggiornamento altezza editor

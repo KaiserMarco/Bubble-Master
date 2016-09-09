@@ -181,6 +181,14 @@ public class ChooseLevel
 					buttons.get( buttons.size() - 1 ).setX( width/2 - buttons.get( buttons.size() - 1 ).getLungh()/2 );
 					buttons.get( buttons.size() - 1 ).setY( arrows.get( 0 ).getY() + arrows.get( 0 ).getHeight()/2 - buttons.get( buttons.size() - 1 ).getAlt()/2 );
 				}
+			
+			if(input.isKeyPressed( Input.KEY_ESCAPE ) || input.isKeyPressed( Input.KEY_BACK ))
+				{
+					indexCursor = -1;
+					Start.chooseLevel = 0;
+					Start.begin = 1;
+				}
+			
 			if(indexCursor < 0 &&((input.isKeyPressed( Input.KEY_UP ) || input.isKeyPressed( Input.KEY_DOWN )
 			|| input.isKeyPressed( Input.KEY_LEFT ) || input.isKeyPressed( Input.KEY_RIGHT ))))
 				indexCursor = 0;
@@ -306,13 +314,6 @@ public class ChooseLevel
 		                    		}
 		                }
 	            }
-			
-			if(input.isKeyPressed( Input.KEY_ESCAPE ))
-				{
-					indexCursor = -1;
-					Start.chooseLevel = 0;
-					Start.begin = 1;
-				}
 		}
 	
 	private boolean checkKeyPressed( final Input input )

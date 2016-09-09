@@ -249,17 +249,24 @@ public class Settings
 			Input input = gc.getInput();
 			int mouseX = input.getMouseX();
 			int mouseY = input.getMouseY();
-
-			if((input.isKeyPressed( Input.KEY_UP ) || input.isKeyPressed( Input.KEY_DOWN )
-			|| input.isKeyPressed( Input.KEY_LEFT ) || input.isKeyPressed( Input.KEY_RIGHT )))
+			
+			if(input.isKeyPressed( Input.KEY_ESCAPE ) || input.isKeyPressed( Input.KEY_BACK ))
 				{
-					if(indexCursor < 0)
-						indexCursor = 0;
-					else if(indexCursor == 0)
-						indexCursor = 1;
-					else
-						indexCursor = 0;
+					indexCursor = -1;
+					Start.settings = 0;
+					Start.recoverPreviousStats();
 				}
+
+			if(indexCursor < 0 &&((input.isKeyPressed( Input.KEY_UP ) || input.isKeyPressed( Input.KEY_DOWN )
+			|| input.isKeyPressed( Input.KEY_LEFT ) || input.isKeyPressed( Input.KEY_RIGHT ))))
+				indexCursor = 0;
+			else if(input.isKeyPressed( Input.KEY_LEFT ))
+				{
+					if(--indexCursor < 0)
+						indexCursor = buttons.size() - 1;
+				}
+			else if(input.isKeyPressed( Input.KEY_RIGHT ))
+            	indexCursor = (indexCursor + 1)%(buttons.size() - 1);
 			
 			if(input.isMouseButtonDown( Input.MOUSE_LEFT_BUTTON ))
 				{
