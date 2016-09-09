@@ -4,10 +4,10 @@ package Utils;
 public class Global
 {
 	// determinano la lunghezza e l'altezza dello schermo di default
-	private static final float Width = 800;
-	private static final float Height = 600;
+	public static final float Width = 800;
+	public static final float Height = 600;
 	
-	// lunghezza e altezza dello schermo attuale
+	// lunghezza e altezza dello schermo di default
 	public static int W = 800;
 	public static int H = 600;
 	
@@ -29,7 +29,7 @@ public class Global
 	// il numero di giocatori della partita
 	public static Sfondo sfondo;
 	
-	private static float currentW = Width, currentH = Height;
+	public static float currentW = Width, currentH = Height;
 	
 	// calcola il rapporto fra altezza e lunghezza attuali con quelli di default
 	public static void computeRatio( float width, float height )
@@ -39,5 +39,6 @@ public class Global
 			
 			currentW = width;
 			currentH = height;
+			System.out.println( currentW + " " + currentH );
 		}
 }

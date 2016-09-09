@@ -18,6 +18,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
 
 import Utils.Elements;
+import Utils.Global;
 import Utils.Sfondo;
 import bubbleMaster.Start;
 import dataButton.Button;
@@ -44,6 +45,8 @@ public class Edit
 	private Image up, down;
 	private int widthArrow, heightArrow;
 	
+	// baseI = la schermatona di selezione elementi e sfondi
+	// choiseI = il pulsante per "tirare su" la schermatona 
 	private Image choiseI, baseI;
 	private Image cursor;
 	
@@ -139,6 +142,8 @@ public class Edit
 	
 	public void draw( GameContainer gc, Graphics g ) throws SlickException
 		{		
+			float currRatioW = Global.currentW/Global.Width, currRatioH = Global.currentH/Global.Height;
+		
 			sfondi.get( indexSfondo ).draw( gc );
 						
 			for(int i = 0; i < ostacoli.size(); i++)
@@ -172,9 +177,9 @@ public class Edit
 			choiseI.draw( choise.getX(), choise.getY(), choise.getWidth(), choise.getHeight() );
 			
 			if(insertEditor)
-				down.draw( choise.getX() + widthChoise/2 - widthArrow/2, choise.getY() + gc.getHeight()/200, widthArrow, heightArrow );
+				down.draw( (choise.getX() + widthChoise/2 - widthArrow/2) * currRatioW, choise.getY() + gc.getHeight()/200, widthArrow * currRatioW, heightArrow * currRatioH );
 			else
-				up.draw( choise.getX() + widthChoise/2 - widthArrow/2, choise.getY() + gc.getHeight()/200, widthArrow, heightArrow );
+				up.draw( (choise.getX() + widthChoise/2 - widthArrow/2) * currRatioW, choise.getY() + gc.getHeight()/200, widthArrow * currRatioW, heightArrow * currRatioH );
 			
 			if(indexCursor >= 0 || indexCursorButton >= 0)
 				if(insertEditor)
@@ -189,6 +194,8 @@ public class Edit
 			
 			if(temp != null)
 				temp.draw( g );
+			
+			g.fill( choise );
 		}
 	
 	public void setIndex( int index )
@@ -215,6 +222,36 @@ public class Edit
 			
 			this.nameLvl = nameLvl;
 			this.index = index;
+		}
+	
+	public void updateStats()
+		{
+			// TODO CERCARE DI RISOLVERE QUESTA CAZZO DI PROPORZIONALITA'
+		
+			float currRatioW = Global.currentW/Global.Width, currRatioH = Global.currentH/Global.Height;
+			
+			System.out.println( choise.getHeight() );
+			
+			base = new Rectangle( base.getX() * currRatioW, base.getY() * currRatioH, widthBase * currRatioW, Global.currentH );
+
+			choise = new Rectangle( choise.getX() * currRatioW, Global.currentH - heightChoise*currRatioH, widthChoise * currRatioW, heightChoise * currRatioH );
+			System.out.println( choise.getHeight() );
+			
+			for(int i = 0 ; i < buttons.size(); i++)
+				{
+					buttons.get( i ).setX( buttons.get( i ).getX() * currRatioW );
+					buttons.get( i ).setY( buttons.get( i ).getY() * currRatioH );
+				}
+			
+			for(int i  = 0; i < items.size(); i++)
+				{
+					items.get( i ).setXY( items.get( i ).getX() * currRatioW, items.get( i ).getY() * currRatioH, "restore" );
+				}
+			
+			for(int i = 0; i < sfondi.size(); i++)
+				{
+					//sfondi.get( i ).se
+				}
 		}
 	
 	public void setChoise( GameContainer gc )
@@ -540,7 +577,7 @@ public class Edit
 				{
 					resetStatus();
 					Start.editGame = 0;
-					Start.chooseLevel = 1;
+					Start.recoverPreviousStats();
 				}
 			
 			if(temp != null)
@@ -888,7 +925,6 @@ public class Edit
 							                            {
 				                                			Start.editGame = 0;
 						                                	indexCursor = -1;
-				                                    		Start.setPreviuosStats( "chooseLevel" );
 						                            		if(buttons.get( i ).getName().equals( BACK ))
 							                            		{
 						                            				nameLvl = null;

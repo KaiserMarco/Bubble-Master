@@ -66,6 +66,8 @@ public class Start extends BasicGame
 	/*setta la precedente interfaccia*/
 	public static void recoverPreviousStats()
 		{
+			System.out.println( previous.get( 0 ) );
+		
 			if(previous.get( 0 ).equals( "chooseLevel" ))
 				chooseLevel = 1;
 			else if(previous.get( 0 ).equals( "startGame" ))
