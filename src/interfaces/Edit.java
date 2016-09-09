@@ -538,14 +538,7 @@ public class Edit
 			// aggiornamento altezza editor
 			setEditor( delta, gc );
 
-			if((indexCursorButton >= 0 && buttons.get( indexCursorButton ).getName().equals( "INDIETRO" ) && input.isKeyPressed( Input.KEY_ENTER )) || back.checkClick( mouseX, mouseY, input ))
-				{
-					nameLvl = null;
-					resetStatus();
-					Start.editGame = 0;
-					Start.recoverPreviousStats();
-				}
-			else if(input.isKeyPressed( Input.KEY_ESCAPE ))
+			if(input.isKeyPressed( Input.KEY_ESCAPE ))
 				{
 					resetStatus();
 					Start.editGame = 0;
@@ -919,15 +912,15 @@ public class Edit
 				                    			}
 				                    	}
 				                }
-					//controlla selezione sfondo/elemento tramite tastiera
-					else if(input.isKeyPressed( Input.KEY_ENTER ))
-						{
-							if(checkPressed( mouseX, mouseY, gc, "keyboard" ))
-								choise.setLocation( choise.getX(), gc.getHeight() - heightChoise );
-						}
-					else if(input.isMousePressed( Input.MOUSE_LEFT_BUTTON ))
-						if(checkPressed( mouseX, mouseY, gc, "mouse" ))
-							choise.setLocation( choise.getX(), gc.getHeight() - heightChoise );
+							//controlla selezione sfondo/elemento tramite tastiera
+							else if(input.isKeyPressed( Input.KEY_ENTER ))
+								{
+									if(checkPressed( mouseX, mouseY, gc, "keyboard" ))
+										choise.setLocation( choise.getX(), gc.getHeight() - heightChoise );
+								}
+							else if(input.isMousePressed( Input.MOUSE_LEFT_BUTTON ))
+								if(checkPressed( mouseX, mouseY, gc, "mouse" ))
+									choise.setLocation( choise.getX(), gc.getHeight() - heightChoise );
 			            }
 				}
 				
