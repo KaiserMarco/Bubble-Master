@@ -329,10 +329,10 @@ public class Settings
 					                            if(pressed || value == 2)
 						                            {
 			                                    		// premuta freccia sinistra
-					                            		if(i == 0)
+					                            		if(arrows.get( i ).getDirection() == ArrowButton.LEFT)
 					                                        vite = Math.max( 1, --vite );
 					                            		// premuta freccia destra
-					                            		else if(i == 1)
+					                            		else if(arrows.get( i ).getDirection() == ArrowButton.RIGHT)
 					                                        vite = Math.min( ++vite, 8 );
 					                            		
 							                            break;

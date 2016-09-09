@@ -173,7 +173,7 @@ public class ChooseLevel
 			int mouseX = input.getMouseX();
 			int mouseY = input.getMouseY();
 			
-			// TODO CODE REFACTORING ANCHE QUI
+			// TODO DISEGNARE IL CURSORE
 			
 			if(buttons.get( buttons.size() - 1 ).getX() == 0)
 				{
@@ -270,7 +270,7 @@ public class ChooseLevel
 					                            if(pressed || value == 2)
 						                            {
 			                                    		// premuta freccia destra
-					                            		if(i == 0)
+					                            		if(arrows.get( i ).getDirection() == ArrowButton.RIGHT)
 					                            			{
 						                            			nameLvl = new SimpleButton( 0, 0, Begin.livelli.get( ++pos ).getName(), Color.white );                    
 						                                        buttons.remove( buttons.size() - 1 );
@@ -278,7 +278,7 @@ public class ChooseLevel
 						                                        nameLvl.setName( Begin.livelli.get( pos ).getName() );
 					                            			}
 					                            		// premuta freccia sinistra
-					                            		else if(i == 1)
+					                            		else if(arrows.get( i ).getDirection() == ArrowButton.LEFT)
 					                            			{
 						                            			nameLvl = new SimpleButton( 0, 0, Begin.livelli.get( ++pos ).getName(), Color.white );                    
 						                                        buttons.remove( buttons.size() - 1 );

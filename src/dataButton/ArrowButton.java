@@ -82,6 +82,14 @@ public class ArrowButton
 	{
 		return row.getWidth();
 	}
+	
+	/** restituisce la direzione della freccia
+	 * @return height - l'altezza dell'area
+	*/
+	public float getDirection()
+	{
+		return direction;
+	}
 
 	/** sposta la coordinate X e Y
 	 * @param value - il valore di spostamento
