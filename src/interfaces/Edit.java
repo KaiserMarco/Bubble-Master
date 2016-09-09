@@ -851,6 +851,10 @@ public class Edit
 							insertEditor = true;
 							resetIndexCursor();
 						}
+	              //se e' stato scelto uno sfondo o un oggetto da inserire nel livello tramite mouse
+					else if(input.isMousePressed( Input.MOUSE_LEFT_BUTTON ))
+						if(checkPressed( mouseX, mouseY, gc, "mouse" ))
+							choise.setLocation( choise.getX(), gc.getHeight() - heightChoise );
 					
 					if(input.isMouseButtonDown( Input.MOUSE_LEFT_BUTTON ))
 						{
@@ -886,7 +890,7 @@ public class Edit
 							                            {
 				                                			Start.editGame = 0;
 						                                	indexCursor = -1;
-				                                    		Start.setPreviuosStats( "begin" ); 
+				                                    		Start.setPreviuosStats( "chooseLevel" );
 						                            		if(buttons.get( i ).getName().equals( BACK ))
 							                            		{
 						                            				nameLvl = null;
@@ -912,15 +916,12 @@ public class Edit
 				                    			}
 				                    	}
 				                }
-							//controlla selezione sfondo/elemento tramite tastiera
+			              //se e' stato scelto uno sfondo o un oggetto da inserire nel livello tramite mouse
 							else if(input.isKeyPressed( Input.KEY_ENTER ))
 								{
 									if(checkPressed( mouseX, mouseY, gc, "keyboard" ))
 										choise.setLocation( choise.getX(), gc.getHeight() - heightChoise );
 								}
-							else if(input.isMousePressed( Input.MOUSE_LEFT_BUTTON ))
-								if(checkPressed( mouseX, mouseY, gc, "mouse" ))
-									choise.setLocation( choise.getX(), gc.getHeight() - heightChoise );
 			            }
 				}
 				
