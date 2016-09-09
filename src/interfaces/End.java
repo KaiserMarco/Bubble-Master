@@ -162,7 +162,11 @@ public class End
                 }
 			
 			if(input.isKeyPressed( Input.KEY_ESCAPE ))
-				returnToBegin();
+				{
+            		Start.endGame = 0;
+                	indexCursor = -1;
+					returnToBegin();
+				}
 			
 			if(input.isMouseButtonDown( Input.MOUSE_LEFT_BUTTON ))
 				{

@@ -181,12 +181,15 @@ public class Bubble extends Ostacolo
     				// setta la velocita' nel PRIMO tubo
         			if(!setSpeed)
 	        			{
+    		    			backupSpeedX = Math.abs( speedX );
+    		    			backupSpeedY = Math.abs( speedY );
+        				
 		    				if(tubo.getOrienting().equals( "sx" ) || tubo.getOrienting().equals( "dx" ))
 		    					speedY = 0;
 		    				else if(tubo.getOrienting().equals( "down" ) || tubo.getOrienting().equals( "up" ))
 		    					speedX = 0;
 		    				
-		    				setSpeed = false;
+		    				setSpeed = true;
 	        			}
         			if(!primoTubo)
         				{
@@ -213,7 +216,6 @@ public class Bubble extends Ostacolo
     /**determina la velocita' risultante nella collisione fra sfera e altri ostacoli*/
     public void gestioneCollisioni( Ostacolo ost )
     	{
-    		//System.out.println( speedX + " " + speedY );
 	    	if(ostr.intersects( ost.component( "rect" ) ))
 		        {
 					// alto a sinistra || in alto
@@ -349,9 +351,6 @@ public class Bubble extends Ostacolo
 		    		
 		    		if(secondoTubo)
 		    			secondoTubo = false;
-		    		
-		    		backupSpeedX = Math.abs( speedX );
-		    		backupSpeedY = Math.abs( speedY );
 		        }
     	}
     
@@ -362,8 +361,6 @@ public class Bubble extends Ostacolo
 			String pos = ost.getOrienting();
 			// spigolo di riferimento per l'ingresso
 			Shape ingr = ost.component( "spigASx" );
-			
-			// TODO LAVORARE MEGLIO SUI BACKUPSPEED
 			
     		//la sfera e' nel PRIMO tubo
     		if(primoTubo)
@@ -408,8 +405,7 @@ public class Bubble extends Ostacolo
     
     /**gestisce collisioni fra tutti gli elementi*/
     public void checkAll( int i, Ostacolo ost )
-    	{	
-			System.out.println( speedX + " " + speedY );
+    	{
 	    	if(!ost.getID().equals( "bolla" ))
 		        {
 		        	if(ost.getID().equals( "tubo" ) && !primoTubo && !secondoTubo)
