@@ -150,16 +150,18 @@ public class End
 		{
 			Input input = gc.getInput();
 			int mouseX = input.getMouseX();
-			int mouseY = input.getMouseY();
-			
-			if((input.isKeyPressed( Input.KEY_UP ) || input.isKeyPressed( Input.KEY_DOWN )
-			|| input.isKeyPressed( Input.KEY_LEFT ) || input.isKeyPressed( Input.KEY_RIGHT )))
-                {
-                    if(indexCursor < 0)
-                        indexCursor = 0;
-                    else
-                    	indexCursor = (indexCursor + 1)%buttons.size();
-                }
+			int mouseY = input.getMouseY();			
+
+			if(indexCursor < 0 &&((input.isKeyPressed( Input.KEY_UP ) || input.isKeyPressed( Input.KEY_DOWN )
+			|| input.isKeyPressed( Input.KEY_LEFT ) || input.isKeyPressed( Input.KEY_RIGHT ))))
+				indexCursor = 0;
+			else if(input.isKeyPressed( Input.KEY_LEFT ))
+				{
+					if(--indexCursor < 0)
+						indexCursor = buttons.size() - 1;
+				}
+			else if(input.isKeyPressed( Input.KEY_RIGHT ))
+            	indexCursor = (indexCursor + 1)%(buttons.size() - 1);
 			
 			if(input.isKeyPressed( Input.KEY_ESCAPE ))
 				{

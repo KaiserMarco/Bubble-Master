@@ -66,8 +66,8 @@ public class ChooseLevel
 			
 			buttons = new ArrayList<SimpleButton>();
 			buttons.add( back );
-			buttons.add( edit );
 			buttons.add( start );
+			buttons.add( edit );
 			buttons.add( newLvl );
 			buttons.add( nameLvl );
 			
@@ -111,6 +111,9 @@ public class ChooseLevel
 			
 			for(int i  = 0; i < arrows.size(); i++)
 				arrows.get( i ).draw( g );
+			
+			if(indexCursor >= 0)
+				cursor.draw( buttons.get( indexCursor ).getX() - widthC, buttons.get( indexCursor ).getY(), widthC, heightC );
 		}
 	
 	public int getIndexLevel()
@@ -173,13 +176,21 @@ public class ChooseLevel
 			int mouseX = input.getMouseX();
 			int mouseY = input.getMouseY();
 			
-			// TODO DISEGNARE IL CURSORE
-			
 			if(buttons.get( buttons.size() - 1 ).getX() == 0)
 				{
 					buttons.get( buttons.size() - 1 ).setX( width/2 - buttons.get( buttons.size() - 1 ).getLungh()/2 );
 					buttons.get( buttons.size() - 1 ).setY( arrows.get( 0 ).getY() + arrows.get( 0 ).getHeight()/2 - buttons.get( buttons.size() - 1 ).getAlt()/2 );
 				}
+			if(indexCursor < 0 &&((input.isKeyPressed( Input.KEY_UP ) || input.isKeyPressed( Input.KEY_DOWN )
+			|| input.isKeyPressed( Input.KEY_LEFT ) || input.isKeyPressed( Input.KEY_RIGHT ))))
+				indexCursor = 0;
+			else if(input.isKeyPressed( Input.KEY_LEFT ))
+				{
+					if(--indexCursor < 0)
+						indexCursor = buttons.size() - 2;
+				}
+			else if(input.isKeyPressed( Input.KEY_RIGHT ))
+            	indexCursor = (indexCursor + 1)%(buttons.size() - 1);
 			
 			if(input.isMouseButtonDown( Input.MOUSE_LEFT_BUTTON ))
 				{
@@ -298,6 +309,7 @@ public class ChooseLevel
 			
 			if(input.isKeyPressed( Input.KEY_ESCAPE ))
 				{
+					indexCursor = -1;
 					Start.chooseLevel = 0;
 					Start.begin = 1;
 				}
