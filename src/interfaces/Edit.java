@@ -179,9 +179,9 @@ public class Edit
 			choiseI.draw( choise.getX(), choise.getY(), choise.getWidth(), choise.getHeight() );
 			
 			if(insertEditor)
-				down.draw( (choise.getX() + widthChoise/2 - widthArrow/2) * currRatioW, choise.getY() + gc.getHeight()/200, widthArrow * currRatioW, heightArrow * currRatioH );
+				down.draw( choise.getX() + (widthChoise/2 - widthArrow/2) * currRatioW, choise.getY() + gc.getHeight()/200, widthArrow * currRatioW, heightArrow * currRatioH );
 			else
-				up.draw( (choise.getX() + widthChoise/2 - widthArrow/2) * currRatioW, choise.getY() + gc.getHeight()/200, widthArrow * currRatioW, heightArrow * currRatioH );
+				up.draw( choise.getX() + (widthChoise/2 - widthArrow/2) * currRatioW, choise.getY() + gc.getHeight()/200, widthArrow * currRatioW, heightArrow * currRatioH );
 			
 			if(indexCursor >= 0 || indexCursorButton >= 0)
 				if(insertEditor)
@@ -230,11 +230,7 @@ public class Edit
 		{
 			// TODO CERCARE DI RISOLVERE QUESTA CAZZO DI PROPORZIONALITA'
 		
-			System.out.println( "sono qui" );
-		
 			float currRatioW = Global.currentW/Global.Width, currRatioH = Global.currentH/Global.Height;
-			
-			System.out.println( choise.getHeight() );
 			
 			if(rappX != currRatioW || rappY != currRatioH)
 				{
