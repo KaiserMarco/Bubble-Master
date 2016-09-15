@@ -259,12 +259,13 @@ public class ChooseLevel
 					                            			Start.ig.addOstacoli( Begin.livelli.get( pos ).getElements(), Begin.livelli.get( pos ).getImage(), gc );
 					                                        editor.setElements( InGame.ostacoli, InGame.players, Begin.livelli.get( pos ).getName(), pos, Begin.livelli.get( pos ).getImage() );
 					                                        editor.updateStats();
-					                                    
+					                                        
 					                                        Start.editGame = 1;
 					                                        Start.setPreviuosStats( "chooseLevel" );
 				                            			}
 				                            		else if(buttons.get( i ).getName().equals( NEW ))
 				                            			{
+				                            				editor.updateStats();
 				                            				Start.editGame = 1;
 				                            				Start.setPreviuosStats( "chooseLevel" );
 				                            			}
@@ -324,15 +325,3 @@ public class ChooseLevel
 		           input.isKeyDown( Input.KEY_LEFT );
 		}
 }
-
-
-
-
-
-
-
-
-
-
-
-

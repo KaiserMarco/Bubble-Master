@@ -86,6 +86,8 @@ public class Edit
 	
 	private boolean mouseDown = false;
 	
+	private float rappX = 0, rappY = 0;
+	
 	public Edit( GameContainer gc ) throws SlickException
 		{
 			elem = new Elements( gc );
@@ -195,7 +197,7 @@ public class Edit
 			if(temp != null)
 				temp.draw( g );
 			
-			g.fill( choise );
+			//g.fill( choise );
 		}
 	
 	public void setIndex( int index )
@@ -228,29 +230,51 @@ public class Edit
 		{
 			// TODO CERCARE DI RISOLVERE QUESTA CAZZO DI PROPORZIONALITA'
 		
+			System.out.println( "sono qui" );
+		
 			float currRatioW = Global.currentW/Global.Width, currRatioH = Global.currentH/Global.Height;
 			
 			System.out.println( choise.getHeight() );
 			
-			base = new Rectangle( base.getX() * currRatioW, base.getY() * currRatioH, widthBase * currRatioW, Global.currentH );
+			if(rappX != currRatioW || rappY != currRatioH)
+				{
+					base = new Rectangle( base.getX() * currRatioW, base.getY() * currRatioH, widthBase * currRatioW, Global.currentH );
+		
+					choise = new Rectangle( choise.getX() * currRatioW, Global.currentH - heightChoise*currRatioH, widthChoise * currRatioW, heightChoise * currRatioH );
+					System.out.println( choise.getHeight() );
+					
+					for(int i = 0 ; i < buttons.size(); i++)
+						{
+							buttons.get( i ).setX( buttons.get( i ).getX() * currRatioW );
+							buttons.get( i ).setY( buttons.get( i ).getY() * currRatioH );
+						}
+					
+					for(int i  = 0; i < items.size(); i++)
+						{
+							items.get( i ).setXY( items.get( i ).getX() * currRatioW, items.get( i ).getY() * currRatioH, "restore" );
+							if(items.get( i ).getID().equals( "bolla" ))								
+								items.get( i ).setWidth( (int) (items.get( i ).getWidth() * currRatioH) );
+							else
+								{
+									items.get( i ).setWidth( items.get( i ).getWidth() * currRatioW );
+									items.get( i ).setHeight( items.get( i ).getHeight() * currRatioH );
+								}
+						}
+					
+					for(int i = 0; i < sfondi.size(); i++)
+						{
+							sfondi.get( i ).setX( sfondi.get( i ).getX() * currRatioW );
+							sfondi.get( i ).setY( sfondi.get( i ).getY() * currRatioH );
+						
+							sfondi.get( i ).setMaxWidth( sfondi.get( i ).getMaxWidth() * currRatioW );
+							sfondi.get( i ).setMaxHeight( sfondi.get( i ).getMaxHeight() * currRatioH );
 
-			choise = new Rectangle( choise.getX() * currRatioW, Global.currentH - heightChoise*currRatioH, widthChoise * currRatioW, heightChoise * currRatioH );
-			System.out.println( choise.getHeight() );
-			
-			for(int i = 0 ; i < buttons.size(); i++)
-				{
-					buttons.get( i ).setX( buttons.get( i ).getX() * currRatioW );
-					buttons.get( i ).setY( buttons.get( i ).getY() * currRatioH );
-				}
-			
-			for(int i  = 0; i < items.size(); i++)
-				{
-					items.get( i ).setXY( items.get( i ).getX() * currRatioW, items.get( i ).getY() * currRatioH, "restore" );
-				}
-			
-			for(int i = 0; i < sfondi.size(); i++)
-				{
-					//sfondi.get( i ).se
+							sfondi.get( i ).setWidth( sfondi.get( i ).getWidth() * currRatioW );
+							sfondi.get( i ).setHeight( sfondi.get( i ).getHeight() * currRatioH );
+						}
+					
+					rappX = currRatioW;
+					rappY = currRatioH;
 				}
 		}
 	

@@ -43,7 +43,10 @@ public abstract class Ostacolo
 	
 	public abstract float getMaxX();
 	
-	public abstract float getWidth();	
+	public abstract void setWidth( float val );
+	public abstract float getWidth();
+
+	public abstract void setHeight( float val );
 	public abstract float getHeight();
 	
 	public abstract boolean contains( int x, int y );

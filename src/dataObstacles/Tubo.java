@@ -293,16 +293,10 @@ public class Tubo extends Ostacolo{
 	//calcola il punto a meta' dell'oggetto per generare la linea che unisce i tubi connessi
 	public Point getMidArea()
 		{ return new Point( getX() + width/2, getY() + height/2 ); }
+	
+	public void setWidth( float val )
+		{ width = val; }
+	
+	public void setHeight( float val )
+		{ height = val; }
 }
-
-
-
-
-
-
-
-
-
-
-
-

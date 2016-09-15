@@ -519,4 +519,10 @@ public class Bubble extends Ostacolo
 
 	public Point getMidArea()
 		{ return null; }
+	
+	public void setWidth( float val )
+		{ ray = val; }
+	
+	public void setHeight( float val )
+		{ ray = val; }
 }

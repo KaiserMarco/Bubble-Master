@@ -33,6 +33,12 @@ public class Sfondo
 	public void setSfondo( Image sfondo )
 		{ this.sfondo = sfondo; }
 	
+	public void setX( float val )
+		{ x = val; }
+	
+	public void setY( float val )
+		{ y = val; }
+	
 	public void setWidth( float val )
 		{ width = val; }
 	

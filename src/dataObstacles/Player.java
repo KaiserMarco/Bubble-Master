@@ -634,4 +634,10 @@ public class Player extends Ostacolo
 
 	public Point getMidArea()
 		{ return null; }
+	
+	public void setWidth( float val )
+		{ width = val; }
+	
+	public void setHeight( float val )
+		{ height = val; }
 }
