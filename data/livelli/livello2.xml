@@ -8,4 +8,5 @@
   <ostacolo x="450.0" y="506.0" union="-1" ID="player3" />
   <ostacolo x="550.0" y="506.0" union="-1" ID="player4" />
   <sfondo x="0" y="0" name="sfondo3" />
+  <risoluzione w="800" y="600" />
 </level>

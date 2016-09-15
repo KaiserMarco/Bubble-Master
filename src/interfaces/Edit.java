@@ -227,9 +227,7 @@ public class Edit
 		}
 	
 	public void updateStats()
-		{
-			// TODO CERCARE DI RISOLVERE QUESTA CAZZO DI PROPORZIONALITA'
-		
+		{		
 			float currRatioW = Global.currentW/Global.Width, currRatioH = Global.currentH/Global.Height;
 			
 			if(rappX != currRatioW || rappY != currRatioH)
@@ -516,7 +514,10 @@ public class Edit
 	    		item.setAttribute( "name", sfondi.get( indexSfondo ).getName() );
 	    		livello.addContent( item );
 	    		
-	    		System.out.println( "nameLvl = " + nameLvl );
+	    		item = new Element( "risluzione" );
+	    		item.setAttribute( "w", Global.currentW + "" );
+	    		item.setAttribute( "h", Global.currentH + "" );
+	    		livello.addContent( item );
 	    		
 	    		if(nameLvl != null)
 	    			{

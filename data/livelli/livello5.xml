@@ -10,4 +10,5 @@
   <ostacolo x="528.0" y="370.0" union="-1" type="null" ID="bolla" />
   <ostacolo x="250.0" y="506.0" union="-1" type="null" ID="player1" />
   <sfondo x="0" y="0" name="sfondo4" />
+  <risoluzione w="800" y="600" />
 </level>

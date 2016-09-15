@@ -86,7 +86,7 @@ public class InGame
 				ostacoli.get( i ).draw( g );
 			
 			for(int i = 0; i < players.size(); i++)
-				players.get( i ).draw( g );			
+				players.get( i ).draw( g );
 			
 			// disegna il countdown iniziale
 			if(Global.drawCountdown)

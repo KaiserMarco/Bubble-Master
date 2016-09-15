@@ -15,4 +15,5 @@
   <ostacolo x="531.0" y="58.0" union="-1" type="null" ID="player1" />
   <ostacolo x="260.0" y="184.0" union="-1" type="ver" ID="sbarra" />
   <sfondo x="0" y="0" name="sfondo5" />
+  <risoluzione w="800" y="600" />
 </level>
