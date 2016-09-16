@@ -105,6 +105,7 @@ public class Begin
 						NodeList name = document.getElementsByTagName( "livello" );
 						NodeList ostacoli = document.getElementsByTagName( "ostacolo" );
 						NodeList back = document.getElementsByTagName( "sfondo" );
+						NodeList res = document.getElementsByTagName( "risoluzione" );
 						Sfondo sfondo;
 			 
 						String tmp;
@@ -152,6 +153,16 @@ public class Begin
 						Element node = (Element) var;
 						tmp = node.getAttribute( "nome" );
 						
+						Node resolution = res.item( 0 );
+						Element w = (Element) resolution;
+						String lungh = w.getAttribute( "w" );
+						
+						Element h = (Element) resolution;
+						String alt = h.getAttribute( "h" );
+						
+						if(Integer.parseInt( lungh.substring( 0, lungh.length() ) ) != Global.currentW || Integer.parseInt( alt.substring( 0, alt.length() ) ) != Global.currentH)
+							cambiaProporzioni( Integer.parseInt( lungh.substring( 0, lungh.length() ) ), Integer.parseInt( alt.substring( 0, alt.length() ) ) );
+						
 						livelli.add( new Livello( elements, sfondo, tmp ) );
 						
 						for(int i  = 0; i < livelli.get( livelli.size() - 1 ).getElements().size(); i++)
@@ -177,6 +188,24 @@ public class Begin
 			
 			checkRatioW = Global.ratioW;
 			checkRatioH = Global.ratioH;
+		}
+	
+	public void cambiaProporzioni( float w, float h )
+		{
+			float rappW = Global.Width/w, rappH = Global.Height/h;
+		
+			for(int i = 0; i < elements.size(); i++)
+				{
+					if(elements.get( i ).getID().equals( "bolla" ))
+						elements.get( i ).setWidth( elements.get( i ).getWidth() * rappW );
+					else
+						{
+							elements.get( i ).setWidth( elements.get( i ).getWidth() * rappW );
+							elements.get( i ).setHeight( elements.get( i ).getHeight() * rappH );
+						}
+					
+					elements.get( i ).setXY( elements.get( i ).getX() * rappW, elements.get( i ).getY() * rappH, "restore" );
+				}
 		}
 
 	public void draw( GameContainer gc ) throws SlickException
