@@ -291,7 +291,7 @@ public class ChooseLevel
 					                            if(pressed || value == 2)
 						                            {
 			                                    		// premuta freccia destra
-					                            		if(arrows.get( i ).getDirection() == ArrowButton.RIGHT)
+					                            		if(arrows.get( i ).getDirection() == ArrowButton.RIGHT && pos < Begin.livelli.size() - 1)
 					                            			{
 						                            			nameLvl = new SimpleButton( 0, 0, Begin.livelli.get( ++pos ).getName(), Color.white );                    
 						                                        buttons.remove( buttons.size() - 1 );
@@ -299,9 +299,9 @@ public class ChooseLevel
 						                                        nameLvl.setName( Begin.livelli.get( pos ).getName() );
 					                            			}
 					                            		// premuta freccia sinistra
-					                            		else if(arrows.get( i ).getDirection() == ArrowButton.LEFT)
+					                            		else if(arrows.get( i ).getDirection() == ArrowButton.LEFT && pos > 0)
 					                            			{
-						                            			nameLvl = new SimpleButton( 0, 0, Begin.livelli.get( ++pos ).getName(), Color.white );                    
+						                            			nameLvl = new SimpleButton( 0, 0, Begin.livelli.get( --pos ).getName(), Color.white );                    
 						                                        buttons.remove( buttons.size() - 1 );
 						                                        buttons.add( nameLvl );
 						                                        nameLvl.setName( Begin.livelli.get( pos ).getName() );
