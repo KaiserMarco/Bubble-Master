@@ -20,6 +20,7 @@ import org.newdawn.slick.geom.Rectangle;
 import Utils.Elements;
 import Utils.Global;
 import Utils.Sfondo;
+import Utils.TextBox;
 import bubbleMaster.Start;
 import dataButton.Button;
 import dataButton.SimpleButton;
@@ -88,7 +89,9 @@ public class Edit
 	
 	private float rappX = 0, rappY = 0;
 	
-	public Edit( GameContainer gc ) throws SlickException
+	private TextBox tBox;
+	
+    public Edit( GameContainer gc ) throws SlickException
 		{
 			elem = new Elements( gc );
 			
@@ -140,6 +143,8 @@ public class Edit
 			indiceTuboRimasto = -1;
 			
 			temp = null;
+			
+			tBox = new TextBox( gc );
 		}
 	
 	public void draw( GameContainer gc, Graphics g ) throws SlickException
@@ -198,6 +203,8 @@ public class Edit
 				temp.draw( g );
 			
 			//g.fill( choise );
+			
+			tBox.render( gc, g );
 		}
 	
 	public void setIndex( int index )
@@ -944,26 +951,31 @@ public class Edit
 						                            // pressed tramite mouse || value==2 tramite tastiera
 						                            if(pressed || value == 2)
 							                            {
-				                                			Start.editGame = 0;
-						                                	indexCursor = -1;
 						                            		if(buttons.get( i ).getName().equals( BACK ))
 							                            		{
+    						                            		    Start.editGame = 0;
+    	                                                            indexCursor = -1;
 						                            				nameLvl = null;
 						            								resetStatus();
 						            								Start.recoverPreviousStats();
 							                            		}
 						                            		else if(buttons.get( i ).getName().equals( SAVE ))
 						                            			{
-						                            				if(!insertEditor)
+						                            				if(!insertEditor) {
 						                            					if(gamer > 0 && ball > 0)
 						            										{
+						                            					        // TODO apre la textBox
+						                            					        tBox.setOpen( true );
+						            											/*Start.editGame = 0;
+                                                                                indexCursor = -1;
 						            											addNewLevel( gc );
 						            											gamer = 0;
 						            											ball = 0;
 						            										
 						            											resetStatus();
-						            											Start.recoverPreviousStats();
+						            											Start.recoverPreviousStats();*/
 						            										}
+						                            				}
 						                            			}
 						                            		
 								                            break;
@@ -980,6 +992,7 @@ public class Edit
 			            }
 				}
 				
+			tBox.update( input );
 		}
 	
 	private boolean checkKeyPressed( final Input input )
