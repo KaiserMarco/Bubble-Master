@@ -7,9 +7,9 @@ public class Global
 	public static final float Width = 800;
 	public static final float Height = 600;
 	
-	// lunghezza e altezza dello schermo di default
-	public static int W = 1200;
-	public static int H = 900;
+	// lunghezza e altezza dello schermo attuale di gioco
+	public static int W = 800;
+	public static int H = 600;
 	
 	// numero di frame da eseguire
 	public static final int FRAME = 90;
@@ -29,16 +29,15 @@ public class Global
 	// il numero di giocatori della partita
 	public static Sfondo sfondo;
 	
-	public static float currentW = Width, currentH = Height;
+	//public static float currentW = Width, currentH = Height;
 	
 	// calcola il rapporto fra altezza e lunghezza attuali con quelli di default
 	public static void computeRatio( float width, float height )
 		{
-			ratioW = width/currentW;
-			ratioH = height/currentH;
+			ratioW = width/W;
+			ratioH = height/H;
 			
-			currentW = width;
-			currentH = height;
-			System.out.println( currentW + " " + currentH );
+			W = (int) width;
+			H = (int) height;
 		}
 }

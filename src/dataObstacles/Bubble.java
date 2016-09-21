@@ -81,10 +81,6 @@ public class Bubble extends Ostacolo
     		ostr.setCenterX( ostr.getCenterX() * Global.ratioW );
     		ostr.setCenterY( ostr.getCenterY() * Global.ratioH );
     		
-    		speedX = speedX * Global.ratioW;
-    		speedY = speedY * Global.ratioH;
-    		//System.out.println( speedX + " " + speedY );
-    		
     		ostr = new Circle( ostr.getCenterX(), ostr.getCenterY(), ray );
     		maxW = maxW * Global.ratioW;
     		maxH = maxH * Global.ratioH;
@@ -373,7 +369,6 @@ public class Bubble extends Ostacolo
 						setXY( ingr.getX() + ost.getWidth()/2 - getWidth(), ostr.getY(), "restore" );
 					else
 						setXY( ingr.getX() + ost.getWidth()/2 - getWidth(), ostr.getY(), "restore" );
-    				
     			}
     		//la sfera e' nel SECONDO tubo
     		else
@@ -459,7 +454,7 @@ public class Bubble extends Ostacolo
             /*controllo collisione con i bordi della schermata*/
             checkBorders();
 
-            setCenter( ostr, speedX * Global.currentW/Global.Width, speedY * Global.currentH/Global.Height );
+            setCenter( ostr, speedX * Global.W/Global.Width, speedY * Global.H/Global.Height );
             
             if(!primoTubo)
             	{
@@ -471,7 +466,7 @@ public class Bubble extends Ostacolo
 	                        for(int i = 0; i < InGame.ostacoli.size(); i++)
 	                        	checkAll( i, InGame.ostacoli.get( i ) );
 
-	                        setCenter( ostr, speedX * Global.currentW/Global.Width, speedY * Global.currentH/Global.Height );
+	                        setCenter( ostr, speedX * Global.W/Global.Width, speedY * Global.H/Global.Height );
             			}
             	}
         }

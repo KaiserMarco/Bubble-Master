@@ -149,7 +149,7 @@ public class Edit
 	
 	public void draw( GameContainer gc, Graphics g ) throws SlickException
 		{		
-			float currRatioW = Global.currentW/Global.Width, currRatioH = Global.currentH/Global.Height;
+			float currRatioW = Global.W/Global.Width, currRatioH = Global.H/Global.Height;
 		
 			sfondi.get( indexSfondo ).draw( gc );
 						
@@ -235,13 +235,13 @@ public class Edit
 	
 	public void updateStats()
 		{		
-			float currRatioW = Global.currentW/Global.Width, currRatioH = Global.currentH/Global.Height;
+			float currRatioW = Global.W/Global.Width, currRatioH = Global.H/Global.Height;
 			
 			if(rappX != currRatioW || rappY != currRatioH)
 				{
-					base = new Rectangle( base.getX() * currRatioW, base.getY() * currRatioH, widthBase * currRatioW, Global.currentH );
+					base = new Rectangle( base.getX() * currRatioW, base.getY() * currRatioH, widthBase * currRatioW, Global.H );
 		
-					choise = new Rectangle( choise.getX() * currRatioW, Global.currentH - heightChoise*currRatioH, widthChoise * currRatioW, heightChoise * currRatioH );
+					choise = new Rectangle( choise.getX() * currRatioW, Global.H - heightChoise*currRatioH, widthChoise * currRatioW, heightChoise * currRatioH );
 					System.out.println( choise.getHeight() );
 					
 					for(int i = 0 ; i < buttons.size(); i++)
@@ -522,8 +522,8 @@ public class Edit
 	    		livello.addContent( item );
 	    		
 	    		item = new Element( "risluzione" );
-	    		item.setAttribute( "w", Global.currentW + "" );
-	    		item.setAttribute( "h", Global.currentH + "" );
+	    		item.setAttribute( "w", Global.W + "" );
+	    		item.setAttribute( "h", Global.H + "" );
 	    		livello.addContent( item );
 	    		
 	    		if(nameLvl != null)

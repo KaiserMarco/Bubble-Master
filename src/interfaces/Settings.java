@@ -196,10 +196,8 @@ public class Settings
 	private void applicaCambiamenti() throws SlickException
 		{
 			Global.lifes = vite;
-	        
-	        Global.W = Integer.parseInt( widthP );
-	        Global.H = Integer.parseInt( heightP );
-	        Global.computeRatio( Global.W, Global.H );
+			
+	        Global.computeRatio( Integer.parseInt( widthP ), Integer.parseInt( heightP ) );
 	        if(Global.ratioW != 1 || Global.ratioH != 1)
 	            {
 	                for(int i = 0; i < Begin.livelli.size(); i++)
@@ -382,18 +380,3 @@ public class Settings
 	               input.isKeyDown( Input.KEY_LEFT );
 	    }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

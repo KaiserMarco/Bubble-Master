@@ -160,7 +160,7 @@ public class Begin
 						Element h = (Element) resolution;
 						String alt = h.getAttribute( "h" );
 						
-						if(Integer.parseInt( lungh.substring( 0, lungh.length() ) ) != Global.currentW || Integer.parseInt( alt.substring( 0, alt.length() ) ) != Global.currentH)
+						if(Integer.parseInt( lungh.substring( 0, lungh.length() ) ) != Global.W || Integer.parseInt( alt.substring( 0, alt.length() ) ) != Global.H)
 							cambiaProporzioni( Integer.parseInt( lungh.substring( 0, lungh.length() ) ), Integer.parseInt( alt.substring( 0, alt.length() ) ) );
 						
 						livelli.add( new Livello( elements, sfondo, tmp ) );
