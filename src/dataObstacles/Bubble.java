@@ -117,7 +117,7 @@ public class Bubble extends Ostacolo
     public float getY()
         { return (int) ostr.getY(); }
      
-    private void setCenter( Shape ostr, int x, int y )
+    private void setCenter( Shape ostr, float x, float y )
         {
             ostr.setCenterX( ostr.getCenterX() + x );
             ostr.setCenterY( ostr.getCenterY() + y );
@@ -459,7 +459,7 @@ public class Bubble extends Ostacolo
             /*controllo collisione con i bordi della schermata*/
             checkBorders();
 
-            setCenter( ostr, (int) (speedX * Global.ratioW), (int) (speedY * Global.ratioH) );
+            setCenter( ostr, speedX * Global.currentW/Global.Width, speedY * Global.currentH/Global.Height );
             
             if(!primoTubo)
             	{
@@ -471,7 +471,7 @@ public class Bubble extends Ostacolo
 	                        for(int i = 0; i < InGame.ostacoli.size(); i++)
 	                        	checkAll( i, InGame.ostacoli.get( i ) );
 
-	                        setCenter( ostr, (int) (speedX * Global.ratioW), (int) (speedY * Global.ratioH) );
+	                        setCenter( ostr, speedX * Global.currentW/Global.Width, speedY * Global.currentH/Global.Height );
             			}
             	}
         }
