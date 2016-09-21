@@ -506,6 +506,7 @@ public class Player extends Ostacolo
 				setXY( 0, -move + 0.2f * (40 - tempJump--), "move" );
 			else
 				{
+					jump = true;
 					movingJ = true;
 					setXY( 0, move + 0.1f * tempJump++, "move" );
 				}
@@ -564,7 +565,7 @@ public class Player extends Ostacolo
 						}
 				}
 			
-			/*controlla se sono state distrutte tute le sfere*/
+			/*controlla se sono state distrutte tutte le sfere*/
 			boolean check = true;
 			for(int i = 0; i < InGame.ostacoli.size(); i++)
 				if(InGame.ostacoli.get( i ).getID().equals( "bolla" ))
