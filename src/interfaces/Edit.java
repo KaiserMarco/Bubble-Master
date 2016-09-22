@@ -475,12 +475,12 @@ public class Edit
 				}
 		}
 	
-	private void addNewLevel( GameContainer gc )
+	private void addNewLevel( GameContainer gc, String name )
 		{
 			//posiziona i tubi all'inizio dell'array
 			setTubeInArray( gc );
 			
-			// TODO AGGIUNGERE TEXTBOX PER DECIDERE IL NOME DEL LIVELLO
+			System.out.println( "obs = " + ostacoli.size() );
 		
 			try
 			{
@@ -496,10 +496,7 @@ public class Edit
 			    livello.addContent( new Comment( "Objects" ) );
 			    
 			    item = new Element( "livello" );
-			    if(nameLvl != null)
-			    	item.setAttribute( "nome", nameLvl );
-			    else
-			    	item.setAttribute( "nome", "livello" + index );
+			    item.setAttribute( "nome", name );
 			    livello.addContent( item );
 			    for(int i = 0; i < ostacoli.size(); i++)
 			    	{									    			
@@ -521,7 +518,7 @@ public class Edit
 	    		item.setAttribute( "name", sfondi.get( indexSfondo ).getName() );
 	    		livello.addContent( item );
 	    		
-	    		item = new Element( "risluzione" );
+	    		item = new Element( "risoluzione" );
 	    		item.setAttribute( "w", Global.W + "" );
 	    		item.setAttribute( "h", Global.H + "" );
 	    		livello.addContent( item );
@@ -529,20 +526,17 @@ public class Edit
 	    		if(nameLvl != null)
 	    			{
 	    				Begin.livelli.remove( index );
-	    				Begin.livelli.add( index, new Livello( ostacoli, sfondi.get( indexSfondo ), nameLvl ) );
+	    				Begin.livelli.add( index, new Livello( ostacoli, sfondi.get( indexSfondo ), name ) );
 
 	    	    		outputter.output( document, new FileOutputStream( "data/livelli/" + nameLvl + ".xml" ) );
 	    			}
 	    		else
 	    			{
-						Begin.livelli.add( new Livello( ostacoli, sfondi.get( indexSfondo ), index + "" ) );
-			    		outputter.output( document, new FileOutputStream( "data/livelli/livello" + index + ".xml" ) );
+						Begin.livelli.add( new Livello( ostacoli, sfondi.get( indexSfondo ), name ) );
+			    		outputter.output( document, new FileOutputStream( "data/livelli/" + name + ".xml" ) );
 	    			}
 	    		
-	    		if(nameLvl != null)
-	    			System.out.println( "livello " + nameLvl + ".xml salvato" );
-	    		else
-	    			System.out.println( "livello livello" + index + ".xml salvato" );
+	    		System.out.println( "livello " + name + ".xml salvato" );
 
 				nameLvl = null;
 				index = -1;
@@ -962,19 +956,9 @@ public class Edit
 						                            		else if(buttons.get( i ).getName().equals( SAVE ))
 						                            			{
 						                            				if(!insertEditor) {
-						                            					if(gamer > 0 && ball > 0)
-						            										{
-						                            					        // TODO apre la textBox
-						                            					        tBox.setOpen( true );
-						            											/*Start.editGame = 0;
-                                                                                indexCursor = -1;
-						            											addNewLevel( gc );
-						            											gamer = 0;
-						            											ball = 0;
-						            										
-						            											resetStatus();
-						            											Start.recoverPreviousStats();*/
-						            										}
+						                            					if(gamer > 0 && ball > 0)						            										
+					                            					        // apre la textBox
+					                            					        tBox.setOpen( true );
 						                            				}
 						                            			}
 						                            		
@@ -992,7 +976,18 @@ public class Edit
 			            }
 				}
 				
-			tBox.update( input );
+			String name;
+			if((name = tBox.update( input )) != null)
+				{
+					addNewLevel( gc, name );
+					resetStatus();
+					Start.editGame = 0;
+                    indexCursor = -1;
+					gamer = 0;
+					ball = 0;
+				
+					Start.recoverPreviousStats();
+				}
 		}
 	
 	private boolean checkKeyPressed( final Input input )

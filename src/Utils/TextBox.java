@@ -138,10 +138,10 @@ public class TextBox
 	/** aggiorna la finestra di dialogo
 	 * @param input - il gestore degli input 
 	*/
-	public void update( Input input )
+	public String update( Input input )
 	{
 		if(!isOpen)
-			return;
+			return null;
 
 		//if(StateWindow.isOpen() && text.hasFocus())
 			//text.setFocus( false );
@@ -179,13 +179,14 @@ public class TextBox
 				if(buttons[i].isPressed()){
 					buttons[i].setPressed();
 					if(buttons[i].getRect().contains( x, y )){
-						if(i == 0){
+						if(buttons[i].getName().equals( data[0] )){
 							// premuto tasto OK: salva la mappa se non ci sono problemi
 							if(text.getText().length() > 0 && checkName( text.getText() )){
 								//TODO CreateLevel.saveLevel();
-								text.setText( "" );
+								//text.setText( "" );
 								text.setFocus( false );
 								isOpen = false;
+								return text.getText();
 							}
 						}
 						else{
@@ -193,12 +194,14 @@ public class TextBox
 							text.setText( "" );
 							text.setFocus( false );
 							isOpen = false;
+							return null;
 						}
 						break;
 					}
 				}
 			}
 		}
+		return null;
 	}
 
 	/** disegna la finestra di dialogo
