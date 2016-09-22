@@ -1,5 +1,6 @@
 package interfaces;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -475,6 +476,12 @@ public class Edit
 				}
 		}
 	
+	public void removeFile()
+		{
+			File levels = new File( "data/livelli/" + Begin.livelli.get( index ).getName() + ".xml" );
+			levels.delete();
+		}
+	
 	private void addNewLevel( GameContainer gc, String name )
 		{
 			//posiziona i tubi all'inizio dell'array
@@ -525,10 +532,11 @@ public class Edit
 	    		
 	    		if(nameLvl != null)
 	    			{
+	    				removeFile();
 	    				Begin.livelli.remove( index );
 	    				Begin.livelli.add( index, new Livello( ostacoli, sfondi.get( indexSfondo ), name ) );
 
-	    	    		outputter.output( document, new FileOutputStream( "data/livelli/" + nameLvl + ".xml" ) );
+	    	    		outputter.output( document, new FileOutputStream( "data/livelli/" + name + ".xml" ) );
 	    			}
 	    		else
 	    			{
@@ -980,6 +988,7 @@ public class Edit
 			if((name = tBox.update( input )) != null)
 				{
 					addNewLevel( gc, name );
+					
 					resetStatus();
 					Start.editGame = 0;
                     indexCursor = -1;
