@@ -985,7 +985,7 @@ public class Edit
 				}
 				
 			String name;
-			if((name = tBox.update( input )) != null)
+			if((name = tBox.update( input, nameLvl )) != null)
 				{
 					addNewLevel( gc, name );
 					

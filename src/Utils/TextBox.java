@@ -35,6 +35,8 @@ public class TextBox
 	private String data[] = { "OK", "CANCEL" };
 	/* determina se e' stato premuto un pulsante */
 	private boolean pressed = false;
+	/* determina se ho modificato il nome originale del livello */
+	private boolean modified = false;
 	
 	@SuppressWarnings("unchecked")
     public TextBox( final GameContainer gc ) throws SlickException
@@ -136,9 +138,10 @@ public class TextBox
 	}
 
 	/** aggiorna la finestra di dialogo
-	 * @param input - il gestore degli input 
+	 * @param input - il gestore degli input
+ 	 * @param name - il nome del livello (se ne aveva gia' uno)
 	*/
-	public String update( Input input )
+	public String update( Input input, String name )
 	{
 		if(!isOpen)
 			return null;
@@ -149,7 +152,14 @@ public class TextBox
 		//ErrorWindow.update( input );
 		//if(ErrorWindow.isOpen())
 			//return;
-
+		
+		// inserisce il vecchio nome del livello
+		if(text.getText().length() == 0 && name != null && !modified)
+			{
+				text.setText( name );
+				modified = true;
+			}
+		
 		if(input.isKeyPressed( Input.KEY_ENTER )){
 			if(text.getText().length() > 0 && checkName( text.getText() )){
 				isOpen = false;
@@ -181,11 +191,13 @@ public class TextBox
 					if(buttons[i].getRect().contains( x, y )){
 						if(buttons[i].getName().equals( data[0] )){
 							// premuto tasto OK: salva la mappa se non ci sono problemi
+							System.out.println( "NOME = " + name );							
 							if(text.getText().length() > 0 && checkName( text.getText() )){
 								//TODO CreateLevel.saveLevel();
 								//text.setText( "" );
 								text.setFocus( false );
 								isOpen = false;
+								modified = false;
 								return text.getText();
 							}
 						}
@@ -194,6 +206,7 @@ public class TextBox
 							text.setText( "" );
 							text.setFocus( false );
 							isOpen = false;
+							modified = false;
 							return null;
 						}
 						break;
