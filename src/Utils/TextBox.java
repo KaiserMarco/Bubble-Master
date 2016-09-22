@@ -190,8 +190,7 @@ public class TextBox
 					buttons[i].setPressed();
 					if(buttons[i].getRect().contains( x, y )){
 						if(buttons[i].getName().equals( data[0] )){
-							// premuto tasto OK: salva la mappa se non ci sono problemi
-							System.out.println( "NOME = " + name );							
+							// premuto tasto OK: salva la mappa se non ci sono problemi					
 							if(text.getText().length() > 0 && checkName( text.getText() )){
 								//TODO CreateLevel.saveLevel();
 								//text.setText( "" );
