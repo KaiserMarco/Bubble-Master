@@ -1,6 +1,8 @@
 
 package Utils;
 
+import interfaces.Livello;
+
 import java.io.File;
 
 import org.newdawn.slick.Color;
@@ -122,17 +124,17 @@ public class TextBox
 	 * 
 	 * @return TRUE se il nome scelto e' corretto, FALSE altrimenti
 	*/
-	private boolean checkName( String txt )
+	private boolean checkName( String txt, Livello level )
 	{
 		String name = txt + ".xml";
+		if(level.getName().equals( txt ))
+			return true;
 		File directory = new File( "data/livelli" );
 		File files[] = directory.listFiles();
-		for(File f: files){
-			if(name.equals( f.getName() )){
+		for(File f: files)
+			if(name.equals( f.getName() ))
 				//TODO ErrorWindow.setOpen( ErrorWindow.NAME_ALREADY_EXISTS );
 				return false;
-			}
-		}
 
 		return true;
 	}
@@ -141,7 +143,7 @@ public class TextBox
 	 * @param input - il gestore degli input
  	 * @param name - il nome del livello (se ne aveva gia' uno)
 	*/
-	public String update( Input input, String name )
+	public String update( Input input, String name, Livello level )
 	{
 		if(!isOpen)
 			return null;
@@ -162,57 +164,70 @@ public class TextBox
 			}
 		
 		if(input.isKeyPressed( Input.KEY_ENTER )){
-			if(text.getText().length() > 0 && checkName( text.getText() )){
+			if(text.getText().length() > 0 && checkName( text.getText(), level )){
 				isOpen = false;
 				//TODO CreateLevel.saveLevel();
 				text.setText( "" );
 				text.setFocus( false );
+				modified = false;
+				return text.getText();
 			}
 		}
 
 		int x = input.getMouseX(), y = input.getMouseY();
-		if(input.isMouseButtonDown( Input.MOUSE_LEFT_BUTTON )){
-			if(!pressed){
-				for(int i = 0; i < buttons.length; i++){
-					if(buttons[i].getRect().contains( x, y )){
-						buttons[i].setPressed();
-						pressed = true;
-						break;
-					}
-				}
-			}
-		}
-		else{
-			if(pressed)
-				pressed = false;
-
-			for(int i = 0; i < buttons.length; i++){
-				if(buttons[i].isPressed()){
-					buttons[i].setPressed();
-					if(buttons[i].getRect().contains( x, y )){
-						if(buttons[i].getName().equals( data[0] )){
-							// premuto tasto OK: salva la mappa se non ci sono problemi					
-							if(text.getText().length() > 0 && checkName( text.getText() )){
-								//TODO CreateLevel.saveLevel();
-								text.setFocus( false );
-								isOpen = false;
-								modified = false;
-								return text.getText();
+		if(input.isMouseButtonDown( Input.MOUSE_LEFT_BUTTON ))
+			{
+				if(!pressed)
+					{
+						for(int i = 0; i < buttons.length; i++)
+							{
+								if(buttons[i].getRect().contains( x, y ))
+									{
+										buttons[i].setPressed();
+										pressed = true;
+										break;
+									}
 							}
-						}
-						else{
-							// premuto tasto CANCEL: chiude la finestra
-							text.setText( "" );
-							text.setFocus( false );
-							isOpen = false;
-							modified = false;
-							return null;
-						}
-						break;
 					}
-				}
 			}
-		}
+		else
+			{
+				if(pressed)
+					pressed = false;
+	
+				for(int i = 0; i < buttons.length; i++)
+					{
+						if(buttons[i].isPressed())
+							{
+								buttons[i].setPressed();
+								if(buttons[i].getRect().contains( x, y ))
+									{
+										if(buttons[i].getName().equals( data[0] ))
+											{
+												// premuto tasto OK: salva la mappa se non ci sono problemi					
+												if(text.getText().length() > 0 && checkName( text.getText(), level ))
+													{
+														//TODO CreateLevel.saveLevel();
+														text.setFocus( false );
+														isOpen = false;
+														modified = false;
+														return text.getText();
+													}
+											}
+										else
+											{
+												// premuto tasto CANCEL: chiude la finestra
+												text.setText( "" );
+												text.setFocus( false );
+												isOpen = false;
+												modified = false;
+												return null;
+											}
+										break;
+									}
+							}
+					}
+			}
 		return null;
 	}
 

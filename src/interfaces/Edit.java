@@ -241,7 +241,6 @@ public class Edit
 					base = new Rectangle( base.getX() * currRatioW, base.getY() * currRatioH, widthBase * currRatioW, Global.H );
 		
 					choise = new Rectangle( choise.getX() * currRatioW, Global.H - heightChoise*currRatioH, widthChoise * currRatioW, heightChoise * currRatioH );
-					System.out.println( choise.getHeight() );
 					
 					for(int i = 0 ; i < buttons.size(); i++)
 						{
@@ -985,7 +984,7 @@ public class Edit
 				}
 				
 			String name;
-			if((name = tBox.update( input, nameLvl )) != null)
+			if((name = tBox.update( input, nameLvl, Begin.livelli.get( index ) )) != null)
 				{
 					addNewLevel( gc, name );
 					
