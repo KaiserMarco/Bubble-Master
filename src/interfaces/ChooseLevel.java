@@ -317,8 +317,7 @@ public class ChooseLevel
 		                }
 	            }
 		}
-	
-	// TODO AGGIORNARE IL NOME DEL LIVELLO QUANDO QUESTO VIENE CAMBIATO
+
 	public void updateNameLvl() throws SlickException
 		{
 			System.out.println( "pos = " + Begin.livelli.get( pos ).getName() );
