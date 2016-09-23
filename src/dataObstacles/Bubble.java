@@ -103,6 +103,18 @@ public class Bubble extends Ostacolo
             else if(function.compareTo( "setRay" ) == 0)
                 ray = x;
         }
+    
+    public void setPrimoTubo( boolean val )
+    	{ primoTubo = val; }
+    
+    public boolean getPrimoTubo()
+    	{ return primoTubo; }
+    
+    public void setIndexTube( int val )
+    	{ indexTube = val; }
+    
+    public int getIndexTube()
+    	{ return indexTube; }
  
     public boolean contains( int x, int y )
         { return ostr.contains( x, y ); }
@@ -481,6 +493,7 @@ public class Bubble extends Ostacolo
         try {        	
             Bubble b = new Bubble( (int) ostr.getX(), (int) ostr.getY(), (int) ray, maxW, gc );
             b.setSpeed( speedX, speedY );
+            //b.setPositionInTube(ost, primoTubo);
             return b;
         } catch (SlickException e) {
             e.printStackTrace();

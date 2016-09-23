@@ -94,25 +94,34 @@ public class Shot
 									temp1.setMaxHeight( ost.getMaxHeight() );
 									temp2.setMaxHeight( ost.getMaxHeight() );
 									
+									temp1.setPrimoTubo( ((Bubble) ost).getPrimoTubo() );
+									temp2.setPrimoTubo( ((Bubble) ost).getPrimoTubo() );
+									
+									temp1.setIndexTube( ((Bubble) ost).getIndexTube() );
+									temp2.setIndexTube( ((Bubble) ost).getIndexTube() );
+									
 									float speedX = ((Bubble) ost).getSpeedX(), speedY = ((Bubble) ost).getSpeedY();
 									
 									if(speedX == 0)
-										temp1.setSpeed( -1, speedY );
+										{
+											temp1.setSpeed( -1, speedY );
+											temp2.setSpeed( 1, speedY );
+										}
 									else if(speedY == 0)
-										temp1.setSpeed( speedX, -1 );
+										{
+											temp1.setSpeed( speedX, -1 );
+											temp2.setSpeed( speedX, 1 );
+										}
 									else if(speedY > 0)
-										temp1.setSpeed( speedX, speedY );
+										{
+											temp1.setSpeed( speedX, speedY );
+											temp2.setSpeed( -speedX, speedY );
+										}
 									else
-										temp1.setSpeed( speedX, -speedY );
-									
-									if(speedX == 0)
-										temp2.setSpeed( 1, speedY );
-									else if(speedY == 0)
-										temp2.setSpeed( speedX, 1 );
-									else if(speedY > 0)
-										temp2.setSpeed( -speedX, speedY );
-									else
-										temp2.setSpeed( -speedX, speedY );
+										{
+											temp1.setSpeed( speedX, -speedY );
+											temp2.setSpeed( -speedX, speedY );
+										}
 									
 									InGame.ostacoli.remove( ost );
 									InGame.ostacoli.add( temp1 );
