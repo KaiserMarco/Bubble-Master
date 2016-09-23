@@ -203,8 +203,6 @@ public class Edit
 			if(temp != null)
 				temp.draw( g );
 			
-			//g.fill( choise );
-			
 			tBox.render( gc, g );
 		}
 	
@@ -478,16 +476,16 @@ public class Edit
 	
 	public void removeFile()
 		{
+			System.out.println( "rimosso = " + Begin.livelli.get( index ).getName() + ".xml" );
 			File levels = new File( "data/livelli/" + Begin.livelli.get( index ).getName() + ".xml" );
-			levels.delete();
+			if(levels.delete())
+				System.out.println( "file eliminato" );
 		}
 	
-	private void addNewLevel( GameContainer gc, String name )
+	private void addNewLevel( GameContainer gc, String name ) throws SlickException
 		{
 			//posiziona i tubi all'inizio dell'array
 			setTubeInArray( gc );
-			
-			System.out.println( "obs = " + ostacoli.size() );
 		
 			try
 			{
@@ -532,11 +530,13 @@ public class Edit
 	    		
 	    		if(nameLvl != null)
 	    			{
+    					System.out.println( "index = " + index );
 	    				removeFile();
 	    				Begin.livelli.remove( index );
 	    				Begin.livelli.add( index, new Livello( ostacoli, sfondi.get( indexSfondo ), name ) );
 
 	    	    		outputter.output( document, new FileOutputStream( "data/livelli/" + name + ".xml" ) );
+	    	    		Start.cl.updateNameLvl();
 	    			}
 	    		else
 	    			{

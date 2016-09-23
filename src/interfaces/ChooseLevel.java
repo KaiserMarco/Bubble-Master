@@ -255,7 +255,7 @@ public class ChooseLevel
 					                                        Start.setPreviuosStats( "chooseLevel" );
 				                                        }
 				                            		else if(buttons.get( i ).getName().equals( EDIT ))
-				                            			{
+				                            			{				                            			
 					                            			Start.ig.addOstacoli( Begin.livelli.get( pos ).getElements(), Begin.livelli.get( pos ).getImage(), gc );
 					                                        editor.setElements( InGame.ostacoli, InGame.players, Begin.livelli.get( pos ).getName(), pos, Begin.livelli.get( pos ).getImage() );
 					                                        editor.updateStats();
@@ -316,6 +316,15 @@ public class ChooseLevel
 		                    		}
 		                }
 	            }
+		}
+	
+	// TODO AGGIORNARE IL NOME DEL LIVELLO QUANDO QUESTO VIENE CAMBIATO
+	public void updateNameLvl() throws SlickException
+		{
+			System.out.println( "pos = " + Begin.livelli.get( pos ).getName() );
+			buttons.remove( buttons.size() - 1 );
+			nameLvl = new SimpleButton( 0, 0, Begin.livelli.get( pos ).getName(), Color.white );
+			buttons.add( nameLvl );
 		}
 	
 	private boolean checkKeyPressed( final Input input )

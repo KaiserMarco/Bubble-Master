@@ -157,6 +157,7 @@ public class TextBox
 		if(text.getText().length() == 0 && name != null && !modified)
 			{
 				text.setText( name );
+				text.setCursorPos( text.getText().length() );
 				modified = true;
 			}
 		
@@ -193,7 +194,6 @@ public class TextBox
 							// premuto tasto OK: salva la mappa se non ci sono problemi					
 							if(text.getText().length() > 0 && checkName( text.getText() )){
 								//TODO CreateLevel.saveLevel();
-								//text.setText( "" );
 								text.setFocus( false );
 								isOpen = false;
 								modified = false;
