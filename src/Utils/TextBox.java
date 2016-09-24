@@ -38,7 +38,7 @@ public class TextBox
 	/* determina se e' stato premuto un pulsante */
 	private boolean pressed = false;
 	/* determina se ho modificato il nome originale del livello */
-	private boolean modified = false;
+	//private boolean modified = false;
 	
 	@SuppressWarnings("unchecked")
     public TextBox( final GameContainer gc ) throws SlickException
@@ -112,6 +112,12 @@ public class TextBox
 	{
 		return text.getText();
 	}
+	
+	/***/
+	public void setText( final String name )
+	{
+	    text.setText( name );
+	}
 
 	/** assegna il focus alla casella di testo */
 	public void setFocus()
@@ -130,23 +136,23 @@ public class TextBox
 		if(level.getName().equals( txt ))
 			return true;
 		File directory = new File( "data/livelli" );
-		File files[] = directory.listFiles();
-		for(File f: files)
+		for(File f: directory.listFiles()) {
 			if(name.equals( f.getName() ))
 				//TODO ErrorWindow.setOpen( ErrorWindow.NAME_ALREADY_EXISTS );
 				return false;
+		}
 
 		return true;
 	}
 
 	/** aggiorna la finestra di dialogo
 	 * @param input - il gestore degli input
- 	 * @param name - il nome del livello (se ne aveva gia' uno)
+ 	 * @param level - il livello corrente
 	*/
-	public String update( Input input, String name, Livello level )
+	public void update( Input input, Livello level )
 	{
 		if(!isOpen)
-			return null;
+			return;
 
 		//if(StateWindow.isOpen() && text.hasFocus())
 			//text.setFocus( false );
@@ -155,22 +161,10 @@ public class TextBox
 		//if(ErrorWindow.isOpen())
 			//return;
 		
-		// inserisce il vecchio nome del livello
-		if(text.getText().length() == 0 && name != null && !modified)
-			{
-				text.setText( name );
-				text.setCursorPos( text.getText().length() );
-				modified = true;
-			}
-		
 		if(input.isKeyPressed( Input.KEY_ENTER )){
 			if(text.getText().length() > 0 && checkName( text.getText(), level )){
-				isOpen = false;
 				//TODO CreateLevel.saveLevel();
-				text.setText( "" );
-				text.setFocus( false );
-				modified = false;
-				return text.getText();
+				setOpen( false );
 			}
 		}
 
@@ -208,27 +202,20 @@ public class TextBox
 												if(text.getText().length() > 0 && checkName( text.getText(), level ))
 													{
 														//TODO CreateLevel.saveLevel();
-														text.setFocus( false );
-														isOpen = false;
-														modified = false;
-														return text.getText();
+														setOpen( false );
 													}
 											}
 										else
 											{
 												// premuto tasto CANCEL: chiude la finestra
-												text.setText( "" );
-												text.setFocus( false );
-												isOpen = false;
-												modified = false;
-												return null;
+										        setOpen( false );
+										        text.setText( "" );
 											}
 										break;
 									}
 							}
 					}
 			}
-		return null;
 	}
 
 	/** disegna la finestra di dialogo

@@ -963,9 +963,12 @@ public class Edit
 						                            		else if(buttons.get( i ).getName().equals( SAVE ))
 						                            			{
 						                            				if(!insertEditor) {
-						                            					if(gamer > 0 && ball > 0)						            										
+						                            					if(gamer > 0 && ball > 0) {
 					                            					        // apre la textBox
 					                            					        tBox.setOpen( true );
+						                            					    // setta il nome del livello
+					                            					        tBox.setText( Begin.livelli.get( index ).getName() );
+						                            					}
 						                            				}
 						                            			}
 						                            		
@@ -982,20 +985,24 @@ public class Edit
 								}
 			            }
 				}
-				
-			String name;
-			if((name = tBox.update( input, nameLvl, Begin.livelli.get( index ) )) != null)
-				{
-					addNewLevel( gc, name );
-					
-					resetStatus();
-					Start.editGame = 0;
+			
+			// gestione della textbox per il nome del livello
+			tBox.update( input, Begin.livelli.get( index ) );
+			if(!tBox.isOpen()) {
+			    String name = tBox.getText();
+			    if(name != null && !name.isEmpty()) {
+			        tBox.setText( "" );
+			        addNewLevel( gc, name );
+                    
+                    resetStatus();
+                    Start.editGame = 0;
                     indexCursor = -1;
-					gamer = 0;
-					ball = 0;
-				
-					Start.recoverPreviousStats();
-				}
+                    gamer = 0;
+                    ball = 0;
+                
+                    Start.recoverPreviousStats();
+			    }
+			}
 		}
 	
 	private boolean checkKeyPressed( final Input input )
