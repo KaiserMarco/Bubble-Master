@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<level>
+  <!--Objects-->
+  <livello nome="4livello3" />
+  <ostacolo x="297.0" y="48.0" union="3" type="sx" ID="tubo" />
+  <ostacolo x="523.0" y="128.0" union="2" type="dx" ID="tubo" />
+  <ostacolo x="302.0" y="365.0" union="1" type="up" ID="tubo" />
+  <ostacolo x="116.0" y="164.0" union="0" type="sx" ID="tubo" />
+  <ostacolo x="197.0" y="445.0" union="-1" type="null" ID="bolla" />
+  <ostacolo x="669.0" y="196.0" union="-1" type="null" ID="bolla" />
+  <ostacolo x="69.0" y="340.0" union="-1" type="null" ID="bolla" />
+  <ostacolo x="154.0" y="13.0" union="-1" type="hor" ID="sbarra" />
+  <ostacolo x="92.0" y="24.0" union="-1" type="null" ID="bolla" />
+  <ostacolo x="414.0" y="459.0" union="-1" type="null" ID="bolla" />
+  <ostacolo x="260.0" y="184.0" union="-1" type="ver" ID="sbarra" />
+  <ostacolo x="531.0" y="58.0" union="-1" type="null" ID="player1" />
+  <sfondo x="0" y="0" name="sfondo5" />
+  <risoluzione w="800" h="600" />
+</level>

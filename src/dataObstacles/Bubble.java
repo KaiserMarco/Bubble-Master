@@ -58,16 +58,16 @@ public class Bubble extends Ostacolo
             indexTube = -1;
             previousIndexTube = -1;
             
-            float minSpeed = 0.8f;
+            float minSpeed = 0.4f;
             
-            speedX = (float) Math.random();
+            speedX = (float) Math.random() * 2;
             if(speedX < minSpeed)
             	speedX = minSpeed;
             speedY = (float) Math.random();
             if(speedY < minSpeed)
             	speedY = minSpeed;
             
-            float sign = (float) Math.random();
+            float sign = (float) Math.random() * 2;
             if(sign < 0.5f)
             	speedX = -speedX;
             sign = (float) Math.random();
