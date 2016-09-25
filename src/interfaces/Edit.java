@@ -967,7 +967,8 @@ public class Edit
 					                            					        // apre la textBox
 					                            					        tBox.setOpen( true );
 						                            					    // setta il nome del livello
-					                            					        tBox.setText( Begin.livelli.get( index ).getName() );
+					                            					        if(index >= 0)
+					                            					        	tBox.setText( Begin.livelli.get( index ).getName() );
 						                            					}
 						                            				}
 						                            			}
@@ -987,7 +988,10 @@ public class Edit
 				}
 			
 			// gestione della textbox per il nome del livello
-			tBox.update( input, Begin.livelli.get( index ) );
+			if(index >= 0)
+				tBox.update( input, Begin.livelli.get( index ) );
+			else
+				tBox.update( input, null );
 			if(!tBox.isOpen()) {
 			    String name = tBox.getText();
 			    if(name != null && !name.isEmpty()) {

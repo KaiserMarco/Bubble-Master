@@ -133,8 +133,9 @@ public class TextBox
 	private boolean checkName( String txt, Livello level )
 	{
 		String name = txt + ".xml";
-		if(level.getName().equals( txt ))
-			return true;
+		if(level != null)
+			if(level.getName().equals( txt ))
+				return true;
 		File directory = new File( "data/livelli" );
 		for(File f: directory.listFiles()) {
 			if(name.equals( f.getName() ))

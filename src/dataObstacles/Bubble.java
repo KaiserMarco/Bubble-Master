@@ -57,8 +57,15 @@ public class Bubble extends Ostacolo
             secondoTubo = false;
             indexTube = -1;
             previousIndexTube = -1;
+            
+            float minSpeed = 0.8f;
+            
             speedX = (float) Math.random();
+            if(speedX < minSpeed)
+            	speedX = minSpeed;
             speedY = (float) Math.random();
+            if(speedY < minSpeed)
+            	speedY = minSpeed;
             
             float sign = (float) Math.random();
             if(sign < 0.5f)
@@ -249,11 +256,17 @@ public class Bubble extends Ostacolo
 								{
 									if(ostr.getCenterX() > ost.component( "spigBDx" ).getX() && ostr.getCenterY() > ost.component( "spigBDx" ).getY())
 										{
-											speedY = -speedY;
+											float tmp = speedX;
+											speedX = -speedY;
+											speedY = -tmp;
+											if(speedX == 0)
+												speedX = 1;
+										
+											/*speedY = -speedY;
 											if(speedX != 0)
 												speedX = -speedX;
 											else
-												speedX = 1;
+												speedX = 1;*/
 										}
 									else if(speedX == 0)
 										speedY = -speedY;
@@ -283,11 +296,17 @@ public class Bubble extends Ostacolo
 								{
 		    						if(ostr.getCenterX() < ost.component( "spigBSx" ).getMaxX() && ostr.getCenterY() > ost.component( "spigBSx" ).getY())
 										{
-											speedX = -speedX;
+		    								float tmp = speedX;
+		    								speedX = speedY;
+		    								speedY = tmp;
+		    								if(speedY == 0)
+		    									speedY = 1;
+		    							
+											/*speedX = -speedX;
 											if(speedY != 0)
 												speedY = -speedY;
 											else
-												speedY = 1;
+												speedY = 1;*/
 										}
 		    						else if(ostr.intersects( ost.component( "latoSx" ) ) && ostr.getCenterY() < ost.component( "spigBSx" ).getY())
 			    						speedX = -speedX;
@@ -315,11 +334,17 @@ public class Bubble extends Ostacolo
 								{
 									if(ostr.getCenterY() < ost.component( "spigASx" ).getMaxY() && ostr.getCenterX() < ost.component( "spigASx" ).getMaxX())
 										{
-											speedY = -speedY;
+											float tmp = speedX;
+											speedX = -speedY;
+											speedY = -tmp;
+											if(speedX == 0)
+												speedX = -1;
+										
+											/*speedY = -speedY;
 											if(speedX != 0)
 												speedX = -speedX;
 											else
-												speedX = -1;
+												speedX = -1;*/
 										}
 			    					else if(ostr.intersects( ost.component( "latoSx" ) ) && ostr.getCenterY() > ost.component( "spigASx" ).getMaxX())
 			    						speedX = -speedX;
@@ -347,11 +372,17 @@ public class Bubble extends Ostacolo
 								{
 									if(ostr.getCenterX() > ost.component( "spigADx" ).getX() && ostr.getCenterY() < ost.component( "spigADx" ).getMaxY())
 										{
-											speedX = -speedX;
+											float tmp = speedX;
+											speedX = speedY;
+											speedY = tmp;
+											if(speedY == 0)
+												speedY = -1;
+										
+											/*speedX = -speedX;
 											if(speedY != 0)
 												speedY = -speedY;
 											else
-												speedY = -1;
+												speedY = -1;*/
 										}
 			    					else if(ostr.intersects( ost.component( "latoDx"  ) ) && ostr.getCenterY() > ost.component( "spigADx" ).getMaxY())
 			    						speedX = -speedX;
