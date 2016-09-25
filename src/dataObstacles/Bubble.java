@@ -57,8 +57,15 @@ public class Bubble extends Ostacolo
             secondoTubo = false;
             indexTube = -1;
             previousIndexTube = -1;
-            speedX = -1;
-            speedY = -1;
+            speedX = (float) Math.random();
+            speedY = (float) Math.random();
+            
+            float sign = (float) Math.random();
+            if(sign < 0.5f)
+            	speedX = -speedX;
+            sign = (float) Math.random();
+            if(sign < 0.5f)
+            	speedY = -speedY;
         }
      
     public void draw( Graphics g ) throws SlickException
