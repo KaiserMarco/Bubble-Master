@@ -261,12 +261,6 @@ public class Bubble extends Ostacolo
 											speedY = -tmp;
 											if(speedX == 0)
 												speedX = 1;
-										
-											/*speedY = -speedY;
-											if(speedX != 0)
-												speedX = -speedX;
-											else
-												speedX = 1;*/
 										}
 									else if(speedX == 0)
 										speedY = -speedY;
@@ -301,12 +295,6 @@ public class Bubble extends Ostacolo
 		    								speedY = tmp;
 		    								if(speedY == 0)
 		    									speedY = 1;
-		    							
-											/*speedX = -speedX;
-											if(speedY != 0)
-												speedY = -speedY;
-											else
-												speedY = 1;*/
 										}
 		    						else if(ostr.intersects( ost.component( "latoSx" ) ) && ostr.getCenterY() < ost.component( "spigBSx" ).getY())
 			    						speedX = -speedX;
@@ -339,12 +327,6 @@ public class Bubble extends Ostacolo
 											speedY = -tmp;
 											if(speedX == 0)
 												speedX = -1;
-										
-											/*speedY = -speedY;
-											if(speedX != 0)
-												speedX = -speedX;
-											else
-												speedX = -1;*/
 										}
 			    					else if(ostr.intersects( ost.component( "latoSx" ) ) && ostr.getCenterY() > ost.component( "spigASx" ).getMaxX())
 			    						speedX = -speedX;
@@ -377,12 +359,6 @@ public class Bubble extends Ostacolo
 											speedY = tmp;
 											if(speedY == 0)
 												speedY = -1;
-										
-											/*speedX = -speedX;
-											if(speedY != 0)
-												speedY = -speedY;
-											else
-												speedY = -1;*/
 										}
 			    					else if(ostr.intersects( ost.component( "latoDx"  ) ) && ostr.getCenterY() > ost.component( "spigADx" ).getMaxY())
 			    						speedX = -speedX;
