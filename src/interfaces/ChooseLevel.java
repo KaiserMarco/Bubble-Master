@@ -266,6 +266,7 @@ public class ChooseLevel
 				                            		else if(buttons.get( i ).getName().equals( NEW ))
 				                            			{
 				                            				editor.updateStats();
+				                            				editor.resetData();
 				                            				Start.editGame = 1;
 				                            				Start.setPreviuosStats( "chooseLevel" );
 				                            			}

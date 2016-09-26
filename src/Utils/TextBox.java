@@ -117,6 +117,7 @@ public class TextBox
 	public void setText( final String name )
 	{
 	    text.setText( name );
+	    text.setCursorPos( text.getText().length() );
 	}
 
 	/** assegna il focus alla casella di testo */
@@ -162,12 +163,14 @@ public class TextBox
 		//if(ErrorWindow.isOpen())
 			//return;
 		
-		if(input.isKeyPressed( Input.KEY_ENTER )){
-			if(text.getText().length() > 0 && checkName( text.getText(), level )){
-				//TODO CreateLevel.saveLevel();
-				setOpen( false );
+		if(input.isKeyPressed( Input.KEY_ENTER ))
+			{
+				if(text.getText().length() > 0 && checkName( text.getText(), level ))
+					{
+						//TODO CreateLevel.saveLevel();
+						setOpen( false );
+					}
 			}
-		}
 
 		int x = input.getMouseX(), y = input.getMouseY();
 		if(input.isMouseButtonDown( Input.MOUSE_LEFT_BUTTON ))
@@ -209,8 +212,8 @@ public class TextBox
 										else
 											{
 												// premuto tasto CANCEL: chiude la finestra
+									        	text.setText( "" );
 										        setOpen( false );
-										        text.setText( "" );
 											}
 										break;
 									}

@@ -53,7 +53,7 @@ public class Player extends Ostacolo
 	
 	private Image right[], left[], saltoDx[], saltoSx[];
 	
-	private float animTimeMove, reachDelta, animTimeJump, reachDeltaJump;
+	private float animTime, animTimeMove, animTimeJump;
 	private int countShot;
 	
 	private SpriteSheet sheetDx;
@@ -116,6 +116,8 @@ public class Player extends Ostacolo
 			
 			wMove = 32; hMove = 41;
 			wJump = 261; hJump = 48;
+			
+			// TODO USARE UN SOLO TIMER PER LE ANIMAZIONI
 
 			if(numPlayer == 1)
 				{
@@ -166,8 +168,9 @@ public class Player extends Ostacolo
 					saltoSx[i] = sheetJumpSx.getSubImage( sheetJumpSx.getWidth() - widthJ * (i + 1), 0, widthJ, heightJ );
 				}
 			
-			animTimeMove = 504; reachDelta = 0;
-			animTimeJump = 396; reachDeltaJump = 0;
+			animTimeMove = 504;
+			animTimeJump = 396;
+			animTime = 0;
 			
 			countShot = 0;
 			
@@ -201,21 +204,21 @@ public class Player extends Ostacolo
 							body = new Rectangle( xPlayer, yPlayer + Global.H/40, width, Global.H/12 );
 							head = new Rectangle( xPlayer + width/2 - Global.W/110, yPlayer, width/2, Global.H/40 );
 							
-							if(reachDeltaJump < frameJump)
+							if(animTime < frameJump)
 								saltoDx[0].draw( xPlayer, yPlayer, width, height );
-							else if(reachDeltaJump < frameJump * 2)
+							else if(animTime < frameJump * 2)
 								saltoDx[1].draw( xPlayer, yPlayer, width, height );
-							else if(reachDeltaJump < frameJump * 3)
+							else if(animTime < frameJump * 3)
 								saltoDx[2].draw( xPlayer, yPlayer, width, height );
-							else if(reachDeltaJump < frameJump * 4)
+							else if(animTime < frameJump * 4)
 								saltoDx[3].draw( xPlayer, yPlayer, width, height );
-							else if(reachDeltaJump < frameJump * 5)
+							else if(animTime < frameJump * 5)
 								saltoDx[4].draw( xPlayer, yPlayer, width, height );
-							else if(reachDeltaJump < frameJump * 6)
+							else if(animTime < frameJump * 6)
 								saltoDx[5].draw( xPlayer, yPlayer, width, height );
-							else if(reachDeltaJump < frameJump * 7)
+							else if(animTime < frameJump * 7)
 								saltoDx[6].draw( xPlayer, yPlayer, width, height );
-							else if(reachDeltaJump < frameJump * 8)
+							else if(animTime < frameJump * 8)
 								saltoDx[7].draw( xPlayer, yPlayer, width, height );
 							else
 								saltoDx[8].draw( xPlayer, yPlayer, width, height );
@@ -223,23 +226,23 @@ public class Player extends Ostacolo
 					// il personaggio sta camminando
 					else if(movingDx)
 						{
-							if(reachDelta < frameMove)
+							if(animTime < frameMove)
 								right[0].draw( xPlayer, yPlayer, widthI, height );
-							else if(reachDelta < frameMove*2)
+							else if(animTime < frameMove*2)
 								right[1].draw( xPlayer, yPlayer, widthI, height );
-							else if(reachDelta < frameMove*3)
+							else if(animTime < frameMove*3)
 								right[2].draw( xPlayer, yPlayer, widthI, height );
-							else if(reachDelta < frameMove*4)
+							else if(animTime < frameMove*4)
 								right[3].draw( xPlayer, yPlayer, widthI, height );
-							else if(reachDelta < frameMove*5)
+							else if(animTime < frameMove*5)
 								right[4].draw( xPlayer, yPlayer, widthI, height );
-							else if(reachDelta < frameMove*6)
+							else if(animTime < frameMove*6)
 								right[5].draw( xPlayer, yPlayer, widthI, height );
-							else if(reachDelta < frameMove*7)
+							else if(animTime < frameMove*7)
 								right[6].draw( xPlayer, yPlayer, widthI, height );
-							else if(reachDelta < frameMove*8)
+							else if(animTime < frameMove*8)
 								right[7].draw( xPlayer, yPlayer, widthI, height );
-							else if(reachDelta <= frameMove*9)
+							else if(animTime <= frameMove*9)
 								right[8].draw( xPlayer, yPlayer, widthI, height );
 						}
 					// il personaggio e' fermo
@@ -256,21 +259,21 @@ public class Player extends Ostacolo
 							body = new Rectangle( xPlayer, yPlayer + Global.H/40, width, Global.H/10 );
 							head = new Rectangle( xPlayer + Global.W/110, yPlayer, width/2, Global.H/40 );
 							
-							if(reachDeltaJump < frameJump)
+							if(animTime < frameJump)
 								saltoSx[0].draw( xPlayer, yPlayer, width, height );
-							else if(reachDeltaJump < frameJump * 2)
+							else if(animTime < frameJump * 2)
 								saltoSx[1].draw( xPlayer, yPlayer, width, height );
-							else if(reachDeltaJump < frameJump * 3)
+							else if(animTime < frameJump * 3)
 								saltoSx[2].draw( xPlayer, yPlayer, width, height );
-							else if(reachDeltaJump < frameJump * 4)
+							else if(animTime < frameJump * 4)
 								saltoSx[3].draw( xPlayer, yPlayer, width, height );
-							else if(reachDeltaJump < frameJump * 5)
+							else if(animTime < frameJump * 5)
 								saltoSx[4].draw( xPlayer, yPlayer, width, height );
-							else if(reachDeltaJump < frameJump * 6)
+							else if(animTime < frameJump * 6)
 								saltoSx[5].draw( xPlayer, yPlayer, width, height );
-							else if(reachDeltaJump < frameJump * 7)
+							else if(animTime < frameJump * 7)
 								saltoSx[6].draw( xPlayer, yPlayer, width, height );
-							else if(reachDeltaJump < frameJump * 8)
+							else if(animTime < frameJump * 8)
 								saltoSx[7].draw( xPlayer, yPlayer, width, height );
 							else
 								saltoSx[8].draw( xPlayer, yPlayer, width, height );
@@ -278,23 +281,23 @@ public class Player extends Ostacolo
 					// il personaggio sta camminando
 					else if(movingSx)
 						{
-							if(reachDelta < frameMove)
+							if(animTime < frameMove)
 								left[0].draw( xPlayer - offset, yPlayer, widthI, height );
-							else if(reachDelta < frameMove*2)
+							else if(animTime < frameMove*2)
 								left[1].draw( xPlayer - offset, yPlayer, widthI, height );
-							else if(reachDelta < frameMove*3)
+							else if(animTime < frameMove*3)
 								left[2].draw( xPlayer - offset, yPlayer, widthI, height );
-							else if(reachDelta < frameMove*4)
+							else if(animTime < frameMove*4)
 								left[3].draw( xPlayer - offset, yPlayer, widthI, height );
-							else if(reachDelta < frameMove*5)
+							else if(animTime < frameMove*5)
 								left[4].draw( xPlayer - offset, yPlayer, widthI, height );
-							else if(reachDelta < frameMove*6)
+							else if(animTime < frameMove*6)
 								left[5].draw( xPlayer - offset, yPlayer, widthI, height );
-							else if(reachDelta < frameMove*7)
+							else if(animTime < frameMove*7)
 								left[6].draw( xPlayer - offset, yPlayer, widthI, height );
-							else if(reachDelta < frameMove*8)
+							else if(animTime < frameMove*8)
 								left[7].draw( xPlayer - offset, yPlayer, widthI, height );
-							else if(reachDelta <= frameMove*9)
+							else if(animTime <= frameMove*9)
 								left[8].draw( xPlayer - offset, yPlayer, widthI, height );
 						}
 					// il personaggio e' fermo
@@ -522,14 +525,13 @@ public class Player extends Ostacolo
 					tempJump = 0;
 					jump = false;
 					movingJ = false;
-					reachDeltaJump = 0;
 					setXY( (int) area.getX(), maxHeight - height, "restore" );
 				}
 			else if(area.getY() < 0)
 				{
 					maxJump = 0;
 					tempJump = 0;
-					reachDeltaJump = animTimeJump/5;
+					animTime = animTimeJump/5;
 					setXY( (int) area.getX(), 0, "restore" );
 				}
 		
@@ -547,14 +549,13 @@ public class Player extends Ostacolo
 											tempJump = 0;
 											jump = false;
 											movingJ = false;
-											reachDeltaJump = 0;
 											setXY( (int) area.getX(), (int) (ost.getY() - height), "restore" );
 										}										
 									else if(area.intersects( ost.component( "latoGiu" ) ) && (previousArea.getY() > ost.getY() + ost.getHeight()))
 										{
 											maxJump = 0;
 											tempJump = 0;
-											reachDeltaJump = animTimeJump/5;
+											animTime = animTimeJump/5;
 											setXY( (int) area.getX(), (int) (ost.getY() + ost.getHeight()), "restore" );
 										}
 									else if(area.intersects( ost.component( "latoDx" ) ))
@@ -575,11 +576,8 @@ public class Player extends Ostacolo
 				Global.inGame = false;
 			
 			/*gestione dell'animazione*/
-			if(movingDx || movingSx)
-				reachDelta = (reachDelta + delta) % animTimeMove;
-			if(jump)
-				if(reachDeltaJump < animTimeJump)
-					reachDeltaJump = reachDeltaJump + delta;
+			if(movingDx || movingSx || jump)
+				animTime = (animTime + delta) % animTimeMove;
 		}
 
 	public void setType( String type )

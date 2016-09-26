@@ -209,6 +209,14 @@ public class Edit
 	public void setIndex( int index )
 		{ this.index = index; }
 	
+	public void resetData()
+		{
+			indexSfondo = 3;
+			ostacoli.clear();
+			nameLvl = null;
+			index = -1;
+		}
+	
 	/**setta gli elementi base di modifica livello*/
 	public void setElements( ArrayList<Ostacolo> ostacoli, ArrayList<Ostacolo> giocatori, String nameLvl, int index, Sfondo sfondo )
 		{
