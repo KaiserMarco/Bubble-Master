@@ -29,7 +29,7 @@ import dataObstacles.Tubo;
 
 public class Begin
 {
-	public SimpleButton editor, tasto, options;
+	public SimpleButton levels, tasto, options;
 	
 	/**array contente tutti i livelli creati*/
 	public static ArrayList<Livello> livelli;
@@ -57,7 +57,7 @@ public class Begin
 	private boolean insertButton;
 	
 	//deermina il punto in cui i bottoni dovranno fermarsi
-	private int xFinale1, xFinale2;
+	private float xFinale, numFinale1, numFinale2, countNumFinale;
 	
 	//immagine schermata iniziale
 	private Sfondo pang;
@@ -71,15 +71,17 @@ public class Begin
 	public Begin( GameContainer gc ) throws SlickException
 		{
 	        insertButton = false;
-
-	        xFinale1 = gc.getWidth()*10/25;
-	        xFinale2 = gc.getWidth()*10/22;
 	    
 			livelli = new ArrayList<Livello>();
 			
 			Color color = Color.orange;
 			options = new SimpleButton( 0, gc.getHeight()/4, OPTIONS, color );
-			editor = new SimpleButton( gc.getWidth(), gc.getHeight()/2, LEVELS, color );
+			levels = new SimpleButton( gc.getWidth(), gc.getHeight()/2, LEVELS, color );
+
+	        xFinale = gc.getWidth()/2;
+	        countNumFinale = 50;
+	        numFinale1 = (options.getX() + xFinale - options.getLungh()/2)/countNumFinale;
+	        numFinale2 = (xFinale + levels.getLungh()/2)/countNumFinale;
 			
 			elements = new ArrayList<Ostacolo>();
 			
@@ -178,7 +180,7 @@ public class Begin
 			cursor = new Image( "./data/Image/cursore.png" );
 			
 			buttons = new ArrayList<SimpleButton>();
-			buttons.add( editor );
+			buttons.add( levels );
 			buttons.add( options );
 
 			widthC = gc.getWidth()*100/1777;
@@ -228,8 +230,7 @@ public class Begin
 					buttons.get( i ).setY( buttons.get( i ).getY() * Global.ratioH );
 				}
 
-			xFinale1 = (int) (xFinale1 * Global.ratioW);
-			xFinale2 = (int) (xFinale2 * Global.ratioH);
+			xFinale = (int) (xFinale * Global.ratioW);
 			
 			checkRatioW = Global.ratioW;
 			checkRatioH = Global.ratioH;
@@ -267,15 +268,13 @@ public class Begin
 			
 			if(insertButton)
 				{
-					float move = delta/2 * Global.ratioW;
-					if(options.getX() + move < xFinale1)
-						options.setX( options.getX() + move );
-					else
-						options.setX( xFinale1 );
-					if(editor.getX() - move*3/2 > xFinale2)
-						editor.setX( editor.getX() - move*3/2 );
-					else
-						editor.setX( xFinale2 );					
+					if(countNumFinale > 0)
+						{
+							options.setX( options.getX() + numFinale1 );
+							levels.setX( levels.getX() - numFinale2 );
+							
+							countNumFinale--;
+						}
 
 					if(indexCursor < 0 &&((input.isKeyPressed( Input.KEY_UP ) || input.isKeyPressed( Input.KEY_DOWN )
 					|| input.isKeyPressed( Input.KEY_LEFT ) || input.isKeyPressed( Input.KEY_RIGHT ))))
