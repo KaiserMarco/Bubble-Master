@@ -56,7 +56,7 @@ public class Edit
 	private int indexCursor, indexCursorButton, indexCursorSfondi;
 	private int widthC, heightC;
 	
-	private boolean insertEditor, insertItem;
+	private boolean insertEditor, insertItem, insertNameLvl;
 	/**base -> la finestra di selezione sfondo/elemento*/
 	private Rectangle choise, base;
 	private int widthChoise, heightChoise;
@@ -131,6 +131,7 @@ public class Edit
 			indexCursorSfondi = -1;
 			
 			insertItem = false;
+			insertNameLvl = false;
 			
 			buttons = new ArrayList<SimpleButton>();
 			
@@ -817,7 +818,7 @@ public class Edit
 			else if(temp == null)
 				{				
 					//sposta di una posizione a destra il cursore
-					if(input.isKeyPressed( Input.KEY_RIGHT ))
+					if(!insertNameLvl && input.isKeyPressed( Input.KEY_RIGHT ))
 						{
 							if(insertEditor)
 								{
@@ -865,7 +866,7 @@ public class Edit
 								}							
 						}
 					//sposta di una posizione a sinistra il cursore
-					else if(input.isKeyPressed( Input.KEY_LEFT ))
+					else if(!insertNameLvl && input.isKeyPressed( Input.KEY_LEFT ))
 						{
 							if(insertEditor)
 								{
@@ -1000,21 +1001,26 @@ public class Edit
 				tBox.update( input, Begin.livelli.get( index ) );
 			else
 				tBox.update( input, null );
-			if(!tBox.isOpen()) {
-			    String name = tBox.getText();
-			    if(name != null && !name.isEmpty()) {
-			        tBox.setText( "" );
-			        addNewLevel( gc, name );
-                    
-                    resetStatus();
-                    Start.editGame = 0;
-                    indexCursor = -1;
-                    gamer = 0;
-                    ball = 0;
-                
-                    Start.recoverPreviousStats();
-			    }
-			}
+			if(!tBox.isOpen())
+				{
+					insertNameLvl = false;
+				    String name = tBox.getText();
+				    if(name != null && !name.isEmpty())
+					    {
+					        tBox.setText( "" );
+					        addNewLevel( gc, name );
+		                    
+		                    resetStatus();
+		                    Start.editGame = 0;
+		                    indexCursor = -1;
+		                    gamer = 0;
+		                    ball = 0;
+		                
+		                    Start.recoverPreviousStats();
+					    }
+				}
+			else
+				insertNameLvl = true;
 		}
 	
 	private boolean checkKeyPressed( final Input input )
