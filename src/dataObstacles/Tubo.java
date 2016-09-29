@@ -87,6 +87,9 @@ public class Tubo extends Ostacolo{
             //g.fill( new Rectangle( component( "latoSu" ).getX(), component( "latoSu" ).getY(), width, height ) );
 		}
     
+    public void setArea()
+    	{ ostr = new Rectangle( getX(), getY(), width, height ); }
+    
     public void updateStats()
     	{
     		width = width * Global.ratioW;

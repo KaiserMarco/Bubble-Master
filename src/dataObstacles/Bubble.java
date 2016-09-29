@@ -184,6 +184,9 @@ public class Bubble extends Ostacolo
     public void setCollide( boolean val )
     	{}
     
+    public void setArea()
+    	{ ostr = new Circle( ostr.getCenterX(), ostr.getCenterY(), ray ); }
+    
     /**determina se la sfera e' ancora nel primo tubo o se e' ancora nel secondo*/
     public void gestioneSferaInTubo()
     	{

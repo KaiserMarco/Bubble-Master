@@ -267,6 +267,8 @@ public class Edit
 									items.get( i ).setWidth( items.get( i ).getWidth() * currRatioW );
 									items.get( i ).setHeight( items.get( i ).getHeight() * currRatioH );
 								}
+							
+							items.get( i ).setArea();
 						}
 					
 					for(int i = 0; i < sfondi.size(); i++)
@@ -602,7 +604,7 @@ public class Edit
 			Input input = gc.getInput();
 			int mouseX = input.getMouseX();
 			int mouseY = input.getMouseY();
-			int move = gc.getHeight()/300;
+			int move = (int) (gc.getHeight()/300 * Global.Height/Global.H);
 			
 			boolean collide = false, fall = false;
 			//determina se il personaggio "tocca" un oggetto o il pavimento

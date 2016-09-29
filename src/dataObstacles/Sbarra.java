@@ -78,7 +78,12 @@ public class Sbarra extends Ostacolo{
 						immagine.draw( ostr.getX(), ostr.getY(), width, height, cr);
 					else
 						immagine.draw( ostr.getX(), ostr.getY(), width, height, cg);
+			
+			g.fill( ostr );
 		}
+    
+    public void setArea()
+    	{ ostr = new Rectangle( getX(), getY(), width, height ); }
     
     public void updateStats()
     	{

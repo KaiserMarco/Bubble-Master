@@ -342,6 +342,9 @@ public class Player extends Ostacolo
 			
 			maxHeight = (int) (maxHeight * Global.ratioH);
     	}
+    
+    public void setArea()
+    	{}
 	
 	public void setLifes()
 		{ lifes = Global.lifes; }
