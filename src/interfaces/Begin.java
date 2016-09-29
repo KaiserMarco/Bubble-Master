@@ -80,7 +80,7 @@ public class Begin
 
 	        xFinale = gc.getWidth()/2;
 	        countNumFinale = 50;
-	        numFinale1 = (options.getX() + xFinale - options.getLungh()/2)/countNumFinale;
+	        numFinale1 = (xFinale - options.getLungh()/2)/countNumFinale;
 	        numFinale2 = (xFinale + levels.getLungh()/2)/countNumFinale;
 			
 			elements = new ArrayList<Ostacolo>();
