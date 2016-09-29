@@ -26,7 +26,7 @@ public class Player extends Ostacolo
 	
 	private float xPlayer;
 	private float yPlayer;
-	private int widthI;
+	private float widthI;
 	private float width, height;
 	
 	private Shot fire;
@@ -307,7 +307,7 @@ public class Player extends Ostacolo
 		}
 	
 	public void draw( Graphics g ) throws SlickException
-		{
+		{			
 			if(!invincible)
 				drawMoving( g );
 			else if(invincible && currentTickInv > 0 && currentTickInv % 2 == 0)
@@ -336,6 +336,7 @@ public class Player extends Ostacolo
     public void updateStats()
     	{
 	    	width = width * Global.ratioW;
+	    	widthI = widthI * Global.ratioW;
 			height = height * Global.ratioH;
 			xPlayer = xPlayer * Global.ratioW;
 			yPlayer = yPlayer * Global.ratioH;
@@ -344,7 +345,11 @@ public class Player extends Ostacolo
     	}
     
     public void setArea()
-    	{}
+    	{ 
+    		area = new Rectangle( getX(), getY(), width, height );
+    		head = new Rectangle( getX() + Global.W/110, getY(), width/2, Global.H/40 );
+    		body = new Rectangle( getX(), getY() + Global.H/40, width, Global.H/10 );
+		}
 	
 	public void setLifes()
 		{ lifes = Global.lifes; }
@@ -639,6 +644,12 @@ public class Player extends Ostacolo
 	
 	public void setWidth( float val )
 		{ width = val; }
+	
+	public void setWidthI( float val )
+		{ widthI = val; }
+	
+	public float getWidthI()
+		{ return widthI; }
 	
 	public void setHeight( float val )
 		{ height = val; }

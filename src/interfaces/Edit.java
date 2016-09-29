@@ -26,6 +26,7 @@ import bubbleMaster.Start;
 import dataButton.Button;
 import dataButton.SimpleButton;
 import dataObstacles.Ostacolo;
+import dataObstacles.Player;
 
 public class Edit
 {
@@ -265,6 +266,8 @@ public class Edit
 							else
 								{
 									items.get( i ).setWidth( items.get( i ).getWidth() * currRatioW );
+									if(items.get( i ).getID().startsWith( "player" ))
+										((Player) items.get( i )).setWidthI( ((Player) items.get( i )).getWidthI() * currRatioW );
 									items.get( i ).setHeight( items.get( i ).getHeight() * currRatioH );
 								}
 							
