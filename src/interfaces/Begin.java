@@ -8,6 +8,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
@@ -66,7 +67,11 @@ public class Begin
 	
 	private boolean mouseDown = false;
 	
-	private static final String OPTIONS = "OPZIONI", LEVELS = "LIVELLI";
+	private static final String OPTIONS = "OPZIONI", LEVELS = "LIVELLI", BEGIN = "Premi un tasto qualsiasi per iniziare";
+	
+	private boolean showBegin;
+	private int timeShowBegin;
+	private final int timeLimitBegin = 65;
 	
 	public Begin( GameContainer gc ) throws SlickException
 		{
@@ -190,6 +195,9 @@ public class Begin
 			
 			checkRatioW = Global.ratioW;
 			checkRatioH = Global.ratioH;
+			
+			showBegin = false;
+			timeShowBegin = 0;
 		}
 	
 	public void cambiaProporzioni( float w, float h )
@@ -212,11 +220,26 @@ public class Begin
 
 	public void draw( GameContainer gc ) throws SlickException
 		{
+			Graphics g = gc.getGraphics();
+		
 			pang.draw( gc );
 		
 	        if(insertButton)
     			for(int i = 0; i < buttons.size(); i++)
-    				buttons.get( i ).draw( gc.getGraphics() );
+    				buttons.get( i ).draw( g );
+	        else
+	        	{
+	        		if(timeShowBegin == timeLimitBegin - 1)
+	        			showBegin = !showBegin;
+	        		if(showBegin)
+	        			{
+	        				g.setColor( Color.red );
+        					g.drawString( BEGIN, gc.getWidth()*5/17, gc.getHeight()*5/6 );
+        					g.setColor( Color.transparent );
+	        			}
+
+					timeShowBegin = (timeShowBegin + 1)%timeLimitBegin;
+	        	}
 			
 			if(indexCursor >= 0)
 				cursor.draw( buttons.get( indexCursor ).getX() - widthC, buttons.get( indexCursor ).getY(), widthC, heightC );
