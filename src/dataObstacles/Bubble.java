@@ -187,6 +187,9 @@ public class Bubble extends Ostacolo
     public void setArea()
     	{ ostr = new Circle( ostr.getCenterX(), ostr.getCenterY(), ray ); }
     
+    public void setMaxWidth( float val )
+    	{ maxW = val; }
+    
     /**determina se la sfera e' ancora nel primo tubo o se e' ancora nel secondo*/
     public void gestioneSferaInTubo()
     	{

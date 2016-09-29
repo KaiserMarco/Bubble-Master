@@ -25,6 +25,7 @@ import Utils.TextBox;
 import bubbleMaster.Start;
 import dataButton.Button;
 import dataButton.SimpleButton;
+import dataObstacles.Bubble;
 import dataObstacles.Ostacolo;
 import dataObstacles.Player;
 
@@ -261,8 +262,11 @@ public class Edit
 					for(int i  = 0; i < items.size(); i++)
 						{
 							items.get( i ).setXY( items.get( i ).getX() * currRatioW, items.get( i ).getY() * currRatioH, "restore" );
-							if(items.get( i ).getID().equals( "bolla" ))								
-								items.get( i ).setWidth( (int) (items.get( i ).getWidth() * currRatioH) );
+							if(items.get( i ).getID().equals( "bolla" ))
+								{
+									items.get( i ).setWidth( (int) (items.get( i ).getWidth() * currRatioH) );
+									((Bubble) items.get( i )).setMaxWidth( (float) (items.get( i ).getMaxWidth() * currRatioW) );
+								}
 							else
 								{
 									items.get( i ).setWidth( items.get( i ).getWidth() * currRatioW );
