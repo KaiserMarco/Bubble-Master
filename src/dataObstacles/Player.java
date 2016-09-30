@@ -76,6 +76,8 @@ public class Player extends Ostacolo
 	
 	//le vite del personaggio
 	private int lifes;
+	// determina se disegnare o meno le vite del personaggio
+	private boolean drawLifes;
 	
 	//determina se il personaggio e' vulnerabile
 	private boolean invincible;
@@ -116,8 +118,6 @@ public class Player extends Ostacolo
 			
 			wMove = 32; hMove = 41;
 			wJump = 261; hJump = 48;
-			
-			// TODO USARE UN SOLO TIMER PER LE ANIMAZIONI
 
 			if(numPlayer == 1)
 				{
@@ -185,6 +185,8 @@ public class Player extends Ostacolo
 			currentTimeInv = 0;
 			
 			lifes  = Global.lifes;
+			
+			drawLifes = true;
 			
 			points = 0;
 		}
@@ -324,13 +326,16 @@ public class Player extends Ostacolo
 			if(shooting)
 				fire.draw();
 			
-			int j;
-			for(j = 0; j < lifes/2; j++)
-				heart.draw( Global.W/40 + widthH*j, Global.H/30, widthH, heightH );
-			if(lifes%2 == 1)
-				halfHeart.draw( Global.W/40 + widthH*(j++), Global.H/30, widthH, heightH );
-			for(;j < Global.lifes/2; j++)
-				noHeart.draw( Global.W/40 + widthH*j, Global.H/30, widthH, heightH );
+			if(drawLifes)
+				{
+					int j;
+					for(j = 0; j < lifes/2; j++)
+						heart.draw( Global.W/40 + widthH*j, Global.H/30, widthH, heightH );
+					if(lifes%2 == 1)
+						halfHeart.draw( Global.W/40 + widthH*(j++), Global.H/30, widthH, heightH );
+					for(;j < Global.lifes/2; j++)
+						noHeart.draw( Global.W/40 + widthH*j, Global.H/30, widthH, heightH );
+				}
 		}
 
     public void updateStats()
@@ -350,6 +355,12 @@ public class Player extends Ostacolo
     		head = new Rectangle( getX() + Global.W/110, getY(), width/2, Global.H/40 );
     		body = new Rectangle( getX(), getY() + Global.H/40, width, Global.H/10 );
 		}
+    
+    public void setDrawLifes( boolean val )
+    	{ drawLifes = val; }
+    
+    public boolean getDrawLifes()
+    	{ return drawLifes; }
 	
 	public void setLifes()
 		{ lifes = Global.lifes; }
@@ -406,7 +417,9 @@ public class Player extends Ostacolo
 
 	public Ostacolo clone( GameContainer gc ) {
 		try {
-			return new Player( (int) xPlayer, (int) yPlayer, numPlayer, gc );
+			Player p = new Player( (int) xPlayer, (int) yPlayer, numPlayer, gc );
+			p.setDrawLifes( getDrawLifes() );
+			return p;
 		} catch (SlickException e) {
 			e.printStackTrace();
 			return null;

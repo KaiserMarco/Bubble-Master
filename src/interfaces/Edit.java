@@ -102,6 +102,9 @@ public class Edit
 			items = elem.getItems();
 			ostacoli = new ArrayList<Ostacolo>();
 			
+			((Player) items.get( 2 )).setDrawLifes( false );
+			((Player) items.get( 3 )).setDrawLifes( false );
+			
 			up = new Image( "./data/Image/up.png" );
 			down = new Image( "./data/Image/down.png" );
 			widthArrow = gc.getWidth()/15;
@@ -980,15 +983,20 @@ public class Edit
 							                            		}
 						                            		else if(buttons.get( i ).getName().equals( SAVE ))
 						                            			{
-						                            				if(!insertEditor) {
-						                            					if(gamer > 0 && ball > 0) {
-					                            					        // apre la textBox
-					                            					        tBox.setOpen( true );
-						                            					    // setta il nome del livello
-					                            					        if(index >= 0)
-					                            					        	tBox.setText( Begin.livelli.get( index ).getName() );
-						                            					}
-						                            				}
+						                            				if(!insertEditor)
+							                            				{
+							                            					if(gamer > 0 && ball > 0)
+								                            					{
+							                            							for(int k  = 0; k < ostacoli.size(); k++)
+							                            								if(ostacoli.get( k ).getID().startsWith( "player" ))
+							                            									((Player) ostacoli.get( k )).setDrawLifes( true );
+							                            					        // apre la textBox
+							                            					        tBox.setOpen( true );
+								                            					    // setta il nome del livello
+							                            					        if(index >= 0)
+							                            					        	tBox.setText( Begin.livelli.get( index ).getName() );
+								                            					}
+							                            				}
 						                            			}
 						                            		
 								                            break;
