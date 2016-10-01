@@ -193,13 +193,14 @@ public class Settings
 			return 0;
 		}
 	
-	private void applicaCambiamenti() throws SlickException
+	private void applicaCambiamenti( Edit editor ) throws SlickException
 		{
 			Global.lifes = vite;
 			
 	        Global.computeRatio( Integer.parseInt( widthP ), Integer.parseInt( heightP ) );
 	        if(Global.ratioW != 1 || Global.ratioH != 1)
 	            {
+                	editor.updateStats();
 	                for(int i = 0; i < Begin.livelli.size(); i++)
 	                    {
 	                        for(int j = 0; j < Begin.livelli.get( i ).getElements().size(); j++)
@@ -240,9 +241,11 @@ public class Settings
 	            }
 	        
 	        Start.setAppDisplay();
+	        
+	        System.out.println( "ratioW = " + Global.ratioW + " ratioH = " + Global.ratioH );
 		}
 	
-	public void update( GameContainer gc ) throws SlickException
+	public void update( GameContainer gc, Edit editor ) throws SlickException
 		{
 			Input input = gc.getInput();
 			int mouseX = input.getMouseX();
@@ -310,7 +313,7 @@ public class Settings
 					                            			Start.begin = 1;
 				                            			}
 				                            		else if(buttons.get( i ).getName().equals( APPLY ))
-				                                        applicaCambiamenti();
+				                                        applicaCambiamenti( editor );
 				                            		
 						                            break;
 					                            }

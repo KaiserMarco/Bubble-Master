@@ -12,6 +12,7 @@ import Utils.Global;
 import Utils.Sfondo;
 import bubbleMaster.Start;
 import dataObstacles.Ostacolo;
+import dataObstacles.Player;
 
 public class InGame
 {	
@@ -63,6 +64,10 @@ public class InGame
 					if(ost.getID().startsWith( "player" ))
 						{
 							players.add( obs.get( i ).clone( gc ) );
+							players.get( players.size() - 1 ).setHeight( ost.getHeight() );
+							players.get( players.size() - 1 ).setWidth( ost.getWidth() );
+							((Player) players.get( players.size() - 1 )).setWidthI( ((Player) ost).getWidthI() );
+							players.get( players.size() - 1 ).setArea();
 							players.get( players.size() - 1 ).setMaxHeight( sfondo.getMaxHeight() );
 						}
 					else if(obs.get( i ).getID().equals( "bolla" ))

@@ -197,7 +197,7 @@ public class Begin
 			checkRatioH = Global.ratioH;
 			
 			showBegin = false;
-			timeShowBegin = 0;
+			timeShowBegin = timeLimitBegin - 1;
 		}
 	
 	public void cambiaProporzioni( float w, float h )

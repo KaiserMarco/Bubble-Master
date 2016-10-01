@@ -352,13 +352,14 @@ public class Player extends Ostacolo
 			yPlayer = yPlayer * Global.ratioH;
 			
 			maxHeight = (int) (maxHeight * Global.ratioH);
+    		area = new Rectangle( xPlayer, yPlayer, width, height );
     	}
     
     public void setArea()
     	{ 
-    		area = new Rectangle( getX(), getY(), width, height );
-    		head = new Rectangle( getX() + Global.W/110, getY(), width/2, Global.H/40 );
-    		body = new Rectangle( getX(), getY() + Global.H/40, width, Global.H/10 );
+    		area = new Rectangle( xPlayer, yPlayer, width, height );
+    		head = new Rectangle( xPlayer + Global.W/110, yPlayer, width/2, Global.H/40 );
+    		body = new Rectangle( xPlayer, yPlayer + Global.H/40, width, Global.H/10 );
 		}
     
     public void setDrawLifes( boolean val )
