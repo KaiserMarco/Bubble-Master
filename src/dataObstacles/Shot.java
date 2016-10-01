@@ -102,25 +102,15 @@ public class Shot
 									
 									float speedX = ((Bubble) ost).getSpeedX(), speedY = ((Bubble) ost).getSpeedY();
 									
-									if(speedX == 0)
+									if(speedY == 0)
 										{
-											temp1.setSpeed( -1, speedY );
-											temp2.setSpeed( 1, speedY );
-										}
-									else if(speedY == 0)
-										{
-											temp1.setSpeed( speedX, -1 );
-											temp2.setSpeed( speedX, 1 );
-										}
-									else if(speedY > 0)
-										{
-											temp1.setSpeed( speedX, speedY );
-											temp2.setSpeed( -speedX, speedY );
+											temp1.setSpeed( speedX, 1 );
+											temp2.setSpeed( -speedX, 1 );
 										}
 									else
 										{
-											temp1.setSpeed( speedX, -speedY );
-											temp2.setSpeed( -speedX, speedY );
+											temp1.setSpeed( -speedX, Math.abs( speedY ) );
+											temp2.setSpeed( speedX, Math.abs( speedY ) );
 										}
 									
 									InGame.ostacoli.remove( ost );
