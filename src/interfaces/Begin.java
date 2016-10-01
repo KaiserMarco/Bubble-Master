@@ -337,9 +337,11 @@ public class Begin
 							                            {
 				                                			Start.begin = 0;
 						                                	indexCursor = -1;
-				                                    		Start.setPreviuosStats( "begin" ); 
 						                            		if(buttons.get( i ).getName().equals( OPTIONS ))
-							                            		Start.settings = 1;
+						                            			{
+							                            			Start.settings = 1;
+							                            			Start.chooseLevel = 0;
+						                            			}
 						                            		else if(buttons.get( i ).getName().equals( LEVELS ))
 						                                        Start.chooseLevel = 1;
 						                            		

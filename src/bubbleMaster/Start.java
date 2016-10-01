@@ -7,8 +7,6 @@ import interfaces.End;
 import interfaces.InGame;
 import interfaces.Settings;
 
-import java.util.ArrayList;
-
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.GameContainer;
@@ -31,15 +29,11 @@ public class Start extends BasicGame
 	public static int chooseLevel, startGame, endGame, editGame, creaLvl, settings;
 	public static int begin = 1;
 	
-	private static ArrayList<String> previous;
-	
 	private static AppGameContainer app;
 	
 	public Start( String title )
 		{
 			super( title );
-			
-			previous = new ArrayList<String>();
 			
 			stats = new Statistics();
 		}
@@ -58,31 +52,6 @@ public class Start extends BasicGame
 	
 	public static void setAppDisplay() throws SlickException
 		{ app.setDisplayMode( Global.W, Global.H, false); }
-	
-	/*ricorda i precedenti valori delle interfacce*/
-	public static void setPreviuosStats( String prev ) throws SlickException
-		{ previous.add( 0, prev ); }
-	
-	/*setta la precedente interfaccia*/
-	public static void recoverPreviousStats()
-		{		
-			if(previous.get( 0 ).equals( "chooseLevel" ))
-				chooseLevel = 1;
-			else if(previous.get( 0 ).equals( "startGame" ))
-				startGame = 1;
-			else if(previous.get( 0 ).equals( "editGame" ))
-				editGame = 1;
-			else if(previous.get( 0 ).equals( "endGame" ))
-				endGame = 1;
-			else if(previous.get( 0 ).equals( "creaLvl" ))
-				creaLvl = 1;
-			else if(previous.get( 0 ).equals( "settings" ))
-				settings = 1;
-			else
-				begin = 1;
-			
-			previous.remove( 0 );
-		}
 
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException 

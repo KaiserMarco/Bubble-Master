@@ -121,7 +121,6 @@ public class InGame
 					decrNumb = 4;
 					Start.startGame = 0;
 					Start.chooseLevel = 1;
-					Start.setPreviuosStats( "begin" );
 				}
 		
 			if(!Global.drawCountdown && Global.inGame)

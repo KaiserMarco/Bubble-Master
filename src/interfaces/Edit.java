@@ -627,7 +627,7 @@ public class Edit
 				{
 					resetStatus();
 					Start.editGame = 0;
-					Start.recoverPreviousStats();
+					Start.chooseLevel = 1;
 				}
 			
 			if(temp != null)
@@ -979,7 +979,7 @@ public class Edit
     	                                                            indexCursor = -1;
 						                            				nameLvl = null;
 						            								resetStatus();
-						            								Start.recoverPreviousStats();
+						            								Start.chooseLevel = 1;
 							                            		}
 						                            		else if(buttons.get( i ).getName().equals( SAVE ))
 						                            			{
@@ -1033,7 +1033,7 @@ public class Edit
 		                    gamer = 0;
 		                    ball = 0;
 		                
-		                    Start.recoverPreviousStats();
+		                    Start.chooseLevel = 1;
 					    }
 				}
 			else

@@ -241,7 +241,7 @@ public class ChooseLevel
 				                            		if(buttons.get( i ).getName().equals( BACK ))
 				                            			{
 			                                				Start.chooseLevel = 0;
-					                            			Start.recoverPreviousStats();
+					                            			Start.begin = 1;
 				                            			}
 				                            		else if(buttons.get( i ).getName().equals( START ))
 				                                        {
@@ -252,7 +252,6 @@ public class ChooseLevel
 					                                        Global.inGame = true;
 					                                        
 					                                        Start.startGame = 1;
-					                                        Start.setPreviuosStats( "chooseLevel" );
 				                                        }
 				                            		else if(buttons.get( i ).getName().equals( EDIT ))
 				                            			{				                            			
@@ -261,14 +260,12 @@ public class ChooseLevel
 					                                        editor.updateStats();
 					                                        
 					                                        Start.editGame = 1;
-					                                        Start.setPreviuosStats( "chooseLevel" );
 				                            			}
 				                            		else if(buttons.get( i ).getName().equals( NEW ))
 				                            			{
 				                            				editor.updateStats();
 				                            				editor.resetData();
 				                            				Start.editGame = 1;
-				                            				Start.setPreviuosStats( "chooseLevel" );
 				                            			}
 				                            		
 						                            break;

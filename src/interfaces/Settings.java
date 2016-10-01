@@ -252,7 +252,7 @@ public class Settings
 				{
 					indexCursor = -1;
 					Start.settings = 0;
-					Start.recoverPreviousStats();
+					Start.begin = 1;
 				}
 
 			if(indexCursor < 0 &&((input.isKeyPressed( Input.KEY_UP ) || input.isKeyPressed( Input.KEY_DOWN )
@@ -305,7 +305,6 @@ public class Settings
 					                            {
 				                            		if(buttons.get( i ).getName().equals( BACK ))
 				                            			{
-			                                    			Start.setPreviuosStats( "begin" ); 
 					                                		indexCursor = -1;
 			                                				Start.settings = 0;
 					                            			Start.begin = 1;
