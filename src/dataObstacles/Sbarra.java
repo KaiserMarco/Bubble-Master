@@ -81,7 +81,10 @@ public class Sbarra extends Ostacolo{
 		}
     
     public void setArea()
-    	{ ostr = new Rectangle( getX(), getY(), width, height ); }
+    	{
+    		ostr = new Rectangle( getX(), getY(), width, height );
+    		setSpigoli();
+		}
     
     public void updateStats()
     	{

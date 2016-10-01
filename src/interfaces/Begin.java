@@ -206,15 +206,8 @@ public class Begin
 		
 			for(int i = 0; i < elements.size(); i++)
 				{
-					if(elements.get( i ).getID().equals( "bolla" ))
-						elements.get( i ).setWidth( elements.get( i ).getWidth() * rappW );
-					else
-						{
-							elements.get( i ).setWidth( elements.get( i ).getWidth() * rappW );
-							elements.get( i ).setHeight( elements.get( i ).getHeight() * rappH );
-						}
-					
 					elements.get( i ).setXY( elements.get( i ).getX() * rappW, elements.get( i ).getY() * rappH, "restore" );
+					elements.get( i ).setArea();
 				}
 		}
 

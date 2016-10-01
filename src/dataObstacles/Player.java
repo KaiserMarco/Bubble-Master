@@ -1,5 +1,7 @@
 package dataObstacles;
 
+import java.util.ArrayList;
+
 import interfaces.InGame;
 
 import org.newdawn.slick.Color;
@@ -89,6 +91,9 @@ public class Player extends Ostacolo
 	
 	// il valore dei frame di movimento e salto
 	float frameMove, frameJump;
+	
+	// il vettore dei potenziamenti del personaggio
+	private ArrayList<Ostacolo> powerUp;
 	
 	public Player( int x, int y, int numPlayer, GameContainer gc ) throws SlickException
 		{
