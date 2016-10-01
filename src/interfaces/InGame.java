@@ -139,7 +139,7 @@ public class InGame
 					Start.stats.stopTempo();
 				
 					Start.startGame = 0;
-					Start.endGame = 1;					
+					Start.endGame = 1;
 				}
 		}
 }

@@ -167,6 +167,7 @@ public class End
 				{
             		Start.endGame = 0;
                 	indexCursor = -1;
+                	sfondo = null;
 					returnToBegin();
 				}
 			
@@ -218,6 +219,7 @@ public class End
 				                            		else if(buttons.get( i ).getName().equals( LEVELS ))
 				                                        Start.chooseLevel = 1;
 				                            		
+				                            		sfondo = null;
 						                            break;
 					                            }
 		                    			}
