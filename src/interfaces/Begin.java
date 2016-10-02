@@ -172,9 +172,6 @@ public class Begin
 						
 						livelli.add( new Livello( elements, sfondo, tmp ) );
 						
-						for(int i  = 0; i < livelli.get( livelli.size() - 1 ).getElements().size(); i++)
-							System.out.println( "tipo ostacolo = " +  livelli.get( livelli.size() - 1 ).getElements().get( i ).getID() );
-						
 						System.out.println( "livello " + files[j] + " caricato" );
 					}
 			}

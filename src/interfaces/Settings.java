@@ -168,7 +168,7 @@ public class Settings
 				}
 			
 			if(indexCursor >= 0)
-					cursor.draw( buttons.get( indexCursor ).getX() - widthC, buttons.get( indexCursor ).getY(), widthC, heightC );
+				cursor.draw( buttons.get( indexCursor ).getX() - widthC, buttons.get( indexCursor ).getY(), widthC, heightC );
 		}
 	
 	private int checkButton( Button button, Input input, int i )

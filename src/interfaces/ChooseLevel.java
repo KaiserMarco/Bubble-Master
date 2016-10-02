@@ -106,11 +106,11 @@ public class ChooseLevel
 			
 			g.resetTransform();
 			
-			for(int i = 0; i < buttons.size(); i++)
-				buttons.get( i ).draw( g );
+			for(SimpleButton button: buttons)
+				button.draw( g );
 			
-			for(int i  = 0; i < arrows.size(); i++)
-				arrows.get( i ).draw( g );
+			for(ArrowButton arrow: arrows)
+				arrow.draw( g );
 			
 			if(indexCursor >= 0)
 				cursor.draw( buttons.get( indexCursor ).getX() - widthC, buttons.get( indexCursor ).getY(), widthC, heightC );
@@ -130,8 +130,8 @@ public class ChooseLevel
 			
 			buttonY = buttonY * Global.ratioH;
 			
-			for(int i = 0; i < arrows.size(); i++)
-				arrows.get( i ).translate( Global.ratioW, Global.ratioH );
+			for(ArrowButton arrow: arrows)
+				arrow.translate( Global.ratioW, Global.ratioH );
 
 			for(int i  = 0; i < buttons.size(); i++)
 				{
