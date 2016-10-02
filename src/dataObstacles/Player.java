@@ -641,7 +641,7 @@ public class Player extends Ostacolo
 		{}
 
 	public Shape getArea()
-		{ return null; }
+		{ return area; }
 
 	public double getMaxHeight()
 		{ return maxHeight; }

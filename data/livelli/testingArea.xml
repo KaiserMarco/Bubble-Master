@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<level>
+  <!--Objects-->
+  <livello nome="testingArea" />
+  <ostacolo x="445.0" y="72.0" union="0" type="dx" ID="tubo" />
+  <ostacolo x="460.0" y="77.0" union="-1" type="null" ID="bolla" />
+  <ostacolo x="531.0" y="506.0" union="-1" type="null" ID="player1" />
+  <sfondo x="0" y="0" name="sfondo5" />
+  <risoluzione w="800" h="600" />
+</level>

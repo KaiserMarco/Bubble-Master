@@ -92,7 +92,25 @@ public class InGame
 			sfondo.draw( gc );
 			
 			for(int i = ostacoli.size() - 1; i >= 0; i--)
-				ostacoli.get( i ).draw( g );
+				{
+					Ostacolo obsI = ostacoli.get( i );
+					if(obsI.getID().equals( "bolla" ))
+						for(int j = 0; j < ostacoli.size(); j++)
+							{
+								if(j != i)
+									{
+										Ostacolo obsJ = ostacoli.get( j );
+										if(obsI.getX() > obsJ.getX() && obsI.getX() + obsI.getWidth() < obsJ.getX() + obsJ.getWidth()
+										&& obsI.getY() > obsJ.getY() && obsI.getY() + obsI.getHeight() < obsJ.getY() + obsJ.getHeight())
+											break;
+										else
+											obsI.draw( g );
+									}
+							}
+					else
+						obsI.draw( g );
+								
+				}
 			
 			for(Ostacolo p: players)
 				p.draw( g );

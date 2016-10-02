@@ -83,8 +83,6 @@ public class Tubo extends Ostacolo{
                         immagine.draw( ostr.getX(), ostr.getY(), width, height, cr);
                     else
                         immagine.draw( ostr.getX(), ostr.getY(), width, height, cg);
-            
-            //g.fill( new Rectangle( component( "latoSu" ).getX(), component( "latoSu" ).getY(), width, height ) );
 		}
     
     public void setArea()
@@ -185,7 +183,7 @@ public class Tubo extends Ostacolo{
 		{ return 0; }
 	
 	public Shape getArea()
-		{ return null; }
+		{ return ostr; }
 
 	public Ostacolo clone( GameContainer gc ) {		
 		try {
