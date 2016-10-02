@@ -54,10 +54,10 @@ public class Shot
 	public void draw() throws SlickException
 		{
 			int saveY = startY;
-			for(int i = 0; i < sparo.size() - 1; i++)
+			for(Image fuoco: sparo)
 				{
 					startY = startY - heightC;
-					sparo.get( i ).draw( posX, startY, widthC, heightC );
+					fuoco.draw( posX, startY, widthC, heightC );
 				}
 			sparo.get( sparo.size() - 1 ).draw( posX + widthC/2 - widthS/2, posY, widthS, heightS );
 			
