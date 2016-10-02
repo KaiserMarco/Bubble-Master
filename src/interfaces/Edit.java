@@ -256,41 +256,41 @@ public class Edit
 		
 					choise = new Rectangle( choise.getX() * currRatioW, Global.H - heightChoise*currRatioH, widthChoise * currRatioW, heightChoise * currRatioH );
 					
-					for(int i = 0 ; i < buttons.size(); i++)
+					for(SimpleButton button: buttons)
 						{
-							buttons.get( i ).setX( buttons.get( i ).getX() * currRatioW );
-							buttons.get( i ).setY( buttons.get( i ).getY() * currRatioH );
+							button.setX( button.getX() * currRatioW );
+							button.setY( button.getY() * currRatioH );
 						}
 					
-					for(int i  = 0; i < items.size(); i++)
+					for(Ostacolo item: items)
 						{
-							items.get( i ).setXY( items.get( i ).getX() * currRatioW, items.get( i ).getY() * currRatioH, "restore" );
-							if(items.get( i ).getID().equals( "bolla" ))
+							item.setXY( item.getX() * currRatioW, item.getY() * currRatioH, "restore" );
+							if(item.getID().equals( "bolla" ))
 								{
-									items.get( i ).setWidth( (int) (items.get( i ).getWidth() * currRatioH) );
-									((Bubble) items.get( i )).setMaxWidth( (float) (items.get( i ).getMaxWidth() * currRatioW) );
+									item.setWidth( (int) (item.getWidth() * currRatioH) );
+									((Bubble) item).setMaxWidth( (float) (item.getMaxWidth() * currRatioW) );
 								}
 							else
 								{
-									items.get( i ).setWidth( items.get( i ).getWidth() * currRatioW );
-									if(items.get( i ).getID().startsWith( "player" ))
-										((Player) items.get( i )).setWidthI( ((Player) items.get( i )).getWidthI() * currRatioW );
-									items.get( i ).setHeight( items.get( i ).getHeight() * currRatioH );
+									item.setWidth( item.getWidth() * currRatioW );
+									if(item.getID().startsWith( "player" ))
+										((Player) item).setWidthI( ((Player) item).getWidthI() * currRatioW );
+									item.setHeight( item.getHeight() * currRatioH );
 								}
 							
-							items.get( i ).setArea();
+							item.setArea();
 						}
 					
-					for(int i = 0; i < sfondi.size(); i++)
+					for(Sfondo sfondo: sfondi)
 						{
-							sfondi.get( i ).setX( sfondi.get( i ).getX() * currRatioW );
-							sfondi.get( i ).setY( sfondi.get( i ).getY() * currRatioH );
+							sfondo.setX( sfondo.getX() * currRatioW );
+							sfondo.setY( sfondo.getY() * currRatioH );
 						
-							sfondi.get( i ).setMaxWidth( sfondi.get( i ).getMaxWidth() * currRatioW );
-							sfondi.get( i ).setMaxHeight( sfondi.get( i ).getMaxHeight() * currRatioH );
+							sfondo.setMaxWidth( sfondo.getMaxWidth() * currRatioW );
+							sfondo.setMaxHeight( sfondo.getMaxHeight() * currRatioH );
 
-							sfondi.get( i ).setWidth( sfondi.get( i ).getWidth() * currRatioW );
-							sfondi.get( i ).setHeight( sfondi.get( i ).getHeight() * currRatioH );
+							sfondo.setWidth( sfondo.getWidth() * currRatioW );
+							sfondo.setHeight( sfondo.getHeight() * currRatioH );
 						}
 					
 					rappX = currRatioW;
@@ -303,9 +303,9 @@ public class Edit
 	
 	public void aggiornaIndiciTubi( int i )
 		{
-			for(int j = 0; j < ostacoli.size(); j++)
-				if(ostacoli.get( j ).getID().equals( "tubo" ) && ostacoli.get( j ).getUnion() > i)
-					ostacoli.get( j ).setUnion( ostacoli.get( j ).getUnion() - 1 );
+			for(Ostacolo obs: ostacoli)
+				if(obs.getID().equals( "tubo" ) && obs.getUnion() > i)
+					obs.setUnion( obs.getUnion() - 1 );
 		}
 	/**resetta indexCursor, indexCursorButton e indexCursorSfondi*/
 	public void resetIndexCursor()
@@ -356,9 +356,8 @@ public class Edit
 					//inserimento tramite click del mouse
 					else
 						{
-							for(int i = 0; i < items.size(); i++)
+							for(Ostacolo item: items)
 								{
-									Ostacolo item = items.get( i );
 									if(item.contains( x, y ))
 										{
 											temp = item.clone( gc );
@@ -466,7 +465,7 @@ public class Edit
 	private void setTubeInArray( GameContainer gc )
 		{
 			int j = 0;
-			for(int i  = 0; i < ostacoli.size(); i++)
+			for(int i = 0; i < ostacoli.size(); i++)
 				{
 					if(!ostacoli.get( i ).getID().equals( "tubo" ))
 						{
@@ -523,17 +522,17 @@ public class Edit
 			    item = new Element( "livello" );
 			    item.setAttribute( "nome", name );
 			    livello.addContent( item );
-			    for(int i = 0; i < ostacoli.size(); i++)
+			    for(Ostacolo obs: ostacoli)
 			    	{									    			
 	    				item = new Element( "ostacolo" );
-	    				item.setAttribute( "x", ostacoli.get( i ).getX() + "" );
-	    				item.setAttribute( "y", ostacoli.get( i ).getY() + "" );
-	    				item.setAttribute( "union", ostacoli.get( i ).getUnion() + "" );
-	    				if(ostacoli.get( i ).getOrienting() != null)
-	    				    item.setAttribute( "type", ostacoli.get( i ).getOrienting() );
+	    				item.setAttribute( "x", obs.getX() + "" );
+	    				item.setAttribute( "y", obs.getY() + "" );
+	    				item.setAttribute( "union", obs.getUnion() + "" );
+	    				if(obs.getOrienting() != null)
+	    				    item.setAttribute( "type", obs.getOrienting() );
 	    				else
 	    				    item.setAttribute( "type", "null" );
-	    				item.setAttribute( "ID", ostacoli.get( i ).getID() );
+	    				item.setAttribute( "ID", obs.getID() );
 	    				livello.addContent( item );
 			    	}
 				
@@ -775,7 +774,6 @@ public class Edit
 											aggiornaIndiciTubi( i );
 											ostacoli.remove( i );
 										}
-
 							
 							ostacoli.remove( temp );
 							
