@@ -342,6 +342,14 @@ public class Player extends Ostacolo
 						noHeart.draw( Global.W/40 + widthH*j, Global.H/30, widthH, heightH );
 				}
 		}
+	
+	public void checkPosition( ArrayList<Ostacolo> obstacles )
+		{
+			for(int i = 0; i < obstacles.size(); i++)
+				if(!obstacles.get( i ).getID().startsWith( "player" ))
+					if(area.intersects( obstacles.get( i ).component( "latoSu" ) ))
+						yPlayer = obstacles.get( i ).getY() - height;
+		}
 
     public void updateStats()
     	{

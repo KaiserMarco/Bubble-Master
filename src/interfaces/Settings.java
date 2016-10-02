@@ -204,12 +204,14 @@ public class Settings
 	                for(int i = 0; i < Begin.livelli.size(); i++)
 	                    {
 	                        for(int j = 0; j < Begin.livelli.get( i ).getElements().size(); j++)
-	                            {
-	                                Begin.livelli.get( i ).getElements().get( j ).updateStats();
-	                                if(vite != Global.lifes)
-	                                    if(Begin.livelli.get( i ).getElements().get( j ).getID().startsWith( "player" ))
-	                                        ((Player) Begin.livelli.get( i ).getElements().get( j )).setLifes();
-	                            }
+                        		Begin.livelli.get( i ).getElements().get( j ).updateStats();
+	                        
+	                        for(int j = 0; j < Begin.livelli.get( i ).getElements().size(); j++)
+	                        	if(Begin.livelli.get( i ).getElements().get( j ).getID().startsWith( "player" ))
+	                        		{
+	                        			((Player) Begin.livelli.get( i ).getElements().get( j )).checkPosition( Begin.livelli.get( i ).getElements() );
+		                        		Begin.livelli.get( i ).getElements().get( j ).setArea();
+	                        		}
 	                            
 	                        Begin.livelli.get( i ).getImage().setMaxHeight( Begin.livelli.get( i ).getImage().getMaxHeight() * Global.ratioH );
 	                        Begin.livelli.get( i ).getImage().setHeight( Begin.livelli.get( i ).getImage().getHeight() * Global.ratioH );
@@ -241,8 +243,6 @@ public class Settings
 	            }
 	        
 	        Start.setAppDisplay();
-	        
-	        System.out.println( "ratioW = " + Global.ratioW + " ratioH = " + Global.ratioH );
 		}
 	
 	public void update( GameContainer gc, Edit editor ) throws SlickException
