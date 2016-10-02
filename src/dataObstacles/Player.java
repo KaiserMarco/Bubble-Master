@@ -532,9 +532,12 @@ public class Player extends Ostacolo
 					if(++countShot % 2 == 0)
 						fire.update();
 					
-					for(int i = 0; i < InGame.ostacoli.size(); i++)
-						if(fire.collision( this, InGame.ostacoli.get( i ), InGame.ostacoli.get( i ).getID(), gc ))
-							shooting = false;
+					for(Ostacolo ost: InGame.ostacoli)
+						if(fire.collision( this, ost, ost.getID(), gc ))
+							{
+								shooting = false;
+								break;
+							}
 				}
 			
 			if(input.isKeyPressed( Input.KEY_SPACE ) && !jump)
