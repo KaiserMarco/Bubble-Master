@@ -160,17 +160,15 @@ public class Edit
 		
 			sfondi.get( indexSfondo ).draw( gc );
 						
-			for(int i = 0; i < ostacoli.size(); i++)
+			for(Ostacolo obs: ostacoli)
 				{
-					ostacoli.get( i ).draw( g );
-					if(ostacoli.get( i ).getID().equals( "tubo" ))
-						{
-							Ostacolo tube = ostacoli.get( i );
-							
-							if(tube.getUnion() == -1)
-								g.drawGradientLine( tube.getMidArea().getX(), tube.getMidArea().getY(), Color.red, temp.getMidArea().getX(), temp.getMidArea().getY(), Color.red );
+					obs.draw( g );
+					if(obs.getID().equals( "tubo" ))
+						{							
+							if(obs.getUnion() == -1)
+								g.drawGradientLine( obs.getMidArea().getX(), obs.getMidArea().getY(), Color.red, temp.getMidArea().getX(), temp.getMidArea().getY(), Color.red );
 							else
-								g.drawGradientLine( tube.getMidArea().getX(), tube.getMidArea().getY(), Color.red, ostacoli.get( tube.getUnion() ).getMidArea().getX(), ostacoli.get( tube.getUnion() ).getMidArea().getY(), Color.red );
+								g.drawGradientLine( obs.getMidArea().getX(), obs.getMidArea().getY(), Color.red, ostacoli.get( obs.getUnion() ).getMidArea().getX(), ostacoli.get( obs.getUnion() ).getMidArea().getY(), Color.red );
 						}
 				}
 			
@@ -181,11 +179,11 @@ public class Edit
 
 			if(insertItem)
 				{
-					for(int i = 0; i < items.size(); i++)
-						items.get( i ).draw( g );
+					for(Ostacolo item: items)
+						item.draw( g );
 
-					for(int i = 0; i < sfondi.size(); i++)
-						sfondi.get( i ).draw();
+					for(Sfondo sfondo: sfondi)
+						sfondo.draw();
 				}
 			
 			choiseI.draw( choise.getX(), choise.getY(), choise.getWidth(), choise.getHeight() );
@@ -230,15 +228,15 @@ public class Edit
 				if(sfondi.get( i ).getName().equals( sfondo.getName() ))
 					indexSfondo = i;
 		
-			for(int i = 0; i < ostacoli.size(); i++)
+			for(Ostacolo obs: ostacoli)
 				{
-					this.ostacoli.add( ostacoli.get( i ) );
-					if(ostacoli.get( i ).getID().equals( "bolla" ))
+					this.ostacoli.add( obs );
+					if(obs.getID().equals( "bolla" ))
 						ball++;
 				}
 			
-			for(int i = 0; i < giocatori.size(); i++)
-				this.ostacoli.add( giocatori.get( i ) );
+			for(Ostacolo player: giocatori)
+				this.ostacoli.add( player );
 			
 			gamer = giocatori.size();
 			
@@ -985,9 +983,9 @@ public class Edit
 							                            				{
 							                            					if(gamer > 0 && ball > 0)
 								                            					{
-							                            							for(int k  = 0; k < ostacoli.size(); k++)
-							                            								if(ostacoli.get( k ).getID().startsWith( "player" ))
-							                            									((Player) ostacoli.get( k )).setDrawLifes( true );
+							                            							for(Ostacolo obs: ostacoli)
+							                            								if(obs.getID().startsWith( "player" ))
+							                            									((Player) obs).setDrawLifes( true );
 							                            					        // apre la textBox
 							                            					        tBox.setOpen( true );
 								                            					    // setta il nome del livello
