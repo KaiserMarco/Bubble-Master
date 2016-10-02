@@ -201,22 +201,22 @@ public class Settings
 	        if(Global.ratioW != 1 || Global.ratioH != 1)
 	            {
                 	editor.updateStats();
-	                for(int i = 0; i < Begin.livelli.size(); i++)
+	                for(Livello levels: Begin.livelli)
 	                    {
-	                        for(int j = 0; j < Begin.livelli.get( i ).getElements().size(); j++)
-                        		Begin.livelli.get( i ).getElements().get( j ).updateStats();
+	                        for(int j = 0; j < levels.getElements().size(); j++)
+                        		levels.getElements().get( j ).updateStats();
 	                        
-	                        for(int j = 0; j < Begin.livelli.get( i ).getElements().size(); j++)
-	                        	if(Begin.livelli.get( i ).getElements().get( j ).getID().startsWith( "player" ))
+	                        for(int j = 0; j < levels.getElements().size(); j++)
+	                        	if(levels.getElements().get( j ).getID().startsWith( "player" ))
 	                        		{
-	                        			((Player) Begin.livelli.get( i ).getElements().get( j )).checkPosition( Begin.livelli.get( i ).getElements() );
-		                        		Begin.livelli.get( i ).getElements().get( j ).setArea();
+	                        			((Player) levels.getElements().get( j )).checkPosition( levels.getElements() );
+	                        			levels.getElements().get( j ).setArea();
 	                        		}
 	                            
-	                        Begin.livelli.get( i ).getImage().setMaxHeight( Begin.livelli.get( i ).getImage().getMaxHeight() * Global.ratioH );
-	                        Begin.livelli.get( i ).getImage().setHeight( Begin.livelli.get( i ).getImage().getHeight() * Global.ratioH );
-	                        Begin.livelli.get( i ).getImage().setMaxWidth( Begin.livelli.get( i ).getImage().getMaxWidth() * Global.ratioW );
-	                        Begin.livelli.get( i ).getImage().setWidth( Begin.livelli.get( i ).getImage().getWidth() * Global.ratioW );
+	                        levels.getImage().setMaxHeight( levels.getImage().getMaxHeight() * Global.ratioH );
+	                        levels.getImage().setHeight( levels.getImage().getHeight() * Global.ratioH );
+	                        levels.getImage().setMaxWidth( levels.getImage().getMaxWidth() * Global.ratioW );
+	                        levels.getImage().setWidth( levels.getImage().getWidth() * Global.ratioW );
 	                    }
 	            
 	                for(SimpleButton button: buttons)

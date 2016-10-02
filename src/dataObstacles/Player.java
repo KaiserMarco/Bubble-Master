@@ -42,7 +42,12 @@ public class Player extends Ostacolo
 	
 	private int maxJump = 0, tempJump;
 	
+	// la direzione di movimento del personaggio
 	private int dir = 0;
+	
+	/*sottodivisione del rettangolo in lati e spigoli*/
+	public Rectangle latoSu = null, latoGiu = null, latoDx = null, latoSx = null;
+	public Rectangle spigASx = null, spigADx = null, spigBSx = null, spigBDx = null;
 	
 	/*altezza e larghezza dei frame dello spostamento laterale*/
 	private int widthS, heightS;
@@ -376,9 +381,6 @@ public class Player extends Ostacolo
     public boolean getDrawLifes()
     	{ return drawLifes; }
 	
-	public void setLifes()
-		{ lifes = Global.lifes; }
-	
 	public Image getImage()
 		{ return pgdx; }
 	
@@ -472,13 +474,12 @@ public class Player extends Ostacolo
 			if(invincible)
 				{
 					currentTimeInv = currentTimeInv + delta;
-					if(currentTimeInv >= timerInv)
-						{
-							if(--currentTickInv == 0)
-								invincible = false;
-							else
-								currentTimeInv = 0;
-						}
+					if(currentTimeInv >= timerInv)						
+						if(--currentTickInv == 0)
+							invincible = false;
+						else
+							currentTimeInv = 0;
+						
 				}
 			
 			movingDx = false;
