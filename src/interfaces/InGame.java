@@ -100,8 +100,8 @@ public class InGame
 								if(j != i)
 									{
 										Ostacolo obsJ = ostacoli.get( j );
-										if(obsI.getX() > obsJ.getX() && obsI.getX() + obsI.getWidth() < obsJ.getX() + obsJ.getWidth()
-										&& obsI.getY() > obsJ.getY() && obsI.getY() + obsI.getHeight() < obsJ.getY() + obsJ.getHeight())
+										if(obsI.getX() >= obsJ.getX() && obsI.getX() + obsI.getWidth() <= obsJ.getX() + obsJ.getWidth()
+										&& obsI.getY() >= obsJ.getY() && obsI.getY() + obsI.getHeight() <= obsJ.getY() + obsJ.getHeight())
 											break;
 										else
 											obsI.draw( g );
