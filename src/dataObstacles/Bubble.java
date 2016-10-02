@@ -99,8 +99,8 @@ public class Bubble extends Ostacolo
     		maxW = maxW * Global.ratioW;
     		maxH = maxH * Global.ratioH;
     		
-    		/*speedX = speedX * Global.W/Global.Width;
-    		speedY = speedY * Global.H/Global.Height;*/
+    		speedX = speedX * Global.W/Global.Width;
+    		speedY = speedY * Global.H/Global.Height;
     	}
     
     public double getMaxWidth()

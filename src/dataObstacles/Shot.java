@@ -10,6 +10,8 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.geom.Rectangle;
 
+import Utils.Global;
+
 public class Shot 
 {
 	private int posX, posY, startY;
@@ -104,8 +106,8 @@ public class Shot
 									
 									if(speedY == 0)
 										{
-											temp1.setSpeed( speedX, 1 );
-											temp2.setSpeed( -speedX, 1 );
+											temp1.setSpeed( speedX, Global.H/Global.Height );
+											temp2.setSpeed( -speedX,  Global.H/Global.Height );
 										}
 									else
 										{
