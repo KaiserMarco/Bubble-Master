@@ -197,6 +197,11 @@ public class Settings
 		{
 			Global.lifes = vite;
 			
+			for(Livello levels: Begin.livelli)
+				for(int j = 0; j < levels.getElements().size(); j++)
+					if(levels.getElements().get( j ).getID().startsWith( "player" ))
+						((Player) levels.getElements().get( j )).setLifes( vite );
+			
 	        Global.computeRatio( Integer.parseInt( widthP ), Integer.parseInt( heightP ) );
 	        if(Global.ratioW != 1 || Global.ratioH != 1)
 	            {

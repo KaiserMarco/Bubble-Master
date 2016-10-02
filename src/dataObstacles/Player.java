@@ -392,6 +392,9 @@ public class Player extends Ostacolo
 	
 	public int getLifes()
 		{ return lifes; }
+	
+	public void setLifes( int val )
+		{ lifes = val; }
 
 	public boolean contains( int x, int y )
 		{
