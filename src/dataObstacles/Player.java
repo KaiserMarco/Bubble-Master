@@ -432,14 +432,17 @@ public class Player extends Ostacolo
 		{ this.maxHeight = (int) val; }
 
 	public Ostacolo clone( GameContainer gc ) {
-		try {
-			Player p = new Player( (int) xPlayer, (int) yPlayer, numPlayer, gc );
-			p.setDrawLifes( getDrawLifes() );
-			return p;
-		} catch (SlickException e) {
-			e.printStackTrace();
-			return null;
-		}
+		try
+			{
+				Player p = new Player( (int) xPlayer, (int) yPlayer, numPlayer, gc );				
+				p.setDrawLifes( getDrawLifes() );				
+				return p;
+			}
+		catch (SlickException e)
+			{
+				e.printStackTrace();
+				return null;
+			}
 	}
 
 	public float getX()	

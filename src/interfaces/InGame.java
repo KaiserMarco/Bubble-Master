@@ -58,21 +58,25 @@ public class InGame
 			
 			this.sfondo = sfondo;
 		
-			for(int i = 0; i < obs.size(); i++)
+			for(Ostacolo elem: obs)
 				{
-					Ostacolo ost = obs.get( i );
+					Ostacolo ost = elem;
 					if(ost.getID().startsWith( "player" ))
 						{
-							players.add( obs.get( i ).clone( gc ) );
-							players.get( players.size() - 1 ).setHeight( ost.getHeight() );
-							players.get( players.size() - 1 ).setWidth( ost.getWidth() );
-							((Player) players.get( players.size() - 1 )).setWidthI( ((Player) ost).getWidthI() );
-							players.get( players.size() - 1 ).setArea();
-							players.get( players.size() - 1 ).setMaxHeight( sfondo.getMaxHeight() );
+							players.add( elem.clone( gc ) );
+							
+							Ostacolo p = players.get( players.size() - 1 );
+							
+							p.setHeight( ost.getHeight() );
+							p.setWidth( ost.getWidth() );
+							((Player) p).setWidthI( ((Player) ost).getWidthI() );
+							p.setMaxHeight( sfondo.getMaxHeight() );							
+							
+							p.setArea();
 						}
-					else if(obs.get( i ).getID().equals( "bolla" ))
+					else if(elem.getID().equals( "bolla" ))
 						{
-							ostacoli.add( obs.get( i ).clone( gc ) );
+							ostacoli.add( elem.clone( gc ) );
 							ostacoli.get( ostacoli.size() - 1 ).setMaxHeight( sfondo.getMaxHeight() );
 						}
 					else
@@ -90,8 +94,8 @@ public class InGame
 			for(int i = ostacoli.size() - 1; i >= 0; i--)
 				ostacoli.get( i ).draw( g );
 			
-			for(int i = 0; i < players.size(); i++)
-				players.get( i ).draw( g );
+			for(Ostacolo p: players)
+				p.draw( g );
 			
 			// disegna il countdown iniziale
 			if(Global.drawCountdown)
@@ -130,12 +134,12 @@ public class InGame
 		
 			if(!Global.drawCountdown && Global.inGame)
 				{
-					for(int i = 0; i < players.size(); i++)
-						players.get( i ).update( gc, delta );
+					for(Ostacolo p: players)
+						p.update( gc, delta );
 					
-					for(int i = 0; i < ostacoli.size(); i++)
-						if(ostacoli.get( i ).getID().equals( "bolla" ))
-							ostacoli.get( i ).update( gc, delta );
+					for(Ostacolo ost: ostacoli)
+						if(ost.getID().equals( "bolla" ))
+							ost.update( gc, delta );
 				}
 			
 			if(!Global.inGame)
