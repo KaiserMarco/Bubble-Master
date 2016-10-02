@@ -98,6 +98,9 @@ public class Bubble extends Ostacolo
     		ostr = new Circle( ostr.getCenterX(), ostr.getCenterY(), ray );
     		maxW = maxW * Global.ratioW;
     		maxH = maxH * Global.ratioH;
+    		
+    		speedX = speedX * Global.W/Global.Width;
+    		speedY = speedY * Global.H/Global.Height;
     	}
     
     public double getMaxWidth()

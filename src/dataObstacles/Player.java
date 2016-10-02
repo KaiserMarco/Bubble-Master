@@ -359,8 +359,8 @@ public class Player extends Ostacolo
     public void updateStats()
     	{
 	    	width = width * Global.ratioW;
-	    	widthI = widthI * Global.ratioW;
 			height = height * Global.ratioH;
+	    	widthI = widthI * Global.ratioW;
 			xPlayer = xPlayer * Global.ratioW;
 			yPlayer = yPlayer * Global.ratioH;
 			
