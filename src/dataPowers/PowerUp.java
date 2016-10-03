@@ -5,12 +5,14 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Circle;
 
 public abstract class PowerUp
-{
-	public Circle ostr;
-	public double maxH;
+{	
+	private String ID;
 	
-	public PowerUp()
-		{}
+	public PowerUp( String ID )
+		{ this.ID = ID; }
+	
+	public String getID()
+		{ return ID; }
 	
 	public abstract void update( GameContainer gc, int delta );
 	

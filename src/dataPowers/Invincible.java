@@ -14,6 +14,8 @@ public class Invincible extends PowerUp
 	
 	public Invincible( int x, int y, int ray, double maxH )
 		{
+			super( "invincible" );
+			
 			ostr = new Circle( x, y, ray );
 			this.maxH = maxH;
 		}

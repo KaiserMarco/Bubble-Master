@@ -16,6 +16,8 @@ public class TripleShot extends PowerUp
 	
 	public TripleShot( int x, int y, int ray, double maxH )
 		{
+			super( "tShot" );
+			
 			ostr = new Circle( x, y, ray );
 			this.maxH = maxH;
 		}
