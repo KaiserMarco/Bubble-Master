@@ -30,6 +30,8 @@ public class Shot
 	
 	private boolean shooting;
 	
+	private int countShot;
+	
 	public Shot( GameContainer gc ) throws SlickException
 		{
 			widthS = gc.getHeight()/40;
@@ -49,6 +51,8 @@ public class Shot
 			posY = posY - heightS;
 			
 			shooting = false;
+			
+			countShot = 0;
 		}
 	
 	public void setXY( int x, int y )
@@ -80,10 +84,16 @@ public class Shot
 		{ return new Rectangle( posX, posY, widthS, startY - posY ); }
 	
 	public void setShot( boolean val )
-		{ shooting = false; }
+		{ shooting = val; }
 	
 	public boolean getShot()
 		{ return shooting; }
+	
+	public int getAnimTime()
+		{ return countShot; }
+	
+	public void setAnimTime( int val )
+		{ countShot = val; }
 	
 	public boolean collision( Player play, Ostacolo ost, String type, GameContainer gc ) throws SlickException
 		{		

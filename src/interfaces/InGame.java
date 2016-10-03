@@ -60,6 +60,7 @@ public class InGame
 		{
 			players.clear();
 			ostacoli.clear();
+			powerUp.clear();
 			
 			this.sfondo = sfondo;
 		

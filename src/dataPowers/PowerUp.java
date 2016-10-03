@@ -9,13 +9,12 @@ public abstract class PowerUp
 	public Circle ostr;
 	public double maxH;
 	
-	public PowerUp( int x, int y, int ray, double maxH )
-		{
-			ostr = new Circle( x, y, ray );
-			this.maxH = maxH;
-		}
+	public PowerUp()
+		{}
 	
 	public abstract void update( GameContainer gc, int delta );
 	
 	public abstract void draw( Graphics g );
+	
+	public abstract Circle getArea();
 }

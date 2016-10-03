@@ -1,8 +1,8 @@
 package dataObstacles;
 
-import java.util.ArrayList;
-
 import interfaces.InGame;
+
+import java.util.ArrayList;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -35,7 +35,6 @@ public class Player extends Ostacolo
 	private ArrayList <Shot> fire;	
 	// determina il numero di colpi sparati
 	private int shots;
-	private boolean shooting;
 	
 	private Rectangle area, body, head;
 	
@@ -64,7 +63,6 @@ public class Player extends Ostacolo
 	private Image right[], left[], saltoDx[], saltoSx[];
 	
 	private float animTime, animTimeMove, animTimeJump;
-	private int countShot;
 	
 	private SpriteSheet sheetDx;
 	private SpriteSheet sheetSx;	
@@ -96,6 +94,9 @@ public class Player extends Ostacolo
 	
 	// il valore dei frame di movimento e salto
 	float frameMove, frameJump;
+	
+	// i poteri posseduti dal personaggio
+	private ArrayList<PowerUp> powerUp;
 	
 	public Player( int x, int y, int numPlayer, GameContainer gc ) throws SlickException
 		{
@@ -180,8 +181,6 @@ public class Player extends Ostacolo
 			animTimeJump = 396;
 			animTime = 0;
 			
-			countShot = 0;
-			
 			shots = 0;
 			
 			heart = new Image( "./data/Image/heart.png" );
@@ -197,6 +196,8 @@ public class Player extends Ostacolo
 			drawLifes = true;
 			
 			points = 0;
+			
+			powerUp = new ArrayList<PowerUp>();
 		}
 	
 	public void drawMoving( Graphics g )
@@ -325,14 +326,16 @@ public class Player extends Ostacolo
 			
 			/*inserisce la trasparenza rosso/verde nella modalita' di editing*/
 			if(Start.editGame == 1)
-				if(checkInsert)
-					if(!insert)
-						pgdx.draw( xPlayer, yPlayer, widthI, height, cr);
-					else
-						pgdx.draw( xPlayer, yPlayer, widthI, height, cg);
+				{
+					if(checkInsert)
+						if(!insert)
+							pgdx.draw( xPlayer, yPlayer, widthI, height, cr);
+						else
+							pgdx.draw( xPlayer, yPlayer, widthI, height, cg);
+				}
 			
-			if(shooting)
-				for(int i = 0; i < fire.size(); i++)
+			for(int i = 0; i < fire.size(); i++)
+				if(fire.get( i ).getShot())
 					fire.get( i ).draw();
 			
 			if(drawLifes)
@@ -523,30 +526,31 @@ public class Player extends Ostacolo
 					dir = 1;
 					setXY( -move, 0, "move" );
 				}
-			if(input.isKeyPressed( Input.KEY_S ) && !shooting && Start.startGame == 1)
+			if(input.isKeyPressed( Input.KEY_S ))
 	            {
-					for(Shot fuoco: fire)
-						{
-							fuoco.setShot( true );
-                			fuoco.setXY( (int) (xPlayer + width/2 - fuoco.getWidth()/2), (int) (yPlayer + height - 1) );
-						}
-	                shots++;
+					for(Shot fuoco: fire)						
+						if(!fuoco.getShot())
+							{
+            					fuoco.setXY( (int) (xPlayer + width/2 - fuoco.getWidth()/2), (int) (yPlayer + height - 1) );
+								fuoco.setShot( true );
+				                shots++;
+							}
 	            }
-			if(shooting)
-				{
-					if(++countShot % 2 == 0)
-						for(Shot fuoco: fire)
+			
+			for(Shot fuoco: fire)
+				if(fuoco.getShot())
+					{
+						fuoco.setAnimTime( fuoco.getAnimTime() + 1 );
+						if(fuoco.getAnimTime()%2 == 0)
 							fuoco.update();
-					
-					for(int i = 0; i < InGame.ostacoli.size(); i++)
-						for(Shot fuoco: fire)
-							if(fuoco.getShot())
-								if(fuoco.collision( this, InGame.ostacoli.get( i ), InGame.ostacoli.get( i ).getID(), gc ))
-									{
-										fuoco.setShot( false );
-										break;
-									}
-				}
+						
+						for(Ostacolo ost: InGame.ostacoli)
+							if(fuoco.collision( this, ost, ost.getID(), gc ))
+								{
+									fuoco.setShot( false );
+									break;
+								}
+					}
 			
 			if(input.isKeyPressed( Input.KEY_SPACE ) && !jump)
 				{
@@ -586,9 +590,8 @@ public class Player extends Ostacolo
 				}
 		
 			/*controlla la collisione con gli ostacoli del gioco (tranne le sfere)*/
-			for(int i = 0; i < InGame.ostacoli.size(); i++)
+			for(Ostacolo ost: InGame.ostacoli)
 				{
-					Ostacolo ost = InGame.ostacoli.get( i );
 					if(!ost.getID().equals( "bolla" ))
 						{
 							if(area.intersects( ost.component( "rect" ) ))
@@ -613,6 +616,16 @@ public class Player extends Ostacolo
 									else if(area.intersects( ost.component( "latoSx" ) ))
 										setXY( (int) (ost.getX() - width) - 1, (int) area.getY(), "restore" );
 								}
+						}
+				}
+			
+			/*controlla se sono stati raccolti dei powerUp*/
+			for(int i = 0; i < InGame.powerUp.size(); i++)
+				{
+					if(area.intersects( InGame.powerUp.get( i ).getArea() ))
+						{
+							powerUp.add( InGame.powerUp.get( i ) );
+							InGame.powerUp.remove( InGame.powerUp.get( i ) );
 						}
 				}
 			

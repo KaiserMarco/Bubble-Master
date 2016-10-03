@@ -4,6 +4,8 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Circle;
 
+import Utils.Global;
+
 public class TripleShot extends PowerUp
 {
 	private double maxH;
@@ -14,19 +16,25 @@ public class TripleShot extends PowerUp
 	
 	public TripleShot( int x, int y, int ray, double maxH )
 		{
-			super( x, y, ray, maxH );
+			ostr = new Circle( x, y, ray );
+			this.maxH = maxH;
 		}
+	
+	public Circle getArea()
+		{ return ostr; }
 
 	public void update(GameContainer gc, int delta)
 		{
 			if(!arrived)
-				if(ostr.getY() > maxH)
-					ostr.setCenterY( ostr.getY() - delta );
-				else
-					{
-						ostr.setCenterY( (float) maxH - ostr.getRadius()*2 );
-						arrived = true;
-					}
+				{
+					if(ostr.getY() + ostr.getRadius()*2 < maxH)
+						ostr.setCenterY( ostr.getCenterY() + (delta/5 * Global.H/Global.Height) );
+					else
+						{
+							ostr.setCenterY( (float) maxH - ostr.getRadius() );
+							arrived = true;
+						}
+				}
 		}
 	
 	public void draw( Graphics g )
