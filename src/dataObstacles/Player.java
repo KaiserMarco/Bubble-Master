@@ -79,18 +79,15 @@ public class Player extends Ostacolo
 	private Image heart, halfHeart, noHeart;
 	private int widthH, heightH;
 	
-	//le vite del personaggio
-	private int lifes;
-	// determina se disegnare o meno le vite del personaggio
-	private boolean drawLifes;
+	//le vite/i punti del personaggio
+	private int lifes, points;
+	// determina se disegnare o meno le vite/i punti del personaggio
+	private boolean drawLifes, drawPoints;
 	
 	//determina se il personaggio e' vulnerabile
 	private boolean invincible;
 	private final int timerInv = 100, tickInv = 2000/timerInv;
 	private int currentTimeInv, currentTickInv;
-	
-	// il punteggio del giocatore
-	private int points;
 	
 	// il valore dei frame di movimento e salto
 	float frameMove, frameJump;
@@ -193,7 +190,8 @@ public class Player extends Ostacolo
 			
 			lifes  = Global.lifes;
 			
-			drawLifes = true;
+			drawLifes = false;
+			drawPoints = false;
 			
 			points = 0;
 			
@@ -337,16 +335,23 @@ public class Player extends Ostacolo
 			for(int i = 0; i < fire.size(); i++)
 				if(fire.get( i ).getShot())
 					fire.get( i ).draw();
-			
+
+			int j = 0;
 			if(drawLifes)
 				{
-					int j;
-					for(j = 0; j < lifes/2; j++)
+					for(;j < lifes/2; j++)
 						heart.draw( Global.W/40 + widthH*j, Global.H/30, widthH, heightH );
 					if(lifes%2 == 1)
 						halfHeart.draw( Global.W/40 + widthH*(j++), Global.H/30, widthH, heightH );
 					for(;j < Global.lifes/2; j++)
 						noHeart.draw( Global.W/40 + widthH*j, Global.H/30, widthH, heightH );
+				}
+			
+			if(drawPoints)
+				{
+					g.setColor( Color.black );
+					g.drawString( "SCORE = " + points, Global.W/40 + widthH*(j+1), Global.H/30);
+					g.setColor( Color.transparent );
 				}
 		}
 	
@@ -382,6 +387,12 @@ public class Player extends Ostacolo
     
     public boolean getDrawLifes()
     	{ return drawLifes; }
+    
+    public void setDrawPoints( boolean val )
+    	{ drawPoints = val; }
+    
+    public boolean getDrawPoints()
+    	{ return drawPoints; }
 	
 	public Image getImage()
 		{ return pgdx; }
@@ -500,7 +511,11 @@ public class Player extends Ostacolo
 						if(area.intersects( InGame.ostacoli.get( i ).component( "" ) ))
 							{
 								if(--lifes == 0)
-									Global.inGame = false;
+									{
+										Global.inGame = false;
+										drawLifes = false;
+										drawPoints = false;
+									}
 								else
 									{
 										points = points - 100;
@@ -535,6 +550,15 @@ public class Player extends Ostacolo
 								fuoco.setShot( true );
 				                shots++;
 							}
+	            }
+			if(input.isKeyPressed( Input.KEY_V ) && powerUp.size() > 0)
+	            {
+					if(powerUp.get( 0 ).getID().equals( "invincible" ))
+						{
+							invincible = true;
+							currentTimeInv = 0;
+							currentTickInv = tickInv;
+						}
 	            }
 			
 			for(Shot fuoco: fire)
@@ -623,8 +647,12 @@ public class Player extends Ostacolo
 			for(int i = 0; i < InGame.powerUp.size(); i++)
 				{
 					if(area.intersects( InGame.powerUp.get( i ).getArea() ))
-						{
-							powerUp.add( InGame.powerUp.get( i ) );
+						{							
+							if(InGame.powerUp.get( i ).getID().equals( "coin" ))
+								points = points + 500;
+							else
+								powerUp.add( InGame.powerUp.get( i ) );
+							
 							InGame.powerUp.remove( InGame.powerUp.get( i ) );
 						}
 				}

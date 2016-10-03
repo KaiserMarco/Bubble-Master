@@ -73,6 +73,8 @@ public class InGame
 							
 							Ostacolo p = players.get( players.size() - 1 );
 							
+							((Player) p).setDrawLifes( true );
+							((Player) p).setDrawPoints( true );
 							p.setHeight( ost.getHeight() );
 							p.setWidth( ost.getWidth() );
 							((Player) p).setWidthI( ((Player) ost).getWidthI() );
@@ -157,19 +159,25 @@ public class InGame
 					decrNumb = 4;
 					Start.startGame = 0;
 					Start.chooseLevel = 1;
+					
+					for(Ostacolo p: players)
+						{
+							((Player) p).setDrawLifes( false );
+							((Player) p).setDrawPoints( false );
+						}
 				}
 		
 			if(!Global.drawCountdown && Global.inGame)
-				{
+				{				
+					for(PowerUp pu: powerUp)
+						pu.update( gc, delta );
+					
 					for(Ostacolo p: players)
 						p.update( gc, delta );
 					
 					for(Ostacolo ost: ostacoli)
 						if(ost.getID().equals( "bolla" ))
 							ost.update( gc, delta );
-					
-					for(PowerUp pu: powerUp)
-						pu.update( gc, delta );
 				}
 			
 			if(!Global.inGame)
