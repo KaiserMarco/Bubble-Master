@@ -1,7 +1,5 @@
 package dataObstacles;
 
-import interfaces.InGame;
-
 import java.util.ArrayList;
 
 import org.newdawn.slick.GameContainer;
@@ -11,6 +9,11 @@ import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.geom.Rectangle;
 
 import Utils.Global;
+import dataPowers.Coin;
+import dataPowers.DoubleShot;
+import dataPowers.Invincible;
+import dataPowers.TripleShot;
+import interfaces.InGame;
 
 public class Shot 
 {
@@ -24,6 +27,8 @@ public class Shot
 	
 	private SpriteSheet sheetShot;
 	private SpriteSheet sheetChainHor;
+	
+	private boolean shooting;
 	
 	public Shot( GameContainer gc ) throws SlickException
 		{
@@ -42,6 +47,8 @@ public class Shot
 			
 			sparo = new ArrayList<Image>();
 			posY = posY - heightS;
+			
+			shooting = false;
 		}
 	
 	public void setXY( int x, int y )
@@ -72,6 +79,12 @@ public class Shot
 	public Rectangle getArea()
 		{ return new Rectangle( posX, posY, widthS, startY - posY ); }
 	
+	public void setShot( boolean val )
+		{ shooting = false; }
+	
+	public boolean getShot()
+		{ return shooting; }
+	
 	public boolean collision( Player play, Ostacolo ost, String type, GameContainer gc ) throws SlickException
 		{		
 			if(posY <= 0)
@@ -80,6 +93,20 @@ public class Shot
 				{
 					if(type.equals( "bolla" ))
 						{
+							if(Math.random() >= 0.8)
+								{
+									int ray = (int) (gc.getHeight()/40*Global.H/Global.Height);
+									double power = Math.random();
+									if(power <= 0.2)
+										InGame.powerUp.add( new TripleShot( (int) (ost.getArea().getCenterX()), (int) ost.getArea().getCenterY(), ray, ost.getMaxHeight() ) );
+									else if(power <= 0.5)
+										InGame.powerUp.add( new Invincible( (int) (ost.getArea().getCenterX()), (int) ost.getArea().getCenterY(), ray, ost.getMaxHeight() ) );
+									else if(power <= 0.8)
+										InGame.powerUp.add( new DoubleShot( (int) (ost.getArea().getCenterX()), (int) ost.getArea().getCenterY(), ray, ost.getMaxHeight() ) );
+									else
+										InGame.powerUp.add( new Coin( (int) (ost.getArea().getCenterX()), (int) ost.getArea().getCenterY(), ray, ost.getMaxHeight() ) );
+								}
+						
 							if(ost.getWidth() == gc.getWidth()/32)
 								play.setPoint( 50 );
 							else if(ost.getWidth() == gc.getWidth()/64)

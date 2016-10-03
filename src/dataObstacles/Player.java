@@ -16,6 +16,7 @@ import org.newdawn.slick.geom.Shape;
 
 import Utils.Global;
 import bubbleMaster.Start;
+import dataPowers.PowerUp;
 
 public class Player extends Ostacolo
 {
@@ -31,7 +32,9 @@ public class Player extends Ostacolo
 	private float widthI;
 	private float width, height;
 	
-	private Shot fire;
+	private ArrayList <Shot> fire;	
+	// determina il numero di colpi sparati
+	private int shots;
 	private boolean shooting;
 	
 	private Rectangle area, body, head;
@@ -74,9 +77,6 @@ public class Player extends Ostacolo
 	/*movimento a destra - movimento a sinistra - movimento in alto - movimento in basso*/
 	boolean movingDx, movingSx, movingJ;
 	
-	// determina il numero di colpi sparati
-	private int shots;
-	
 	// l'immagine delle vite del personaggio
 	private Image heart, halfHeart, noHeart;
 	private int widthH, heightH;
@@ -97,9 +97,6 @@ public class Player extends Ostacolo
 	// il valore dei frame di movimento e salto
 	float frameMove, frameJump;
 	
-	// il vettore dei potenziamenti del personaggio
-	private ArrayList<Ostacolo> powerUp;
-	
 	public Player( int x, int y, int numPlayer, GameContainer gc ) throws SlickException
 		{
 			super( "player" + numPlayer );
@@ -107,7 +104,8 @@ public class Player extends Ostacolo
 			xPlayer = x;
 			yPlayer = y;
 			
-			fire = new Shot( gc );
+			fire = new ArrayList<Shot>();
+			fire.add( new Shot( gc ) );
 			
 			offset = gc.getHeight()/40;
 			widthI = gc.getHeight()/10;
@@ -334,7 +332,8 @@ public class Player extends Ostacolo
 						pgdx.draw( xPlayer, yPlayer, widthI, height, cg);
 			
 			if(shooting)
-				fire.draw();
+				for(int i = 0; i < fire.size(); i++)
+					fire.get( i ).draw();
 			
 			if(drawLifes)
 				{
@@ -526,21 +525,27 @@ public class Player extends Ostacolo
 				}
 			if(input.isKeyPressed( Input.KEY_S ) && !shooting && Start.startGame == 1)
 	            {
-	                shooting = true;
+					for(Shot fuoco: fire)
+						{
+							fuoco.setShot( true );
+                			fuoco.setXY( (int) (xPlayer + width/2 - fuoco.getWidth()/2), (int) (yPlayer + height - 1) );
+						}
 	                shots++;
-	                fire.setXY( (int) (xPlayer + width/2 - fire.getWidth()/2), (int) (yPlayer + height - 1) );
 	            }
 			if(shooting)
 				{
 					if(++countShot % 2 == 0)
-						fire.update();
+						for(Shot fuoco: fire)
+							fuoco.update();
 					
-					for(Ostacolo ost: InGame.ostacoli)
-						if(fire.collision( this, ost, ost.getID(), gc ))
-							{
-								shooting = false;
-								break;
-							}
+					for(int i = 0; i < InGame.ostacoli.size(); i++)
+						for(Shot fuoco: fire)
+							if(fuoco.getShot())
+								if(fuoco.collision( this, InGame.ostacoli.get( i ), InGame.ostacoli.get( i ).getID(), gc ))
+									{
+										fuoco.setShot( false );
+										break;
+									}
 				}
 			
 			if(input.isKeyPressed( Input.KEY_SPACE ) && !jump)

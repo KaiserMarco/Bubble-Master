@@ -13,6 +13,7 @@ import Utils.Sfondo;
 import bubbleMaster.Start;
 import dataObstacles.Ostacolo;
 import dataObstacles.Player;
+import dataPowers.PowerUp;
 
 public class InGame
 {	
@@ -21,6 +22,9 @@ public class InGame
 	
 	/**array contenente i giocatori della partita*/
 	public static ArrayList<Ostacolo> players;
+	
+	// il vettore dei potenziamenti del personaggio
+	public static ArrayList<PowerUp> powerUp;
 	
 	// lo sfondo del livello
 	private Sfondo sfondo;
@@ -38,6 +42,7 @@ public class InGame
 		{
 			ostacoli = new ArrayList<Ostacolo>();
 			players = new ArrayList<Ostacolo>();
+			powerUp = new ArrayList<PowerUp>();
 			
 			tre = new Image( "./data/Image/3.png" );
 			due = new Image( "./data/Image/2.png" );
@@ -115,6 +120,9 @@ public class InGame
 			for(Ostacolo p: players)
 				p.draw( g );
 			
+			for(PowerUp pu: powerUp)
+				pu.draw( g );
+			
 			// disegna il countdown iniziale
 			if(Global.drawCountdown)
 				{
@@ -158,6 +166,9 @@ public class InGame
 					for(Ostacolo ost: ostacoli)
 						if(ost.getID().equals( "bolla" ))
 							ost.update( gc, delta );
+					
+					for(PowerUp pu: powerUp)
+						pu.update( gc, delta );
 				}
 			
 			if(!Global.inGame)
