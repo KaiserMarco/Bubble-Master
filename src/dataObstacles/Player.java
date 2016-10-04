@@ -751,6 +751,8 @@ public class Player extends Ostacolo
 						{							
 							if(InGame.powerUp.get( i ).getID().equals( "coin" ))
 								points = points + 500;
+							else if(InGame.powerUp.get( i ).getID().equals( "life" ))
+								lifes = Math.min( ++lifes, Global.lifes );
 							else
 								powerUp.add( InGame.powerUp.get( i ) );
 							
