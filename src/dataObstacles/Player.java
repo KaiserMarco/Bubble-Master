@@ -59,7 +59,7 @@ public class Player extends Ostacolo
 	private boolean insert = false, checkInsert = false;
 	
 	private Color cg = new Color( 50, 170, 50, 100 ), cr = new Color( 170, 50, 50, 100 );
-	private Color imm = new Color( 254, 254, 233, 100 );
+	private Color imm = new Color( 255, 255, 240, 150 );
 	
 	private Image right[], left[], saltoDx[], saltoSx[];
 	
@@ -97,6 +97,12 @@ public class Player extends Ostacolo
 	
 	// i poteri posseduti dal personaggio
 	private ArrayList<PowerUp> powerUp;
+	
+	// determina se il personaggio spara 2 o 3 colpi insieme
+	private boolean dShot, tShot;	
+
+	// il numero dei colpi contemporanei sparati
+	private int numFire;
 	
 	public Player( int x, int y, int numPlayer, GameContainer gc ) throws SlickException
 		{
@@ -202,6 +208,10 @@ public class Player extends Ostacolo
 			points = 0;
 			
 			powerUp = new ArrayList<PowerUp>();
+			
+			dShot = false; tShot = false;
+			
+			numFire = 1;
 		}
 	
 	public void drawMoving( Graphics g )
@@ -528,9 +538,9 @@ public class Player extends Ostacolo
 							pgdx.draw( xPlayer, yPlayer, widthI, height, cg);
 				}
 			
-			for(int i = 0; i < fire.size(); i++)
-				if(fire.get( i ).getShot())
-					fire.get( i ).draw();
+			for(Shot fuoco: fire)
+				if(fuoco.getShot())
+					fuoco.draw();
 
 			int j = 0;
 			if(drawLifes)
@@ -691,7 +701,10 @@ public class Player extends Ostacolo
 			
 			if(immortal)
 				if((gc.getTime() - currentTimeImm) >= timerImm)
-					immortal = false;
+					{
+						immortal = false;
+						powerUp.remove( powerUp.size() - 1 );
+					}
 			
 			if(invincible)
 				{
@@ -745,46 +758,113 @@ public class Player extends Ostacolo
 				}
 			if(input.isKeyPressed( Input.KEY_S ))
 	            {
-					for(Shot fuoco: fire)						
-						if(!fuoco.getShot())
-							{
-            					fuoco.setXY( (int) (xPlayer + width/2 - fuoco.getWidth()/2), (int) (yPlayer + height - 1) );
-								fuoco.setShot( true );
-				                shots++;
-							}
+					boolean shot = false;
+					for(Shot fuoco: fire)
+						if(fuoco.getShot())
+							shot = true;
+					
+					if(!shot)
+						{
+							if(dShot)
+								{
+									for(int i = 0; i < fire.size(); i++)
+										if(!fire.get( i ).getShot())
+											{
+												fire.get( i ).setXY( (int) (xPlayer + width*i - fire.get( i ).getWidth()/2), (int) (yPlayer + height - 1) );
+												fire.get( i ).setShot( true );
+								                shots++;
+											}
+								}
+							else if(tShot)
+								{
+									for(int i = 0; i < fire.size(); i++)
+										if(!fire.get( i ).getShot())
+											{
+												fire.get( i ).setXY( (int) (xPlayer + width/2*i - fire.get( i ).getWidth()/2), (int) (yPlayer + height - 1) );
+												fire.get( i ).setShot( true );
+								                shots++;
+											}
+								}
+							else if(!fire.get( 0 ).getShot())
+								{
+									fire.get( 0 ).setXY( (int) (xPlayer + width/2 - fire.get( 0 ).getWidth()/2), (int) (yPlayer + height - 1) );
+									fire.get( 0 ).setShot( true );
+					                shots++;
+								}
+						}
 	            }
 			if(input.isKeyPressed( Input.KEY_V ) && powerUp.size() > 0)
 	            {
-					if(powerUp.get( powerUp.size() - 1 ).getID().equals( "invincible" ))
+					if(!immortal && powerUp.get( powerUp.size() - 1 ).getID().equals( "invincible" ))
 						{
 							immortal = true;
 							currentTimeImm = gc.getTime();
 						}
 					else if(powerUp.get( powerUp.size() - 1 ).getID().startsWith( "d" ))
-						fire.add( new Shot( gc ) );
+						{
+							if(!dShot && !tShot)
+								{
+									fire.add( new Shot( gc ) );
+									dShot = true;
+									numFire = fire.size();
+								}
+						}
 					else if(powerUp.get( powerUp.size() - 1 ).getID().startsWith( "t" ))
 						{
-							fire.add( new Shot(gc ) );
-							fire.add( new Shot(gc ) );
+							if(!dShot && !tShot)
+								{
+									fire.add( new Shot( gc ) );
+									fire.add( new Shot( gc ) );
+									tShot = true;
+									numFire = fire.size();
+								}
 						}
-					
-					powerUp.remove( powerUp.size() - 1 );
 	            }
-			
+
 			for(Shot fuoco: fire)
-				if(fuoco.getShot())
-					{
-						fuoco.setAnimTime( fuoco.getAnimTime() + 1 );
-						if(fuoco.getAnimTime()%2 == 0)
-							fuoco.update();
-						
-						for(Ostacolo ost: InGame.ostacoli)
-							if(fuoco.collision( this, ost, ost.getID(), gc ))
+				{
+					if(fuoco.getShot())
+						{
+							fuoco.setAnimTime( fuoco.getAnimTime() + 1 );
+							if(fuoco.getAnimTime()%2 == 0)
+								fuoco.update();
+							
+							if(fuoco.getArea().getY() <= 0)
 								{
 									fuoco.setShot( false );
-									break;
+									numFire--;
 								}
-					}
+							else
+								{
+									for(Ostacolo ost: InGame.ostacoli)
+										if(fuoco.collision( this, ost, ost.getID(), gc ))
+											{
+												fuoco.setShot( false );
+												numFire--;
+												break;
+											}
+								}
+						}
+				}
+			if(numFire == 0)
+				{
+					if(dShot)
+						{
+							dShot = false;
+							powerUp.remove( powerUp.size() - 1 );
+							for(int i = 1; i < fire.size(); i++)
+								fire.remove( i );
+						}
+					else if(tShot)
+						{
+							tShot = false;
+							powerUp.remove( powerUp.size() - 1 );
+							for(int i = 0; i < fire.size(); i++)
+								fire.remove( i );
+						}
+					
+					numFire = fire.size();
+				}
 			
 			if(input.isKeyPressed( Input.KEY_SPACE ) && !jump)
 				{
