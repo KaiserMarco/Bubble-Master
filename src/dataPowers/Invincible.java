@@ -47,7 +47,5 @@ public class Invincible extends PowerUp
 		}
 	
 	public void draw( Graphics g )
-		{
-			g.fill( ostr );
-		}
+		{ img.draw(); }
 }

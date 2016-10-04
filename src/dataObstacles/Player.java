@@ -480,15 +480,11 @@ public class Player extends Ostacolo
 				{
 					g.setColor( Color.black );
 					g.drawString( "SCORE : " + points, Global.W/40 + widthH*(j+1), Global.H/30);
-					g.setColor( Color.transparent );
 				}
 			
-			int offset = 20;
+			int offset = (int) Global.Height*10/857;
 			for(int i = 0; i < powerUp.size(); i++)
-				{
-					powerUp.get( i ).getImage().draw( offset + (Global.Width/40)*i, Global.Height - maxHeight, Global.Width/40, Global.Width/40 );
-					System.out.println( "sto disegnando qualcosa" );
-				}
+				powerUp.get( i ).getImage().draw( offset + (Global.Width/40)*i + offset*i, maxHeight, Global.H - maxHeight, Global.H - maxHeight );
 		}
 	
 	public void checkPosition( ArrayList<Ostacolo> obstacles )

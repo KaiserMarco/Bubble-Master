@@ -46,7 +46,5 @@ public class Coin extends PowerUp
 		}
 	
 	public void draw( Graphics g )
-		{
-			g.fill( ostr );
-		}
+		{ img.draw(); }
 }

@@ -103,12 +103,9 @@ public class Shot
 				{
 					if(type.equals( "bolla" ))
 						{
-							int ray = (int) (gc.getHeight()/40*Global.H/Global.Height);
-							InGame.powerUp.add( new Invincible( (int) (ost.getArea().getCenterX()), (int) ost.getArea().getCenterY(), ray, ost.getMaxHeight() ) );
-							
-							/*if(Math.random() >= 0.8)
+							if(Math.random() >= 0.8)
 								{
-									int ray = (int) (gc.getHeight()/40*Global.H/Global.Height);
+									int ray = (int) (gc.getHeight()/40 * Global.H/Global.Height);
 									double power = Math.random();
 									if(power <= 0.2)
 										InGame.powerUp.add( new TripleShot( (int) (ost.getArea().getCenterX()), (int) ost.getArea().getCenterY(), ray, ost.getMaxHeight() ) );
@@ -118,7 +115,7 @@ public class Shot
 										InGame.powerUp.add( new DoubleShot( (int) (ost.getArea().getCenterX()), (int) ost.getArea().getCenterY(), ray, ost.getMaxHeight() ) );
 									else
 										InGame.powerUp.add( new Coin( (int) (ost.getArea().getCenterX()), (int) ost.getArea().getCenterY(), ray, ost.getMaxHeight() ) );
-								}*/
+								}
 						
 							if(ost.getWidth() == gc.getWidth()/32)
 								play.setPoint( 50 );
