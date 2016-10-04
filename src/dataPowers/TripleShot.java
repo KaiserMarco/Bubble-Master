@@ -48,5 +48,5 @@ public class TripleShot extends PowerUp
 		}
 	
 	public void draw( Graphics g )
-		{ img.draw(); }
+		{ img.draw( ostr.getX(), ostr.getY(), ostr.getWidth(), ostr.getHeight() ); }
 }
