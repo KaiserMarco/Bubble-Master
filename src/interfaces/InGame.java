@@ -98,6 +98,9 @@ public class InGame
 		{		
 			g.setAntiAlias( true );
 			sfondo.draw( gc );
+
+			for(PowerUp pu: powerUp)
+				pu.draw( g );
 			
 			for(int i = ostacoli.size() - 1; i >= 0; i--)
 				{
@@ -121,10 +124,6 @@ public class InGame
 			
 			for(Ostacolo p: players)
 				p.draw( g );
-			
-			// TODO SISTEMARE IL FATTO CHE NON VENGONO DISEGNATI (IL CHE E' ASSURDO)
-			for(PowerUp pu: powerUp)
-				pu.draw( g );
 			
 			// disegna il countdown iniziale
 			if(Global.drawCountdown)
