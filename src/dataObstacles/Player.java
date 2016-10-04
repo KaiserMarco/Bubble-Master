@@ -209,6 +209,8 @@ public class Player extends Ostacolo
 			frameJump = animTimeJump/saltoDx.length;
 			
 			Image omino = null;
+			
+			// TODO SISTEMARE LA COLORAZIONE DELL'IMMORTALITA'
 
 			// il personaggio si muove verso destra
 			if(dir == 0)
