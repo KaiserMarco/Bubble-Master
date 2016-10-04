@@ -87,6 +87,8 @@ public class Shot
 	public void setShot( boolean val )
 		{ shooting = val; }
 	
+	/**return true = se spara
+	 * return false = se non spara*/
 	public boolean getShot()
 		{ return shooting; }
 	

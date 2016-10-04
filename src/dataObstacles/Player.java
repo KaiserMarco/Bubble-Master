@@ -59,7 +59,7 @@ public class Player extends Ostacolo
 	private boolean insert = false, checkInsert = false;
 	
 	private Color cg = new Color( 50, 170, 50, 100 ), cr = new Color( 170, 50, 50, 100 );
-	private Color imm = new Color( 255, 255, 240, 150 );
+	private Color imm = new Color( 28, 57, 187, 220 );
 	
 	private Image right[], left[], saltoDx[], saltoSx[];
 	
@@ -99,10 +99,10 @@ public class Player extends Ostacolo
 	private ArrayList<PowerUp> powerUp;
 	
 	// determina se il personaggio spara 2 o 3 colpi insieme
-	private boolean dShot, tShot;	
+	private boolean dShot, tShot;
 
-	// il numero dei colpi contemporanei sparati
-	private int numFire;
+	// determina se il personaggio sta sparando
+	boolean isShoting = false;
 	
 	public Player( int x, int y, int numPlayer, GameContainer gc ) throws SlickException
 		{
@@ -210,8 +210,6 @@ public class Player extends Ostacolo
 			powerUp = new ArrayList<PowerUp>();
 			
 			dShot = false; tShot = false;
-			
-			numFire = 1;
 		}
 	
 	public void drawMoving( Graphics g )
@@ -694,6 +692,17 @@ public class Player extends Ostacolo
 	public int getPoints()
 		{ return points; }
 	
+	/**return true = se alemeno 1 sparo e' attivo
+	 * return false = se non spara niente*/
+	private boolean checkFire()
+		{
+			for(Shot fuoco: fire)
+				if(fuoco.getShot())
+					return true;
+		
+			return false;
+		}
+	
 	public void update( GameContainer gc, int delta ) throws SlickException
 		{
 			Input input = gc.getInput();
@@ -701,10 +710,7 @@ public class Player extends Ostacolo
 			
 			if(immortal)
 				if((gc.getTime() - currentTimeImm) >= timerImm)
-					{
-						immortal = false;
-						powerUp.remove( powerUp.size() - 1 );
-					}
+					immortal = false;
 			
 			if(invincible)
 				{
@@ -776,71 +782,70 @@ public class Player extends Ostacolo
 					dir = 1;
 					setXY( -move, 0, "move" );
 				}
-			if(input.isKeyPressed( Input.KEY_S ))
+			/*ZONA SPARO*/
+			if(input.isKeyPressed( Input.KEY_S ) && !isShoting)
 	            {
-					boolean shot = false;
-					for(Shot fuoco: fire)
-						if(fuoco.getShot())
-							shot = true;
-					
-					if(!shot)
+					if(dShot)
 						{
-							if(dShot)
-								{
-									for(int i = 0; i < fire.size(); i++)
-										if(!fire.get( i ).getShot())
-											{
-												fire.get( i ).setXY( (int) (xPlayer + width*i - fire.get( i ).getWidth()/2), (int) (yPlayer + height - 1) );
-												fire.get( i ).setShot( true );
-								                shots++;
-											}
-								}
-							else if(tShot)
-								{
-									for(int i = 0; i < fire.size(); i++)
-										if(!fire.get( i ).getShot())
-											{
-												fire.get( i ).setXY( (int) (xPlayer + width/2*i - fire.get( i ).getWidth()/2), (int) (yPlayer + height - 1) );
-												fire.get( i ).setShot( true );
-								                shots++;
-											}
-								}
-							else if(!fire.get( 0 ).getShot())
-								{
-									fire.get( 0 ).setXY( (int) (xPlayer + width/2 - fire.get( 0 ).getWidth()/2), (int) (yPlayer + height - 1) );
-									fire.get( 0 ).setShot( true );
-					                shots++;
-								}
+							for(int i = 0; i < fire.size(); i++)
+								if(!fire.get( i ).getShot())
+									{
+										fire.get( i ).setXY( (int) (xPlayer + width*i - fire.get( i ).getWidth()/2), (int) (yPlayer + height - 1) );
+										fire.get( i ).setShot( true );
+						                shots++;
+									}
 						}
+					else if(tShot)
+						{
+							for(int i = 0; i < fire.size(); i++)
+								if(!fire.get( i ).getShot())
+									{
+										fire.get( i ).setXY( (int) (xPlayer + width/2*i - fire.get( i ).getWidth()/2), (int) (yPlayer + height - 1) );
+										fire.get( i ).setShot( true );
+						                shots++;
+									}
+						}
+					else if(!fire.get( 0 ).getShot())
+						{
+							fire.get( 0 ).setXY( (int) (xPlayer + width/2 - fire.get( 0 ).getWidth()/2), (int) (yPlayer + height - 1) );
+							fire.get( 0 ).setShot( true );
+			                shots++;
+						}
+					
+					isShoting = true;
 	            }
+			/*ZONA UTILIZZO POWERUP*/
 			if(input.isKeyPressed( Input.KEY_V ) && powerUp.size() > 0)
 	            {
-					if(!immortal && powerUp.get( powerUp.size() - 1 ).getID().equals( "invincible" ))
+					if(powerUp.get( 0 ).getID().equals( "invincible" ))
 						{
 							immortal = true;
 							currentTimeImm = gc.getTime();
+							powerUp.remove( 0 );
 						}
-					else if(powerUp.get( powerUp.size() - 1 ).getID().startsWith( "d" ))
+					else if(!isShoting)
 						{
 							if(!dShot && !tShot)
 								{
-									fire.add( new Shot( gc ) );
-									dShot = true;
-									numFire = fire.size();
-								}
-						}
-					else if(powerUp.get( powerUp.size() - 1 ).getID().startsWith( "t" ))
-						{
-							if(!dShot && !tShot)
-								{
-									fire.add( new Shot( gc ) );
-									fire.add( new Shot( gc ) );
-									tShot = true;
-									numFire = fire.size();
+									if(powerUp.get( 0 ).getID().startsWith( "d" ))
+										{
+											System.out.println( "doppioColpo" );
+											fire.add( new Shot( gc ) );
+											dShot = true;
+											powerUp.remove( 0 );
+										}
+									else if(powerUp.get( 0 ).getID().startsWith( "t" ))
+										{
+											System.out.println( "triploColpo" );
+											fire.add( new Shot( gc ) );
+											fire.add( new Shot( gc ) );
+											tShot = true;
+											powerUp.remove( 0 );
+										}
 								}
 						}
 	            }
-
+			/*ZONA UPDATE SPARO/I*/
 			for(Shot fuoco: fire)
 				{
 					if(fuoco.getShot())
@@ -850,40 +855,27 @@ public class Player extends Ostacolo
 								fuoco.update();
 							
 							if(fuoco.getArea().getY() <= 0)
-								{
-									fuoco.setShot( false );
-									numFire--;
-								}
+								fuoco.setShot( false );
 							else
 								{
 									for(Ostacolo ost: InGame.ostacoli)
 										if(fuoco.collision( this, ost, ost.getID(), gc ))
 											{
 												fuoco.setShot( false );
-												numFire--;
 												break;
 											}
 								}
 						}
 				}
-			if(numFire == 0)
+			if(!checkFire())
 				{
-					if(dShot)
-						{
-							dShot = false;
-							powerUp.remove( powerUp.size() - 1 );
-							for(int i = 1; i < fire.size(); i++)
-								fire.remove( i );
-						}
-					else if(tShot)
-						{
-							tShot = false;
-							powerUp.remove( powerUp.size() - 1 );
-							for(int i = 0; i < fire.size(); i++)
-								fire.remove( i );
-						}
-					
-					numFire = fire.size();
+					dShot = false;
+					tShot = false;
+
+					for(int i = 1; i < fire.size(); i++)
+						fire.remove( i );
+
+					isShoting = false;
 				}
 			
 			if(input.isKeyPressed( Input.KEY_SPACE ) && !jump)
