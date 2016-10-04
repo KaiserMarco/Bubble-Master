@@ -721,24 +721,42 @@ public class Player extends Ostacolo
 			
 			/*ZONA CONTROLLO COLLISIONE PERSONAGGIO - SFERE*/
 			if(!invincible && !immortal)
-				for(int i = 0; i < InGame.ostacoli.size(); i++)
-					if(InGame.ostacoli.get( i ).getID().equals( "bolla" ))
-						if(area.intersects( InGame.ostacoli.get( i ).component( "" ) ))
-							{
-								if(--lifes == 0)
+				{
+					for(int i = 0; i < InGame.ostacoli.size(); i++)
+						{
+							if(InGame.ostacoli.get( i ).getID().equals( "bolla" ))
+								if(area.intersects( InGame.ostacoli.get( i ).component( "" ) ))
 									{
-										Global.inGame = false;
-										drawLifes = false;
-										drawPoints = false;
+										if(--lifes == 0)
+											{
+												Global.inGame = false;
+												drawLifes = false;
+												drawPoints = false;
+											}
+										else
+											{
+												points = points - 100;
+												invincible = true;
+												currentTimeInv = 0;
+												currentTickInv = tickInv;
+											}
 									}
-								else
-									{
-										points = points - 100;
-										invincible = true;
-										currentTimeInv = 0;
-										currentTickInv = tickInv;
-									}
-							}
+						}
+				}
+			
+			/*ZONA CONTROLLO COLLISIONE PERSONAGGIO - POWERUP*/
+			for(int i = 0; i < InGame.powerUp.size(); i++)
+				{
+					if(area.intersects( InGame.powerUp.get( i ).getArea() ))
+						{							
+							if(InGame.powerUp.get( i ).getID().equals( "coin" ))
+								points = points + 500;
+							else
+								powerUp.add( InGame.powerUp.get( i ) );
+							
+							InGame.powerUp.remove( InGame.powerUp.get( i ) );
+						}
+				}
 			
 			/*la posizione del player un attimo prima di spostarsi*/
 			Rectangle previousArea = new Rectangle( area.getX(), area.getY(), width, height );
@@ -930,20 +948,6 @@ public class Player extends Ostacolo
 									else if(area.intersects( ost.component( "latoSx" ) ))
 										setXY( (int) (ost.getX() - width) - 1, (int) area.getY(), "restore" );
 								}
-						}
-				}
-			
-			/*controlla se sono stati raccolti dei powerUp*/
-			for(int i = 0; i < InGame.powerUp.size(); i++)
-				{
-					if(area.intersects( InGame.powerUp.get( i ).getArea() ))
-						{							
-							if(InGame.powerUp.get( i ).getID().equals( "coin" ))
-								points = points + 500;
-							else
-								powerUp.add( InGame.powerUp.get( i ) );
-							
-							InGame.powerUp.remove( InGame.powerUp.get( i ) );
 						}
 				}
 			

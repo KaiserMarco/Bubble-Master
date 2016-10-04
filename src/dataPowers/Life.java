@@ -6,9 +6,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Circle;
 
-import Utils.Global;
-
-public class TripleShot extends PowerUp
+public class Life extends PowerUp
 {
 	private double maxH;
 	private Circle ostr;
@@ -17,14 +15,14 @@ public class TripleShot extends PowerUp
 	// determina se l'oggetto ha raggiunto terra
 	private boolean arrived = false;
 	
-	public TripleShot( int x, int y, int ray, double maxH ) throws SlickException
+	public Life( int x, int y, int ray, double maxH ) throws SlickException
 		{
-			super( "tShot" );
+			super( "life" );
 			
 			ostr = new Circle( x, y, ray );
 			this.maxH = maxH;
 			
-			img = new Image( "./data/Image/3bullets.png" );
+			img = new Image( "./data/Image/heart.png" );
 		}
 	
 	public Circle getArea()
@@ -37,8 +35,9 @@ public class TripleShot extends PowerUp
 		{
 			if(!arrived)
 				{
+				
 					if(ostr.getY() + ostr.getRadius()*2 < maxH)
-						ostr.setCenterY( ostr.getCenterY() + (delta/5 * Global.H/Global.Height) );
+						ostr.setCenterY( ostr.getCenterY() + delta/5 );
 					else
 						{
 							ostr.setCenterY( (float) maxH - ostr.getRadius() );
