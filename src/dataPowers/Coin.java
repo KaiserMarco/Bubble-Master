@@ -22,7 +22,7 @@ public class Coin extends PowerUp
 			ostr = new Circle( x, y, ray );
 			this.maxH = maxH;
 			
-			img = new Image( "./data/Image/bomba.png" );
+			img = new Image( "./data/Image/coin.png" );
 		}
 	
 	public Circle getArea()
