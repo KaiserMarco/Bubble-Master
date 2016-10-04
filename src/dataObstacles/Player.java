@@ -59,6 +59,7 @@ public class Player extends Ostacolo
 	private boolean insert = false, checkInsert = false;
 	
 	private Color cg = new Color( 50, 170, 50, 100 ), cr = new Color( 170, 50, 50, 100 );
+	private Color imm = new Color( 254, 254, 233, 100 );
 	
 	private Image right[], left[], saltoDx[], saltoSx[];
 	
@@ -84,10 +85,11 @@ public class Player extends Ostacolo
 	// determina se disegnare o meno le vite/i punti del personaggio
 	private boolean drawLifes, drawPoints;
 	
-	//determina se il personaggio e' vulnerabile
-	private boolean invincible;
+	//determina se il personaggio e' vulnerabile/mortale
+	private boolean invincible, immortal;
 	private final int timerInv = 100, tickInv = 2000/timerInv;
-	private int currentTimeInv, currentTickInv;
+	private final int timerImm = 5000;
+	private int currentTimeInv, currentTickInv, currentTimeImm;
 	
 	// il valore dei frame di movimento e salto
 	float frameMove, frameJump;
@@ -187,6 +189,9 @@ public class Player extends Ostacolo
 			
 			invincible = false;
 			currentTimeInv = 0;
+			currentTimeImm = 0;
+			
+			immortal = false;
 			
 			lifes  = Global.lifes;
 			
@@ -202,6 +207,8 @@ public class Player extends Ostacolo
 		{
 			frameMove = animTimeMove/right.length;
 			frameJump = animTimeJump/saltoDx.length;
+			
+			Image omino = null;
 
 			// il personaggio si muove verso destra
 			if(dir == 0)
@@ -214,49 +221,106 @@ public class Player extends Ostacolo
 							head = new Rectangle( xPlayer + width/2 - Global.W/110, yPlayer, width/2, Global.H/40 );
 							
 							if(animTime < frameJump)
-								saltoDx[0].draw( xPlayer, yPlayer, width, height );
+								{
+									saltoDx[0].draw( xPlayer, yPlayer, width, height );
+									omino = saltoDx[0];
+								}
 							else if(animTime < frameJump * 2)
-								saltoDx[1].draw( xPlayer, yPlayer, width, height );
+								{
+									saltoDx[1].draw( xPlayer, yPlayer, width, height );
+									omino = saltoDx[1];
+								}
 							else if(animTime < frameJump * 3)
-								saltoDx[2].draw( xPlayer, yPlayer, width, height );
+								{
+									saltoDx[2].draw( xPlayer, yPlayer, width, height );
+									omino = saltoDx[2];
+								}
 							else if(animTime < frameJump * 4)
-								saltoDx[3].draw( xPlayer, yPlayer, width, height );
+								{
+									saltoDx[3].draw( xPlayer, yPlayer, width, height );
+									omino = saltoDx[3];
+								}
 							else if(animTime < frameJump * 5)
-								saltoDx[4].draw( xPlayer, yPlayer, width, height );
+								{
+									saltoDx[4].draw( xPlayer, yPlayer, width, height );
+									omino = saltoDx[4];
+								}
 							else if(animTime < frameJump * 6)
-								saltoDx[5].draw( xPlayer, yPlayer, width, height );
+								{
+									saltoDx[5].draw( xPlayer, yPlayer, width, height );
+									omino = saltoDx[5];
+								}
 							else if(animTime < frameJump * 7)
-								saltoDx[6].draw( xPlayer, yPlayer, width, height );
+								{
+									saltoDx[6].draw( xPlayer, yPlayer, width, height );
+									omino = saltoDx[6];
+								}
 							else if(animTime < frameJump * 8)
-								saltoDx[7].draw( xPlayer, yPlayer, width, height );
+								{
+									saltoDx[7].draw( xPlayer, yPlayer, width, height );
+									omino = saltoDx[7];
+								}
 							else
-								saltoDx[8].draw( xPlayer, yPlayer, width, height );
+								{
+									saltoDx[8].draw( xPlayer, yPlayer, width, height );
+									omino = saltoDx[8];
+								}
 						}
 					// il personaggio sta camminando
 					else if(movingDx)
 						{
 							if(animTime < frameMove)
-								right[0].draw( xPlayer, yPlayer, widthI, height );
+								{
+									right[0].draw( xPlayer, yPlayer, widthI, height );
+									omino = right[0];
+								}
 							else if(animTime < frameMove*2)
-								right[1].draw( xPlayer, yPlayer, widthI, height );
+								{
+									right[1].draw( xPlayer, yPlayer, widthI, height );
+									omino = right[1];
+								}
 							else if(animTime < frameMove*3)
-								right[2].draw( xPlayer, yPlayer, widthI, height );
+								{
+									right[2].draw( xPlayer, yPlayer, widthI, height );
+									omino = right[2];
+								}
 							else if(animTime < frameMove*4)
-								right[3].draw( xPlayer, yPlayer, widthI, height );
+								{
+									right[3].draw( xPlayer, yPlayer, widthI, height );
+									omino = right[3];
+								}
 							else if(animTime < frameMove*5)
-								right[4].draw( xPlayer, yPlayer, widthI, height );
+								{
+									right[4].draw( xPlayer, yPlayer, widthI, height );
+									omino = right[4];
+								}
 							else if(animTime < frameMove*6)
-								right[5].draw( xPlayer, yPlayer, widthI, height );
+								{
+									right[5].draw( xPlayer, yPlayer, widthI, height );
+									omino = right[5];
+								}
 							else if(animTime < frameMove*7)
-								right[6].draw( xPlayer, yPlayer, widthI, height );
+								{
+									right[6].draw( xPlayer, yPlayer, widthI, height );
+									omino = right[6];
+								}
 							else if(animTime < frameMove*8)
-								right[7].draw( xPlayer, yPlayer, widthI, height );
+								{
+									right[7].draw( xPlayer, yPlayer, widthI, height );
+									omino = right[7];									
+								}
 							else if(animTime <= frameMove*9)
-								right[8].draw( xPlayer, yPlayer, widthI, height );
+								{
+									right[8].draw( xPlayer, yPlayer, widthI, height );
+									omino = right[8];
+								}
 						}
 					// il personaggio e' fermo
 					else
-						pgdx.draw( xPlayer, yPlayer, widthI, height );
+						{
+							pgdx.draw( xPlayer, yPlayer, widthI, height );
+							omino = pgdx;
+						}
 				}
 			// il personaggio si muove verso sinistra
 			else 
@@ -269,50 +333,113 @@ public class Player extends Ostacolo
 							head = new Rectangle( xPlayer + Global.W/110, yPlayer, width/2, Global.H/40 );
 							
 							if(animTime < frameJump)
-								saltoSx[0].draw( xPlayer, yPlayer, width, height );
+								{
+									saltoSx[0].draw( xPlayer, yPlayer, width, height );
+									omino = saltoSx[0];
+								}
 							else if(animTime < frameJump * 2)
-								saltoSx[1].draw( xPlayer, yPlayer, width, height );
+								{
+									saltoSx[1].draw( xPlayer, yPlayer, width, height );
+									omino = saltoSx[1];
+								}
 							else if(animTime < frameJump * 3)
-								saltoSx[2].draw( xPlayer, yPlayer, width, height );
+								{
+									saltoSx[2].draw( xPlayer, yPlayer, width, height );
+									omino = saltoSx[2];
+								}
 							else if(animTime < frameJump * 4)
-								saltoSx[3].draw( xPlayer, yPlayer, width, height );
+								{
+									saltoSx[3].draw( xPlayer, yPlayer, width, height );
+									omino = saltoSx[3];
+								}
 							else if(animTime < frameJump * 5)
-								saltoSx[4].draw( xPlayer, yPlayer, width, height );
+								{
+									saltoSx[4].draw( xPlayer, yPlayer, width, height );
+									omino = saltoSx[4];
+								}
 							else if(animTime < frameJump * 6)
-								saltoSx[5].draw( xPlayer, yPlayer, width, height );
+								{
+									saltoSx[5].draw( xPlayer, yPlayer, width, height );
+									omino = saltoSx[5];
+								}
 							else if(animTime < frameJump * 7)
-								saltoSx[6].draw( xPlayer, yPlayer, width, height );
+								{
+									saltoSx[6].draw( xPlayer, yPlayer, width, height );
+									omino = saltoSx[6];
+								}
 							else if(animTime < frameJump * 8)
-								saltoSx[7].draw( xPlayer, yPlayer, width, height );
+								{
+									saltoSx[7].draw( xPlayer, yPlayer, width, height );
+									omino = saltoSx[7];
+								}
 							else
-								saltoSx[8].draw( xPlayer, yPlayer, width, height );
+								{
+									saltoSx[8].draw( xPlayer, yPlayer, width, height );
+									omino = saltoSx[8];
+								}
 						}
 					// il personaggio sta camminando
 					else if(movingSx)
 						{
 							if(animTime < frameMove)
-								left[0].draw( xPlayer - offset, yPlayer, widthI, height );
+								{
+									left[0].draw( xPlayer - offset, yPlayer, widthI, height );
+									omino = left[0];
+								}
 							else if(animTime < frameMove*2)
-								left[1].draw( xPlayer - offset, yPlayer, widthI, height );
+								{
+									left[1].draw( xPlayer - offset, yPlayer, widthI, height );
+									omino = left[1];
+								}
 							else if(animTime < frameMove*3)
-								left[2].draw( xPlayer - offset, yPlayer, widthI, height );
+								{
+									left[2].draw( xPlayer - offset, yPlayer, widthI, height );
+									omino = left[2];
+								}
 							else if(animTime < frameMove*4)
-								left[3].draw( xPlayer - offset, yPlayer, widthI, height );
+								{
+									left[3].draw( xPlayer - offset, yPlayer, widthI, height );
+									omino = left[3];
+								}
 							else if(animTime < frameMove*5)
-								left[4].draw( xPlayer - offset, yPlayer, widthI, height );
+								{
+									left[4].draw( xPlayer - offset, yPlayer, widthI, height );
+									omino = left[4];
+								}
 							else if(animTime < frameMove*6)
-								left[5].draw( xPlayer - offset, yPlayer, widthI, height );
+								{
+									left[5].draw( xPlayer - offset, yPlayer, widthI, height );
+									omino = left[5];
+								}
 							else if(animTime < frameMove*7)
-								left[6].draw( xPlayer - offset, yPlayer, widthI, height );
+								{
+									left[6].draw( xPlayer - offset, yPlayer, widthI, height );
+									omino = left[6];
+								}
 							else if(animTime < frameMove*8)
-								left[7].draw( xPlayer - offset, yPlayer, widthI, height );
+								{
+									left[7].draw( xPlayer - offset, yPlayer, widthI, height );
+									omino = left[7];
+								}
 							else if(animTime <= frameMove*9)
-								left[8].draw( xPlayer - offset, yPlayer, widthI, height );
+								{
+									left[8].draw( xPlayer - offset, yPlayer, widthI, height );
+									omino = left[8];
+								}
 						}
 					// il personaggio e' fermo
 					else
-						pgsx.draw( xPlayer - offset, yPlayer, widthI, height );
+						{
+							pgsx.draw( xPlayer - offset, yPlayer, widthI, height );
+							omino = pgsx;
+						}
 				}
+			
+			if(immortal)
+				if(movingDx || dir == 1)
+					omino.draw( xPlayer - offset, yPlayer, widthI, height, imm );
+				else
+					omino.draw( xPlayer, yPlayer, widthI, height, imm );
 		}
 	
 	public void draw( Graphics g ) throws SlickException
@@ -350,8 +477,15 @@ public class Player extends Ostacolo
 			if(drawPoints)
 				{
 					g.setColor( Color.black );
-					g.drawString( "SCORE = " + points, Global.W/40 + widthH*(j+1), Global.H/30);
+					g.drawString( "SCORE : " + points, Global.W/40 + widthH*(j+1), Global.H/30);
 					g.setColor( Color.transparent );
+				}
+			
+			int offset = 20;
+			for(int i = 0; i < powerUp.size(); i++)
+				{
+					powerUp.get( i ).getImage().draw( offset + (Global.Width/40)*i, Global.Height - maxHeight, Global.Width/40, Global.Width/40 );
+					System.out.println( "sto disegnando qualcosa" );
 				}
 		}
 	
@@ -490,6 +624,10 @@ public class Player extends Ostacolo
 			Input input = gc.getInput();
 			int move = Global.W/400;
 			
+			if(immortal)
+				if((currentTimeImm = currentTimeImm + delta) >= timerImm)
+					immortal = false;
+			
 			if(invincible)
 				{
 					currentTimeInv = currentTimeInv + delta;
@@ -505,7 +643,7 @@ public class Player extends Ostacolo
 			movingSx = false;
 			
 			/*ZONA CONTROLLO COLLISIONE PERSONAGGIO - SFERE*/
-			if(!invincible)
+			if(!invincible && !immortal)
 				for(int i = 0; i < InGame.ostacoli.size(); i++)
 					if(InGame.ostacoli.get( i ).getID().equals( "bolla" ))
 						if(area.intersects( InGame.ostacoli.get( i ).component( "" ) ))
@@ -553,12 +691,20 @@ public class Player extends Ostacolo
 	            }
 			if(input.isKeyPressed( Input.KEY_V ) && powerUp.size() > 0)
 	            {
-					if(powerUp.get( 0 ).getID().equals( "invincible" ))
+					if(powerUp.get( powerUp.size() - 1 ).getID().equals( "invincible" ))
 						{
-							invincible = true;
-							currentTimeInv = 0;
-							currentTickInv = tickInv;
+							immortal = true;
+							currentTimeImm = 0;
 						}
+					else if(powerUp.get( powerUp.size() - 1 ).getID().startsWith( "d" ))
+						fire.add( new Shot( gc ) );
+					else if(powerUp.get( powerUp.size() - 1 ).getID().startsWith( "t" ))
+						{
+							fire.add( new Shot(gc ) );
+							fire.add( new Shot(gc ) );
+						}
+					
+					powerUp.remove( powerUp.size() - 1 );
 	            }
 			
 			for(Shot fuoco: fire)

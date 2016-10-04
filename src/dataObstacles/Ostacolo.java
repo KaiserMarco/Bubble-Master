@@ -3,16 +3,10 @@ package dataObstacles;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
 
 public abstract class Ostacolo 
-{
-	public Rectangle ostr;
-	
-	public Shape latoSu, latoGiu, latoSx, latoDx;
-	public Shape spigASx, spigADx, spigBSx, spigBDx;
-	
+{	
 	private String ID;
 	
 	public Ostacolo( String ID ) throws SlickException

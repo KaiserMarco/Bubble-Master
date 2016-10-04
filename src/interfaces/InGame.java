@@ -116,13 +116,13 @@ public class InGame
 									}
 							}
 					else
-						obsI.draw( g );
-								
+						obsI.draw( g );								
 				}
 			
 			for(Ostacolo p: players)
 				p.draw( g );
 			
+			// TODO SISTEMARE IL FATTO CHE NON VENGONO DISEGNATI (IL CHE E' ASSURDO)
 			for(PowerUp pu: powerUp)
 				pu.draw( g );
 			
