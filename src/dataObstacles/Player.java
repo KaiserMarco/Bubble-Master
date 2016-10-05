@@ -537,7 +537,7 @@ public class Player extends Ostacolo
 				}
 			
 			for(Shot fuoco: fire)
-				if(fuoco.getShot())
+				if(fuoco.isShooting())
 					fuoco.draw();
 
 			int j = 0;
@@ -697,7 +697,7 @@ public class Player extends Ostacolo
 	private boolean checkFire()
 		{
 			for(Shot fuoco: fire)
-				if(fuoco.getShot())
+				if(fuoco.isShooting())
 					return true;
 		
 			return false;
@@ -787,8 +787,9 @@ public class Player extends Ostacolo
 	            {
 					if(dShot)
 						{
+							System.out.println( "abbiamo un doppio colpo" );
 							for(int i = 0; i < fire.size(); i++)
-								if(!fire.get( i ).getShot())
+								if(!fire.get( i ).isShooting())
 									{
 										fire.get( i ).setXY( (int) (xPlayer + width*i - fire.get( i ).getWidth()/2), (int) (yPlayer + height - 1) );
 										fire.get( i ).setShot( true );
@@ -797,15 +798,16 @@ public class Player extends Ostacolo
 						}
 					else if(tShot)
 						{
+							System.out.println( "abbiamo un triplo colpo" );
 							for(int i = 0; i < fire.size(); i++)
-								if(!fire.get( i ).getShot())
+								if(!fire.get( i ).isShooting())
 									{
 										fire.get( i ).setXY( (int) (xPlayer + width/2*i - fire.get( i ).getWidth()/2), (int) (yPlayer + height - 1) );
 										fire.get( i ).setShot( true );
 						                shots++;
 									}
 						}
-					else if(!fire.get( 0 ).getShot())
+					else if(!fire.get( 0 ).isShooting())
 						{
 							fire.get( 0 ).setXY( (int) (xPlayer + width/2 - fire.get( 0 ).getWidth()/2), (int) (yPlayer + height - 1) );
 							fire.get( 0 ).setShot( true );
@@ -829,18 +831,20 @@ public class Player extends Ostacolo
 								{
 									if(powerUp.get( 0 ).getID().startsWith( "d" ))
 										{
-											System.out.println( "doppioColpo" );
 											fire.add( new Shot( gc ) );
 											dShot = true;
 											powerUp.remove( 0 );
+											
+											System.out.println( "fuochi = " + fire.size() );
 										}
 									else if(powerUp.get( 0 ).getID().startsWith( "t" ))
 										{
-											System.out.println( "triploColpo" );
 											fire.add( new Shot( gc ) );
 											fire.add( new Shot( gc ) );
 											tShot = true;
 											powerUp.remove( 0 );
+											
+											System.out.println( "fuochi = " + fire.size() );
 										}
 								}
 						}
@@ -848,7 +852,7 @@ public class Player extends Ostacolo
 			/*ZONA UPDATE SPARO/I*/
 			for(Shot fuoco: fire)
 				{
-					if(fuoco.getShot())
+					if(fuoco.isShooting())
 						{
 							fuoco.setAnimTime( fuoco.getAnimTime() + 1 );
 							if(fuoco.getAnimTime()%2 == 0)
@@ -867,7 +871,7 @@ public class Player extends Ostacolo
 								}
 						}
 				}
-			if(!checkFire())
+			if(isShoting && !checkFire())
 				{
 					dShot = false;
 					tShot = false;

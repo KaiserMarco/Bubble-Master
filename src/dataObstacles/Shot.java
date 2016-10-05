@@ -89,6 +89,9 @@ public class Shot
 	
 	/**return true = se spara
 	 * return false = se non spara*/
+	public boolean isShooting()
+		{ return shooting; }
+	
 	public boolean getShot()
 		{ return shooting; }
 	
@@ -108,11 +111,11 @@ public class Shot
 								{
 									int ray = (int) (gc.getHeight()/40 * Global.H/Global.Height);
 									double power = Math.random();
-									if(power <= 0.2)
+									if(power <= 0.5)
 										InGame.powerUp.add( new TripleShot( (int) (ost.getArea().getCenterX() - ray), (int) ost.getArea().getCenterY(), ray, ost.getMaxHeight() ) );
-									else if(power <= 0.4)
+									else if(power <= -1)
 										InGame.powerUp.add( new Invincible( (int) (ost.getArea().getCenterX() - ray), (int) ost.getArea().getCenterY(), ray, ost.getMaxHeight() ) );
-									else if(power <= 0.6)
+									else if(power <= 1)
 										InGame.powerUp.add( new DoubleShot( (int) (ost.getArea().getCenterX() - ray), (int) ost.getArea().getCenterY(), ray, ost.getMaxHeight() ) );
 									else if(power <= 0.8)
 										InGame.powerUp.add( new Coin( (int) (ost.getArea().getCenterX() - ray), (int) ost.getArea().getCenterY(), ray, ost.getMaxHeight() ) );
