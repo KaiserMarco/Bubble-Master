@@ -789,23 +789,21 @@ public class Player extends Ostacolo
 						{
 							System.out.println( "abbiamo un doppio colpo" );
 							for(int i = 0; i < fire.size(); i++)
-								if(!fire.get( i ).isShooting())
-									{
-										fire.get( i ).setXY( (int) (xPlayer + width*i - fire.get( i ).getWidth()/2), (int) (yPlayer + height - 1) );
-										fire.get( i ).setShot( true );
-						                shots++;
-									}
+								{
+									fire.get( i ).setXY( (int) (xPlayer + width*i - fire.get( i ).getWidth()/2), (int) (yPlayer + height - 1) );
+									fire.get( i ).setShot( true );
+					                shots++;
+								}
 						}
 					else if(tShot)
 						{
 							System.out.println( "abbiamo un triplo colpo" );
 							for(int i = 0; i < fire.size(); i++)
-								if(!fire.get( i ).isShooting())
-									{
-										fire.get( i ).setXY( (int) (xPlayer + width/2*i - fire.get( i ).getWidth()/2), (int) (yPlayer + height - 1) );
-										fire.get( i ).setShot( true );
-						                shots++;
-									}
+								{
+									fire.get( i ).setXY( (int) (xPlayer + width/2*i - fire.get( i ).getWidth()/2), (int) (yPlayer + height - 1) );
+									fire.get( i ).setShot( true );
+					                shots++;
+								}
 						}
 					else if(!fire.get( 0 ).isShooting())
 						{
