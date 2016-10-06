@@ -36,7 +36,7 @@ public class End
 	
 	private boolean mouseDown = false;
 	
-	private static final String REPLAY = "RIGIOCA", HOME = "TORNA ALLA SCHERMATA PRINCIPALE", LEVELS = "TORNA ALLA SCHERMATA DEI LIVELLI";
+	private static final String REPLAY = "GIOCA ANCORA", HOME = "TORNA ALLA SCHERMATA PRINCIPALE", LEVELS = "TORNA ALLA SCHERMATA DEI LIVELLI";
 	
 	public End() throws SlickException
 		{
