@@ -87,9 +87,9 @@ public class Player extends Ostacolo
 	
 	//determina se il personaggio e' vulnerabile/mortale
 	private boolean invincible, immortal;
-	private final int timerInv = 100, tickInv = 2000/timerInv;
+	private final int timerInv = 100, tickInv = 2000/timerInv, timerShot = 3000;
 	private final int timerImm = 2000;
-	private int currentTimeInv, currentTickInv;
+	private int currentTimeInv, currentTickInv, currentTimeShot;
 	private long currentTimeImm;
 	
 	// il valore dei frame di movimento e salto
@@ -197,6 +197,7 @@ public class Player extends Ostacolo
 			invincible = false;
 			currentTimeInv = 0;
 			currentTimeImm = 0;
+			currentTimeShot = 0;
 			
 			immortal = false;
 			
@@ -759,6 +760,30 @@ public class Player extends Ostacolo
 								points = points + 500;
 							else if(InGame.powerUp.get( i ).getID().equals( "life" ))
 								lifes = Math.min( ++lifes, Global.lifes );
+							else if(InGame.powerUp.get( i ).getID().equals( "invincible" ))
+								{
+									immortal = true;
+									currentTimeImm = gc.getTime();
+								}
+							// TODO PENSARE A COME CAMBIARE QUESTA COSA
+							else if(InGame.powerUp.get( i ).getID().equals( "ammo" ))
+								{	
+									if(!dShot && !tShot)
+										{
+											if(power.getID().startsWith( "d" ))
+												{
+													fire.add( new Shot( gc ) );
+													dShot = true;
+												}
+											else if(power.getID().startsWith( "t" ))
+												{
+													fire.add( new Shot( gc ) );
+													fire.add( new Shot( gc ) );
+													tShot = true;
+												}
+											powerUp.remove( 0 );
+										}
+								}
 							else
 								powerUp.add( InGame.powerUp.get( i ) );
 							
@@ -817,32 +842,23 @@ public class Player extends Ostacolo
 			/*ZONA UTILIZZO POWERUP*/
 			if(input.isKeyPressed( Input.KEY_V ) && powerUp.size() > 0)
 	            {
-			        PowerUp power = powerUp.remove( 0 );
-					if(power.getID().equals( "invincible" ))
-						{
-							immortal = true;
-							currentTimeImm = gc.getTime();
-						}
-					else if(!isShoting)
+			        PowerUp power = powerUp.get( 0 );
+					if(!isShoting)
 						{
 							if(!dShot && !tShot)
 								{
-							        System.out.println( "fuochi attuali = " + fire.size() );
 									if(power.getID().startsWith( "d" ))
 										{
 											fire.add( new Shot( gc ) );
 											dShot = true;
-											
-											System.out.println( "fuochi = " + fire.size() );
 										}
 									else if(power.getID().startsWith( "t" ))
 										{
 											fire.add( new Shot( gc ) );
 											fire.add( new Shot( gc ) );
 											tShot = true;
-											
-											System.out.println( "fuochi = " + fire.size() );
 										}
+									powerUp.remove( 0 );
 								}
 						}
 	            }
