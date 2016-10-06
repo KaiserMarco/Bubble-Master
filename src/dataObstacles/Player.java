@@ -817,30 +817,29 @@ public class Player extends Ostacolo
 			/*ZONA UTILIZZO POWERUP*/
 			if(input.isKeyPressed( Input.KEY_V ) && powerUp.size() > 0)
 	            {
-					if(powerUp.get( 0 ).getID().equals( "invincible" ))
+			        PowerUp power = powerUp.remove( 0 );
+					if(power.getID().equals( "invincible" ))
 						{
 							immortal = true;
 							currentTimeImm = gc.getTime();
-							powerUp.remove( 0 );
 						}
 					else if(!isShoting)
 						{
 							if(!dShot && !tShot)
 								{
-									if(powerUp.get( 0 ).getID().startsWith( "d" ))
+							        System.out.println( "fuochi attuali = " + fire.size() );
+									if(power.getID().startsWith( "d" ))
 										{
 											fire.add( new Shot( gc ) );
 											dShot = true;
-											powerUp.remove( 0 );
 											
 											System.out.println( "fuochi = " + fire.size() );
 										}
-									else if(powerUp.get( 0 ).getID().startsWith( "t" ))
+									else if(power.getID().startsWith( "t" ))
 										{
 											fire.add( new Shot( gc ) );
 											fire.add( new Shot( gc ) );
 											tShot = true;
-											powerUp.remove( 0 );
 											
 											System.out.println( "fuochi = " + fire.size() );
 										}
@@ -874,7 +873,7 @@ public class Player extends Ostacolo
 					dShot = false;
 					tShot = false;
 
-					for(int i = 1; i < fire.size(); i++)
+					for(int i = fire.size() - 1; i > 0; i--)
 						fire.remove( i );
 
 					isShoting = false;
