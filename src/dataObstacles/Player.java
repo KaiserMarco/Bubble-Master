@@ -16,6 +16,7 @@ import org.newdawn.slick.geom.Shape;
 
 import Utils.Global;
 import bubbleMaster.Start;
+import dataPowers.Ammo;
 import dataPowers.PowerUp;
 
 public class Player extends Ostacolo
@@ -97,12 +98,13 @@ public class Player extends Ostacolo
 	
 	// i poteri posseduti dal personaggio
 	private ArrayList<PowerUp> powerUp;
-	
-	// determina se il personaggio spara 2 o 3 colpi insieme
-	private boolean dShot, tShot;
 
 	// determina se il personaggio sta sparando
 	boolean isShoting = false;
+	
+	/*numero di proiettili sparabili*/
+	private final int maxAmmo = 2;
+	private int currAmmo;
 	
 	public Player( int x, int y, int numPlayer, GameContainer gc ) throws SlickException
 		{
@@ -210,7 +212,7 @@ public class Player extends Ostacolo
 			
 			powerUp = new ArrayList<PowerUp>();
 			
-			dShot = false; tShot = false;
+			currAmmo = 0;
 		}
 	
 	public void drawMoving( Graphics g )
@@ -558,9 +560,12 @@ public class Player extends Ostacolo
 					g.drawString( "SCORE : " + points, Global.W/40 + widthH*(j+1), Global.H/30);
 				}
 			
-			int offset = (int) Global.Height*10/857;
-			for(int i = 0; i < powerUp.size(); i++)
-				powerUp.get( i ).getImage().draw( offset + (Global.Width/40)*i + offset*i, maxHeight, Global.H - maxHeight, Global.H - maxHeight );
+			int offset = (int) (Global.Height*10/857 * Global.W/Global.Width);
+			if(powerUp.size() > 0)
+				{
+					powerUp.get( 0 ).getImage().draw( offset + (Global.Width/40), maxHeight, Global.H - maxHeight, Global.H - maxHeight );
+					g.drawString( "X " + currAmmo, offset + (Global.Width/40) + ((Ammo) powerUp.get( 0 )).getWidth(), maxHeight );
+				}
 		}
 	
 	public void checkPosition( ArrayList<Ostacolo> obstacles )
@@ -709,6 +714,9 @@ public class Player extends Ostacolo
 			Input input = gc.getInput();
 			int move = Global.W/400;
 			
+			if(powerUp.size() == 0)
+				powerUp.add( new Ammo( 0, 0, gc.getHeight()/40, maxHeight ) );
+			
 			if(immortal)
 				if((gc.getTime() - currentTimeImm) >= timerImm)
 					immortal = false;
@@ -765,28 +773,15 @@ public class Player extends Ostacolo
 									immortal = true;
 									currentTimeImm = gc.getTime();
 								}
-							// TODO PENSARE A COME CAMBIARE QUESTA COSA
 							else if(InGame.powerUp.get( i ).getID().equals( "ammo" ))
-								{	
-									if(!dShot && !tShot)
+								{
+									if(currAmmo < maxAmmo)
 										{
-											if(power.getID().startsWith( "d" ))
-												{
-													fire.add( new Shot( gc ) );
-													dShot = true;
-												}
-											else if(power.getID().startsWith( "t" ))
-												{
-													fire.add( new Shot( gc ) );
-													fire.add( new Shot( gc ) );
-													tShot = true;
-												}
-											powerUp.remove( 0 );
+											currAmmo++;
+											fire.add( new Shot( gc ) );
+											System.out.println( "fuochi dopo powerup = " + fire.size() );
 										}
-								}
-							else
-								powerUp.add( InGame.powerUp.get( i ) );
-							
+								}							
 							InGame.powerUp.remove( InGame.powerUp.get( i ) );
 						}
 				}
@@ -810,61 +805,26 @@ public class Player extends Ostacolo
 			/*ZONA SPARO*/
 			if(input.isKeyPressed( Input.KEY_S ) && !isShoting)
 	            {
-					if(dShot)
+					// TODO MODIFICARE LO SPARO IN BASE AGLI AMMO
+					
+					float space = widthI/(fire.size() + 1) * Global.W/Global.Width;
+					
+					for(int i = 0; i < fire.size(); i++)
 						{
-							System.out.println( "abbiamo un doppio colpo" );
-							for(int i = 0; i < fire.size(); i++)
-								{
-									fire.get( i ).setXY( (int) (xPlayer + width*i - fire.get( i ).getWidth()/2), (int) (yPlayer + height - 1) );
-									fire.get( i ).setShot( true );
-					                shots++;
-								}
-						}
-					else if(tShot)
-						{
-							System.out.println( "abbiamo un triplo colpo" );
-							for(int i = 0; i < fire.size(); i++)
-								{
-									fire.get( i ).setXY( (int) (xPlayer + width/2*i - fire.get( i ).getWidth()/2), (int) (yPlayer + height - 1) );
-									fire.get( i ).setShot( true );
-					                shots++;
-								}
-						}
-					else if(!fire.get( 0 ).isShooting())
-						{
-							fire.get( 0 ).setXY( (int) (xPlayer + width/2 - fire.get( 0 ).getWidth()/2), (int) (yPlayer + height - 1) );
-							fire.get( 0 ).setShot( true );
+							fire.get( i ).setXY( (int) (xPlayer + space*(i + 1) - fire.get( i ).getWidth()/2), (int) (yPlayer + height - 1) );
+							fire.get( i ).setShot( true );
 			                shots++;
+			                currAmmo = Math.max( --currAmmo, 0 );
 						}
 					
 					isShoting = true;
-	            }
-			/*ZONA UTILIZZO POWERUP*/
-			if(input.isKeyPressed( Input.KEY_V ) && powerUp.size() > 0)
-	            {
-			        PowerUp power = powerUp.get( 0 );
-					if(!isShoting)
-						{
-							if(!dShot && !tShot)
-								{
-									if(power.getID().startsWith( "d" ))
-										{
-											fire.add( new Shot( gc ) );
-											dShot = true;
-										}
-									else if(power.getID().startsWith( "t" ))
-										{
-											fire.add( new Shot( gc ) );
-											fire.add( new Shot( gc ) );
-											tShot = true;
-										}
-									powerUp.remove( 0 );
-								}
-						}
+	                
+	                System.out.println( "fuochi = " + fire.size() );
 	            }
 			/*ZONA UPDATE SPARO/I*/
-			for(Shot fuoco: fire)
+			for(int i = fire.size() - 1; i >= 0; i--)
 				{
+					Shot fuoco = fire.get( i );
 					if(fuoco.isShooting())
 						{
 							fuoco.setAnimTime( fuoco.getAnimTime() + 1 );
@@ -879,21 +839,16 @@ public class Player extends Ostacolo
 										if(fuoco.collision( this, ost, ost.getID(), gc ))
 											{
 												fuoco.setShot( false );
+												if(fire.size() > 1)
+													fire.remove( fuoco );
 												break;
 											}
 								}
 						}
 				}
 			if(isShoting && !checkFire())
-				{
-					dShot = false;
-					tShot = false;
-
-					for(int i = fire.size() - 1; i > 0; i--)
-						fire.remove( i );
-
-					isShoting = false;
-				}
+				{System.out.println( "non spara piu nessuno" );
+				isShoting = false; }
 			
 			if(input.isKeyPressed( Input.KEY_SPACE ) && !jump)
 				{

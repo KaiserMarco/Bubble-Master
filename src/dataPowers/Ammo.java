@@ -22,7 +22,7 @@ public class Ammo extends PowerUp
 			ostr = new Circle( x, y, ray );
 			this.maxH = maxH;
 			
-			img = new Image( "./data/Image/2bullets.png" );
+			img = new Image( "./data/Image/bullet.png" );
 		}
 	
 	public Circle getArea()
@@ -30,6 +30,9 @@ public class Ammo extends PowerUp
 	
 	public Image getImage()
 		{ return img; }
+	
+	public float getWidth()
+		{ return ostr.getWidth(); }
 	
 	public void update(GameContainer gc, int delta)
 		{

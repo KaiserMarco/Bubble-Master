@@ -1,5 +1,7 @@
 package dataObstacles;
 
+import interfaces.InGame;
+
 import java.util.ArrayList;
 
 import org.newdawn.slick.GameContainer;
@@ -9,12 +11,10 @@ import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.geom.Rectangle;
 
 import Utils.Global;
+import dataPowers.Ammo;
 import dataPowers.Coin;
-import dataPowers.DoubleShot;
 import dataPowers.Invincible;
 import dataPowers.Life;
-import dataPowers.TripleShot;
-import interfaces.InGame;
 
 public class Shot 
 {
@@ -111,12 +111,10 @@ public class Shot
 								{
 									int ray = (int) (gc.getHeight()/40 * Global.H/Global.Height);
 									double power = Math.random();
-									if(power <= 0.5)
-										InGame.powerUp.add( new TripleShot( (int) (ost.getArea().getCenterX() - ray), (int) ost.getArea().getCenterY(), ray, ost.getMaxHeight() ) );
-									else if(power <= -1)
+									if(power <= -1)
 										InGame.powerUp.add( new Invincible( (int) (ost.getArea().getCenterX() - ray), (int) ost.getArea().getCenterY(), ray, ost.getMaxHeight() ) );
 									else if(power <= 1)
-										InGame.powerUp.add( new DoubleShot( (int) (ost.getArea().getCenterX() - ray), (int) ost.getArea().getCenterY(), ray, ost.getMaxHeight() ) );
+										InGame.powerUp.add( new Ammo( (int) (ost.getArea().getCenterX() - ray), (int) ost.getArea().getCenterY(), ray, ost.getMaxHeight() ) );
 									else if(power <= 0.8)
 										InGame.powerUp.add( new Coin( (int) (ost.getArea().getCenterX() - ray), (int) ost.getArea().getCenterY(), ray, ost.getMaxHeight() ) );
 									else
