@@ -832,7 +832,11 @@ public class Player extends Ostacolo
 								fuoco.update();
 							
 							if(fuoco.getArea().getY() <= 0)
-								fuoco.setShot( false );
+								{
+									fuoco.setShot( false );
+									if(fire.size() > 1)
+										fire.remove( fuoco );
+								}
 							else
 								{
 									for(Ostacolo ost: InGame.ostacoli)
