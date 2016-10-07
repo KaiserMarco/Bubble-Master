@@ -90,7 +90,7 @@ public class Player extends Ostacolo
 	private boolean invincible, immortal;
 	private final int timerInv = 100, tickInv = 2000/timerInv, timerShot = 3000;
 	private final int timerImm = 2000;
-	private int currentTimeInv, currentTickInv, currentTimeShot;
+	private long currentTimeInv, currentTickInv, currentTimeShot;
 	private long currentTimeImm;
 	
 	// il valore dei frame di movimento e salto
@@ -717,6 +717,15 @@ public class Player extends Ostacolo
 			if(powerUp.size() == 0)
 				powerUp.add( new Ammo( 0, 0, gc.getHeight()/40, maxHeight ) );
 			
+			if(gc.getTime() - currentTimeShot >= timerShot)
+				{
+					currAmmo = 0;
+					for(int i = fire.size() - 1; i >= 0; i--)
+						if(fire.size() > 1)
+							if(!fire.get( i ).isShooting())
+								fire.remove( fire.get( i ) );
+				}
+			
 			if(immortal)
 				if((gc.getTime() - currentTimeImm) >= timerImm)
 					immortal = false;
@@ -779,7 +788,7 @@ public class Player extends Ostacolo
 										{
 											currAmmo++;
 											fire.add( new Shot( gc ) );
-											System.out.println( "fuochi dopo powerup = " + fire.size() );
+											currentTimeShot = gc.getTime();
 										}
 								}							
 							InGame.powerUp.remove( InGame.powerUp.get( i ) );
