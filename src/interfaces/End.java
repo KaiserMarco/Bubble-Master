@@ -62,8 +62,7 @@ public class End
 		}
 	
 	public void draw( GameContainer gc ) throws SlickException
-		{
-			
+		{			
 			Graphics g = gc.getGraphics();			
 
 			if(sfondo == null)				

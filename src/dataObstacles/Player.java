@@ -88,10 +88,13 @@ public class Player extends Ostacolo
 	
 	//determina se il personaggio e' vulnerabile/mortale
 	private boolean invincible, immortal;
-	private final int timerInv = 100, tickInv = 2000/timerInv, timerShot = 3000;
+	private final int timerInv = 100, tickInv = 2000/timerInv, timerShot = 4000;
 	private final int timerImm = 2000;
 	private long currentTimeInv, currentTickInv, currentTimeShot;
 	private long currentTimeImm;
+	// la differenza fra il tempo corrente e quello preso
+	float cd = 0;
+	float tickCd;
 	
 	// il valore dei frame di movimento e salto
 	float frameMove, frameJump;
@@ -105,6 +108,12 @@ public class Player extends Ostacolo
 	/*numero di proiettili sparabili*/
 	private final int maxAmmo = 2;
 	private int currAmmo;
+	
+	private Rectangle coolDown;
+	
+	private int space = (int) (Global.Height*10/857 * Global.W/Global.Width);
+	
+	int index = 0;
 	
 	public Player( int x, int y, int numPlayer, GameContainer gc ) throws SlickException
 		{
@@ -213,6 +222,8 @@ public class Player extends Ostacolo
 			powerUp = new ArrayList<PowerUp>();
 			
 			currAmmo = 0;
+
+			coolDown = new Rectangle( space + Global.Width/40, maxHeight, Global.H - maxHeight, Global.H - maxHeight );
 		}
 	
 	public void drawMoving( Graphics g )
@@ -560,11 +571,19 @@ public class Player extends Ostacolo
 					g.drawString( "SCORE : " + points, Global.W/40 + widthH*(j+1), Global.H/30);
 				}
 			
-			int offset = (int) (Global.Height*10/857 * Global.W/Global.Width);
 			if(powerUp.size() > 0)
 				{
-					powerUp.get( 0 ).getImage().draw( offset + (Global.Width/40), maxHeight, Global.H - maxHeight, Global.H - maxHeight );
-					g.drawString( "X " + currAmmo, offset + (Global.Width/40) + ((Ammo) powerUp.get( 0 )).getWidth(), maxHeight );
+					g.fill( new Rectangle( space + (Global.Width/40), maxHeight, Global.H - maxHeight, Global.H - maxHeight ) );
+					powerUp.get( 0 ).getImage().draw( space + (Global.Width/40), maxHeight, Global.H - maxHeight, Global.H - maxHeight );
+					g.drawString( "X " + currAmmo, space + (Global.Width/40) + ((Ammo) powerUp.get( 0 )).getWidth(), maxHeight );
+					if(currAmmo > 0)
+						{
+							coolDown.setY( coolDown.getY() + tickCd );
+							coolDown.setHeight( coolDown.getHeight() - tickCd );
+							g.setColor( imm );
+							g.fill( coolDown );
+							index--;
+						}
 				}
 		}
 	
@@ -658,7 +677,12 @@ public class Player extends Ostacolo
 		}
 	
 	public void setMaxHeight( double val )
-		{ this.maxHeight = (int) val; }
+		{
+			maxHeight = (int) val;
+			coolDown.setY( maxHeight );
+			coolDown.setWidth( Global.H - maxHeight );
+			coolDown.setHeight( Global.H - maxHeight );
+		}
 
 	public Ostacolo clone( GameContainer gc ) {
 		try
@@ -717,13 +741,19 @@ public class Player extends Ostacolo
 			if(powerUp.size() == 0)
 				powerUp.add( new Ammo( 0, 0, gc.getHeight()/40, maxHeight ) );
 			
-			if(gc.getTime() - currentTimeShot >= timerShot)
+			if(currAmmo > 0)
 				{
-					currAmmo = 0;
-					for(int i = fire.size() - 1; i >= 0; i--)
-						if(fire.size() > 1)
-							if(!fire.get( i ).isShooting())
-								fire.remove( fire.get( i ) );
+					cd = gc.getTime() - currentTimeShot;
+					if(cd >= timerShot)
+						{
+							cd = 0;
+							currAmmo = 0;
+							currentTimeShot = 0;
+							for(int i = fire.size() - 1; i >= 0; i--)
+								if(fire.size() > 1)
+									if(!fire.get( i ).isShooting())
+										fire.remove( fire.get( i ) );
+						}
 				}
 			
 			if(immortal)
@@ -789,6 +819,10 @@ public class Player extends Ostacolo
 											currAmmo++;
 											fire.add( new Shot( gc ) );
 											currentTimeShot = gc.getTime();
+											coolDown.setY( maxHeight );
+											coolDown.setHeight( Global.H - maxHeight );
+											index = 270*timerShot/3000;
+											tickCd = coolDown.getHeight()/index;
 										}
 								}							
 							InGame.powerUp.remove( InGame.powerUp.get( i ) );
