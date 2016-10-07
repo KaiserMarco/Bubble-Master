@@ -804,9 +804,7 @@ public class Player extends Ostacolo
 				}
 			/*ZONA SPARO*/
 			if(input.isKeyPressed( Input.KEY_S ) && !isShoting)
-	            {
-					// TODO MODIFICARE LO SPARO IN BASE AGLI AMMO
-					
+	            {					
 					float space = widthI/(fire.size() + 1) * Global.W/Global.Width;
 					
 					for(int i = 0; i < fire.size(); i++)
@@ -818,8 +816,6 @@ public class Player extends Ostacolo
 						}
 					
 					isShoting = true;
-	                
-	                System.out.println( "fuochi = " + fire.size() );
 	            }
 			/*ZONA UPDATE SPARO/I*/
 			for(int i = fire.size() - 1; i >= 0; i--)
@@ -851,8 +847,7 @@ public class Player extends Ostacolo
 						}
 				}
 			if(isShoting && !checkFire())
-				{System.out.println( "non spara piu nessuno" );
-				isShoting = false; }
+				{ isShoting = false; }
 			
 			if(input.isKeyPressed( Input.KEY_SPACE ) && !jump)
 				{
