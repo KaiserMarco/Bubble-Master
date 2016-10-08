@@ -39,13 +39,13 @@ public class Tubo extends Ostacolo{
 	//indice del tubo a cui e' collegato
 	private int unione;
 	
+	private Rectangle base;
+	
 	public Tubo( int x, int y, String type, GameContainer gc ) throws SlickException
 	{
 		super( "tubo" );
 		
 		this.type = type;
-		
-		ostr = new Rectangle( x, y, width, height );
 		
 		if(type.equals( "sx" ))
 			immagine = tubosx;
@@ -72,6 +72,9 @@ public class Tubo extends Ostacolo{
 			}
 		
 		ostr = new Rectangle( x, y, width, height );
+		base = new Rectangle( x, y + gc.getWidth()/160, gc.getWidth()*10/119, height - gc.getWidth()/80 );
+		
+		// TODO PROVARE A GENERARE 2 AREE ALL'INTERNO DELL'OGGETTO
 	}
 
 	public void draw( Graphics g ) throws SlickException
@@ -83,21 +86,24 @@ public class Tubo extends Ostacolo{
                         immagine.draw( ostr.getX(), ostr.getY(), width, height, cr);
                     else
                         immagine.draw( ostr.getX(), ostr.getY(), width, height, cg);
+        	g.fill( base );
 		}
     
-    public void setArea()
+    public void setArea( GameContainer gc )
     	{
     		ostr = new Rectangle( getX(), getY(), width, height );
+    		base = new Rectangle( ostr.getX(), ostr.getY() + gc.getWidth()/160, ostr.getWidth()*100/119, ostr.getHeight() - gc.getWidth()/80 );
     		setSpigoli();
     	}
     
-    public void updateStats()
+    public void updateStats( GameContainer gc )
     	{
     		width = width * Global.ratioW;
     		height = height * Global.ratioH; 
     		setXY( getX() * Global.ratioW, getY() * Global.ratioH, "restore" );
 
     		ostr = new Rectangle( getX(), getY(), width, height );
+    		base = new Rectangle( ostr.getX(), ostr.getY() + gc.getWidth()/160, ostr.getWidth()*100/119, ostr.getHeight() - gc.getWidth()/160 );
     		setSpigoli();
     	}
 	

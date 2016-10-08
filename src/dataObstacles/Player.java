@@ -94,7 +94,8 @@ public class Player extends Ostacolo
 	private long currentTimeImm;
 	// la differenza fra il tempo corrente e quello preso
 	float cd = 0;
-	float tickCd;
+	float tickCd;	
+	int index = 0;
 	
 	// il valore dei frame di movimento e salto
 	float frameMove, frameJump;
@@ -112,8 +113,6 @@ public class Player extends Ostacolo
 	private Rectangle coolDown;
 	
 	private int space = (int) (Global.Height*10/857 * Global.W/Global.Width);
-	
-	int index = 0;
 	
 	public Player( int x, int y, int numPlayer, GameContainer gc ) throws SlickException
 		{
@@ -595,7 +594,7 @@ public class Player extends Ostacolo
 						yPlayer = obstacles.get( i ).getY() - height;
 		}
 
-    public void updateStats()
+    public void updateStats( GameContainer gc )
     	{
 	    	width = width * Global.ratioW;
 			height = height * Global.ratioH;
@@ -607,7 +606,7 @@ public class Player extends Ostacolo
     		area = new Rectangle( xPlayer, yPlayer, width, height );
     	}
     
-    public void setArea()
+    public void setArea( GameContainer gc )
     	{ 
     		area = new Rectangle( xPlayer, yPlayer, width, height );
     		head = new Rectangle( xPlayer + Global.W/110, yPlayer, width/2, Global.H/40 );

@@ -28,7 +28,7 @@ public abstract class Ostacolo
 	public abstract double getMaxHeight();
 	public abstract double getMaxWidth();
 	
-	public abstract void setArea();
+	public abstract void setArea( GameContainer gc );
 	
 	public abstract void setType( String type );
 	
@@ -67,5 +67,5 @@ public abstract class Ostacolo
 	
 	public abstract Point getMidArea();
 	
-	public abstract void updateStats();
+	public abstract void updateStats( GameContainer gc );
 }

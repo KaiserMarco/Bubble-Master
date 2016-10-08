@@ -89,7 +89,7 @@ public class Bubble extends Ostacolo
     			}
 		}
     
-    public void updateStats()
+    public void updateStats( GameContainer gc )
     	{
     		ray = ray * Global.ratioH;
     		ostr.setCenterX( ostr.getCenterX() * Global.ratioW );
@@ -187,7 +187,7 @@ public class Bubble extends Ostacolo
     public void setCollide( boolean val )
     	{}
     
-    public void setArea()
+    public void setArea( GameContainer gc )
     	{ ostr = new Circle( ostr.getCenterX(), ostr.getCenterY(), ray ); }
     
     public void setMaxWidth( float val )

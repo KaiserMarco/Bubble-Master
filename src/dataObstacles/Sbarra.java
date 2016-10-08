@@ -80,13 +80,13 @@ public class Sbarra extends Ostacolo{
 						immagine.draw( ostr.getX(), ostr.getY(), width, height, cg);
 		}
     
-    public void setArea()
+    public void setArea( GameContainer gc )
     	{
     		ostr = new Rectangle( getX(), getY(), width, height );
     		setSpigoli();
 		}
     
-    public void updateStats()
+    public void updateStats( GameContainer gc )
     	{
     		width = width * Global.ratioW;
     		height = height * Global.ratioH; 

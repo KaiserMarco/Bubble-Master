@@ -80,7 +80,7 @@ public class InGame
 							((Player) p).setWidthI( ((Player) ost).getWidthI() );
 							p.setMaxHeight( sfondo.getMaxHeight() );							
 							
-							p.setArea();
+							p.setArea( gc );
 						}
 					else if(elem.getID().equals( "bolla" ))
 						{

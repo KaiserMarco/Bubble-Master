@@ -244,7 +244,7 @@ public class Edit
 			this.index = index;
 		}
 	
-	public void updateStats()
+	public void updateStats( GameContainer gc )
 		{		
 			float currRatioW = Global.W/Global.Width, currRatioH = Global.H/Global.Height;
 			
@@ -276,7 +276,7 @@ public class Edit
 									item.setHeight( item.getHeight() * currRatioH );
 								}
 							
-							item.setArea();
+							item.setArea( gc );
 						}
 					
 					for(Sfondo sfondo: sfondi)

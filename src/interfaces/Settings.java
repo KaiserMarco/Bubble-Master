@@ -193,7 +193,7 @@ public class Settings
 			return 0;
 		}
 	
-	private void applicaCambiamenti( Edit editor ) throws SlickException
+	private void applicaCambiamenti( Edit editor, GameContainer gc ) throws SlickException
 		{
 			Global.lifes = vite;
 			
@@ -205,17 +205,17 @@ public class Settings
 	        Global.computeRatio( Integer.parseInt( widthP ), Integer.parseInt( heightP ) );
 	        if(Global.ratioW != 1 || Global.ratioH != 1)
 	            {
-                	editor.updateStats();
+                	editor.updateStats( gc );
 	                for(Livello levels: Begin.livelli)
 	                    {
 	                        for(int j = 0; j < levels.getElements().size(); j++)
-                        		levels.getElements().get( j ).updateStats();
+                        		levels.getElements().get( j ).updateStats( gc );
 	                        
 	                        for(int j = 0; j < levels.getElements().size(); j++)
 	                        	if(levels.getElements().get( j ).getID().startsWith( "player" ))
 	                        		{
 	                        			((Player) levels.getElements().get( j )).checkPosition( levels.getElements() );
-	                        			levels.getElements().get( j ).setArea();
+	                        			levels.getElements().get( j ).setArea( gc );
 	                        		}
 	                            
 	                        levels.getImage().setMaxHeight( levels.getImage().getMaxHeight() * Global.ratioH );
@@ -318,7 +318,7 @@ public class Settings
 					                            			Start.begin = 1;
 				                            			}
 				                            		else if(buttons.get( i ).getName().equals( APPLY ))
-				                                        applicaCambiamenti( editor );
+				                                        applicaCambiamenti( editor, gc );
 				                            		
 						                            break;
 					                            }

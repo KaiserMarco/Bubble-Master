@@ -168,7 +168,7 @@ public class Begin
 						String alt = h.getAttribute( "h" );
 						
 						if(Integer.parseInt( lungh ) != Global.W || Integer.parseInt( alt ) != Global.H)
-							cambiaProporzioni( Integer.parseInt( lungh ), Integer.parseInt( alt ) );
+							cambiaProporzioni( Integer.parseInt( lungh ), Integer.parseInt( alt ), gc );
 						
 						livelli.add( new Livello( elements, sfondo, tmp ) );
 						
@@ -197,14 +197,14 @@ public class Begin
 			timeShowBegin = timeLimitBegin - 1;
 		}
 	
-	public void cambiaProporzioni( float w, float h )
+	public void cambiaProporzioni( float w, float h, GameContainer gc )
 		{
 			float rappW = Global.Width/w, rappH = Global.Height/h;
 		
 			for(int i = 0; i < elements.size(); i++)
 				{
 					elements.get( i ).setXY( elements.get( i ).getX() * rappW, elements.get( i ).getY() * rappH, "restore" );
-					elements.get( i ).setArea();
+					elements.get( i ).setArea( gc );
 				}
 		}
 
