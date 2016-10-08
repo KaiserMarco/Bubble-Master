@@ -438,7 +438,7 @@ public class Bubble extends Ostacolo
     	{
 	    	if(!ost.getID().equals( "bolla" ))
 		        {
-		        	if(ost.getID().equals( "tubo" ) && !primoTubo && !secondoTubo)
+		        	if(ost.getID().equals( "enter" ) && !primoTubo && !secondoTubo)
 		        		{
 		        			//il lato di ingresso nel tubo
 		        			Shape ingr = ost.component( "latoIngresso" );

@@ -639,18 +639,20 @@ public class Edit
 						collide = true;
 					else
 						for(int i = 0; i < ostacoli.size(); i++)
-						    if(temp.getID().startsWith( "player" ))
-						        {
-						            if(!ostacoli.get( i ).getID().equals( "sbarra" ) && !ostacoli.get( i ).getID().equals( "tubo" ))
-						                {
-    						                if(temp.component( "rect" ).intersects( ostacoli.get( i ).component( "rect" ) ))
-    						                    collide = true;
-						                }
-						            else if(temp.component( "rect" ).intersects( ostacoli.get( i ).component( "latoGiu" ) ))
-                                        collide = true;
-						        }
-						    else if(temp.component( "rect" ).intersects( ostacoli.get( i ).component( "rect" ) ))
-						        collide = true;
+							{
+							    if(temp.getID().startsWith( "player" ))
+							        {
+							            if(!ostacoli.get( i ).getID().equals( "sbarra" ) && !ostacoli.get( i ).getID().equals( "tubo" ))
+							                {
+	    						                if(temp.component( "rect" ).intersects( ostacoli.get( i ).component( "rect" ) ))
+	    						                    collide = true;
+							                }
+							            else if(temp.component( "rect" ).intersects( ostacoli.get( i ).component( "latoGiu" ) ))
+	                                        collide = true;
+							        }
+							    else if(temp.component( "rect" ).intersects( ostacoli.get( i ).component( "rect" ) ))
+							        collide = true;
+							}
 					
 					if(collide)
 						temp.setInsert( false, false );
@@ -666,13 +668,12 @@ public class Edit
 						if(temp.getY() + temp.getHeight() < sfondi.get( indexSfondo ).getMaxHeight() - 1)
 							{
 								Shape area = temp.component( "rect" );
-								for(int i = 0; i < ostacoli.size(); i++)
-									if(!ostacoli.get( i ).getID().equals( "tubo" ))										
-										if(area.intersects( ostacoli.get( i ).component( "rect" ) ))
-											{
-												stay = i;
-												break;
-											}
+								for(int i = 0; i < ostacoli.size(); i++)									
+									if(area.intersects( ostacoli.get( i ).component( "rect" ) ))
+										{
+											stay = i;
+											break;
+										}
 							}
 					/*posizionamento e spostamento degli oggetti nel gioco*/
 					if(input.isKeyDown( Input.KEY_RIGHT ))
@@ -686,14 +687,13 @@ public class Edit
 							float tmp = gc.getHeight();
 							int win = -1;
 							for(int i = 0; i < ostacoli.size(); i++)
-								if(!ostacoli.get( i ).equals( "tubo" ))
-									if(ostacoli.get( i ).getY() < temp.getY())
-										if(!(temp.getX() > ostacoli.get( i ).getMaxX() || temp.getMaxX() < ostacoli.get( i ).getX()))
-											if(temp.getY() - ostacoli.get( i ).getY() < tmp)
-												{
-													tmp = temp.getY() - ostacoli.get( i ).getY();
-													win = i;
-												}							
+								if(ostacoli.get( i ).getY() < temp.getY())
+									if(!(temp.getX() > ostacoli.get( i ).getMaxX() || temp.getMaxX() < ostacoli.get( i ).getX()))
+										if(temp.getY() - ostacoli.get( i ).getY() < tmp)
+											{
+												tmp = temp.getY() - ostacoli.get( i ).getY();
+												win = i;
+											}							
 							if(win >= 0)
 								temp.setXY( temp.getX(), ostacoli.get( win ).getY() - temp.getHeight(), "restore" );
 						}

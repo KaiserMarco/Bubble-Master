@@ -216,13 +216,19 @@ public class Tubo extends Ostacolo{
         }
 	
 	public void setXY( float x, float y, String function )
-		{
-			// TODO SISTEMARE QUESTA PARTE 
+		{ 
 			if(function.compareTo( "move" ) == 0)
-				ostr.setLocation( ostr.getX() + x, ostr.getY() + y );
+				{
+					ostr.setLocation( ostr.getX() + x, ostr.getY() + y );
+					enter.getArea().setLocation( enter.getArea().getX() + x, enter.getArea().getY() + y );
+				}
 			
 			else if(function.compareTo( "restore" ) == 0)
-				ostr.setLocation( x, y );
+				{
+					ostr.setLocation( x, y );
+					// 	TODO FARE IL RESTORE CORRETTO A SECONDA DELL'ORIENTAMENTO
+					
+				}
 		}
 	
 	public Ostacolo getBase()
@@ -231,8 +237,41 @@ public class Tubo extends Ostacolo{
 	public Ostacolo getEnter()
 		{ return enter; }
 	
+	public String getDirection()
+		{ return type; }
+	
 	public Rectangle component( String part )
-		{ return null; }
+		{
+			if(part.equals( "latoSu" ))
+				return latoSu;
+			else if(part.equals( "latoGiu" ))
+				return latoGiu;
+			else if(part.equals( "latoSx" ))
+				return latoSx;
+			else if(part.equals( "latoDx" ))
+				return latoDx;
+			else if(part.equals( "spigASx" ))
+				return spigASx;
+			else if(part.equals( "spigADx" ))
+				return spigADx;
+			else if(part.equals( "spigBSx" ))
+				return spigBSx;
+			else if(part.equals( "spigBDx" ))
+				return spigBDx;
+			else if(part.equals( "rect" ))
+				return ostr;
+			else if(part.equals( "latoIngresso" ))
+				if(type.equals( "sx" ))
+					return latoSx;
+				else if(type.equals( "dx" ))
+					return latoDx;
+				else if(type.equals( "up" ))
+					return latoSu;
+				else if(type.equals( "down" ))
+					return latoGiu;
+			
+			return null;
+		}
 
 	public Rectangle component( String part, String area ) 
 		{

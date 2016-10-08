@@ -11,6 +11,7 @@ import org.newdawn.slick.SlickException;
 import Utils.Global;
 import Utils.Sfondo;
 import bubbleMaster.Start;
+import dataObstacles.Enter;
 import dataObstacles.Ostacolo;
 import dataObstacles.Player;
 import dataObstacles.Tubo;
@@ -97,6 +98,7 @@ public class InGame
 					{
 						ostacoli.add( ((Tubo) elem).getBase() );
 						ostacoli.add( ((Tubo) elem).getEnter() );
+						((Enter) ostacoli.get( ostacoli.size() - 1 )).setDirection( ((Tubo) elem).getDirection() );
 					}
 			
 			Global.sfondo = sfondo;

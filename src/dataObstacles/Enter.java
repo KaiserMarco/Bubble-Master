@@ -4,7 +4,6 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
-import org.newdawn.slick.geom.Shape;
 
 public class Enter extends Ostacolo
 {
@@ -15,6 +14,8 @@ public class Enter extends Ostacolo
 	public Rectangle spigASx, spigADx, spigBSx, spigBDx;
 	
 	public final static String ID = "enter";
+	
+	private String dir = null;
 	
 	public Enter( float x, float y, float width, float height ) throws SlickException
 		{
@@ -33,6 +34,9 @@ public class Enter extends Ostacolo
 	        spigBSx = new Rectangle( ostr.getX(), ostr.getY() + ostr.getHeight() - 1, 1, 1 );
 	        spigBDx = new Rectangle( ostr.getX() + ostr.getWidth() - 1, ostr.getY() + ostr.getHeight() - 1, 1, 1 );
 		}
+	
+	public void setDirection( String direction )
+		{ dir = direction; }
 	
 	public void setSpigoli()
 		{
@@ -96,6 +100,15 @@ public class Enter extends Ostacolo
 				return spigBDx;
 			else if(part.equals( "rect" ))
 				return getArea();
+			else if(part.equals( "latoIngresso" ))
+				if(dir.equals( "sx" ))
+					return latoSx;
+				else if(dir.equals( "dx" ))
+					return latoDx;
+				else if(dir.equals( "su" ))
+					return latoSu;
+				else
+					return latoGiu;
 			
 			return null;
 		}
