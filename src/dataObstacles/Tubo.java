@@ -131,6 +131,8 @@ public class Tubo extends Ostacolo{
 					base = new Base( getX() + gc.getWidth()/160, getY(), width - gc.getWidth()/80, height - enter.getHeight() );
 					enter = new Enter( getX(), base.getMaxY(), width, height - gc.getWidth()*10/119 );
 				}
+    		base.setSpigoli();
+    		enter.setSpigoli();
     		setSpigoli();
     	}
     
