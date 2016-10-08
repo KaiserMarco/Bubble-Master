@@ -39,7 +39,8 @@ public class Tubo extends Ostacolo{
 	//indice del tubo a cui e' collegato
 	private int unione;
 	
-	private Rectangle base;
+	private Base base;
+	private Enter enter;
 	
 	public Tubo( int x, int y, String type, GameContainer gc ) throws SlickException
 	{
@@ -64,17 +65,34 @@ public class Tubo extends Ostacolo{
 			{
 				width = gc.getWidth()/10;
 				height = gc.getHeight()/10;
+				if(type.equals( "dx" ))
+					{
+						base = new Base( x, y + gc.getWidth()/160, gc.getWidth()*10/119, height - gc.getWidth()/80 );
+						enter = new Enter( base.getMaxX(), y, width - base.getWidth(), height );
+					}
+				else
+					{
+						enter = new Enter( x, y, width - gc.getWidth()*10/119, height );
+						base = new Base( enter.getMaxX(), y + gc.getWidth()/160, gc.getWidth()*10/119, height - gc.getWidth()/80 );
+					}
 			}
 		else
 			{
 				width = gc.getHeight()/10;
 				height = gc.getWidth()/10;
+				if(type.equals( "up" ))
+					{
+						enter = new Enter( x, y, width, height - gc.getWidth()*10/119 );
+						base = new Base( x + gc.getWidth()/160, enter.getMaxY(), width - gc.getWidth()/80, height - enter.getHeight() );
+					}
+				else
+					{
+						base = new Base( x + gc.getWidth()/160, y, width - gc.getWidth()/80, height - enter.getHeight() );
+						enter = new Enter( x, base.getMaxY(), width, height - gc.getWidth()*10/119 );
+					}
 			}
 		
 		ostr = new Rectangle( x, y, width, height );
-		base = new Rectangle( x, y + gc.getWidth()/160, gc.getWidth()*10/119, height - gc.getWidth()/80 );
-		
-		// TODO PROVARE A GENERARE 2 AREE ALL'INTERNO DELL'OGGETTO
 	}
 
 	public void draw( Graphics g ) throws SlickException
@@ -86,24 +104,65 @@ public class Tubo extends Ostacolo{
                         immagine.draw( ostr.getX(), ostr.getY(), width, height, cr);
                     else
                         immagine.draw( ostr.getX(), ostr.getY(), width, height, cg);
-        	g.fill( base );
+        	g.fill( base.getArea() );
+        	g.fill( enter.getArea() );
 		}
     
     public void setArea( GameContainer gc )
     	{
     		ostr = new Rectangle( getX(), getY(), width, height );
-    		base = new Rectangle( ostr.getX(), ostr.getY() + gc.getWidth()/160, ostr.getWidth()*100/119, ostr.getHeight() - gc.getWidth()/80 );
+    		if(type.equals( "dx" ))
+				{
+					base = new Base( getX(), getY() + gc.getWidth()/160, gc.getWidth()*10/119, height - gc.getWidth()/80 );
+					enter = new Enter( base.getMaxX(), getY(), width - base.getWidth(), height );
+				}
+			else if(type.equals( "sx" ))
+				{
+					enter = new Enter( getX(), getY(), width - gc.getWidth()*10/119, height );
+					base = new Base( enter.getMaxX(), getY() + gc.getWidth()/160, gc.getWidth()*10/119, height - gc.getWidth()/80 );
+				}
+    		else if(type.equals( "up" ))
+				{
+					enter = new Enter( getX(), getY(), width, height - gc.getWidth()*10/119 );
+					base = new Base( getX() + gc.getWidth()/160, enter.getMaxY(), width - gc.getWidth()/80, height - enter.getHeight() );
+				}
+			else
+				{
+					base = new Base( getX() + gc.getWidth()/160, getY(), width - gc.getWidth()/80, height - enter.getHeight() );
+					enter = new Enter( getX(), base.getMaxY(), width, height - gc.getWidth()*10/119 );
+				}
     		setSpigoli();
     	}
     
     public void updateStats( GameContainer gc )
-    	{
+    	{		
+    		// TODO SISTEMARE L'UPDATE DELLE 2 AREE
+    	
     		width = width * Global.ratioW;
     		height = height * Global.ratioH; 
     		setXY( getX() * Global.ratioW, getY() * Global.ratioH, "restore" );
 
     		ostr = new Rectangle( getX(), getY(), width, height );
-    		base = new Rectangle( ostr.getX(), ostr.getY() + gc.getWidth()/160, ostr.getWidth()*100/119, ostr.getHeight() - gc.getWidth()/160 );
+    		if(type.equals( "dx" ))
+				{
+					base = new Base( getX(), getY() + gc.getWidth()/160, gc.getWidth()*10/119, height - gc.getWidth()/80 );
+					enter = new Enter( base.getMaxX(), getY(), width - base.getWidth(), height );
+				}
+			else if(type.equals( "sx" ))
+				{
+					enter = new Enter( getX(), getY(), width - gc.getWidth()*10/119, height );
+					base = new Base( enter.getMaxX(), getY() + gc.getWidth()/160, gc.getWidth()*10/119, height - gc.getWidth()/80 );
+				}
+			else if(type.equals( "up" ))
+				{
+					enter = new Enter( getX(), getY(), width, height - gc.getWidth()*10/119 );
+					base = new Base( getX() + gc.getWidth()/160, enter.getMaxY(), width - gc.getWidth()/80, height - enter.getHeight() );
+				}
+			else
+				{
+					base = new Base( getX() + gc.getWidth()/160, getY(), width - gc.getWidth()/80, height - enter.getHeight() );
+					enter = new Enter( getX(), base.getMaxY(), width, height - gc.getWidth()*10/119 );
+				}
     		setSpigoli();
     	}
 	
