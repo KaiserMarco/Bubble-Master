@@ -107,8 +107,11 @@ public class Tubo extends Ostacolo{
         	g.fill( base.getArea() );
         	g.fill( enter.getArea() );
 		}
+	
+	public void setArea( GameContainer gc )
+		{}
     
-    public void setArea( GameContainer gc )
+    public void setSpace( GameContainer gc ) throws SlickException
     	{
     		ostr = new Rectangle( getX(), getY(), width, height );
     		if(type.equals( "dx" ))
@@ -137,6 +140,9 @@ public class Tubo extends Ostacolo{
     	}
     
     public void updateStats( GameContainer gc )
+    	{}
+    
+    public void updateValues( GameContainer gc ) throws SlickException
     	{		
     		// TODO SISTEMARE L'UPDATE DELLE 2 AREE
     	
@@ -173,15 +179,47 @@ public class Tubo extends Ostacolo{
 
 	public float getX()
 		{ return (int)ostr.getX(); }
+	
+	public float getX( String part )
+		{
+			if(part.equals( "base" ))
+				return base.getX();
+			else
+				return enter.getX();
+		}
 
 	public float getY()
-		{ return (int)ostr.getY(); }
+		{ return ostr.getY(); }
+
+	public float getY( String part )
+		{
+			if(part.equals( "base" ))
+				return base.getY();
+			else
+				return enter.getY();
+		}
 	
 	public float getWidth()
 		{ return ostr.getWidth(); }
 	
+	public float getWidth( String part )
+		{
+			if(part.equals( "base" ))
+				return base.getWidth();
+			else
+				return enter.getWidth();
+		}
+	
 	public float getHeight()
 		{ return ostr.getHeight(); }
+	
+	public float getHeight( String part )
+		{
+			if(part.equals( "base" ))
+				return base.getHeight();
+			else
+				return enter.getHeight();
+		}
 	
 	public boolean contains( int x, int y )
 		{ return ostr.contains( x, y ); }
@@ -203,36 +241,72 @@ public class Tubo extends Ostacolo{
 			else if(function.compareTo( "restore" ) == 0)
 				ostr.setLocation( x, y );
 		}
+	
+	public Ostacolo getBase()
+		{ return base; }
+	
+	public Ostacolo getEnter()
+		{ return enter; }
+	
+	public Rectangle component( String part )
+		{ return null; }
 
-	public Rectangle component( String part ) 
+	public Rectangle component( String part, String area ) 
 		{
 			if(part.equals( "latoSu" ))
-				return latoSu;
+				if(area.equals( "base" ))
+					return base.latoSu;
+				else
+					return enter.latoSu;
 			else if(part.equals( "latoGiu" ))
-				return latoGiu;
+				if(area.equals( "base" ))
+					return base.latoGiu;
+				else
+					return enter.latoGiu;
 			else if(part.equals( "latoSx" ))
-				return latoSx;
+				if(area.equals( "base" ))
+					return base.latoSx;
+				else
+					return enter.latoSx;
 			else if(part.equals( "latoDx" ))
-				return latoDx;
+				if(area.equals( "base" ))
+					return base.latoDx;
+				else
+					return enter.latoDx;
 			else if(part.equals( "spigASx" ))
-				return spigASx;
+				if(area.equals( "base" ))
+					return base.spigASx;
+				else
+					return enter.spigASx;
 			else if(part.equals( "spigADx" ))
-				return spigADx;
+				if(area.equals( "base" ))
+					return base.spigADx;
+				else
+					return enter.spigADx;
 			else if(part.equals( "spigBSx" ))
-				return spigBSx;
+				if(area.equals( "base" ))
+					return base.spigBSx;
+				else
+					return enter.spigBSx;
 			else if(part.equals( "spigBDx" ))
-				return spigBDx;
+				if(area.equals( "base" ))
+					return base.spigBDx;
+				else
+					return enter.spigBDx;
 			else if(part.equals( "rect" ))
-				return ostr;
+				if(area.equals( "base" ))
+					return base.getArea();
+				else
+					return enter.getArea();
 			else if(part.equals( "latoIngresso" ))
 				if(type.equals( "sx" ))
-					return latoSx;
+					return enter.latoSx;
 				else if(type.equals( "dx" ))
-					return latoDx;
+					return enter.latoDx;
 				else if(type.equals( "up" ))
-					return latoSu;
+					return enter.latoSu;
 				else if(type.equals( "down" ))
-					return latoGiu;
+					return enter.latoGiu;
 			
 			return null;
 		}

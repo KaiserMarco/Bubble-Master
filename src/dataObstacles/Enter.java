@@ -1,8 +1,12 @@
 package dataObstacles;
 
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
+import org.newdawn.slick.geom.Shape;
 
-public class Enter
+public class Enter extends Ostacolo
 {
 	private Rectangle ostr;
 	
@@ -10,8 +14,13 @@ public class Enter
 	public Rectangle latoSu, latoGiu, latoDx, latoSx;
 	public Rectangle spigASx, spigADx, spigBSx, spigBDx;
 	
-	public Enter( float x, float y, float width, float height )
-		{ ostr = new Rectangle( x, y, width, height ); }
+	public final static String ID = "enter";
+	
+	public Enter( float x, float y, float width, float height ) throws SlickException
+		{
+			super( "enter" );
+			ostr = new Rectangle( x, y, width, height );
+		}
 	
 	public void setSpigoli()
 		{
@@ -54,4 +63,142 @@ public class Enter
 	
 	public float getMaxY()
 		{ return ostr.getMaxY(); }
+
+	@Override
+	public void draw(Graphics g) throws SlickException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setInsert(boolean insert, boolean change) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Ostacolo clone(GameContainer gc) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setMaxHeight(double val) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public double getMaxHeight() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public double getMaxWidth() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void setArea(GameContainer gc) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setType(String type) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Shape component(String part) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean isCollided() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void setCollided(boolean val) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean contains(int x, int y) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void setXY(float x, float y, String function) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void update(GameContainer gc) throws SlickException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void update(GameContainer gc, int delta) throws SlickException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean getCollide() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void setCollide(boolean val) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setOrienting(String direction) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public String getOrienting() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int getUnion() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void setUnion(int val) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Point getMidArea() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void updateStats(GameContainer gc) {
+		// TODO Auto-generated method stub
+		
+	}
 }

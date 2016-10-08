@@ -11,11 +11,14 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
 
 import Utils.Global;
+import Utils.Sfondo;
 import bubbleMaster.Start;
 import dataButton.ArrowButton;
 import dataButton.Button;
 import dataButton.SimpleButton;
+import dataObstacles.Ostacolo;
 import dataObstacles.Player;
+import dataObstacles.Tubo;
 
 public class Settings
 {
@@ -208,20 +211,27 @@ public class Settings
                 	editor.updateStats( gc );
 	                for(Livello levels: Begin.livelli)
 	                    {
-	                        for(int j = 0; j < levels.getElements().size(); j++)
-                        		levels.getElements().get( j ).updateStats( gc );
-	                        
-	                        for(int j = 0; j < levels.getElements().size(); j++)
-	                        	if(levels.getElements().get( j ).getID().startsWith( "player" ))
-	                        		{
-	                        			((Player) levels.getElements().get( j )).checkPosition( levels.getElements() );
-	                        			levels.getElements().get( j ).setArea( gc );
-	                        		}
+	                        for(Ostacolo elem: levels.getElements())
+	                        	{
+		                        	if(elem.getID().equals( "tubo" ))
+		                        		{
+		                        			((Tubo) elem).updateValues( gc );
+	                        				((Tubo) elem).setSpace( gc );
+		                        		}
+		                        	else
+		                        		{
+		                        			elem.updateStats( gc );
+	                        				elem.setArea( gc );
+		                        			if(elem.getID().startsWith( "player" ))
+		                        				((Player) elem).checkPosition( levels.getElements() );
+		                        		}
+		                        }
 	                            
-	                        levels.getImage().setMaxHeight( levels.getImage().getMaxHeight() * Global.ratioH );
-	                        levels.getImage().setHeight( levels.getImage().getHeight() * Global.ratioH );
-	                        levels.getImage().setMaxWidth( levels.getImage().getMaxWidth() * Global.ratioW );
-	                        levels.getImage().setWidth( levels.getImage().getWidth() * Global.ratioW );
+	                        Sfondo img = levels.getImage();
+	                        img.setMaxHeight( img.getMaxHeight() * Global.ratioH );
+	                        img.setHeight( img.getHeight() * Global.ratioH );
+	                        img.setMaxWidth( img.getMaxWidth() * Global.ratioW );
+	                        img.setWidth( img.getWidth() * Global.ratioW );
 	                    }
 	            
 	                for(SimpleButton button: buttons)

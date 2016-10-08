@@ -197,14 +197,17 @@ public class Begin
 			timeShowBegin = timeLimitBegin - 1;
 		}
 	
-	public void cambiaProporzioni( float w, float h, GameContainer gc )
+	public void cambiaProporzioni( float w, float h, GameContainer gc ) throws SlickException
 		{
 			float rappW = Global.Width/w, rappH = Global.Height/h;
 		
-			for(int i = 0; i < elements.size(); i++)
+			for(Ostacolo elem: elements)
 				{
-					elements.get( i ).setXY( elements.get( i ).getX() * rappW, elements.get( i ).getY() * rappH, "restore" );
-					elements.get( i ).setArea( gc );
+					elem.setXY( elem.getX() * rappW, elem.getY() * rappH, "restore" );
+					if(elem.getID().equals( "tubo" ))
+						((Tubo) elem).setSpace( gc );
+					else
+						elem.setArea( gc );
 				}
 		}
 
@@ -215,8 +218,8 @@ public class Begin
 			pang.draw( gc );
 		
 	        if(insertButton)
-    			for(int i = 0; i < buttons.size(); i++)
-    				buttons.get( i ).draw( g );
+    			for(SimpleButton button: buttons)
+    				button.draw( g );
 	        else
 	        	{
 	        		if(timeShowBegin == timeLimitBegin - 1)
@@ -237,10 +240,10 @@ public class Begin
 	
 	public void setStats()
 		{
-			for(int i = 0; i < buttons.size(); i++)
+			for(SimpleButton button: buttons)
 				{
-					buttons.get( i ).setX( buttons.get( i ).getX() * Global.ratioW );
-					buttons.get( i ).setY( buttons.get( i ).getY() * Global.ratioH );
+					button.setX( button.getX() * Global.ratioW );
+					button.setY( button.getY() * Global.ratioH );
 				}
 
 			xFinale = (int) (xFinale * Global.ratioW);

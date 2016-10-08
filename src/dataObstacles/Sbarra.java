@@ -11,7 +11,8 @@ import org.newdawn.slick.geom.Shape;
 import Utils.Global;
 import bubbleMaster.Start;
 
-public class Sbarra extends Ostacolo{
+public class Sbarra extends Ostacolo
+{
 
 	private Image immagine;
 	private Image hor = new Image( "./data/Image/sbarra.png" ), ver = new Image( "./data/Image/sbarraVer.png" );

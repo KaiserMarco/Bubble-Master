@@ -459,9 +459,19 @@ public class Bubble extends Ostacolo
 						gestioneSferaInTubo();                        	
 		        	
 		        	if(!primoTubo)
-		        		if(!primoTubo && ostr.intersects( ost.component( "rect" ) ))
-			        		if(!secondoTubo || (secondoTubo && indexTube != i && previousIndexTube != i))
-	        					gestioneCollisioni( ost );
+		        		if(!primoTubo)
+		        			if(!ost.getID().equals( "tubo" ))
+		        				{
+		        					if(ostr.intersects( ost.component( "rect" ) ))
+		        						if(!secondoTubo || (secondoTubo && indexTube != i && previousIndexTube != i))
+		        							gestioneCollisioni( ost );
+		        				}
+		        			else
+		        				{
+			        				if(ostr.intersects( ((Tubo) ost).component( "rect", "base" ) ) || ostr.intersects( ((Tubo) ost ).component( "rect", "enter" ) ))
+		        						if(!secondoTubo || (secondoTubo && indexTube != i && previousIndexTube != i))
+		        							gestioneCollisioni( ost );
+		        				}
 		        }
     	}
     
