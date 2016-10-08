@@ -931,10 +931,11 @@ public class Player extends Ostacolo
 			/*controlla la collisione con gli ostacoli del gioco (tranne le sfere)*/
 			for(Ostacolo ost: InGame.ostacoli)
 				{
-					if(!ost.getID().equals( "bolla" ))
+					if(!ost.getID().equals( "bolla" ) && !ost.getID().equals( "tubo" ))
 						{
 							if(area.intersects( ost.component( "rect" ) ))
 								{
+									System.out.println( "ID = " + ost.getID() );
 									if(area.intersects( ost.component( "latoSu" ) ) && (previousArea.getY() + height <= ost.getY()))
 										{
 											maxJump = 0;

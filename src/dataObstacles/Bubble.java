@@ -494,7 +494,8 @@ public class Bubble extends Ostacolo
     public void update( GameContainer gc, int delta ) throws SlickException
         {
             for(int i = 0; i < InGame.ostacoli.size(); i++)
-                checkAll( i, InGame.ostacoli.get( i ) );
+            	if(!InGame.ostacoli.get( i ).getID().equals( "tubo" ))
+            		checkAll( i, InGame.ostacoli.get( i ) );
              
             /*controllo collisione con i bordi della schermata*/
             checkBorders();
@@ -509,7 +510,8 @@ public class Bubble extends Ostacolo
 	                        checkBorders();
 	                        
 	                        for(int i = 0; i < InGame.ostacoli.size(); i++)
-	                        	checkAll( i, InGame.ostacoli.get( i ) );
+	                        	if(!InGame.ostacoli.get( i ).getID().equals( "tubo" ))
+	                        		checkAll( i, InGame.ostacoli.get( i ) );
 
 	                        setCenter( ostr, speedX * Global.W/Global.Width, speedY * Global.H/Global.Height );
             			}

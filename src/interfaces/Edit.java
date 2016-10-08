@@ -17,6 +17,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
+import org.newdawn.slick.geom.Shape;
 
 import Utils.Elements;
 import Utils.Global;
@@ -93,6 +94,9 @@ public class Edit
 	private float rappX = 0, rappY = 0;
 	
 	private TextBox tBox;
+	
+	// indica l'indice massimo in cui inserire un tubo
+	private int firstNonTubeIndex = 0;
 	
     public Edit( GameContainer gc ) throws SlickException
 		{
@@ -660,12 +664,16 @@ public class Edit
 					/*controlla che il personaggio non sia posizionato a mezz'aria*/
 					if(temp.getID().startsWith( "player" ))
 						if(temp.getY() + temp.getHeight() < sfondi.get( indexSfondo ).getMaxHeight() - 1)
-							for(int i = 0; i < ostacoli.size(); i++)
-								if(temp.component( "rect" ).intersects( ostacoli.get( i ).component( "rect" ) ))
-									{
-										stay = i;
-										break;
-									}
+							{
+								Shape area = temp.component( "rect" );
+								for(int i = 0; i < ostacoli.size(); i++)
+									if(!ostacoli.get( i ).getID().equals( "tubo" ))										
+										if(area.intersects( ostacoli.get( i ).component( "rect" ) ))
+											{
+												stay = i;
+												break;
+											}
+							}
 					/*posizionamento e spostamento degli oggetti nel gioco*/
 					if(input.isKeyDown( Input.KEY_RIGHT ))
 						temp.setXY( move, 0, "move" );
@@ -678,13 +686,14 @@ public class Edit
 							float tmp = gc.getHeight();
 							int win = -1;
 							for(int i = 0; i < ostacoli.size(); i++)
-								if(ostacoli.get( i ).getY() < temp.getY())
-									if(!(temp.getX() > ostacoli.get( i ).getMaxX() || temp.getMaxX() < ostacoli.get( i ).getX()))
-										if(temp.getY() - ostacoli.get( i ).getY() < tmp)
-											{
-												tmp = temp.getY() - ostacoli.get( i ).getY();
-												win = i;
-											}							
+								if(!ostacoli.get( i ).equals( "tubo" ))
+									if(ostacoli.get( i ).getY() < temp.getY())
+										if(!(temp.getX() > ostacoli.get( i ).getMaxX() || temp.getMaxX() < ostacoli.get( i ).getX()))
+											if(temp.getY() - ostacoli.get( i ).getY() < tmp)
+												{
+													tmp = temp.getY() - ostacoli.get( i ).getY();
+													win = i;
+												}							
 							if(win >= 0)
 								temp.setXY( temp.getX(), ostacoli.get( win ).getY() - temp.getHeight(), "restore" );
 						}
@@ -765,13 +774,14 @@ public class Edit
 								gamer = Math.max( gamer - 1, 0 );
 							
 							//se il tubo ha un'altro tubo collegato, elimina anche il collegamento
-							for(int i = 0; i < ostacoli.size(); i++)
-								if(ostacoli.get( i ).getID().equals( "tubo"))
-									if(ostacoli.get( i ).getUnion() == -1)
-										{
-											aggiornaIndiciTubi( i );
-											ostacoli.remove( i );
-										}
+							if(temp.getID().equals( "tubo" ))
+								for(int i = 0; i < ostacoli.size(); i++)
+									if(ostacoli.get( i ).getID().equals( "tubo"))
+										if(ostacoli.get( i ).getUnion() == -1)
+											{
+												aggiornaIndiciTubi( i );
+												ostacoli.remove( i );
+											}
 							
 							ostacoli.remove( temp );
 							

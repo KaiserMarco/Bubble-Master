@@ -13,6 +13,7 @@ import Utils.Sfondo;
 import bubbleMaster.Start;
 import dataObstacles.Ostacolo;
 import dataObstacles.Player;
+import dataObstacles.Tubo;
 import dataPowers.PowerUp;
 
 public class InGame
@@ -90,6 +91,13 @@ public class InGame
 					else
 						ostacoli.add( ost );
 				}
+			
+			for(Ostacolo elem: obs)
+				if(elem.getID().equals( "tubo" ))
+					{
+						ostacoli.add( ((Tubo) elem).getBase() );
+						ostacoli.add( ((Tubo) elem).getEnter() );
+					}
 			
 			Global.sfondo = sfondo;
 		}

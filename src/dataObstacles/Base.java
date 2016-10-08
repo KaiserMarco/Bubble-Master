@@ -20,6 +20,18 @@ public class Base extends Ostacolo
 		{
 			super( ID );
 			ostr = new Rectangle( x, y, width, height );
+			
+			/*creazione lati*/
+	        latoSu = new Rectangle( ostr.getX() + 1, ostr.getY(), ostr.getWidth() - 2, 1 );
+	        latoGiu = new Rectangle( ostr.getX() + 1, ostr.getY() + ostr.getHeight() - 1, ostr.getWidth() - 2, 1 );
+	        latoSx = new Rectangle( ostr.getX(), ostr.getY() + 1, 1, ostr.getHeight() - 2 );
+	        latoDx = new Rectangle( ostr.getX() + ostr.getWidth() - 1, ostr.getY() + 1, 1, ostr.getHeight() - 2 );
+	        
+	        /*creazione spigoli*/
+	        spigASx = new Rectangle( ostr.getX(), ostr.getY(), 1, 1 );
+	        spigADx = new Rectangle( ostr.getX() + ostr.getWidth() - 1, ostr.getY(), 1, 1 );
+	        spigBSx = new Rectangle( ostr.getX(), ostr.getY() + ostr.getHeight() - 1, 1, 1 );
+	        spigBDx = new Rectangle( ostr.getX() + ostr.getWidth() - 1, ostr.getY() + ostr.getHeight() - 1, 1, 1 );
 		}
 	
 	public void setSpigoli()
@@ -63,6 +75,30 @@ public class Base extends Ostacolo
 	
 	public float getMaxY()
 		{ return ostr.getMaxY(); }
+	
+	public Rectangle component( String part ) 
+		{
+			if(part.equals( "latoSu" ))
+				return latoSu;
+			else if(part.equals( "latoGiu" ))
+				return latoGiu;
+			else if(part.equals( "latoSx" ))
+				return latoSx;
+			else if(part.equals( "latoDx" ))
+				return latoDx;
+			else if(part.equals( "spigASx" ))
+				return spigASx;
+			else if(part.equals( "spigADx" ))
+				return spigADx;
+			else if(part.equals( "spigBSx" ))
+				return spigBSx;
+			else if(part.equals( "spigBDx" ))
+				return spigBDx;
+			else if(part.equals( "rect" ))
+				return getArea();
+			
+			return null;
+		}
 
 	@Override
 	public void draw(Graphics g) throws SlickException {
@@ -110,12 +146,6 @@ public class Base extends Ostacolo
 	public void setType(String type) {
 		// TODO Auto-generated method stub
 		
-	}
-
-	@Override
-	public Shape component(String part) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override

@@ -42,6 +42,8 @@ public class Tubo extends Ostacolo{
 	private Base base;
 	private Enter enter;
 	
+	private int indexBase, indexEnter;
+	
 	public Tubo( int x, int y, String type, GameContainer gc ) throws SlickException
 	{
 		super( "tubo" );
@@ -107,6 +109,18 @@ public class Tubo extends Ostacolo{
         	g.fill( base.getArea() );
         	g.fill( enter.getArea() );
 		}
+	
+	public int getIndexBase()
+		{ return indexBase; }
+	
+	public void setIndexBase( int val )
+		{ indexBase = val; }
+	
+	public int getIndexEnter()
+		{ return indexEnter; }
+	
+	public void setIndexEnter( int val )
+		{ indexEnter = val; }
 	
 	public void setArea( GameContainer gc )
 		{}
@@ -179,47 +193,15 @@ public class Tubo extends Ostacolo{
 
 	public float getX()
 		{ return (int)ostr.getX(); }
-	
-	public float getX( String part )
-		{
-			if(part.equals( "base" ))
-				return base.getX();
-			else
-				return enter.getX();
-		}
 
 	public float getY()
 		{ return ostr.getY(); }
-
-	public float getY( String part )
-		{
-			if(part.equals( "base" ))
-				return base.getY();
-			else
-				return enter.getY();
-		}
 	
 	public float getWidth()
 		{ return ostr.getWidth(); }
 	
-	public float getWidth( String part )
-		{
-			if(part.equals( "base" ))
-				return base.getWidth();
-			else
-				return enter.getWidth();
-		}
-	
 	public float getHeight()
 		{ return ostr.getHeight(); }
-	
-	public float getHeight( String part )
-		{
-			if(part.equals( "base" ))
-				return base.getHeight();
-			else
-				return enter.getHeight();
-		}
 	
 	public boolean contains( int x, int y )
 		{ return ostr.contains( x, y ); }
@@ -234,7 +216,8 @@ public class Tubo extends Ostacolo{
         }
 	
 	public void setXY( float x, float y, String function )
-		{			
+		{
+			// TODO SISTEMARE QUESTA PARTE 
 			if(function.compareTo( "move" ) == 0)
 				ostr.setLocation( ostr.getX() + x, ostr.getY() + y );
 			
