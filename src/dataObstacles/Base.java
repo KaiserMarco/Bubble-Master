@@ -3,7 +3,6 @@ package dataObstacles;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Rectangle;
 
 public class Base extends Ostacolo
@@ -25,18 +24,6 @@ public class Base extends Ostacolo
 			
 			this.width = width;
 			this.height = height;
-			
-			/*creazione lati*/
-	        latoSu = new Rectangle( ostr.getX() + 1, ostr.getY(), ostr.getWidth() - 2, 1 );
-	        latoGiu = new Rectangle( ostr.getX() + 1, ostr.getY() + ostr.getHeight() - 1, ostr.getWidth() - 2, 1 );
-	        latoSx = new Rectangle( ostr.getX(), ostr.getY() + 1, 1, ostr.getHeight() - 2 );
-	        latoDx = new Rectangle( ostr.getX() + ostr.getWidth() - 1, ostr.getY() + 1, 1, ostr.getHeight() - 2 );
-	        
-	        /*creazione spigoli*/
-	        spigASx = new Rectangle( ostr.getX(), ostr.getY(), 1, 1 );
-	        spigADx = new Rectangle( ostr.getX() + ostr.getWidth() - 1, ostr.getY(), 1, 1 );
-	        spigBSx = new Rectangle( ostr.getX(), ostr.getY() + ostr.getHeight() - 1, 1, 1 );
-	        spigBDx = new Rectangle( ostr.getX() + ostr.getWidth() - 1, ostr.getY() + ostr.getHeight() - 1, 1, 1 );
 		}
 	
 	public void setSpigoli()
@@ -53,6 +40,9 @@ public class Base extends Ostacolo
 	        spigBSx = new Rectangle( ostr.getX(), ostr.getY() + ostr.getHeight() - 1, 1, 1 );
 	        spigBDx = new Rectangle( ostr.getX() + ostr.getWidth() - 1, ostr.getY() + ostr.getHeight() - 1, 1, 1 );
 		}
+
+	public void draw(Graphics g) throws SlickException
+		{ /*g.draw( ostr );*/ }
 	
 	public Rectangle getArea()
 		{ return ostr; }
@@ -110,9 +100,6 @@ public class Base extends Ostacolo
 			
 			return null;
 		}
-
-	public void draw(Graphics g) throws SlickException
-		{ g.draw( ostr ); }
 
 	@Override
 	public void setInsert(boolean insert, boolean change) {

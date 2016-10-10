@@ -453,20 +453,15 @@ public class Bubble extends Ostacolo
         			gestioneSferaInTubo();
         	
         	if(!primoTubo)
-        		if(ostr.intersects( ost.component( "rect" ) ))
-    				// TODO SISTEMARE QUESTA PARTE (MA CI SONO QUASI SU EH)
-        			if(secondoTubo)
-        				{
-        					if(!ost.getID().equals( "base" ) && !ost.getID().equals( "enter" ))
-        						if(indexTube != i && previousIndexTube != i)
-        							gestioneCollisioni( ost );
-        				}
-        			else if(!secondoTubo)
-        				{
-							gestioneCollisioni( ost );
-        					if(ost.getID().equals( "base" ))
-        						System.out.println( "ce l'ho fatta!(?)" );
-    					}
+    			if(secondoTubo)
+    				{
+    					if(!ost.getID().equals( "base" ) && !ost.getID().equals( "enter" ))
+    						if(indexTube != i && previousIndexTube != i)
+    							gestioneCollisioni( ost );
+    				}
+    			else if(!secondoTubo)
+    				if(!ost.getID().equals( "tubo" ))
+						gestioneCollisioni( ost );
     	}
     
     public void checkBorders()
@@ -496,7 +491,7 @@ public class Bubble extends Ostacolo
 
             setCenter( ostr, speedX * Global.W/Global.Width, speedY * Global.H/Global.Height );
             
-            if(!primoTubo && !secondoTubo)
+            if(!primoTubo)
             	{
             		if(speedX == 0 || speedY == 0)
             			{
