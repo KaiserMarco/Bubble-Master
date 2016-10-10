@@ -307,7 +307,7 @@ public class Edit
 		{
 			for(Ostacolo obs: ostacoli)
 				if(obs.getID().equals( "tubo" ) && obs.getUnion() > i)
-					obs.setUnion( obs.getUnion() - 1 );
+					obs.setUnion( obs.getUnion() - 3 );
 		}
 	/**resetta indexCursor, indexCursorButton e indexCursorSfondi*/
 	public void resetIndexCursor()
@@ -399,6 +399,7 @@ public class Edit
 			//se e' stato scelto un elemento gia' presente nel gioco
 			else
 				{
+					// TODO SISTEMARE GLI INDICI DI BASE E ENTER ANCHE TRAMITE TASTIERA (SE AVRO ANCORA TEMPO E VOGLIA, SOPRATTUTTO)
 					if(type.equals( "keyboard" ) && indexCursor >= 0)
 						{
 							temp = ostacoli.get( indexCursor ).clone( gc );
@@ -423,23 +424,29 @@ public class Edit
 					else
 						for(int i = 0; i < ostacoli.size(); i++)
 							{
+								System.out.println( "ID = " + ostacoli.get( i ).getID() );
+								if(ostacoli.get( i ).getID().equals( "tubo" ))
+									System.out.println( "union = " + ostacoli.get( i ).getUnion() );
 								if(ostacoli.get( i ).contains( x, y ))
 									{
 										temp = ostacoli.get( i );
 										//modifica la posizione di un tubo gia' esistente
 										if(temp.getID().equals( "tubo" ))
-											{											
+											{								
 												ostacoli.get( temp.getUnion() ).setUnion( - 1 );
 												
 												if(temp.getUnion() > i)											
-													indiceTuboRimasto = temp.getUnion() - 1;
+													indiceTuboRimasto = temp.getUnion() - 3;
 												else
 													indiceTuboRimasto = temp.getUnion();												
 											}
 										//sistema gli indici dei tubi puntati
 										aggiornaIndiciTubi( i );
 													
+										ostacoli.remove( i + 2 );
+										ostacoli.remove( i + 1 );
 										ostacoli.remove( i );
+										System.out.println( "size = " + ostacoli.size() );
 										temp.setInsert( true, true );
 										
 										tempX = x;
@@ -641,7 +648,7 @@ public class Edit
 							{
 							    if(temp.getID().startsWith( "player" ))
 							        {
-							    		// TODO MODIFICARE L'INTERAZIONE PLAYER-BASE/ENTER
+							    		// TODO MODIFICARE L'INTERAZIONE PLAYER-BASE/ENTER (MA NON MI PARE CI SIA BISOGNO)
 							            if(!ost.getID().equals( "sbarra" ) && !ost.getID().equals( "tubo" ))
 							                {
 	    						                if(temp.component( "rect" ).intersects( ost.component( "rect" ) ))
@@ -688,6 +695,7 @@ public class Edit
 						{
 							float tmp = gc.getHeight();
 							int win = -1;
+							// TODO CONTROLLARE INTERAZIONE PLAYER-TUBO/BASE/ENTER
 							for(int i = 0; i < ostacoli.size(); i++)
 								if(ostacoli.get( i ).getY() < temp.getY())
 									if(!(temp.getX() > ostacoli.get( i ).getMaxX() || temp.getMaxX() < ostacoli.get( i ).getX()))
@@ -802,18 +810,22 @@ public class Edit
 
 									if(temp.getID().equals( "tubo" ))
 									    {
+											// INSERISCO BASE E ENTER PER USARLI IN GIOCO PER LE COLLISIONI SFERE/PLAYER - TUBO
+											((Tubo) ostacoli.get( ostacoli.size() - 1 )).setSpace( gc );
+											// inserisco base e enter del tubo
+											ostacoli.add( ((Tubo) temp).getBase() );
+											ostacoli.add( ((Tubo) temp).getEnter() );
+											
+											ostacoli.get( ostacoli.size() - 2 ).setArea( gc );
+											ostacoli.get( ostacoli.size() - 1 ).setArea( gc );
+											
+											// setto l'indice del tubo a base e enter (PER RIMUOVERLI QUALORA RIMUOVESSI IL TUBO RELATIVO)
+											((Base) ostacoli.get( ostacoli.size() - 2 )).setIndexTube( ostacoli.size() - 3 );
+											((Enter) ostacoli.get( ostacoli.size() - 1 )).setIndexTube( ostacoli.size() - 3 );
+											
 											//inserisce una nuova coppia di tubi
 											if(nuovaCoppiaTubi)
-												{												
-													// INSERISCO BASE E ENTER PER USARLI IN GIOCO PER LE COLLISIONI SFERE/PLAYER - TUBO
-													((Tubo) ostacoli.get( ostacoli.size() - 1 )).setSpace( gc );
-													// inserisco base e enter del tubo
-													ostacoli.add( ((Tubo) temp).getBase() );
-													ostacoli.add( ((Tubo) temp).getEnter() );
-													
-													ostacoli.get( ostacoli.size() - 2 ).setArea( gc );
-													ostacoli.get( ostacoli.size() - 1 ).setArea( gc );
-												
+												{
 													if(nuovoTubo1)
 														{
 															Ostacolo temp2 = temp.clone( gc );
@@ -829,17 +841,13 @@ public class Edit
 															temp = null;
 															nuovaCoppiaTubi = false;
 														}
-													
-													// setto l'indice del tubo a base e enter (PER RIMUOVERLI QUALORA RIMUOVESSI IL TUBO RELATIVO)
-													((Base) ostacoli.get( ostacoli.size() - 2 )).setIndexTube( ostacoli.size() - 3 );
-													((Enter) ostacoli.get( ostacoli.size() - 1 )).setIndexTube( ostacoli.size() - 3 );
 												}
 											//inserisce un tubo gia esistente
 											else
 												{
 													// TODO LAVORARE A EVENTUALI MODIFICHE CON BASE E ENTER (NON SO SE CI SARANNO DA FARE, COMUNQUE)
-													ostacoli.get( indiceTuboRimasto ).setUnion( ostacoli.size() - 1 );
-													ostacoli.get( ostacoli.size() - 1 ).setUnion( indiceTuboRimasto );
+													ostacoli.get( indiceTuboRimasto ).setUnion( ostacoli.size() - 3 );
+													ostacoli.get( ostacoli.size() - 3 ).setUnion( indiceTuboRimasto );
 												
 													temp = null;
 												}
