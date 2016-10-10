@@ -805,6 +805,8 @@ public class Edit
 											ostacoli.remove( indiceTuboRimasto + 2 );
 											ostacoli.remove( indiceTuboRimasto + 1 );
 											ostacoli.remove( indiceTuboRimasto );
+											
+											indiceTuboRimasto = -1;
 										}
 								}
 							
@@ -859,6 +861,8 @@ public class Edit
 												{
 													ostacoli.get( indiceTuboRimasto ).setUnion( ostacoli.size() - 3 );
 													ostacoli.get( ostacoli.size() - 3 ).setUnion( indiceTuboRimasto );
+													
+													indiceTuboRimasto = -1;
 												
 													temp = null;
 												}
