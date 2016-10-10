@@ -97,6 +97,8 @@ public class InGame
 			for(int i = 0; i < size; i++)
 				if(ostacoli.get( i ).getID().equals( "tubo" ))
 					{
+						// TODO SE CREO UN LIVELLO E LO GIOCO, QUESTO ESPLODE
+						// (CON QUELLI CARICATI DA FILE INVECE TUTTO OK)
 						ostacoli.add( ((Tubo) ostacoli.get( i )).getBase() );
 						ostacoli.add( ((Tubo) ostacoli.get( i )).getEnter() );
 						ostacoli.get( ostacoli.size() - 1 ).setArea( gc );

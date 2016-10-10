@@ -485,6 +485,13 @@ public class Edit
 	
 	private void setTubeInArray( GameContainer gc )
 		{
+			for(int i = ostacoli.size() - 1; i >= 0; i--)
+				if(ostacoli.get( i ).getID().equals( "base" ) || ostacoli.get( i ).getID().equals( "enter" ))
+					{
+						aggiornaIndiciTubi( i, 1 );
+						ostacoli.remove( i );
+					}
+		
 			int j = 0;
 			for(int i = 0; i < ostacoli.size(); i++)
 				{
@@ -713,15 +720,15 @@ public class Edit
 						{
 							float tmp = gc.getHeight();
 							int win = -1;
-							// TODO CONTROLLARE INTERAZIONE PLAYER-TUBO/BASE/ENTER
 							for(int i = 0; i < ostacoli.size(); i++)
-								if(ostacoli.get( i ).getY() < temp.getY())
-									if(!(temp.getX() > ostacoli.get( i ).getMaxX() || temp.getMaxX() < ostacoli.get( i ).getX()))
-										if(temp.getY() - ostacoli.get( i ).getY() < tmp)
-											{
-												tmp = temp.getY() - ostacoli.get( i ).getY();
-												win = i;
-											}							
+								if(!ostacoli.get( i ).getID().equals( "tubo" ))
+									if(ostacoli.get( i ).getY() < temp.getY())
+										if(!(temp.getX() > ostacoli.get( i ).getMaxX() || temp.getMaxX() < ostacoli.get( i ).getX()))
+											if(temp.getY() - ostacoli.get( i ).getY() < tmp)
+												{
+													tmp = temp.getY() - ostacoli.get( i ).getY();
+													win = i;
+												}							
 							if(win >= 0)
 								temp.setXY( temp.getX(), ostacoli.get( win ).getY() - temp.getHeight(), "restore" );
 						}
@@ -733,14 +740,15 @@ public class Edit
 							float tmp = gc.getHeight();
 							int win = -1;
 							for(int i = 0; i < ostacoli.size(); i++)
-								if(i != stay)
-									if(ostacoli.get( i ).getY() > temp.getY())
-										if(!(temp.getX() > ostacoli.get( i ).getMaxX() || temp.getMaxX() < ostacoli.get( i ).getX()))
-											if(Math.abs(temp.getY() - ostacoli.get( i ).getY()) < tmp)
-												{
-													tmp = Math.abs(temp.getY() - ostacoli.get( i ).getY());
-													win = i;
-												}							
+								if(!ostacoli.get( i ).getID().equals( "tubo" ))
+									if(i != stay)
+										if(ostacoli.get( i ).getY() > temp.getY())
+											if(!(temp.getX() > ostacoli.get( i ).getMaxX() || temp.getMaxX() < ostacoli.get( i ).getX()))
+												if(Math.abs(temp.getY() - ostacoli.get( i ).getY()) < tmp)
+													{
+														tmp = Math.abs(temp.getY() - ostacoli.get( i ).getY());
+														win = i;
+													}							
 							if(win >= 0)
 								temp.setXY( temp.getX(), ostacoli.get( win ).getY() - temp.getHeight(), "restore" );
 							else
