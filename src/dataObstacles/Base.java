@@ -3,6 +3,7 @@ package dataObstacles;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Rectangle;
 
 public class Base extends Ostacolo
@@ -15,10 +16,15 @@ public class Base extends Ostacolo
 	
 	public final static String ID = "base";
 	
+	private float width, height;
+	
 	public Base( float x, float y, float width, float height ) throws SlickException
 		{
 			super( ID );
 			ostr = new Rectangle( x, y, width, height );
+			
+			this.width = width;
+			this.height = height;
 			
 			/*creazione lati*/
 	        latoSu = new Rectangle( ostr.getX() + 1, ostr.getY(), ostr.getWidth() - 2, 1 );
@@ -50,6 +56,12 @@ public class Base extends Ostacolo
 	
 	public Rectangle getArea()
 		{ return ostr; }
+    
+    public void setArea( GameContainer gc )
+    	{
+    		ostr = new Rectangle( getX(), getY(), width, height );
+    		setSpigoli();
+		}
 	
 	public float getWidth()
 		{ return ostr.getWidth(); }
@@ -94,16 +106,13 @@ public class Base extends Ostacolo
 			else if(part.equals( "spigBDx" ))
 				return spigBDx;
 			else if(part.equals( "rect" ))
-				return getArea();
+				return ostr;
 			
 			return null;
 		}
 
-	@Override
-	public void draw(Graphics g) throws SlickException {
-		// TODO Auto-generated method stub
-		
-	}
+	public void draw(Graphics g) throws SlickException
+		{ g.draw( ostr ); }
 
 	@Override
 	public void setInsert(boolean insert, boolean change) {
@@ -133,12 +142,6 @@ public class Base extends Ostacolo
 	public double getMaxWidth() {
 		// TODO Auto-generated method stub
 		return 0;
-	}
-
-	@Override
-	public void setArea(GameContainer gc) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override

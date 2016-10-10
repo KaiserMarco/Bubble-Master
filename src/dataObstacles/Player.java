@@ -935,7 +935,6 @@ public class Player extends Ostacolo
 						{
 							if(area.intersects( ost.component( "rect" ) ))
 								{
-									System.out.println( "ID = " + ost.getID() );
 									if(area.intersects( ost.component( "latoSu" ) ) && (previousArea.getY() + height <= ost.getY()))
 										{
 											maxJump = 0;

@@ -551,7 +551,6 @@ public class Edit
 	    		
 	    		if(nameLvl != null)
 	    			{
-    					System.out.println( "index = " + index );
 	    				removeFile();
 	    				Begin.livelli.remove( index );
 	    				Begin.livelli.add( index, new Livello( ostacoli, sfondi.get( indexSfondo ), name ) );

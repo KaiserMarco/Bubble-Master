@@ -13,7 +13,7 @@ import org.newdawn.slick.geom.Shape;
 import Utils.Global;
 import bubbleMaster.Start;
  
-public class Bubble extends Ostacolo
+public class BubbleUltimate extends Ostacolo
 {
     private float ray;
      
@@ -41,10 +41,10 @@ public class Bubble extends Ostacolo
 	
 	private float backupSpeedX, backupSpeedY;
      
-    public Bubble( Ostacolo ost, GameContainer gc ) throws SlickException
+    public BubbleUltimate( Ostacolo ost, GameContainer gc ) throws SlickException
         { this( (int) ost.getX(), (int) ost.getY(), (int) ost.getWidth(), ost.getMaxWidth(), gc ); }
      
-    public Bubble( int x, int y, int ray, double maxW, GameContainer gc ) throws SlickException
+    public BubbleUltimate( int x, int y, int ray, double maxW, GameContainer gc ) throws SlickException
         {       
             super( "bolla" );
              
@@ -89,7 +89,7 @@ public class Bubble extends Ostacolo
     			}
 		}
     
-    public void updateStats()
+    public void updateStats( GameContainer gc )
     	{
     		ray = ray * Global.ratioH;
     		ostr.setCenterX( ostr.getCenterX() * Global.ratioW );
@@ -187,7 +187,7 @@ public class Bubble extends Ostacolo
     public void setCollide( boolean val )
     	{}
     
-    public void setArea()
+    public void setArea( GameContainer gc )
     	{ ostr = new Circle( ostr.getCenterX(), ostr.getCenterY(), ray ); }
     
     public void setMaxWidth( float val )
@@ -389,7 +389,7 @@ public class Bubble extends Ostacolo
     public void setPositionInTube( Ostacolo ost, boolean primoTubo )
     	{
     		//orientamento del tubo
-			String pos = ost.getOrienting();
+    		String pos = ost.getOrienting();
 			// spigolo di riferimento per l'ingresso
 			Shape ingr = ost.component( "spigASx" );
 			
@@ -436,38 +436,58 @@ public class Bubble extends Ostacolo
     /**gestisce collisioni fra tutti gli elementi*/
     public void checkAll( int i, Ostacolo ost )
     	{
-        	if(ost.getID().equals( "tubo" ) && !primoTubo && !secondoTubo)
+        	if(ost.getID().equals( "enter" ) && !primoTubo && !secondoTubo)
         		{
         			//il lato di ingresso nel tubo
-        			Shape ingr = ost.component( "latoIngresso" );
+        			Shape ingr = InGame.ostacoli.get( (((Enter) ost).getIndexTube() ) ).component( "latoIngresso" );
         			if((ostr.intersects( ingr ) && ostr.getCenterY() > ingr.getY() && ostr.getCenterY() < ingr.getY() + ost.getHeight())
-					|| (ostr.intersects( ingr ) && ostr.getCenterX() > ost.getX() && ostr.getCenterX() < ost.getX() + ost.getWidth()))
+        			|| (ostr.intersects( ingr ) && ostr.getCenterX() > ost.getX() && ostr.getCenterX() < ost.getX() + ost.getWidth()))
         				{
     						primoTubo = true;
-        					indexTube = i;
-        					setPositionInTube( ost, primoTubo );
+        					indexTube = ((Enter) ost).getIndexTube();
+        					System.out.println( "index = " + indexTube );
+        					setPositionInTube( InGame.ostacoli.get( ((Enter) ost).getIndexTube() ), primoTubo );
         				}
         		}
-        	else if(!ost.getID().equals( "enter" ) && !ost.getID().equals( "base" ))
-        		if(primoTubo || secondoTubo)
-        			gestioneSferaInTubo();
+        	else if(ost.getID().equals( "tubo" ) && (primoTubo || secondoTubo))
+				gestioneSferaInTubo();
         	
         	if(!primoTubo)
-        		if(ostr.intersects( ost.component( "rect" ) ))
-    				// TODO SISTEMARE QUESTA PARTE (MA CI SONO QUASI SU EH)
-        			if(secondoTubo)
-        				{
-        					if(!ost.getID().equals( "base" ) && !ost.getID().equals( "enter" ))
-        						if(indexTube != i && previousIndexTube != i)
-        							gestioneCollisioni( ost );
-        				}
-        			else if(!secondoTubo)
-        				{
+    			if(!ost.getID().equals( "tubo" ))
+					if(ostr.intersects( ost.component( "rect" ) ))
+						// TODO UNA VOLTA SISTEMATO, PROVARE A TOGLIERE PREVIOUSINDEXTUBE != I
+						if(!secondoTubo || (secondoTubo && indexTube != i && previousIndexTube != i))
 							gestioneCollisioni( ost );
-        					if(ost.getID().equals( "base" ))
-        						System.out.println( "ce l'ho fatta!(?)" );
-    					}
     	}
+ 
+    public void update( GameContainer gc, int delta ) throws SlickException
+        {
+            for(int i = 0; i < InGame.ostacoli.size(); i++)
+            	if(!InGame.ostacoli.get( i ).getID().equals( "tubo" )
+    			&& !InGame.ostacoli.get( i ).getID().equals( "bolla" ))
+            		checkAll( i, InGame.ostacoli.get( i ) );
+             
+            /*controllo collisione con i bordi della schermata*/
+            checkBorders();
+
+            setCenter( ostr, speedX * Global.W/Global.Width, speedY * Global.H/Global.Height );
+            
+            if(!primoTubo)
+            	{
+            		if(speedX == 0 || speedY == 0)
+            			{
+                        	/*controllo collisione con i bordi della schermata*/
+	                        checkBorders();
+	                        
+	                        for(int i = 0; i < InGame.ostacoli.size(); i++)
+	                        	if(!InGame.ostacoli.get( i ).getID().equals( "tubo" )
+                    			&& !InGame.ostacoli.get( i ).getID().equals( "bolla" ))
+	                        		checkAll( i, InGame.ostacoli.get( i ) );
+
+	                        setCenter( ostr, speedX * Global.W/Global.Width, speedY * Global.H/Global.Height );
+            			}
+            	}
+        }
     
     public void checkBorders()
     	{
@@ -484,33 +504,6 @@ public class Bubble extends Ostacolo
 	        	if(speedY < 0)
 	        		speedY = -speedY;
     	}
- 
-    public void update( GameContainer gc, int delta ) throws SlickException
-        {
-            for(int i = 0; i < InGame.ostacoli.size(); i++)
-            	if(!InGame.ostacoli.get( i ).getID().equals( "bolla" ))
-            		checkAll( i, InGame.ostacoli.get( i ) );
-             
-            /*controllo collisione con i bordi della schermata*/
-            checkBorders();
-
-            setCenter( ostr, speedX * Global.W/Global.Width, speedY * Global.H/Global.Height );
-            
-            if(!primoTubo && !secondoTubo)
-            	{
-            		if(speedX == 0 || speedY == 0)
-            			{
-                        	/*controllo collisione con i bordi della schermata*/
-	                        checkBorders();
-	                        
-	                        for(int i = 0; i < InGame.ostacoli.size(); i++)
-	                        	if(!InGame.ostacoli.get( i ).getID().equals( "bolla" ))
-	                        		checkAll( i, InGame.ostacoli.get( i ) );
-
-	                        setCenter( ostr, speedX * Global.W/Global.Width, speedY * Global.H/Global.Height );
-            			}
-            	}
-        }
  
     public void setType(String type)
         {}
@@ -562,21 +555,4 @@ public class Bubble extends Ostacolo
 	
 	public void setHeight( float val )
 		{ ray = val; }
-    
-    public void setArea( GameContainer gc )
-    	{ ostr = new Circle( ostr.getCenterX(), ostr.getCenterY(), ray ); }
-    
-    public void updateStats( GameContainer gc )
-    	{
-    		ray = ray * Global.ratioH;
-    		ostr.setCenterX( ostr.getCenterX() * Global.ratioW );
-    		ostr.setCenterY( ostr.getCenterY() * Global.ratioH );
-    		
-    		ostr = new Circle( ostr.getCenterX(), ostr.getCenterY(), ray );
-    		maxW = maxW * Global.ratioW;
-    		maxH = maxH * Global.ratioH;
-    		
-    		speedX = speedX * Global.W/Global.Width;
-    		speedY = speedY * Global.H/Global.Height;
-    	}
 }

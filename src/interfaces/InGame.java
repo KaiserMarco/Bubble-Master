@@ -93,12 +93,16 @@ public class InGame
 						ostacoli.add( ost );
 				}
 			
-			for(Ostacolo elem: obs)
-				if(elem.getID().equals( "tubo" ))
+			int size = ostacoli.size();
+			for(int i = 0; i < size; i++)
+				if(ostacoli.get( i ).getID().equals( "tubo" ))
 					{
-						ostacoli.add( ((Tubo) elem).getBase() );
-						ostacoli.add( ((Tubo) elem).getEnter() );
-						((Enter) ostacoli.get( ostacoli.size() - 1 )).setDirection( ((Tubo) elem).getDirection() );
+						ostacoli.add( ((Tubo) ostacoli.get( i )).getBase() );
+						ostacoli.add( ((Tubo) ostacoli.get( i )).getEnter() );
+						ostacoli.get( ostacoli.size() - 1 ).setArea( gc );
+						ostacoli.get( ostacoli.size() - 2 ).setArea( gc );
+						((Enter) ostacoli.get( ostacoli.size() - 1 )).setIndexTube( i );
+						((Enter) ostacoli.get( ostacoli.size() - 1 )).setDirection( ((Tubo) ostacoli.get( i )).getDirection() );
 					}
 			
 			Global.sfondo = sfondo;

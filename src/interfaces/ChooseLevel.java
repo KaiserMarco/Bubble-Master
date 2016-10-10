@@ -316,7 +316,6 @@ public class ChooseLevel
 
 	public void updateNameLvl() throws SlickException
 		{
-			System.out.println( "pos = " + Begin.livelli.get( pos ).getName() );
 			buttons.remove( buttons.size() - 1 );
 			nameLvl = new SimpleButton( 0, 0, Begin.livelli.get( pos ).getName(), Color.white );
 			buttons.add( nameLvl );

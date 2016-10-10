@@ -17,10 +17,17 @@ public class Enter extends Ostacolo
 	
 	private String dir = null;
 	
+	public int indexTube;
+	
+	private float width, height;
+	
 	public Enter( float x, float y, float width, float height ) throws SlickException
 		{
 			super( "enter" );
 			ostr = new Rectangle( x, y, width, height );
+			
+			this.width = width;
+			this.height = height;
 			
 			/*creazione lati*/
 	        latoSu = new Rectangle( ostr.getX() + 1, ostr.getY(), ostr.getWidth() - 2, 1 );
@@ -52,6 +59,12 @@ public class Enter extends Ostacolo
 	        spigBSx = new Rectangle( ostr.getX(), ostr.getY() + ostr.getHeight() - 1, 1, 1 );
 	        spigBDx = new Rectangle( ostr.getX() + ostr.getWidth() - 1, ostr.getY() + ostr.getHeight() - 1, 1, 1 );
 		}
+	
+	public void setIndexTube( int val )
+		{ indexTube = val; }
+	
+	public int getIndexTube()
+		{ return indexTube; }
 	
 	public Rectangle getArea()
 		{ return ostr; }
@@ -99,7 +112,7 @@ public class Enter extends Ostacolo
 			else if(part.equals( "spigBDx" ))
 				return spigBDx;
 			else if(part.equals( "rect" ))
-				return getArea();
+				return ostr;
 			else if(part.equals( "latoIngresso" ))
 				if(dir.equals( "sx" ))
 					return latoSx;
@@ -113,11 +126,8 @@ public class Enter extends Ostacolo
 			return null;
 		}
 
-	@Override
-	public void draw(Graphics g) throws SlickException {
-		// TODO Auto-generated method stub
-		
-	}
+	public void draw(Graphics g) throws SlickException
+		{ g.draw( ostr ); }
 
 	@Override
 	public void setInsert(boolean insert, boolean change) {
@@ -148,12 +158,12 @@ public class Enter extends Ostacolo
 		// TODO Auto-generated method stub
 		return 0;
 	}
-
-	@Override
-	public void setArea(GameContainer gc) {
-		// TODO Auto-generated method stub
-		
-	}
+    
+    public void setArea( GameContainer gc )
+    	{
+    		ostr = new Rectangle( getX(), getY(), width, height );
+    		setSpigoli();
+		}
 
 	@Override
 	public void setType(String type) {
