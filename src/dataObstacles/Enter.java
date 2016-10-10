@@ -15,6 +15,7 @@ public class Enter extends Ostacolo
 	
 	public final static String ID = "enter";
 	
+	//determina il tipo di direzione del tubo
 	private String dir = null;
 	
 	public int indexTube;
@@ -32,6 +33,9 @@ public class Enter extends Ostacolo
 	
 	public void setDirection( String direction )
 		{ dir = direction; }
+	
+	public String getDirection()
+		{ return dir; }
 	
 	public void setSpigoli()
 		{

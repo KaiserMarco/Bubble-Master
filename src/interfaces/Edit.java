@@ -659,9 +659,9 @@ public class Edit
 						for(Ostacolo ost: ostacoli)
 							{
 							    if(temp.getID().startsWith( "player" ))
-							        {
-							    		// TODO MODIFICARE L'INTERAZIONE PLAYER-BASE/ENTER (MA NON MI PARE CI SIA BISOGNO)
-							            if(!ost.getID().equals( "sbarra" ) && !ost.getID().equals( "tubo" ))
+							        {						    	
+							            if(!ost.getID().equals( "sbarra" ) && !ost.getID().equals( "tubo" )
+					            		&& !ost.getID().equals( "base" ) && !ost.getID().equals( "enter" ))
 							                {
 	    						                if(temp.component( "rect" ).intersects( ost.component( "rect" ) ))
 	    						                    collide = true;
@@ -669,7 +669,6 @@ public class Edit
 							            else if(temp.component( "rect" ).intersects( ost.component( "latoGiu" ) ))
 	                                        collide = true;
 							        }
-							    // TODO PER IL MOMENTO LASCIO COSI, APPENA FINISCO IL RESTO LO SISTEMO
 							    else if(!ost.getID().equals( "base" ) && !ost.getID().equals( "enter" ))
 							    	if(temp.component( "rect" ).intersects( ost.component( "rect" ) ))
 							    		collide = true;
@@ -682,7 +681,14 @@ public class Edit
 
 					if(!temp.getID().equals( "bolla" ) && !temp.getID().startsWith( "player" ))
 					    if(input.isKeyPressed( Input.KEY_SPACE ))
-					        temp.setOrienting( null );
+					    	{
+					        	temp.setOrienting( null );
+					        	if(temp.equals( "tubo" ))
+					        		{
+					        			((Base) ((Tubo) temp).getBase()).setDirection( ((Tubo) temp).getDirection());
+					        			((Enter) ((Tubo) temp).getBase()).setDirection( ((Tubo) temp).getDirection());
+					        		}
+					    	}
 
 					/*controlla che il personaggio non sia posizionato a mezz'aria*/
 					if(temp.getID().startsWith( "player" ))
@@ -755,13 +761,14 @@ public class Edit
 									double tmp = gc.getHeight();
 									int winner = -1;
 									for(int i = 0; i < ostacoli.size(); i++)
-										if(mouseY < ostacoli.get( i ).getY())
-											if(!(mouseX + temp.getWidth()/2 < ostacoli.get( i ).getX() || mouseX - temp.getWidth()/2 > ostacoli.get( i ).getMaxX()))
-												if(Math.abs( mouseY - ostacoli.get( i ).getY() ) < tmp)
-													{
-														tmp = Math.abs( mouseY - ostacoli.get( i ).getY() );
-														winner = i;
-													}
+										if(!ostacoli.get( i ).getID().equals( "tubo" ))
+											if(mouseY < ostacoli.get( i ).getY())
+												if(!(mouseX + temp.getWidth()/2 < ostacoli.get( i ).getX() || mouseX - temp.getWidth()/2 > ostacoli.get( i ).getMaxX()))
+													if(Math.abs( mouseY - ostacoli.get( i ).getY() ) < tmp)
+														{
+															tmp = Math.abs( mouseY - ostacoli.get( i ).getY() );
+															winner = i;
+														}
 									
 									if(winner == -1)
 										temp.setXY( mouseX - (int) temp.getWidth()/2, (int) (sfondi.get( indexSfondo ).getMaxHeight() - temp.getHeight()), "restore" );
@@ -796,7 +803,6 @@ public class Edit
 								gamer = Math.max( gamer - 1, 0 );
 							
 							//se il tubo ha un'altro tubo collegato, elimina anche il collegamento
-							// TODO SISTEMARE LA RIMOZIONE DEI TUBI CON ANNESSI BASE E ENTER
 							if(temp.getID().equals( "tubo" ))
 								{
 									if(indiceTuboRimasto >= 0)

@@ -19,6 +19,9 @@ public class Base extends Ostacolo
 	
 	public int indexTube;
 	
+	//determina il tipo di direzione del tubo
+	private String dir = null;
+	
 	public Base( float x, float y, float width, float height ) throws SlickException
 		{
 			super( ID );
@@ -27,6 +30,12 @@ public class Base extends Ostacolo
 			this.width = width;
 			this.height = height;
 		}
+	
+	public void setDirection( String direction )
+		{ dir = direction; }
+	
+	public String getDirection()
+		{ return dir; }
 	
 	public void setSpigoli()
 		{
