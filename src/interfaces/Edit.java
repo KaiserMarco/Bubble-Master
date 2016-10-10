@@ -641,6 +641,7 @@ public class Edit
 							{
 							    if(temp.getID().startsWith( "player" ))
 							        {
+							    		// TODO MODIFICARE L'INTERAZIONE PLAYER-BASE/ENTER
 							            if(!ost.getID().equals( "sbarra" ) && !ost.getID().equals( "tubo" ))
 							                {
 	    						                if(temp.component( "rect" ).intersects( ost.component( "rect" ) ))
@@ -649,6 +650,7 @@ public class Edit
 							            else if(temp.component( "rect" ).intersects( ost.component( "latoGiu" ) ))
 	                                        collide = true;
 							        }
+							    // TODO PER IL MOMENTO LASCIO COSI, APPENA FINISCO IL RESTO LO SISTEMO
 							    else if(!ost.getID().equals( "base" ) && !ost.getID().equals( "enter" ))
 							    	if(temp.component( "rect" ).intersects( ost.component( "rect" ) ))
 							    		collide = true;
@@ -804,10 +806,7 @@ public class Edit
 											if(nuovaCoppiaTubi)
 												{												
 													// INSERISCO BASE E ENTER PER USARLI IN GIOCO PER LE COLLISIONI SFERE/PLAYER - TUBO
-													
-													// TODO DOVREI AVER GENERATO CORRETTAMENTE BASE E ENTER (CONTROLLARE PREGO)
 													((Tubo) ostacoli.get( ostacoli.size() - 1 )).setSpace( gc );
-													System.out.println( "ID base = " + ((Tubo) ostacoli.get( ostacoli.size() - 1 )).getEnter().getID() );
 													// inserisco base e enter del tubo
 													ostacoli.add( ((Tubo) temp).getBase() );
 													ostacoli.add( ((Tubo) temp).getEnter() );
@@ -825,8 +824,8 @@ public class Edit
 													else
 														{
 															//setto i nuovi indici dei tubi puntati
-															ostacoli.get( ostacoli.size() - 2 ).setUnion( ostacoli.size() - 1 );
-															ostacoli.get( ostacoli.size() - 1 ).setUnion( ostacoli.size() - 2 );
+															ostacoli.get( ostacoli.size() - 6 ).setUnion( ostacoli.size() - 3 );
+															ostacoli.get( ostacoli.size() - 3 ).setUnion( ostacoli.size() - 6 );
 															temp = null;
 															nuovaCoppiaTubi = false;
 														}
@@ -838,8 +837,7 @@ public class Edit
 											//inserisce un tubo gia esistente
 											else
 												{
-													// TODO RAGIONARCI IN UN SECONDO MOMENTO (NON SO NEANCHE SE ENTRO MAI IN QUESTO BLOCCO, MA DICO IN ASSOLUTO PROPRIO EH, NON SOLO PER IL CASO BASE/ENTER)
-													// TODO IN CASO DI UTILIZZO, INSERIRE ANCHE QUI BASE E NETER COME NEL CASO DI SOPRA
+													// TODO LAVORARE A EVENTUALI MODIFICHE CON BASE E ENTER (NON SO SE CI SARANNO DA FARE, COMUNQUE)
 													ostacoli.get( indiceTuboRimasto ).setUnion( ostacoli.size() - 1 );
 													ostacoli.get( ostacoli.size() - 1 ).setUnion( indiceTuboRimasto );
 												

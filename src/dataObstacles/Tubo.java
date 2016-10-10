@@ -129,7 +129,6 @@ public class Tubo extends Ostacolo{
     
     public void setSpace( GameContainer gc ) throws SlickException
     	{
-    		// TODO TESTARE A FONDO QUESTA PARTE NELL'EDIT (CI SONO VICINO A CONCLUDERE... CREDO... SPERO)
     		ostr = new Rectangle( getX(), getY(), width, height );
     		if(type.equals( "dx" ))
 				{
@@ -148,7 +147,7 @@ public class Tubo extends Ostacolo{
 				}
 			else
 				{
-					base = new Base( getX() + gc.getWidth()/160, getY(), width - gc.getWidth()/80, height - enter.getHeight() );
+					base = new Base( getX() + gc.getWidth()/160, getY(), width - gc.getWidth()/80, gc.getWidth()*10/119 );
 					enter = new Enter( getX(), base.getMaxY(), width, height - gc.getWidth()*10/119 );
 				}
     		base.setSpigoli();
