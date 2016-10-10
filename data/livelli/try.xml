@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<level>
+  <!--Objects-->
+  <livello nome="try" />
+  <ostacolo x="179.0" y="236.0" union="1" type="sx" ID="tubo" />
+  <ostacolo x="486.0" y="358.0" union="0" type="sx" ID="tubo" />
+  <ostacolo x="316.0" y="506.0" union="-1" type="null" ID="player1" />
+  <ostacolo x="659.0" y="168.0" union="-1" type="null" ID="bolla" />
+  <ostacolo x="346.0" y="100.0" union="-1" type="null" ID="bolla" />
+  <ostacolo x="87.0" y="394.0" union="-1" type="null" ID="bolla" />
+  <sfondo x="0" y="0" name="sfondo4" />
+  <risoluzione w="800" h="600" />
+</level>

@@ -412,17 +412,23 @@ public class Edit
 									ostacoli.get( temp.getUnion() ).setUnion( - 1 );
 									
 									if(temp.getUnion() > indexCursor)											
-										indiceTuboRimasto = temp.getUnion() - 1;
+										indiceTuboRimasto = temp.getUnion() - 3;
 									else
-										indiceTuboRimasto = temp.getUnion();												
+										indiceTuboRimasto = temp.getUnion();
+									
+									//sistema gli indici dei tubi puntati
+									aggiornaIndiciTubi( indexCursor, 3 );
+												
+									ostacoli.remove( indexCursor + 2 );
+									ostacoli.remove( indexCursor + 1 );
+									ostacoli.remove( indexCursor );
 								}
-							//sistema gli indici dei tubi puntati
-							// TODO SISTEMARE GLI INDICI DI BASE E ENTER ANCHE TRAMITE TASTIERA (SE AVRO ANCORA TEMPO E VOGLIA, SOPRATTUTTO)
-							aggiornaIndiciTubi( indexCursor, 3 );
-							
-							ostacoli.remove( indexCursor + 2 );
-							ostacoli.remove( indexCursor + 1 );
-							ostacoli.remove( indexCursor );
+							else
+								{
+									//sistema gli indici dei tubi puntati
+									aggiornaIndiciTubi( indexCursor, 1 );									
+									ostacoli.remove( indexCursor );
+								}
 							
 							temp.setInsert( true, true );
 							
