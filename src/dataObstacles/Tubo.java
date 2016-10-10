@@ -275,67 +275,6 @@ public class Tubo extends Ostacolo{
 			return null;
 		}
 
-	// TODO ELIMINARE SE A FINE PROGETTO QUESTA PARTE NON SERVE A NULLA
-	/*public Rectangle component( String part, String area ) 
-		{
-			if(part.equals( "latoSu" ))
-				if(area.equals( "base" ))
-					return base.latoSu;
-				else
-					return enter.latoSu;
-			else if(part.equals( "latoGiu" ))
-				if(area.equals( "base" ))
-					return base.latoGiu;
-				else
-					return enter.latoGiu;
-			else if(part.equals( "latoSx" ))
-				if(area.equals( "base" ))
-					return base.latoSx;
-				else
-					return enter.latoSx;
-			else if(part.equals( "latoDx" ))
-				if(area.equals( "base" ))
-					return base.latoDx;
-				else
-					return enter.latoDx;
-			else if(part.equals( "spigASx" ))
-				if(area.equals( "base" ))
-					return base.spigASx;
-				else
-					return enter.spigASx;
-			else if(part.equals( "spigADx" ))
-				if(area.equals( "base" ))
-					return base.spigADx;
-				else
-					return enter.spigADx;
-			else if(part.equals( "spigBSx" ))
-				if(area.equals( "base" ))
-					return base.spigBSx;
-				else
-					return enter.spigBSx;
-			else if(part.equals( "spigBDx" ))
-				if(area.equals( "base" ))
-					return base.spigBDx;
-				else
-					return enter.spigBDx;
-			else if(part.equals( "rect" ))
-				if(area.equals( "base" ))
-					return base.getArea();
-				else
-					return enter.getArea();
-			else if(part.equals( "latoIngresso" ))
-				if(type.equals( "sx" ))
-					return enter.latoSx;
-				else if(type.equals( "dx" ))
-					return enter.latoDx;
-				else if(type.equals( "up" ))
-					return enter.latoSu;
-				else if(type.equals( "down" ))
-					return enter.latoGiu;
-			
-			return null;
-		}*/
-
 	public float getMaxX()
 		{ return ostr.getMaxX(); }
 
