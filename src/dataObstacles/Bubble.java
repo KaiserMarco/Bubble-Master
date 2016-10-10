@@ -459,9 +459,8 @@ public class Bubble extends Ostacolo
     						if(indexTube != i && previousIndexTube != i)
     							gestioneCollisioni( ost );
     				}
-    			else if(!secondoTubo)
-    				if(!ost.getID().equals( "tubo" ))
-						gestioneCollisioni( ost );
+    			else if(!ost.getID().equals( "tubo" ))
+					gestioneCollisioni( ost );
     	}
  
     public void update( GameContainer gc, int delta ) throws SlickException
