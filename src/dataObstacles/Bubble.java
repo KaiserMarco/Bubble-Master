@@ -455,6 +455,8 @@ public class Bubble extends Ostacolo
         	if(!primoTubo)
     			if(secondoTubo)
     				{
+    					// TODO AGGIUNGERE IL FATTO CHE PUO RIMBALZARE SU ALTRI BASE E ENTER
+    					// A PATTO CHE NON SIANO DEL TUBO IN CUI E' PRESENTE IN QUEL MOMENTO
     					if(!ost.getID().equals( "base" ) && !ost.getID().equals( "enter" ))
     						if(indexTube != i && previousIndexTube != i)
     							gestioneCollisioni( ost );
