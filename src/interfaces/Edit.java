@@ -26,9 +26,12 @@ import Utils.TextBox;
 import bubbleMaster.Start;
 import dataButton.Button;
 import dataButton.SimpleButton;
+import dataObstacles.Base;
 import dataObstacles.Bubble;
+import dataObstacles.Enter;
 import dataObstacles.Ostacolo;
 import dataObstacles.Player;
+import dataObstacles.Tubo;
 
 public class Edit
 {
@@ -94,9 +97,6 @@ public class Edit
 	private float rappX = 0, rappY = 0;
 	
 	private TextBox tBox;
-	
-	// indica l'indice massimo in cui inserire un tubo
-	private int firstNonTubeIndex = 0;
 	
     public Edit( GameContainer gc ) throws SlickException
 		{
@@ -629,7 +629,7 @@ public class Edit
 					Start.editGame = 0;
 					Start.chooseLevel = 1;
 				}
-			
+			// se HO cliccato su un elemento da inserire
 			if(temp != null)
 				{
 			        //controlla se un l'oggetto da inserire non superi i confini dello schermo di gioco
@@ -637,20 +637,21 @@ public class Edit
 					|| (!temp.getID().equals( "bolla" ) && temp.getY() + temp.getHeight() > sfondi.get( indexSfondo ).getMaxHeight()))
 						collide = true;
 					else
-						for(int i = 0; i < ostacoli.size(); i++)
+						for(Ostacolo ost: ostacoli)
 							{
 							    if(temp.getID().startsWith( "player" ))
 							        {
-							            if(!ostacoli.get( i ).getID().equals( "sbarra" ) && !ostacoli.get( i ).getID().equals( "tubo" ))
+							            if(!ost.getID().equals( "sbarra" ) && !ost.getID().equals( "tubo" ))
 							                {
-	    						                if(temp.component( "rect" ).intersects( ostacoli.get( i ).component( "rect" ) ))
+	    						                if(temp.component( "rect" ).intersects( ost.component( "rect" ) ))
 	    						                    collide = true;
 							                }
-							            else if(temp.component( "rect" ).intersects( ostacoli.get( i ).component( "latoGiu" ) ))
+							            else if(temp.component( "rect" ).intersects( ost.component( "latoGiu" ) ))
 	                                        collide = true;
 							        }
-							    else if(temp.component( "rect" ).intersects( ostacoli.get( i ).component( "rect" ) ))
-							        collide = true;
+							    else if(!ost.getID().equals( "base" ) && !ost.getID().equals( "enter" ))
+							    	if(temp.component( "rect" ).intersects( ost.component( "rect" ) ))
+							    		collide = true;
 							}
 					
 					if(collide)
@@ -773,6 +774,7 @@ public class Edit
 								gamer = Math.max( gamer - 1, 0 );
 							
 							//se il tubo ha un'altro tubo collegato, elimina anche il collegamento
+							// TODO SISTEMARE LA RIMOZIONE DEI TUBI CON ANNESSI BASE E ENTER
 							if(temp.getID().equals( "tubo" ))
 								for(int i = 0; i < ostacoli.size(); i++)
 									if(ostacoli.get( i ).getID().equals( "tubo"))
@@ -800,7 +802,19 @@ public class Edit
 									    {
 											//inserisce una nuova coppia di tubi
 											if(nuovaCoppiaTubi)
-												{
+												{												
+													// INSERISCO BASE E ENTER PER USARLI IN GIOCO PER LE COLLISIONI SFERE/PLAYER - TUBO
+													
+													// TODO DOVREI AVER GENERATO CORRETTAMENTE BASE E ENTER (CONTROLLARE PREGO)
+													((Tubo) ostacoli.get( ostacoli.size() - 1 )).setSpace( gc );
+													System.out.println( "ID base = " + ((Tubo) ostacoli.get( ostacoli.size() - 1 )).getEnter().getID() );
+													// inserisco base e enter del tubo
+													ostacoli.add( ((Tubo) temp).getBase() );
+													ostacoli.add( ((Tubo) temp).getEnter() );
+													
+													ostacoli.get( ostacoli.size() - 2 ).setArea( gc );
+													ostacoli.get( ostacoli.size() - 1 ).setArea( gc );
+												
 													if(nuovoTubo1)
 														{
 															Ostacolo temp2 = temp.clone( gc );
@@ -816,10 +830,16 @@ public class Edit
 															temp = null;
 															nuovaCoppiaTubi = false;
 														}
+													
+													// setto l'indice del tubo a base e enter (PER RIMUOVERLI QUALORA RIMUOVESSI IL TUBO RELATIVO)
+													((Base) ostacoli.get( ostacoli.size() - 2 )).setIndexTube( ostacoli.size() - 3 );
+													((Enter) ostacoli.get( ostacoli.size() - 1 )).setIndexTube( ostacoli.size() - 3 );
 												}
 											//inserisce un tubo gia esistente
 											else
 												{
+													// TODO RAGIONARCI IN UN SECONDO MOMENTO (NON SO NEANCHE SE ENTRO MAI IN QUESTO BLOCCO, MA DICO IN ASSOLUTO PROPRIO EH, NON SOLO PER IL CASO BASE/ENTER)
+													// TODO IN CASO DI UTILIZZO, INSERIRE ANCHE QUI BASE E NETER COME NEL CASO DI SOPRA
 													ostacoli.get( indiceTuboRimasto ).setUnion( ostacoli.size() - 1 );
 													ostacoli.get( ostacoli.size() - 1 ).setUnion( indiceTuboRimasto );
 												

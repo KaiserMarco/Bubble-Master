@@ -23,7 +23,7 @@ public class Enter extends Ostacolo
 	
 	public Enter( float x, float y, float width, float height ) throws SlickException
 		{
-			super( "enter" );
+			super( ID );
 			ostr = new Rectangle( x, y, width, height );
 			
 			this.width = width;
@@ -49,7 +49,7 @@ public class Enter extends Ostacolo
 		}
 
 	public void draw(Graphics g) throws SlickException
-		{ /*g.draw( ostr );*/ }
+		{ g.draw( ostr ); }
 	
 	public void setIndexTube( int val )
 		{ indexTube = val; }
@@ -116,6 +116,12 @@ public class Enter extends Ostacolo
 			
 			return null;
 		}
+    
+    public void setArea( GameContainer gc )
+    	{
+    		ostr = new Rectangle( getX(), getY(), width, height );
+    		setSpigoli();
+		}
 
 	@Override
 	public void setInsert(boolean insert, boolean change) {
@@ -146,12 +152,6 @@ public class Enter extends Ostacolo
 		// TODO Auto-generated method stub
 		return 0;
 	}
-    
-    public void setArea( GameContainer gc )
-    	{
-    		ostr = new Rectangle( getX(), getY(), width, height );
-    		setSpigoli();
-		}
 
 	@Override
 	public void setType(String type) {

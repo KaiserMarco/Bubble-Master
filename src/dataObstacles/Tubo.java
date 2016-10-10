@@ -44,9 +44,11 @@ public class Tubo extends Ostacolo{
 	
 	private int indexBase, indexEnter;
 	
+	private static final String ID = "tubo";
+	
 	public Tubo( int x, int y, String type, GameContainer gc ) throws SlickException
 	{
-		super( "tubo" );
+		super( ID );
 		
 		this.type = type;
 		
@@ -67,7 +69,7 @@ public class Tubo extends Ostacolo{
 			{
 				width = gc.getWidth()/10;
 				height = gc.getHeight()/10;
-				if(type.equals( "dx" ))
+				/*if(type.equals( "dx" ))
 					{
 						base = new Base( x, y + gc.getWidth()/160, gc.getWidth()*10/119, height - gc.getWidth()/80 );
 						enter = new Enter( base.getMaxX(), y, width - base.getWidth(), height );
@@ -76,13 +78,13 @@ public class Tubo extends Ostacolo{
 					{
 						enter = new Enter( x, y, width - gc.getWidth()*10/119, height );
 						base = new Base( enter.getMaxX(), y + gc.getWidth()/160, gc.getWidth()*10/119, height - gc.getWidth()/80 );
-					}
+					}*/
 			}
 		else
 			{
 				width = gc.getHeight()/10;
 				height = gc.getWidth()/10;
-				if(type.equals( "up" ))
+				/*if(type.equals( "up" ))
 					{
 						enter = new Enter( x, y, width, height - gc.getWidth()*10/119 );
 						base = new Base( x + gc.getWidth()/160, enter.getMaxY(), width - gc.getWidth()/80, height - enter.getHeight() );
@@ -91,7 +93,7 @@ public class Tubo extends Ostacolo{
 					{
 						base = new Base( x + gc.getWidth()/160, y, width - gc.getWidth()/80, height - enter.getHeight() );
 						enter = new Enter( x, base.getMaxY(), width, height - gc.getWidth()*10/119 );
-					}
+					}*/
 			}
 		
 		ostr = new Rectangle( x, y, width, height );
@@ -99,7 +101,7 @@ public class Tubo extends Ostacolo{
 
 	public void draw( Graphics g ) throws SlickException
 		{
-            immagine.draw( ostr.getX(), ostr.getY(), width, height );
+            //immagine.draw( ostr.getX(), ostr.getY(), width, height );
             if(Start.editGame == 1)
                 if(checkInsert)
                     if(!insert)
@@ -127,6 +129,7 @@ public class Tubo extends Ostacolo{
     
     public void setSpace( GameContainer gc ) throws SlickException
     	{
+    		// TODO TESTARE A FONDO QUESTA PARTE NELL'EDIT (CI SONO VICINO A CONCLUDERE... CREDO... SPERO)
     		ostr = new Rectangle( getX(), getY(), width, height );
     		if(type.equals( "dx" ))
 				{
@@ -273,7 +276,8 @@ public class Tubo extends Ostacolo{
 			return null;
 		}
 
-	public Rectangle component( String part, String area ) 
+	// TODO ELIMINARE SE A FINE PROGETTO QUESTA PARTE NON SERVE A NULLA
+	/*public Rectangle component( String part, String area ) 
 		{
 			if(part.equals( "latoSu" ))
 				if(area.equals( "base" ))
@@ -331,7 +335,7 @@ public class Tubo extends Ostacolo{
 					return enter.latoGiu;
 			
 			return null;
-		}
+		}*/
 
 	public float getMaxX()
 		{ return ostr.getMaxX(); }

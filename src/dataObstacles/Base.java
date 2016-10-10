@@ -17,6 +17,8 @@ public class Base extends Ostacolo
 	
 	private float width, height;
 	
+	public int indexTube;
+	
 	public Base( float x, float y, float width, float height ) throws SlickException
 		{
 			super( ID );
@@ -40,9 +42,12 @@ public class Base extends Ostacolo
 	        spigBSx = new Rectangle( ostr.getX(), ostr.getY() + ostr.getHeight() - 1, 1, 1 );
 	        spigBDx = new Rectangle( ostr.getX() + ostr.getWidth() - 1, ostr.getY() + ostr.getHeight() - 1, 1, 1 );
 		}
+	
+	public void setIndexTube( int val )
+		{ indexTube = val; }
 
 	public void draw(Graphics g) throws SlickException
-		{ /*g.draw( ostr );*/ }
+		{ g.draw( ostr ); }
 	
 	public Rectangle getArea()
 		{ return ostr; }
