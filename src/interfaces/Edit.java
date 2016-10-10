@@ -303,11 +303,15 @@ public class Edit
 	public void setChoise( GameContainer gc )
 		{ choise.setLocation( choise.getX(), base.getY() - heightChoise + gc.getWidth()/150 ); }
 	
-	public void aggiornaIndiciTubi( int i )
+	public void aggiornaIndiciTubi( int i, int difference )
 		{
 			for(Ostacolo obs: ostacoli)
 				if(obs.getID().equals( "tubo" ) && obs.getUnion() > i)
-					obs.setUnion( obs.getUnion() - 3 );
+					obs.setUnion( obs.getUnion() - difference );				
+				else if(obs.getID().equals( "base" ) && ((Base) obs).getIndexTube() > i)
+					((Base) obs).setIndexTube( ((Base) obs).getIndexTube() - difference );
+				else if(obs.getID().equals( "enter" ) && ((Enter) obs).getIndexTube() > i)
+					((Enter) obs).setIndexTube( ((Enter) obs).getIndexTube() - difference );
 		}
 	/**resetta indexCursor, indexCursorButton e indexCursorSfondi*/
 	public void resetIndexCursor()
@@ -399,7 +403,6 @@ public class Edit
 			//se e' stato scelto un elemento gia' presente nel gioco
 			else
 				{
-					// TODO SISTEMARE GLI INDICI DI BASE E ENTER ANCHE TRAMITE TASTIERA (SE AVRO ANCORA TEMPO E VOGLIA, SOPRATTUTTO)
 					if(type.equals( "keyboard" ) && indexCursor >= 0)
 						{
 							temp = ostacoli.get( indexCursor ).clone( gc );
@@ -414,8 +417,13 @@ public class Edit
 										indiceTuboRimasto = temp.getUnion();												
 								}
 							//sistema gli indici dei tubi puntati
-							aggiornaIndiciTubi( indexCursor );
+							// TODO SISTEMARE GLI INDICI DI BASE E ENTER ANCHE TRAMITE TASTIERA (SE AVRO ANCORA TEMPO E VOGLIA, SOPRATTUTTO)
+							aggiornaIndiciTubi( indexCursor, 3 );
+							
+							ostacoli.remove( indexCursor + 2 );
+							ostacoli.remove( indexCursor + 1 );
 							ostacoli.remove( indexCursor );
+							
 							temp.setInsert( true, true );
 							
 							tempX = gc.getInput().getMouseX();
@@ -424,9 +432,6 @@ public class Edit
 					else
 						for(int i = 0; i < ostacoli.size(); i++)
 							{
-								System.out.println( "ID = " + ostacoli.get( i ).getID() );
-								if(ostacoli.get( i ).getID().equals( "tubo" ))
-									System.out.println( "union = " + ostacoli.get( i ).getUnion() );
 								if(ostacoli.get( i ).contains( x, y ))
 									{
 										temp = ostacoli.get( i );
@@ -438,15 +443,22 @@ public class Edit
 												if(temp.getUnion() > i)											
 													indiceTuboRimasto = temp.getUnion() - 3;
 												else
-													indiceTuboRimasto = temp.getUnion();												
+													indiceTuboRimasto = temp.getUnion();
+												
+												//sistema gli indici dei tubi puntati
+												aggiornaIndiciTubi( i, 3 );
+															
+												ostacoli.remove( i + 2 );
+												ostacoli.remove( i + 1 );
+												ostacoli.remove( i );
 											}
-										//sistema gli indici dei tubi puntati
-										aggiornaIndiciTubi( i );
-													
-										ostacoli.remove( i + 2 );
-										ostacoli.remove( i + 1 );
-										ostacoli.remove( i );
-										System.out.println( "size = " + ostacoli.size() );
+										else
+											{
+												//sistema gli indici dei tubi puntati
+												aggiornaIndiciTubi( i, 1 );
+												ostacoli.remove( i );
+											}
+										
 										temp.setInsert( true, true );
 										
 										tempX = x;
@@ -786,15 +798,15 @@ public class Edit
 							//se il tubo ha un'altro tubo collegato, elimina anche il collegamento
 							// TODO SISTEMARE LA RIMOZIONE DEI TUBI CON ANNESSI BASE E ENTER
 							if(temp.getID().equals( "tubo" ))
-								for(int i = 0; i < ostacoli.size(); i++)
-									if(ostacoli.get( i ).getID().equals( "tubo"))
-										if(ostacoli.get( i ).getUnion() == -1)
-											{
-												aggiornaIndiciTubi( i );
-												ostacoli.remove( i );
-											}
-							
-							ostacoli.remove( temp );
+								{
+									if(indiceTuboRimasto >= 0)
+										{
+											aggiornaIndiciTubi( indiceTuboRimasto, 3 );
+											ostacoli.remove( indiceTuboRimasto + 2 );
+											ostacoli.remove( indiceTuboRimasto + 1 );
+											ostacoli.remove( indiceTuboRimasto );
+										}
+								}
 							
 							temp = null;
 						}
@@ -845,7 +857,6 @@ public class Edit
 											//inserisce un tubo gia esistente
 											else
 												{
-													// TODO LAVORARE A EVENTUALI MODIFICHE CON BASE E ENTER (NON SO SE CI SARANNO DA FARE, COMUNQUE)
 													ostacoli.get( indiceTuboRimasto ).setUnion( ostacoli.size() - 3 );
 													ostacoli.get( ostacoli.size() - 3 ).setUnion( indiceTuboRimasto );
 												

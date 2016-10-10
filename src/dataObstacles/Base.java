@@ -45,6 +45,9 @@ public class Base extends Ostacolo
 	
 	public void setIndexTube( int val )
 		{ indexTube = val; }
+	
+	public int getIndexTube()
+		{ return indexTube; }
 
 	public void draw(Graphics g) throws SlickException
 		{ g.draw( ostr ); }
