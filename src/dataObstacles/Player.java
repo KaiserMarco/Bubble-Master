@@ -570,7 +570,7 @@ public class Player extends Ostacolo
 					g.drawString( "SCORE : " + points, Global.W/40 + widthH*(j+1), Global.H/30);
 				}
 			
-			if(powerUp.size() > 0)
+			if(currAmmo > 0)
 				{
 					g.fill( new Rectangle( space + (Global.Width/40), maxHeight, Global.H - maxHeight, Global.H - maxHeight ) );
 					powerUp.get( 0 ).getImage().draw( space + (Global.Width/40), maxHeight, Global.H - maxHeight, Global.H - maxHeight );

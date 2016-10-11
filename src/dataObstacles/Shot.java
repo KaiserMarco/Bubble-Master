@@ -107,15 +107,15 @@ public class Shot
 				{
 					if(type.equals( "bolla" ))
 						{
-							if(Math.random() >= 0)
+							if(Math.random() >= 0.6)
 								{
 									int ray = (int) (gc.getHeight()/40 * Global.H/Global.Height);
 									double power = Math.random();
-									if(power <= -1)
+									if(power <= 0.2)
 										InGame.powerUp.add( new Invincible( (int) (ost.getArea().getCenterX() - ray), (int) ost.getArea().getCenterY(), ray, ost.getMaxHeight() ) );
-									else if(power <= 1)
+									else if(power <= 0.5)
 										InGame.powerUp.add( new Ammo( (int) (ost.getArea().getCenterX() - ray), (int) ost.getArea().getCenterY(), ray, ost.getMaxHeight() ) );
-									else if(power <= 0.8)
+									else if(power <= 0.7)
 										InGame.powerUp.add( new Coin( (int) (ost.getArea().getCenterX() - ray), (int) ost.getArea().getCenterY(), ray, ost.getMaxHeight() ) );
 									else
 										InGame.powerUp.add( new Life( (int) (ost.getArea().getCenterX() - ray), (int) ost.getArea().getCenterY(), ray, ost.getMaxHeight() ) );
