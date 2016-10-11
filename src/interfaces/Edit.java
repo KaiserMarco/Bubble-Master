@@ -249,35 +249,34 @@ public class Edit
 		}
 	
 	public void updateStats( GameContainer gc )
-		{		
-			float currRatioW = Global.W/Global.Width, currRatioH = Global.H/Global.Height;
+		{
+			float currRatioW = Global.ratioW, currRatioH = Global.ratioH;
 			
 			if(rappX != currRatioW || rappY != currRatioH)
 				{
-					base = new Rectangle( base.getX() * currRatioW, base.getY() * currRatioH, widthBase * currRatioW, Global.H );
-		
-					choise = new Rectangle( choise.getX() * currRatioW, Global.H - heightChoise*currRatioH, widthChoise * currRatioW, heightChoise * currRatioH );
+					base = new Rectangle( base.getX() * Global.ratioW, base.getY() * Global.ratioH, widthBase * Global.ratioW, Global.H );		
+					choise = new Rectangle( choise.getX() * Global.ratioW, Global.H - heightChoise*Global.ratioH, widthChoise * Global.ratioW, heightChoise * Global.ratioH );
 					
 					for(SimpleButton button: buttons)
 						{
-							button.setX( button.getX() * currRatioW );
-							button.setY( button.getY() * currRatioH );
+							button.setX( button.getX() * Global.ratioW );
+							button.setY( button.getY() * Global.ratioH );
 						}
 					
 					for(Ostacolo item: items)
 						{
-							item.setXY( item.getX() * currRatioW, item.getY() * currRatioH, "restore" );
+							item.setXY( item.getX() * Global.ratioW, item.getY() * Global.ratioH, "restore" );
 							if(item.getID().equals( "bolla" ))
 								{
-									item.setWidth( (int) (item.getWidth() * currRatioH) );
-									((Bubble) item).setMaxWidth( (float) (item.getMaxWidth() * currRatioW) );
+									item.setWidth( (int) (item.getWidth() * Global.ratioH) );
+									((Bubble) item).setMaxWidth( (float) (item.getMaxWidth() * Global.ratioW) );
 								}
 							else
 								{
-									item.setWidth( item.getWidth() * currRatioW );
+									item.setWidth( item.getWidth() * Global.ratioW );
 									if(item.getID().startsWith( "player" ))
-										((Player) item).setWidthI( ((Player) item).getWidthI() * currRatioW );
-									item.setHeight( item.getHeight() * currRatioH );
+										((Player) item).setWidthI( ((Player) item).getWidthI() * Global.ratioW );
+									item.setHeight( item.getHeight() * Global.ratioH );
 								}
 							
 							item.setArea( gc );
@@ -285,14 +284,14 @@ public class Edit
 					
 					for(Sfondo sfondo: sfondi)
 						{
-							sfondo.setX( sfondo.getX() * currRatioW );
-							sfondo.setY( sfondo.getY() * currRatioH );
+							sfondo.setX( sfondo.getX() * Global.ratioW );
+							sfondo.setY( sfondo.getY() * Global.ratioH );
 						
-							sfondo.setMaxWidth( sfondo.getMaxWidth() * currRatioW );
-							sfondo.setMaxHeight( sfondo.getMaxHeight() * currRatioH );
+							sfondo.setMaxWidth( sfondo.getMaxWidth() * Global.ratioW );
+							sfondo.setMaxHeight( sfondo.getMaxHeight() * Global.ratioH );
 
-							sfondo.setWidth( sfondo.getWidth() * currRatioW );
-							sfondo.setHeight( sfondo.getHeight() * currRatioH );
+							sfondo.setWidth( sfondo.getWidth() * Global.ratioW );
+							sfondo.setHeight( sfondo.getHeight() * Global.ratioH );
 						}
 					
 					rappX = currRatioW;
