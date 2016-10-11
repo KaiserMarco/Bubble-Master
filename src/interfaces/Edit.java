@@ -65,8 +65,8 @@ public class Edit
 	private boolean insertEditor, insertItem, insertNameLvl;
 	/**base -> la finestra di selezione sfondo/elemento*/
 	private Rectangle choise, base;
-	private int widthChoise, heightChoise;
-	private int widthBase, heightBase;
+	private float widthChoise, heightChoise;
+	private float widthBase, heightBase;
 	
 	private int minHighEditor;
 	
@@ -254,8 +254,12 @@ public class Edit
 			
 			if(rappX != currRatioW || rappY != currRatioH)
 				{
-					base = new Rectangle( base.getX() * Global.ratioW, base.getY() * Global.ratioH, widthBase * Global.ratioW, Global.H );		
-					choise = new Rectangle( choise.getX() * Global.ratioW, Global.H - heightChoise*Global.ratioH, widthChoise * Global.ratioW, heightChoise * Global.ratioH );
+					widthChoise = gc.getWidth()/8 * Global.ratioH;
+					heightChoise = gc.getHeight()/30* Global.ratioW;
+					widthBase = widthBase * Global.ratioW;
+					
+					base = new Rectangle( base.getX() * Global.ratioW, base.getY() * Global.ratioH, widthBase, Global.H );		
+					choise = new Rectangle( choise.getX() * Global.ratioW, Global.H - heightChoise*Global.ratioH, widthChoise, heightChoise );
 					
 					for(SimpleButton button: buttons)
 						{
@@ -263,6 +267,8 @@ public class Edit
 							button.setY( button.getY() * Global.ratioH );
 						}
 					
+					// TODO TUTTO OK, MA IL TUBO NON SI ADATTA COME IL RESTO (DEVO CAPIR IL PERCHE)
+					// FORSE HANNO QUALCOSA A CHE FARE BASE ED ENTER, MA NON PENSO, MA MAI DIRE MAI
 					for(Ostacolo item: items)
 						{
 							item.setXY( item.getX() * Global.ratioW, item.getY() * Global.ratioH, "restore" );
