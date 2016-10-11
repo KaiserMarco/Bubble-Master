@@ -247,6 +247,8 @@ public class Bubble extends Ostacolo
     /**determina la velocita' risultante nella collisione fra sfera e altri ostacoli*/
     public void gestioneCollisioni( Ostacolo ost )
     	{
+    		// TODO MIGLIORARE (SE POSSIBILE) IL RIMBALZO CON GLI SPIGOLI
+    		// E' BUONO GIA COSI, MA IN ALCUNI CASI NON MI CONVINCE
 	    	if(ostr.intersects( ost.component( "rect" ) ))
 		        {
 					// alto a sinistra || in alto

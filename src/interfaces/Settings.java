@@ -25,9 +25,9 @@ public class Settings
 	private ArrayList<SimpleButton> buttons;
 	private SimpleButton saveChanges, back;
 	private ArrayList<ArrowButton> arrows;
-	private ArrowButton left, right;
+	private ArrowButton leftLife, rightLife, leftDrop, rightDrop;
 	
-	private String resolution, lifes;
+	private final String resolution = "RISOLUZIONE", lifes = "VITE", drop = "DROP";
 	
 	private ArrayList<String> dimensions;
 	private ArrayList<Rectangle> dimensioni;
@@ -58,6 +58,8 @@ public class Settings
 	/*immagine del cursore*/
 	private Image cursor;
 	
+	private int dropRate;
+	
 	public Settings( GameContainer gc ) throws SlickException
 		{
 			Color color = Color.orange;
@@ -66,21 +68,23 @@ public class Settings
 			
 			int width = Global.W/20, height = Global.H/50;
 			
-			left = new ArrowButton( ArrowButton.LEFT, new float[]{ Global.W*10/32, Global.H/3 + height/2, Global.W*10/32 + width, Global.H/3, Global.W*10/32 + width, Global.H/3 + height }, Color.white );
-			right = new ArrowButton( ArrowButton.RIGHT, new float[]{ Global.W*52/100, Global.H/3, Global.W*52/100, Global.H/3 + height, Global.W*52/100 + width, Global.H/3 + height/2 },Color.white );
+			leftLife = new ArrowButton( ArrowButton.LEFT, new float[]{ Global.W*10/32, Global.H/3 + height/2, Global.W*10/32 + width, Global.H/3, Global.W*10/32 + width, Global.H/3 + height }, Color.white );
+			rightLife = new ArrowButton( ArrowButton.RIGHT, new float[]{ Global.W*52/100, Global.H/3, Global.W*52/100, Global.H/3 + height, Global.W*52/100 + width, Global.H/3 + height/2 },Color.white );
+
+			leftDrop = new ArrowButton( ArrowButton.LEFT, new float[]{ Global.W*10/32, Global.H*100/214 + height/2, Global.W*10/32 + width, Global.H*100/214, Global.W*10/32 + width, Global.H*100/214 + height }, Color.white );
+			rightDrop = new ArrowButton( ArrowButton.RIGHT, new float[]{ Global.W*52/100, Global.H*100/214, Global.W*52/100, Global.H*100/214 + height, Global.W*52/100 + width, Global.H*100/214 + height/2 },Color.white );
 			
 			arrows = new ArrayList<ArrowButton>();
-			arrows.add( left );
-			arrows.add( right );
+			arrows.add( leftLife );
+			arrows.add( rightLife );
+			arrows.add( leftDrop );
+			arrows.add( rightDrop );
 			
 			buttons = new ArrayList<SimpleButton>();
 			buttons.add( back );
 			buttons.add( saveChanges );
 			
 			sfondo = new Image( "./data/Image/settings.png" );
-			
-			resolution = "RISOLUZIONE = ";
-			lifes = "VITE = ";
 			
 			vite = Global.lifes;
 			
@@ -120,6 +124,8 @@ public class Settings
 			heightC = gc.getHeight()/24;
 			
 			cursor = new Image( "./data/Image/cursore.png" );
+			
+			dropRate = (int)(Global.dropRate * 100);
 		}
 	
 	public void draw( GameContainer gc )
@@ -135,17 +141,23 @@ public class Settings
 			
 			g.drawString( resolution, Global.W/5, Global.H/5 );
 			g.drawString( lifes, Global.W/5, Global.H/3 );
+			g.drawString( drop, Global.W/5, Global.H*100/214 );
 			
-			left.draw( g );
-			right.draw( g );
+			leftLife.draw( g );
+			rightLife.draw( g );
+			leftDrop.draw( g );
+			rightDrop.draw( g );
 
-			int j, startX = (int) (left.getMaxX() + (right.getX() - left.getMaxX())/2 - widthH*2), startY = (int)(left.getY() + left.getHeight()/2 - heightH/2);
+			int j, startX = (int) (leftLife.getMaxX() + (rightLife.getX() - leftLife.getMaxX())/2 - widthH*2), startY = (int)(leftLife.getY() + leftLife.getHeight()/2 - heightH/2);
 			for(j = 0; j < vite/2; j++)
 				heart.draw( startX + widthH*j, startY, widthH, heightH );
 			if(vite%2 == 1)
 				halfHeart.draw( startX + widthH*(j++), startY, widthH, heightH );
 			for(;j < 4; j++)
 				noHeart.draw( startX + widthH*j, startY, widthH, heightH );
+			
+			g.setColor( Color.black );
+			g.drawString( dropRate + " %" , leftDrop.getMaxX() + (rightDrop.getX() - leftDrop.getMaxX())/2 - Global.W/40, Global.H*100/214 - Global.H/200 );
 			
 			int i;
 			for(i = 0; i < 2; i++)
@@ -200,6 +212,8 @@ public class Settings
 		{
 			Global.lifes = vite;
 			
+			Global.dropRate = dropRate;
+			
 			for(Livello levels: Begin.livelli)
 				for(int j = 0; j < levels.getElements().size(); j++)
 					if(levels.getElements().get( j ).getID().startsWith( "player" ))
@@ -253,8 +267,10 @@ public class Settings
 	                dimensioni.add( new Rectangle( xRes, dimensioni.get( dimensioni.size() - 1 ).getMaxY(), wRes, hRes ) );
 	                dimensioni.add( new Rectangle( xRes, dimensioni.get( dimensioni.size() - 1 ).getMaxY(), wRes, hRes ) );
 	
-	                left.translate( Global.ratioW, Global.ratioH );
-	                right.translate( Global.ratioW, Global.ratioH );
+	                leftLife.translate( Global.ratioW, Global.ratioH );
+	                rightLife.translate( Global.ratioW, Global.ratioH );
+	                leftDrop.translate( Global.ratioW, Global.ratioH );
+	                rightDrop.translate( Global.ratioW, Global.ratioH );
 	            }
 	        
 	        Start.setAppDisplay();
@@ -350,6 +366,8 @@ public class Settings
 					                            // pressed tramite mouse || value==2 tramite tastiera
 					                            if(pressed || value == 2)
 						                            {
+					                            		// TODO MODIFICARE QUESTA PARTE IN RELZIONE ALLE 2 NUOVE FRECCIE
+					                            	
 			                                    		// premuta freccia sinistra
 					                            		if(arrows.get( i ).getDirection() == ArrowButton.LEFT)
 					                                        vite = Math.max( 1, --vite );

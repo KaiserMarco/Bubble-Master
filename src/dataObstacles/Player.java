@@ -588,10 +588,10 @@ public class Player extends Ostacolo
 	
 	public void checkPosition( ArrayList<Ostacolo> obstacles )
 		{
-			for(int i = 0; i < obstacles.size(); i++)
-				if(!obstacles.get( i ).getID().startsWith( "player" ))
-					if(area.intersects( obstacles.get( i ).component( "latoSu" ) ))
-						yPlayer = obstacles.get( i ).getY() - height;
+			for(Ostacolo obs: obstacles)
+				if(!obs.getID().startsWith( "player" ))
+					if(area.intersects( obs.component( "latoSu" ) ))
+						yPlayer = obs.getY() - height;
 		}
 
     public void updateStats( GameContainer gc )

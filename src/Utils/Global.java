@@ -29,7 +29,7 @@ public class Global
 	// il numero di giocatori della partita
 	public static Sfondo sfondo;
 	
-	//public static float currentW = Width, currentH = Height;
+	public static double dropRate = 0.6;
 	
 	// calcola il rapporto fra altezza e lunghezza attuali con quelli di default
 	public static void computeRatio( float width, float height )
