@@ -7,17 +7,9 @@
   <ostacolo x="111.0" y="73.0" union="3" type="sx" ID="tubo" />
   <ostacolo x="205.0" y="204.0" union="2" type="sx" ID="tubo" />
   <ostacolo x="685.0" y="450.0" union="-1" type="null" ID="bolla" />
-  <ostacolo x="155.0" y="361.0" union="0" type="null" ID="base" />
-  <ostacolo x="142.0" y="356.0" union="0" type="null" ID="enter" />
-  <ostacolo x="411.0" y="178.0" union="0" type="null" ID="base" />
-  <ostacolo x="398.0" y="173.0" union="0" type="null" ID="enter" />
-  <ostacolo x="124.0" y="78.0" union="0" type="null" ID="base" />
-  <ostacolo x="111.0" y="73.0" union="0" type="null" ID="enter" />
-  <ostacolo x="218.0" y="209.0" union="0" type="null" ID="base" />
-  <ostacolo x="205.0" y="204.0" union="0" type="null" ID="enter" />
-  <ostacolo x="457.0" y="506.0" union="-1" type="null" ID="player1" />
   <ostacolo x="542.0" y="293.0" union="-1" type="null" ID="bolla" />
   <ostacolo x="529.0" y="77.0" union="-1" type="null" ID="bolla" />
+  <ostacolo x="159.0" y="291.0" union="-1" type="null" ID="player1" />
   <sfondo x="0" y="0" name="sfondo4" />
   <risoluzione w="800" h="600" />
 </level>
