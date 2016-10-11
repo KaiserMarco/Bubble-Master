@@ -104,7 +104,7 @@ public class Player extends Ostacolo
 	private ArrayList<PowerUp> powerUp;
 
 	// determina se il personaggio sta sparando
-	boolean isShoting = false;
+	boolean isShooting = false;
 	
 	/*numero di proiettili sparabili*/
 	private final int maxAmmo = 2;
@@ -740,6 +740,11 @@ public class Player extends Ostacolo
 			if(powerUp.size() == 0)
 				powerUp.add( new Ammo( 0, 0, gc.getHeight()/40, maxHeight ) );
 			
+			if(!isShooting && currAmmo == 0)
+				if(fire.size() > 1)
+					for(int i = fire.size() - 1; i > 0; i--)
+						fire.remove( i );
+			
 			if(currAmmo > 0)
 				{
 					cd = gc.getTime() - currentTimeShot;
@@ -748,10 +753,6 @@ public class Player extends Ostacolo
 							cd = 0;
 							currAmmo = 0;
 							currentTimeShot = 0;
-							for(int i = fire.size() - 1; i >= 0; i--)
-								if(fire.size() > 1)
-									if(!fire.get( i ).isShooting())
-										fire.remove( fire.get( i ) );
 						}
 				}
 			
@@ -845,26 +846,22 @@ public class Player extends Ostacolo
 					setXY( -move, 0, "move" );
 				}
 			/*ZONA SPARO*/
-			if(input.isKeyPressed( Input.KEY_S ) && !isShoting)
+			if(input.isKeyPressed( Input.KEY_S ) && !isShooting)
 	            {					
 					float space = widthI/(fire.size() + 1) * Global.W/Global.Width;
-					
-					// TODO SETTARE IN MODO CHE IL POWER UP RIMANGA ATTIVO ANCHE DOPO LO SPARO
-					// (IL POWER UP SCOMPARE SOLO ALLO SCADERE DEL TEMPO)
+
 					for(int i = 0; i < fire.size(); i++)
 						{
 							fire.get( i ).setXY( (int) (xPlayer + space*(i + 1) - fire.get( i ).getWidth()/2), (int) (yPlayer + height - 1) );
 							fire.get( i ).setShot( true );
 			                shots++;
-			                currAmmo = Math.max( --currAmmo, 0 );
 						}
 					
-					isShoting = true;
+					isShooting = true;
 	            }
 			/*ZONA UPDATE SPARO/I*/
-			for(int i = fire.size() - 1; i >= 0; i--)
+			for(Shot fuoco: fire)
 				{
-					Shot fuoco = fire.get( i );
 					if(fuoco.isShooting())
 						{
 							fuoco.setAnimTime( fuoco.getAnimTime() + 1 );
@@ -872,26 +869,21 @@ public class Player extends Ostacolo
 								fuoco.update();
 							
 							if(fuoco.getArea().getY() <= 0)
-								{
-									fuoco.setShot( false );
-									if(fire.size() > 1)
-										fire.remove( fuoco );
-								}
+								fuoco.setShot( false );
 							else
 								{
 									for(Ostacolo ost: InGame.ostacoli)
-										if(fuoco.collision( this, ost, ost.getID(), gc ))
-											{
-												fuoco.setShot( false );
-												if(fire.size() > 1)
-													fire.remove( fuoco );
-												break;
-											}
+										if(!ost.getID().equals( "tubo" ))
+											if(fuoco.collision( this, ost, ost.getID(), gc ))
+												{
+													fuoco.setShot( false );
+													break;
+												}
 								}
 						}
 				}
-			if(isShoting && !checkFire())
-				{ isShoting = false; }
+			if(isShooting && !checkFire())
+				{ isShooting = false; }
 			
 			if(input.isKeyPressed( Input.KEY_SPACE ) && !jump)
 				{
