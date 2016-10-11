@@ -433,6 +433,29 @@ public class Bubble extends Ostacolo
     			}
     	}
     
+    public boolean checkEnter( Shape ingr, Tubo ost )
+    	{
+    		String dir = ost.getDirection();
+    		
+    		// TODO FARE I CONTROLLI IN RELAZIONE ALLA DIREZIONE DEL TUBO
+    		if(dir.equals( "sx" ) || dir.equals( "dx" ))
+	    		{
+	    			if(!ostr.intersects( ost.component( "latoSu" ) ) && !ostr.intersects( ost.component( "latoGiu" ) ))
+			    		if((ostr.intersects( ingr ) && ostr.getCenterY() > ingr.getY() && ostr.getCenterY() < ingr.getY() + ost.getHeight())
+						|| (ostr.intersects( ingr ) && ostr.getCenterX() > ost.getX() && ostr.getCenterX() < ost.getX() + ost.getWidth()))
+			    			return true;
+	    		}
+    		else if(dir.equals( "up" ) || dir.equals( "down" ))
+    			{
+	    			if(!ostr.intersects( ost.component( "latoSx" ) ) && !ostr.intersects( ost.component( "latoDx" ) ))
+			    		if((ostr.intersects( ingr ) && ostr.getCenterY() > ingr.getY() && ostr.getCenterY() < ingr.getY() + ost.getHeight())
+						|| (ostr.intersects( ingr ) && ostr.getCenterX() > ost.getX() && ostr.getCenterX() < ost.getX() + ost.getWidth()))
+			    			return true;
+    			}
+    		
+    		return false;
+    	}
+    
     /**gestisce collisioni fra tutti gli elementi*/
     public void checkAll( int i, Ostacolo ost )
     	{
@@ -440,13 +463,12 @@ public class Bubble extends Ostacolo
         		{
         			//il lato di ingresso nel tubo
         			Shape ingr = ost.component( "latoIngresso" );
-        			if((ostr.intersects( ingr ) && ostr.getCenterY() > ingr.getY() && ostr.getCenterY() < ingr.getY() + ost.getHeight())
-					|| (ostr.intersects( ingr ) && ostr.getCenterX() > ost.getX() && ostr.getCenterX() < ost.getX() + ost.getWidth()))
-        				{
-    						primoTubo = true;
-        					indexTube = i;
-        					setPositionInTube( ost, primoTubo );
-        				}
+        			if(checkEnter( ingr, ((Tubo) ost) ))	        			
+	        				{
+	    						primoTubo = true;
+	        					indexTube = i;
+	        					setPositionInTube( ost, primoTubo );
+	        				}
         		}
         	else if(!ost.getID().equals( "enter" ) && !ost.getID().equals( "base" ))
         		if(primoTubo || secondoTubo)

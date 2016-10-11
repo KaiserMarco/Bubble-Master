@@ -849,6 +849,8 @@ public class Player extends Ostacolo
 	            {					
 					float space = widthI/(fire.size() + 1) * Global.W/Global.Width;
 					
+					// TODO SETTARE IN MODO CHE IL POWER UP RIMANGA ATTIVO ANCHE DOPO LO SPARO
+					// (IL POWER UP SCOMPARE SOLO ALLO SCADERE DEL TEMPO)
 					for(int i = 0; i < fire.size(); i++)
 						{
 							fire.get( i ).setXY( (int) (xPlayer + space*(i + 1) - fire.get( i ).getWidth()/2), (int) (yPlayer + height - 1) );

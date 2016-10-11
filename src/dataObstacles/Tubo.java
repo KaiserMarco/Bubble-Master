@@ -159,9 +159,7 @@ public class Tubo extends Ostacolo{
     	{}
     
     public void updateValues( GameContainer gc ) throws SlickException
-    	{		
-    		// TODO SISTEMARE L'UPDATE DELLE 2 AREE
-    	
+    	{
     		width = width * Global.ratioW;
     		height = height * Global.ratioH; 
     		setXY( getX() * Global.ratioW, getY() * Global.ratioH, "restore" );
@@ -220,17 +218,10 @@ public class Tubo extends Ostacolo{
 	public void setXY( float x, float y, String function )
 		{ 
 			if(function.compareTo( "move" ) == 0)
-				{
-					ostr.setLocation( ostr.getX() + x, ostr.getY() + y );
-					enter.getArea().setLocation( enter.getArea().getX() + x, enter.getArea().getY() + y );
-				}
+				ostr.setLocation( ostr.getX() + x, ostr.getY() + y );
 			
 			else if(function.compareTo( "restore" ) == 0)
-				{
-					ostr.setLocation( x, y );
-					// 	TODO FARE IL RESTORE CORRETTO A SECONDA DELL'ORIENTAMENTO
-					
-				}
+				ostr.setLocation( x, y );
 		}
 	
 	public Ostacolo getBase()
