@@ -97,8 +97,6 @@ public class InGame
 			for(int i = 0; i < size; i++)
 				if(ostacoli.get( i ).getID().equals( "tubo" ))
 					{
-						// TODO PROVARE A VEDERE COSA ACCADE A BASE E ENTER QUANDO AUMENTO LE DIMENSIONI
-						// MAGARI DOMANI, OGGI HO FATTO PARECCHIO E SO STANCO
 						((Tubo) ostacoli.get( i )).setSpace( gc );
 						ostacoli.add( ((Tubo) ostacoli.get( i )).getBase() );
 						ostacoli.add( ((Tubo) ostacoli.get( i )).getEnter() );
