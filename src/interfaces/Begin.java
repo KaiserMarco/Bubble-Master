@@ -80,10 +80,10 @@ public class Begin
 			livelli = new ArrayList<Livello>();
 			
 			Color color = Color.orange;
-			options = new SimpleButton( 0, gc.getHeight()/4, OPTIONS, color );
-			levels = new SimpleButton( gc.getWidth(), gc.getHeight()/2, LEVELS, color );
+			options = new SimpleButton( 0, gc.getHeight()*5/6, OPTIONS, color );
+			levels = new SimpleButton( gc.getWidth(), gc.getHeight()*5/6, LEVELS, color );
 
-	        xFinale = gc.getWidth()/2;
+	        xFinale = gc.getWidth()/3;
 	        countNumFinale = 50;
 	        numFinale1 = (xFinale - options.getLungh()/2)/countNumFinale;
 	        numFinale2 = (xFinale + levels.getLungh()/2)/countNumFinale;
