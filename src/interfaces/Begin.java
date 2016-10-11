@@ -84,7 +84,7 @@ public class Begin
 			levels = new SimpleButton( gc.getWidth(), gc.getHeight()*5/6, LEVELS, color );
 
 	        xFinale = gc.getWidth()/3;
-	        countNumFinale = 50;
+	        countNumFinale = 25;
 	        numFinale1 = (xFinale - options.getLungh()/2)/countNumFinale;
 	        numFinale2 = (xFinale + levels.getLungh()/2)/countNumFinale;
 			
@@ -238,15 +238,14 @@ public class Begin
 				cursor.draw( buttons.get( indexCursor ).getX() - widthC, buttons.get( indexCursor ).getY(), widthC, heightC );
 		}
 	
+	// aggiorna le dimensioni al variare della risoluzione
 	public void setStats()
 		{
 			for(SimpleButton button: buttons)
 				{
-					button.setX( button.getX() * Global.ratioW );
+					button.setX( button.getX() * Global.ratioW );					
 					button.setY( button.getY() * Global.ratioH );
 				}
-
-			xFinale = (int) (xFinale * Global.ratioW);
 			
 			checkRatioW = Global.ratioW;
 			checkRatioH = Global.ratioH;
