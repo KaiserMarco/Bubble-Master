@@ -51,7 +51,7 @@ public class Edit
 	private int indexSfondo = 3;
 	
 	private Image up, down;
-	private int widthArrow, heightArrow;
+	private float widthArrow, heightArrow;
 	
 	// baseI = la schermatona di selezione elementi e sfondi
 	// choiseI = il pulsante per "tirare su" la schermatona 
@@ -127,11 +127,12 @@ public class Edit
 			
 			widthChoise = gc.getWidth()/8;
 			heightChoise = gc.getHeight()/30;
+			
 			//lunghezza e altezza della base di selezione elementi
 			widthBase = (int) (gc.getWidth()/1.11);
 			heightBase = 0;
-			choise = new Rectangle( gc.getWidth()/2 - widthChoise/2, gc.getHeight() - heightChoise, widthChoise, heightChoise );
 			
+			choise = new Rectangle( gc.getWidth()/2 - widthChoise/2, gc.getHeight() - heightChoise, widthChoise, heightChoise );			
 			base = new Rectangle( gc.getWidth()/2 - widthBase/2, gc.getHeight(), widthBase, heightBase );
 			
 			insertEditor = false;
@@ -159,9 +160,7 @@ public class Edit
 		}
 	
 	public void draw( GameContainer gc, Graphics g ) throws SlickException
-		{		
-			float currRatioW = Global.W/Global.Width, currRatioH = Global.H/Global.Height;
-		
+		{
 			sfondi.get( indexSfondo ).draw( gc );
 						
 			for(Ostacolo obs: ostacoli)
@@ -193,9 +192,9 @@ public class Edit
 			choiseI.draw( choise.getX(), choise.getY(), choise.getWidth(), choise.getHeight() );
 			
 			if(insertEditor)
-				down.draw( choise.getX() + (widthChoise/2 - widthArrow/2) * currRatioW, choise.getY() + gc.getHeight()/200, widthArrow * currRatioW, heightArrow * currRatioH );
+				down.draw( choise.getX() + (widthChoise/2 - widthArrow/2), choise.getY() + gc.getHeight()/200, widthArrow, heightArrow );
 			else
-				up.draw( choise.getX() + (widthChoise/2 - widthArrow/2) * currRatioW, choise.getY() + gc.getHeight()/200, widthArrow * currRatioW, heightArrow * currRatioH );
+				up.draw( choise.getX() + (widthChoise/2 - widthArrow/2), choise.getY() + gc.getHeight()/200, widthArrow, heightArrow );
 			
 			if(indexCursor >= 0 || indexCursorButton >= 0)
 				if(insertEditor)
@@ -254,6 +253,9 @@ public class Edit
 			
 			if(rappX != currRatioW || rappY != currRatioH)
 				{
+					widthArrow = widthArrow * Global.ratioW;
+					heightArrow = heightArrow * Global.ratioH;
+				
 					widthChoise = gc.getWidth()/8 * Global.ratioH;
 					heightChoise = gc.getHeight()/30* Global.ratioW;
 					widthBase = widthBase * Global.ratioW;
@@ -267,8 +269,8 @@ public class Edit
 							button.setY( button.getY() * Global.ratioH );
 						}
 					
-					// TODO TUTTO OK, MA IL TUBO NON SI ADATTA COME IL RESTO (DEVO CAPIR IL PERCHE)
-					// FORSE HANNO QUALCOSA A CHE FARE BASE ED ENTER, MA NON PENSO, MA MAI DIRE MAI
+					// TODO TUTTO OK, MA IL TUBO NON SI ADATTA COME IL RESTO
+					// MA SOLO QUANDO CAMBIO 3 VOLTE LA RISOLUZIONE
 					for(Ostacolo item: items)
 						{
 							item.setXY( item.getX() * Global.ratioW, item.getY() * Global.ratioH, "restore" );
