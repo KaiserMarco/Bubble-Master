@@ -20,19 +20,30 @@ public class ArrowButton
 	public static final int RIGHT = 0, LEFT = 1;
 	/* i punti della freccia */
 	private float[] points;
+	/* il nome del bottone */
+	public String name;
 
-	public ArrowButton( int direction, float points[], Color color )
+	public ArrowButton( String name, int direction, float points[], Color color )
 	{
 		this.points = points;
 		c = color;
 		this.direction = direction;
 		row = new Polygon( points );
+		this.name = name;
 	}
 
 	/** modifica lo stato (premuto/non premuto) della freccia*/
 	public void setPressed()
 	{
 		pressed = !pressed;
+	}
+	
+	/** restituisce il nome del bottones
+	 * @return name - il nome del bottone
+	*/
+	public String getName()
+	{
+		return name;
 	}
 
 	/** restituisce il valore di pressione sul bottone

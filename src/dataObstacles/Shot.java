@@ -107,7 +107,7 @@ public class Shot
 				{
 					if(type.equals( "bolla" ))
 						{
-							if(Math.random() >= Global.dropRate)
+							if(Math.random() <= Global.dropRate)
 								{
 									int ray = (int) (gc.getHeight()/40 * Global.H/Global.Height);
 									double power = Math.random();

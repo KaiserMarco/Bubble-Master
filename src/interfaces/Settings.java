@@ -68,11 +68,11 @@ public class Settings
 			
 			int width = Global.W/20, height = Global.H/50;
 			
-			leftLife = new ArrowButton( ArrowButton.LEFT, new float[]{ Global.W*10/32, Global.H/3 + height/2, Global.W*10/32 + width, Global.H/3, Global.W*10/32 + width, Global.H/3 + height }, Color.white );
-			rightLife = new ArrowButton( ArrowButton.RIGHT, new float[]{ Global.W*52/100, Global.H/3, Global.W*52/100, Global.H/3 + height, Global.W*52/100 + width, Global.H/3 + height/2 },Color.white );
+			leftLife = new ArrowButton( lifes, ArrowButton.LEFT, new float[]{ Global.W*10/32, Global.H/3 + height/2, Global.W*10/32 + width, Global.H/3, Global.W*10/32 + width, Global.H/3 + height }, Color.white );
+			rightLife = new ArrowButton( lifes, ArrowButton.RIGHT, new float[]{ Global.W*52/100, Global.H/3, Global.W*52/100, Global.H/3 + height, Global.W*52/100 + width, Global.H/3 + height/2 },Color.white );
 
-			leftDrop = new ArrowButton( ArrowButton.LEFT, new float[]{ Global.W*10/32, Global.H*100/214 + height/2, Global.W*10/32 + width, Global.H*100/214, Global.W*10/32 + width, Global.H*100/214 + height }, Color.white );
-			rightDrop = new ArrowButton( ArrowButton.RIGHT, new float[]{ Global.W*52/100, Global.H*100/214, Global.W*52/100, Global.H*100/214 + height, Global.W*52/100 + width, Global.H*100/214 + height/2 },Color.white );
+			leftDrop = new ArrowButton( drop, ArrowButton.LEFT, new float[]{ Global.W*10/32, Global.H*100/214 + height/2, Global.W*10/32 + width, Global.H*100/214, Global.W*10/32 + width, Global.H*100/214 + height }, Color.white );
+			rightDrop = new ArrowButton( drop, ArrowButton.RIGHT, new float[]{ Global.W*52/100, Global.H*100/214, Global.W*52/100, Global.H*100/214 + height, Global.W*52/100 + width, Global.H*100/214 + height/2 },Color.white );
 			
 			arrows = new ArrayList<ArrowButton>();
 			arrows.add( leftLife );
@@ -212,7 +212,7 @@ public class Settings
 		{
 			Global.lifes = vite;
 			
-			Global.dropRate = dropRate;
+			Global.dropRate = dropRate/100;
 			
 			for(Livello levels: Begin.livelli)
 				for(int j = 0; j < levels.getElements().size(); j++)
@@ -366,14 +366,18 @@ public class Settings
 					                            // pressed tramite mouse || value==2 tramite tastiera
 					                            if(pressed || value == 2)
 						                            {
-					                            		// TODO MODIFICARE QUESTA PARTE IN RELZIONE ALLE 2 NUOVE FRECCIE
-					                            	
 			                                    		// premuta freccia sinistra
 					                            		if(arrows.get( i ).getDirection() == ArrowButton.LEFT)
-					                                        vite = Math.max( 1, --vite );
+					                            			if(arrows.get( i ).getName().equals( lifes ))
+					                            				vite = Math.max( 1, --vite );
+					                            			else
+					                            				dropRate = Math.max( 0, dropRate - 10 );
 					                            		// premuta freccia destra
 					                            		else if(arrows.get( i ).getDirection() == ArrowButton.RIGHT)
-					                                        vite = Math.min( ++vite, 8 );
+					                            			if(arrows.get( i ).getName().equals( lifes ))
+					                            				vite = Math.min( ++vite, 8 );
+					                            			else
+					                            				dropRate = Math.min( 100, dropRate + 10 );
 					                            		
 							                            break;
 						                            }
