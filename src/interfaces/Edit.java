@@ -68,7 +68,8 @@ public class Edit
 	private float widthChoise, heightChoise;
 	private float widthBase, heightBase;
 	
-	private int minHighEditor;
+	// l'altezza di arrivo della schermata di selezione sfondo/personaggio
+	private float minHighEditor;
 	
 	//elementi riguardanti la scrittura su file .xml
 	private Element livello;
@@ -129,7 +130,7 @@ public class Edit
 			heightChoise = gc.getHeight()/30;
 			
 			//lunghezza e altezza della base di selezione elementi
-			widthBase = (int) (gc.getWidth()/1.11);
+			widthBase = (float) (gc.getWidth()/1.11);
 			heightBase = 0;
 			
 			choise = new Rectangle( gc.getWidth()/2 - widthChoise/2, gc.getHeight() - heightChoise, widthChoise, heightChoise );			
@@ -148,7 +149,7 @@ public class Edit
 			buttons.add( back );
 			buttons.add( saveLevel );
 			
-			minHighEditor = gc.getHeight() - (int) (gc.getHeight()/1.34);
+			minHighEditor = (float) (gc.getHeight() - gc.getHeight()/1.34);
 			
 			nuovaCoppiaTubi = false;
 			nuovoTubo1 = false;
@@ -253,6 +254,8 @@ public class Edit
 			
 			if(rappX != currRatioW || rappY != currRatioH)
 				{
+					minHighEditor = minHighEditor * Global.ratioH;
+				
 					widthArrow = widthArrow * Global.ratioW;
 					heightArrow = heightArrow * Global.ratioH;
 				
@@ -270,7 +273,7 @@ public class Edit
 						}
 					
 					// TODO TUTTO OK, MA IL TUBO NON SI ADATTA COME IL RESTO
-					// MA SOLO QUANDO CAMBIO 3 VOLTE LA RISOLUZIONE
+					// MA SOLO QUANDO CAMBIO 3 VOLTE LA RISOLUZIONE, ALTRIMENTI E' OK
 					for(Ostacolo item: items)
 						{
 							item.setXY( item.getX() * Global.ratioW, item.getY() * Global.ratioH, "restore" );
