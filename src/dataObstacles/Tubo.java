@@ -102,6 +102,12 @@ public class Tubo extends Ostacolo{
 	public void setIndexEnter( int val )
 		{ indexEnter = val; }
 	
+	public void deleteAreas()
+		{
+			base = null;
+			enter = null;
+		}
+	
 	public void setArea( GameContainer gc )
 		{}
     
@@ -316,7 +322,7 @@ public class Tubo extends Ostacolo{
     	        }
 	    }
 	
-	public void setOrienting( String direction )
+	public void setOrienting()
         {
 	        if(type.equals( "sx" ))
 	            {

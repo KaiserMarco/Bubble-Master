@@ -226,7 +226,7 @@ public class Edit
 		}
 	
 	/**setta gli elementi base di modifica livello*/
-	public void setElements( ArrayList<Ostacolo> ostacoli, ArrayList<Ostacolo> giocatori, String nameLvl, int index, Sfondo sfondo )
+	public void setElements( ArrayList<Ostacolo> ostacoli, ArrayList<Ostacolo> giocatori, String nameLvl, int index, Sfondo sfondo, GameContainer gc ) throws SlickException
 		{
 			for(int i = 0; i < sfondi.size(); i++)
 				if(sfondi.get( i ).getName().equals( sfondo.getName() ))
@@ -234,7 +234,9 @@ public class Edit
 		
 			for(Ostacolo obs: ostacoli)
 				{
-					this.ostacoli.add( obs );
+					if(!obs.getID().equals( "base" ) && !obs.getID().equals( "enter" ))
+						this.ostacoli.add( obs );
+					
 					if(obs.getID().equals( "bolla" ))
 						ball++;
 				}
@@ -313,15 +315,11 @@ public class Edit
 	public void setChoise( GameContainer gc )
 		{ choise.setLocation( choise.getX(), base.getY() - heightChoise + gc.getWidth()/150 ); }
 	
-	public void aggiornaIndiciTubi( int i, int difference )
+	public void aggiornaIndiciTubi( int i )
 		{
 			for(Ostacolo obs: ostacoli)
 				if(obs.getID().equals( "tubo" ) && obs.getUnion() > i)
-					obs.setUnion( obs.getUnion() - difference );				
-				else if(obs.getID().equals( "base" ) && ((Base) obs).getIndexTube() > i)
-					((Base) obs).setIndexTube( ((Base) obs).getIndexTube() - difference );
-				else if(obs.getID().equals( "enter" ) && ((Enter) obs).getIndexTube() > i)
-					((Enter) obs).setIndexTube( ((Enter) obs).getIndexTube() - difference );
+					obs.setUnion( obs.getUnion() - 1 );
 		}
 	/**resetta indexCursor, indexCursorButton e indexCursorSfondi*/
 	public void resetIndexCursor()
@@ -422,21 +420,18 @@ public class Edit
 									ostacoli.get( temp.getUnion() ).setUnion( - 1 );
 									
 									if(temp.getUnion() > indexCursor)											
-										indiceTuboRimasto = temp.getUnion() - 3;
+										indiceTuboRimasto = temp.getUnion() - 1;
 									else
 										indiceTuboRimasto = temp.getUnion();
 									
 									//sistema gli indici dei tubi puntati
-									aggiornaIndiciTubi( indexCursor, 3 );
-												
-									ostacoli.remove( indexCursor + 2 );
-									ostacoli.remove( indexCursor + 1 );
+									aggiornaIndiciTubi( indexCursor );
 									ostacoli.remove( indexCursor );
 								}
 							else
 								{
 									//sistema gli indici dei tubi puntati
-									aggiornaIndiciTubi( indexCursor, 1 );									
+									aggiornaIndiciTubi( indexCursor );									
 									ostacoli.remove( indexCursor );
 								}
 							
@@ -455,25 +450,17 @@ public class Edit
 										if(temp.getID().equals( "tubo" ))
 											{								
 												ostacoli.get( temp.getUnion() ).setUnion( - 1 );
-												
+
+												indiceTuboRimasto = temp.getUnion();
 												if(temp.getUnion() > i)											
-													indiceTuboRimasto = temp.getUnion() - 3;
-												else
-													indiceTuboRimasto = temp.getUnion();
-												
-												//sistema gli indici dei tubi puntati
-												aggiornaIndiciTubi( i, 3 );
-															
-												ostacoli.remove( i + 2 );
-												ostacoli.remove( i + 1 );
-												ostacoli.remove( i );
+													indiceTuboRimasto--;
 											}
-										else
-											{
-												//sistema gli indici dei tubi puntati
-												aggiornaIndiciTubi( i, 1 );
-												ostacoli.remove( i );
-											}
+											
+										//sistema gli indici dei tubi puntati
+										aggiornaIndiciTubi( i );
+										ostacoli.remove( i );
+										
+										System.out.println( "index = " + i );
 										
 										temp.setInsert( true, true );
 										
@@ -501,13 +488,6 @@ public class Edit
 	
 	private void setTubeInArray( GameContainer gc )
 		{
-			for(int i = ostacoli.size() - 1; i >= 0; i--)
-				if(ostacoli.get( i ).getID().equals( "base" ) || ostacoli.get( i ).getID().equals( "enter" ))
-					{
-						aggiornaIndiciTubi( i, 1 );
-						ostacoli.remove( i );
-					}
-		
 			int j = 0;
 			for(int i = 0; i < ostacoli.size(); i++)
 				{
@@ -705,11 +685,11 @@ public class Edit
 					if(!temp.getID().equals( "bolla" ) && !temp.getID().startsWith( "player" ))
 					    if(input.isKeyPressed( Input.KEY_SPACE ))
 					    	{
-					        	temp.setOrienting( null );
+					        	temp.setOrienting();
 					        	if(temp.equals( "tubo" ))
 					        		{
 					        			((Base) ((Tubo) temp).getBase()).setDirection( ((Tubo) temp).getDirection());
-					        			((Enter) ((Tubo) temp).getBase()).setDirection( ((Tubo) temp).getDirection());
+					        			((Enter) ((Tubo) temp).getEnter()).setDirection( ((Tubo) temp).getDirection());
 					        		}
 					    	}
 
@@ -831,9 +811,7 @@ public class Edit
 								{
 									if(indiceTuboRimasto >= 0)
 										{
-											aggiornaIndiciTubi( indiceTuboRimasto, 3 );
-											ostacoli.remove( indiceTuboRimasto + 2 );
-											ostacoli.remove( indiceTuboRimasto + 1 );
+											aggiornaIndiciTubi( indiceTuboRimasto );
 											ostacoli.remove( indiceTuboRimasto );
 											
 											indiceTuboRimasto = -1;
@@ -853,20 +831,7 @@ public class Edit
 									temp.setSpigoli();
 
 									if(temp.getID().equals( "tubo" ))
-									    {
-											// INSERISCO BASE E ENTER PER USARLI IN GIOCO PER LE COLLISIONI SFERE/PLAYER - TUBO
-											((Tubo) ostacoli.get( ostacoli.size() - 1 )).setSpace( gc );
-											// inserisco base e enter del tubo
-											ostacoli.add( ((Tubo) temp).getBase() );
-											ostacoli.add( ((Tubo) temp).getEnter() );
-											
-											ostacoli.get( ostacoli.size() - 2 ).setArea( gc );
-											ostacoli.get( ostacoli.size() - 1 ).setArea( gc );
-											
-											// setto l'indice del tubo a base e enter (PER RIMUOVERLI QUALORA RIMUOVESSI IL TUBO RELATIVO)
-											((Base) ostacoli.get( ostacoli.size() - 2 )).setIndexTube( ostacoli.size() - 3 );
-											((Enter) ostacoli.get( ostacoli.size() - 1 )).setIndexTube( ostacoli.size() - 3 );
-											
+									    {											
 											//inserisce una nuova coppia di tubi
 											if(nuovaCoppiaTubi)
 												{
@@ -880,8 +845,8 @@ public class Edit
 													else
 														{
 															//setto i nuovi indici dei tubi puntati
-															ostacoli.get( ostacoli.size() - 6 ).setUnion( ostacoli.size() - 3 );
-															ostacoli.get( ostacoli.size() - 3 ).setUnion( ostacoli.size() - 6 );
+															ostacoli.get( ostacoli.size() - 1 ).setUnion( ostacoli.size() - 2 );
+															ostacoli.get( ostacoli.size() - 2 ).setUnion( ostacoli.size() - 1 );
 															temp = null;
 															nuovaCoppiaTubi = false;
 														}
@@ -889,8 +854,8 @@ public class Edit
 											//inserisce un tubo gia esistente
 											else
 												{
-													ostacoli.get( indiceTuboRimasto ).setUnion( ostacoli.size() - 3 );
-													ostacoli.get( ostacoli.size() - 3 ).setUnion( indiceTuboRimasto );
+													ostacoli.get( indiceTuboRimasto ).setUnion( ostacoli.size() - 1 );
+													ostacoli.get( ostacoli.size() - 1 ).setUnion( indiceTuboRimasto );
 													
 													indiceTuboRimasto = -1;
 												

@@ -192,55 +192,6 @@ public class Bubble extends Ostacolo
     public void setMaxWidth( float val )
     	{ maxW = val; }
     
-    /**determina se la sfera e' ancora nel primo tubo o se e' ancora nel secondo*/
-    public void gestioneSferaInTubo()
-    	{
-			Ostacolo tubo = InGame.ostacoli.get( indexTube );
-    		// se la sfera e' nel PRIMO tubo
-    		if(primoTubo)
-	    		{
-    				if(tubo.getOrienting().equals( "sx" ) && ostr.getCenterX() >= tubo.getMidArea().getX())
-						primoTubo = false;
-    				else if(tubo.getOrienting().equals( "dx" ) && ostr.getCenterX() < tubo.getMidArea().getX())
-						primoTubo = false;
-    				else if(tubo.getOrienting().equals( "up" ) && ostr.getCenterY() >= tubo.getMidArea().getY())
-						primoTubo = false;
-    				else if(tubo.getOrienting().equals( "down" ) && ostr.getCenterY() < tubo.getMidArea().getY())
-						primoTubo = false;
-
-    				// setta la velocita' nel PRIMO tubo
-        			if(!setSpeed)
-	        			{
-    		    			backupSpeedX = Math.abs( speedX );
-    		    			backupSpeedY = Math.abs( speedY );
-        				
-		    				if(tubo.getOrienting().equals( "sx" ) || tubo.getOrienting().equals( "dx" ))
-		    					speedY = 0;
-		    				else if(tubo.getOrienting().equals( "down" ) || tubo.getOrienting().equals( "up" ))
-		    					speedX = 0;
-		    				
-		    				setSpeed = true;
-	        			}
-        			if(!primoTubo)
-        				{
-        					secondoTubo = true;
-        					setSpeed = true;
-        					indexTube = InGame.ostacoli.get( indexTube ).getUnion();
-        					setPositionInTube( InGame.ostacoli.get( indexTube ), primoTubo );
-        				}
-	    		}
-    		// la sfera e' nel SECONDO tubo
-    		else if(secondoTubo)
-    			{
-	    			if(!tubo.component( "rect" ).intersects( ostr ))
-	    				{
-	    					secondoTubo = false;
-	    					primoTubo = false;
-	    					indexTube = -1;
-	    				}
-    			}
-    	}
-    
     /**determina la velocita' risultante nella collisione fra sfera e altri ostacoli*/
     public void gestioneCollisioni( Ostacolo ost )
     	{
@@ -429,6 +380,106 @@ public class Bubble extends Ostacolo
 						}
     			}
     	}
+    /**determina se la sfera e' ancora nel primo tubo o se e' ancora nel secondo*/
+    public void gestioneSferaInTubo()
+    	{
+			Ostacolo tubo = InGame.ostacoli.get( indexTube );
+    		// se la sfera e' nel PRIMO tubo
+    		if(primoTubo)
+	    		{
+    				if(tubo.getOrienting().equals( "sx" ) && ostr.getCenterX() >= tubo.getMidArea().getX())
+						primoTubo = false;
+    				else if(tubo.getOrienting().equals( "dx" ) && ostr.getCenterX() < tubo.getMidArea().getX())
+						primoTubo = false;
+    				else if(tubo.getOrienting().equals( "up" ) && ostr.getCenterY() >= tubo.getMidArea().getY())
+						primoTubo = false;
+    				else if(tubo.getOrienting().equals( "down" ) && ostr.getCenterY() < tubo.getMidArea().getY())
+						primoTubo = false;
+
+    				// setta la velocita' nel PRIMO tubo
+        			if(!setSpeed)
+	        			{
+    		    			backupSpeedX = Math.abs( speedX );
+    		    			backupSpeedY = Math.abs( speedY );
+        				
+		    				if(tubo.getOrienting().equals( "sx" ) || tubo.getOrienting().equals( "dx" ))
+		    					speedY = 0;
+		    				else if(tubo.getOrienting().equals( "down" ) || tubo.getOrienting().equals( "up" ))
+		    					speedX = 0;
+		    				
+		    				setSpeed = true;
+	        			}
+        			if(!primoTubo)
+        				{
+        					secondoTubo = true;
+        					setSpeed = true;
+        					indexTube = InGame.ostacoli.get( indexTube ).getUnion();
+        					setPositionInTube( InGame.ostacoli.get( indexTube ), primoTubo );
+	    					System.out.println( "indexTube = " + indexTube );
+        				}
+	    		}
+    		// la sfera e' nel SECONDO tubo
+    		else if(secondoTubo)
+    			{
+					System.out.println( "sono NEL secondo tubo" );
+	    			if(!tubo.component( "rect" ).intersects( ostr ))
+	    				{
+	    					System.out.println( "sono uscito dal secondo tubo" );
+	    					secondoTubo = false;
+	    					primoTubo = false;
+	    					indexTube = -1;
+	    				}
+    			}
+    	}
+    
+    /**gestisce collisioni fra tutti gli elementi*/
+    public void checkAll( int i, Ostacolo ost )
+    	{
+    		// TODO NON CAPISCO COME MAI CONTINUI A NON FUNZIONARE MAREMMA TROIA
+    	
+    		if(ost.getID().equals( "tubo" ))
+    			{
+    				if(!primoTubo && !secondoTubo)
+    					{
+	    					//il lato di ingresso nel tubo
+	    					Shape ingr = ost.component( "latoIngresso" );
+	    					// se la sfera ha colliso con l'ingresso di un tubo
+	    					if(checkEnter( ingr, ((Tubo) ost) ))
+	    						{
+	    							indexTube = i;
+	    							primoTubo = true;
+		        					setPositionInTube( ost, primoTubo );
+	    						}
+    					}
+    				else if(primoTubo || secondoTubo)
+    					gestioneSferaInTubo();
+    			}
+    	
+	    	// TODO CODICE MOLTO FUNZIONANTE (MI RACCOMANDO NON VA ASSOLUTAMENTE CANCELLATO)
+        	/*if(ost.getID().equals( "tubo" ) && !primoTubo && !secondoTubo)
+        		{
+        			//il lato di ingresso nel tubo
+        			Shape ingr = ost.component( "latoIngresso" );
+        			if(checkEnter( ingr, ((Tubo) ost) ))	        			
+	        				{
+	    						primoTubo = true;
+	        					indexTube = i;
+	        					setPositionInTube( ost, primoTubo );
+	        				}
+        		}
+        	else if(ost.getID().equals( "tubo" ) && (primoTubo || secondoTubo))
+    			gestioneSferaInTubo();*/
+        	
+			if(secondoTubo)
+				{
+					if(indexTube != i && !ost.getID().equals( "base" ) && !ost.getID().equals( "enter" ))
+						if(ostr.intersects( ost.component( "rect" ) ))
+							gestioneCollisioni( ost );
+				}
+			else if(!primoTubo && !ost.getID().equals( "tubo" ))
+				if(ostr.intersects( ost.component( "rect" ) ))
+					gestioneCollisioni( ost );
+    	}
     
     public boolean checkEnter( Shape ingr, Tubo ost )
     	{
@@ -450,61 +501,6 @@ public class Bubble extends Ostacolo
     			}
     		
     		return false;
-    	}
-    
-    /**gestisce collisioni fra tutti gli elementi*/
-    public void checkAll( int i, Ostacolo ost )
-    	{
-	    	if(ost.getID().equals( "tubo" ) && !primoTubo)
-				{
-					//il lato di ingresso nel tubo
-					Shape ingr = ost.component( "latoIngresso" );
-					
-					// TODO FORSE CI SONO, PENSO DI DOVER PARTIRE DA QUI        			
-					if(checkEnter( ingr, ((Tubo) ost) ))	        			
-						{
-							// TODO PROBABILMENTE FA CASINO PERCHE QUANDO ENTRA NEL SECONDO TUBO
-							// LUI "SENTE" ANCHE IL PRIMO E FORSE FA CASINO
-							if(indexTube != i)
-								{
-									System.out.println( "vediamo se almeno questo lo prende va" );
-		    						primoTubo = true;
-		        					indexTube = i;
-		        					if(secondoTubo)
-		        						secondoTubo = false;
-		        					setPositionInTube( ost, primoTubo );
-								}
-						}
-				}
-	    	else if(ost.getID().equals( "tubo" ) && (primoTubo || secondoTubo))
-	    		gestioneSferaInTubo();
-    	
-	    	// TODO CODICE MOLTO FUNZIONANTE (MI RACCOMANDO NON VA ASSOLUTAMENTE CANCELLATO)
-        	/*if(ost.getID().equals( "tubo" ) && !primoTubo && !secondoTubo)
-        		{
-        			//il lato di ingresso nel tubo
-        			Shape ingr = ost.component( "latoIngresso" );
-        			if(checkEnter( ingr, ((Tubo) ost) ))	        			
-	        				{
-	    						primoTubo = true;
-	        					indexTube = i;
-	        					setPositionInTube( ost, primoTubo );
-	        				}
-        		}
-        	else if(ost.getID().equals( "tubo" ) && (primoTubo || secondoTubo))
-    			gestioneSferaInTubo();*/
-        	
-			if(secondoTubo)
-				{
-					// TODO NEL LIVELLO lastTRY PURTROPPO QUANDO ESCE DA UN TUBO POI NON ENTRA NELL'ALTRO
-					// CAPIRE COME MAI DAL BASSO VERSO L'ALTO E SI E VICEVERSA NO
-					if(indexTube != i && !ost.getID().equals( "base" ) && !ost.getID().equals( "enter" ))
-						if(ostr.intersects( ost.component( "rect" ) ))
-							gestioneCollisioni( ost );
-				}
-			else if(!primoTubo && !ost.getID().equals( "tubo" ))
-				if(ostr.intersects( ost.component( "rect" ) ))
-					gestioneCollisioni( ost );
     	}
  
     public void update( GameContainer gc, int delta ) throws SlickException
@@ -579,7 +575,7 @@ public class Bubble extends Ostacolo
 	public void update(GameContainer gc) throws SlickException 
 		{}
 
-    public void setOrienting( String direction )
+    public void setOrienting()
     	{}
 
     public String getOrienting()

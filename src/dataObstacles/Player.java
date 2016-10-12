@@ -1002,7 +1002,7 @@ public class Player extends Ostacolo
 	public void setCollide( boolean val )
 	 	{}
 
-    public void setOrienting( String direction )
+    public void setOrienting()
     	{}
 
     public String getOrienting()

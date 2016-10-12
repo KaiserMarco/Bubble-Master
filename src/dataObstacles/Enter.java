@@ -212,7 +212,7 @@ public class Enter extends Ostacolo
 	}
 
 	@Override
-	public void setOrienting(String direction) {
+	public void setOrienting() {
 		// TODO Auto-generated method stub
 		
 	}
