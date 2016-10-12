@@ -438,8 +438,7 @@ public class Bubble extends Ostacolo
     public boolean checkEnter( Shape ingr, Tubo ost )
     	{
     		String dir = ost.getDirection();
-    		
-    		// TODO FARE I CONTROLLI IN RELAZIONE ALLA DIREZIONE DEL TUBO
+
     		if(dir.equals( "sx" ) || dir.equals( "dx" ))
 	    		{
 	    			if(!ostr.intersects( ost.component( "latoSu" ) ) && !ostr.intersects( ost.component( "latoGiu" ) ))
@@ -479,8 +478,6 @@ public class Bubble extends Ostacolo
         	if(!primoTubo)
     			if(secondoTubo)
     				{
-    					// TODO AGGIUNGERE IL FATTO CHE PUO RIMBALZARE SU ALTRI BASE E ENTER
-    					// A PATTO CHE NON SIANO DEL TUBO IN CUI E' PRESENTE IN QUEL MOMENTO
     					if(!ost.getID().equals( "base" ) && !ost.getID().equals( "enter" ))
     						if(indexTube != i && previousIndexTube != i)
     							gestioneCollisioni( ost );

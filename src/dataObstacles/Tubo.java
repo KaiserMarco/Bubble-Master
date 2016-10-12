@@ -69,31 +69,11 @@ public class Tubo extends Ostacolo{
 			{
 				width = gc.getWidth()/10;
 				height = gc.getHeight()/10;
-				/*if(type.equals( "dx" ))
-					{
-						base = new Base( x, y + gc.getWidth()/160, gc.getWidth()*10/119, height - gc.getWidth()/80 );
-						enter = new Enter( base.getMaxX(), y, width - base.getWidth(), height );
-					}
-				else
-					{
-						enter = new Enter( x, y, width - gc.getWidth()*10/119, height );
-						base = new Base( enter.getMaxX(), y + gc.getWidth()/160, gc.getWidth()*10/119, height - gc.getWidth()/80 );
-					}*/
 			}
 		else
 			{
 				width = gc.getHeight()/10;
 				height = gc.getWidth()/10;
-				/*if(type.equals( "up" ))
-					{
-						enter = new Enter( x, y, width, height - gc.getWidth()*10/119 );
-						base = new Base( x + gc.getWidth()/160, enter.getMaxY(), width - gc.getWidth()/80, height - enter.getHeight() );
-					}
-				else
-					{
-						base = new Base( x + gc.getWidth()/160, y, width - gc.getWidth()/80, height - enter.getHeight() );
-						enter = new Enter( x, base.getMaxY(), width, height - gc.getWidth()*10/119 );
-					}*/
 			}
 		
 		ostr = new Rectangle( x, y, width, height );
@@ -101,15 +81,13 @@ public class Tubo extends Ostacolo{
 
 	public void draw( Graphics g ) throws SlickException
 		{
-            immagine.draw( ostr.getX(), ostr.getY(), width, height );
+            //immagine.draw( ostr.getX(), ostr.getY(), width, height );
             if(Start.editGame == 1)
                 if(checkInsert)
                     if(!insert)
                         immagine.draw( ostr.getX(), ostr.getY(), width, height, cr);
                     else
                         immagine.draw( ostr.getX(), ostr.getY(), width, height, cg);
-        	//g.fill( base.getArea() );
-        	//g.fill( enter.getArea() );
 		}
 	
 	public int getIndexBase()
