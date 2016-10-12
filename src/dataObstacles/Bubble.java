@@ -463,8 +463,11 @@ public class Bubble extends Ostacolo
 					// TODO FORSE CI SONO, PENSO DI DOVER PARTIRE DA QUI        			
 					if(checkEnter( ingr, ((Tubo) ost) ))	        			
 						{
+							// TODO PROBABILMENTE FA CASINO PERCHE QUANDO ENTRA NEL SECONDO TUBO
+							// LUI "SENTE" ANCHE IL PRIMO E FORSE FA CASINO
 							if(indexTube != i)
 								{
+									System.out.println( "vediamo se almeno questo lo prende va" );
 		    						primoTubo = true;
 		        					indexTube = i;
 		        					if(secondoTubo)
