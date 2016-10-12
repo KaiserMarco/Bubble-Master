@@ -83,9 +83,9 @@ public class Bubble extends Ostacolo
     			{	
     				if(checkInsert)
     					if(!insert)
-    						immagine.draw( ostr.getX(), ostr.getY(), ray*2, ray*2, cr);
+    						immagine.draw( ostr.getX(), ostr.getY(), ray*2, ray*2, cr );
     					else
-    						immagine.draw( ostr.getX(), ostr.getY(), ray*2, ray*2, cg);
+    						immagine.draw( ostr.getX(), ostr.getY(), ray*2, ray*2, cg );
     			}
 		}
     
@@ -234,7 +234,7 @@ public class Bubble extends Ostacolo
     		// la sfera e' nel SECONDO tubo
     		else if(secondoTubo)
     			{
-	    			if(!(tubo.component( "rect" ).intersects( ostr )) && !(tubo.component( "latoIngresso" ).intersects( ostr )))
+	    			if(!tubo.component( "rect" ).intersects( ostr ))
 	    				{
 	    					secondoTubo = false;
 	    					primoTubo = false;
@@ -469,21 +469,21 @@ public class Bubble extends Ostacolo
 	        					setPositionInTube( ost, primoTubo );
 	        				}
         		}
-        	else if(!ost.getID().equals( "enter" ) && !ost.getID().equals( "base" ))
-        		if(primoTubo || secondoTubo)
-        			gestioneSferaInTubo();
+        	else if(ost.getID().equals( "tubo" ) && (primoTubo || secondoTubo))
+    			gestioneSferaInTubo();
         	
-        	if(!primoTubo)
-    			if(secondoTubo)
-    				{
-    					if(!ost.getID().equals( "base" ) && !ost.getID().equals( "enter" ))
-    						if(indexTube != i && previousIndexTube != i)
-    							if(ostr.intersects( ost.component( "rect" ) ))
-    								gestioneCollisioni( ost );
-    				}
-    			else if(!ost.getID().equals( "tubo" ))
-    				if(ostr.intersects( ost.component( "rect" ) ))
-						gestioneCollisioni( ost );
+			if(secondoTubo)
+				{
+					// TODO NEL LIVELLO lastTRY PURTROPPO QUANDO ESCE DA UN TUBO POI NON ENTRA NELL'ALTRO
+					// CAPIRE COME MAI DAL BASSO VERSO L'ALTO E SI E VICEVERSA NO
+					if(!ost.getID().equals( "base" ) && !ost.getID().equals( "enter" ))
+						if(indexTube != i && previousIndexTube != i)
+							if(ostr.intersects( ost.component( "rect" ) ))
+								gestioneCollisioni( ost );
+				}
+			else if(!primoTubo && !ost.getID().equals( "tubo" ))
+				if(ostr.intersects( ost.component( "rect" ) ))
+					gestioneCollisioni( ost );
     	}
  
     public void update( GameContainer gc, int delta ) throws SlickException
