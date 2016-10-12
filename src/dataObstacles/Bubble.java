@@ -33,7 +33,7 @@ public class Bubble extends Ostacolo
 	private Color cg = new Color( 50, 170, 50, 100 ), cr = new Color( 170, 50, 50, 100 );
 	
 	//determina il tubo in cui e' entrata la sfera (ma non il tubo in uscita)
-	private int indexTube, previousIndexTube;
+	private int indexTube;
 	//determina se la sfera e' nel primo o secondo tubo
 	private boolean primoTubo, secondoTubo;
 	//determina se le velocita' della sfera sono state settate
@@ -56,7 +56,6 @@ public class Bubble extends Ostacolo
             primoTubo = false;
             secondoTubo = false;
             indexTube = -1;
-            previousIndexTube = -1;
             
             float minSpeed = 0.4f;
             
@@ -226,7 +225,6 @@ public class Bubble extends Ostacolo
         				{
         					secondoTubo = true;
         					setSpeed = true;
-        					previousIndexTube = indexTube;
         					indexTube = InGame.ostacoli.get( indexTube ).getUnion();
         					setPositionInTube( InGame.ostacoli.get( indexTube ), primoTubo );
         				}
@@ -238,7 +236,6 @@ public class Bubble extends Ostacolo
 	    				{
 	    					secondoTubo = false;
 	    					primoTubo = false;
-	    					previousIndexTube = -1;
 	    					indexTube = -1;
 	    				}
     			}
@@ -458,7 +455,29 @@ public class Bubble extends Ostacolo
     /**gestisce collisioni fra tutti gli elementi*/
     public void checkAll( int i, Ostacolo ost )
     	{
-        	if(ost.getID().equals( "tubo" ) && !primoTubo && !secondoTubo)
+	    	if(ost.getID().equals( "tubo" ) && !primoTubo)
+				{
+					//il lato di ingresso nel tubo
+					Shape ingr = ost.component( "latoIngresso" );
+					
+					// TODO FORSE CI SONO, PENSO DI DOVER PARTIRE DA QUI        			
+					if(checkEnter( ingr, ((Tubo) ost) ))	        			
+						{
+							if(indexTube != i)
+								{
+		    						primoTubo = true;
+		        					indexTube = i;
+		        					if(secondoTubo)
+		        						secondoTubo = false;
+		        					setPositionInTube( ost, primoTubo );
+								}
+						}
+				}
+	    	else if(ost.getID().equals( "tubo" ) && (primoTubo || secondoTubo))
+	    		gestioneSferaInTubo();
+    	
+	    	// TODO CODICE MOLTO FUNZIONANTE (MI RACCOMANDO NON VA ASSOLUTAMENTE CANCELLATO)
+        	/*if(ost.getID().equals( "tubo" ) && !primoTubo && !secondoTubo)
         		{
         			//il lato di ingresso nel tubo
         			Shape ingr = ost.component( "latoIngresso" );
@@ -470,16 +489,15 @@ public class Bubble extends Ostacolo
 	        				}
         		}
         	else if(ost.getID().equals( "tubo" ) && (primoTubo || secondoTubo))
-    			gestioneSferaInTubo();
+    			gestioneSferaInTubo();*/
         	
 			if(secondoTubo)
 				{
 					// TODO NEL LIVELLO lastTRY PURTROPPO QUANDO ESCE DA UN TUBO POI NON ENTRA NELL'ALTRO
 					// CAPIRE COME MAI DAL BASSO VERSO L'ALTO E SI E VICEVERSA NO
-					if(!ost.getID().equals( "base" ) && !ost.getID().equals( "enter" ))
-						if(indexTube != i && previousIndexTube != i)
-							if(ostr.intersects( ost.component( "rect" ) ))
-								gestioneCollisioni( ost );
+					if(indexTube != i && !ost.getID().equals( "base" ) && !ost.getID().equals( "enter" ))
+						if(ostr.intersects( ost.component( "rect" ) ))
+							gestioneCollisioni( ost );
 				}
 			else if(!primoTubo && !ost.getID().equals( "tubo" ))
 				if(ostr.intersects( ost.component( "rect" ) ))
