@@ -308,8 +308,9 @@ public class Tubo extends Ostacolo{
 	        //se la modifica e' da verticale a orizzontale
 	        else
     	        {
-                    ostr.setX( getX() + width/2 - height/2 );
-                    ostr.setY( getY() - width/2 + height/2 );
+		        	tmp = width;
+	                width = height;
+	                height = tmp;
 	                
                     setSpace( gc );
     	        }
