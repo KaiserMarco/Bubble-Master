@@ -25,8 +25,8 @@ public class SimpleButton extends Button
 	float[] points = new float[6];
 	/* lunghezza e altezza del bottone triangolare */
 	int width, height;
-	/* lunghezza e altezza del bottone rettangolare */
-	float lungh, alt;
+	// il rapproto di grandezza del font
+	float ratioFont = 10.0f;
 
 	/** crea un nuovo bottone rettangolare
 	 * @param x - coordinata X
@@ -50,26 +50,26 @@ public class SimpleButton extends Button
 			if(ratioH != Global.ratioH)
 				{
 					ratioH = Global.ratioH;
-					
-					font = new UnicodeFont( "./data/fonts/prstart.ttf", (int)(10.f * ratioH), false, true );
+			        ratioFont = ratioFont * ratioH;
+			        
+					font = new UnicodeFont( "./data/fonts/prstart.ttf", (int)(ratioFont), false, true );
 					font.addAsciiGlyphs();
-			        font.addGlyphs( 600, 400 );
+			        font.addGlyphs( Global.W, Global.H );
 			        font.getEffects().add( new ColorEffect( java.awt.Color.WHITE ) );
 			        font.loadGlyphs();
 				}
-			
+
 			int width = font.getWidth( name ), height = font.getHeight( name );
 			rect = new Rectangle( x, y, width + offset, height + offset );
-			lungh = width + offset; alt = height + offset;
 		}
 	
 	/** modifica la lunghezza del bottone*/
 	public float getLungh()
-		{  return lungh; }
+		{  return rect.getWidth(); }
 	
 	/** modifica l'altezza del bottone*/
 	public float getAlt()
-		{  return alt; }
+		{  return rect.getHeight(); }
 
 	/** modifica il valore di attivazione*/
 	public void setActive()
