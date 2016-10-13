@@ -3,11 +3,11 @@ package Utils;
 
 public class Global
 {
-	// determinano la lunghezza e l'altezza dello schermo di default
+	/** lunghezza e altezza di base */
 	public static final float Width = 800;
 	public static final float Height = 600;
 	
-	// lunghezza e altezza dello schermo attuale di gioco
+	/** lunghezza e altezza attuale */
 	public static int W = 800;
 	public static int H = 600;
 	

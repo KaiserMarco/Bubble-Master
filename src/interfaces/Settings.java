@@ -247,12 +247,10 @@ public class Settings
 	                        img.setMaxWidth( img.getMaxWidth() * Global.ratioW );
 	                        img.setWidth( img.getWidth() * Global.ratioW );
 	                    }
-	            
-	                for(SimpleButton button: buttons)
-	                    {
-	                        button.setX( button.getX() * Global.ratioW );
-	                        button.setY( button.getY() * Global.ratioH );
-	                    }
+
+        			for(SimpleButton button: buttons)
+        				button.buildButton( button.getX() * Global.ratioW, button.getY() * Global.ratioH );
+	        			
 	                Start.cl.setUpdates();
 	                
 	                xRes = xRes * Global.ratioW;

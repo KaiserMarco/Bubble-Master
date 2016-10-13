@@ -250,7 +250,7 @@ public class Edit
 			this.index = index;
 		}
 	
-	public void updateStats( GameContainer gc )
+	public void updateStats( GameContainer gc ) throws SlickException
 		{
 			float currRatioW = Global.ratioW, currRatioH = Global.ratioH;
 			
@@ -269,10 +269,7 @@ public class Edit
 					choise = new Rectangle( choise.getX() * Global.ratioW, Global.H - heightChoise*Global.ratioH, widthChoise, heightChoise );
 					
 					for(SimpleButton button: buttons)
-						{
-							button.setX( button.getX() * Global.ratioW );
-							button.setY( button.getY() * Global.ratioH );
-						}
+						button.buildButton( button.getX() * Global.ratioW, button.getY() * Global.ratioH );
 					
 					// TODO TUTTO OK, MA IL TUBO NON SI ADATTA COME IL RESTO
 					// MA SOLO QUANDO CAMBIO 3 VOLTE LA RISOLUZIONE, ALTRIMENTI E' OK

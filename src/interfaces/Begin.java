@@ -239,13 +239,10 @@ public class Begin
 		}
 	
 	// aggiorna le dimensioni al variare della risoluzione
-	public void setStats()
+	public void setStats() throws SlickException
 		{
 			for(SimpleButton button: buttons)
-				{
-					button.setX( button.getX() * Global.ratioW );					
-					button.setY( button.getY() * Global.ratioH );
-				}
+				button.buildButton( button.getX() * Global.ratioW, button.getY() * Global.ratioH );
 			
 			checkRatioW = Global.ratioW;
 			checkRatioH = Global.ratioH;

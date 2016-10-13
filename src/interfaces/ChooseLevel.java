@@ -119,8 +119,9 @@ public class ChooseLevel
 	public int getIndexLevel()
 		{ return pos; }
 	
-	/**setta i valori degli oggetti in proporzione alla variazione di risoluzione*/
-	public void setUpdates()
+	/**setta i valori degli oggetti in proporzione alla variazione di risoluzione
+	 * @throws SlickException */
+	public void setUpdates() throws SlickException
 		{
 			width = width * Global.ratioW;
 			height = height * Global.ratioH;
@@ -133,19 +134,8 @@ public class ChooseLevel
 			for(ArrowButton arrow: arrows)
 				arrow.translate( Global.ratioW, Global.ratioH );
 
-			for(int i  = 0; i < buttons.size(); i++)
-				{
-					if(i != buttons.size() - 1)
-						{
-							buttons.get( i ).setX( buttons.get( i ).getX() * Global.ratioW );
-							buttons.get( i ).setY( buttonY );
-						}
-					else
-						{
-							buttons.get( buttons.size() - 1 ).setX( width/2 - buttons.get( buttons.size() - 1 ).getLungh()/2 );
-							buttons.get( buttons.size() - 1 ).setY( arrows.get( 0 ).getY() + arrows.get( 0 ).getHeight()/2 - buttons.get( buttons.size() - 1 ).getAlt()/2 );
-						}
-				}
+			for(SimpleButton button: buttons)
+				button.buildButton( button.getX() * Global.ratioW, button.getY() * Global.ratioH );
 		}
 	
 	private int checkButton( Button button, Input input, int i )

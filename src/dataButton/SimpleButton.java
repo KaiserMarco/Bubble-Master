@@ -3,12 +3,12 @@ package dataButton;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.UnicodeFont;
 import org.newdawn.slick.font.effects.ColorEffect;
-import org.newdawn.slick.geom.Polygon;
 import org.newdawn.slick.geom.Rectangle;
+
+import Utils.Global;
 
 public class SimpleButton extends Button
 {
@@ -18,9 +18,9 @@ public class SimpleButton extends Button
 	private Color c;
 	
 	public static UnicodeFont font;
-	public static float ratioH = 1, ratioW = 1;
+	public float ratioH = 0;
 	/* offset per lo spostamento */
-	private float offset = 20.f * ratioH;
+	private float offset = 20.f * Global.ratioH;
 	/* i punti del bottone triangolare */
 	float[] points = new float[6];
 	/* lunghezza e altezza del bottone triangolare */
@@ -34,54 +34,33 @@ public class SimpleButton extends Button
 	 * @param name - il nome del bottone
 	 * @throws SlickException 
 	*/
-	@SuppressWarnings("unchecked")
     public SimpleButton( float x, float y, String name, Color color ) throws SlickException
 		{
 			super();
 			
 			c = color;
-			
-			if(font == null) {
-				font = new UnicodeFont( "./data/fonts/prstart.ttf", (int)(10.f * ratioH), false, true );
-				font.addAsciiGlyphs();
-		        font.addGlyphs( 600, 400 );
-		        font.getEffects().add( new ColorEffect( java.awt.Color.WHITE ) );
-		        font.loadGlyphs();
-			}
+
+			this.name = name;
+			buildButton( x, y );
+		}
+	
+	@SuppressWarnings("unchecked")
+	public void buildButton( float x, float y ) throws SlickException
+		{
+			if(ratioH != Global.ratioH)
+				{
+					ratioH = Global.ratioH;
+					
+					font = new UnicodeFont( "./data/fonts/prstart.ttf", (int)(10.f * ratioH), false, true );
+					font.addAsciiGlyphs();
+			        font.addGlyphs( 600, 400 );
+			        font.getEffects().add( new ColorEffect( java.awt.Color.WHITE ) );
+			        font.loadGlyphs();
+				}
 			
 			int width = font.getWidth( name ), height = font.getHeight( name );
 			rect = new Rectangle( x, y, width + offset, height + offset );
 			lungh = width + offset; alt = height + offset;
-			this.name = name;
-		}
-	
-	/** crea un nuovo bottone triangolare
-	 * @param x - coordinata X
-	 * @param y - coordinata Y
-	 * @param width - la lunghezza del bottone
-	 * @param heigth - l'altezza del bottone
-	 * @throws SlickException 
-	*/
-	public SimpleButton( float x, float y, String name, int width, int heigth, Image change )
-		{
-			this.name = name;
-			if(name.equals( "Right" ))
-				{
-					points[0] = x; points[1] = y;
-					points[2] = x; points[3] = y + heigth;
-					points[4] = x + width; points[5] = y + heigth/2;
-				}
-			else if(name.equals( "Left" ))
-				{
-					points[0] = x; points[1] = y + heigth/2;
-					points[2] = x + width; points[3] = y;
-					points[4] = x + width; points[5] = y + heigth;
-				}
-			rect = new Polygon( points );
-			
-			this.change = change;
-			this.width = width;
-			this.height = heigth;
 		}
 	
 	/** modifica la lunghezza del bottone*/
@@ -123,7 +102,7 @@ public class SimpleButton extends Button
 				{
 					super.draw( g );
 		
-					float width = 1.f * ratioH;
+					float width = 1.f * Global.ratioH;
 					if(pressed)
 						font.drawString( rect.getX() + offset/2 + width, rect.getY() + offset/2 + width, name, Color.black );
 					else

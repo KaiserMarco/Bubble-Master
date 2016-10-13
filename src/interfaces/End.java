@@ -36,6 +36,8 @@ public class End
 	
 	private boolean mouseDown = false;
 	
+	private float currRatioW = Global.Width, currRatioH = Global.Height;
+	
 	private static final String REPLAY = "GIOCA ANCORA", HOME = "TORNA ALLA SCHERMATA PRINCIPALE", LEVELS = "TORNA ALLA SCHERMATA DEI LIVELLI";
 	
 	public End() throws SlickException
@@ -144,12 +146,24 @@ public class End
 		
 			return 0;
 		}
+	
+	public void updateDates() throws SlickException
+		{
+			for(SimpleButton button: buttons)
+				button.buildButton( button.getX() * Global.ratioW, button.getY() * Global.ratioH );
+			
+			currRatioH = Global.H;
+			currRatioW = Global.W;
+		}
 
 	public void update(GameContainer gc) throws SlickException
 		{
 			Input input = gc.getInput();
 			int mouseX = input.getMouseX();
-			int mouseY = input.getMouseY();			
+			int mouseY = input.getMouseY();
+			
+			if(currRatioW != Global.W || currRatioH != Global.H)
+				updateDates();
 
 			if(indexCursor < 0 &&((input.isKeyPressed( Input.KEY_UP ) || input.isKeyPressed( Input.KEY_DOWN )
 			|| input.isKeyPressed( Input.KEY_LEFT ) || input.isKeyPressed( Input.KEY_RIGHT ))))
