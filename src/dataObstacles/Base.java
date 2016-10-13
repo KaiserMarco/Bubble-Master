@@ -202,11 +202,8 @@ public class Base extends Ostacolo
 		
 	}
 
-	@Override
-	public void setOrienting() {
-		// TODO Auto-generated method stub
-		
-	}
+	public void setOrienting( GameContainer gc )
+		{}
 
 	@Override
 	public String getOrienting() {

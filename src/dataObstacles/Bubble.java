@@ -415,16 +415,13 @@ public class Bubble extends Ostacolo
         					setSpeed = true;
         					indexTube = InGame.ostacoli.get( indexTube ).getUnion();
         					setPositionInTube( InGame.ostacoli.get( indexTube ), primoTubo );
-	    					System.out.println( "indexTube = " + indexTube );
         				}
 	    		}
     		// la sfera e' nel SECONDO tubo
     		else if(secondoTubo)
     			{
-					System.out.println( "sono NEL secondo tubo" );
 	    			if(!tubo.component( "rect" ).intersects( ostr ))
 	    				{
-	    					System.out.println( "sono uscito dal secondo tubo" );
 	    					secondoTubo = false;
 	    					primoTubo = false;
 	    					indexTube = -1;
@@ -575,7 +572,7 @@ public class Bubble extends Ostacolo
 	public void update(GameContainer gc) throws SlickException 
 		{}
 
-    public void setOrienting()
+    public void setOrienting( GameContainer gc )
     	{}
 
     public String getOrienting()

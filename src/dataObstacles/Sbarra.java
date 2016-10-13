@@ -187,7 +187,7 @@ public class Sbarra extends Ostacolo
 	public double getMaxWidth()
 		{ return 0; }
 
-    public void setOrienting()
+    public void setOrienting( GameContainer gc )
         {
     		float tmp;
     	

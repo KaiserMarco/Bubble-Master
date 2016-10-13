@@ -55,7 +55,7 @@ public abstract class Ostacolo
 	public abstract boolean getCollide();
 	public abstract void setCollide( boolean val );
 	
-	public abstract void setOrienting();
+	public abstract void setOrienting( GameContainer gc )  throws SlickException;
 	public abstract String getOrienting();
 
 	public abstract Shape getArea();

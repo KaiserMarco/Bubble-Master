@@ -132,7 +132,7 @@ public class Tubo extends Ostacolo{
 			else
 				{
 					base = new Base( getX() + gc.getWidth()/160, getY(), width - gc.getWidth()/80, gc.getWidth()*10/119 );
-					enter = new Enter( getX(), base.getMaxY(), width, height - gc.getWidth()*10/119 );
+					enter = new Enter( getX(), base.getMaxY(), width, height - base.getHeight() );
 				}
     		base.setSpigoli();
     		enter.setSpigoli();
@@ -166,8 +166,8 @@ public class Tubo extends Ostacolo{
 				}
 			else
 				{
-					base = new Base( getX() + gc.getWidth()/160, getY(), width - gc.getWidth()/80, height - enter.getHeight() );
-					enter = new Enter( getX(), base.getMaxY(), width, height - gc.getWidth()*10/119 );
+					base = new Base( getX() + gc.getWidth()/160, getY(), width - gc.getWidth()/80, gc.getWidth()*10/119 );
+					enter = new Enter( getX(), base.getMaxY(), width, height - base.getHeight() );
 				}
     		setSpigoli();
     	}
@@ -292,7 +292,7 @@ public class Tubo extends Ostacolo{
 	public double getMaxWidth()
 		{ return 0; }
 
-	private void modificaArea( int type )
+	private void modificaArea( int type, GameContainer gc ) throws SlickException
 	    {
 			float tmp;
 		
@@ -303,50 +303,43 @@ public class Tubo extends Ostacolo{
 	                width = height;
 	                height = tmp;
 	                
-                    ostr.setX( getX() - width/2 + height/2 );
-                    ostr.setY( getY() + width/2 - height/2 );
-                    ostr.setWidth( width );
-                    ostr.setHeight( height );
+                    setSpace( gc );
     	        }
 	        //se la modifica e' da verticale a orizzontale
 	        else
     	        {
                     ostr.setX( getX() + width/2 - height/2 );
-                    ostr.setY( getY() - width/2 + height/2 );                
-
-	        		tmp = width;
-	                width = height;
-	                height = tmp;
-                    ostr.setWidth( width );
-                    ostr.setHeight( height );
+                    ostr.setY( getY() - width/2 + height/2 );
+	                
+                    setSpace( gc );
     	        }
 	    }
 	
-	public void setOrienting()
+	public void setOrienting( GameContainer gc ) throws SlickException
         {
 	        if(type.equals( "sx" ))
 	            {
 	                type = "up";
 	                immagine = tuboup;
-	                modificaArea( 1 );
+	                modificaArea( 1, gc );
 	            }
 	        else if(type.equals( "up" ))
 	            {
 	                type = "dx";
 	                immagine = tubodx;
-	                modificaArea( 2 );
+	                modificaArea( 2, gc );
 	            }
 	        else if(type.equals( "dx" ))
 	            {
 	                type = "down";
 	                immagine = tubodown;
-	                modificaArea( 1 );
+	                modificaArea( 1, gc );
 	            }
 	        else
 	            {
 	                type = "sx";
 	                immagine = tubosx;
-	                modificaArea( 2 );
+	                modificaArea( 2, gc );
 	            }
         }
 

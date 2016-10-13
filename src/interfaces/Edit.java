@@ -685,7 +685,7 @@ public class Edit
 					if(!temp.getID().equals( "bolla" ) && !temp.getID().startsWith( "player" ))
 					    if(input.isKeyPressed( Input.KEY_SPACE ))
 					    	{
-					        	temp.setOrienting();
+					        	temp.setOrienting( gc );
 					        	if(temp.equals( "tubo" ))
 					        		{
 					        			((Base) ((Tubo) temp).getBase()).setDirection( ((Tubo) temp).getDirection());
