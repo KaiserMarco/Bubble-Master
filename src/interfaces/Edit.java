@@ -550,8 +550,8 @@ public class Edit
 			    for(Ostacolo obs: ostacoli)
 			    	{									    			
 	    				item = new Element( "ostacolo" );
-	    				item.setAttribute( "x", obs.getX() + "" );
-	    				item.setAttribute( "y", obs.getY() + "" );
+	    				item.setAttribute( "x", (float) obs.getX() + "" );
+	    				item.setAttribute( "y", (float) obs.getY() + "" );
 	    				item.setAttribute( "union", obs.getUnion() + "" );
 	    				if(obs.getOrienting() != null)
 	    				    item.setAttribute( "type", obs.getOrienting() );

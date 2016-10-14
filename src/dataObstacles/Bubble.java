@@ -414,6 +414,7 @@ public class Bubble extends Ostacolo
         					secondoTubo = true;
         					setSpeed = true;
         					indexTube = InGame.ostacoli.get( indexTube ).getUnion();
+        					System.out.println( "union = " + indexTube );
         					setPositionInTube( InGame.ostacoli.get( indexTube ), primoTubo );
         				}
 	    		}
@@ -432,8 +433,7 @@ public class Bubble extends Ostacolo
     /**gestisce collisioni fra tutti gli elementi*/
     public void checkAll( int i, Ostacolo ost )
     	{
-    		// TODO NON CAPISCO COME MAI CONTINUI A NON FUNZIONARE MAREMMA TROIA
-    	
+    		// TODO CERCARE DI RISOLVERE IL "PROBLEMA" DEL LIVELLO "lastTRY"
     		if(ost.getID().equals( "tubo" ))
     			{
     				if(!primoTubo && !secondoTubo)

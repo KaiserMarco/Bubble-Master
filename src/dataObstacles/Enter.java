@@ -53,7 +53,7 @@ public class Enter extends Ostacolo
 		}
 
 	public void draw(Graphics g) throws SlickException
-		{ g.fill( ostr ); }
+		{ g.draw( ostr ); }
 	
 	public void setIndexTube( int val )
 		{ indexTube = val; }
