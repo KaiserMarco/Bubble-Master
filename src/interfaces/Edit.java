@@ -410,7 +410,7 @@ public class Edit
 				{
 					if(type.equals( "keyboard" ) && indexCursor >= 0)
 						{
-							temp = ostacoli.get( indexCursor ).clone( gc );
+							temp = ostacoli.get( indexCursor );
 							//modifica la posizione di un tubo gia' esistente
 							if(temp.getID().equals( "tubo" ))
 								{
@@ -456,8 +456,6 @@ public class Edit
 										//sistema gli indici dei tubi puntati
 										aggiornaIndiciTubi( i );
 										ostacoli.remove( i );
-										
-										System.out.println( "index = " + i );
 										
 										temp.setInsert( true, true );
 										
@@ -750,33 +748,6 @@ public class Edit
 					else if(input.isKeyDown( Input.KEY_DOWN ))
 						if(!temp.getID().startsWith( "player" ))
 							temp.setXY( 0, move, "move" );
-					/*spostamento oggetto tramite mouse*/
-					if(mouseX != tempX || mouseY != tempY)	
-						{
-							indexCursor = -1;
-							indexCursorButton = -1;
-							indexCursorSfondi = -1;
-							temp.setXY( mouseX - (int) temp.getWidth()/2, mouseY - (int) temp.getHeight()/2, "restore" );		
-							if(temp.getID().startsWith( "player" ))
-								{
-									double tmp = gc.getHeight();
-									int winner = -1;
-									for(int i = 0; i < ostacoli.size(); i++)
-										if(!ostacoli.get( i ).getID().equals( "tubo" ))
-											if(mouseY < ostacoli.get( i ).getY())
-												if(!(mouseX + temp.getWidth()/2 < ostacoli.get( i ).getX() || mouseX - temp.getWidth()/2 > ostacoli.get( i ).getMaxX()))
-													if(Math.abs( mouseY - ostacoli.get( i ).getY() ) < tmp)
-														{
-															tmp = Math.abs( mouseY - ostacoli.get( i ).getY() );
-															winner = i;
-														}
-									
-									if(winner == -1)
-										temp.setXY( mouseX - (int) temp.getWidth()/2, (int) (sfondi.get( indexSfondo ).getMaxHeight() - temp.getHeight()), "restore" );
-									else
-										temp.setXY( mouseX - (int) temp.getWidth()/2, (int) (ostacoli.get( winner ).getY() - temp.getHeight()), "restore" );
-								}
-						}
 					
 					/*controllo estremi dello schermo*/
 					if(temp.getX() <= 0)
@@ -791,6 +762,37 @@ public class Edit
 					
 					if(temp.getY() <= 0)
 						temp.setXY( temp.getX(), 0, "restore" );
+					
+					/*spostamento oggetto tramite mouse*/
+					if(mouseX != tempX || mouseY != tempY)	
+						{
+							indexCursor = -1;
+							indexCursorButton = -1;
+							indexCursorSfondi = -1;
+							temp.setXY( mouseX - temp.getWidth()/2, mouseY - temp.getHeight()/2, "restore" );		
+							if(temp.getID().startsWith( "player" ))
+								{
+									double tmp = gc.getHeight();
+									int winner = -1;
+									// TODO SISTEMARE LA COSA DELLA COLLISIONE PLAYER/TUBO(BASE-ENTER)
+									for(int i = 0; i < ostacoli.size(); i++)
+										{
+											Ostacolo ost = ostacoli.get( i );
+											if(mouseY < ost.getY())
+												if(!(mouseX + temp.getWidth()/2 < ost.getX() || mouseX - temp.getWidth()/2 > ost.getMaxX()))
+													if(Math.abs( mouseY - ostacoli.get( i ).getY() ) < tmp)
+														{
+															tmp = Math.abs( mouseY - ost.getY() );
+															winner = i;
+														}
+										}
+									
+									if(winner == -1)
+										temp.setXY( mouseX - temp.getWidth()/2, sfondi.get( indexSfondo ).getMaxHeight() - temp.getHeight(), "restore" );
+									else
+										temp.setXY( mouseX - temp.getWidth()/2, ostacoli.get( winner ).getY() - temp.getHeight(), "restore" );
+								}
+						}
 					
 					tempX = mouseX;
 					tempY = mouseY;

@@ -142,30 +142,37 @@ public class Tubo extends Ostacolo{
     public void updateStats( GameContainer gc )
     	{}
     
+    // setta i parametri sulla base della nuova risoluzione
     public void updateValues( GameContainer gc ) throws SlickException
     	{
-    		width = width * Global.ratioW;
-    		height = height * Global.ratioH; 
     		setXY( getX() * Global.ratioW, getY() * Global.ratioH, "restore" );
 
     		ostr = new Rectangle( getX(), getY(), width, height );
     		if(type.equals( "dx" ))
 				{
+        			width = width * Global.ratioW;
+        			height = height * Global.ratioH; 
 					base = new Base( getX(), getY() + gc.getWidth()/160, gc.getWidth()*10/119, height - gc.getWidth()/80 );
 					enter = new Enter( base.getMaxX(), getY(), width - base.getWidth(), height );
 				}
 			else if(type.equals( "sx" ))
 				{
+	    			width = width * Global.ratioW;
+	    			height = height * Global.ratioH; 
 					enter = new Enter( getX(), getY(), width - gc.getWidth()*10/119, height );
 					base = new Base( enter.getMaxX(), getY() + gc.getWidth()/160, gc.getWidth()*10/119, height - gc.getWidth()/80 );
 				}
 			else if(type.equals( "up" ))
 				{
+	    			width = width * Global.ratioH;
+	    			height = height * Global.ratioW; 
 					enter = new Enter( getX(), getY(), width, height - gc.getWidth()*10/119 );
 					base = new Base( getX() + gc.getWidth()/160, enter.getMaxY(), width - gc.getWidth()/80, height - enter.getHeight() );
 				}
 			else
 				{
+	    			width = width * Global.ratioH;
+	    			height = height * Global.ratioW; 
 					base = new Base( getX() + gc.getWidth()/160, getY(), width - gc.getWidth()/80, gc.getWidth()*10/119 );
 					enter = new Enter( getX(), base.getMaxY(), width, height - base.getHeight() );
 				}
