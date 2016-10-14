@@ -62,7 +62,7 @@ public class Edit
 	private int indexCursor, indexCursorButton, indexCursorSfondi;
 	private int widthC, heightC;
 	
-	private boolean insertEditor, insertItem, insertNameLvl;
+	private boolean insertEditor, insertItem;
 	/**base -> la finestra di selezione sfondo/elemento*/
 	private Rectangle choise, base;
 	private float widthChoise, heightChoise;
@@ -99,7 +99,7 @@ public class Edit
 	
 	private TextBox tBox;
 	
-	private static final String TUBO = "tubo", BASE = "base", ENTER = "enter", PLAYER = "player", BOLLA = "bolla", SBARRA = "sbarra";
+	private static final String TUBO = "tubo", BASE = "base", ENTER = "enter", PLAYER = "player", BOLLA = "bolla";
 	
     public Edit( GameContainer gc ) throws SlickException
 		{
@@ -144,7 +144,6 @@ public class Edit
 			indexCursorSfondi = -1;
 			
 			insertItem = false;
-			insertNameLvl = false;
 			
 			buttons = new ArrayList<SimpleButton>();
 			
@@ -650,14 +649,25 @@ public class Edit
 	/** controlla la collisione fra i vari oggetti */
 	private boolean checkCollision( Ostacolo ost )
 		{
+			Shape areaPlayer = temp.component( "rect" );
+			Shape areaObs = ost.component( "rect" );
+		
 		    if(temp.getID().startsWith( PLAYER ))
 		        {						    	
-		            if(!ost.getID().equals( SBARRA ) && !ost.getID().equals( TUBO )
-            		&& !ost.getID().equals( BASE ) && !ost.getID().equals( ENTER ))
+		            if(ost.getID().equals( BOLLA ))
 		                {
-			                if(temp.component( "rect" ).intersects( ost.component( "rect" ) ))
+			                if(areaPlayer.intersects( areaObs ))
 			                    return true;
 		                }
+		            else if(ost.getID().equals( TUBO ))
+		            		{
+		            			Shape areaBase = ((Tubo) ost).getBase().getArea();
+		            			Shape areaEnter = ((Tubo) ost).getEnter().getArea();
+		            			if(areaPlayer.intersects( areaBase ) && areaPlayer.intersects( areaEnter ))
+	            					return true;
+		            			else if(areaPlayer.intersects( areaBase ) && temp.getY() + temp.getHeight() > ((Tubo) ost).getY())
+		            				return true;
+		            		}
 		            else if(temp.component( "rect" ).intersects( ost.component( "latoGiu" ) ))
                         return true;
 		        }
@@ -673,11 +683,9 @@ public class Edit
 			Input input = gc.getInput();
 			int mouseX = input.getMouseX();
 			int mouseY = input.getMouseY();
-			int move = (int) (gc.getHeight()/300 * Global.Height/Global.H);
 			
-			boolean collide = false, fall = false;
-			//determina se il personaggio "tocca" un oggetto o il pavimento
-			int stay = -1;
+			// determina se l'oggetto sta collidendo con altri oggetti
+			boolean collide = false;
 			
 			// aggiornamento altezza editor
 			setEditor( delta, gc );
@@ -690,17 +698,10 @@ public class Edit
 				}
 			// se HO cliccato su un elemento da inserire
 			if(temp != null)
-				{
-					// controlla se un l'oggetto da inserire non superi i confini dello schermo di gioco
-					if((temp.getID().equals( BOLLA ) && temp.getY() + temp.getHeight()*2 > sfondi.get( indexSfondo ).getMaxHeight())
-					|| (!temp.getID().equals( BOLLA ) && temp.getY() + temp.getHeight() > sfondi.get( indexSfondo ).getMaxHeight()))
-						collide = true;
-					
+				{					
 					for(Ostacolo ost: ostacoli)
-						{
-							if(checkCollision( ost ))
-								collide = true;
-						}
+						if(checkCollision( ost ))
+							collide = true;
 					
 					if(collide)
 						temp.setInsert( false, false );
@@ -717,67 +718,6 @@ public class Edit
 					        			((Enter) ((Tubo) temp).getEnter()).setDirection( ((Tubo) temp).getDirection());
 					        		}
 					    	}
-
-					/*controlla che il personaggio non sia posizionato a mezz'aria*/
-					if(temp.getID().startsWith( PLAYER ))
-						if(temp.getY() + temp.getHeight() < sfondi.get( indexSfondo ).getMaxHeight() - 1)
-							{
-								Shape area = temp.component( "rect" );
-								for(int i = 0; i < ostacoli.size(); i++)									
-									if(area.intersects( ostacoli.get( i ).component( "rect" ) ))
-										{
-											stay = i;
-											break;
-										}
-							}
-					/*posizionamento e spostamento degli oggetti nel gioco*/
-					if(input.isKeyDown( Input.KEY_RIGHT ))
-						temp.setXY( move, 0, "move" );
-					if(input.isKeyDown( Input.KEY_LEFT ))
-						temp.setXY( -move, 0, "move" );
-					if(stay == -1 || (!temp.component( "rect" ).intersects( ostacoli.get( stay ).component( "rect" ) ) && temp.getID().startsWith( PLAYER )))
-						fall = true;
-					if(input.isKeyPressed( Input.KEY_UP ) && temp.getID().startsWith( PLAYER ))
-						{
-							float tmp = gc.getHeight();
-							int win = -1;
-							for(int i = 0; i < ostacoli.size(); i++)
-								if(!ostacoli.get( i ).getID().equals( TUBO ))
-									if(ostacoli.get( i ).getY() < temp.getY())
-										if(!(temp.getX() > ostacoli.get( i ).getMaxX() || temp.getMaxX() < ostacoli.get( i ).getX()))
-											if(temp.getY() - ostacoli.get( i ).getY() < tmp)
-												{
-													tmp = temp.getY() - ostacoli.get( i ).getY();
-													win = i;
-												}							
-							if(win >= 0)
-								temp.setXY( temp.getX(), ostacoli.get( win ).getY() - temp.getHeight(), "restore" );
-						}
-					else if(input.isKeyDown( Input.KEY_UP ))
-						if(!temp.getID().startsWith( PLAYER ))								
-							temp.setXY( 0, -move, "move" );
-					if((input.isKeyPressed( Input.KEY_DOWN ) || fall) && temp.getID().startsWith( PLAYER ))
-						{
-							float tmp = gc.getHeight();
-							int win = -1;
-							for(int i = 0; i < ostacoli.size(); i++)
-								if(!ostacoli.get( i ).getID().equals( TUBO ))
-									if(i != stay)
-										if(ostacoli.get( i ).getY() > temp.getY())
-											if(!(temp.getX() > ostacoli.get( i ).getMaxX() || temp.getMaxX() < ostacoli.get( i ).getX()))
-												if(Math.abs(temp.getY() - ostacoli.get( i ).getY()) < tmp)
-													{
-														tmp = Math.abs(temp.getY() - ostacoli.get( i ).getY());
-														win = i;
-													}							
-							if(win >= 0)
-								temp.setXY( temp.getX(), ostacoli.get( win ).getY() - temp.getHeight(), "restore" );
-							else
-								temp.setXY( temp.getX(), (int) (sfondi.get( indexSfondo ).getMaxHeight() - temp.getHeight()), "restore" );
-						}
-					else if(input.isKeyDown( Input.KEY_DOWN ))
-						if(!temp.getID().startsWith( PLAYER ))
-							temp.setXY( 0, move, "move" );
 					
 					/*spostamento player tramite mouse*/
 					if(mouseX != tempX || mouseY != tempY)	
@@ -788,8 +728,7 @@ public class Edit
 							temp.setXY( mouseX - temp.getWidth()/2, mouseY - temp.getHeight()/2, "restore" );		
 							if(temp.getID().startsWith( PLAYER ))
 								{
-									float posY = Float.MAX_VALUE;
-									// TODO SISTEMARE LA COSA DELLA COLLISIONE PLAYER/TUBO(BASE-ENTER)
+									float posY = gc.getHeight();
 									for(int i = 0; i < ostacoli.size(); i++)
 										{
 											Ostacolo ost = ostacoli.get( i );
@@ -807,26 +746,31 @@ public class Edit
 												posY = ost.getY();
 										}
 									
-									if(posY == Float.MAX_VALUE)
+									if(posY == gc.getHeight())
 										temp.setXY( mouseX - temp.getWidth()/2, sfondi.get( indexSfondo ).getMaxHeight() - temp.getHeight(), "restore" );
 									else
 										temp.setXY( mouseX - temp.getWidth()/2, posY - temp.getHeight(), "restore" );
 								}
 						}
-					
-					/*controllo estremi dello schermo*/
+
+					// controlla se l'oggetto da inserire non superi i confini dello schermo di gioco					
 					if(temp.getX() <= 0)
-						temp.setXY( 0, temp.getY(), "restore" );
+						temp.setXY( 0, temp.getY(), "restore" );					
+					if(temp.getY() <= 0)
+						temp.setXY( temp.getX(), 0, "restore" );
 					else if(temp.getID().equals( BOLLA ))
 						{
 							if(temp.getX() + 2*temp.getWidth() >= gc.getWidth())
 								temp.setXY( gc.getWidth() - 2 * (int) temp.getWidth(), temp.getY(), "restore" );
+							if(temp.getY() + temp.getHeight()*2 > sfondi.get( indexSfondo ).getMaxHeight())
+								temp.setXY( temp.getX(), temp.getY() - temp.getHeight()*2, "restore" );
 						}
 					else if(temp.getX() + temp.getWidth() >= gc.getWidth())
-						temp.setXY( gc.getWidth() - (int) temp.getWidth(), temp.getY(), "restore" );
-					
-					if(temp.getY() <= 0)
-						temp.setXY( temp.getX(), 0, "restore" );
+						{
+							temp.setXY( gc.getWidth() - (int) temp.getWidth(), temp.getY(), "restore" );
+							if(temp.getY() + temp.getHeight() > sfondi.get( indexSfondo ).getMaxHeight())
+								temp.setXY( temp.getX(), temp.getY() - temp.getHeight(), "restore" );
+						}
 					
 					tempX = mouseX;
 					tempY = mouseY;
@@ -864,7 +808,9 @@ public class Edit
 									temp.setSpigoli();
 
 									if(temp.getID().equals( TUBO ))
-									    {											
+									    {
+											((Tubo) temp).setSpace( gc );
+										
 											//inserisce una nuova coppia di tubi
 											if(nuovaCoppiaTubi)
 												{
@@ -880,8 +826,9 @@ public class Edit
 															//setto i nuovi indici dei tubi puntati
 															ostacoli.get( ostacoli.size() - 1 ).setUnion( ostacoli.size() - 2 );
 															ostacoli.get( ostacoli.size() - 2 ).setUnion( ostacoli.size() - 1 );
-															temp = null;
 															nuovaCoppiaTubi = false;
+
+															temp = null;
 														}
 												}
 											//inserisce un tubo gia esistente
@@ -902,99 +849,9 @@ public class Edit
 				}
 			//se NON ho cliccato su un elemento da inserire
 			else if(temp == null)
-				{				
-					//sposta di una posizione a destra il cursore
-					if(!insertNameLvl && input.isKeyPressed( Input.KEY_RIGHT ))
-						{
-							if(insertEditor)
-								{
-									if(indexCursor < 0 && indexCursorSfondi < 0)
-										indexCursorSfondi++;
-									else if(indexCursor < 0)
-										{
-											if(++indexCursorSfondi == sfondi.size())
-												{
-													indexCursor++;
-													indexCursorSfondi = -1;
-												}
-										}
-									else if(++indexCursor == items.size())
-										{
-											indexCursor = -1;
-											indexCursorSfondi++;
-										}
-								}
-							else
-								{
-									if(indexCursor >= 0)
-										{
-											if(++indexCursor == ostacoli.size())
-												{
-													indexCursor = -1;
-													indexCursorButton = 0;
-												}
-										}
-									else if(indexCursorButton >= 0)
-										{
-												if(++indexCursorButton == buttons.size())
-													if(ostacoli.size() > 0)
-														{
-															indexCursor = 0;
-															indexCursorButton = -1;
-														}
-													else
-														indexCursorButton = 0;
-										}
-									else if(ostacoli.size() > 0)
-										indexCursor = 0;
-									else
-										indexCursorButton = 0;
-								}							
-						}
-					//sposta di una posizione a sinistra il cursore
-					else if(!insertNameLvl && input.isKeyPressed( Input.KEY_LEFT ))
-						{
-							if(insertEditor)
-								{
-									if(indexCursor < 0 && indexCursorSfondi < 0)
-										indexCursorSfondi = sfondi.size() - 1;
-									else if(indexCursor < 0)
-										{
-											if(--indexCursorSfondi < 0)
-												indexCursor = items.size() - 1;
-										}
-									else if(--indexCursor < 0)
-										indexCursorSfondi = sfondi.size() - 1;
-								}
-							else
-								{
-									if(indexCursor >= 0)
-										{
-											if(--indexCursor < 0)
-												{
-													indexCursor = -1;
-													indexCursorButton = buttons.size() - 1;
-												}
-										}
-									else if(indexCursorButton >= 0)
-										{
-												if(--indexCursorButton < 0)
-													if(ostacoli.size() > 0)
-														{
-															indexCursor = ostacoli.size() - 1;
-															indexCursorButton = -1;
-														}
-													else
-														indexCursorButton = buttons.size() - 1;
-										}
-									else if(ostacoli.size() > 0)
-										indexCursor = ostacoli.size() - 1;
-									else
-										indexCursorButton = buttons.size() - 1;
-								}							
-						}
+				{
 					//abbassa la schermata di selezione elemento
-					else if((insertEditor && choise.contains( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )) || input.isKeyPressed( Input.KEY_DOWN ))
+					if((insertEditor && choise.contains( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )) || input.isKeyPressed( Input.KEY_DOWN ))
 						{
 							insertEditor = false;
 		                    base.setY( gc.getHeight() );
@@ -1002,8 +859,6 @@ public class Edit
 		                    setChoise( gc );
 		                    resetIndexCursor();
 						}
-					else if(insertEditor && indexCursor < 0 && input.isKeyPressed( Input.KEY_UP ))
-						indexCursor = 0;
 					//innalza la schermata di selezione elemento
 					else if((choise.contains( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )) || input.isKeyPressed( Input.KEY_UP ))
 						{
@@ -1094,7 +949,6 @@ public class Edit
 				tBox.update( input, null );
 			if(!tBox.isOpen())
 				{
-					insertNameLvl = false;
 				    String name = tBox.getText();
 				    if(name != null && !name.isEmpty())
 					    {
@@ -1110,8 +964,6 @@ public class Edit
 		                    Start.chooseLevel = 1;
 					    }
 				}
-			else
-				insertNameLvl = true;
 		}
 	
 	private boolean checkKeyPressed( final Input input )
