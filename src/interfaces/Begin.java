@@ -144,7 +144,6 @@ public class Begin
 								else if(type.equals( "tubo" ))
                                     {
                                         elements.add( new Tubo( (int) (x * ratioW), (int) (y * ratioH), orienting, gc ) );
-                                        elements.get( elements.size() - 1 ).setSpigoli();
                                         ((Tubo) elements.get( elements.size() - 1 )).setSpace( gc );
                                         elements.get( elements.size() - 1 ).setUnion( union );
                                     }

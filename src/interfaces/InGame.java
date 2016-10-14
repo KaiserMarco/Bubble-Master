@@ -97,7 +97,6 @@ public class InGame
 			for(int i = 0; i < size; i++)
 				if(ostacoli.get( i ).getID().equals( "tubo" ))
 					{
-						((Tubo) ostacoli.get( i )).setSpace( gc );
 						ostacoli.add( ((Tubo) ostacoli.get( i )).getBase() );
 						ostacoli.add( ((Tubo) ostacoli.get( i )).getEnter() );
 						ostacoli.get( ostacoli.size() - 1 ).setArea( gc );
