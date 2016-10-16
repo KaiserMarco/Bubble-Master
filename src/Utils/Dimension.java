@@ -1,5 +1,6 @@
 package Utils;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.geom.Rectangle;
 
 public class Dimension
@@ -9,20 +10,30 @@ public class Dimension
 	/** le dimensioni della finestra */
 	private String w, h;
 	/** determina se disegnare la casella di grigio o di bianco */
-	private boolean gray;
+	private Color color;
+	/**  */
+	private boolean drawble;
 	
-	public Dimension( float x, float y, float width, float height, String w, String h, boolean val )
+	public Dimension( float x, float y, float width, float height, String w, String h, Color c, boolean val )
 		{
 			ostr = new Rectangle( x, y, width, height );
 			
 			this.w = w;
 			this.h = h;
 			
-			gray = val;
+			color = c;
+			
+			drawble = val;
 		}
 	
-	public boolean getGray()
-		{ return gray; }
+	public boolean isDrawble()
+		{ return drawble; }
+	
+	public void setDrawble( boolean val )
+		{ drawble = !drawble; }
+	
+	public Color getColor()
+		{ return color; }
 	
 	public boolean contains( float mouseX, float mouseY )
 		{ return ostr.contains( mouseX, mouseY ); }

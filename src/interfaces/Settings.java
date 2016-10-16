@@ -107,11 +107,11 @@ public class Settings
 			widthH = gc.getWidth()/40; heightH = gc.getHeight()/30;
 			
 			dimensioni = new ArrayList<Dimension>();			
-			dimensioni.add( new Dimension( xRes, yRes, wRes, hRes, "800", "600", true ) );
-			dimensioni.add( new Dimension( dimensioni.get( dimensioni.size() - 1 ).getArea().getMaxX(), yRes, Global.W/100, dimensioni.get( 0 ).getArea().getHeight(), "", "", true ) );
-			dimensioni.add( new Dimension( xRes, dimensioni.get( dimensioni.size() - 1 ).getArea().getMaxY(), wRes, hRes, "800", "600", false ) );
-			dimensioni.add( new Dimension( xRes, dimensioni.get( dimensioni.size() - 1 ).getArea().getMaxY(), wRes, hRes, "1200", "900", false ) );
-			dimensioni.add( new Dimension( xRes, dimensioni.get( dimensioni.size() - 1 ).getArea().getMaxY(), wRes, hRes, "1280", "720", false ) );
+			dimensioni.add( new Dimension( xRes, yRes, wRes, hRes, "800", "600", Color.gray, true ) );
+			dimensioni.add( new Dimension( dimensioni.get( dimensioni.size() - 1 ).getArea().getMaxX(), yRes, Global.W/100, dimensioni.get( 0 ).getArea().getHeight(), "", "", Color.gray, true ) );
+			dimensioni.add( new Dimension( xRes, dimensioni.get( dimensioni.size() - 1 ).getArea().getMaxY(), wRes, hRes, "800", "600", Color.white, false ) );
+			dimensioni.add( new Dimension( xRes, dimensioni.get( dimensioni.size() - 1 ).getArea().getMaxY(), wRes, hRes, "1200", "900", Color.white, false ) );
+			dimensioni.add( new Dimension( xRes, dimensioni.get( dimensioni.size() - 1 ).getArea().getMaxY(), wRes, hRes, "1280", "720", Color.white, false ) );
 			
 			drawChoiseRes = false;
 			
@@ -165,30 +165,22 @@ public class Settings
 			
 			g.setColor( Color.black );
 			g.drawString( dropRate + " %" , leftDrop.getMaxX() + (rightDrop.getX() - leftDrop.getMaxX())/2 - Global.W/40, Global.H*100/214 - Global.H/200 );
-
-			int size;
-			if(drawChoiseRes)
-				size = dimensioni.size();
-			else
-				size = 2;
 				
-			for(int i = 0; i < size; i++)
+			for(Dimension dim: dimensioni)
 				{
-					Dimension dim = dimensioni.get( i );
-					if(dim.getGray())
-						g.setColor( Color.gray );
-					else
-						g.setColor( Color.white );
-					
-					g.fill( dim.getArea() );
-					g.setColor( Color.black );
-					g.draw( dim.getArea() );
-
-					if(!dim.getW().equals( "" ))
+					if(dim.isDrawble())
 						{
-							g.scale( Global.W/Global.Width, Global.H/Global.Height );
-							g.drawString( dim.getFullName(), dim.getArea().getX()*Global.Width/Global.W, dim.getArea().getY()*Global.Height/Global.H );
-							g.resetTransform();
+							g.setColor( dim.getColor() );					
+							g.fill( dim.getArea() );
+							g.setColor( Color.black );
+							g.draw( dim.getArea() );
+		
+							if(!dim.getW().equals( "" ))
+								{
+									g.scale( Global.W/Global.Width, Global.H/Global.Height );
+									g.drawString( dim.getFullName(), dim.getArea().getX()*Global.Width/Global.W, dim.getArea().getY()*Global.Height/Global.H );
+									g.resetTransform();
+								}
 						}
 				}
 			
@@ -420,7 +412,11 @@ public class Settings
 	            }
 		
 			if(dimensioni.get( 1 ).contains( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON ))
-				drawChoiseRes = !drawChoiseRes;
+				{
+					drawChoiseRes = !drawChoiseRes;
+					for(int i = 2; i < dimensioni.size(); i++)
+						dimensioni.get( i ).setDrawble( drawChoiseRes );
+				}
 			else if(drawChoiseRes)
 					{
 						if(input.isMousePressed( Input.MOUSE_LEFT_BUTTON ))
@@ -431,6 +427,8 @@ public class Settings
 										heightP = dimensioni.get( i ).getH();
 										dimensioni.get( 0 ).setName( widthP, heightP );
 										drawChoiseRes = false;
+										for(int j = 2; j < dimensioni.size(); j++)
+											dimensioni.get( j ).setDrawble( drawChoiseRes );
 									}
 					}
 			
