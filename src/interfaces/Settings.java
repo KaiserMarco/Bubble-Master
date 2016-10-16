@@ -151,11 +151,12 @@ public class Settings
 				buttons.get( i ).draw( g );
 			
 			g.setColor( Color.red );
-			
-			g.drawString( resolution, Global.W/5, Global.H/5 );
-			g.drawString( lifes, Global.W/5, Global.H/3 );
-			g.drawString( drop, Global.W/5, Global.H*100/214 );
-			g.drawString( bright, Global.W/5, Global.H*100/166 );
+			g.scale( Global.W/Global.Width, Global.H/Global.Height );
+			g.drawString( resolution, Global.Width/5, Global.Height/5 );
+			g.drawString( lifes, Global.Width/5, Global.Height/3 );
+			g.drawString( drop, Global.Width/5, Global.Height*100/214 );
+			g.drawString( bright, Global.Width/5, Global.Height*100/166 );
+			g.resetTransform();
 			
 			leftLife.draw( g );
 			rightLife.draw( g );
@@ -244,10 +245,9 @@ public class Settings
 			
 			Global.dropRate = dropRate/100;
 			
-	        Global.computeRatio( Integer.parseInt( widthP ), Integer.parseInt( heightP ) );
 	        if(Global.ratioW != 1 || Global.ratioH != 1)
 	            {
-	        		// TODO SETTARE LE NUOVE DIMENSIONI ALLA BAR E POI SONO APPOSTO
+	        		// TODO SETTARE LE NUOVE DIMENSIONI ALLA BAR E ALLE STRINGHE E POI SONO APPOSTO
 	        	
                 	editor.updateStats( gc );
 	                for(Livello levels: Begin.livelli)
@@ -379,14 +379,17 @@ public class Settings
 					                            			Start.begin = 1;
 				                            			}
 				                            		else if(buttons.get( i ).getName().equals( APPLY ))
-				                            			if(Global.lifes != vite || Global.dropRate != (double) dropRate/100 || Global.ratioW != 1 || Global.ratioH != 1 || bar.getValue() != valBright)
-				                            				{
-				                            					applicaCambiamenti( editor, gc );
+				                            			{
+				                            	        	Global.computeRatio( Integer.parseInt( widthP ), Integer.parseInt( heightP ) );
+				                            				if(Global.lifes != vite || Global.dropRate != (double) dropRate/100 || Global.ratioW != 1 || Global.ratioH != 1 || bar.getValue() != valBright)
+				                            					{
+				                            						applicaCambiamenti( editor, gc );
 				                            			        
-				                            			        indexCursor = -1;
-				                                				Start.settings = 0;
-				                                    			Start.begin = 1;
-				                            				}
+				                            						indexCursor = -1;
+				                            						Start.settings = 0;
+				                            						Start.begin = 1;
+				                            					}
+				                            			}
 				                            		
 						                            break;
 					                            }
