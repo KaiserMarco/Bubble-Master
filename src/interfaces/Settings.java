@@ -95,7 +95,6 @@ public class Settings
 			
 			vite = Global.lifes;
 			
-			dimensioni = new ArrayList<Dimension>();
 			
 			xRes = Global.W*10/26;
 			yRes = Global.H/5;
@@ -107,6 +106,7 @@ public class Settings
 			noHeart = new Image( "./data/Image/noHeart.png" );
 			widthH = gc.getWidth()/40; heightH = gc.getHeight()/30;
 			
+			dimensioni = new ArrayList<Dimension>();			
 			dimensioni.add( new Dimension( xRes, yRes, wRes, hRes, "800", "600", true ) );
 			dimensioni.add( new Dimension( dimensioni.get( dimensioni.size() - 1 ).getArea().getMaxX(), yRes, Global.W/100, dimensioni.get( 0 ).getArea().getHeight(), "", "", true ) );
 			dimensioni.add( new Dimension( xRes, dimensioni.get( dimensioni.size() - 1 ).getArea().getMaxY(), wRes, hRes, "800", "600", false ) );
@@ -240,7 +240,9 @@ public class Settings
 			
 	        if(Global.ratioW != 1 || Global.ratioH != 1)
 	            {
-	        		// TODO SETTARE LE NUOVE DIMENSIONI ALLA BAR	        	
+	        		xRes = xRes * Global.ratioW;
+	        		bar = new SlideBar( xRes, (float) Global.H*100/166, "", 255.f - Global.brightness, 150.f, 255.f );
+	        	
                 	editor.updateStats( gc );
 	                for(Livello levels: Begin.livelli)
 	                    {
