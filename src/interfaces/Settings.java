@@ -31,7 +31,9 @@ public class Settings
 	
 	private final String resolution = "RISOLUZIONE", lifes = "VITE", drop = "DROP", bright = "LUMINOSITA'";
 	
+	/** il vettore DELLE dimensioni */
 	private ArrayList<String> dimensions;
+	/** il vettore di caselle PER le dimensioni */
 	private ArrayList<Rectangle> dimensioni;
 	
 	private String risoluzione, widthP, heightP;
@@ -185,8 +187,9 @@ public class Settings
 					g.draw( dimensioni.get( i ) );
 				}
 			
+			g.scale( Global.W/Global.Width, Global.H/Global.Height );
 			g.drawString( risoluzione, dimensioni.get( 0 ).getX(), dimensioni.get( 0 ).getY() );
-			
+			g.resetTransform();
 			if(drawChoiseRes)
 				{
 					for(; i < dimensioni.size(); i++)
@@ -195,7 +198,10 @@ public class Settings
 							g.fill( dimensioni.get( i ) );
 							g.setColor( Color.black );
 							g.draw( dimensioni.get( i ) );
+
+							g.scale( Global.W/Global.Width, Global.H/Global.Height );
 							g.drawString( dimensions.get( i - 2 ), dimensioni.get( i ).getX(), dimensioni.get( i ).getY() );
+							g.resetTransform();
 						}
 				}
 			
@@ -247,8 +253,7 @@ public class Settings
 			
 	        if(Global.ratioW != 1 || Global.ratioH != 1)
 	            {
-	        		// TODO SETTARE LE NUOVE DIMENSIONI ALLA BAR E ALLE STRINGHE E POI SONO APPOSTO
-	        	
+	        		// TODO SETTARE LE NUOVE DIMENSIONI ALLA BAR	        	
                 	editor.updateStats( gc );
 	                for(Livello levels: Begin.livelli)
 	                    {
@@ -285,12 +290,8 @@ public class Settings
 	                wRes = wRes * Global.ratioW;
 	                hRes = hRes * Global.ratioH;
 	                
-	                dimensioni.clear();
-	                dimensioni.add( new Rectangle( xRes, yRes, wRes, hRes ) );
-	                dimensioni.add( new Rectangle( dimensioni.get( dimensioni.size() - 1 ).getMaxX(), yRes, Global.W/100, dimensioni.get( 0 ).getHeight() ) );
-	                dimensioni.add( new Rectangle( xRes, dimensioni.get( dimensioni.size() - 1 ).getMaxY(), wRes, hRes ) );
-	                dimensioni.add( new Rectangle( xRes, dimensioni.get( dimensioni.size() - 1 ).getMaxY(), wRes, hRes ) );
-	                dimensioni.add( new Rectangle( xRes, dimensioni.get( dimensioni.size() - 1 ).getMaxY(), wRes, hRes ) );
+	                for(Rectangle dim: dimensioni)
+                		dim.setBounds( dim.getX() * Global.ratioW, dim.getY() * Global.ratioH, dim.getWidth() * Global.ratioW, dim.getHeight() * Global.ratioH);
 	
 	                leftLife.translate( Global.ratioW, Global.ratioH );
 	                rightLife.translate( Global.ratioW, Global.ratioH );
