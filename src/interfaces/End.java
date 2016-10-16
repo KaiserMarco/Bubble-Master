@@ -65,8 +65,10 @@ public class End
 		}
 	
 	public void draw( GameContainer gc ) throws SlickException
-		{			
-			Graphics g = gc.getGraphics();			
+		{
+			// TODO FARE IN MODO DI NON VEDERE PIU LO STACCO DEI BOTTONI QUANDO CAMBIO RISOLUZIONE
+		
+			Graphics g = gc.getGraphics();
 
 			if(sfondo == null)				
 				sfondo = Global.sfondo;
