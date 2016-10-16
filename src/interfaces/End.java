@@ -83,8 +83,8 @@ public class End
 			g.fillRect( 0, 0, Global.W, Global.H );
 			
 			g.setColor( Color.lightGray );
-
-			// TODO INSERIRE EVENTUALI ALTRE STATISTICHE
+			
+			//TODO INSERIRE LA STATISTICA DELLA PERCENTUALE DEI COLPI ANDATI A SEGNO
 
 			// ascissa e ordinata delle stringhe da stampare
 			float x = Global.H/8 * Global.Width/Global.W, y = Global.H/6 * Global.Height/Global.H;
@@ -113,15 +113,16 @@ public class End
 			float offset = Global.W/10 * Global.Width/Global.W;
 			for(int i = 0; i < players.size(); i++)
 				{
-					((Player) players.get( i )).getImage().draw( startX + (width + offset) * i, startY, Global.W/17 * Global.Width/Global.W, height );
+					Player player = ((Player) players.get( i ));
+					player.getImage().draw( startX + (width + offset) * i, startY, Global.W/17 * Global.Width/Global.W, height );
 					
-					String ammo = "" + ((Player) players.get( i )).getShots();
+					String ammo = "" + player.getShots();
 					g.drawString( ammo, startX + width/2 + (width + offset) * i, y + 50 );
 					
-					String lifes = "" + (Global.lifes - ((Player) players.get( i )).getLifes());
+					String lifes = "" + (Global.lifes - player.getLifes());
 					g.drawString( lifes, startX + width/2 + (width + offset) * i, y + 100 );
 					
-					String points = "" + ((Player) players.get( i )).getPoints();
+					String points = "" + player.getPoints();
 					g.drawString( points, startX + width/2 + (width + offset) * i, y + 150 );
 				}
 			
