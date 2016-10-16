@@ -95,7 +95,6 @@ public class Settings
 			
 			vite = Global.lifes;
 			
-			
 			xRes = Global.W*10/26;
 			yRes = Global.H/5;
 			wRes = Global.W/10;
@@ -112,6 +111,9 @@ public class Settings
 			dimensioni.add( new Dimension( xRes, dimensioni.get( dimensioni.size() - 1 ).getArea().getMaxY(), wRes, hRes, "800", "600", Color.white, false ) );
 			dimensioni.add( new Dimension( xRes, dimensioni.get( dimensioni.size() - 1 ).getArea().getMaxY(), wRes, hRes, "1200", "900", Color.white, false ) );
 			dimensioni.add( new Dimension( xRes, dimensioni.get( dimensioni.size() - 1 ).getArea().getMaxY(), wRes, hRes, "1280", "720", Color.white, false ) );
+			
+			widthP = dimensioni.get( 0 ).getW();
+			heightP = dimensioni.get( 0 ).getH();
 			
 			drawChoiseRes = false;
 			
@@ -234,7 +236,7 @@ public class Settings
 								((Player) elem).setLifes( vite );
 				}
 			
-			Global.dropRate = dropRate/100;
+			Global.dropRate = (double) dropRate/100;
 			
 	        if(Global.ratioW != 1 || Global.ratioH != 1)
 	            {
@@ -364,8 +366,19 @@ public class Settings
 				                            		else if(buttons.get( i ).getName().equals( APPLY ))
 				                            			{
 				                            	        	Global.computeRatio( Integer.parseInt( widthP ), Integer.parseInt( heightP ) );
-				                            				if(Global.lifes != vite || Global.dropRate != (double) dropRate/100 || Global.ratioW != 1 || Global.ratioH != 1 || bar.getValue() != valBright)
-				                            					{
+				                            				if(Global.lifes != vite || Global.dropRate != (double) dropRate/100
+		                            						|| Global.ratioW != 1 || Global.ratioH != 1 || bar.getValue() != valBright)
+			                            						{
+				                            						// TODO TESTARE COSA LO FA ATTIVARE
+				                            						if(Global.lifes != vite)
+				                            							System.out.println( "SONO LE VITE" );
+				                            						else if(Global.dropRate != (double) dropRate/100)
+				                            							System.out.println( "E' IL DROP RATE" );
+				                            						else if(bar.getValue() != valBright)
+				                            							System.out.println( "E' LA BARRA" );
+				                            						else
+				                            							System.out.println( "SONO LE PROPORZIONI" );
+				                            					
 				                            						applicaCambiamenti( editor, gc );
 				                            			        
 				                            						indexCursor = -1;
