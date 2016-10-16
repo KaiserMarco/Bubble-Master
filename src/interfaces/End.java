@@ -48,10 +48,11 @@ public class End
 			heightC = Global.H/24;
 			
 			buttons = new ArrayList<SimpleButton>();
-			
-			replay = new SimpleButton( Global.W/5, Global.H*3/4, REPLAY, Color.orange );
-			begin = new SimpleButton( Global.W/2, Global.H*3/4, HOME, Color.orange );
-			choose = new SimpleButton( Global.W*10/33, Global.H*6/7, LEVELS, Color.orange );
+
+			float buttonX = Global.Width/20, buttonAlt = Global.Width/30;
+			replay = new SimpleButton( buttonX, Global.H*2/3, REPLAY, Color.orange );
+			begin = new SimpleButton( buttonX, replay.getY() + replay.getAlt() + buttonAlt, HOME, Color.orange );
+			choose = new SimpleButton( buttonX, begin.getY() + begin.getAlt() + buttonAlt, LEVELS, Color.orange );
 			
 			buttons.add( replay );
 			buttons.add( begin );
@@ -87,8 +88,6 @@ public class End
 
 			// ascissa e ordinata delle stringhe da stampare
 			float x = Global.H/8 * Global.Width/Global.W, y = Global.H/6 * Global.Height/Global.H;
-			
-			// TODO INGRANDIRE LE SCRITTE A FINE PARTITA
 			
 			//trasformo il tempo da millisecondi a secondi
 			int timing = (int)(Start.stats.getTempo())/1000;
