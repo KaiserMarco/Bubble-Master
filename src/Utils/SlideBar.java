@@ -39,12 +39,6 @@ public class SlideBar
 		float points[] = { x_p - width/2, y - h/8, x_p + width/2, y - h/8, x_p + width/2, maxY - h/8, x_p, maxY + h/8, x_p - width/2, maxY - h/8 };
 		pointer = new Polygon( points );
 	}
-	
-	/** setta la nuova posizione dell'intera barra */
-	public void setPosition()
-		{
-			
-		}
 
 	/** determina se le coordinate sono all'interno dell'indicatore
 	 * @param x - coordinata X del mouse
