@@ -39,6 +39,9 @@ public class InGame
 	
 	// lunghezza e altezza base dei numeri del countdown
 	private int widthI, heightI;
+	
+	// il numero di sfere presenti in quel livello
+	private int numBall = 0;
 
 	public InGame() throws SlickException
 		{
@@ -58,6 +61,9 @@ public class InGame
 			decrNumb = 4;
 		}
 	
+	public int getNumBall()
+		{ return numBall; }
+	
 	public void addOstacoli( ArrayList<Ostacolo> obs, Sfondo sfondo, GameContainer gc ) throws SlickException
 		{
 			players.clear();
@@ -65,6 +71,8 @@ public class InGame
 			powerUp.clear();
 			
 			this.sfondo = sfondo;
+			
+			numBall = 0;
 		
 			for(Ostacolo elem: obs)
 				{
@@ -88,6 +96,7 @@ public class InGame
 						{
 							ostacoli.add( elem.clone( gc ) );
 							ostacoli.get( ostacoli.size() - 1 ).setMaxHeight( sfondo.getMaxHeight() );
+							numBall++;
 						}
 					else
 						ostacoli.add( ost );

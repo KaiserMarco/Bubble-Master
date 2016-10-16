@@ -219,10 +219,10 @@ public class Player extends Ostacolo
 			points = 0;
 			
 			powerUp = new ArrayList<PowerUp>();
-			
-			currAmmo = 0;
 
 			coolDown = new Rectangle( space + Global.Width/40, maxHeight, Global.H - maxHeight, Global.H - maxHeight );
+			
+			currAmmo = 0;
 		}
 	
 	public void drawMoving( Graphics g )
@@ -296,13 +296,10 @@ public class Player extends Ostacolo
 									else
 										saltoDx[7].draw( xPlayer, yPlayer, width, height );
 								}
+							else if(immortal)
+								saltoDx[8].draw( xPlayer, yPlayer, width, height, imm );
 							else
-								{
-									if(immortal)
-										saltoDx[8].draw( xPlayer, yPlayer, width, height, imm );
-									else
-										saltoDx[8].draw( xPlayer, yPlayer, width, height );
-								}
+								saltoDx[8].draw( xPlayer, yPlayer, width, height );
 						}
 					// il personaggio sta camminando
 					else if(movingDx)
@@ -372,13 +369,10 @@ public class Player extends Ostacolo
 								}
 						}
 					// il personaggio e' fermo
+					else if(immortal)
+						pgdx.draw( xPlayer, yPlayer, widthI, height, imm );
 					else
-						{
-							if(immortal)
-								pgdx.draw( xPlayer, yPlayer, widthI, height, imm );
-							else
-								pgdx.draw( xPlayer, yPlayer, widthI, height );
-						}
+						pgdx.draw( xPlayer, yPlayer, widthI, height );
 				}
 			// il personaggio si muove verso sinistra
 			else 
@@ -446,13 +440,10 @@ public class Player extends Ostacolo
 									else
 										saltoSx[7].draw( xPlayer, yPlayer, width, height );
 								}
+							else if(immortal)
+								saltoSx[8].draw( xPlayer, yPlayer, width, height, imm );
 							else
-								{
-									if(immortal)
-										saltoSx[8].draw( xPlayer, yPlayer, width, height, imm );
-									else
-										saltoSx[8].draw( xPlayer, yPlayer, width, height );
-								}
+								saltoSx[8].draw( xPlayer, yPlayer, width, height );
 						}
 					// il personaggio sta camminando
 					else if(movingSx)
@@ -522,13 +513,10 @@ public class Player extends Ostacolo
 								}
 						}
 					// il personaggio e' fermo
+					else if(immortal)
+						pgsx.draw( xPlayer - offset, yPlayer, widthI, height, imm );
 					else
-						{
-							if(immortal)
-								pgsx.draw( xPlayer - offset, yPlayer, widthI, height, imm );
-							else
-								pgsx.draw( xPlayer - offset, yPlayer, widthI, height );
-						}
+						pgsx.draw( xPlayer - offset, yPlayer, widthI, height );
 				}
 		}
 	

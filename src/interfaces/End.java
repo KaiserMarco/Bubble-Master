@@ -86,8 +86,6 @@ public class End
 			
 			g.setColor( Color.lightGray );
 			
-			//TODO INSERIRE LA STATISTICA DELLA PERCENTUALE DEI COLPI ANDATI A SEGNO
-			
 			// TODO INSERIRE "HAI VINTO" O "HAI PERSO"
 
 			// ascissa e ordinata delle stringhe da stampare
@@ -100,17 +98,23 @@ public class End
 			int h = timing/3600;
 			int m = (timing - (h*3600))/60;
 			int s = timing - h*3600 - m*60;
-			String seconds = "TEMPO IMPIEGATO =     " + h + "h : " + m + "m : " + s + "s";
-			g.drawString( seconds, x, y );
+			
+			int pos = 50;
 			
 			String colpi = "COLPI SPARATI =       ";
-			g.drawString( colpi, x, y + 50 );
+			g.drawString( colpi, x, y );
+			
+			String hits = "COLPI A SEGNO =        ";
+			g.drawString( hits, x, y + pos );
 			
 			String vite = "VITE PERSE =          ";
-			g.drawString( vite, x, y + 100 );
+			g.drawString( vite, x, y + pos*2 );
 			
 			String punti = "PUNTEGGIO OTTENUTO =   ";
-			g.drawString( punti, x, y + 150 );
+			g.drawString( punti, x, y + pos*3 );
+			
+			String seconds = "TEMPO IMPIEGATO =     " + h + "h : " + m + "m : " + s + "s";
+			g.drawString( seconds, x, y + pos*44/10 );
 			
 			float width = Global.W/17 * Global.Width/Global.W, height = Global.H/10 * Global.Height/Global.H;
 			float startX = Global.W*10/26 * Global.Width/Global.W, startY = Global.H/25 * Global.Height/Global.H;
@@ -121,13 +125,16 @@ public class End
 					player.getImage().draw( startX + (width + offset) * i, startY, Global.W/17 * Global.Width/Global.W, height );
 					
 					String ammo = "" + player.getShots();
-					g.drawString( ammo, startX + width/2 + (width + offset) * i, y + 50 );
+					g.drawString( ammo, startX + width/2 + (width + offset) * i, y );
+					
+					String target = "" + Start.ig.getNumBall();
+					g.drawString( target, startX + width/2 + (width + offset) * i, y + pos );
 					
 					String lifes = "" + (Global.lifes - player.getLifes());
-					g.drawString( lifes, startX + width/2 + (width + offset) * i, y + 100 );
+					g.drawString( lifes, startX + width/2 + (width + offset) * i, y + pos*2 );
 					
 					String points = "" + player.getPoints();
-					g.drawString( points, startX + width/2 + (width + offset) * i, y + 150 );
+					g.drawString( points, startX + width/2 + (width + offset) * i, y + pos*3 );
 				}
 			
 			g.resetTransform();
