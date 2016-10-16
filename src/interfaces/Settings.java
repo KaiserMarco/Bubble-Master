@@ -12,6 +12,7 @@ import org.newdawn.slick.geom.Rectangle;
 
 import Utils.Global;
 import Utils.Sfondo;
+import Utils.SlideBar;
 import bubbleMaster.Start;
 import dataButton.ArrowButton;
 import dataButton.Button;
@@ -27,7 +28,7 @@ public class Settings
 	private ArrayList<ArrowButton> arrows;
 	private ArrowButton leftLife, rightLife, leftDrop, rightDrop;
 	
-	private final String resolution = "RISOLUZIONE", lifes = "VITE", drop = "DROP";
+	private final String resolution = "RISOLUZIONE", lifes = "VITE", drop = "DROP", bright = "LUMINOSITA'";
 	
 	private ArrayList<String> dimensions;
 	private ArrayList<Rectangle> dimensioni;
@@ -59,6 +60,8 @@ public class Settings
 	private Image cursor;
 	
 	private int dropRate;
+	
+	private SlideBar bar;
 	
 	public Settings( GameContainer gc ) throws SlickException
 		{
@@ -126,6 +129,10 @@ public class Settings
 			cursor = new Image( "./data/Image/cursore.png" );
 			
 			dropRate = (int)(Global.dropRate * 100);
+			
+			bar = new SlideBar( xRes, (float) Global.H*100/166, "", 255.f - Global.brightness, 150.f, 255.f );
+			
+			Global.init();
 		}
 	
 	public void draw( GameContainer gc )
@@ -142,13 +149,16 @@ public class Settings
 			g.drawString( resolution, Global.W/5, Global.H/5 );
 			g.drawString( lifes, Global.W/5, Global.H/3 );
 			g.drawString( drop, Global.W/5, Global.H*100/214 );
+			g.drawString( bright, Global.W/5, Global.H*100/166 );
 			
 			leftLife.draw( g );
 			rightLife.draw( g );
 			leftDrop.draw( g );
 			rightDrop.draw( g );
 
-			int j, startX = (int) (leftLife.getMaxX() + (rightLife.getX() - leftLife.getMaxX())/2 - widthH*2), startY = (int)(leftLife.getY() + leftLife.getHeight()/2 - heightH/2);
+			int j;
+			int startX = (int) (leftLife.getMaxX() + (rightLife.getX() - leftLife.getMaxX())/2 - widthH*2);
+			int startY = (int)(leftLife.getY() + leftLife.getHeight()/2 - heightH/2);
 			for(j = 0; j < vite/2; j++)
 				heart.draw( startX + widthH*j, startY, widthH, heightH );
 			if(vite%2 == 1)
@@ -184,6 +194,8 @@ public class Settings
 			
 			if(indexCursor >= 0)
 				cursor.draw( buttons.get( indexCursor ).getX() - widthC, buttons.get( indexCursor ).getY(), widthC, heightC );
+			
+			bar.render( g );
 		}
 	
 	private int checkButton( Button button, Input input, int i )
@@ -408,6 +420,8 @@ public class Settings
 							}
 						risoluzione = widthP + "x" + heightP;
 					}
+			
+			bar.update( mouseX );
 		}
 	
 	private boolean checkKeyPressed( final Input input )
