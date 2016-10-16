@@ -188,7 +188,7 @@ public class Settings
 				}
 			
 			g.scale( Global.W/Global.Width, Global.H/Global.Height );
-			g.drawString( risoluzione, dimensioni.get( 0 ).getX(), dimensioni.get( 0 ).getY() );
+			g.drawString( risoluzione, dimensioni.get( 0 ).getX()*Global.Width/Global.W, dimensioni.get( 0 ).getY()*Global.Height/Global.H );
 			g.resetTransform();
 			if(drawChoiseRes)
 				{
@@ -200,7 +200,7 @@ public class Settings
 							g.draw( dimensioni.get( i ) );
 
 							g.scale( Global.W/Global.Width, Global.H/Global.Height );
-							g.drawString( dimensions.get( i - 2 ), dimensioni.get( i ).getX(), dimensioni.get( i ).getY() );
+							g.drawString( dimensions.get( i - 2 ), dimensioni.get( i ).getX()*Global.Width/Global.W, dimensioni.get( i ).getY()*Global.Height/Global.H );
 							g.resetTransform();
 						}
 				}
