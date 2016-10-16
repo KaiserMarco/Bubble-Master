@@ -8,8 +8,8 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.geom.Rectangle;
 
+import Utils.Dimension;
 import Utils.Global;
 import Utils.Livello;
 import Utils.Sfondo;
@@ -31,12 +31,10 @@ public class Settings
 	
 	private final String resolution = "RISOLUZIONE", lifes = "VITE", drop = "DROP", bright = "LUMINOSITA'";
 	
-	/** il vettore DELLE dimensioni */
-	private ArrayList<String> dimensions;
 	/** il vettore di caselle PER le dimensioni */
-	private ArrayList<Rectangle> dimensioni;
+	private ArrayList<Dimension> dimensioni;
 	
-	private String risoluzione, widthP, heightP;
+	private String widthP, heightP;
 	
 	private Image sfondo;
 	
@@ -97,7 +95,7 @@ public class Settings
 			
 			vite = Global.lifes;
 			
-			dimensioni = new ArrayList<Rectangle>();
+			dimensioni = new ArrayList<Dimension>();
 			
 			xRes = Global.W*10/26;
 			yRes = Global.H/5;
@@ -109,21 +107,11 @@ public class Settings
 			noHeart = new Image( "./data/Image/noHeart.png" );
 			widthH = gc.getWidth()/40; heightH = gc.getHeight()/30;
 			
-			dimensioni.add( new Rectangle( xRes, yRes, wRes, hRes ) );
-			dimensioni.add( new Rectangle( dimensioni.get( dimensioni.size() - 1 ).getMaxX(), yRes, Global.W/100, dimensioni.get( 0 ).getHeight() ) );
-			dimensioni.add( new Rectangle( xRes, dimensioni.get( dimensioni.size() - 1 ).getMaxY(), wRes, hRes ) );
-			dimensioni.add( new Rectangle( xRes, dimensioni.get( dimensioni.size() - 1 ).getMaxY(), wRes, hRes ) );
-			dimensioni.add( new Rectangle( xRes, dimensioni.get( dimensioni.size() - 1 ).getMaxY(), wRes, hRes ) );
-			
-			dimensions = new ArrayList<String>();
-			
-			dimensions.add( "800x600" );
-			dimensions.add( "1200x900" );
-			dimensions.add( "1280x720" );
-			
-			widthP = "800";
-			heightP = "600";
-			risoluzione = widthP + "x" + heightP;
+			dimensioni.add( new Dimension( xRes, yRes, wRes, hRes, "800", "600", true ) );
+			dimensioni.add( new Dimension( dimensioni.get( dimensioni.size() - 1 ).getArea().getMaxX(), yRes, Global.W/100, dimensioni.get( 0 ).getArea().getHeight(), "", "", true ) );
+			dimensioni.add( new Dimension( xRes, dimensioni.get( dimensioni.size() - 1 ).getArea().getMaxY(), wRes, hRes, "800", "600", false ) );
+			dimensioni.add( new Dimension( xRes, dimensioni.get( dimensioni.size() - 1 ).getArea().getMaxY(), wRes, hRes, "1200", "900", false ) );
+			dimensioni.add( new Dimension( xRes, dimensioni.get( dimensioni.size() - 1 ).getArea().getMaxY(), wRes, hRes, "1280", "720", false ) );
 			
 			drawChoiseRes = false;
 			
@@ -177,30 +165,29 @@ public class Settings
 			
 			g.setColor( Color.black );
 			g.drawString( dropRate + " %" , leftDrop.getMaxX() + (rightDrop.getX() - leftDrop.getMaxX())/2 - Global.W/40, Global.H*100/214 - Global.H/200 );
-			
-			int i;
-			for(i = 0; i < 2; i++)
-				{
-					g.setColor( Color.gray );
-					g.fill( dimensioni.get( i ) );
-					g.setColor( Color.black );
-					g.draw( dimensioni.get( i ) );
-				}
-			
-			g.scale( Global.W/Global.Width, Global.H/Global.Height );
-			g.drawString( risoluzione, dimensioni.get( 0 ).getX()*Global.Width/Global.W, dimensioni.get( 0 ).getY()*Global.Height/Global.H );
-			g.resetTransform();
-			if(drawChoiseRes)
-				{
-					for(; i < dimensioni.size(); i++)
-						{
-							g.setColor( Color.white );
-							g.fill( dimensioni.get( i ) );
-							g.setColor( Color.black );
-							g.draw( dimensioni.get( i ) );
 
+			int size;
+			if(drawChoiseRes)
+				size = dimensioni.size();
+			else
+				size = 2;
+				
+			for(int i = 0; i < size; i++)
+				{
+					Dimension dim = dimensioni.get( i );
+					if(dim.getGray())
+						g.setColor( Color.gray );
+					else
+						g.setColor( Color.white );
+					
+					g.fill( dim.getArea() );
+					g.setColor( Color.black );
+					g.draw( dim.getArea() );
+
+					if(!dim.getW().equals( "" ))
+						{
 							g.scale( Global.W/Global.Width, Global.H/Global.Height );
-							g.drawString( dimensions.get( i - 2 ), dimensioni.get( i ).getX()*Global.Width/Global.W, dimensioni.get( i ).getY()*Global.Height/Global.H );
+							g.drawString( dim.getFullName(), dim.getArea().getX()*Global.Width/Global.W, dim.getArea().getY()*Global.Height/Global.H );
 							g.resetTransform();
 						}
 				}
@@ -285,13 +272,8 @@ public class Settings
 	        			
 	                Start.cl.setUpdates();
 	                
-	                xRes = xRes * Global.ratioW;
-	                yRes = yRes * Global.ratioH;
-	                wRes = wRes * Global.ratioW;
-	                hRes = hRes * Global.ratioH;
-	                
-	                for(Rectangle dim: dimensioni)
-                		dim.setBounds( dim.getX() * Global.ratioW, dim.getY() * Global.ratioH, dim.getWidth() * Global.ratioW, dim.getHeight() * Global.ratioH);
+	                for(Dimension dim: dimensioni)
+                		dim.getArea().setBounds( dim.getArea().getX() * Global.ratioW, dim.getArea().getY() * Global.ratioH, dim.getArea().getWidth() * Global.ratioW, dim.getArea().getHeight() * Global.ratioH);
 	
 	                leftLife.translate( Global.ratioW, Global.ratioH );
 	                rightLife.translate( Global.ratioW, Global.ratioH );
@@ -439,25 +421,15 @@ public class Settings
 				drawChoiseRes = !drawChoiseRes;
 			else if(drawChoiseRes)
 					{
-						if(dimensioni.get( 2 ).contains( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON ))
-							{
-								widthP = "800";
-								heightP = "600";
-								drawChoiseRes = false;
-							}
-						else if(dimensioni.get( 3 ).contains( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON ))
-							{
-								widthP = "1200";
-								heightP = "900";
-								drawChoiseRes = false;
-							}
-						else if(dimensioni.get( 4 ).contains( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON ))
-							{
-								widthP = "1280";
-								heightP = "720";
-								drawChoiseRes = false;
-							}
-						risoluzione = widthP + "x" + heightP;
+						if(input.isMousePressed( Input.MOUSE_LEFT_BUTTON ))
+							for(int i = 2; i < dimensioni.size(); i++)
+								if(dimensioni.get( i ).contains( mouseX, mouseY ))
+									{
+										widthP = dimensioni.get( i ).getW();
+										heightP = dimensioni.get( i ).getH();
+										dimensioni.get( 0 ).setName( widthP, heightP );
+										drawChoiseRes = false;
+									}
 					}
 			
 			bar.update( mouseX );
