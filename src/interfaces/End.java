@@ -86,12 +86,14 @@ public class End
 			// TODO INSERIRE EVENTUALI ALTRE STATISTICHE
 
 			// ascissa e ordinata delle stringhe da stampare
-			int x = Global.H/8, y = Global.H/6;
+			float x = Global.H/8 * Global.Width/Global.W, y = Global.H/6 * Global.Height/Global.H;
+			
+			// TODO INGRANDIRE LE SCRITTE A FINE PARTITA
 			
 			//trasformo il tempo da millisecondi a secondi
 			int timing = (int)(Start.stats.getTempo())/1000;
-			//g.setFont( new UnicodeFont( "./data/fonts/prstart.ttf", (int)(10.f), false, true ) );
 			g.scale( 1.05f, 1.05f );
+			g.scale( Global.W/Global.Width, Global.H/Global.Height );
 			int h = timing/3600;
 			int m = (timing - (h*3600))/60;
 			int s = timing - h*3600 - m*60;
@@ -107,12 +109,12 @@ public class End
 			String punti = "PUNTEGGIO OTTENUTO =   ";
 			g.drawString( punti, x, y + 150 );
 			
-			int width = Global.W/17, height = Global.H/10;
-			int startX = Global.W*10/26, startY = Global.H/25;
-			int offset = Global.W/10;
+			float width = Global.W/17 * Global.Width/Global.W, height = Global.H/10 * Global.Height/Global.H;
+			float startX = Global.W*10/26 * Global.Width/Global.W, startY = Global.H/25 * Global.Height/Global.H;
+			float offset = Global.W/10 * Global.Width/Global.W;
 			for(int i = 0; i < players.size(); i++)
 				{
-					((Player) players.get( i )).getImage().draw( startX + (width + offset) * i, startY, Global.W/17, height );
+					((Player) players.get( i )).getImage().draw( startX + (width + offset) * i, startY, Global.W/17 * Global.Width/Global.W, height );
 					
 					String ammo = "" + ((Player) players.get( i )).getShots();
 					g.drawString( ammo, startX + width/2 + (width + offset) * i, y + 50 );
