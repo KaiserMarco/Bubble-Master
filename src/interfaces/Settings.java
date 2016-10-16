@@ -247,6 +247,8 @@ public class Settings
 	        Global.computeRatio( Integer.parseInt( widthP ), Integer.parseInt( heightP ) );
 	        if(Global.ratioW != 1 || Global.ratioH != 1)
 	            {
+	        		// TODO SETTARE LE NUOVE DIMENSIONI ALLA BAR E POI SONO APPOSTO
+	        	
                 	editor.updateStats( gc );
 	                for(Livello levels: Begin.livelli)
 	                    {

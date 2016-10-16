@@ -28,7 +28,6 @@ public class SlideBar
 		this.name = name + ":";
 
 		float w = Global.sizewBox, h = Global.sizehBox;
-		System.out.println( "sizeWbox = " + Global.sizewBox );
 		area = new RoundedRectangle( x, y, w * 6, h/3, 5.f );
 		float maxY = area.getMaxY(), width = w/3;
 		// piazza l'indicatore dove indicato da value
