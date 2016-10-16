@@ -1,5 +1,7 @@
 package Utils;
 
+import org.newdawn.slick.Color;
+import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.UnicodeFont;
 import org.newdawn.slick.font.effects.ColorEffect;
@@ -35,13 +37,26 @@ public class Global
 	
 	public static double dropRate = 0.6;
 	
-	public static int brightness = 0;
+	/** la luminosita' dello schermo */
+	public static float brightness = 0;
 	
-	/** dimensione corrente di una casella */
+	/** dimensione della barra della luminosita' */
 	public static float sizewBox = W/17, sizehBox = H/17;
 	
 	/** font dei caratteri e della finestra di stato */
 	public static UnicodeFont stateFont;
+	
+	/** inserisce la luminosita' dello schermo
+	 * @param g - il contesto grafico
+	*/
+	public static void drawScreenBrightness( Graphics g )
+		{
+			if(brightness > 0)
+				{
+					g.setColor( new Color( 0, 0, 0, (int) brightness ) );
+					g.fillRect( 0, 0, W, H );
+				}
+		}
 	
 	// calcola il rapporto fra altezza e lunghezza attuali con quelli di default
 	public static void computeRatio( float width, float height )

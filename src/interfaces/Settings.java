@@ -196,6 +196,8 @@ public class Settings
 				cursor.draw( buttons.get( indexCursor ).getX() - widthC, buttons.get( indexCursor ).getY(), widthC, heightC );
 			
 			bar.render( g );
+			
+			Global.drawScreenBrightness( g );
 		}
 	
 	private int checkButton( Button button, Input input, int i )
@@ -325,6 +327,10 @@ public class Settings
 		                    	if(arrow.contains( mouseX, mouseY, input ))
 		                    		if(!arrow.isPressed())
 		                    			arrow.setPressed();
+		                    
+		                    if(bar.contains( mouseX, mouseY ))
+		                    	if(!bar.isPressed())
+		                    		bar.setPressed();
 		                }
 	            }
 	        else
@@ -393,6 +399,9 @@ public class Settings
 						                            }
 			                    			}
 		                    		}
+		                    if(i == arrows.size())
+		                    	if(bar.isPressed())
+		                    		bar.setPressed();
 		                }
 	            }
 		
@@ -422,6 +431,7 @@ public class Settings
 					}
 			
 			bar.update( mouseX );
+			Global.brightness = 255.f - bar.getValue();
 		}
 	
 	private boolean checkKeyPressed( final Input input )

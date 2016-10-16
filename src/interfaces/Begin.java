@@ -237,13 +237,7 @@ public class Begin
 			if(indexCursor >= 0)
 				cursor.draw( buttons.get( indexCursor ).getX() - widthC, buttons.get( indexCursor ).getY(), widthC, heightC );
 			
-			Color black;
-			if(Global.brightness == 0)
-				black = new Color( 0, 0, 0, 0 );
-			else
-				black = new Color( 0, 0, 0, 255*Global.brightness/100 );
-			g.setColor( black );
-			g.fillRect( 0, 0, Global.W, Global.H );
+			Global.drawScreenBrightness( g );
 		}
 	
 	// aggiorna le dimensioni al variare della risoluzione
