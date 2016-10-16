@@ -62,7 +62,10 @@ public class Settings
 	
 	private int dropRate;
 	
+	/** la barra della luminosita' */
 	private SlideBar bar;
+	
+	private float valBright;
 	
 	public Settings( GameContainer gc ) throws SlickException
 		{
@@ -134,6 +137,8 @@ public class Settings
 			bar = new SlideBar( xRes, (float) Global.H*100/166, "", 255.f - Global.brightness, 150.f, 255.f );
 			
 			Global.init();
+			
+			valBright = bar.getValue();
 		}
 	
 	public void draw( GameContainer gc )
@@ -225,14 +230,19 @@ public class Settings
 	
 	private void applicaCambiamenti( Edit editor, GameContainer gc ) throws SlickException
 		{
-			Global.lifes = vite;
+			if(valBright != bar.getValue())
+				valBright = bar.getValue();
+		
+			if(Global.lifes != vite)
+				{
+					Global.lifes = vite;
+					for(Livello levels: Begin.livelli)
+						for(Ostacolo elem: levels.getElements())
+							if(elem.getID().startsWith( "player" ))
+								((Player) elem).setLifes( vite );
+				}
 			
 			Global.dropRate = dropRate/100;
-			
-			for(Livello levels: Begin.livelli)
-				for(Ostacolo elem: levels.getElements())
-					if(elem.getID().startsWith( "player" ))
-						((Player) elem).setLifes( vite );
 			
 	        Global.computeRatio( Integer.parseInt( widthP ), Integer.parseInt( heightP ) );
 	        if(Global.ratioW != 1 || Global.ratioH != 1)
@@ -284,9 +294,9 @@ public class Settings
 	                rightLife.translate( Global.ratioW, Global.ratioH );
 	                leftDrop.translate( Global.ratioW, Global.ratioH );
 	                rightDrop.translate( Global.ratioW, Global.ratioH );
+			        
+			        Start.setAppDisplay();
 	            }
-	        
-	        Start.setAppDisplay();
 		}
 	
 	public void update( GameContainer gc, Edit editor ) throws SlickException
@@ -356,12 +366,25 @@ public class Settings
 					                            {
 				                            		if(buttons.get( i ).getName().equals( BACK ))
 				                            			{
+				                            				if(valBright != bar.getValue())
+				                            					{
+				                            						bar.setX( valBright );
+				                            						Global.brightness = valBright;
+				                            					}
+				                            				
 					                                		indexCursor = -1;
 			                                				Start.settings = 0;
 					                            			Start.begin = 1;
 				                            			}
 				                            		else if(buttons.get( i ).getName().equals( APPLY ))
-				                                        applicaCambiamenti( editor, gc );
+				                            			if(Global.lifes != vite || Global.dropRate != (double) dropRate/100 || Global.ratioW != 1 || Global.ratioH != 1 || bar.getValue() != valBright)
+				                            				{
+				                            					applicaCambiamenti( editor, gc );
+				                            			        
+				                            			        indexCursor = -1;
+				                                				Start.settings = 0;
+				                                    			Start.begin = 1;
+				                            				}
 				                            		
 						                            break;
 					                            }
