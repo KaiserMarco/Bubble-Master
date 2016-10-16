@@ -1,8 +1,6 @@
 
 package Utils;
 
-import interfaces.Livello;
-
 import java.io.File;
 
 import org.newdawn.slick.Color;

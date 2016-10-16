@@ -21,6 +21,7 @@ import org.newdawn.slick.geom.Shape;
 
 import Utils.Elements;
 import Utils.Global;
+import Utils.Livello;
 import Utils.Sfondo;
 import Utils.TextBox;
 import bubbleMaster.Start;
@@ -218,6 +219,8 @@ public class Edit
 				temp.draw( g );
 			
 			tBox.render( gc, g );
+			
+			Global.drawScreenBrightness( g );
 		}
 	
 	public void setIndex( int index )

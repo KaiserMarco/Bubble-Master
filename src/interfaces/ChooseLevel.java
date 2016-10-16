@@ -114,6 +114,8 @@ public class ChooseLevel
 			
 			if(indexCursor >= 0)
 				cursor.draw( buttons.get( indexCursor ).getX() - widthC, buttons.get( indexCursor ).getY(), widthC, heightC );
+			
+			Global.drawScreenBrightness( g );
 		}
 	
 	public int getIndexLevel()

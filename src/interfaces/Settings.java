@@ -11,6 +11,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
 
 import Utils.Global;
+import Utils.Livello;
 import Utils.Sfondo;
 import Utils.SlideBar;
 import bubbleMaster.Start;

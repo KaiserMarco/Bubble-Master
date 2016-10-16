@@ -1,8 +1,7 @@
-package interfaces;
+package Utils;
 
 import java.util.ArrayList;
 
-import Utils.Sfondo;
 import dataObstacles.Ostacolo;
 
 public class Livello

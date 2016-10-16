@@ -144,6 +144,8 @@ public class InGame
 					else
 						decrNumb--;
 				}
+			
+			Global.drawScreenBrightness( g );
 		}
 	
 	public void update(GameContainer gc, int delta) throws SlickException
