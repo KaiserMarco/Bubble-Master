@@ -48,7 +48,7 @@ public class Settings
 	// le vite del personaggio
 	private int vite;
 	// lunghezza e altezza dei cuori
-	private int widthH, heightH;
+	private float widthH, heightH;
 	// le immagini del cuore
 	private Image heart, halfHeart, noHeart;
 	
@@ -133,8 +133,6 @@ public class Settings
 	
 	public void draw( GameContainer gc )
 		{
-			// TODO SISTEMARE LA % IN RELAZIONE ALLA PROPORZIONE
-		
 			Graphics g = gc.getGraphics();
 			
 			sfondo.draw( 0, 0, Global.W, Global.H );
@@ -221,6 +219,9 @@ public class Settings
 	
 	private void applicaCambiamenti( Edit editor, GameContainer gc ) throws SlickException
 		{
+			widthH = widthH * Global.ratioW;
+			heightH = heightH * Global.ratioH;
+		
 			if(valBright != bar.getValue())
 				valBright = bar.getValue();
 		
