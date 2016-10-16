@@ -87,6 +87,8 @@ public class End
 			g.setColor( Color.lightGray );
 			
 			//TODO INSERIRE LA STATISTICA DELLA PERCENTUALE DEI COLPI ANDATI A SEGNO
+			
+			// TODO INSERIRE "HAI VINTO" O "HAI PERSO"
 
 			// ascissa e ordinata delle stringhe da stampare
 			float x = Global.H/8 * Global.Width/Global.W, y = Global.H/6 * Global.Height/Global.H;
