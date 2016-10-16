@@ -132,7 +132,9 @@ public class Settings
 		}
 	
 	public void draw( GameContainer gc )
-		{		
+		{
+			// TODO SISTEMARE LA % IN RELAZIONE ALLA PROPORZIONE
+		
 			Graphics g = gc.getGraphics();
 			
 			sfondo.draw( 0, 0, Global.W, Global.H );
@@ -164,7 +166,10 @@ public class Settings
 				noHeart.draw( startX + widthH*j, startY, widthH, heightH );
 			
 			g.setColor( Color.black );
-			g.drawString( dropRate + " %" , leftDrop.getMaxX() + (rightDrop.getX() - leftDrop.getMaxX())/2 - Global.W/40, Global.H*100/214 - Global.H/200 );
+			g.scale( Global.W/Global.Width, Global.H/Global.Height );
+			float xDrop = leftDrop.getMaxX() + (rightDrop.getX() - leftDrop.getMaxX())/2 - Global.W/40, yDrop = Global.H*100/214 - Global.H/200;
+			g.drawString( dropRate + " %" , xDrop*Global.Width/Global.W, yDrop*Global.Height/Global.H );
+			g.resetTransform();
 				
 			for(Dimension dim: dimensioni)
 				{
