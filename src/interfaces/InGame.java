@@ -112,15 +112,10 @@ public class InGame
 						((Base) ostacoli.get( ostacoli.size() - 1 )).setIndexTube( i );
 						ostacoli.add( ((Tubo) ostacoli.get( i )).getEnter() );
 						((Enter) ostacoli.get( ostacoli.size() - 1 )).setIndexTube( i );
+						
+						// TODO CAPIRE SE QUESTA PARTE SIA DA CANCELLARE OPPURE NO
+						((Enter) ostacoli.get( ostacoli.size() - 1 )).setDirection( ((Tubo) ostacoli.get( i )).getDirection() );
 					}
-			
-			for(int i = size; i < ostacoli.size(); i++)
-				{
-					if(ostacoli.get( i ).getID().equals( "base" ))
-						System.out.println( "indexTubo = " + ((Base) ostacoli.get( i )).getIndexTube() );
-					else if(ostacoli.get( i ).getID().equals( "enter" ))
-						System.out.println( "indexTubo = " + ((Enter) ostacoli.get( i )).getIndexTube() );
-				}
 			
 			Global.sfondo = sfondo;
 		}
