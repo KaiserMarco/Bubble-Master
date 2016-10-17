@@ -108,8 +108,10 @@ public class Edit
 			items = elem.getItems();
 			ostacoli = new ArrayList<Ostacolo>();
 			
-			((Player) items.get( 2 )).setDrawLifes( false );
 			((Player) items.get( 3 )).setDrawLifes( false );
+			((Player) items.get( 4 )).setDrawLifes( false );
+			((Player) items.get( 5 )).setDrawLifes( false );
+			((Player) items.get( 6 )).setDrawLifes( false );
 			
 			up = new Image( "./data/Image/up.png" );
 			down = new Image( "./data/Image/down.png" );
@@ -681,8 +683,8 @@ public class Edit
 	
 	public void update( GameContainer gc, int delta )throws SlickException
 		{
-			// TODO SISTEMARE IL POSIZIONAMENTO DEGLI ITEMS IN FASE DI EDITING
-			// AGGIUNGERE I VARI PLAYER E CAMBIARE LA RELATIVA CLASSE
+			// TODO AGGIUNGERE I VARI PLAYER E CAMBIARE LA RELATIVA CLASSE
+			// E VELOCIZZARE L'ALZATA DELL'INSERTEDITOR
 		
 			Input input = gc.getInput();
 			int mouseX = input.getMouseX();
