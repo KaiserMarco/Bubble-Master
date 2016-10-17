@@ -272,20 +272,15 @@ public class Tubo extends Ostacolo{
 	public Shape getArea()
 		{ return ostr; }
 
-	public Ostacolo clone( GameContainer gc ) {		
-		try {
-			return new Tubo( (int) getX(), (int) getY(), type, gc );
-		} catch (SlickException e) {
-			e.printStackTrace();
-			return null;
+	public Ostacolo clone( GameContainer gc )
+		{		
+			try { return new Tubo( (int) getX(), (int) getY(), type, gc ); } 
+			catch (SlickException e)
+				{
+					e.printStackTrace();
+					return null;
+				}
 		}
-	}
-	
-	public void setCollided( boolean val )
-		{}
-	
-	public boolean isCollided()
-		{ return true; }
 	
 	public boolean getCollide()
 		{ return collide; }

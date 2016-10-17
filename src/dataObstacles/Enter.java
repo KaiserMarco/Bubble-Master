@@ -164,18 +164,6 @@ public class Enter extends Ostacolo
 	}
 
 	@Override
-	public boolean isCollided() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public void setCollided(boolean val) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public boolean contains(int x, int y) {
 		// TODO Auto-generated method stub
 		return false;

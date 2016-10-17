@@ -174,12 +174,6 @@ public class Sbarra extends Ostacolo
 	
 	public double getMaxHeight()
 		{ return 0; }
-	
-	public void setCollided( boolean val )
-		{}
-	
-	public boolean isCollided()
-		{ return true; }
 
 	public void update(GameContainer gc, int delta) throws SlickException 
 		{}

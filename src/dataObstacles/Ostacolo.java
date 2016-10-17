@@ -34,9 +34,6 @@ public abstract class Ostacolo
 	
 	public abstract Shape component( String part );
 	
-	public abstract boolean isCollided();
-	public abstract void setCollided( boolean val );
-	
 	public abstract float getMaxX();
 	
 	public abstract void setWidth( float val );

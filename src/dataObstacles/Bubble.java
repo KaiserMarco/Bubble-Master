@@ -1,7 +1,5 @@
 package dataObstacles;
  
-import interfaces.InGame;
-
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -12,6 +10,7 @@ import org.newdawn.slick.geom.Shape;
 
 import Utils.Global;
 import bubbleMaster.Start;
+import interfaces.InGame;
  
 public class Bubble extends Ostacolo
 {
@@ -25,8 +24,6 @@ public class Bubble extends Ostacolo
      
     private double maxH;
     private double maxW;
-     
-    private boolean collided;
 	
 	private boolean insert = false, checkInsert = false;
 	
@@ -161,12 +158,6 @@ public class Bubble extends Ostacolo
  
     public float getHeight()
         { return ray; }
-     
-    public void setCollided( boolean val )
-        { collided = val; }
-     
-    public boolean isCollided()
-        { return collided; }
  
     public float getSpeedX()
         { return speedX; }
@@ -414,7 +405,6 @@ public class Bubble extends Ostacolo
         					secondoTubo = true;
         					setSpeed = true;
         					indexTube = InGame.ostacoli.get( indexTube ).getUnion();
-        					System.out.println( "union = " + indexTube );
         					setPositionInTube( InGame.ostacoli.get( indexTube ), primoTubo );
         				}
 	    		}
@@ -433,11 +423,12 @@ public class Bubble extends Ostacolo
     /**gestisce collisioni fra tutti gli elementi*/
     public void checkAll( int i, Ostacolo ost )
     	{
-    		// TODO CERCARE DI RISOLVERE IL "PROBLEMA" DEL LIVELLO "lastTRY"
     		if(ost.getID().equals( "tubo" ))
     			{
-				//	il lato di ingresso nel tubo
+					// il lato di ingresso nel tubo
 					Shape ingr = ost.component( "latoIngresso" );
+					
+					// TODO OTTIMIZZARE QUESTA PARTE (NON CI CREDO CHE NON SI POSSANO ACCORPARE)
     				if(!primoTubo)
     					{
 	    					// se la sfera ha colliso con l'ingresso di un tubo
@@ -453,6 +444,7 @@ public class Bubble extends Ostacolo
 	    				{
 	    					if(checkEnter( ingr, ((Tubo) ost) ))
 								{
+	    							// se la sfera ha colliso con l'ingresso di un tubo
 									indexTube = i;
 									primoTubo = true;
 		        					setPositionInTube( ost, primoTubo );
@@ -462,7 +454,7 @@ public class Bubble extends Ostacolo
     					gestioneSferaInTubo();
     			}
     	
-	    	// TODO CODICE MOLTO FUNZIONANTE (MI RACCOMANDO NON VA ASSOLUTAMENTE CANCELLATO)
+	    	// TODO PROBLEMA RISOLTO, FORSE POSSO CANCELLARLO
         	/*if(ost.getID().equals( "tubo" ) && !primoTubo && !secondoTubo)
         		{
         			//il lato di ingresso nel tubo

@@ -974,12 +974,6 @@ public class Player extends Ostacolo
 
 	public double getMaxHeight()
 		{ return maxHeight; }
-	
-	public void setCollided( boolean val )
-		{}
-	
-	public boolean isCollided()
-		{ return true; }
 
 	public double getMaxWidth()
 		{ return 0; }
