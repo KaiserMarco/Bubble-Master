@@ -31,12 +31,6 @@ public class Enter extends Ostacolo
 			this.height = height;
 		}
 	
-	public void setDirection( String direction )
-		{ dir = direction; }
-	
-	public String getDirection()
-		{ return dir; }
-	
 	public void setSpigoli()
 		{
 			/*creazione lati*/

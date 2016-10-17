@@ -169,7 +169,7 @@ public class Edit
 					obs.draw( g );
 					if(obs.getID().equals( TUBO ))
 						{
-							// TODO DA RIMUOVERE
+							// TODO DA RIMUOVERE UNA VOLTA TERMINATO TUTTO
 							g.setColor( Color.black );
 							((Tubo) obs).getBase().draw( g );
 							g.setColor( Color.red );
@@ -666,7 +666,7 @@ public class Edit
 		            			Shape areaEnter = ((Tubo) ost).getEnter().getArea();
 		            			if(areaPlayer.intersects( areaBase ) && areaPlayer.intersects( areaEnter ))
 	            					return true;
-		            			else if(areaPlayer.intersects( areaBase ) && temp.getY() + temp.getHeight() > ((Tubo) ost).getY())
+		            			else if(areaPlayer.intersects( areaBase ) && temp.getY() + temp.getHeight() <= ((Tubo) ost).getY())
 		            				return true;
 		            		}
 		            else if(temp.component( "rect" ).intersects( ost.component( "latoGiu" ) ))
@@ -711,24 +711,16 @@ public class Edit
 
 					if(!temp.getID().equals( BOLLA ) && !temp.getID().startsWith( PLAYER ))
 					    if(input.isKeyPressed( Input.KEY_SPACE ))
-					    	{
-					        	temp.setOrienting( gc );
-					        	// TODO CONTROLLARE SE HA SENSO CANCELLARE QUESTA PARTE O NO
-					        	// SEMBREREBBE DI SI MA VOGLIO VEDERCI CHIARO
-					        	/*if(temp.equals( TUBO ))
-					        		{
-					        			((Base) ((Tubo) temp).getBase()).setDirection( ((Tubo) temp).getDirection());
-					        			((Enter) ((Tubo) temp).getEnter()).setDirection( ((Tubo) temp).getDirection());
-					        		}*/
-					    	}
+					    	temp.setOrienting( gc );
 					
-					/*spostamento player tramite mouse*/
+					/*spostamento player*/
 					if(mouseX != tempX || mouseY != tempY)	
 						{
 							indexCursor = -1;
 							indexCursorButton = -1;
 							indexCursorSfondi = -1;
-							temp.setXY( mouseX - temp.getWidth()/2, mouseY - temp.getHeight()/2, "restore" );		
+							temp.setXY( mouseX - temp.getWidth()/2, mouseY - temp.getHeight()/2, "restore" );
+							// posizionamento player sopra gli ostacoli		
 							if(temp.getID().startsWith( PLAYER ))
 								{
 									float posY = gc.getHeight();

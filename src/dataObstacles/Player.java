@@ -875,6 +875,8 @@ public class Player extends Ostacolo
 			
 			if(input.isKeyPressed( Input.KEY_SPACE ) && !jump)
 				{
+					// TODO SETTARE IL SALTO IN RELAZIONE ALLA VARIAZIONE DI GRANDEZZA
+					// VIENE FUORI UN SALTO STRANO ANCHE SE CORRETTO
 					movingJ = true;
 					jump = true;
 					maxJump = 1;

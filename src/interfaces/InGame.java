@@ -114,7 +114,7 @@ public class InGame
 						((Enter) ostacoli.get( ostacoli.size() - 1 )).setIndexTube( i );
 						
 						// TODO CAPIRE SE QUESTA PARTE SIA DA CANCELLARE OPPURE NO
-						((Enter) ostacoli.get( ostacoli.size() - 1 )).setDirection( ((Tubo) ostacoli.get( i )).getDirection() );
+						//((Enter) ostacoli.get( ostacoli.size() - 1 )).setDirection( ((Tubo) ostacoli.get( i )).getDirection() );
 					}
 			
 			Global.sfondo = sfondo;
