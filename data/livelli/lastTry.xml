@@ -2,15 +2,15 @@
 <level>
   <!--Objects-->
   <livello nome="lastTry" />
-  <ostacolo x="229.0" y="93.0" union="3" type="down" ID="tubo" />
-  <ostacolo x="231.0" y="186.0" union="2" type="up" ID="tubo" />
-  <ostacolo x="618.0" y="180.0" union="1" type="sx" ID="tubo" />
+  <ostacolo x="229.0" y="93.0" union="2" type="down" ID="tubo" />
+  <ostacolo x="231.0" y="186.0" union="3" type="up" ID="tubo" />
   <ostacolo x="88.0" y="224.0" union="0" type="down" ID="tubo" />
-  <ostacolo x="385.0" y="359.0" union="-1" type="null" ID="bolla" />
-  <ostacolo x="138.0" y="342.0" union="-1" type="null" ID="bolla" />
+  <ostacolo x="616.0" y="199.0" union="1" type="sx" ID="tubo" />
   <ostacolo x="55.0" y="432.0" union="-1" type="null" ID="bolla" />
-  <ostacolo x="457.0" y="506.0" union="-1" type="null" ID="player1" />
   <ostacolo x="575.0" y="308.0" union="-1" type="null" ID="bolla" />
+  <ostacolo x="101.0" y="314.0" union="-1" type="null" ID="bolla" />
+  <ostacolo x="457.0" y="506.0" union="-1" type="null" ID="player1" />
+  <ostacolo x="385.0" y="359.0" union="-1" type="null" ID="bolla" />
   <sfondo x="0" y="0" name="sfondo4" />
   <risoluzione w="800" h="600" />
 </level>

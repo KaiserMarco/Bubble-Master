@@ -343,9 +343,8 @@ public class Settings
 		                    
 		                    for(SimpleButton button : buttons)
 		                        if(button.checkClick( mouseX, mouseY, input ))
-		                        	if(button.isClickable())
-			                        	if(!button.isPressed())
-		                            		button.setPressed();
+		                        	if(button.isClickable() && !button.isPressed())
+	                            		button.setPressed();
 		                    
 		                    for(ArrowButton arrow: arrows)
 		                    	if(arrow.contains( mouseX, mouseY, input ))
