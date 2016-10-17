@@ -118,108 +118,50 @@ public class Base extends Ostacolo
 			return null;
 		}
 
-	@Override
-	public void setInsert(boolean insert, boolean change) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void setInsert(boolean insert, boolean change)
+		{}
 
-	@Override
-	public Ostacolo clone(GameContainer gc) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	public Ostacolo clone(GameContainer gc)
+		{ return null; }
 
-	@Override
-	public void setMaxHeight(double val) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void setMaxHeight(double val)
+		{}
 
-	@Override
-	public double getMaxHeight() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+	public double getMaxHeight()
+		{ return 0; }
 
-	@Override
-	public double getMaxWidth() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+	public double getMaxWidth()
+		{ return 0; }
 
-	@Override
-	public void setType(String type) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void setType(String type)
+		{}
 
-	@Override
-	public boolean contains(int x, int y) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+	public boolean contains(int x, int y)
+		{ return false; }
 
-	@Override
-	public void setXY(float x, float y, String function) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void setXY(float x, float y, String function)
+		{}
 
-	@Override
-	public void update(GameContainer gc) throws SlickException {
-		// TODO Auto-generated method stub
-		
-	}
+	public void update(GameContainer gc) throws SlickException
+		{}
 
-	@Override
-	public void update(GameContainer gc, int delta) throws SlickException {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public boolean getCollide() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public void setCollide(boolean val) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void update(GameContainer gc, int delta) throws SlickException
+		{}
 
 	public void setOrienting( GameContainer gc )
 		{}
 
-	@Override
-	public String getOrienting() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	public String getOrienting()
+		{ return null; }
 
-	@Override
-	public int getUnion() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+	public int getUnion() { return 0; }
 
-	@Override
-	public void setUnion(int val) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void setUnion(int val)
+		{}
 
-	@Override
-	public Point getMidArea() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	public Point getMidArea()
+		{ return null; }
 
-	@Override
-	public void updateStats(GameContainer gc) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void updateStats(GameContainer gc)
+		{}
 }

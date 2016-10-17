@@ -443,21 +443,6 @@ public class Bubble extends Ostacolo
     				if(primoTubo || secondoTubo)
     					gestioneSferaInTubo();
     			}
-    	
-	    	// TODO PROBLEMA RISOLTO, FORSE POSSO CANCELLARLO
-        	/*if(ost.getID().equals( "tubo" ) && !primoTubo && !secondoTubo)
-        		{
-        			//il lato di ingresso nel tubo
-        			Shape ingr = ost.component( "latoIngresso" );
-        			if(checkEnter( ingr, ((Tubo) ost) ))	        			
-	        				{
-	    						primoTubo = true;
-	        					indexTube = i;
-	        					setPositionInTube( ost, primoTubo );
-	        				}
-        		}
-        	else if(ost.getID().equals( "tubo" ) && (primoTubo || secondoTubo))
-    			gestioneSferaInTubo();*/
         	
 			if(secondoTubo)
 				{
