@@ -428,28 +428,18 @@ public class Bubble extends Ostacolo
 					// il lato di ingresso nel tubo
 					Shape ingr = ost.component( "latoIngresso" );
 					
-					// TODO OTTIMIZZARE QUESTA PARTE (NON CI CREDO CHE NON SI POSSANO ACCORPARE)
-    				if(!primoTubo)
+					if(!primoTubo)
     					{
 	    					// se la sfera ha colliso con l'ingresso di un tubo
-	    					if(i != indexTube && checkEnter( ingr, ((Tubo) ost) ))
-	    						{
-	    							indexTube = i;
-	    							primoTubo = true;
-	    							secondoTubo = false;
-		        					setPositionInTube( ost, primoTubo );
-	    						}
+    						if((secondoTubo && i!= indexTube) || !secondoTubo)
+		    					if(checkEnter( ingr, ((Tubo) ost) ))
+		    						{
+		    							indexTube = i;
+		    							primoTubo = true;
+		    							secondoTubo = false;
+			        					setPositionInTube( ost, primoTubo );
+		    						}
     					}
-    				else if(!primoTubo && !secondoTubo)
-	    				{
-	    					if(checkEnter( ingr, ((Tubo) ost) ))
-								{
-	    							// se la sfera ha colliso con l'ingresso di un tubo
-									indexTube = i;
-									primoTubo = true;
-		        					setPositionInTube( ost, primoTubo );
-								}
-	    				}
     				if(primoTubo || secondoTubo)
     					gestioneSferaInTubo();
     			}
