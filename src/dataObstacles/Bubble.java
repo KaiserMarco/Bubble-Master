@@ -424,12 +424,11 @@ public class Bubble extends Ostacolo
     public void checkAll( int i, Ostacolo ost )
     	{
     		if(ost.getID().equals( "tubo" ))
-    			{
-					// il lato di ingresso nel tubo
-					Shape ingr = ost.component( "latoIngresso" );
-					
+    			{					
 					if(!primoTubo)
     					{
+							// il lato di ingresso nel tubo
+							Shape ingr = ost.component( "latoIngresso" );
 	    					// se la sfera ha colliso con l'ingresso di un tubo
     						if((secondoTubo && i!= indexTube) || !secondoTubo)
 		    					if(checkEnter( ingr, ((Tubo) ost) ))
