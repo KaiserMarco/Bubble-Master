@@ -98,8 +98,6 @@ public class Edit
 	
 	private TextBox tBox;
 	
-	private static final String TUBO = "tubo", BASE = "base", ENTER = "enter", PLAYER = "player", BOLLA = "bolla";
-	
     public Edit( GameContainer gc ) throws SlickException
 		{
 			elem = new Elements( gc );
@@ -169,7 +167,7 @@ public class Edit
 			for(Ostacolo obs: ostacoli)
 				{
 					obs.draw( g );
-					if(obs.getID().equals( TUBO ))
+					if(obs.getID().equals( Global.TUBO ))
 						{
 							// TODO DA RIMUOVERE UNA VOLTA TERMINATO TUTTO
 							g.setColor( Color.black );
@@ -243,10 +241,10 @@ public class Edit
 		
 			for(Ostacolo obs: ostacoli)
 				{
-					if(!obs.getID().equals( BASE ) && !obs.getID().equals( ENTER ))
+					if(!obs.getID().equals( Global.BASE ) && !obs.getID().equals( Global.ENTER ))
 						this.ostacoli.add( obs );
 					
-					if(obs.getID().equals( BOLLA ))
+					if(obs.getID().equals( Global.BOLLA ))
 						ball++;
 				}
 			
@@ -285,7 +283,7 @@ public class Edit
 					for(Ostacolo item: items)
 						{
 							item.setXY( item.getX() * Global.ratioW, item.getY() * Global.ratioH, "restore" );
-							if(item.getID().equals( BOLLA ))
+							if(item.getID().equals( Global.BOLLA ))
 								{
 									item.setWidth( (int) (item.getWidth() * Global.ratioH) );
 									((Bubble) item).setMaxWidth( (float) (item.getMaxWidth() * Global.ratioW) );
@@ -293,7 +291,7 @@ public class Edit
 							else
 								{
 									item.setWidth( item.getWidth() * Global.ratioW );
-									if(item.getID().startsWith( PLAYER ))
+									if(item.getID().equals( Global.PLAYER ))
 										((Player) item).setWidthI( ((Player) item).getWidthI() * Global.ratioW );
 									item.setHeight( item.getHeight() * Global.ratioH );
 								}
@@ -324,7 +322,7 @@ public class Edit
 	public void aggiornaIndiciTubi( int i )
 		{
 			for(Ostacolo obs: ostacoli)
-				if(obs.getID().equals( TUBO ) && obs.getUnion() > i)
+				if(obs.getID().equals( Global.TUBO ) && obs.getUnion() > i)
 					obs.setUnion( obs.getUnion() - 1 );
 		}
 	/**resetta indexCursor, indexCursorButton e indexCursorSfondi*/
@@ -346,14 +344,14 @@ public class Edit
 							if(indexCursor >= 0)
 								{
 									temp = items.get( indexCursor ).clone( gc );
-									if(temp.getID().equals( TUBO ))
+									if(temp.getID().equals( Global.TUBO ))
 										{
 											nuovaCoppiaTubi = true;
 											nuovoTubo1 = true;
 										}
-									if(temp.getID().startsWith( PLAYER ))
+									if(temp.getID().equals( Global.PLAYER ))
 										gamer++;
-									else if(temp.getID().equals( BOLLA ))
+									else if(temp.getID().equals( Global.BOLLA ))
 										ball++;
 									temp.setInsert( true, true );
 									
@@ -382,15 +380,15 @@ public class Edit
 										{
 											temp = item.clone( gc );
 											//sto inserendo una nuova coppia di tubi
-											if(temp.getID().equals( TUBO ))
+											if(temp.getID().equals( Global.TUBO ))
 												{
 													nuovaCoppiaTubi = true;
 													nuovoTubo1 = true;
 												}
 											
-											if(temp.getID().startsWith( PLAYER ))
+											if(temp.getID().equals( Global.PLAYER ))
 												gamer++;
-											else if(temp.getID().equals( BOLLA ))
+											else if(temp.getID().equals( Global.BOLLA ))
 												ball++;
 											temp.setInsert( true, true );
 											
@@ -421,7 +419,7 @@ public class Edit
 						{
 							temp = ostacoli.get( indexCursor );
 							//modifica la posizione di un tubo gia' esistente
-							if(temp.getID().equals( TUBO ))
+							if(temp.getID().equals( Global.TUBO ))
 								{
 									ostacoli.get( temp.getUnion() ).setUnion( - 1 );
 									
@@ -453,7 +451,7 @@ public class Edit
 									{
 										temp = ostacoli.get( i );
 										//modifica la posizione di un tubo gia' esistente
-										if(temp.getID().equals( TUBO ))
+										if(temp.getID().equals( Global.TUBO ))
 											{								
 												ostacoli.get( temp.getUnion() ).setUnion( - 1 );
 
@@ -495,10 +493,10 @@ public class Edit
 			int j = 0;
 			for(int i = 0; i < ostacoli.size(); i++)
 				{
-					if(!ostacoli.get( i ).getID().equals( TUBO ))
+					if(!ostacoli.get( i ).getID().equals( Global.TUBO ))
 						{
 							for(j = i; j < ostacoli.size(); j++)
-								if(ostacoli.get( j ).getID().equals( TUBO ))
+								if(ostacoli.get( j ).getID().equals( Global.TUBO ))
 									{
 										Ostacolo tmp = ostacoli.get( i ).clone( gc );
 										
@@ -655,14 +653,14 @@ public class Edit
 			Shape areaPlayer = temp.component( "rect" );
 			Shape areaObs = ost.component( "rect" );
 		
-		    if(temp.getID().startsWith( PLAYER ))
+		    if(temp.getID().equals( Global.PLAYER ))
 		        {						    	
-		            if(ost.getID().equals( BOLLA ))
+		            if(ost.getID().equals( Global.BOLLA ))
 		                {
 			                if(areaPlayer.intersects( areaObs ))
 			                    return true;
 		                }
-		            else if(ost.getID().equals( TUBO ))
+		            else if(ost.getID().equals( Global.TUBO ))
 		            		{
 		            			Shape areaBase = ((Tubo) ost).getBase().getArea();
 		            			Shape areaEnter = ((Tubo) ost).getEnter().getArea();
@@ -674,7 +672,7 @@ public class Edit
 		            else if(temp.component( "rect" ).intersects( ost.component( "latoGiu" ) ))
                         return true;
 		        }
-		    else if(!ost.getID().equals( BASE ) && !ost.getID().equals( ENTER ))
+		    else if(!ost.getID().equals( Global.BASE ) && !ost.getID().equals( Global.ENTER ))
 		    	if(temp.component( "rect" ).intersects( ost.component( "rect" ) ))
 		    		return true;
 		    
@@ -683,7 +681,7 @@ public class Edit
 	
 	public void update( GameContainer gc, int delta )throws SlickException
 		{
-			// TODO AGGIUNGERE I VARI PLAYER E CAMBIARE LA RELATIVA CLASSE
+			// TODO CAMBIARE LA RELATIVA CLASSE PLAYER
 			// E VELOCIZZARE L'ALZATA DELL'INSERTEDITOR
 		
 			Input input = gc.getInput();
@@ -714,7 +712,7 @@ public class Edit
 					else
 						temp.setInsert( true, false );
 
-					if(!temp.getID().equals( BOLLA ) && !temp.getID().startsWith( PLAYER ))
+					if(!temp.getID().equals( Global.BOLLA ) && !temp.getID().equals( Global.PLAYER ))
 					    if(input.isKeyPressed( Input.KEY_SPACE ))
 					    	temp.setOrienting( gc );
 					
@@ -726,13 +724,13 @@ public class Edit
 							indexCursorSfondi = -1;
 							temp.setXY( mouseX - temp.getWidth()/2, mouseY - temp.getHeight()/2, "restore" );
 							// posizionamento player sopra gli ostacoli		
-							if(temp.getID().startsWith( PLAYER ))
+							if(temp.getID().equals( Global.PLAYER ))
 								{
 									float posY = gc.getHeight();
 									for(int i = 0; i < ostacoli.size(); i++)
 										{
 											Ostacolo ost = ostacoli.get( i );
-											if(ost.getID().equals( TUBO ))
+											if(ost.getID().equals( Global.TUBO ))
 												{
 													ost = ((Tubo) ostacoli.get( i )).getBase();
 													if(checkPosition( ost, mouseX, mouseY, gc.getHeight() ) && ost.getY() < posY)
@@ -758,7 +756,7 @@ public class Edit
 						temp.setXY( 0, temp.getY(), "restore" );					
 					if(temp.getY() <= 0)
 						temp.setXY( temp.getX(), 0, "restore" );
-					else if(temp.getID().equals( BOLLA ))
+					else if(temp.getID().equals( Global.BOLLA ))
 						{
 							if(temp.getX() + 2*temp.getWidth() >= gc.getWidth())
 								temp.setXY( gc.getWidth() - 2 * (int) temp.getWidth(), temp.getY(), "restore" );
@@ -778,13 +776,13 @@ public class Edit
 					/*cancellazione oggetti del gioco*/
 					if(input.isMousePressed( Input.MOUSE_RIGHT_BUTTON ) || input.isKeyPressed( Input.KEY_DELETE ))
 						{
-							if(temp.getID().equals( BOLLA ))
+							if(temp.getID().equals( Global.BOLLA ))
 								ball = Math.max( ball - 1, 0);
-							else if(temp.getID().startsWith( PLAYER ))
+							else if(temp.getID().equals( Global.PLAYER ))
 								gamer = Math.max( gamer - 1, 0 );
 							
 							//se il tubo ha un'altro tubo collegato, elimina anche il collegamento
-							if(temp.getID().equals( TUBO ))
+							if(temp.getID().equals( Global.TUBO ))
 								{
 									if(indiceTuboRimasto >= 0)
 										{
@@ -807,7 +805,7 @@ public class Edit
 									ostacoli.add( temp );
 									temp.setSpigoli();
 
-									if(temp.getID().equals( TUBO ))
+									if(temp.getID().equals( Global.TUBO ))
 									    {
 											((Tubo) temp).setSpace( gc );
 										
@@ -917,7 +915,7 @@ public class Edit
 							                            					if(gamer > 0 && ball > 0)
 								                            					{
 							                            							for(Ostacolo obs: ostacoli)
-							                            								if(obs.getID().startsWith( PLAYER ))
+							                            								if(obs.getID().equals( Global.PLAYER ))
 							                            									((Player) obs).setDrawLifes( true );
 							                            					        // apre la textBox
 							                            					        tBox.setOpen( true );

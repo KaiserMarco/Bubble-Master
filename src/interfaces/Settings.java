@@ -260,7 +260,7 @@ public class Settings
 	                    {
 	                        for(Ostacolo elem: levels.getElements())
 	                        	{
-		                        	if(elem.getID().equals( "tubo" ))
+		                        	if(elem.getID().equals( Global.TUBO ))
 		                        		{
 		                        			((Tubo) elem).updateValues( gc );
 	                        				((Tubo) elem).setSpace( gc );
@@ -269,7 +269,7 @@ public class Settings
 		                        		{
 		                        			elem.updateStats( gc );
 	                        				elem.setArea( gc );
-		                        			if(elem.getID().startsWith( "player" ))
+		                        			if(elem.getID().equals( Global.PLAYER ))
 		                        				((Player) elem).checkPosition( levels.getElements() );
 		                        		}
 		                        }

@@ -116,7 +116,7 @@ public class Player extends Ostacolo
 	
 	public Player( int x, int y, int numPlayer, GameContainer gc ) throws SlickException
 		{
-			super( "player" + numPlayer );
+			super( "player" );
 			
 			xPlayer = x;
 			yPlayer = y;

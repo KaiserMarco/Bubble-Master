@@ -135,20 +135,20 @@ public class Begin
 								float ratioW = Global.ratioW;
 								float ratioH = Global.ratioH;
 								
-								if(type.equals( "bolla" ))
+								if(type.equals( Global.BOLLA ))
 								    elements.add( new Bubble( (int) (x * ratioW), (int) (y * ratioH), gc.getWidth()/32, gc.getWidth(), gc ) );
-								else if(type.equals( "sbarra" ))
+								else if(type.equals( Global.SBARRA ))
 								    {
 									    elements.add( new Sbarra( (int) (x * ratioW), (int) (y * ratioH), orienting, gc ) );
                                         elements.get( elements.size() - 1 ).setSpigoli();
 								    }
-								else if(type.equals( "tubo" ))
+								else if(type.equals( Global.TUBO ))
                                     {
                                         elements.add( new Tubo( (int) (x * ratioW), (int) (y * ratioH), orienting, gc ) );
                                         ((Tubo) elements.get( elements.size() - 1 )).setSpace( gc );
                                         elements.get( elements.size() - 1 ).setUnion( union );
                                     }
-								else if(type.startsWith( "player" ))
+								else if(type.equals( Global.PLAYER ))
 									elements.add( new Player( (int) (x * ratioW), (int) (y * ratioH), Integer.parseInt( type.substring( type.length() - 1, type.length() ) ), gc ) );
 							}
 						
@@ -205,7 +205,7 @@ public class Begin
 			for(Ostacolo elem: elements)
 				{
 					elem.setXY( elem.getX() * rappW, elem.getY() * rappH, "restore" );
-					if(elem.getID().equals( "tubo" ))
+					if(elem.getID().equals( Global.TUBO ))
 						((Tubo) elem).setSpace( gc );
 					else
 						elem.setArea( gc );

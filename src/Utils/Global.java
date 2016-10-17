@@ -46,6 +46,9 @@ public class Global
 	/** font dei caratteri e della finestra di stato */
 	public static UnicodeFont stateFont;
 	
+	/** gli ID degli oggetti del gioco */
+	public static final String TUBO = "tubo", BASE = "base", ENTER = "enter", PLAYER = "player", BOLLA = "bolla", SBARRA = "sbarra";
+	
 	/** inserisce la luminosita' dello schermo
 	 * @param g - il contesto grafico
 	*/

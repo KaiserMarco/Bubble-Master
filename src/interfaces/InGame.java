@@ -78,7 +78,7 @@ public class InGame
 			for(Ostacolo elem: obs)
 				{
 					Ostacolo ost = elem;
-					if(ost.getID().startsWith( "player" ))
+					if(ost.getID().equals( Global.PLAYER ))
 						{
 							players.add( elem.clone( gc ) );
 							
@@ -93,7 +93,7 @@ public class InGame
 							
 							p.setArea( gc );
 						}
-					else if(elem.getID().equals( "bolla" ))
+					else if(elem.getID().equals( Global.BOLLA ))
 						{
 							ostacoli.add( elem.clone( gc ) );
 							ostacoli.get( ostacoli.size() - 1 ).setMaxHeight( sfondo.getMaxHeight() );
@@ -105,16 +105,13 @@ public class InGame
 			
 			int size = ostacoli.size();
 			for(int i = 0; i < size; i++)
-				if(ostacoli.get( i ).getID().equals( "tubo" ))
+				if(ostacoli.get( i ).getID().equals( Global.TUBO ))
 					{
 						((Tubo) ostacoli.get( i )).setSpace( gc );
 						ostacoli.add( ((Tubo) ostacoli.get( i )).getBase() );
 						((Base) ostacoli.get( ostacoli.size() - 1 )).setIndexTube( i );
 						ostacoli.add( ((Tubo) ostacoli.get( i )).getEnter() );
 						((Enter) ostacoli.get( ostacoli.size() - 1 )).setIndexTube( i );
-						
-						// TODO CAPIRE SE QUESTA PARTE SIA DA CANCELLARE OPPURE NO
-						//((Enter) ostacoli.get( ostacoli.size() - 1 )).setDirection( ((Tubo) ostacoli.get( i )).getDirection() );
 					}
 			
 			Global.sfondo = sfondo;
@@ -186,7 +183,7 @@ public class InGame
 						p.update( gc, delta );
 					
 					for(Ostacolo ost: ostacoli)
-						if(ost.getID().equals( "bolla" ))
+						if(ost.getID().equals( Global.BOLLA ))
 							ost.update( gc, delta );
 				}
 			
