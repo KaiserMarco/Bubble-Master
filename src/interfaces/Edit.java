@@ -681,6 +681,9 @@ public class Edit
 	
 	public void update( GameContainer gc, int delta )throws SlickException
 		{
+			// TODO SISTEMARE IL POSIZIONAMENTO DEGLI ITEMS IN FASE DI EDITING
+			// AGGIUNGERE I VARI PLAYER E CAMBIARE LA RELATIVA CLASSE
+		
 			Input input = gc.getInput();
 			int mouseX = input.getMouseX();
 			int mouseY = input.getMouseY();
