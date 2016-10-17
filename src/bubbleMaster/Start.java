@@ -95,7 +95,7 @@ public class Start extends BasicGame
 			else if(chooseLevel == 1)
 				cl.update( gc, edit );
 			else if(settings == 1)
-				opt.update( gc, edit );
+				opt.update( gc, edit, e );
 			
 			gc.getInput().clearKeyPressedRecord();
 			gc.getInput().clearMousePressedRecord();

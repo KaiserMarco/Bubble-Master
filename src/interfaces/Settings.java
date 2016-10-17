@@ -219,7 +219,7 @@ public class Settings
 			return 0;
 		}
 	
-	private void applicaCambiamenti( Edit editor, GameContainer gc ) throws SlickException
+	private void applicaCambiamenti( Edit editor, GameContainer gc, End end ) throws SlickException
 		{
 			widthH = widthH * Global.ratioW;
 			heightH = heightH * Global.ratioH;
@@ -240,10 +240,13 @@ public class Settings
 			
 	        if(Global.ratioW != 1 || Global.ratioH != 1)
 	            {
+	        		// setto i parametri dell'editor e dell'end
+            		editor.updateStats( gc );
+            		end.updateDates();
+	        	
 	        		xRes = xRes * Global.ratioW;
 	        		bar = new SlideBar( xRes, (float) Global.H*100/166, "", 255.f - Global.brightness, 150.f, 255.f );
-	        	
-                	editor.updateStats( gc );
+                	
 	                for(Livello levels: Begin.livelli)
 	                    {
 	                        for(Ostacolo elem: levels.getElements())
@@ -286,7 +289,7 @@ public class Settings
 	            }
 		}
 	
-	public void update( GameContainer gc, Edit editor ) throws SlickException
+	public void update( GameContainer gc, Edit editor, End end ) throws SlickException
 		{
 			Input input = gc.getInput();
 			int mouseX = input.getMouseX();
@@ -369,17 +372,7 @@ public class Settings
 				                            				if(Global.lifes != vite || Global.dropRate != (double) dropRate/100
 		                            						|| Global.ratioW != 1 || Global.ratioH != 1 || bar.getValue() != valBright)
 			                            						{
-				                            						// TODO TESTARE COSA LO FA ATTIVARE
-				                            						if(Global.lifes != vite)
-				                            							System.out.println( "SONO LE VITE" );
-				                            						else if(Global.dropRate != (double) dropRate/100)
-				                            							System.out.println( "E' IL DROP RATE" );
-				                            						else if(bar.getValue() != valBright)
-				                            							System.out.println( "E' LA BARRA" );
-				                            						else
-				                            							System.out.println( "SONO LE PROPORZIONI" );
-				                            					
-				                            						applicaCambiamenti( editor, gc );
+				                            						applicaCambiamenti( editor, gc, end );
 				                            			        
 				                            						indexCursor = -1;
 				                            						Start.settings = 0;
