@@ -27,6 +27,8 @@ public class SimpleButton extends Button
 	int width, height;
 	// il rapproto di grandezza del font
 	float ratioFont = 10.0f;
+	// determina se il bottone e' cliccabile
+	boolean clickable;
 
 	/** crea un nuovo bottone rettangolare
 	 * @param x - coordinata X
@@ -42,6 +44,8 @@ public class SimpleButton extends Button
 
 			this.name = name;
 			buildButton( x, y );
+			
+			clickable = true;
 		}
 	
 	@SuppressWarnings("unchecked")
@@ -63,9 +67,18 @@ public class SimpleButton extends Button
 			rect = new Rectangle( x, y, width + offset, height + offset );
 		}
 	
+	public boolean isClickable()
+		{ return clickable; }
+	
 	/** modifica*/
 	public void setColor( Color color )
-		{ c = color; }
+		{
+			c = color;
+			if(c == Color.gray)
+				clickable = false;
+			else
+				clickable = true;
+		}
 	
 	/** modifica la lunghezza del bottone*/
 	public float getLungh()

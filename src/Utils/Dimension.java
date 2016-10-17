@@ -11,7 +11,7 @@ public class Dimension
 	private String w, h;
 	/** determina se disegnare la casella di grigio o di bianco */
 	private Color color;
-	/**  */
+	/** determina se il valore e' disegnabile */
 	private boolean drawble;
 	
 	public Dimension( float x, float y, float width, float height, String w, String h, Color c, boolean val )
