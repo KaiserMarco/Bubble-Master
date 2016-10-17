@@ -63,6 +63,10 @@ public class SimpleButton extends Button
 			rect = new Rectangle( x, y, width + offset, height + offset );
 		}
 	
+	/** modifica*/
+	public void setColor( Color color )
+		{ c = color; }
+	
 	/** modifica la lunghezza del bottone*/
 	public float getLungh()
 		{  return rect.getWidth(); }

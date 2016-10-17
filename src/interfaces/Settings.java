@@ -64,8 +64,13 @@ public class Settings
 	
 	/** la barra della luminosita' */
 	private SlideBar bar;
-	
+	// il valore di lumonisita' dopo l'ultima modifica
 	private float valBright;
+	
+	// determina se e' possibile effettuare i cambiamenti
+	private boolean setChanging;
+	// valori inziali di riferimento per i cambiamenti
+	private String startResW, startResH;
 	
 	public Settings( GameContainer gc ) throws SlickException
 		{
@@ -131,6 +136,10 @@ public class Settings
 			Global.init();
 			
 			valBright = bar.getValue();
+			
+			setChanging = false;
+			startResW = widthP;
+			startResH = heightP;
 		}
 	
 	public void draw( GameContainer gc )
@@ -295,6 +304,19 @@ public class Settings
 			int mouseX = input.getMouseX();
 			int mouseY = input.getMouseY();
 			
+			// controlla se il bottone APPLICA e' usabile oppure no
+			if(Global.lifes != vite || Global.dropRate != (double) dropRate/100
+			|| startResW != dimensioni.get( 0 ).getW() || startResH != dimensioni.get( 0 ).getH() || bar.getValue() != valBright)
+				{
+					setChanging = true;
+					buttons.get( 1 ).setColor( Color.orange );
+				}
+			else
+				{
+					setChanging = false;
+					buttons.get( 1 ).setColor( Color.gray );
+				}
+			
 			if(input.isKeyPressed( Input.KEY_ESCAPE ) || input.isKeyPressed( Input.KEY_BACK ))
 				{
 					indexCursor = -1;
@@ -369,9 +391,11 @@ public class Settings
 				                            		else if(buttons.get( i ).getName().equals( APPLY ))
 				                            			{
 				                            	        	Global.computeRatio( Integer.parseInt( widthP ), Integer.parseInt( heightP ) );
-				                            				if(Global.lifes != vite || Global.dropRate != (double) dropRate/100
-		                            						|| Global.ratioW != 1 || Global.ratioH != 1 || bar.getValue() != valBright)
+				                            				if(setChanging)
 			                            						{
+				                            						setChanging = false;
+				                            						startResW = dimensioni.get( 0 ).getW();
+				                            						startResH = dimensioni.get( 0 ).getH();
 				                            						applicaCambiamenti( editor, gc, end );
 				                            			        
 				                            						indexCursor = -1;
