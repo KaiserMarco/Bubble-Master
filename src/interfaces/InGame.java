@@ -11,6 +11,7 @@ import org.newdawn.slick.SlickException;
 import Utils.Global;
 import Utils.Sfondo;
 import bubbleMaster.Start;
+import dataObstacles.Base;
 import dataObstacles.Enter;
 import dataObstacles.Ostacolo;
 import dataObstacles.Player;
@@ -108,10 +109,18 @@ public class InGame
 					{
 						((Tubo) ostacoli.get( i )).setSpace( gc );
 						ostacoli.add( ((Tubo) ostacoli.get( i )).getBase() );
+						((Base) ostacoli.get( ostacoli.size() - 1 )).setIndexTube( i );
 						ostacoli.add( ((Tubo) ostacoli.get( i )).getEnter() );
-						//((Enter) ostacoli.get( ostacoli.size() - 1 )).setIndexTube( i );
-						((Enter) ostacoli.get( ostacoli.size() - 1 )).setDirection( ((Tubo) ostacoli.get( i )).getDirection() );
+						((Enter) ostacoli.get( ostacoli.size() - 1 )).setIndexTube( i );
 					}
+			
+			for(int i = size; i < ostacoli.size(); i++)
+				{
+					if(ostacoli.get( i ).getID().equals( "base" ))
+						System.out.println( "indexTubo = " + ((Base) ostacoli.get( i )).getIndexTube() );
+					else if(ostacoli.get( i ).getID().equals( "enter" ))
+						System.out.println( "indexTubo = " + ((Enter) ostacoli.get( i )).getIndexTube() );
+				}
 			
 			Global.sfondo = sfondo;
 		}

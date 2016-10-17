@@ -27,9 +27,7 @@ import Utils.TextBox;
 import bubbleMaster.Start;
 import dataButton.Button;
 import dataButton.SimpleButton;
-import dataObstacles.Base;
 import dataObstacles.Bubble;
-import dataObstacles.Enter;
 import dataObstacles.Ostacolo;
 import dataObstacles.Player;
 import dataObstacles.Tubo;
@@ -715,11 +713,13 @@ public class Edit
 					    if(input.isKeyPressed( Input.KEY_SPACE ))
 					    	{
 					        	temp.setOrienting( gc );
-					        	if(temp.equals( TUBO ))
+					        	// TODO CONTROLLARE SE HA SENSO CANCELLARE QUESTA PARTE O NO
+					        	// SEMBREREBBE DI SI MA VOGLIO VEDERCI CHIARO
+					        	/*if(temp.equals( TUBO ))
 					        		{
 					        			((Base) ((Tubo) temp).getBase()).setDirection( ((Tubo) temp).getDirection());
 					        			((Enter) ((Tubo) temp).getEnter()).setDirection( ((Tubo) temp).getDirection());
-					        		}
+					        		}*/
 					    	}
 					
 					/*spostamento player tramite mouse*/
