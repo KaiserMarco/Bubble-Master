@@ -119,11 +119,13 @@ public class End
 			float offset = Global.W/10 * Global.Width/Global.W;
 			
 			player.getImage().draw( startX + width + offset, startY, Global.W/17 * Global.Width/Global.W, height );
+			
+			// TODO STAMPARE I RISULTATI UN PO' PIU VICINI
 				
 			String ammo = "" + player.getShots();
 			g.drawString( ammo, startX + width/2 + width + offset, y );
 			
-			String target = "" ;
+			String target = "" + player.getHits();
 			g.drawString( target, startX + width/2 + width + offset, y + pos );
 			
 			String lifes = "" + (Global.lifes - player.getLifes());
@@ -142,7 +144,7 @@ public class End
 		}
 	
 	public void setPlayer( GameContainer gc )
-		{ player = (Player) InGame.player.clone( gc ); }
+		{ player = InGame.player; }
 	
 	private void returnToBegin()
 		{ Start.begin = 1; }

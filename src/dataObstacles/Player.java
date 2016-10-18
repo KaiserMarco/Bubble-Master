@@ -97,6 +97,9 @@ public class Player extends Ostacolo
 	float tickCd;	
 	int index = 0;
 	
+	// il numero di colpi andati a segno
+	private int hits;
+	
 	// il valore dei frame di movimento e salto
 	float frameMove, frameJump;
 	
@@ -223,6 +226,7 @@ public class Player extends Ostacolo
 			coolDown = new Rectangle( space + Global.Width/40, maxHeight, Global.H - maxHeight, Global.H - maxHeight );
 			
 			currAmmo = 0;
+			hits = 0;
 		}
 	
 	public void drawMoving( Graphics g )
@@ -720,6 +724,9 @@ public class Player extends Ostacolo
 			return false;
 		}
 	
+	public int getHits()
+		{ return hits; }
+	
 	public void update( GameContainer gc, int delta ) throws SlickException
 		{
 			Input input = gc.getInput();
@@ -864,6 +871,8 @@ public class Player extends Ostacolo
 										if(!ost.getID().equals( "tubo" ))
 											if(fuoco.collision( this, ost, ost.getID(), gc ))
 												{
+													if(fuoco.checkHit())
+														hits++;
 													fuoco.setShot( false );
 													break;
 												}

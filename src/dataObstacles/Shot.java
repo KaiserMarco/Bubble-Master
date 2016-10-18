@@ -33,6 +33,9 @@ public class Shot
 	
 	private int countShot;
 	
+	// determina se il colpo ha colpito una sfera
+	private boolean hit;
+	
 	public Shot( GameContainer gc ) throws SlickException
 		{
 			widthS = gc.getHeight()/40;
@@ -54,6 +57,8 @@ public class Shot
 			shooting = false;
 			
 			countShot = 0;
+			
+			hit = false;
 		}
 	
 	public void setXY( int x, int y )
@@ -101,12 +106,25 @@ public class Shot
 	public void setAnimTime( int val )
 		{ countShot = val; }
 	
+	/** controlla se lo shot ha colpito una sfera */
+	public boolean checkHit()
+		{
+			if(hit)
+				{
+					hit = false;
+					return true;
+				}
+			else
+				return hit;
+		}
+	
 	public boolean collision( Player play, Ostacolo ost, String type, GameContainer gc ) throws SlickException
 		{
 			if(getArea().intersects( ost.component( "rect" ) ))
 				{
 					if(type.equals( "bolla" ))
 						{
+							hit = true;
 							if(Math.random() <= Global.dropRate)
 								{
 									int ray = (int) (gc.getHeight()/40 * Global.H/Global.Height);
