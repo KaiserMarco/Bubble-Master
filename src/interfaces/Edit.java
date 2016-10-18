@@ -282,21 +282,23 @@ public class Edit
 					// MA SOLO QUANDO CAMBIO 3 VOLTE LA RISOLUZIONE, ALTRIMENTI E' OK
 					for(Ostacolo item: items)
 						{
+							if(item.getID().equals( Global.TUBO ))
+								System.out.println( "width = " + item.getWidth() + " height = " + item.getHeight() );
+						
 							item.setXY( item.getX() * Global.ratioW, item.getY() * Global.ratioH, "restore" );
+							item.setWidth( item.getWidth() * Global.ratioW );
 							if(item.getID().equals( Global.BOLLA ))
-								{
-									item.setWidth( (int) (item.getWidth() * Global.ratioH) );
-									((Bubble) item).setMaxWidth( (float) (item.getMaxWidth() * Global.ratioW) );
-								}
+								((Bubble) item).setMaxWidth( (float) (item.getMaxWidth() * Global.ratioW) );
 							else
-								{
-									item.setWidth( item.getWidth() * Global.ratioW );
-									if(item.getID().equals( Global.PLAYER ))
-										((Player) item).setWidthI( ((Player) item).getWidthI() * Global.ratioW );
-									item.setHeight( item.getHeight() * Global.ratioH );
-								}
+								item.setHeight( item.getHeight() * Global.ratioH );
+							
+							if(item.getID().equals( Global.PLAYER ))
+								((Player) item).setWidthI( ((Player) item).getWidthI() * Global.ratioW );
 							
 							item.setArea( gc );
+							
+							if(item.getID().equals( Global.TUBO ))
+								System.out.println( "width = " + item.getWidth() + " height = " + item.getHeight() );
 						}
 					
 					for(Sfondo sfondo: sfondi)
