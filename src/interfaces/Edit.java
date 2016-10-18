@@ -682,8 +682,6 @@ public class Edit
 	
 	public void update( GameContainer gc, int delta )throws SlickException
 		{
-			// TODO VELOCIZZARE L'ALZATA DELL'INSERTEDITOR
-		
 			Input input = gc.getInput();
 			int mouseX = input.getMouseX();
 			int mouseY = input.getMouseY();
