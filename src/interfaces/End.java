@@ -121,18 +121,24 @@ public class End
 			player.getImage().draw( startX + width + offset, startY, Global.W/17 * Global.Width/Global.W, height );
 			
 			// TODO STAMPARE I RISULTATI UN PO' PIU VICINI
-				
+
+			float xString = startX + width/2 + width + offset;
+			g.setColor( Color.gray );
 			String ammo = "" + player.getShots();
-			g.drawString( ammo, startX + width/2 + width + offset, y );
-			
+			g.drawString( ammo, xString, y );
+
+			g.setColor( Color.green );
 			String target = "" + player.getHits();
-			g.drawString( target, startX + width/2 + width + offset, y + pos );
+			g.drawString( target, xString, y + pos );
 			
+			g.setColor( Color.red );
 			String lifes = "" + (Global.lifes - player.getLifes());
-			g.drawString( lifes, startX + width/2 + width + offset, y + pos*2 );
+			g.drawString( lifes, xString, y + pos*2 );
 			
+			g.setColor( Color.yellow );
 			String points = "" + player.getPoints();
-			g.drawString( points, startX + width/2 + width + offset, y + pos*3 );
+			g.drawString( points, xString, y + pos*3 );
+			g.setColor( Color.black );
 			
 			g.resetTransform();
 			

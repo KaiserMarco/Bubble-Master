@@ -169,11 +169,6 @@ public class Edit
 					obs.draw( g );
 					if(obs.getID().equals( Global.TUBO ))
 						{
-							// TODO DA RIMUOVERE UNA VOLTA TERMINATO TUTTO
-							g.setColor( Color.black );
-							((Tubo) obs).getBase().draw( g );
-							g.setColor( Color.red );
-							((Tubo) obs).getEnter().draw( g );
 							if(obs.getUnion() == -1)
 								g.drawGradientLine( obs.getMidArea().getX(), obs.getMidArea().getY(), Color.red, temp.getMidArea().getX(), temp.getMidArea().getY(), Color.red );
 							else
