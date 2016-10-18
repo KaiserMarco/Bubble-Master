@@ -23,8 +23,8 @@ public class InGame
 	/**array contenente gli ostacoli della partita*/
 	public static ArrayList<Ostacolo> ostacoli;
 	
-	/**array contenente i giocatori della partita*/
-	public static ArrayList<Ostacolo> players;
+	/**il giocatore della partita*/
+	public static Player player;
 	
 	// il vettore dei potenziamenti del personaggio
 	public static ArrayList<PowerUp> powerUp;
@@ -40,14 +40,10 @@ public class InGame
 	
 	// lunghezza e altezza base dei numeri del countdown
 	private int widthI, heightI;
-	
-	// il numero di sfere presenti in quel livello
-	private int numBall = 0;
 
 	public InGame() throws SlickException
 		{
 			ostacoli = new ArrayList<Ostacolo>();
-			players = new ArrayList<Ostacolo>();
 			powerUp = new ArrayList<PowerUp>();
 			
 			tre = new Image( "./data/Image/3.png" );
@@ -62,42 +58,33 @@ public class InGame
 			decrNumb = 4;
 		}
 	
-	public int getNumBall()
-		{ return numBall; }
-	
 	public void addOstacoli( ArrayList<Ostacolo> obs, Sfondo sfondo, GameContainer gc ) throws SlickException
 		{
-			players.clear();
 			ostacoli.clear();
 			powerUp.clear();
 			
 			this.sfondo = sfondo;
-			
-			numBall = 0;
 		
 			for(Ostacolo elem: obs)
 				{
 					Ostacolo ost = elem;
 					if(ost.getID().equals( Global.PLAYER ))
 						{
-							players.add( elem.clone( gc ) );
+							player = (Player) elem.clone( gc );
 							
-							Ostacolo p = players.get( players.size() - 1 );
+							player.setDrawLifes( true );
+							player.setDrawPoints( true );
+							player.setHeight( ost.getHeight() );
+							player.setWidth( ost.getWidth() );
+							player.setWidthI( ((Player) ost).getWidthI() );
+							player.setMaxHeight( sfondo.getMaxHeight() );							
 							
-							((Player) p).setDrawLifes( true );
-							((Player) p).setDrawPoints( true );
-							p.setHeight( ost.getHeight() );
-							p.setWidth( ost.getWidth() );
-							((Player) p).setWidthI( ((Player) ost).getWidthI() );
-							p.setMaxHeight( sfondo.getMaxHeight() );							
-							
-							p.setArea( gc );
+							player.setArea( gc );
 						}
 					else if(elem.getID().equals( Global.BOLLA ))
 						{
 							ostacoli.add( elem.clone( gc ) );
 							ostacoli.get( ostacoli.size() - 1 ).setMaxHeight( sfondo.getMaxHeight() );
-							numBall++;
 						}
 					else
 						ostacoli.add( ost );
@@ -128,8 +115,7 @@ public class InGame
 			for(int i = ostacoli.size() - 1; i >= 0; i--)
 				ostacoli.get( i ).draw( g );
 			
-			for(Ostacolo p: players)
-				p.draw( g );
+			player.draw( g );
 			
 			// disegna il countdown iniziale
 			if(Global.drawCountdown)
@@ -158,7 +144,7 @@ public class InGame
 			Global.drawScreenBrightness( g );
 		}
 	
-	public void update(GameContainer gc, int delta) throws SlickException
+	public void update( GameContainer gc, int delta, End end ) throws SlickException
 		{		
 			if(gc.getInput().isKeyPressed( Input.KEY_ESCAPE ))
 				{
@@ -167,11 +153,8 @@ public class InGame
 					Start.startGame = 0;
 					Start.chooseLevel = 1;
 					
-					for(Ostacolo p: players)
-						{
-							((Player) p).setDrawLifes( false );
-							((Player) p).setDrawPoints( false );
-						}
+					player.setDrawLifes( false );
+					player.setDrawPoints( false );
 				}
 		
 			if(!Global.drawCountdown && Global.inGame)
@@ -179,8 +162,7 @@ public class InGame
 					for(PowerUp pu: powerUp)
 						pu.update( gc, delta );
 					
-					for(Ostacolo p: players)
-						p.update( gc, delta );
+					player.update( gc, delta );
 					
 					for(Ostacolo ost: ostacoli)
 						if(ost.getID().equals( Global.BOLLA ))
@@ -190,6 +172,7 @@ public class InGame
 			if(!Global.inGame)
 				{
 					Start.stats.stopTempo();
+					end.setPlayer( gc );
 				
 					Start.startGame = 0;
 					Start.endGame = 1;

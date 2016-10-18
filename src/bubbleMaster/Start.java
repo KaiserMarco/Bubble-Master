@@ -87,7 +87,7 @@ public class Start extends BasicGame
 			if(begin == 1)
 				b.update( gc, delta );
 			else if(startGame == 1)
-				ig.update( gc, delta );
+				ig.update( gc, delta, e );
 			else if(editGame == 1)
 				edit.update( gc, delta );
 			else if(endGame == 1)

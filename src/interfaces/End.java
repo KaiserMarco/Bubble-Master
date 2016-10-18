@@ -30,9 +30,11 @@ public class End
 	/*dimensioni del cursore*/
 	private int widthC, heightC;
 	// vettore dei giocatori partecipanti alla partita
-	private ArrayList<Ostacolo> players, ostacoli;
+	private ArrayList<Ostacolo> ostacoli;
 	// lo sfondo del livello
 	private Sfondo sfondo = null;
+	// il giocatore della partita
+	Player player;
 	
 	private boolean mouseDown = false;
 	
@@ -60,22 +62,18 @@ public class End
 
 			indexCursor = -1;
 			
-			players = InGame.players;
 			ostacoli = InGame.ostacoli;
 		}
 	
 	public void draw( GameContainer gc ) throws SlickException
 		{
-			// TODO FARE IN MODO DI NON VEDERE PIU LO STACCO DEI BOTTONI QUANDO CAMBIO RISOLUZIONE
-		
 			Graphics g = gc.getGraphics();
 
 			if(sfondo == null)				
 				sfondo = Global.sfondo;
 			sfondo.draw( gc );
 			
-			for(int i = 0; i < players.size(); i++)
-				players.get( i ).draw( g );
+			player.draw( g );
 
 			for(int i = 0; i < ostacoli.size(); i++)
 				ostacoli.get( i ).draw( g );
@@ -119,23 +117,20 @@ public class End
 			float width = Global.W/17 * Global.Width/Global.W, height = Global.H/10 * Global.Height/Global.H;
 			float startX = Global.W*10/26 * Global.Width/Global.W, startY = Global.H/25 * Global.Height/Global.H;
 			float offset = Global.W/10 * Global.Width/Global.W;
-			for(int i = 0; i < players.size(); i++)
-				{
-					Player player = ((Player) players.get( i ));
-					player.getImage().draw( startX + (width + offset) * i, startY, Global.W/17 * Global.Width/Global.W, height );
-					
-					String ammo = "" + player.getShots();
-					g.drawString( ammo, startX + width/2 + (width + offset) * i, y );
-					
-					String target = "" + Start.ig.getNumBall();
-					g.drawString( target, startX + width/2 + (width + offset) * i, y + pos );
-					
-					String lifes = "" + (Global.lifes - player.getLifes());
-					g.drawString( lifes, startX + width/2 + (width + offset) * i, y + pos*2 );
-					
-					String points = "" + player.getPoints();
-					g.drawString( points, startX + width/2 + (width + offset) * i, y + pos*3 );
-				}
+			
+			player.getImage().draw( startX + width + offset, startY, Global.W/17 * Global.Width/Global.W, height );
+				
+			String ammo = "" + player.getShots();
+			g.drawString( ammo, startX + width/2 + width + offset, y );
+			
+			String target = "" ;
+			g.drawString( target, startX + width/2 + width + offset, y + pos );
+			
+			String lifes = "" + (Global.lifes - player.getLifes());
+			g.drawString( lifes, startX + width/2 + width + offset, y + pos*2 );
+			
+			String points = "" + player.getPoints();
+			g.drawString( points, startX + width/2 + width + offset, y + pos*3 );
 			
 			g.resetTransform();
 			
@@ -145,6 +140,9 @@ public class End
 			if(indexCursor >= 0)
 				cursor.draw( buttons.get( indexCursor ).getX() - widthC, buttons.get( indexCursor ).getY(), widthC, heightC );
 		}
+	
+	public void setPlayer( GameContainer gc )
+		{ player = (Player) InGame.player.clone( gc ); }
 	
 	private void returnToBegin()
 		{ Start.begin = 1; }

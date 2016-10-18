@@ -151,12 +151,9 @@ public class Begin
                                         ((Tubo) elements.get( elements.size() - 1 )).setSpace( gc );
                                         elements.get( elements.size() - 1 ).setUnion( union );
                                     }
-								// TODO CAPIRE PERCHE QUESTA STRINGA NON LA LEGGA
 								else if(type.equals( Global.PLAYER ))
-									{
-										System.out.println( "CARICATO" );
-										elements.add( new Player( (int) (x * ratioW), (int) (y * ratioH), Integer.parseInt( numPlayer ), gc ) );
-									}
+									elements.add( new Player( (int) (x * ratioW), (int) (y * ratioH), Integer.parseInt( numPlayer ), gc ) );
+									
 							}
 						
 						Node nodo = back.item( 0 );

@@ -233,7 +233,7 @@ public class Edit
 		}
 	
 	/**setta gli elementi base di modifica livello*/
-	public void setElements( ArrayList<Ostacolo> ostacoli, ArrayList<Ostacolo> giocatori, String nameLvl, int index, Sfondo sfondo, GameContainer gc ) throws SlickException
+	public void setElements( ArrayList<Ostacolo> ostacoli, Player giocatore, String nameLvl, int index, Sfondo sfondo, GameContainer gc ) throws SlickException
 		{
 			for(int i = 0; i < sfondi.size(); i++)
 				if(sfondi.get( i ).getName().equals( sfondo.getName() ))
@@ -248,10 +248,9 @@ public class Edit
 						ball++;
 				}
 			
-			for(Ostacolo player: giocatori)
-				this.ostacoli.add( player );
+			this.ostacoli.add( giocatore );
 			
-			gamer = giocatori.size();
+			gamer = 1;
 			
 			this.nameLvl = nameLvl;
 			this.index = index;
