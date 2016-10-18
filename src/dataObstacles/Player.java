@@ -884,20 +884,18 @@ public class Player extends Ostacolo
 			
 			if(input.isKeyPressed( Input.KEY_SPACE ) && !jump)
 				{
-					// TODO SETTARE IL SALTO IN RELAZIONE ALLA VARIAZIONE DI GRANDEZZA
-					// VIENE FUORI UN SALTO STRANO ANCHE SE CORRETTO
 					movingJ = true;
 					jump = true;
 					maxJump = 1;
 					tempJump = 60;
 				}
 			if(maxJump == 1)
-				setXY( 0, -move + 0.2f * (40 - tempJump--), "move" );
+				setXY( 0, -move + (0.2f * (40 - tempJump--)) * Global.H/Global.Height, "move" );
 			else
 				{
 					jump = true;
 					movingJ = true;
-					setXY( 0, move + 0.1f * tempJump++, "move" );
+					setXY( 0, move + (0.1f * tempJump++) * Global.H/Global.Height, "move" );
 				}
 			
 			/*controlla se non sono stati superati i limiti della schermata*/

@@ -9,12 +9,14 @@ import org.newdawn.slick.font.effects.ColorEffect;
 
 public class Global
 {
-	/** lunghezza e altezza di base */
+	/** lunghezza di base */
 	public static final float Width = 800;
+	/** altezza di base */
 	public static final float Height = 600;
 	
-	/** lunghezza e altezza attuale */
+	/** lunghezza attuale */
 	public static int W = 800;
+	/** altezza attuale */
 	public static int H = 600;
 	
 	// numero di frame da eseguire
