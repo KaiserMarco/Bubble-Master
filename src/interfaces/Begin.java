@@ -131,6 +131,9 @@ public class Begin
 								int union = Integer.parseInt( tmp.substring( 0, tmp.length() ) );
 								String type = obs.getAttribute( "ID" );
 								String orienting = obs.getAttribute( "type" );
+								String numPlayer = null;
+								if(type.equals( Global.PLAYER ))
+									numPlayer = obs.getAttribute( "number" );
 								
 								float ratioW = Global.ratioW;
 								float ratioH = Global.ratioH;
@@ -148,8 +151,12 @@ public class Begin
                                         ((Tubo) elements.get( elements.size() - 1 )).setSpace( gc );
                                         elements.get( elements.size() - 1 ).setUnion( union );
                                     }
+								// TODO CAPIRE PERCHE QUESTA STRINGA NON LA LEGGA
 								else if(type.equals( Global.PLAYER ))
-									elements.add( new Player( (int) (x * ratioW), (int) (y * ratioH), Integer.parseInt( type.substring( type.length() - 1, type.length() ) ), gc ) );
+									{
+										System.out.println( "CARICATO" );
+										elements.add( new Player( (int) (x * ratioW), (int) (y * ratioH), Integer.parseInt( numPlayer ), gc ) );
+									}
 							}
 						
 						Node nodo = back.item( 0 );

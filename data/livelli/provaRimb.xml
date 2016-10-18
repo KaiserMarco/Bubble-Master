@@ -7,7 +7,7 @@
   <ostacolo x="366.0" y="195.0" union="3" type="down" ID="tubo" />
   <ostacolo x="397.0" y="44.0" union="2" type="sx" ID="tubo" />
   <ostacolo x="658.0" y="341.0" union="-1" type="null" ID="bolla" />
-  <ostacolo x="457.0" y="506.0" union="-1" type="null" ID="player1" />
+  <ostacolo x="457.0" y="506.0" union="-1" type="null" number="1" ID="player" />
   <ostacolo x="123.0" y="238.0" union="-1" type="null" ID="bolla" />
   <ostacolo x="220.0" y="98.0" union="-1" type="null" ID="bolla" />
   <ostacolo x="84.0" y="406.0" union="-1" type="null" ID="bolla" />
