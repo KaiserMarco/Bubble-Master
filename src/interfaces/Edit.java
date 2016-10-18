@@ -277,9 +277,7 @@ public class Edit
 					
 					for(SimpleButton button: buttons)
 						button.buildButton( button.getX() * Global.ratioW, button.getY() * Global.ratioH );
-					
-					// TODO TUTTO OK, MA IL TUBO NON SI ADATTA COME IL RESTO
-					// MA SOLO QUANDO CAMBIO 3 VOLTE LA RISOLUZIONE, ALTRIMENTI E' OK
+
 					for(Ostacolo item: items)
 						{
 							item.setXY( item.getX() * Global.ratioW, item.getY() * Global.ratioH, "restore" );
