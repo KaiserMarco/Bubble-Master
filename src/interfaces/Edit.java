@@ -599,13 +599,14 @@ public class Edit
 			}
 		}
 	
+	/** setta la posizione dell'editor */
 	public void setEditor( int delta, GameContainer gc )
 	    {
     	    if(insertEditor)
                 if(base.getY() - delta/2 > minHighEditor)
                     {
-                        base.setY( base.getY() - delta/2 );
-                        heightBase = heightBase + delta/2;
+                        base.setY( base.getY() - delta*6/5 );
+                        heightBase = heightBase + delta*6/5;
                     }
                 else
                     {
@@ -681,8 +682,7 @@ public class Edit
 	
 	public void update( GameContainer gc, int delta )throws SlickException
 		{
-			// TODO CAMBIARE LA RELATIVA CLASSE PLAYER
-			// E VELOCIZZARE L'ALZATA DELL'INSERTEDITOR
+			// TODO VELOCIZZARE L'ALZATA DELL'INSERTEDITOR
 		
 			Input input = gc.getInput();
 			int mouseX = input.getMouseX();
