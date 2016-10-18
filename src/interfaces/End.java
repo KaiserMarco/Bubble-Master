@@ -116,28 +116,26 @@ public class End
 			
 			float width = Global.W/17 * Global.Width/Global.W, height = Global.H/10 * Global.Height/Global.H;
 			float startX = Global.W*10/26 * Global.Width/Global.W, startY = Global.H/25 * Global.Height/Global.H;
-			float offset = Global.W/10 * Global.Width/Global.W;
+			//float offset = Global.W/10 * Global.Width/Global.W;
 			
-			player.getImage().draw( startX + width + offset, startY, Global.W/17 * Global.Width/Global.W, height );
-			
-			// TODO STAMPARE I RISULTATI UN PO' PIU VICINI
+			player.getImage().draw( startX + width + Global.W/100, startY, Global.W/17 * Global.Width/Global.W, height );
 
-			float xString = startX + width/2 + width + offset;
+			float xString = startX + width/2 + width;
 			g.setColor( Color.gray );
 			String ammo = "" + player.getShots();
-			g.drawString( ammo, xString, y );
+			g.drawString( ammo, xString - ammo.length()/2, y );
 
 			g.setColor( Color.green );
 			String target = "" + player.getHits();
-			g.drawString( target, xString, y + pos );
+			g.drawString( target, xString - target.length()/2, y + pos );
 			
 			g.setColor( Color.red );
 			String lifes = "" + (Global.lifes - player.getLifes());
-			g.drawString( lifes, xString, y + pos*2 );
+			g.drawString( lifes, xString - lifes.length()/2, y + pos*2 );
 			
 			g.setColor( Color.yellow );
 			String points = "" + player.getPoints();
-			g.drawString( points, xString, y + pos*3 );
+			g.drawString( points, xString - points.length()/2, y + pos*3 );
 			g.setColor( Color.black );
 			
 			g.resetTransform();
