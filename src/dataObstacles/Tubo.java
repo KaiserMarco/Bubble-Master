@@ -189,7 +189,7 @@ public class Tubo extends Ostacolo{
 		{ return ostr.getY(); }
 	
 	public float getWidth()
-		{ return ostr.getWidth(); }
+		{ return width; }
 	
 	public float getHeight()
 		{ return ostr.getHeight(); }
@@ -375,8 +375,14 @@ public class Tubo extends Ostacolo{
 		{ return new Point( getX() + width/2, getY() + height/2 ); }
 	
 	public void setWidth( float val )
-		{ width = val; }
+		{
+			width = val;
+			ostr.setWidth( width );
+		}
 	
 	public void setHeight( float val )
-		{ height = val; }
+		{
+			height = val;
+			ostr.setHeight( height );
+		}
 }
