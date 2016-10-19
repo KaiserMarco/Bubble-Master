@@ -112,7 +112,7 @@ public class TextBox
 		return text.getText();
 	}
 	
-	/***/
+	/** setta il vecchio nome del livello (se ne aveva uno) */
 	public void setText( final String name )
 	{
 	    text.setText( name );
@@ -238,7 +238,10 @@ public class TextBox
 			String txt = "INSERIRE NOME LIVELLO";
 			float x = area.getCenterX() - font.getWidth( txt ) / 2;
 			float y = text.getY() - (text.getY() - area.getY()) / 2 - font.getHeight( txt ) / 2;
-			font.drawString( x, y, txt, Color.red );
+
+			g.scale( Global.W/Global.Width, Global.H/Global.Height );
+			font.drawString( x * Global.Width/Global.W, y * Global.Height/Global.H, txt, Color.red );
+			g.resetTransform();
 
 			//ErrorWindow.draw( g );
 		}
