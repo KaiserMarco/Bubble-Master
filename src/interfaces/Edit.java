@@ -672,7 +672,7 @@ public class Edit
 		            			Shape areaEnter = ((Tubo) ost).getEnter().getArea();
 		            			if(areaPlayer.intersects( areaBase ) && areaPlayer.intersects( areaEnter ))
 	            					return true;
-		            			else if(areaPlayer.intersects( areaBase ) && temp.getY() + temp.getHeight() <= ((Tubo) ost).getY())
+		            			else if(areaPlayer.intersects( areaBase ) && temp.getY() + temp.getHeight() < ((Tubo) ost).getY())
 		            				return true;
 		            		}
 		            else if(temp.component( "rect" ).intersects( ost.component( "latoGiu" ) ))
