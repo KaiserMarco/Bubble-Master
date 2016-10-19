@@ -226,24 +226,25 @@ public class TextBox
 	*/
 	public void render( GameContainer gc, Graphics g )
 	{
-		if(isOpen){
-			img.draw( area.getX(), area.getY(), area.getWidth(), area.getHeight() );
-
-			for(int i = 0; i < buttons.length; i++)
-				buttons[i].draw( g );
-
-			g.setColor( Color.white );
-			text.render( gc, g );
-
-			String txt = "INSERIRE NOME LIVELLO";
-			float x = area.getCenterX() - font.getWidth( txt ) / 2;
-			float y = text.getY() - (text.getY() - area.getY()) / 2 - font.getHeight( txt ) / 2;
-
-			g.scale( Global.W/Global.Width, Global.H/Global.Height );
-			font.drawString( x * Global.Width/Global.W, y * Global.Height/Global.H, txt, Color.red );
-			g.resetTransform();
-
-			//ErrorWindow.draw( g );
-		}
+		if(isOpen)
+			{
+				img.draw( area.getX(), area.getY(), area.getWidth(), area.getHeight() );
+	
+				for(int i = 0; i < buttons.length; i++)
+					buttons[i].draw( g );
+	
+				g.setColor( Color.white );
+				text.render( gc, g );
+	
+				String txt = "INSERIRE NOME LIVELLO";
+				float x = area.getCenterX() - font.getWidth( txt )/2;
+				float y = text.getY() - (text.getY() - area.getY())/2 - font.getHeight( txt )/2;
+	
+				g.scale( Global.W/Global.Width, Global.H/Global.Height );
+				font.drawString( x * Global.Width/Global.W, y * Global.Height/Global.H, txt, Color.red );
+				g.resetTransform();
+	
+				//ErrorWindow.draw( g );
+			}
 	}
 }
