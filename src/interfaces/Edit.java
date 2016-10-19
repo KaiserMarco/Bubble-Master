@@ -527,9 +527,7 @@ public class Edit
 			setTubeInArray( gc );
 			
 			// TODO CAPIRE PERCHE ALCUNI LIVELLI VENGONO SALVATI MALE (SOPRATTUTTO I TUBI, ALCUNI SCOMPAIONO)
-			
-			for(Ostacolo obs: this.ostacoli)
-				System.out.println( "ID = " + obs.getID() );
+			// SE INIZIO CON IL TUBO RISOLVTO A SINISTRA, QUESTO POI SCOMPARE ( E NON CAPISCO PERCHE)
 		
 			try
 			{
@@ -912,7 +910,13 @@ public class Edit
 						                            				if(!insertEditor)
 							                            				{
 							                            					if(gamer > 0 && ball > 0)
-								                            					{
+								                            					{							                            						
+								                            						for(Ostacolo obs: this.ostacoli)
+								                            							{
+								                            								System.out.println( "ID = " + obs.getID() );
+								                            								if(obs.getID().equals( Global.TUBO ))
+								                            									System.out.println( "DIR = " + ((Tubo) obs).getDirection() );
+								                            							}
 							                            							for(Ostacolo obs: ostacoli)
 							                            								if(obs.getID().equals( Global.PLAYER ))
 							                            									((Player) obs).setDrawLifes( true );
