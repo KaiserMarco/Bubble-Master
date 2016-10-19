@@ -169,6 +169,7 @@ public class Edit
 					obs.draw( g );
 					if(obs.getID().equals( Global.TUBO ))
 						{
+							((Tubo) obs).getBase().draw( g );
 							if(obs.getUnion() == -1)
 								g.drawGradientLine( obs.getMidArea().getX(), obs.getMidArea().getY(), Color.red, temp.getMidArea().getX(), temp.getMidArea().getY(), Color.red );
 							else
@@ -528,7 +529,12 @@ public class Edit
 			
 			// TODO CAPIRE PERCHE ALCUNI LIVELLI VENGONO SALVATI MALE (SOPRATTUTTO I TUBI, ALCUNI SCOMPAIONO)
 			// SE INIZIO CON IL TUBO RISOLVTO A SINISTRA, QUESTO POI SCOMPARE ( E NON CAPISCO PERCHE)
-		
+			
+			for(Ostacolo obs: this.ostacoli)
+				{
+					if(obs.getID().equals( Global.TUBO ))
+						System.out.println( "ID = " + obs.getID() + " DIR = " + ((Tubo) obs).getDirection() );
+				}		
 			try
 			{
 			    livello = new Element( "level" );
@@ -724,21 +730,20 @@ public class Edit
 							if(temp.getID().equals( Global.PLAYER ))
 								{
 									float posY = gc.getHeight();
-									for(int i = 0; i < ostacoli.size(); i++)
+									for(Ostacolo obs: ostacoli)
 										{
-											Ostacolo ost = ostacoli.get( i );
-											if(ost.getID().equals( Global.TUBO ))
+											if(obs.getID().equals( Global.TUBO ))
 												{
-													ost = ((Tubo) ostacoli.get( i )).getBase();
+													Ostacolo ost = ((Tubo) obs).getBase();
 													if(checkPosition( ost, mouseX, mouseY, gc.getHeight() ) && ost.getY() < posY)
 														posY = ost.getY();
 													
-													ost = ((Tubo) ostacoli.get( i )).getEnter();
+													ost = ((Tubo) obs).getEnter();
 													if(checkPosition( ost, mouseX, mouseY, gc.getHeight() ) && ost.getY() < posY)
 														posY = ost.getY();
 												}
-											else if(checkPosition( ost, mouseX, mouseY, gc.getHeight() ) && ost.getY() < posY)
-												posY = ost.getY();
+											else if(checkPosition( obs, mouseX, mouseY, gc.getHeight() ) && obs.getY() < posY)
+												posY = obs.getY();
 										}
 									
 									if(posY == gc.getHeight())
@@ -910,13 +915,7 @@ public class Edit
 						                            				if(!insertEditor)
 							                            				{
 							                            					if(gamer > 0 && ball > 0)
-								                            					{							                            						
-								                            						for(Ostacolo obs: this.ostacoli)
-								                            							{
-								                            								System.out.println( "ID = " + obs.getID() );
-								                            								if(obs.getID().equals( Global.TUBO ))
-								                            									System.out.println( "DIR = " + ((Tubo) obs).getDirection() );
-								                            							}
+								                            					{
 							                            							for(Ostacolo obs: ostacoli)
 							                            								if(obs.getID().equals( Global.PLAYER ))
 							                            									((Player) obs).setDrawLifes( true );
