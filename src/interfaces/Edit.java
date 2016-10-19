@@ -303,6 +303,9 @@ public class Edit
 							sfondo.setHeight( sfondo.getHeight() * Global.ratioH );
 						}
 					
+					// TODO SISTEMARE DIMENSIONI TEXTBOX
+					tBox = new TextBox( gc );
+					
 					rappX = currRatioW;
 					rappY = currRatioH;
 				}
