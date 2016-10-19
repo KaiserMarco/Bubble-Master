@@ -75,10 +75,11 @@ public class TextBox
         this.font = font;
         //int x = text.getX() + (int) Global.sizewBox / 4, y = text.getY() + (int) (Global.sizehBox * 3/2);
         int x = text.getX() + Global.W/40, y = text.getY() + Global.H/30;
-        for(int i = 0; i < data.length; i++){
-            buttons[i] = new SimpleButton( x, y, data[i], new Color( 20, 35, 120 ) );
-            x = x + (int)buttons[i].getRect().getWidth() + Global.W/40;
-        }
+        for(int i = 0; i < data.length; i++)
+	        {
+	            buttons[i] = new SimpleButton( x + Global.W/40*i, y + Global.H/30, data[i], new Color( 20, 35, 120 ) );
+	            x = x + (int)buttons[i].getRect().getWidth() + Global.W/40;
+	        }
 	}
 
 	/**
@@ -188,8 +189,7 @@ public class TextBox
 			}
 		else
 			{
-				if(pressed)
-					pressed = false;
+				pressed = false;
 	
 				for(int i = 0; i < buttons.length; i++)
 					{
