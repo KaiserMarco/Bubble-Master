@@ -152,11 +152,7 @@ public class Begin
                                         elements.get( elements.size() - 1 ).setUnion( union );
                                     }
 								else if(type.equals( Global.PLAYER ))
-									elements.add( new Player( (int) (x * ratioW),
-											(int) (y * ratioH),
-											Integer.parseInt( numPlayer ),
-											gc ) );
-									
+									elements.add( new Player( (int) (x * ratioW), (int) (y * ratioH), Integer.parseInt( numPlayer ), gc ) );
 							}
 						
 						Node nodo = back.item( 0 );
