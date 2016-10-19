@@ -302,8 +302,7 @@ public class Edit
 							sfondo.setWidth( sfondo.getWidth() * Global.ratioW );
 							sfondo.setHeight( sfondo.getHeight() * Global.ratioH );
 						}
-					
-					// TODO SISTEMARE DIMENSIONI TEXTBOX
+
 					tBox = new TextBox( gc );
 					
 					rappX = currRatioW;
@@ -526,6 +525,11 @@ public class Edit
 		{
 			//posiziona i tubi all'inizio dell'array
 			setTubeInArray( gc );
+			
+			// TODO CAPIRE PERCHE ALCUNI LIVELLI VENGONO SALVATI MALE (SOPRATTUTTO I TUBI, ALCUNI SCOMPAIONO)
+			
+			for(Ostacolo obs: this.ostacoli)
+				System.out.println( "ID = " + obs.getID() );
 		
 			try
 			{
@@ -553,6 +557,8 @@ public class Edit
 	    				    item.setAttribute( "type", obs.getOrienting() );
 	    				else
 	    				    item.setAttribute( "type", "null" );
+	    				if(obs.getID().equals( Global.PLAYER ))
+	    					item.setAttribute( "number", ((Player) obs).getNumPlayer() + "" );
 	    				item.setAttribute( "ID", obs.getID() );
 	    				livello.addContent( item );
 			    	}
