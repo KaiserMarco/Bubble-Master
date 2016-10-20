@@ -2,6 +2,7 @@ package Utils;
 
 import java.util.ArrayList;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
@@ -46,10 +47,10 @@ public class Elements
 			items.add( new Tubo( gc.getWidth()/2 - gc.getHeight()/20, heightObs, "sx", gc ) );
 			items.add( new Bubble( gc.getWidth()*2/3 + gc.getHeight()/20 - gc.getHeight()/48, heightObs, ray, maxW, gc ) );
 			int heightP = gc.getHeight()*3/4;
-			items.add( new Player( gc.getWidth()*2/10, heightP, 1, gc ) );
-			items.add( new Player( gc.getWidth()*4/10, heightP, 2, gc ) );
-			items.add( new Player( gc.getWidth()*6/10, heightP, 3, gc ) );
-			items.add( new Player( gc.getWidth()*8/10, heightP, 4, gc ) );
+			items.add( new Player( gc.getWidth()*2/10, heightP, 1, gc, Color.red ) );
+			items.add( new Player( gc.getWidth()*4/10, heightP, 2, gc, Color.blue ) );
+			items.add( new Player( gc.getWidth()*6/10, heightP, 3, gc, Color.yellow ) );
+			items.add( new Player( gc.getWidth()*8/10, heightP, 4, gc, Color.green ) );
 		}
 	
 	public ArrayList<Sfondo> getSfondi()

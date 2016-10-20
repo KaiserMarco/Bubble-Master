@@ -562,7 +562,10 @@ public class Edit
 	    				else
 	    				    item.setAttribute( "type", "null" );
 	    				if(obs.getID().equals( Global.PLAYER ))
-	    					item.setAttribute( "number", ((Player) obs).getNumPlayer() + "" );
+	    					{
+	    						item.setAttribute( "number", ((Player) obs).getNumPlayer() + "" );
+	    						item.setAttribute( "color", ((Player) obs).getColor() );
+	    					}
 	    				item.setAttribute( "ID", obs.getID() );
 	    				livello.addContent( item );
 			    	}

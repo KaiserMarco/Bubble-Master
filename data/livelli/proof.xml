@@ -4,7 +4,7 @@
   <livello nome="proof" />
   <ostacolo x="234.0" y="216.0" union="1" type="dx" ID="tubo" />
   <ostacolo x="458.0" y="72.0" union="0" type="down" ID="tubo" />
-  <ostacolo x="360.5" y="506.0" union="-1" type="null" number="1" ID="player" />
+  <ostacolo x="360.5" y="506.0" union="-1" type="null" number="1" color="red" ID="player" />
   <ostacolo x="595.0" y="298.0" union="-1" type="null" ID="bolla" />
   <ostacolo x="152.0" y="396.0" union="-1" type="null" ID="bolla" />
   <ostacolo x="346.0" y="318.0" union="-1" type="null" ID="bolla" />

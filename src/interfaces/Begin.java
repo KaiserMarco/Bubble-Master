@@ -132,8 +132,20 @@ public class Begin
 								String type = obs.getAttribute( "ID" );
 								String orienting = obs.getAttribute( "type" );
 								String numPlayer = null;
+								Color colour = null;
 								if(type.equals( Global.PLAYER ))
-									numPlayer = obs.getAttribute( "number" );
+									{
+										numPlayer = obs.getAttribute( "number" );
+										String c = obs.getAttribute( "color" );
+										if(c.equals( "red" ))
+											colour = Color.red;
+										else if(c.equals( "blue" ))
+											colour = Color.blue;
+										else if(c.equals( "yellow" ))
+											colour = Color.yellow;
+										else
+											colour = Color.green;
+									}
 								
 								float ratioW = Global.ratioW;
 								float ratioH = Global.ratioH;
@@ -152,7 +164,8 @@ public class Begin
                                         elements.get( elements.size() - 1 ).setUnion( union );
                                     }
 								else if(type.equals( Global.PLAYER ))
-									elements.add( new Player( (int) (x * ratioW), (int) (y * ratioH), Integer.parseInt( numPlayer ), gc ) );
+									// TODO SISTEMARE IL COLOR (INTANTO LO METTO COSI)
+									elements.add( new Player( (int) (x * ratioW), (int) (y * ratioH), Integer.parseInt( numPlayer ), gc, colour ) );
 							}
 						
 						Node nodo = back.item( 0 );

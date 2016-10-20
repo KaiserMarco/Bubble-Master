@@ -9,7 +9,7 @@
   <ostacolo x="685.0" y="450.0" union="-1" type="null" ID="bolla" />
   <ostacolo x="542.0" y="293.0" union="-1" type="null" ID="bolla" />
   <ostacolo x="529.0" y="77.0" union="-1" type="null" ID="bolla" />
-  <ostacolo x="159.0" y="291.0" union="-1" type="null" number="1" ID="player" />
+  <ostacolo x="159.0" y="291.0" union="-1" type="null" number="1" color="red" ID="player" />
   <sfondo x="0" y="0" name="sfondo4" />
   <risoluzione w="800" h="600" />
 </level>

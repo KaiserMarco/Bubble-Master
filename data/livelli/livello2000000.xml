@@ -3,10 +3,10 @@
   <!--Objects-->
   <livello nome="livello2000000" />
   <ostacolo x="205.0" y="155.0" union="-1" type="ver" ID="sbarra" />
-  <ostacolo x="250.0" y="506.0" union="-1" number="1" ID="player" />
-  <ostacolo x="350.0" y="506.0" union="-1" number="2" ID="player" />
-  <ostacolo x="450.0" y="506.0" union="-1" number="3" ID="player" />
-  <ostacolo x="550.0" y="506.0" union="-1" number="4" ID="player" />
+  <ostacolo x="250.0" y="506.0" union="-1" number="1" color="red" ID="player" />
+  <ostacolo x="350.0" y="506.0" union="-1" number="2" color="blue" ID="player" />
+  <ostacolo x="450.0" y="506.0" union="-1" number="3" color="yellow" ID="player" />
+  <ostacolo x="550.0" y="506.0" union="-1" number="4" color="green" ID="player" />
   <sfondo x="0" y="0" name="sfondo3" />
   <risoluzione w="800" h="600" />
 </level>

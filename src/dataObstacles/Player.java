@@ -74,6 +74,9 @@ public class Player extends Ostacolo
 	private int wMove, hMove;
 	private int wJump, hJump;
 	
+	// il colore del personaggio
+	private Color color;
+	
 	/*movimento a destra - movimento a sinistra - movimento in alto - movimento in basso*/
 	boolean movingDx, movingSx, movingJ;
 	
@@ -117,9 +120,11 @@ public class Player extends Ostacolo
 	
 	private int space = (int) (Global.Height*10/857 * Global.W/Global.Width);
 	
-	public Player( int x, int y, int numPlayer, GameContainer gc ) throws SlickException
+	public Player( int x, int y, int numPlayer, GameContainer gc, Color color ) throws SlickException
 		{
 			super( "player" );
+			
+			this.color = color;
 			
 			xPlayer = x;
 			yPlayer = y;
@@ -147,42 +152,22 @@ public class Player extends Ostacolo
 			wMove = 32; hMove = 41;
 			wJump = 261; hJump = 48;
 
-			if(numPlayer == 1)
-				{
-					pgdx = new Image( "./data/Image/pgdx1.png" );
-					pgsx = new Image( "./data/Image/pgsx1.png" );
-					sheetDx = new SpriteSheet( new Image( "./data/Image/animdx.png" ), wMove, hMove );
-					sheetSx = new SpriteSheet( new Image( "./data/Image/animsx.png" ), wMove, hMove );
-					sheetJumpDx = new SpriteSheet( new Image( "./data/Image/jumpDx.png" ), wJump, hJump );
-					sheetJumpSx = new SpriteSheet( new Image( "./data/Image/jumpSx.png" ), wJump, hJump );
-				}
-			else if(numPlayer == 2)
-				{
-					pgdx = new Image( "./data/Image/pgdx2.png" );
-					pgsx = new Image( "./data/Image/pgsx2.png" );
-					sheetDx = new SpriteSheet( new Image( "./data/Image/animdx2.png" ), wMove, hMove );
-					sheetSx = new SpriteSheet( new Image( "./data/Image/animsx2.png" ), wMove, hMove );
-					sheetJumpDx = new SpriteSheet( new Image( "./data/Image/jumpDx2.png" ), wJump, hJump );
-					sheetJumpSx = new SpriteSheet( new Image( "./data/Image/jumpSx2.png" ), wJump, hJump );
-				}
-			else if(numPlayer == 3)
-				{
-					pgdx = new Image( "./data/Image/pgdx3.png" );
-					pgsx = new Image( "./data/Image/pgsx3.png" );
-					sheetDx = new SpriteSheet( new Image( "./data/Image/animdx3.png" ), wMove, hMove );
-					sheetSx = new SpriteSheet( new Image( "./data/Image/animsx3.png" ), wMove, hMove );
-					sheetJumpDx = new SpriteSheet( new Image( "./data/Image/jumpDx3.png" ), wJump, hJump );
-					sheetJumpSx = new SpriteSheet( new Image( "./data/Image/jumpSx3.png" ), wJump, hJump );
-				}
-			else if(numPlayer == 4)
-				{
-					pgdx = new Image( "./data/Image/pgdx4.png" );
-					pgsx = new Image( "./data/Image/pgsx4.png" );
-					sheetDx = new SpriteSheet( new Image( "./data/Image/animdx4.png" ), wMove, hMove );
-					sheetSx = new SpriteSheet( new Image( "./data/Image/animsx4.png" ), wMove, hMove );
-					sheetJumpDx = new SpriteSheet( new Image( "./data/Image/jumpDx4.png" ), wJump, hJump );
-					sheetJumpSx = new SpriteSheet( new Image( "./data/Image/jumpSx4.png" ), wJump, hJump );
-				}
+			String colour;
+			if(color.equals( Color.red ))
+				colour = "red";
+			else if(color.equals( Color.blue ))
+				colour = "blue";
+			else if(color.equals( Color.yellow ))
+				colour = "yellow";
+			else
+				colour = "green";
+
+			pgdx = new Image( "./data/Image/pgdx" + colour + ".png" );
+			pgsx = new Image( "./data/Image/pgsx" + colour + ".png" );
+			sheetDx = new SpriteSheet( new Image( "./data/Image/animdx" + colour + ".png" ), wMove, hMove );
+			sheetSx = new SpriteSheet( new Image( "./data/Image/animsx" + colour + ".png" ), wMove, hMove );
+			sheetJumpDx = new SpriteSheet( new Image( "./data/Image/jumpDx" + colour + ".png" ), wJump, hJump );
+			sheetJumpSx = new SpriteSheet( new Image( "./data/Image/jumpSx" + colour + ".png" ), wJump, hJump );
 			
 			area = new Rectangle( xPlayer, yPlayer, width, height );
 			body = new Rectangle( xPlayer, yPlayer + Global.H/40, width, Global.H/10 );
@@ -605,6 +590,18 @@ public class Player extends Ostacolo
     		body = new Rectangle( xPlayer, yPlayer + Global.H/40, width, Global.H/10 );
 		}
     
+    public String getColor()
+    	{
+	    	if(color.equals( Color.red ))
+				return "red";
+			else if(color.equals( Color.blue ))
+				return "blue";
+			else if(color.equals( Color.yellow ))
+				return "yellow";
+			else
+				return "green";
+    	}
+    
     public void setDrawLifes( boolean val )
     	{ drawLifes = val; }
     
@@ -678,7 +675,7 @@ public class Player extends Ostacolo
 	public Ostacolo clone( GameContainer gc ) {
 		try
 			{
-				Player p = new Player( (int) xPlayer, (int) yPlayer, numPlayer, gc );				
+				Player p = new Player( (int) xPlayer, (int) yPlayer, numPlayer, gc, color );				
 				p.setDrawLifes( getDrawLifes() );				
 				return p;
 			}
