@@ -25,7 +25,7 @@ import dataObstacles.Tubo;
 public class Settings
 {
 	private ArrayList<SimpleButton> buttons;
-	private SimpleButton saveChanges, back;
+	private SimpleButton saveChanges, back, config;
 	private ArrayList<ArrowButton> arrows;
 	private ArrowButton leftLife, rightLife, leftDrop, rightDrop;
 	
@@ -38,6 +38,7 @@ public class Settings
 	
 	private Image sfondo;
 	
+	// determina se disegnare le posisibli scelte di risoluzione
 	private boolean drawChoiseRes;
 	
 	// l'ordinata, l'ascissa, la lunghezza e l'altezza dei bottoni risoluzione
@@ -53,7 +54,7 @@ public class Settings
 	// le immagini del cuore
 	private Image heart, halfHeart, noHeart;
 	
-	private static final String BACK = "INDIETRO", APPLY = "APPLICA";
+	private static final String BACK = "INDIETRO", APPLY = "APPLICA", CONFIG = "CONFIGURAZIONE TASTI";
 	
 	/*indice di posizionamento del cursore*/
 	private int indexCursor;
@@ -79,6 +80,8 @@ public class Settings
 			Color color = Color.orange;
 			back = new SimpleButton( Global.W/5, Global.H*8/9, BACK, color );
 			saveChanges = new SimpleButton( Global.W*2/3, Global.H*8/9, APPLY, color );
+			// TODO SE IL VERDE FOSSE ORRENDO, SETTARNE UNO PIU BELLINO
+			config = new SimpleButton( Global.W*10/28, Global.H*10/13, CONFIG, Color.green );
 			
 			int width = Global.W/20, height = Global.H/50;
 			
@@ -97,6 +100,7 @@ public class Settings
 			buttons = new ArrayList<SimpleButton>();
 			buttons.add( back );
 			buttons.add( saveChanges );
+			buttons.add( config );
 			
 			sfondo = new Image( "./data/Image/settings.png" );
 			
@@ -402,6 +406,13 @@ public class Settings
 				                            						Start.settings = 0;
 				                            						Start.begin = 1;
 				                            					}
+				                            			}
+				                            		else if(buttons.get( i ).getName().equals( CONFIG ))
+				                            			{
+				                            				
+					                                		indexCursor = -1;
+			                                				Start.settings = 0;
+					                            			Start.configuration = 1;
 				                            			}
 				                            		
 						                            break;

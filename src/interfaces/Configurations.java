@@ -11,7 +11,6 @@ import org.newdawn.slick.SlickException;
 
 import Utils.Global;
 import bubbleMaster.Start;
-import dataButton.ArrowButton;
 import dataButton.Button;
 import dataButton.SimpleButton;
 
@@ -60,6 +59,11 @@ public class Configurations
 			widthC = Global.W*100/1777;
 			heightC = Global.H/24;			
 			cursor = new Image( "./data/Image/cursore.png" );
+			
+			
+			// TODO INSERIRE RIQUADRI PER MODIFICARE I TASTI
+			
+			
 		}
 	
 	private int checkButton( Button button, Input input, int i )
@@ -73,14 +77,16 @@ public class Configurations
 			return 0;
 		}
 	
+	public void changeFileConfig()
+		{
+			
+		}
+	
 	public void update( GameContainer gc )
 		{
 			Input input = gc.getInput();
 			int mouseX = input.getMouseX();
 			int mouseY = input.getMouseY();
-			
-			
-			// TODO INSERIRE RIQUADRI PER MODIFICARE I TASTI
 			
 			
 			
@@ -135,19 +141,21 @@ public class Configurations
 				                            		if(buttons.get( i ).getName().equals( BACK ))
 				                            			{
 					                                		indexCursor = -1;
-			                                				Start.settings = 0;
-					                            			Start.begin = 1;
+		                            						Start.configuration = 0;
+		                            						Start.settings = 1;
 				                            			}
 				                            		else if(buttons.get( i ).getName().equals( APPLY ))
 				                            			{
-				                            				// GENERARE FILE PER SALVARE QUESTE CONFIGURAZIONI
 				                            				if(setChanging)
 			                            						{
 				                            						setChanging = false;
+
+						                            				// TODO DA IMPLEMENTARE
+				                            						changeFileConfig();
 				                            			        
 				                            						indexCursor = -1;
-				                            						Start.settings = 0;
-				                            						Start.begin = 1;
+				                            						Start.configuration = 0;
+				                            						Start.settings = 1;
 				                            					}
 				                            			}
 				                            		
@@ -166,8 +174,9 @@ public class Configurations
 	               input.isKeyDown( Input.KEY_LEFT );
 	    }
 	
-	public void draw( Graphics g )
+	public void draw( GameContainer gc )
 		{
+			Graphics g = gc.getGraphics();
 			g.setColor( Color.black );
 			
 			g.setColor( Color.gray );
@@ -176,5 +185,16 @@ public class Configurations
 			
 			if(indexCursor >= 0)
 				cursor.draw( buttons.get( indexCursor ).getX() - widthC, buttons.get( indexCursor ).getY(), widthC, heightC );
+			
+			// TODO INSERIRE I NOMI DEI TASTI CONFIGURABILI
+			
+			float xString = Global.W/40, yString = Global.H/30;
+			g.drawString( SALTO, xString, yString );
+			g.drawString( SPARO, xString + Global.W/10, yString );
+			
+
+			xString = Global.W/40; yString = Global.H/2;
+			g.drawString( LEFT, xString, yString );
+			g.drawString( RIGHT, xString + Global.W/10, yString );
 		}
 }

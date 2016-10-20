@@ -6,6 +6,7 @@ import interfaces.Edit;
 import interfaces.End;
 import interfaces.InGame;
 import interfaces.Settings;
+import interfaces.Configurations;
 
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
@@ -25,8 +26,9 @@ public class Start extends BasicGame
 	private Settings opt;
 	public static ChooseLevel cl;
 	public static Statistics stats;
+	private Configurations config;
 	
-	public static int chooseLevel, startGame, endGame, editGame, creaLvl, settings;
+	public static int chooseLevel, startGame, endGame, editGame, creaLvl, settings, configuration;
 	public static int begin = 1;
 	
 	private static AppGameContainer app;
@@ -68,6 +70,8 @@ public class Start extends BasicGame
 				cl.draw( gc );
 			else if(settings == 1)
 				opt.draw( gc );
+			else if(configuration == 1)
+				config.draw( gc );
 		}
 
 	@Override
@@ -79,6 +83,7 @@ public class Start extends BasicGame
 			edit = new Edit( gc );
 			cl = new ChooseLevel( gc );
 			opt = new Settings();
+			config = new Configurations();
 		}
 
 	@Override
@@ -96,6 +101,8 @@ public class Start extends BasicGame
 				cl.update( gc, edit );
 			else if(settings == 1)
 				opt.update( gc, edit, e );
+			else if(configuration == 1)
+				config.update( gc );
 			
 			gc.getInput().clearKeyPressedRecord();
 			gc.getInput().clearMousePressedRecord();
