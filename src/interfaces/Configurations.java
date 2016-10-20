@@ -11,15 +11,19 @@ import org.newdawn.slick.SlickException;
 
 import Utils.Global;
 import bubbleMaster.Start;
+import dataButton.ArrowButton;
 import dataButton.Button;
 import dataButton.SimpleButton;
 
 public class Configurations
 {
 	// bottoni e vettore bottoni
-	ArrayList<SimpleButton> buttons;
-	SimpleButton back, apply;
+	private ArrayList<SimpleButton> buttons;
+	private SimpleButton back, apply;
+	private ArrayList<ArrowButton> arrows;
+	private ArrowButton left, right;
 	
+	// lo sfondo
 	Image img;
 	
 	// determina se e' possibile effettuare i cambiamenti
@@ -40,6 +44,8 @@ public class Configurations
 	private int widthC, heightC;
 	/*immagine del cursore*/
 	private Image cursor;
+	/*l'indice del player configurato*/
+	private int numPlayer;
 	
 	public Configurations() throws SlickException
 		{
@@ -60,13 +66,32 @@ public class Configurations
 			heightC = Global.H/24;			
 			cursor = new Image( "./data/Image/cursore.png" );
 			
+			numPlayer = 1;
 			
+			int width = Global.W/20, height = Global.H/50;			
+			left = new ArrowButton( LEFT, ArrowButton.LEFT, new float[]{ Global.W*10/32, Global.H/3 + height/2, Global.W*10/32 + width, Global.H/3, Global.W*10/32 + width, Global.H/3 + height }, Color.white );
+			right = new ArrowButton( RIGHT, ArrowButton.RIGHT, new float[]{ Global.W*52/100, Global.H/3, Global.W*52/100, Global.H/3 + height, Global.W*52/100 + width, Global.H/3 + height/2 },Color.white );
+			
+			arrows = new ArrayList<ArrowButton>();
+			arrows.add( left );
+			arrows.add( right );
 			// TODO INSERIRE RIQUADRI PER MODIFICARE I TASTI
 			
 			
 		}
 	
 	private int checkButton( Button button, Input input, int i )
+		{
+			if(button.isPressed())
+				return 1;
+			else if(indexCursor >= 0 && indexCursor == i)
+				if(input.isKeyPressed( Input.KEY_ENTER ))
+					return 2;
+		
+			return 0;
+		}
+	
+	private int checkArrow( ArrowButton button, Input input, int i )
 		{
 			if(button.isPressed())
 				return 1;
@@ -87,13 +112,6 @@ public class Configurations
 			Input input = gc.getInput();
 			int mouseX = input.getMouseX();
 			int mouseY = input.getMouseY();
-			
-			
-			
-			
-			
-			
-			
 			
 			if(indexCursor < 0 &&((input.isKeyPressed( Input.KEY_UP ) || input.isKeyPressed( Input.KEY_DOWN )
 			|| input.isKeyPressed( Input.KEY_LEFT ) || input.isKeyPressed( Input.KEY_RIGHT ))))
@@ -116,6 +134,11 @@ public class Configurations
 		                        if(button.checkClick( mouseX, mouseY, input ))
 		                        	if(button.isClickable() && !button.isPressed())
 	                            		button.setPressed();
+		                    
+		                    for(ArrowButton arrow: arrows)
+		                    	if(arrow.contains( mouseX, mouseY, input ))
+		                    		if(!arrow.isPressed())
+		                    			arrow.setPressed();
 		                }
 	            }
 	        else
@@ -163,6 +186,39 @@ public class Configurations
 					                            }
 		                    			}
 		                    	}
+		                    if(i == buttons.size())
+			                    // se non e' stato premuto un bottone controllo le frecce
+		                    	for(i = 0; i < arrows.size(); i++)
+		                    		{
+			                    		int value = checkArrow( arrows.get( i ), input, i );
+			                        	boolean pressed = true;
+			                        	// se e' stato premuto il tasto
+			                    		if(value > 0)
+			                    			{
+				                                for(ArrowButton arrow: arrows)
+				                                	if(arrow.isPressed())
+				                                		arrow.setPressed();
+				                                pressed = arrows.get( i ).contains( mouseX, mouseY, input );
+					                            // pressed tramite mouse || value==2 tramite tastiera
+					                            if(pressed || value == 2)
+						                            {
+			                                    		// premuta freccia sinistra
+					                            		if(arrows.get( i ).getDirection() == ArrowButton.LEFT)
+					                            			{
+					                            				// TODO IMPLEMENTARE IL CAMBIO DI TASTI CONFIGURATI
+					                            				numPlayer = Math.max( 0, --numPlayer );
+					                            			}
+					                            		// premuta freccia destra
+					                            		else if(arrows.get( i ).getDirection() == ArrowButton.RIGHT)
+					                            			{
+				                            					// TODO IMPLEMENTARE IL CAMBIO DI TASTI CONFIGURATI
+					                            				numPlayer = Math.min( 4, ++numPlayer );
+					                            			}
+					                            		
+							                            break;
+						                            }
+			                    			}
+		                    		}
 		                }
 	            }
 		}
@@ -182,6 +238,11 @@ public class Configurations
 			g.setColor( Color.gray );
 			for(SimpleButton button: buttons)
 				button.draw( g );
+			for(ArrowButton arrow: arrows)
+				arrow.draw( g );
+			
+			g.setColor( Color.white );
+			g.drawString( "Player " + numPlayer, Global.W*10/22, Global.H/40 );
 			
 			if(indexCursor >= 0)
 				cursor.draw( buttons.get( indexCursor ).getX() - widthC, buttons.get( indexCursor ).getY(), widthC, heightC );
