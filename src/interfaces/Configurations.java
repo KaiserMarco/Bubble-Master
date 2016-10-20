@@ -8,6 +8,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Rectangle;
 
 import Utils.Global;
 import bubbleMaster.Start;
@@ -47,6 +48,9 @@ public class Configurations
 	/*l'indice del player configurato*/
 	private int numPlayer;
 	
+	private ArrayList<Rectangle> keys;
+	private Rectangle kSalto, kSparo, kSx, kDx;
+	
 	public Configurations() throws SlickException
 		{
 			// TODO INSERIRE UNO SFONDO ADATTO
@@ -77,7 +81,11 @@ public class Configurations
 			arrows.add( right );
 			// TODO INSERIRE RIQUADRI PER MODIFICARE I TASTI
 			
-			
+			keys = new ArrayList<Rectangle>();
+			keys.add( kSalto );
+			keys.add( kSparo );
+			keys.add( kSx );
+			keys.add( kDx );
 		}
 	
 	private int checkButton( Button button, Input input, int i )
