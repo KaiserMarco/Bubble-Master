@@ -8,6 +8,9 @@ public class KeyButton
 {
 	private Rectangle ostr;
 	
+	// il tasto associato al binding
+	private String bind;
+	
 	// determina se il pulsante e' stato selezionato oppure no
 	private boolean selected;
 	
@@ -16,7 +19,12 @@ public class KeyButton
 			ostr = new Rectangle( x, y, width, height );
 			
 			selected = false;
+			
+			bind = null;
 		}
+	
+	public void setKey( String val )
+		{ bind = val; }
 	
 	public boolean isSelected()
 		{ return selected; }
@@ -34,5 +42,8 @@ public class KeyButton
 			g.setColor( Color.red );
 			if(selected)
 				g.draw( ostr );
+			
+			// TODO DISEGNARE IN MANIERA CORRETTA LA LETTERA CORRISPONDENTE AL BIND
+			g.drawString( bind, ostr.getX() + Global.W/160, ostr.getY() + Global.H/120 );
 		}
 }

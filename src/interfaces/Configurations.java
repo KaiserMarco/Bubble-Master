@@ -8,7 +8,6 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.geom.Rectangle;
 
 import Utils.Global;
 import Utils.KeyButton;
@@ -124,6 +123,13 @@ public class Configurations
 			
 		}
 	
+	public void checkInput( Input in, int index )
+		{
+			for(int i = 0; i < 255; i++)
+				if(in.isKeyPressed( i ))
+					keys.get( index ).setKey( Input.getKeyName( i ) );
+		}
+	
 	public void update( GameContainer gc )
 		{
 			Input input = gc.getInput();
@@ -140,6 +146,11 @@ public class Configurations
 				}
 			else if(input.isKeyPressed( Input.KEY_RIGHT ))
             	indexCursor = (indexCursor + 1)%(buttons.size() - 1);
+			
+			// TODO CONTROLLARE GLI INPUT E SETTARE IL VALORE CORRISPONDENTE
+			for(int i = 0; i < keys.size(); i++)
+				if(keys.get( i ).isSelected())
+					checkInput( input, i );
 			
 			if(input.isMouseButtonDown( Input.MOUSE_LEFT_BUTTON ))
 				{
@@ -190,6 +201,9 @@ public class Configurations
 					                            {
 				                            		if(buttons.get( i ).getName().equals( BACK ))
 				                            			{
+					                            			for(KeyButton key: keys)
+					            		                    	if(key.isSelected())
+					            		                    		key.setSelected();
 					                                		indexCursor = -1;
 		                            						Start.configuration = 0;
 		                            						Start.settings = 1;
