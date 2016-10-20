@@ -72,15 +72,15 @@ public class Configurations
 			
 			numPlayer = 1;
 			
-			// TODO SETTARE CORRETTAMENTE LA POSIZIONE DELLE FRECCE
 			int width = Global.W/20, height = Global.H/50;			
-			left = new ArrowButton( LEFT, ArrowButton.LEFT, new float[]{ Global.W*10/32, Global.H/3 + height/2, Global.W*10/32 + width, Global.H/3, Global.W*10/32 + width, Global.H/3 + height }, Color.white );
-			right = new ArrowButton( RIGHT, ArrowButton.RIGHT, new float[]{ Global.W*52/100, Global.H/3, Global.W*52/100, Global.H/3 + height, Global.W*52/100 + width, Global.H/3 + height/2 },Color.white );
+			left = new ArrowButton( LEFT, ArrowButton.LEFT, new float[]{ Global.W*10/32, Global.H/40 + height/2, Global.W*10/32 + width, Global.H/40, Global.W*10/32 + width, Global.H/40 + height }, Color.white );
+			right = new ArrowButton( RIGHT, ArrowButton.RIGHT, new float[]{ Global.W*10/16, Global.H/40, Global.W*10/16, Global.H/40 + height, Global.W*10/16 + width, Global.H/40 + height/2 },Color.white );
 			
 			arrows = new ArrayList<ArrowButton>();
 			arrows.add( left );
 			arrows.add( right );
 
+			// TODO SETTARE CORRETTAMENTE LA POSIZIONE DEI NOME I DEI QUADRATI ASSOCIATI
 			float widthK = Global.W/20;
 			float xString = Global.W*10/33, yString = Global.H/5;
 			kSalto = new KeyButton( xString + Global.W/10, yString, widthK, widthK );
@@ -118,11 +118,13 @@ public class Configurations
 			return 0;
 		}
 	
+	/** aggiorna il file relativo alle configurazioni tasti */
 	public void changeFileConfig()
 		{
 			
 		}
 	
+	/** controlla gli input ricevuti e lo assegna al bottone selezionato */
 	public void checkInput( Input in, int index )
 		{
 			for(int i = 0; i < 255; i++)
@@ -130,9 +132,11 @@ public class Configurations
 					{
 						keys.get( index ).setKey( Input.getKeyName( i ) );
 						resetSelected();
+						return;
 					}
 		}
 	
+	/** resetta il bottone selezionato */
 	public void resetSelected()
 		{
 			for(KeyButton key: keys)
