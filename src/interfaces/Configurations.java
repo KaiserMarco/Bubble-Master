@@ -79,7 +79,13 @@ public class Configurations
 			arrows = new ArrayList<ArrowButton>();
 			arrows.add( left );
 			arrows.add( right );
+			
+			
 			// TODO INSERIRE RIQUADRI PER MODIFICARE I TASTI
+			xSalto = new Rectangle(  );
+			xSparo = new Rectangle(  );
+			xSx = new Rectangle(  );
+			xDx = new Rectangle(  );
 			
 			keys = new ArrayList<Rectangle>();
 			keys.add( kSalto );
@@ -266,6 +272,7 @@ public class Configurations
 			
 			// TODO INSERIRE I RIQUADRI PER LA CONFIGURAZIONE TASTI
 			
-			
+			for(Rectangle key: keys)
+				g.draw( key );
 		}
 }
