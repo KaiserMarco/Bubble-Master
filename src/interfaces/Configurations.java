@@ -11,6 +11,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
 
 import Utils.Global;
+import Utils.KeyButton;
 import bubbleMaster.Start;
 import dataButton.ArrowButton;
 import dataButton.Button;
@@ -48,8 +49,8 @@ public class Configurations
 	/*l'indice del player configurato*/
 	private int numPlayer;
 	
-	private ArrayList<Rectangle> keys;
-	private Rectangle kSalto, kSparo, kSx, kDx;
+	private ArrayList<KeyButton> keys;
+	private KeyButton kSalto, kSparo, kSx, kDx;
 	
 	public Configurations() throws SlickException
 		{
@@ -72,6 +73,7 @@ public class Configurations
 			
 			numPlayer = 1;
 			
+			// TODO SETTARE CORRETTAMENTE LA POSIZIONE DELLE FRECCE
 			int width = Global.W/20, height = Global.H/50;			
 			left = new ArrowButton( LEFT, ArrowButton.LEFT, new float[]{ Global.W*10/32, Global.H/3 + height/2, Global.W*10/32 + width, Global.H/3, Global.W*10/32 + width, Global.H/3 + height }, Color.white );
 			right = new ArrowButton( RIGHT, ArrowButton.RIGHT, new float[]{ Global.W*52/100, Global.H/3, Global.W*52/100, Global.H/3 + height, Global.W*52/100 + width, Global.H/3 + height/2 },Color.white );
@@ -79,16 +81,16 @@ public class Configurations
 			arrows = new ArrayList<ArrowButton>();
 			arrows.add( left );
 			arrows.add( right );
+
+			float widthK = Global.W/20;
+			float xString = Global.W*10/33, yString = Global.H/5;
+			kSalto = new KeyButton( xString + Global.W/10, yString, widthK, widthK );
+			kSparo = new KeyButton( xString + Global.W/3 + Global.W*10/98, yString, widthK, widthK );
+			yString = Global.H/2;
+			kSx = new KeyButton( xString + Global.W/8, yString, widthK, widthK );
+			kDx = new KeyButton( xString + Global.W/3 + Global.W*10/94, yString, widthK, widthK );
 			
-			
-			// TODO INSERIRE RIQUADRI PER MODIFICARE I TASTI
-			float widthK = Global.W;
-			xSalto = new Rectangle( , , widthK, widthK );
-			xSparo = new Rectangle( , , widthK, widthK );
-			xSx = new Rectangle( , , widthK, widthK );
-			xDx = new Rectangle( , , widthK, widthK );
-			
-			keys = new ArrayList<Rectangle>();
+			keys = new ArrayList<KeyButton>();
 			keys.add( kSalto );
 			keys.add( kSparo );
 			keys.add( kSx );
@@ -144,6 +146,16 @@ public class Configurations
 	                if(!mouseDown)
 		                {
 		                    mouseDown = true;
+		                    
+		                    for(KeyButton key: keys)
+		                    	if(key.contains( mouseX, mouseY ))
+		                    		{
+		                    			for(KeyButton chiave: keys)
+		                    				if(chiave.isSelected())
+		                    					chiave.setSelected();
+		                    			key.setSelected();
+		                    			break;
+		                    		}
 		                    
 		                    for(SimpleButton button : buttons)
 		                        if(button.checkClick( mouseX, mouseY, input ))
@@ -247,6 +259,8 @@ public class Configurations
 	
 	public void draw( GameContainer gc )
 		{
+			// TODO RICORDARMI DI FARE LA VARIAZIONE DI DIMENSIONI
+		
 			Graphics g = gc.getGraphics();
 			g.setColor( Color.black );
 			
@@ -270,10 +284,8 @@ public class Configurations
 			yString = Global.H/2;
 			g.drawString( LEFT, xString, yString );
 			g.drawString( RIGHT, xString + Global.W/3, yString );
-			
-			// TODO INSERIRE I RIQUADRI PER LA CONFIGURAZIONE TASTI
-			
-			for(Rectangle key: keys)
-				g.draw( key );
+
+			for(KeyButton key: keys)
+				key.draw( g );
 		}
 }
