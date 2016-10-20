@@ -86,7 +86,6 @@ public class Configurations
 			
 			
 			
-			// GENERARE FILE PER SALVARE QUESTE CONFIGURAZIONI
 			
 			
 			
@@ -141,6 +140,7 @@ public class Configurations
 				                            			}
 				                            		else if(buttons.get( i ).getName().equals( APPLY ))
 				                            			{
+				                            				// GENERARE FILE PER SALVARE QUESTE CONFIGURAZIONI
 				                            				if(setChanging)
 			                            						{
 				                            						setChanging = false;

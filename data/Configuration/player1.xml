@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<level>
+  <!--Objects-->
+  <config nome="player1" />
+  <tasto salto="space" sparo="S" left="left" right="right" />
+</level>
