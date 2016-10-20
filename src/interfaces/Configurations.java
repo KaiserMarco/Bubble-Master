@@ -146,7 +146,7 @@ public class Configurations
 		}
 	
 	/** aggiorna il file relativo alle configurazioni tasti */
-	public void updateFileConfig()
+	public void updateFileConfig( int index )
 		{
 			// TODO VERIFICARE SE FUNZIONA
 		
@@ -160,25 +160,28 @@ public class Configurations
 				outputter.setFormat( Format.getPrettyFormat() );
 				// creazione del file xml con il nome scelto
 	
-				for(int i = 0; i < keys.size(); i++)
-					{
-						Element item;
-					    livello.addContent( new Comment( "Objects" ) );
-					    
-					    Map<String, String> temp = Global.mappeTasti.get( i );
-		    			
-	    				item = new Element( "ostacolo" );
-	    				item.setAttribute( "sparo", temp.get( "Sparo" ) );
-	    				item.setAttribute( "salto", temp.get( "Salto" ) );
-	    				item.setAttribute( "left", temp.get( "Sx" ) );
-	    				item.setAttribute( "right", temp.get( "Dx" ) );
-			    		
-						removeFile( i+1 );
-		
-			    		outputter.output( document, new FileOutputStream( "data/Configuration/" + (i+1) + ".xml" ) );
-			    		
-			    		System.out.println( "tasti " + "player" + (i+1) + ".xml salvati" );
-					}
+				File levels = new File( "data/Configuration" );
+				String[] files = levels.list();
+				
+				File conf = new File( "data/Configuration/" + files[index] );
+				if(conf.delete())
+					System.out.println( "file eliminato" );
+
+				Element item;
+			    livello.addContent( new Comment( "Objects" ) );
+			    
+			    Map<String, String> temp = mappe.get( index );
+    			
+				item = new Element( "tasti" );
+				item.setAttribute( "sparo", temp.get( "Sparo" ) );
+				item.setAttribute( "salto", temp.get( "Salto" ) );
+				item.setAttribute( "left", temp.get( "Sx" ) );
+				item.setAttribute( "right", temp.get( "Dx" ) );
+				livello.addContent( item );
+
+	    		outputter.output( document, new FileOutputStream( "data/Configuration/player" + (index+1) + ".xml" ) );
+	    		
+	    		System.out.println( "tasti " + "player" + (index+1) + ".xml salvati" );
 			}
 			catch( IOException e ){
 				System.err.println( "Error while creating the level" );
@@ -193,6 +196,15 @@ public class Configurations
 				if(in.isKeyPressed( i ))
 					{
 						keys.get( index ).setKey( Input.getKeyName( i ) );
+						if(index == 0)
+							mappe.get( index ).put( "Salto", Input.getKeyName( i ) );
+						else if(index == 0)
+							mappe.get( index ).put( "Sparo", Input.getKeyName( i ) );
+						else if(index == 0)
+							mappe.get( index ).put( "Sx", Input.getKeyName( i ) );
+						else
+							mappe.get( index ).put( "Dx", Input.getKeyName( i ) );
+									
 						resetSelected();
 						return;
 					}
@@ -220,6 +232,17 @@ public class Configurations
 			Input input = gc.getInput();
 			int mouseX = input.getMouseX();
 			int mouseY = input.getMouseY();
+
+			if(mappe.equals( Global.mappeTasti ))
+				{
+					setChanging = true;
+					buttons.get( 1 ).setColor( Color.orange );
+				}
+			else
+				{
+					setChanging = false;
+					buttons.get( 1 ).setColor( Color.gray );
+				}
 			
 			if(indexCursor < 0 &&((input.isKeyPressed( Input.KEY_UP ) || input.isKeyPressed( Input.KEY_DOWN )
 			|| input.isKeyPressed( Input.KEY_LEFT ) || input.isKeyPressed( Input.KEY_RIGHT ))))
@@ -294,7 +317,8 @@ public class Configurations
 			                            						{
 				                            						setChanging = false;
 
-				                            						updateFileConfig();
+				                            						for(int j = 0; j < mappe.size(); j++)
+				                            							updateFileConfig( j );
 				                            						
 				                            						resetSelected();
 				                            			        

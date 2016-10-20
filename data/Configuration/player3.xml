@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <level>
   <!--Objects-->
-  <tasto salto="C" sparo="V" left="B" right="N" />
+  <tasti sparo="Z" salto="X" left="C" right="V" />
 </level>

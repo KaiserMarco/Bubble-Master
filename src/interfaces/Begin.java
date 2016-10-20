@@ -93,9 +93,6 @@ public class Begin
 			
 			pang = new Sfondo( new Image( "/data/Image/pang.png" ), 0, 0, 0, 0, gc.getWidth(), gc.getHeight(), "pang" );
 			
-			
-			// TODO CARICARE LA CONFIGURAZIONE DEI TASTI
-			
 			try {
 				documentFactory = DocumentBuilderFactory.newInstance();
 	 
@@ -108,7 +105,7 @@ public class Begin
 					{
 						document = builder.parse( new File( "data/Configuration/" + files[j] ) );
 
-						NodeList tasto = document.getElementsByTagName( "tasto" );
+						NodeList tasto = document.getElementsByTagName( "tasti" );
 						
 						Node nodo = tasto.item( 0 );						
 						Element obs = (Element) nodo;
