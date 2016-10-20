@@ -144,6 +144,39 @@ public class Configurations
 	        		key.setSelected();
 		}
 	
+	/** aggiorna i tasti del giocatore caricato */
+	public void updateKeys( int index )
+		{
+			if(index == 1)
+				{
+					keys.get( 0 ).setKey( Global.player1.get( "salto" ) );
+					keys.get( 1 ).setKey( Global.player1.get( "sparo" ) );
+					keys.get( 2 ).setKey( Global.player1.get( "sx" ) );
+					keys.get( 3 ).setKey( Global.player1.get( "dx" ) );
+				}
+			else if(index == 2)
+				{
+					keys.get( 0 ).setKey( Global.player2.get( "salto" ) );
+					keys.get( 1 ).setKey( Global.player2.get( "sparo" ) );
+					keys.get( 2 ).setKey( Global.player2.get( "sx" ) );
+					keys.get( 3 ).setKey( Global.player2.get( "dx" ) );
+				}
+			else if(index == 3)
+				{
+					keys.get( 0 ).setKey( Global.player3.get( "salto" ) );
+					keys.get( 1 ).setKey( Global.player3.get( "sparo" ) );
+					keys.get( 2 ).setKey( Global.player3.get( "sx" ) );
+					keys.get( 3 ).setKey( Global.player3.get( "dx" ) );
+				}
+			else if(index == 4)
+				{
+					keys.get( 0 ).setKey( Global.player4.get( "salto" ) );
+					keys.get( 1 ).setKey( Global.player4.get( "sparo" ) );
+					keys.get( 2 ).setKey( Global.player4.get( "sx" ) );
+					keys.get( 3 ).setKey( Global.player4.get( "dx" ) );
+				}
+		}
+	
 	public void update( GameContainer gc )
 		{
 			Input input = gc.getInput();
@@ -258,14 +291,19 @@ public class Configurations
 			                                    		// premuta freccia sinistra
 					                            		if(arrows.get( i ).getDirection() == ArrowButton.LEFT)
 					                            			{
-					                            				// TODO IMPLEMENTARE IL CAMBIO DI TASTI CONFIGURATI
+					                            				int oldNum = numPlayer;
 					                            				numPlayer = Math.max( 0, --numPlayer );
+					                            				if(oldNum != numPlayer)
+					                            					updateKeys( numPlayer );
 					                            			}
 					                            		// premuta freccia destra
 					                            		else if(arrows.get( i ).getDirection() == ArrowButton.RIGHT)
 					                            			{
-				                            					// TODO IMPLEMENTARE IL CAMBIO DI TASTI CONFIGURATI
+					                            				int oldNum = numPlayer;
 					                            				numPlayer = Math.min( 4, ++numPlayer );
+					                            				updateKeys( numPlayer );
+					                            				if(oldNum != numPlayer)
+					                            					updateKeys( numPlayer );
 					                            			}
 					                            		
 							                            break;

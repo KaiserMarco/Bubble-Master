@@ -2,5 +2,5 @@
 <level>
   <!--Objects-->
   <config nome="player2" />
-  <tasto salto="space" sparo="S" left="left" right="right" />
+  <tasto salto="E" sparo="L" left="P" right="U" />
 </level>

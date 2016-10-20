@@ -43,7 +43,6 @@ public class KeyButton
 			if(selected)
 				g.draw( ostr );
 			
-			// TODO DISEGNARE IN MANIERA CORRETTA LA LETTERA CORRISPONDENTE AL BIND
 			g.scale( 2, 2 );
 			g.drawString( bind, (ostr.getX() + Global.W/100)/2, (ostr.getY() + Global.H/300)/2 );
 			g.resetTransform();

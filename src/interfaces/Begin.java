@@ -119,14 +119,12 @@ public class Begin
 						String sx = obs.getAttribute( "left" );
 						String dx = obs.getAttribute( "right" );
 						
-						// TODO COMPLETARE IL RESTO DEL CARICAMENTO
-						
 						nodo = name.item( 0 );
 						Element ogg = (Element) nodo;
 						
 						String nome = ogg.getAttribute( "nome" );
 						
-						Global.setMap( nome, salto, sparo, sx, dx);
+						Global.setMap( nome, salto, sparo, sx, dx );
 						
 						System.out.println( "tasti " + files[j] + " caricati" );
 					}
