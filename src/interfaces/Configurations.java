@@ -127,7 +127,17 @@ public class Configurations
 		{
 			for(int i = 0; i < 255; i++)
 				if(in.isKeyPressed( i ))
-					keys.get( index ).setKey( Input.getKeyName( i ) );
+					{
+						keys.get( index ).setKey( Input.getKeyName( i ) );
+						resetSelected();
+					}
+		}
+	
+	public void resetSelected()
+		{
+			for(KeyButton key: keys)
+	        	if(key.isSelected())
+	        		key.setSelected();
 		}
 	
 	public void update( GameContainer gc )
@@ -161,9 +171,7 @@ public class Configurations
 		                    for(KeyButton key: keys)
 		                    	if(key.contains( mouseX, mouseY ))
 		                    		{
-		                    			for(KeyButton chiave: keys)
-		                    				if(chiave.isSelected())
-		                    					chiave.setSelected();
+		                    			resetSelected();;
 		                    			key.setSelected();
 		                    			break;
 		                    		}
@@ -201,9 +209,7 @@ public class Configurations
 					                            {
 				                            		if(buttons.get( i ).getName().equals( BACK ))
 				                            			{
-					                            			for(KeyButton key: keys)
-					            		                    	if(key.isSelected())
-					            		                    		key.setSelected();
+					                            			resetSelected();;
 					                                		indexCursor = -1;
 		                            						Start.configuration = 0;
 		                            						Start.settings = 1;
@@ -216,6 +222,8 @@ public class Configurations
 
 						                            				// TODO DA IMPLEMENTARE
 				                            						changeFileConfig();
+				                            						
+				                            						resetSelected();
 				                            			        
 				                            						indexCursor = -1;
 				                            						Start.configuration = 0;

@@ -20,7 +20,7 @@ public class KeyButton
 			
 			selected = false;
 			
-			bind = null;
+			bind = "";
 		}
 	
 	public void setKey( String val )
@@ -44,6 +44,8 @@ public class KeyButton
 				g.draw( ostr );
 			
 			// TODO DISEGNARE IN MANIERA CORRETTA LA LETTERA CORRISPONDENTE AL BIND
-			g.drawString( bind, ostr.getX() + Global.W/160, ostr.getY() + Global.H/120 );
+			g.scale( 2, 2 );
+			g.drawString( bind, (ostr.getX() + Global.W/100)/2, (ostr.getY() + Global.H/300)/2 );
+			g.resetTransform();
 		}
 }
