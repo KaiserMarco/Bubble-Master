@@ -23,8 +23,8 @@ public class InGame
 	/**array contenente gli ostacoli della partita*/
 	public static ArrayList<Ostacolo> ostacoli;
 	
-	/**il giocatore della partita*/
-	public static Player player;
+	/**array contenente i giocatori della partita*/
+	public static ArrayList<Ostacolo> players;
 	
 	// il vettore dei potenziamenti del personaggio
 	public static ArrayList<PowerUp> powerUp;
@@ -70,8 +70,9 @@ public class InGame
 					Ostacolo ost = elem;
 					if(ost.getID().equals( Global.PLAYER ))
 						{
-							player = (Player) elem.clone( gc );
+							players.add( ost );
 							
+							Player player = ((Player) players.get( players.size() - 1 ));
 							player.setDrawLifes( true );
 							player.setDrawPoints( true );
 							player.setHeight( ost.getHeight() );
@@ -115,7 +116,8 @@ public class InGame
 			for(int i = ostacoli.size() - 1; i >= 0; i--)
 				ostacoli.get( i ).draw( g );
 			
-			player.draw( g );
+			for(Ostacolo player: players)
+				player.draw( g );
 			
 			// disegna il countdown iniziale
 			if(Global.drawCountdown)
@@ -153,8 +155,11 @@ public class InGame
 					Start.startGame = 0;
 					Start.chooseLevel = 1;
 					
-					player.setDrawLifes( false );
-					player.setDrawPoints( false );
+					for(Ostacolo player: players)
+						{
+							((Player) player).setDrawLifes( false );
+							((Player) player).setDrawPoints( false );
+						}
 				}
 		
 			if(!Global.drawCountdown && Global.inGame)
@@ -162,7 +167,9 @@ public class InGame
 					for(PowerUp pu: powerUp)
 						pu.update( gc, delta );
 					
-					player.update( gc, delta );
+					// TODO CONTROLLARE SE LA CONFIGURAZIONE TASTI FUNZIONA
+					for(Ostacolo player: players)
+						player.update( gc, delta );
 					
 					for(Ostacolo ost: ostacoli)
 						if(ost.getID().equals( Global.BOLLA ))
@@ -172,7 +179,6 @@ public class InGame
 			if(!Global.inGame)
 				{
 					Start.stats.stopTempo();
-					end.setPlayer( gc );
 				
 					Start.startGame = 0;
 					Start.endGame = 1;

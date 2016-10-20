@@ -116,9 +116,11 @@ public class End
 			
 			float width = Global.W/17 * Global.Width/Global.W, height = Global.H/10 * Global.Height/Global.H;
 			float startX = Global.W*10/26 * Global.Width/Global.W, startY = Global.H/25 * Global.Height/Global.H;
-			//float offset = Global.W/10 * Global.Width/Global.W;
+			float offset = Global.W/10 * Global.Width/Global.W;
 			
-			player.getImage().draw( startX + width + Global.W/100, startY, Global.W/17 * Global.Width/Global.W, height );
+			// TODO RICORDARSI COME VENIVA IMPIEGATO IL VALORE DI OFFSET
+			for(int i = 0; i < InGame.players.size(); i++)
+				((Player) InGame.players.get( i )).getImage().draw( startX + width + Global.W/100, startY, Global.W/17 * Global.Width/Global.W, height );
 
 			float xString = startX + width/2 + width;
 			g.setColor( Color.gray );
@@ -146,9 +148,6 @@ public class End
 			if(indexCursor >= 0)
 				cursor.draw( buttons.get( indexCursor ).getX() - widthC, buttons.get( indexCursor ).getY(), widthC, heightC );
 		}
-	
-	public void setPlayer( GameContainer gc )
-		{ player = InGame.player; }
 	
 	private void returnToBegin()
 		{ Start.begin = 1; }
