@@ -93,6 +93,10 @@ public class Begin
 			
 			pang = new Sfondo( new Image( "/data/Image/pang.png" ), 0, 0, 0, 0, gc.getWidth(), gc.getHeight(), "pang" );
 			
+			
+			// TODO CARICARE LA CONFIGURAZIONE DEI TASTI
+			
+			
 			//caricamento livelli da file .xml
 			try {
 				documentFactory = DocumentBuilderFactory.newInstance();

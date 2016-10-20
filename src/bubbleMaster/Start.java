@@ -78,7 +78,7 @@ public class Start extends BasicGame
 			e = new End();
 			edit = new Edit( gc );
 			cl = new ChooseLevel( gc );
-			opt = new Settings( gc );
+			opt = new Settings();
 		}
 
 	@Override

@@ -43,6 +43,7 @@ public class Settings
 	// l'ordinata, l'ascissa, la lunghezza e l'altezza dei bottoni risoluzione
 	private float xRes, yRes, wRes, hRes;
 	
+	// determina se e' stato effettuato un click
 	private boolean mouseDown = false;
 	
 	// le vite del personaggio
@@ -54,6 +55,7 @@ public class Settings
 	
 	private static final String BACK = "INDIETRO", APPLY = "APPLICA";
 	
+	/*indice di posizionamento del cursore*/
 	private int indexCursor;
 	/*dimensioni del cursore*/
 	private int widthC, heightC;
@@ -69,14 +71,14 @@ public class Settings
 	
 	// determina se e' possibile effettuare i cambiamenti
 	private boolean setChanging;
-	// valori inziali di riferimento per i cambiamenti
+	// valori inziali delle dimensioni finestra come riferimento per i cambiamenti
 	private String startResW, startResH;
 	
-	public Settings( GameContainer gc ) throws SlickException
+	public Settings() throws SlickException
 		{
 			Color color = Color.orange;
-			back = new SimpleButton( gc.getWidth()/5, gc.getHeight()*8/9, BACK, color );
-			saveChanges = new SimpleButton( gc.getWidth()*2/3, gc.getHeight()*8/9, APPLY, color );
+			back = new SimpleButton( Global.W/5, Global.H*8/9, BACK, color );
+			saveChanges = new SimpleButton( Global.W*2/3, Global.H*8/9, APPLY, color );
 			
 			int width = Global.W/20, height = Global.H/50;
 			
@@ -108,7 +110,7 @@ public class Settings
 			heart = new Image( "./data/Image/heart.png" );
 			halfHeart = new Image( "./data/Image/halfHeart.png" );
 			noHeart = new Image( "./data/Image/noHeart.png" );
-			widthH = gc.getWidth()/40; heightH = gc.getHeight()/30;
+			widthH = Global.W/40; heightH = Global.H/30;
 			
 			dimensioni = new ArrayList<Dimension>();			
 			dimensioni.add( new Dimension( xRes, yRes, wRes, hRes, "800", "600", Color.gray, true ) );
@@ -123,10 +125,8 @@ public class Settings
 			drawChoiseRes = false;
 			
 			indexCursor = -1;
-
-			widthC = gc.getWidth()*100/1777;
-			heightC = gc.getHeight()/24;
-			
+			widthC = Global.W*100/1777;
+			heightC = Global.H/24;			
 			cursor = new Image( "./data/Image/cursore.png" );
 			
 			dropRate = (int)(Global.dropRate * 100);
