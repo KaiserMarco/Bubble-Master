@@ -37,7 +37,7 @@ public class Configurations
 	private static final String BACK = "INDIETRO", APPLY = "APPLICA";
 	
 	// nome dei tasti in game
-	private static final String SALTO = "Salto", SPARO = "Sparo", LEFT = "Sinistra", RIGHT = "Destra";
+	private static final String SALTO = "Salto:", SPARO = "Sparo:", LEFT = "Sinistra:", RIGHT = "Destra:";
 	
 	/*indice di posizionamento del cursore*/
 	private int indexCursor;
@@ -82,10 +82,11 @@ public class Configurations
 			
 			
 			// TODO INSERIRE RIQUADRI PER MODIFICARE I TASTI
-			xSalto = new Rectangle(  );
-			xSparo = new Rectangle(  );
-			xSx = new Rectangle(  );
-			xDx = new Rectangle(  );
+			float widthK = Global.W;
+			xSalto = new Rectangle( , , widthK, widthK );
+			xSparo = new Rectangle( , , widthK, widthK );
+			xSx = new Rectangle( , , widthK, widthK );
+			xDx = new Rectangle( , , widthK, widthK );
 			
 			keys = new ArrayList<Rectangle>();
 			keys.add( kSalto );
