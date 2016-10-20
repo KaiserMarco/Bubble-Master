@@ -1,7 +1,16 @@
 package interfaces;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Map;
 
+import org.jdom2.Comment;
+import org.jdom2.Document;
+import org.jdom2.Element;
+import org.jdom2.output.Format;
+import org.jdom2.output.XMLOutputter;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -50,6 +59,10 @@ public class Configurations
 	
 	private ArrayList<KeyButton> keys;
 	private KeyButton kSalto, kSparo, kSx, kDx;
+	
+	//elementi riguardanti la scrittura su file .xml
+	private Element livello;
+	private Document document;
 	
 	public Configurations() throws SlickException
 		{
@@ -118,12 +131,54 @@ public class Configurations
 			return 0;
 		}
 	
+	/** elimina i file di configurazione */
+	public void removeFile( int index )
+		{
+			System.out.println( "rimosso = " + "player" + index + ".xml" );
+			File levels = new File( "data/Configuration/" + "player" + index + ".xml" );
+			if(levels.delete())
+				System.out.println( "file eliminato" );
+		}
+	
 	/** aggiorna il file relativo alle configurazioni tasti */
 	public void updateFileConfig()
 		{
-			// TODO DA IMPLEMENTARE
+			// TODO VERIFICARE SE FUNZIONA
 		
-			
+			try
+			{
+			    livello = new Element( "level" );
+			    document = new Document( livello );
+			    
+			    XMLOutputter outputter = new XMLOutputter();
+				// imposta un bel formato all'outputter 
+				outputter.setFormat( Format.getPrettyFormat() );
+				// creazione del file xml con il nome scelto
+	
+				for(int i = 0; i < keys.size(); i++)
+					{
+						Element item;
+					    livello.addContent( new Comment( "Objects" ) );
+					    
+					    Map<String, String> temp = Global.mappeTasti.get( i );
+		    			
+	    				item = new Element( "ostacolo" );
+	    				item.setAttribute( "sparo", temp.get( "Sparo" ) );
+	    				item.setAttribute( "salto", temp.get( "Salto" ) );
+	    				item.setAttribute( "left", temp.get( "Sx" ) );
+	    				item.setAttribute( "right", temp.get( "Dx" ) );
+			    		
+						removeFile( i+1 );
+		
+			    		outputter.output( document, new FileOutputStream( "data/Configuration/" + (i+1) + ".xml" ) );
+			    		
+			    		System.out.println( "tasti " + "player" + (i+1) + ".xml salvati" );
+					}
+			}
+			catch( IOException e ){
+				System.err.println( "Error while creating the level" );
+				e.printStackTrace();
+			}
 		}
 	
 	/** controlla gli input ricevuti e lo assegna al bottone selezionato */

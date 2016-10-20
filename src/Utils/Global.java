@@ -1,5 +1,6 @@
 package Utils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -54,6 +55,7 @@ public class Global
 	/** gli ID degli oggetti del gioco */
 	public static final String TUBO = "tubo", BASE = "base", ENTER = "enter", PLAYER = "player", BOLLA = "bolla", SBARRA = "sbarra";
 	
+	public static ArrayList<Map<String, String>> mappeTasti;
 	public static Map<String, String> player1 = new HashMap<>(), player2 = new HashMap<>();
 	public static Map<String, String> player3 = new HashMap<>(), player4 = new HashMap<>();
 	
@@ -91,36 +93,23 @@ public class Global
 			stateFont.getEffects().add( new ColorEffect( java.awt.Color.WHITE ) );
 			stateFont.loadGlyphs();
 		}
-	
-	public static void setMap( String name, String salto, String sparo, String sx, String dx )
+
+	/**inizializza le configurazioni */
+	public static void initMap()
 		{
-			if(name.equals( "player1" ))
-				{
-					player1.put( "Salto", salto );
-					player1.put( "Sparo", sparo );
-					player1.put( "Sx", sx );
-					player1.put( "Dx", dx );
-				}
-			else if(name.equals( "player2" ))
-				{
-					player2.put( "Salto", salto );
-					player2.put( "Sparo", sparo );
-					player2.put( "Sx", sx );
-					player2.put( "Dx", dx );
-				}
-			else if(name.equals( "player3" ))
-				{
-					player3.put( "Salto", salto );
-					player3.put( "Sparo", sparo );
-					player3.put( "Sx", sx );
-					player3.put( "Dx", dx );
-				}
-			else
-				{
-					player4.put( "Salto", salto );
-					player4.put( "Sparo", sparo );
-					player4.put( "Sx", sx );
-					player4.put( "Dx", dx );
-				}
+			mappeTasti = new ArrayList<Map<String, String>>();
+			mappeTasti.add( player1 );
+			mappeTasti.add( player2 );
+			mappeTasti.add( player3 );
+			mappeTasti.add( player4 );
+		}
+
+	/**aggiorna le mappe dei tasti */
+	public static void setMap( int index, String salto, String sparo, String sx, String dx )
+		{
+			mappeTasti.get( index ).put( "Salto", salto );
+			mappeTasti.get( index ).put( "Sparo", sparo );
+			mappeTasti.get( index ).put( "Sx", sx );
+			mappeTasti.get( index ).put( "Dx", dx );
 		}
 }

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <level>
   <!--Objects-->
-  <config nome="player2" />
   <tasto salto="E" sparo="L" left="P" right="U" />
 </level>

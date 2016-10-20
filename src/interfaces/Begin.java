@@ -107,8 +107,7 @@ public class Begin
 				for(int j = 0; j < files.length; j++)
 					{
 						document = builder.parse( new File( "data/Configuration/" + files[j] ) );
-			 
-						NodeList name = document.getElementsByTagName( "config" );
+
 						NodeList tasto = document.getElementsByTagName( "tasto" );
 						
 						Node nodo = tasto.item( 0 );						
@@ -119,12 +118,7 @@ public class Begin
 						String sx = obs.getAttribute( "left" );
 						String dx = obs.getAttribute( "right" );
 						
-						nodo = name.item( 0 );
-						Element ogg = (Element) nodo;
-						
-						String nome = ogg.getAttribute( "nome" );
-						
-						Global.setMap( nome, salto, sparo, sx, dx );
+						Global.setMap( j, salto, sparo, sx, dx );
 						
 						System.out.println( "tasti " + files[j] + " caricati" );
 					}

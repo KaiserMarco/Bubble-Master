@@ -48,6 +48,7 @@ public class Start extends BasicGame
 			app.setDisplayMode( Global.W, Global.H, false );
 			
 			Global.computeRatio( app.getWidth(), app.getHeight() );
+			Global.initMap();
 			
 			app.start();
 		}
