@@ -80,7 +80,7 @@ public class Configurations
 			arrows.add( left );
 			arrows.add( right );
 
-			// TODO SETTARE CORRETTAMENTE LA POSIZIONE DEI NOME I DEI QUADRATI ASSOCIATI
+			// TODO SETTARE CORRETTAMENTE LA POSIZIONE DEI NOME E DEI QUADRATI ASSOCIATI
 			float widthK = Global.W/20;
 			float xString = Global.W*10/33, yString = Global.H/5;
 			kSalto = new KeyButton( xString + Global.W/10, yString, widthK, widthK );
@@ -119,8 +119,10 @@ public class Configurations
 		}
 	
 	/** aggiorna il file relativo alle configurazioni tasti */
-	public void changeFileConfig()
+	public void updateFileConfig()
 		{
+			// TODO DA IMPLEMENTARE
+		
 			
 		}
 	
@@ -149,31 +151,31 @@ public class Configurations
 		{
 			if(index == 1)
 				{
-					keys.get( 0 ).setKey( Global.player1.get( "salto" ) );
-					keys.get( 1 ).setKey( Global.player1.get( "sparo" ) );
-					keys.get( 2 ).setKey( Global.player1.get( "sx" ) );
-					keys.get( 3 ).setKey( Global.player1.get( "dx" ) );
+					keys.get( 0 ).setKey( Global.player1.get( "Salto" ) );
+					keys.get( 1 ).setKey( Global.player1.get( "Sparo" ) );
+					keys.get( 2 ).setKey( Global.player1.get( "Sx" ) );
+					keys.get( 3 ).setKey( Global.player1.get( "Dx" ) );
 				}
 			else if(index == 2)
 				{
-					keys.get( 0 ).setKey( Global.player2.get( "salto" ) );
-					keys.get( 1 ).setKey( Global.player2.get( "sparo" ) );
-					keys.get( 2 ).setKey( Global.player2.get( "sx" ) );
-					keys.get( 3 ).setKey( Global.player2.get( "dx" ) );
+					keys.get( 0 ).setKey( Global.player2.get( "Salto" ) );
+					keys.get( 1 ).setKey( Global.player2.get( "Sparo" ) );
+					keys.get( 2 ).setKey( Global.player2.get( "Sx" ) );
+					keys.get( 3 ).setKey( Global.player2.get( "Dx" ) );
 				}
 			else if(index == 3)
 				{
-					keys.get( 0 ).setKey( Global.player3.get( "salto" ) );
-					keys.get( 1 ).setKey( Global.player3.get( "sparo" ) );
-					keys.get( 2 ).setKey( Global.player3.get( "sx" ) );
-					keys.get( 3 ).setKey( Global.player3.get( "dx" ) );
+					keys.get( 0 ).setKey( Global.player3.get( "Salto" ) );
+					keys.get( 1 ).setKey( Global.player3.get( "Sparo" ) );
+					keys.get( 2 ).setKey( Global.player3.get( "Sx" ) );
+					keys.get( 3 ).setKey( Global.player3.get( "Dx" ) );
 				}
 			else if(index == 4)
 				{
-					keys.get( 0 ).setKey( Global.player4.get( "salto" ) );
-					keys.get( 1 ).setKey( Global.player4.get( "sparo" ) );
-					keys.get( 2 ).setKey( Global.player4.get( "sx" ) );
-					keys.get( 3 ).setKey( Global.player4.get( "dx" ) );
+					keys.get( 0 ).setKey( Global.player4.get( "Salto" ) );
+					keys.get( 1 ).setKey( Global.player4.get( "Sparo" ) );
+					keys.get( 2 ).setKey( Global.player4.get( "Sx" ) );
+					keys.get( 3 ).setKey( Global.player4.get( "Dx" ) );
 				}
 		}
 	
@@ -257,8 +259,7 @@ public class Configurations
 			                            						{
 				                            						setChanging = false;
 
-						                            				// TODO DA IMPLEMENTARE
-				                            						changeFileConfig();
+				                            						updateFileConfig();
 				                            						
 				                            						resetSelected();
 				                            			        

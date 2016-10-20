@@ -302,7 +302,7 @@ public class Settings
 	            }
 		}
 	
-	public void update( GameContainer gc, Edit editor, End end ) throws SlickException
+	public void update( GameContainer gc, Edit editor, End end, Configurations config ) throws SlickException
 		{
 			Input input = gc.getInput();
 			int mouseX = input.getMouseX();
@@ -409,7 +409,8 @@ public class Settings
 				                            			}
 				                            		else if(buttons.get( i ).getName().equals( CONFIG ))
 				                            			{
-				                            				
+				                            				config.updateKeys( 1 );
+				                            			
 					                                		indexCursor = -1;
 			                                				Start.settings = 0;
 					                            			Start.configuration = 1;

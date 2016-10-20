@@ -28,8 +28,8 @@ public class Start extends BasicGame
 	public static Statistics stats;
 	private Configurations config;
 	
-	public static int chooseLevel, startGame, endGame, editGame, creaLvl, settings, begin;
-	public static int configuration = 1;
+	public static int chooseLevel, startGame, endGame, editGame, creaLvl, settings, configuration;
+	public static int begin = 1;
 	
 	private static AppGameContainer app;
 	
@@ -100,7 +100,7 @@ public class Start extends BasicGame
 			else if(chooseLevel == 1)
 				cl.update( gc, edit );
 			else if(settings == 1)
-				opt.update( gc, edit, e );
+				opt.update( gc, edit, e, config );
 			else if(configuration == 1)
 				config.update( gc );
 			
