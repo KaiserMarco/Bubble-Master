@@ -1,5 +1,8 @@
 package Utils;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
@@ -51,6 +54,9 @@ public class Global
 	/** gli ID degli oggetti del gioco */
 	public static final String TUBO = "tubo", BASE = "base", ENTER = "enter", PLAYER = "player", BOLLA = "bolla", SBARRA = "sbarra";
 	
+	public static Map<String, String> player1 = new HashMap<>(), player2 = new HashMap<>();
+	public static Map<String, String> player3 = new HashMap<>(), player4 = new HashMap<>();
+	
 	/** inserisce la luminosita' dello schermo
 	 * @param g - il contesto grafico
 	*/
@@ -84,5 +90,37 @@ public class Global
 			stateFont.addGlyphs( 400, 600 );
 			stateFont.getEffects().add( new ColorEffect( java.awt.Color.WHITE ) );
 			stateFont.loadGlyphs();
+		}
+	
+	public static void setMap( String name, String salto, String sparo, String sx, String dx )
+		{
+			if(name.equals( "player1" ))
+				{
+					player1.put( "Salto", salto );
+					player1.put( "Sparo", sparo );
+					player1.put( "Sx", sx );
+					player1.put( "Dx", dx );
+				}
+			else if(name.equals( "player2" ))
+				{
+					player2.put( "Salto", salto );
+					player2.put( "Sparo", sparo );
+					player2.put( "Sx", sx );
+					player2.put( "Dx", dx );
+				}
+			else if(name.equals( "player3" ))
+				{
+					player3.put( "Salto", salto );
+					player3.put( "Sparo", sparo );
+					player3.put( "Sx", sx );
+					player3.put( "Dx", dx );
+				}
+			else
+				{
+					player4.put( "Salto", salto );
+					player4.put( "Sparo", sparo );
+					player4.put( "Sx", sx );
+					player4.put( "Dx", dx );
+				}
 		}
 }

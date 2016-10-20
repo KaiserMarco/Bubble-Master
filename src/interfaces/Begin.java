@@ -96,6 +96,44 @@ public class Begin
 			
 			// TODO CARICARE LA CONFIGURAZIONE DEI TASTI
 			
+			try {
+				documentFactory = DocumentBuilderFactory.newInstance();
+	 
+				builder = documentFactory.newDocumentBuilder();
+				
+				File levels = new File( "data/Configuration" );
+				String[] files = levels.list();
+				
+				for(int j = 0; j < files.length; j++)
+					{
+						document = builder.parse( new File( "data/Configuration/" + files[j] ) );
+			 
+						NodeList name = document.getElementsByTagName( "config" );
+						NodeList tasto = document.getElementsByTagName( "tasto" );
+						
+						Node nodo = tasto.item( 0 );						
+						Element obs = (Element) nodo;
+						
+						String sparo = obs.getAttribute( "sparo" );
+						String salto = obs.getAttribute( "salto" );
+						String sx = obs.getAttribute( "left" );
+						String dx = obs.getAttribute( "right" );
+						
+						// TODO COMPLETARE IL RESTO DEL CARICAMENTO
+						
+						nodo = name.item( 0 );
+						Element ogg = (Element) nodo;
+						
+						String nome = ogg.getAttribute( "nome" );
+						
+						Global.setMap( nome, salto, sparo, sx, dx);
+						
+						System.out.println( "tasti " + files[j] + " caricati" );
+					}
+			}
+			catch(Exception e) {
+				e.printStackTrace();
+			}
 			
 			//caricamento livelli da file .xml
 			try {
