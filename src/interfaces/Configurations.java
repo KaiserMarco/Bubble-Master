@@ -64,6 +64,9 @@ public class Configurations
 	private Element livello;
 	private Document document;
 	
+	// coordinata x e y in cui scrivere nome e lettera bindata
+	float xString = Global.W*10/45, yString = Global.H/5;
+	
 	// le mappe dei tasti
 	private ArrayList<Map<String, String>> mappe;
 	
@@ -96,9 +99,7 @@ public class Configurations
 			arrows.add( left );
 			arrows.add( right );
 
-			// TODO SETTARE CORRETTAMENTE LA POSIZIONE DEI NOME E DEI QUADRATI ASSOCIATI (OVVERO UN POINO PIU A SINISTRA, GRAZIE)
 			float widthK = Global.W/20;
-			float xString = Global.W*10/33, yString = Global.H/5;
 			kSalto = new KeyButton( xString + Global.W/10, yString, widthK, widthK );
 			kSparo = new KeyButton( xString + Global.W/3 + Global.W*10/98, yString, widthK, widthK );
 			yString = Global.H/2;
@@ -148,8 +149,6 @@ public class Configurations
 	/** aggiorna il file relativo alle configurazioni tasti */
 	public void updateFileConfig( int index )
 		{
-			// TODO VERIFICARE SE FUNZIONA
-		
 			try
 			{
 			    livello = new Element( "level" );
@@ -399,10 +398,9 @@ public class Configurations
 			if(indexCursor >= 0)
 				cursor.draw( buttons.get( indexCursor ).getX() - widthC, buttons.get( indexCursor ).getY(), widthC, heightC );
 			
-			float xString = Global.W*10/33, yString = Global.H/5;
+			yString = Global.H/5;
 			g.drawString( SALTO, xString, yString );
-			g.drawString( SPARO, xString + Global.W/3, yString );
-			
+			g.drawString( SPARO, xString + Global.W/3, yString );			
 
 			yString = Global.H/2;
 			g.drawString( LEFT, xString, yString );
