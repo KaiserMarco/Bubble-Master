@@ -409,7 +409,7 @@ public class Settings
 				                            			}
 				                            		else if(buttons.get( i ).getName().equals( CONFIG ))
 				                            			{
-				                            				config.updateKeys( 1 );
+				                            				config.updateKeys( 0 );
 				                            			
 					                                		indexCursor = -1;
 			                                				Start.settings = 0;

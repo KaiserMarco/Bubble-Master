@@ -64,6 +64,9 @@ public class Configurations
 	private Element livello;
 	private Document document;
 	
+	// le mappe dei tasti
+	private ArrayList<Map<String, String>> mappe;
+	
 	public Configurations() throws SlickException
 		{
 			// TODO INSERIRE UNO SFONDO ADATTO
@@ -93,7 +96,7 @@ public class Configurations
 			arrows.add( left );
 			arrows.add( right );
 
-			// TODO SETTARE CORRETTAMENTE LA POSIZIONE DEI NOME E DEI QUADRATI ASSOCIATI
+			// TODO SETTARE CORRETTAMENTE LA POSIZIONE DEI NOME E DEI QUADRATI ASSOCIATI (OVVERO UN POINO PIU A SINISTRA, GRAZIE)
 			float widthK = Global.W/20;
 			float xString = Global.W*10/33, yString = Global.H/5;
 			kSalto = new KeyButton( xString + Global.W/10, yString, widthK, widthK );
@@ -107,6 +110,8 @@ public class Configurations
 			keys.add( kSparo );
 			keys.add( kSx );
 			keys.add( kDx );
+			
+			mappe = Global.mappeTasti;
 		}
 	
 	private int checkButton( Button button, Input input, int i )
@@ -204,34 +209,10 @@ public class Configurations
 	/** aggiorna i tasti del giocatore caricato */
 	public void updateKeys( int index )
 		{
-			if(index == 1)
-				{
-					keys.get( 0 ).setKey( Global.player1.get( "Salto" ) );
-					keys.get( 1 ).setKey( Global.player1.get( "Sparo" ) );
-					keys.get( 2 ).setKey( Global.player1.get( "Sx" ) );
-					keys.get( 3 ).setKey( Global.player1.get( "Dx" ) );
-				}
-			else if(index == 2)
-				{
-					keys.get( 0 ).setKey( Global.player2.get( "Salto" ) );
-					keys.get( 1 ).setKey( Global.player2.get( "Sparo" ) );
-					keys.get( 2 ).setKey( Global.player2.get( "Sx" ) );
-					keys.get( 3 ).setKey( Global.player2.get( "Dx" ) );
-				}
-			else if(index == 3)
-				{
-					keys.get( 0 ).setKey( Global.player3.get( "Salto" ) );
-					keys.get( 1 ).setKey( Global.player3.get( "Sparo" ) );
-					keys.get( 2 ).setKey( Global.player3.get( "Sx" ) );
-					keys.get( 3 ).setKey( Global.player3.get( "Dx" ) );
-				}
-			else if(index == 4)
-				{
-					keys.get( 0 ).setKey( Global.player4.get( "Salto" ) );
-					keys.get( 1 ).setKey( Global.player4.get( "Sparo" ) );
-					keys.get( 2 ).setKey( Global.player4.get( "Sx" ) );
-					keys.get( 3 ).setKey( Global.player4.get( "Dx" ) );
-				}
+			keys.get( 0 ).setKey( mappe.get( index ).get( "Salto" ) );
+			keys.get( 1 ).setKey( mappe.get( index ).get( "Sparo" ) );
+			keys.get( 2 ).setKey( mappe.get( index ).get( "Sx" ) );
+			keys.get( 3 ).setKey( mappe.get( index ).get( "Dx" ) );
 		}
 	
 	public void update( GameContainer gc )
@@ -250,8 +231,7 @@ public class Configurations
 				}
 			else if(input.isKeyPressed( Input.KEY_RIGHT ))
             	indexCursor = (indexCursor + 1)%(buttons.size() - 1);
-			
-			// TODO CONTROLLARE GLI INPUT E SETTARE IL VALORE CORRISPONDENTE
+
 			for(int i = 0; i < keys.size(); i++)
 				if(keys.get( i ).isSelected())
 					checkInput( input, i );
@@ -348,18 +328,17 @@ public class Configurations
 					                            		if(arrows.get( i ).getDirection() == ArrowButton.LEFT)
 					                            			{
 					                            				int oldNum = numPlayer;
-					                            				numPlayer = Math.max( 0, --numPlayer );
+					                            				numPlayer = Math.max( 1, --numPlayer );
 					                            				if(oldNum != numPlayer)
-					                            					updateKeys( numPlayer );
+					                            					updateKeys( numPlayer-1 );
 					                            			}
 					                            		// premuta freccia destra
 					                            		else if(arrows.get( i ).getDirection() == ArrowButton.RIGHT)
 					                            			{
 					                            				int oldNum = numPlayer;
 					                            				numPlayer = Math.min( 4, ++numPlayer );
-					                            				updateKeys( numPlayer );
 					                            				if(oldNum != numPlayer)
-					                            					updateKeys( numPlayer );
+					                            					updateKeys( numPlayer-1 );
 					                            			}
 					                            		
 							                            break;
