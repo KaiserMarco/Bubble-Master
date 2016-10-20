@@ -186,15 +186,17 @@ public class Configurations
 			if(indexCursor >= 0)
 				cursor.draw( buttons.get( indexCursor ).getX() - widthC, buttons.get( indexCursor ).getY(), widthC, heightC );
 			
-			// TODO INSERIRE I NOMI DEI TASTI CONFIGURABILI
-			
-			float xString = Global.W/40, yString = Global.H/30;
+			float xString = Global.W*10/33, yString = Global.H/5;
 			g.drawString( SALTO, xString, yString );
-			g.drawString( SPARO, xString + Global.W/10, yString );
+			g.drawString( SPARO, xString + Global.W/3, yString );
 			
 
-			xString = Global.W/40; yString = Global.H/2;
+			yString = Global.H/2;
 			g.drawString( LEFT, xString, yString );
-			g.drawString( RIGHT, xString + Global.W/10, yString );
+			g.drawString( RIGHT, xString + Global.W/3, yString );
+			
+			// TODO INSERIRE I RIQUADRI PER LA CONFIGURAZIONE TASTI
+			
+			
 		}
 }
