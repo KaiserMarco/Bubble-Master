@@ -89,7 +89,7 @@ public class Configurations
 			heightC = Global.H/24;			
 			cursor = new Image( "./data/Image/cursore.png" );
 			
-			numPlayer = 1;
+			numPlayer = 0;
 			
 			int width = Global.W/20, height = Global.H/50;			
 			left = new ArrowButton( LEFT, ArrowButton.LEFT, new float[]{ Global.W*10/32, Global.H/40 + height/2, Global.W*10/32 + width, Global.H/40, Global.W*10/32 + width, Global.H/40 + height }, Color.white );
@@ -201,13 +201,13 @@ public class Configurations
 					{
 						keys.get( index ).setKey( Input.getKeyName( i ) );
 						if(index == 0)
-							maps.get( index ).put( "Salto", i );
+							maps.get( numPlayer ).put( "Salto", i );
 						else if(index == 1)
-							maps.get( index ).put( "Sparo", i );
+							maps.get( numPlayer ).put( "Sparo", i );
 						else if(index == 2)
-							maps.get( index ).put( "Sx", i );
+							maps.get( numPlayer ).put( "Sx", i );
 						else
-							maps.get( index ).put( "Dx", i );
+							maps.get( numPlayer ).put( "Dx", i );
 									
 						resetSelected();
 						return;
@@ -396,17 +396,17 @@ public class Configurations
 					                            		if(arrows.get( i ).getDirection() == ArrowButton.LEFT)
 					                            			{
 					                            				int oldNum = numPlayer;
-					                            				numPlayer = Math.max( 1, --numPlayer );
+					                            				numPlayer = Math.max( 0, --numPlayer );
 					                            				if(oldNum != numPlayer)
-					                            					updateKeys( numPlayer-1, input );
+					                            					updateKeys( numPlayer, input );
 					                            			}
 					                            		// premuta freccia destra
 					                            		else if(arrows.get( i ).getDirection() == ArrowButton.RIGHT)
 					                            			{
 					                            				int oldNum = numPlayer;
-					                            				numPlayer = Math.min( 4, ++numPlayer );
+					                            				numPlayer = Math.min( 3, ++numPlayer );
 					                            				if(oldNum != numPlayer)
-					                            					updateKeys( numPlayer-1, input );
+					                            					updateKeys( numPlayer, input );
 					                            			}
 					                            		
 							                            break;
@@ -437,7 +437,7 @@ public class Configurations
 			
 			g.setColor( Color.white );
 			g.scale( Global.W/Global.Width, Global.H/Global.Height );
-			g.drawString( "Player " + numPlayer, Global.W*10/22*Global.Width/Global.W, Global.H/40*Global.Height/Global.H );
+			g.drawString( "Player " + numPlayer+1, Global.W*10/22*Global.Width/Global.W, Global.H/40*Global.Height/Global.H );
 			g.resetTransform();
 			
 			if(indexCursor >= 0)
