@@ -530,18 +530,19 @@ public class Player extends Ostacolo
 				if(fuoco.isShooting())
 					fuoco.draw();
 
-			float pos = Global.W/40 + Global.W/4*(numPlayer-1);
+			float pos = Global.W/40 + Global.W*10/42*(numPlayer-1);
 			int j = 0;
 			if(drawLifes)
 				{
 					// TODO INSERIRE CUORI COLORATI A SECONDA DEL COLORE DEL PLAYER
 					for(;j < lifes/2; j++)
 						{
-							heart.draw( pos + widthH, Global.H/30, widthH, heightH );
+							heart.draw( pos, Global.H/30, widthH, heightH );
 							pos = pos + widthH;
 						}
 					if(lifes%2 == 1)
 						{
+							j++;
 							halfHeart.draw( pos, Global.H/30, widthH, heightH );
 							pos = pos + widthH;
 						}
@@ -555,7 +556,7 @@ public class Player extends Ostacolo
 			if(drawPoints)
 				{
 					g.setColor( color );
-					g.drawString( "SCORE : " + points, pos + Global.W/25, Global.H/30);
+					g.drawString( "SCORE : " + points, pos + Global.W/80, Global.H/30);
 				}
 			
 			if(currAmmo > 0)
@@ -800,6 +801,7 @@ public class Player extends Ostacolo
 												currentTickInv = tickInv;
 											}
 										System.out.println( "vite = " + lifes );
+										System.out.println( "vite dimezzate = " + lifes/2 );
 									}
 						}
 				}
