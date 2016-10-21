@@ -530,24 +530,32 @@ public class Player extends Ostacolo
 				if(fuoco.isShooting())
 					fuoco.draw();
 
+			float pos = Global.W/40 + Global.W/4*(numPlayer-1);
 			int j = 0;
 			if(drawLifes)
 				{
 					// TODO INSERIRE CUORI COLORATI A SECONDA DEL COLORE DEL PLAYER
-					float offset = Global.W/4;
 					for(;j < lifes/2; j++)
-						heart.draw( Global.W/40 + widthH*j + offset*(numPlayer-1), Global.H/30, widthH, heightH );
+						{
+							heart.draw( pos + widthH, Global.H/30, widthH, heightH );
+							pos = pos + widthH;
+						}
 					if(lifes%2 == 1)
-						halfHeart.draw( Global.W/40 + widthH*(j++), Global.H/30, widthH, heightH );
+						{
+							halfHeart.draw( pos, Global.H/30, widthH, heightH );
+							pos = pos + widthH;
+						}
 					for(;j < Global.lifes/2; j++)
-						noHeart.draw( Global.W/40 + widthH*j, Global.H/30, widthH, heightH );
+						{
+							noHeart.draw( pos, Global.H/30, widthH, heightH );
+							pos = pos + widthH;
+						}
 				}
 			
 			if(drawPoints)
 				{
-					float offset = Global.W*10/47;
 					g.setColor( color );
-					g.drawString( "SCORE : " + points, Global.W/40 + widthH*Global.lifes + offset*(numPlayer-1), Global.H/30);
+					g.drawString( "SCORE : " + points, pos + Global.W/25, Global.H/30);
 				}
 			
 			if(currAmmo > 0)
@@ -768,8 +776,7 @@ public class Player extends Ostacolo
 			movingDx = false;
 			movingSx = false;
 			
-			// TODO CAPIRE PERCHE QUANDO IL PLAYER2 COLLIDE CON UNA SFERA IL PLAYER1 PERDE VITE
-			// MENTRE IL PLAYER2 SI VEDE TOGLIERE I CUORI 
+			// TODO CAPIRE PERCHE LE COLLISIONI SONO SMATTATE COSI (EPPURE IL CODICE E' EASY)
 			
 			/*ZONA CONTROLLO COLLISIONE PERSONAGGIO - SFERE*/
 			if(!invincible && !immortal)
@@ -792,6 +799,7 @@ public class Player extends Ostacolo
 												currentTimeInv = 0;
 												currentTickInv = tickInv;
 											}
+										System.out.println( "vite = " + lifes );
 									}
 						}
 				}
