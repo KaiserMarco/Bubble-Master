@@ -558,7 +558,8 @@ public class Player extends Ostacolo
 						{
 							coolDown.setY( coolDown.getY() + tickCd );
 							coolDown.setHeight( coolDown.getHeight() - tickCd );
-							g.setColor( imm );
+							Color col = new Color( color.getRed(), color.getGreen(), color.getBlue(), 220 );
+							g.setColor( col );
 							g.fill( coolDown );
 							index--;
 						}
