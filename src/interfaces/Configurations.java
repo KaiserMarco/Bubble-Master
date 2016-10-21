@@ -162,23 +162,26 @@ public class Configurations
 				File levels = new File( "data/Configuration" );
 				String[] files = levels.list();
 				
-				File conf = new File( "data/Configuration/" + files[index] );
+				File conf = new File( "data/Configuration/" + files[0] );
 				if(conf.delete())
 					System.out.println( "file eliminato" );
 
 				Element item;
 			    livello.addContent( new Comment( "Objects" ) );
 				
-				Map<String, Integer> tmp = maps.get( index );
-				
-				item = new Element( "key" );
-				item.setAttribute( "sparo", tmp.get( "Sparo" ) + "" );
-				item.setAttribute( "salto", tmp.get( "Salto" ) + "" );
-				item.setAttribute( "left", tmp.get( "Sx" ) + "" );
-				item.setAttribute( "right", tmp.get( "Dx" ) + "" );
-				livello.addContent( item );
+			    for(int i = 0; i < maps.size(); i++)
+			    	{
+						Map<String, Integer> tmp = maps.get( i );
+						
+						item = new Element( "key" );
+						item.setAttribute( "sparo", tmp.get( "Sparo" ) + "" );
+						item.setAttribute( "salto", tmp.get( "Salto" ) + "" );
+						item.setAttribute( "left", tmp.get( "Sx" ) + "" );
+						item.setAttribute( "right", tmp.get( "Dx" ) + "" );
+						livello.addContent( item );
+			    	}
 
-	    		outputter.output( document, new FileOutputStream( "data/Configuration/player" + (index+1) + ".xml" ) );
+	    		outputter.output( document, new FileOutputStream( "data/Configuration/keyButton.xml" ) );
 	    		
 	    		System.out.println( "tasti " + "player" + (index+1) + ".xml salvati" );
 			}
@@ -243,6 +246,8 @@ public class Configurations
 			int mouseX = input.getMouseX();
 			int mouseY = input.getMouseY();
 
+			// TODO CAPIRE PERCHE QUI NON FUNZIONA CORRETTAMENTE
+			// ALLE BRUTTE CREO UN METODO APPOSITO PER CONTROLLARE OGNI SINGOLO VALORE
 			if(!maps.equals( Global.mapButtons ))
 				{
 					setChanging = true;
@@ -316,7 +321,7 @@ public class Configurations
 					                            {
 				                            		if(buttons.get( i ).getName().equals( BACK ))
 				                            			{
-					                            			resetSelected();;
+					                            			resetSelected();
 					                                		indexCursor = -1;
 		                            						Start.configuration = 0;
 		                            						Start.settings = 1;
