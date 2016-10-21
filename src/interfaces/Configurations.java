@@ -69,7 +69,7 @@ public class Configurations
 	
 	// le mappe dei tasti
 	private ArrayList<Map<String, Integer>> maps;
-	
+
 	public Configurations() throws SlickException
 		{
 			// TODO INSERIRE UNO SFONDO ADATTO
@@ -112,7 +112,7 @@ public class Configurations
 			keys.add( kSx );
 			keys.add( kDx );
 			
-			maps = Global.mapButtons;
+			maps = Global.getMapButton();
 		}
 	
 	private int checkButton( Button button, Input input, int i )
@@ -135,15 +135,6 @@ public class Configurations
 					return 2;
 		
 			return 0;
-		}
-	
-	/** elimina i file di configurazione */
-	public void removeFile( int index )
-		{
-			System.out.println( "rimosso = " + "player" + index + ".xml" );
-			File levels = new File( "data/Configuration/" + "player" + index + ".xml" );
-			if(levels.delete())
-				System.out.println( "file eliminato" );
 		}
 	
 	/** aggiorna il file relativo alle configurazioni tasti */
@@ -191,7 +182,8 @@ public class Configurations
 			}
 		}
 	
-	/** controlla gli input ricevuti e lo assegna al bottone selezionato */
+	/** controlla gli input ricevuti e lo assegna al bottone selezionato
+	 * aggiornando maps */
 	public void checkInput( Input in, int index )
 		{
 			for(int i = 0; i < 255; i++)
@@ -240,15 +232,27 @@ public class Configurations
 			return true;
 		}
 	
+	public boolean checkDifference()
+		{
+			for(int i = 0; i < maps.size(); i++)
+				{
+					if(maps.get( i ).get( "Sparo" ) != Global.mapButtons.get( i ).get( "Sparo" )
+					|| maps.get( i ).get( "Salto" ) != Global.mapButtons.get( i ).get( "Salto" )
+					|| maps.get( i ).get( "Sx" ) != Global.mapButtons.get( i ).get( "Sx" )
+					|| maps.get( i ).get( "Dx" ) != Global.mapButtons.get( i ).get( "Dx" ))
+						return true;
+				}
+			
+			return false;
+		}
+	
 	public void update( GameContainer gc )
 		{
 			Input input = gc.getInput();
 			int mouseX = input.getMouseX();
 			int mouseY = input.getMouseY();
 
-			// TODO CAPIRE PERCHE QUI NON FUNZIONA CORRETTAMENTE
-			// ALLE BRUTTE CREO UN METODO APPOSITO PER CONTROLLARE OGNI SINGOLO VALORE
-			if(!maps.equals( Global.mapButtons ))
+			if(checkDifference())
 				{
 					setChanging = true;
 					buttons.get( 1 ).setColor( Color.orange );
@@ -334,6 +338,8 @@ public class Configurations
 
 				                            						for(int j = 0; j < maps.size(); j++)
 				                            							updateFileConfig( j );
+				                            						
+				                            						// TODO FARE L'UPDATE ANCHE A GLOBAL.MAPSBUTTON
 				                            						
 				                            						resetSelected();
 				                            			        

@@ -82,6 +82,24 @@ public class Global
 			H = (int) height;
 		}
 	
+	/** ritorna il vettore dei tasti (la clone non funzionava) */
+	public static ArrayList<Map<String, Integer>> getMapButton()
+		{
+			ArrayList<Map<String, Integer>> tmp = new ArrayList<Map<String, Integer>>();
+			
+			for(int i = 0; i < mapButtons.size(); i++)
+				{
+					Map<String, Integer> play = new HashMap<>();
+					play.put( "Salto", Global.mapButtons.get( i ).get( "Salto" ) );
+					play.put( "Sparo", Global.mapButtons.get( i ).get( "Sparo" ) );
+					play.put( "Sx", Global.mapButtons.get( i ).get( "Sx" ) );
+					play.put( "Dx", Global.mapButtons.get( i ).get( "Dx" ) );
+					tmp.add( play );
+				}
+		
+			return tmp;
+		}
+	
 	/**inizializza i dati di gioco
 	 * @param gameContainer - il contenitore del gioco
 	*/
