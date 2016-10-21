@@ -72,8 +72,8 @@ public class Configurations
 
 	public Configurations() throws SlickException
 		{
-			// TODO INSERIRE UNO SFONDO ADATTO
-
+			img = new Image( "data/Image/binding.png" );
+		
 			Color color = Color.orange;
 			back = new SimpleButton( Global.W/5, Global.H*8/9, BACK, color );
 			apply = new SimpleButton( Global.W*2/3, Global.H*8/9, APPLY, color );
@@ -427,7 +427,7 @@ public class Configurations
 	public void draw( GameContainer gc )
 		{
 			Graphics g = gc.getGraphics();
-			g.setColor( Color.black );
+			img.draw( 0, 0, Global.W, Global.H );
 			
 			g.setColor( Color.gray );
 			for(SimpleButton button: buttons)
