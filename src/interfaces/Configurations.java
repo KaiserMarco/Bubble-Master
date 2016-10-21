@@ -137,49 +137,59 @@ public class Configurations
 			return 0;
 		}
 	
-	/** aggiorna il file relativo alle configurazioni tasti */
+	/** aggiorna il file relativo alle configurazioni tasti
+	 * e aggiorna anche Global.mapsButton */
 	public void updateFileConfig( int index )
 		{
 			try
-			{
-			    livello = new Element( "level" );
-			    document = new Document( livello );
-			    
-			    XMLOutputter outputter = new XMLOutputter();
-				// imposta un bel formato all'outputter 
-				outputter.setFormat( Format.getPrettyFormat() );
-				// creazione del file xml con il nome scelto
+				{
+				    livello = new Element( "level" );
+				    document = new Document( livello );
+				    
+				    XMLOutputter outputter = new XMLOutputter();
+					// imposta un bel formato all'outputter 
+					outputter.setFormat( Format.getPrettyFormat() );
+					// creazione del file xml con il nome scelto
+		
+					File levels = new File( "data/Configuration" );
+					String[] files = levels.list();
+					
+					File conf = new File( "data/Configuration/" + files[0] );
+					if(conf.delete())
+						System.out.println( "file eliminato" );
 	
-				File levels = new File( "data/Configuration" );
-				String[] files = levels.list();
-				
-				File conf = new File( "data/Configuration/" + files[0] );
-				if(conf.delete())
-					System.out.println( "file eliminato" );
+					Element item;
+				    livello.addContent( new Comment( "Objects" ) );
+					
+				    for(int i = 0; i < maps.size(); i++)
+				    	{
+							Map<String, Integer> tmp = maps.get( i );
+							
+							item = new Element( "key" );
+							item.setAttribute( "sparo", tmp.get( "Sparo" ) + "" );
+							item.setAttribute( "salto", tmp.get( "Salto" ) + "" );
+							item.setAttribute( "left", tmp.get( "Sx" ) + "" );
+							item.setAttribute( "right", tmp.get( "Dx" ) + "" );
+							livello.addContent( item );
+				    	}
+	
+		    		outputter.output( document, new FileOutputStream( "data/Configuration/keyButton.xml" ) );
+		    		
+		    		System.out.println( "tasti " + "player" + (index+1) + ".xml salvati" );
+				}
+			catch( IOException e )
+				{
+					System.err.println( "Error while creating the level" );
+					e.printStackTrace();
+				}
 
-				Element item;
-			    livello.addContent( new Comment( "Objects" ) );
-				
-			    for(int i = 0; i < maps.size(); i++)
-			    	{
-						Map<String, Integer> tmp = maps.get( i );
-						
-						item = new Element( "key" );
-						item.setAttribute( "sparo", tmp.get( "Sparo" ) + "" );
-						item.setAttribute( "salto", tmp.get( "Salto" ) + "" );
-						item.setAttribute( "left", tmp.get( "Sx" ) + "" );
-						item.setAttribute( "right", tmp.get( "Dx" ) + "" );
-						livello.addContent( item );
-			    	}
-
-	    		outputter.output( document, new FileOutputStream( "data/Configuration/keyButton.xml" ) );
-	    		
-	    		System.out.println( "tasti " + "player" + (index+1) + ".xml salvati" );
-			}
-			catch( IOException e ){
-				System.err.println( "Error while creating the level" );
-				e.printStackTrace();
-			}
+			for(int i = 0; i < maps.size(); i++)
+				{
+					Global.mapButtons.get( i ).put( "Salto", maps.get( i ).get( "Salto" ) );
+					Global.mapButtons.get( i ).put( "Sparo", maps.get( i ).get( "Sparo" ) );
+					Global.mapButtons.get( i ).put( "Sx", maps.get( i ).get( "Sx" ) );
+					Global.mapButtons.get( i ).put( "Dx", maps.get( i ).get( "Dx" ) );
+				}
 		}
 	
 	/** controlla gli input ricevuti e lo assegna al bottone selezionato
@@ -338,8 +348,6 @@ public class Configurations
 
 				                            						for(int j = 0; j < maps.size(); j++)
 				                            							updateFileConfig( j );
-				                            						
-				                            						// TODO FARE L'UPDATE ANCHE A GLOBAL.MAPSBUTTON
 				                            						
 				                            						resetSelected();
 				                            			        
