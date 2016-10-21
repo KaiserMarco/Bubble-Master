@@ -533,6 +533,7 @@ public class Player extends Ostacolo
 			int j = 0;
 			if(drawLifes)
 				{
+					float offset = Global.W;
 					for(;j < lifes/2; j++)
 						heart.draw( Global.W/40 + widthH*j, Global.H/30, widthH, heightH );
 					if(lifes%2 == 1)
@@ -547,22 +548,20 @@ public class Player extends Ostacolo
 					g.drawString( "SCORE : " + points, Global.W/40 + widthH*(j+1), Global.H/30);
 				}
 			
-			// TODO DISEGNARE IL COOLDWON DELLE AMMO A SECONDA DEL COLORE DEL PLAYER
-			// TODO DISTANZIARE LE INCONE DELLE AMMO, DELLE VITE E DELLO SCORE PER CIASCUN PLAYER
 			if(currAmmo > 0)
 				{
-					g.fill( new Rectangle( space + (Global.Width/40), maxHeight, Global.H - maxHeight, Global.H - maxHeight ) );
-					powerUp.get( 0 ).getImage().draw( space + (Global.Width/40), maxHeight, Global.H - maxHeight, Global.H - maxHeight );
-					g.drawString( "X " + currAmmo, space + (Global.Width/40) + ((Ammo) powerUp.get( 0 )).getWidth(), maxHeight );
-					if(currAmmo > 0)
-						{
-							coolDown.setY( coolDown.getY() + tickCd );
-							coolDown.setHeight( coolDown.getHeight() - tickCd );
-							Color col = new Color( color.getRed(), color.getGreen(), color.getBlue(), 220 );
-							g.setColor( col );
-							g.fill( coolDown );
-							index--;
-						}
+					float offset = Global.W/4 + Global.W/40;
+					Rectangle zone = new Rectangle( space + Global.W/40 + offset*(numPlayer-1), maxHeight, Global.H - maxHeight, Global.H - maxHeight );
+					g.fill( zone );
+					powerUp.get( 0 ).getImage().draw( zone.getX(), maxHeight, Global.H - maxHeight, Global.H - maxHeight );
+					g.drawString( "X " + currAmmo, zone.getMaxX() + space, maxHeight );
+					coolDown.setX( zone.getX() );
+					coolDown.setY( coolDown.getY() + tickCd );
+					coolDown.setHeight( coolDown.getHeight() - tickCd );
+					Color col = new Color( color.getRed(), color.getGreen(), color.getBlue(), 220 );
+					g.setColor( col );
+					g.fill( coolDown );
+					index--;
 				}
 		}
 	
