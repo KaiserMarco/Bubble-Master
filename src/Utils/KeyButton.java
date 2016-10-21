@@ -26,6 +26,9 @@ public class KeyButton
 	public void setKey( String val )
 		{ bind = val; }
 	
+	public String getKey()
+		{ return bind; }
+	
 	public boolean isSelected()
 		{ return selected; }
 	

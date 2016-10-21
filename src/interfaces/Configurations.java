@@ -192,7 +192,7 @@ public class Configurations
 	public void checkInput( Input in, int index )
 		{
 			for(int i = 0; i < 255; i++)
-				if(in.isKeyPressed( i ))
+				if(in.isKeyPressed( i ) && checkUniqueValue( i ))
 					{
 						keys.get( index ).setKey( Input.getKeyName( i ) );
 						if(index == 0)
@@ -226,13 +226,24 @@ public class Configurations
 			keys.get( 3 ).setKey( Input.getKeyName( ( maps.get( index ).get( "Dx" ) ) ) );
 		}
 	
+	/** controlla se il nuovo tasto configurato non sia gia' stato bindato */
+	public boolean checkUniqueValue( int code )
+		{
+			for(int j = 0; j < maps.size(); j++)
+				if(maps.get( j ).get( "Sparo" ) == code || maps.get( j ).get( "Sx" ) == code || 
+				   maps.get( j ).get( "Salto" ) == code || maps.get( j ).get( "Dx" ) == code)
+					return false;
+		
+			return true;
+		}
+	
 	public void update( GameContainer gc )
 		{
 			Input input = gc.getInput();
 			int mouseX = input.getMouseX();
 			int mouseY = input.getMouseY();
 
-			if(maps.equals( Global.mapButtons ))
+			if(!maps.equals( Global.mapButtons ))
 				{
 					setChanging = true;
 					buttons.get( 1 ).setColor( Color.orange );
