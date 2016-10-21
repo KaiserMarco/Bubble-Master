@@ -533,9 +533,10 @@ public class Player extends Ostacolo
 			int j = 0;
 			if(drawLifes)
 				{
-					float offset = Global.W;
+					// TODO INSERIRE CUORI COLORATI A SECONDA DEL COLORE DEL PLAYER
+					float offset = Global.W/4;
 					for(;j < lifes/2; j++)
-						heart.draw( Global.W/40 + widthH*j, Global.H/30, widthH, heightH );
+						heart.draw( Global.W/40 + widthH*j + offset*(numPlayer-1), Global.H/30, widthH, heightH );
 					if(lifes%2 == 1)
 						halfHeart.draw( Global.W/40 + widthH*(j++), Global.H/30, widthH, heightH );
 					for(;j < Global.lifes/2; j++)
@@ -544,8 +545,9 @@ public class Player extends Ostacolo
 			
 			if(drawPoints)
 				{
-					g.setColor( Color.black );
-					g.drawString( "SCORE : " + points, Global.W/40 + widthH*(j+1), Global.H/30);
+					float offset = Global.W*10/47;
+					g.setColor( color );
+					g.drawString( "SCORE : " + points, Global.W/40 + widthH*Global.lifes + offset*(numPlayer-1), Global.H/30);
 				}
 			
 			if(currAmmo > 0)
@@ -766,6 +768,9 @@ public class Player extends Ostacolo
 			movingDx = false;
 			movingSx = false;
 			
+			// TODO CAPIRE PERCHE QUANDO IL PLAYER2 COLLIDE CON UNA SFERA IL PLAYER1 PERDE VITE
+			// MENTRE IL PLAYER2 SI VEDE TOGLIERE I CUORI 
+			
 			/*ZONA CONTROLLO COLLISIONE PERSONAGGIO - SFERE*/
 			if(!invincible && !immortal)
 				{
@@ -776,9 +781,9 @@ public class Player extends Ostacolo
 									{
 										if(--lifes == 0)
 											{
-												Global.inGame = false;
 												drawLifes = false;
 												drawPoints = false;
+												Global.inGame = false;
 											}
 										else
 											{
