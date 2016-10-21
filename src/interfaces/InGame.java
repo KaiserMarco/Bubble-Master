@@ -72,7 +72,7 @@ public class InGame
 					Ostacolo ost = elem;
 					if(ost.getID().equals( Global.PLAYER ))
 						{
-							players.add( ost );
+							players.add( ost.clone( gc ) );
 							
 							Player player = ((Player) players.get( players.size() - 1 ));
 							player.setDrawLifes( true );
@@ -154,8 +154,6 @@ public class InGame
 		
 			if(input.isKeyPressed( Input.KEY_ESCAPE ))
 				{
-					// TODO PERCHE QUANDO ESCO DALLA PARTITA LE SFERE RESETTANO LA POSIZIONE E I PLAYER NO???
-				
 					animNumbers = 30;
 					decrNumb = 4;
 					Start.startGame = 0;
