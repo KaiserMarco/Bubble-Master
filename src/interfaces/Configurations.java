@@ -290,7 +290,7 @@ public class Configurations
 		                    for(KeyButton key: keys)
 		                    	if(key.contains( mouseX, mouseY ))
 		                    		{
-		                    			resetSelected();;
+		                    			resetSelected();
 		                    			key.setSelected();
 		                    			break;
 		                    		}
