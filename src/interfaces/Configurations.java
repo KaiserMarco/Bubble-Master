@@ -139,7 +139,7 @@ public class Configurations
 	
 	/** aggiorna il file relativo alle configurazioni tasti
 	 * e aggiorna anche Global.mapsButton */
-	public void updateFileConfig( int index )
+	public void updateFileConfig()
 		{
 			try
 				{
@@ -175,7 +175,7 @@ public class Configurations
 	
 		    		outputter.output( document, new FileOutputStream( "data/Configuration/keyButton.xml" ) );
 		    		
-		    		System.out.println( "tasti " + "player" + (index+1) + ".xml salvati" );
+		    		System.out.println( "tasti salvati in keyButton.xml" );
 				}
 			catch( IOException e )
 				{
@@ -350,6 +350,7 @@ public class Configurations
 					                            {
 				                            		if(buttons.get( i ).getName().equals( BACK ))
 				                            			{
+				                            				numPlayer = 0;
 					                            			resetSelected();
 					                                		indexCursor = -1;
 		                            						Start.configuration = 0;
@@ -359,10 +360,10 @@ public class Configurations
 				                            			{
 				                            				if(setChanging)
 			                            						{
+					                            					numPlayer = 0;
 				                            						setChanging = false;
 
-				                            						for(int j = 0; j < maps.size(); j++)
-				                            							updateFileConfig( j );
+				                            						updateFileConfig();
 				                            						
 				                            						resetSelected();
 				                            			        
@@ -437,7 +438,7 @@ public class Configurations
 			
 			g.setColor( Color.white );
 			g.scale( Global.W/Global.Width, Global.H/Global.Height );
-			g.drawString( "Player " + numPlayer+1, Global.W*10/22*Global.Width/Global.W, Global.H/40*Global.Height/Global.H );
+			g.drawString( "Player " + (numPlayer+1), Global.W*10/22*Global.Width/Global.W, Global.H/40*Global.Height/Global.H );
 			g.resetTransform();
 			
 			if(indexCursor >= 0)
