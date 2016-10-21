@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <level>
   <!--Objects-->
-  <tasti sparo="Z" salto="X" left="C" right="V" />
   <key sparo="44" salto="45" left="46" right="47" />
 </level>

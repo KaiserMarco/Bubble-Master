@@ -98,6 +98,7 @@ public class Begin
 	 
 				builder = documentFactory.newDocumentBuilder();
 				
+				/* LETTURA FILE CONFIGURAZIONE TASTI */
 				File levels = new File( "data/Configuration" );
 				String[] files = levels.list();
 				
@@ -105,18 +106,7 @@ public class Begin
 					{
 						document = builder.parse( new File( "data/Configuration/" + files[j] ) );
 
-						NodeList tasto = document.getElementsByTagName( "tasti" );
 						NodeList button = document.getElementsByTagName( "key" );
-						
-						Node nodo = tasto.item( 0 );						
-						Element obs = (Element) nodo;
-						
-						String sparo = obs.getAttribute( "sparo" );
-						String salto = obs.getAttribute( "salto" );
-						String sx = obs.getAttribute( "left" );
-						String dx = obs.getAttribute( "right" );
-						
-						Global.setMapString( j, salto, sparo, sx, dx );
 						
 						Node node = button.item( 0 );
 						Element ogg = (Element) node;
@@ -140,6 +130,7 @@ public class Begin
 	 
 				builder = documentFactory.newDocumentBuilder();
 				
+				/*	LETTURA LIVELLI DI GIOCO */
 				File levels = new File( "data/livelli" );
 				String[] files = levels.list();
 				

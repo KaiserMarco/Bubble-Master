@@ -68,7 +68,6 @@ public class Configurations
 	float xString = Global.W*10/45, yString = Global.H/5;
 	
 	// le mappe dei tasti
-	private ArrayList<Map<String, String>> mappe;
 	private ArrayList<Map<String, Integer>> maps;
 	
 	public Configurations() throws SlickException
@@ -113,7 +112,6 @@ public class Configurations
 			keys.add( kSx );
 			keys.add( kDx );
 			
-			mappe = Global.mappeTasti;
 			maps = Global.mapButtons;
 		}
 	
@@ -170,15 +168,6 @@ public class Configurations
 
 				Element item;
 			    livello.addContent( new Comment( "Objects" ) );
-			    
-			    Map<String, String> temp = mappe.get( index );
-    			
-				item = new Element( "tasti" );
-				item.setAttribute( "sparo", temp.get( "Sparo" ) );
-				item.setAttribute( "salto", temp.get( "Salto" ) );
-				item.setAttribute( "left", temp.get( "Sx" ) );
-				item.setAttribute( "right", temp.get( "Dx" ) );
-				livello.addContent( item );
 				
 				Map<String, Integer> tmp = maps.get( index );
 				
@@ -207,25 +196,13 @@ public class Configurations
 					{
 						keys.get( index ).setKey( Input.getKeyName( i ) );
 						if(index == 0)
-							{
-								mappe.get( index ).put( "Salto", Input.getKeyName( i ) );
-								maps.get( index ).put( "Salto", i );
-							}
+							maps.get( index ).put( "Salto", i );
 						else if(index == 1)
-							{
-								mappe.get( index ).put( "Sparo", Input.getKeyName( i ) );
-								maps.get( index ).put( "Sparo", i );
-							}
+							maps.get( index ).put( "Sparo", i );
 						else if(index == 2)
-							{
-								mappe.get( index ).put( "Sx", Input.getKeyName( i ) );
-								maps.get( index ).put( "Sx", i );
-							}
+							maps.get( index ).put( "Sx", i );
 						else
-							{
-								mappe.get( index ).put( "Dx", Input.getKeyName( i ) );
-								maps.get( index ).put( "Dx", i );
-							}
+							maps.get( index ).put( "Dx", i );
 									
 						resetSelected();
 						return;
@@ -241,12 +218,12 @@ public class Configurations
 		}
 	
 	/** aggiorna i tasti del giocatore caricato */
-	public void updateKeys( int index )
+	public void updateKeys( int index, Input input )
 		{
-			keys.get( 0 ).setKey( mappe.get( index ).get( "Salto" ) );
-			keys.get( 1 ).setKey( mappe.get( index ).get( "Sparo" ) );
-			keys.get( 2 ).setKey( mappe.get( index ).get( "Sx" ) );
-			keys.get( 3 ).setKey( mappe.get( index ).get( "Dx" ) );
+			keys.get( 0 ).setKey( Input.getKeyName( ( maps.get( index ).get( "Salto" ) ) ) );
+			keys.get( 1 ).setKey( Input.getKeyName( ( maps.get( index ).get( "Sparo" ) ) ) );
+			keys.get( 2 ).setKey( Input.getKeyName( ( maps.get( index ).get( "Sx" ) ) ) );
+			keys.get( 3 ).setKey( Input.getKeyName( ( maps.get( index ).get( "Dx" ) ) ) );
 		}
 	
 	public void update( GameContainer gc )
@@ -255,7 +232,7 @@ public class Configurations
 			int mouseX = input.getMouseX();
 			int mouseY = input.getMouseY();
 
-			if(mappe.equals( Global.mappeTasti ))
+			if(maps.equals( Global.mapButtons ))
 				{
 					setChanging = true;
 					buttons.get( 1 ).setColor( Color.orange );
@@ -339,7 +316,7 @@ public class Configurations
 			                            						{
 				                            						setChanging = false;
 
-				                            						for(int j = 0; j < mappe.size(); j++)
+				                            						for(int j = 0; j < maps.size(); j++)
 				                            							updateFileConfig( j );
 				                            						
 				                            						resetSelected();
@@ -376,7 +353,7 @@ public class Configurations
 					                            				int oldNum = numPlayer;
 					                            				numPlayer = Math.max( 1, --numPlayer );
 					                            				if(oldNum != numPlayer)
-					                            					updateKeys( numPlayer-1 );
+					                            					updateKeys( numPlayer-1, input );
 					                            			}
 					                            		// premuta freccia destra
 					                            		else if(arrows.get( i ).getDirection() == ArrowButton.RIGHT)
@@ -384,7 +361,7 @@ public class Configurations
 					                            				int oldNum = numPlayer;
 					                            				numPlayer = Math.min( 4, ++numPlayer );
 					                            				if(oldNum != numPlayer)
-					                            					updateKeys( numPlayer-1 );
+					                            					updateKeys( numPlayer-1, input );
 					                            			}
 					                            		
 							                            break;
