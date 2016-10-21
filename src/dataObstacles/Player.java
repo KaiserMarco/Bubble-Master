@@ -547,6 +547,8 @@ public class Player extends Ostacolo
 					g.drawString( "SCORE : " + points, Global.W/40 + widthH*(j+1), Global.H/30);
 				}
 			
+			// TODO DISEGNARE IL COOLDWON DELLE AMMO A SECONDA DEL COLORE DEL PLAYER
+			// TODO DISTANZIARE LE INCONE DELLE AMMO, DELLE VITE E DELLO SCORE PER CIASCUN PLAYER
 			if(currAmmo > 0)
 				{
 					g.fill( new Rectangle( space + (Global.Width/40), maxHeight, Global.H - maxHeight, Global.H - maxHeight ) );
