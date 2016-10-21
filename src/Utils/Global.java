@@ -105,8 +105,8 @@ public class Global
 			mapButtons.add( play4 );
 		}
 
-	/**aggiorna le mappe dei tasti relativo agli interi */
-	public static void setMapInteger( int index, int salto, int sparo, int sx, int dx )
+	/**aggiorna le mappe dei tasti */
+	public static void setMap( int index, int salto, int sparo, int sx, int dx )
 		{
 			mapButtons.get( index ).put( "Salto", salto );
 			mapButtons.get( index ).put( "Sparo", sparo );

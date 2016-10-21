@@ -102,22 +102,25 @@ public class Begin
 				File levels = new File( "data/Configuration" );
 				String[] files = levels.list();
 				
-				for(int j = 0; j < files.length; j++)
+				//for(int j = 0; j < files.length; j++)
 					{
-						document = builder.parse( new File( "data/Configuration/" + files[j] ) );
+						document = builder.parse( new File( "data/Configuration/" + files[0] ) );
 
 						NodeList button = document.getElementsByTagName( "key" );
 						
-						Node node = button.item( 0 );
-						Element ogg = (Element) node;
+						for(int i = 0; i < button.getLength(); i++)
+							{
+								Node node = button.item( i );
+								Element ogg = (Element) node;
+								
+								int shoot = Integer.parseInt( ogg.getAttribute( "sparo" ) );
+								int jump = Integer.parseInt( ogg.getAttribute( "salto" ) );
+								int left = Integer.parseInt( ogg.getAttribute( "left" ) );
+								int right = Integer.parseInt( ogg.getAttribute( "right" ) );
+								Global.setMap( i, jump, shoot, left, right );
+							}
 						
-						int shoot = Integer.parseInt( ogg.getAttribute( "sparo" ) );
-						int jump = Integer.parseInt( ogg.getAttribute( "salto" ) );
-						int left = Integer.parseInt( ogg.getAttribute( "left" ) );
-						int right = Integer.parseInt( ogg.getAttribute( "right" ) );
-						Global.setMapInteger( j, jump, shoot, left, right );
-						
-						System.out.println( "tasti " + files[j] + " caricati" );
+						System.out.println( "tasti " + files[0] + " caricati" );
 					}
 			}
 			catch(Exception e) {
