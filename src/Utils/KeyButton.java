@@ -14,13 +14,17 @@ public class KeyButton
 	// determina se il pulsante e' stato selezionato oppure no
 	private boolean selected;
 	
-	public KeyButton( float x, float y , float width, float height )
+	private float width;
+	
+	public KeyButton( float x, float y , float width )
 		{
-			ostr = new Rectangle( x, y, width, height );
+			ostr = new Rectangle( x, y, width, width );
 			
 			selected = false;
 			
 			bind = "";
+			
+			this.width = width;
 		}
 	
 	public void setKey( String val )
@@ -38,6 +42,12 @@ public class KeyButton
 	public boolean contains( float mouseX, float mouseY )
 		{ return ostr.contains( mouseX, mouseY ); }
 	
+	public void updateDates()
+		{
+			width = width*Global.ratioW;
+			ostr = new Rectangle( ostr.getX()*Global.ratioW, ostr.getY()*Global.ratioH, width, width );
+		}
+	
 	public void draw( Graphics g )
 		{
 			g.setColor( Color.orange );
@@ -47,7 +57,8 @@ public class KeyButton
 				g.draw( ostr );
 			
 			g.scale( 2, 2 );
-			g.drawString( bind, (ostr.getX() + Global.W/100)/2, (ostr.getY() + Global.H/300)/2 );
+			g.scale( Global.W/Global.Width, Global.H/Global.Height );
+			g.drawString( bind, ((ostr.getX() + Global.W/100)/2)*Global.Width/Global.W, ((ostr.getY() + Global.H/300)/2)*Global.Height/Global.H );
 			g.resetTransform();
 		}
 }

@@ -100,11 +100,11 @@ public class Configurations
 			arrows.add( right );
 
 			float widthK = Global.W/20;
-			kSalto = new KeyButton( xString + Global.W/10, yString, widthK, widthK );
-			kSparo = new KeyButton( xString + Global.W/3 + Global.W*10/98, yString, widthK, widthK );
+			kSalto = new KeyButton( xString + Global.W/10, yString, widthK );
+			kSparo = new KeyButton( xString + Global.W/3 + Global.W*10/98, yString, widthK );
 			yString = Global.H/2;
-			kSx = new KeyButton( xString + Global.W/8, yString, widthK, widthK );
-			kDx = new KeyButton( xString + Global.W/3 + Global.W*10/94, yString, widthK, widthK );
+			kSx = new KeyButton( xString + Global.W/8, yString, widthK );
+			kDx = new KeyButton( xString + Global.W/3 + Global.W*10/94, yString, widthK );
 			
 			keys = new ArrayList<KeyButton>();
 			keys.add( kSalto );
@@ -242,6 +242,7 @@ public class Configurations
 			return true;
 		}
 	
+	/** controlla se e' stato modificato un qualunque bind */
 	public boolean checkDifference()
 		{
 			for(int i = 0; i < maps.size(); i++)
@@ -256,12 +257,26 @@ public class Configurations
 			return false;
 		}
 	
+	/** aggiorna gli oggetti alle nuove proporzioni */
+	public void updateDates() throws SlickException
+		{	
+			for(SimpleButton button: buttons)
+				button.buildButton( button.getX() * Global.ratioW, button.getY() * Global.ratioH );
+			
+			for(ArrowButton arrow: arrows)
+				arrow.translate( Global.ratioW, Global.ratioH );
+			
+			for(KeyButton key: keys)
+				key.updateDates();
+		}
+	
 	public void update( GameContainer gc )
 		{
 			Input input = gc.getInput();
 			int mouseX = input.getMouseX();
 			int mouseY = input.getMouseY();
 
+			// se e' stato modificato un qualunque bind viene permesso di applicare tale cambiamenti
 			if(checkDifference())
 				{
 					setChanging = true;
@@ -411,8 +426,6 @@ public class Configurations
 	
 	public void draw( GameContainer gc )
 		{
-			// TODO RICORDARMI DI FARE LA VARIAZIONE DI DIMENSIONI
-		
 			Graphics g = gc.getGraphics();
 			g.setColor( Color.black );
 			
@@ -423,18 +436,22 @@ public class Configurations
 				arrow.draw( g );
 			
 			g.setColor( Color.white );
-			g.drawString( "Player " + numPlayer, Global.W*10/22, Global.H/40 );
+			g.scale( Global.W/Global.Width, Global.H/Global.Height );
+			g.drawString( "Player " + numPlayer, Global.W*10/22*Global.Width/Global.W, Global.H/40*Global.Height/Global.H );
+			g.resetTransform();
 			
 			if(indexCursor >= 0)
 				cursor.draw( buttons.get( indexCursor ).getX() - widthC, buttons.get( indexCursor ).getY(), widthC, heightC );
 			
 			yString = Global.H/5;
-			g.drawString( SALTO, xString, yString );
-			g.drawString( SPARO, xString + Global.W/3, yString );			
+			g.scale( Global.W/Global.Width, Global.H/Global.Height );
+			g.drawString( SALTO, xString*Global.Width/Global.W, yString*Global.Height/Global.H );
+			g.drawString( SPARO, (xString + Global.W/3)*Global.Width/Global.W, yString*Global.Height/Global.H );			
 
 			yString = Global.H/2;
-			g.drawString( LEFT, xString, yString );
-			g.drawString( RIGHT, xString + Global.W/3, yString );
+			g.drawString( LEFT, xString*Global.Width/Global.W, yString*Global.Height/Global.H );
+			g.drawString( RIGHT, (xString + Global.W/3)*Global.Width/Global.W, yString*Global.Height/Global.H );
+			g.resetTransform();
 
 			for(KeyButton key: keys)
 				key.draw( g );

@@ -116,15 +116,16 @@ public class Settings
 			noHeart = new Image( "./data/Image/noHeart.png" );
 			widthH = Global.W/40; heightH = Global.H/30;
 			
-			dimensioni = new ArrayList<Dimension>();			
+			dimensioni = new ArrayList<Dimension>();
 			dimensioni.add( new Dimension( xRes, yRes, wRes, hRes, "800", "600", Color.gray, true ) );
-			dimensioni.add( new Dimension( dimensioni.get( dimensioni.size() - 1 ).getArea().getMaxX(), yRes, Global.W/100, dimensioni.get( 0 ).getArea().getHeight(), "", "", Color.gray, true ) );
+			Dimension dim0 = dimensioni.get( 0 );
+			dimensioni.add( new Dimension( dimensioni.get( dimensioni.size() - 1 ).getArea().getMaxX(), yRes, Global.W/100, dim0.getArea().getHeight(), "", "", Color.gray, true ) );
 			dimensioni.add( new Dimension( xRes, dimensioni.get( dimensioni.size() - 1 ).getArea().getMaxY(), wRes, hRes, "800", "600", Color.white, false ) );
 			dimensioni.add( new Dimension( xRes, dimensioni.get( dimensioni.size() - 1 ).getArea().getMaxY(), wRes, hRes, "1200", "900", Color.white, false ) );
 			dimensioni.add( new Dimension( xRes, dimensioni.get( dimensioni.size() - 1 ).getArea().getMaxY(), wRes, hRes, "1280", "720", Color.white, false ) );
 			
-			widthP = dimensioni.get( 0 ).getW();
-			heightP = dimensioni.get( 0 ).getH();
+			widthP = dim0.getW();
+			heightP = dim0.getH();
 			
 			drawChoiseRes = false;
 			
@@ -232,7 +233,7 @@ public class Settings
 			return 0;
 		}
 	
-	private void applicaCambiamenti( Edit editor, GameContainer gc, End end ) throws SlickException
+	private void applicaCambiamenti( Edit editor, GameContainer gc, End end, Configurations config ) throws SlickException
 		{
 			widthH = widthH * Global.ratioW;
 			heightH = heightH * Global.ratioH;
@@ -256,6 +257,7 @@ public class Settings
 	        		// setto i parametri dell'editor e dell'end
             		editor.updateStats( gc );
             		end.updateDates();
+            		config.updateDates();
 	        	
 	        		xRes = xRes * Global.ratioW;
 	        		bar = new SlideBar( xRes, (float) Global.H*100/166, "", 255.f - Global.brightness, 150.f, 255.f );
@@ -400,7 +402,7 @@ public class Settings
 				                            						setChanging = false;
 				                            						startResW = dimensioni.get( 0 ).getW();
 				                            						startResH = dimensioni.get( 0 ).getH();
-				                            						applicaCambiamenti( editor, gc, end );
+				                            						applicaCambiamenti( editor, gc, end, config );
 				                            			        
 				                            						indexCursor = -1;
 				                            						Start.settings = 0;
