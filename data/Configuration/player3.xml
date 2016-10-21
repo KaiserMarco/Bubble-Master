@@ -2,5 +2,5 @@
 <level>
   <!--Objects-->
   <tasti sparo="Z" salto="X" left="C" right="V" />
-  <key sparo ="44" salto="45" left="46" right="47" />
+  <key sparo="44" salto="45" left="46" right="47" />
 </level>

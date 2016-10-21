@@ -69,6 +69,7 @@ public class Configurations
 	
 	// le mappe dei tasti
 	private ArrayList<Map<String, String>> mappe;
+	private ArrayList<Map<String, Integer>> maps;
 	
 	public Configurations() throws SlickException
 		{
@@ -113,6 +114,7 @@ public class Configurations
 			keys.add( kDx );
 			
 			mappe = Global.mappeTasti;
+			maps = Global.mapButtons;
 		}
 	
 	private int checkButton( Button button, Input input, int i )
@@ -177,6 +179,15 @@ public class Configurations
 				item.setAttribute( "left", temp.get( "Sx" ) );
 				item.setAttribute( "right", temp.get( "Dx" ) );
 				livello.addContent( item );
+				
+				Map<String, Integer> tmp = maps.get( index );
+				
+				item = new Element( "key" );
+				item.setAttribute( "sparo", tmp.get( "Sparo" ) + "" );
+				item.setAttribute( "salto", tmp.get( "Salto" ) + "" );
+				item.setAttribute( "left", tmp.get( "Sx" ) + "" );
+				item.setAttribute( "right", tmp.get( "Dx" ) + "" );
+				livello.addContent( item );
 
 	    		outputter.output( document, new FileOutputStream( "data/Configuration/player" + (index+1) + ".xml" ) );
 	    		
@@ -196,13 +207,25 @@ public class Configurations
 					{
 						keys.get( index ).setKey( Input.getKeyName( i ) );
 						if(index == 0)
-							mappe.get( index ).put( "Salto", Input.getKeyName( i ) );
-						else if(index == 0)
-							mappe.get( index ).put( "Sparo", Input.getKeyName( i ) );
-						else if(index == 0)
-							mappe.get( index ).put( "Sx", Input.getKeyName( i ) );
+							{
+								mappe.get( index ).put( "Salto", Input.getKeyName( i ) );
+								maps.get( index ).put( "Salto", i );
+							}
+						else if(index == 1)
+							{
+								mappe.get( index ).put( "Sparo", Input.getKeyName( i ) );
+								maps.get( index ).put( "Sparo", i );
+							}
+						else if(index == 2)
+							{
+								mappe.get( index ).put( "Sx", Input.getKeyName( i ) );
+								maps.get( index ).put( "Sx", i );
+							}
 						else
-							mappe.get( index ).put( "Dx", Input.getKeyName( i ) );
+							{
+								mappe.get( index ).put( "Dx", Input.getKeyName( i ) );
+								maps.get( index ).put( "Dx", i );
+							}
 									
 						resetSelected();
 						return;
