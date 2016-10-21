@@ -80,7 +80,7 @@ public class InGame
 							player.setHeight( ost.getHeight() );
 							player.setWidth( ost.getWidth() );
 							player.setWidthI( ((Player) ost).getWidthI() );
-							player.setMaxHeight( sfondo.getMaxHeight() );							
+							player.setMaxHeight( sfondo.getMaxHeight() );
 							
 							player.setArea( gc );
 						}
@@ -154,6 +154,8 @@ public class InGame
 		
 			if(input.isKeyPressed( Input.KEY_ESCAPE ))
 				{
+					// TODO PERCHE QUANDO ESCO DALLA PARTITA LE SFERE RESETTANO LA POSIZIONE E I PLAYER NO???
+				
 					animNumbers = 30;
 					decrNumb = 4;
 					Start.startGame = 0;
@@ -170,8 +172,7 @@ public class InGame
 				{				
 					for(PowerUp pu: powerUp)
 						pu.update( gc, delta );
-					
-					// TODO CONTROLLARE SE LA CONFIGURAZIONE TASTI FUNZIONA
+
 					for(Ostacolo player: players)
 						((Player) player).update( gc, delta, input );
 					
