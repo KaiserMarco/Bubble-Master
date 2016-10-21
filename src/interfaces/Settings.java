@@ -80,8 +80,8 @@ public class Settings
 			Color color = Color.orange;
 			back = new SimpleButton( Global.W/5, Global.H*8/9, BACK, color );
 			saveChanges = new SimpleButton( Global.W*2/3, Global.H*8/9, APPLY, color );
-			// TODO TROVARE UN VERDE PIU BELLINO
-			config = new SimpleButton( Global.W*10/28, Global.H*10/13, CONFIG, Color.green );
+			color = new Color( 34, 139, 34 );
+			config = new SimpleButton( Global.W*10/28, Global.H*10/13, CONFIG, color );
 			
 			int width = Global.W/20, height = Global.H/50;
 			
