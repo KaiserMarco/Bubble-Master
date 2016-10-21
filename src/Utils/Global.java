@@ -55,9 +55,15 @@ public class Global
 	/** gli ID degli oggetti del gioco */
 	public static final String TUBO = "tubo", BASE = "base", ENTER = "enter", PLAYER = "player", BOLLA = "bolla", SBARRA = "sbarra";
 	
+	/** hashMap contente i vettori di configurazione tasti */
 	public static ArrayList<Map<String, String>> mappeTasti;
 	public static Map<String, String> player1 = new HashMap<>(), player2 = new HashMap<>();
 	public static Map<String, String> player3 = new HashMap<>(), player4 = new HashMap<>();
+
+	/** hashMap parallelo contente i vettori di tipo intero di configurazione tasti */
+	public static ArrayList<Map<String, Integer>> mapButtons;
+	public static Map<String, Integer> play1 = new HashMap<>(), play2 = new HashMap<>();
+	public static Map<String, Integer> play3 = new HashMap<>(), play4 = new HashMap<>();
 	
 	/** inserisce la luminosita' dello schermo
 	 * @param g - il contesto grafico
@@ -102,14 +108,29 @@ public class Global
 			mappeTasti.add( player2 );
 			mappeTasti.add( player3 );
 			mappeTasti.add( player4 );
+			
+			mapButtons = new ArrayList<Map<String, Integer>>();
+			mapButtons.add( play1 );
+			mapButtons.add( play2 );
+			mapButtons.add( play3 );
+			mapButtons.add( play4 );
 		}
 
-	/**aggiorna le mappe dei tasti */
-	public static void setMap( int index, String salto, String sparo, String sx, String dx )
+	/**aggiorna le mappe dei tasti relativo alle Stringhe */
+	public static void setMapString( int index, String salto, String sparo, String sx, String dx )
 		{
 			mappeTasti.get( index ).put( "Salto", salto );
 			mappeTasti.get( index ).put( "Sparo", sparo );
 			mappeTasti.get( index ).put( "Sx", sx );
 			mappeTasti.get( index ).put( "Dx", dx );
+		}
+
+	/**aggiorna le mappe dei tasti relativo agli interi */
+	public static void setMapInteger( int index, int salto, int sparo, int sx, int dx )
+		{
+			mapButtons.get( index ).put( "Salto", salto );
+			mapButtons.get( index ).put( "Sparo", sparo );
+			mapButtons.get( index ).put( "Sx", sx );
+			mapButtons.get( index ).put( "Dx", dx );
 		}
 }

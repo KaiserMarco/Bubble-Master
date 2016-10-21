@@ -28,8 +28,8 @@ public class Start extends BasicGame
 	public static Statistics stats;
 	private Configurations config;
 	
-	public static int chooseLevel, startGame, endGame, editGame, creaLvl, settings, begin;
-	public static int configuration = 1;
+	public static int chooseLevel, startGame, endGame, editGame, creaLvl, settings, configuration;
+	public static int begin = 1;
 	
 	private static AppGameContainer app;
 	

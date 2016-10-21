@@ -724,9 +724,8 @@ public class Player extends Ostacolo
 	public int getHits()
 		{ return hits; }
 	
-	public void update( GameContainer gc, int delta ) throws SlickException
+	public void update( GameContainer gc, int delta, Input input ) throws SlickException
 		{
-			Input input = gc.getInput();
 			int move = Global.W/400;
 			
 			if(powerUp.size() == 0)
@@ -825,20 +824,20 @@ public class Player extends Ostacolo
 			Rectangle previousArea = new Rectangle( area.getX(), area.getY(), width, height );
 			
 			/*ZONA SPOSTAMENTI-SALTI*/			
-			if(input.isKeyDown( Input.KEY_RIGHT ))
+			if(input.isKeyDown( Global.mapButtons.get( numPlayer-1 ).get( "Dx" ) ))
 				{
 					movingDx = true;
 					dir = 0;
 					setXY( move, 0, "move" );
 				}
-			else if(input.isKeyDown( Input.KEY_LEFT ))
+			else if(input.isKeyDown( Global.mapButtons.get( numPlayer-1 ).get( "Sx" ) ))
 				{
 					movingSx = true;
 					dir = 1;
 					setXY( -move, 0, "move" );
 				}
 			/*ZONA SPARO*/
-			if(input.isKeyPressed( Input.KEY_S ) && !isShooting)
+			if(input.isKeyDown( Global.mapButtons.get( numPlayer-1 ).get( "Sparo" ) ) && !isShooting)
 	            {					
 					float space = widthI/(fire.size() + 1) * Global.W/Global.Width;
 
@@ -851,6 +850,14 @@ public class Player extends Ostacolo
 					
 					isShooting = true;
 	            }
+			/*ZONA SALTO*/
+			if(input.isKeyDown( Global.mapButtons.get( numPlayer-1 ).get( "Salto" ) ) && !jump)
+				{
+					movingJ = true;
+					jump = true;
+					maxJump = 1;
+					tempJump = 60;
+				}
 			/*ZONA UPDATE SPARO/I*/
 			for(Shot fuoco: fire)
 				{
@@ -879,13 +886,6 @@ public class Player extends Ostacolo
 			if(isShooting && !checkFire())
 				{ isShooting = false; }
 			
-			if(input.isKeyPressed( Input.KEY_SPACE ) && !jump)
-				{
-					movingJ = true;
-					jump = true;
-					maxJump = 1;
-					tempJump = 60;
-				}
 			if(maxJump == 1)
 				setXY( 0, -move + (0.2f * (40 - tempJump--)) * Global.H/Global.Height, "move" );
 			else
@@ -1019,4 +1019,7 @@ public class Player extends Ostacolo
 	
 	public void setHeight( float val )
 		{ height = val; }
+
+	public void update(GameContainer gc, int delta) throws SlickException 
+		{}
 }

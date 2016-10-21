@@ -106,6 +106,7 @@ public class Begin
 						document = builder.parse( new File( "data/Configuration/" + files[j] ) );
 
 						NodeList tasto = document.getElementsByTagName( "tasti" );
+						NodeList button = document.getElementsByTagName( "key" );
 						
 						Node nodo = tasto.item( 0 );						
 						Element obs = (Element) nodo;
@@ -115,7 +116,16 @@ public class Begin
 						String sx = obs.getAttribute( "left" );
 						String dx = obs.getAttribute( "right" );
 						
-						Global.setMap( j, salto, sparo, sx, dx );
+						Global.setMapString( j, salto, sparo, sx, dx );
+						
+						Node node = button.item( 0 );
+						Element ogg = (Element) node;
+						
+						int shoot = Integer.parseInt( ogg.getAttribute( "sparo" ) );
+						int jump = Integer.parseInt( ogg.getAttribute( "salto" ) );
+						int left = Integer.parseInt( ogg.getAttribute( "left" ) );
+						int right = Integer.parseInt( ogg.getAttribute( "right" ) );
+						Global.setMapInteger( j, jump, shoot, left, right );
 						
 						System.out.println( "tasti " + files[j] + " caricati" );
 					}
@@ -321,7 +331,7 @@ public class Begin
 			if(!insertButton)
     			for(int i = 0; i < 256; i++)
     			    if(input.isKeyPressed( i ))
-                        insertButton = true;
+                    	insertButton = true;
 		
 			if(!insertButton)
 				if(input.isMousePressed( Input.MOUSE_LEFT_BUTTON ) || input.isMousePressed( Input.MOUSE_RIGHT_BUTTON ))

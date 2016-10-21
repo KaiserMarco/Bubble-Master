@@ -33,8 +33,6 @@ public class End
 	private ArrayList<Ostacolo> ostacoli;
 	// lo sfondo del livello
 	private Sfondo sfondo = null;
-	// il giocatore della partita
-	Player player;
 	
 	private boolean mouseDown = false;
 	
@@ -73,7 +71,8 @@ public class End
 				sfondo = Global.sfondo;
 			sfondo.draw( gc );
 			
-			player.draw( g );
+			for(Ostacolo player: InGame.players)
+				player.draw( g );
 
 			for(int i = 0; i < ostacoli.size(); i++)
 				ostacoli.get( i ).draw( g );
@@ -117,28 +116,30 @@ public class End
 			float width = Global.W/17 * Global.Width/Global.W, height = Global.H/10 * Global.Height/Global.H;
 			float startX = Global.W*10/26 * Global.Width/Global.W, startY = Global.H/25 * Global.Height/Global.H;
 			float offset = Global.W/10 * Global.Width/Global.W;
-			
-			// TODO RICORDARSI COME VENIVA IMPIEGATO IL VALORE DI OFFSET
+
 			for(int i = 0; i < InGame.players.size(); i++)
-				((Player) InGame.players.get( i )).getImage().draw( startX + width + Global.W/100, startY, Global.W/17 * Global.Width/Global.W, height );
-
-			float xString = startX + width/2 + width;
-			g.setColor( Color.gray );
-			String ammo = "" + player.getShots();
-			g.drawString( ammo, xString - ammo.length()/2, y );
-
-			g.setColor( Color.green );
-			String target = "" + player.getHits();
-			g.drawString( target, xString - target.length()/2, y + pos );
-			
-			g.setColor( Color.red );
-			String lifes = "" + (Global.lifes - player.getLifes());
-			g.drawString( lifes, xString - lifes.length()/2, y + pos*2 );
-			
-			g.setColor( Color.yellow );
-			String points = "" + player.getPoints();
-			g.drawString( points, xString - points.length()/2, y + pos*3 );
-			g.setColor( Color.black );
+				{
+					Player player = ((Player) InGame.players.get( i ));
+					player.getImage().draw( startX + width + Global.W/100 + offset*i, startY, Global.W/17 * Global.Width/Global.W, height );
+	
+					float xString = startX + width/2 + width + offset*i;
+					g.setColor( Color.gray );
+					String ammo = "" + player.getShots();
+					g.drawString( ammo, xString - ammo.length()/2, y );
+		
+					g.setColor( Color.green );
+					String target = "" + player.getHits();
+					g.drawString( target, xString - target.length()/2, y + pos );
+					
+					g.setColor( Color.red );
+					String lifes = "" + (Global.lifes - player.getLifes());
+					g.drawString( lifes, xString - lifes.length()/2, y + pos*2 );
+					
+					g.setColor( Color.yellow );
+					String points = "" + player.getPoints();
+					g.drawString( points, xString - points.length()/2, y + pos*3 );
+					g.setColor( Color.black );
+				}
 			
 			g.resetTransform();
 			

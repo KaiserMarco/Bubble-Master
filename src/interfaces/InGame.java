@@ -44,6 +44,7 @@ public class InGame
 	public InGame() throws SlickException
 		{
 			ostacoli = new ArrayList<Ostacolo>();
+			players = new ArrayList<Ostacolo>();
 			powerUp = new ArrayList<PowerUp>();
 			
 			tre = new Image( "./data/Image/3.png" );
@@ -62,6 +63,7 @@ public class InGame
 		{
 			ostacoli.clear();
 			powerUp.clear();
+			players.clear();
 			
 			this.sfondo = sfondo;
 		
@@ -148,7 +150,9 @@ public class InGame
 	
 	public void update( GameContainer gc, int delta, End end ) throws SlickException
 		{		
-			if(gc.getInput().isKeyPressed( Input.KEY_ESCAPE ))
+			Input input = gc.getInput();
+		
+			if(input.isKeyPressed( Input.KEY_ESCAPE ))
 				{
 					animNumbers = 30;
 					decrNumb = 4;
@@ -169,7 +173,7 @@ public class InGame
 					
 					// TODO CONTROLLARE SE LA CONFIGURAZIONE TASTI FUNZIONA
 					for(Ostacolo player: players)
-						player.update( gc, delta );
+						((Player) player).update( gc, delta, input );
 					
 					for(Ostacolo ost: ostacoli)
 						if(ost.getID().equals( Global.BOLLA ))
