@@ -8,6 +8,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Rectangle;
 
 import Utils.Dimension;
 import Utils.Global;
@@ -160,16 +161,13 @@ public class Settings
 		
 			for(int i = 0; i < buttons.size(); i++)
 				buttons.get( i ).draw( g );
-			
-			float sum = Global.H*10/75;
-			
-			// TODO CONTROLLARE COME MAI HO MESSO WIDTH ED HEIGHT INVECE DI W E H		
+		
 			g.setColor( Color.red );
 			g.scale( Global.W/Global.Width, Global.H/Global.Height );
 			g.drawString( resolution, Global.Width/5, dimensioni.get( 0 ).getY() );
 			g.drawString( lifes, Global.Width/5, leftLife.getY() );
 			g.drawString( drop, Global.Width/5, leftDrop.getY() );
-			g.drawString( bright, Global.Width/5, Global.Height/9 + 3*sum );
+			g.drawString( bright, Global.Width/5, Global.Height/9 + 3*Global.Height*10/75 );
 			g.resetTransform();
 			
 			leftLife.draw( g );
@@ -179,7 +177,7 @@ public class Settings
 
 			int j;
 			int startX = (int) (leftLife.getMaxX() + (rightLife.getX() - leftLife.getMaxX())/2 - widthH*2);
-			int startY = (int)(leftLife.getY() + leftLife.getHeight()/2 - heightH/2);
+			int startY = (int) (leftLife.getY() + leftLife.getHeight()/2 - heightH/2);
 			for(j = 0; j < vite/2; j++)
 				heart.draw( startX + widthH*j, startY, widthH, heightH );
 			if(vite%2 == 1)
@@ -219,6 +217,8 @@ public class Settings
 			config.draw( gc );
 			
 			Global.drawScreenBrightness( g );
+			
+			g.fill( new Rectangle( 99, 99, 1200, 1200 ) );
 		}
 	
 	private int checkButton( Button button, Input input, int i )
@@ -245,6 +245,9 @@ public class Settings
 	
 	private void applicaCambiamenti( Edit editor, GameContainer gc, End end, Configurations config ) throws SlickException
 		{
+			// TODO CAPIRE PERCHE ORA LA VARIAZIONE DI RISOLUZIONE LA ESEGUE IN QUESTO MODO
+			// ALLE BRUTTE LA RIMUOVO, CON BUONA PACE DI TUTTI
+		
 			widthH = widthH * Global.ratioW;
 			heightH = heightH * Global.ratioH;
 		
@@ -272,7 +275,7 @@ public class Settings
 	        		xRes = xRes * Global.ratioW;
 	        		yStart = yStart * Global.ratioH;
 	        		sum = sum*Global.ratioH;
-	        		System.out.println( "yStart = " + yStart );
+	        		//System.out.println( "yStart = " + yStart );
 	        		bar = new SlideBar( xRes, yStart + 2*sum, "", 255.f - Global.brightness, 150.f, 255.f );
                 	
 	                for(Livello levels: Begin.livelli)
@@ -306,7 +309,10 @@ public class Settings
 	                Start.cl.setUpdates();
 	                
 	                for(Dimension dim: dimensioni)
-                		dim.getArea().setBounds( dim.getArea().getX() * Global.ratioW, dim.getArea().getY() * Global.ratioH, dim.getArea().getWidth() * Global.ratioW, dim.getArea().getHeight() * Global.ratioH);
+	                	{
+                			dim.getArea().setBounds( dim.getArea().getX() * Global.ratioW, dim.getArea().getY() * Global.ratioH, dim.getArea().getWidth() * Global.ratioW, dim.getArea().getHeight() * Global.ratioH);
+                			//System.out.println( "dim.X = " + dim.getY() );
+	                	}
 	
 	                leftLife.translate( Global.ratioW, Global.ratioH );
 	                rightLife.translate( Global.ratioW, Global.ratioH );
@@ -323,7 +329,7 @@ public class Settings
 			int mouseX = input.getMouseX();
 			int mouseY = input.getMouseY();
 			
-			// controlla se il bottone APPLICA e' usabile oppure no
+			// controlla se il bottone APPLICA e' cliccabile oppure no
 			if(config.isChanged() || Global.lifes != vite || Global.dropRate != (double) dropRate/100
 			|| startResW != dimensioni.get( 0 ).getW() || startResH != dimensioni.get( 0 ).getH() || bar.getValue() != valBright)
 				{
