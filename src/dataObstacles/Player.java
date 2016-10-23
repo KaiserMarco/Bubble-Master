@@ -531,9 +531,9 @@ public class Player extends Ostacolo
 					fuoco.draw();
 
 			float pos = Global.W/40 + Global.W*10/42*(numPlayer-1);
-			int j = 0;
 			if(drawLifes)
 				{
+					int j = 0;
 					// TODO INSERIRE CUORI COLORATI A SECONDA DEL COLORE DEL PLAYER
 					for(;j < lifes/2; j++)
 						{

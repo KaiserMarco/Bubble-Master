@@ -14,46 +14,32 @@ import org.jdom2.output.XMLOutputter;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 
 import Utils.Global;
 import Utils.KeyButton;
-import bubbleMaster.Start;
 import dataButton.ArrowButton;
-import dataButton.Button;
-import dataButton.SimpleButton;
 
 public class Configurations
 {
 	// bottoni e vettore bottoni
-	private ArrayList<SimpleButton> buttons;
-	private SimpleButton back, apply;
 	private ArrayList<ArrowButton> arrows;
 	private ArrowButton left, right;
 	
 	// lo sfondo
-	Image img;
+	//Image img;
 	
-	// determina se e' possibile effettuare i cambiamenti
-	private boolean setChanging;
+	private boolean isChanged = false;
 	
 	// determina se e' stato effettuato un click
 	private boolean mouseDown = false;
-	
-	// i nomi dei bottoni
-	private static final String BACK = "INDIETRO", APPLY = "APPLICA";
 	
 	// nome dei tasti in game
 	private static final String SALTO = "Salto:", SPARO = "Sparo:", LEFT = "Sinistra:", RIGHT = "Destra:";
 	
 	/*indice di posizionamento del cursore*/
 	private int indexCursor;
-	/*dimensioni del cursore*/
-	private int widthC, heightC;
-	/*immagine del cursore*/
-	private Image cursor;
 	/*l'indice del player configurato*/
 	private int numPlayer;
 	
@@ -72,22 +58,7 @@ public class Configurations
 
 	public Configurations() throws SlickException
 		{
-			img = new Image( "data/Image/binding.png" );
-		
-			Color color = Color.orange;
-			back = new SimpleButton( Global.W/5, Global.H*8/9, BACK, color );
-			apply = new SimpleButton( Global.W*2/3, Global.H*8/9, APPLY, color );
-		
-			buttons = new ArrayList<SimpleButton>();
-			buttons.add( back );
-			buttons.add( apply );
-			
-			setChanging = false;
-			
 			indexCursor = -1;
-			widthC = Global.W*100/1777;
-			heightC = Global.H/24;			
-			cursor = new Image( "./data/Image/cursore.png" );
 			
 			numPlayer = 0;
 			
@@ -115,15 +86,10 @@ public class Configurations
 			maps = Global.getMapButton();
 		}
 	
-	private int checkButton( Button button, Input input, int i )
+	public void resetInterface( Input input )
 		{
-			if(button.isPressed())
-				return 1;
-			else if(indexCursor >= 0 && indexCursor == i)
-				if(input.isKeyPressed( Input.KEY_ENTER ))
-					return 2;
-		
-			return 0;
+			numPlayer = 0;
+			updateKeys( 0, input );
 		}
 	
 	private int checkArrow( ArrowButton button, Input input, int i )
@@ -192,23 +158,41 @@ public class Configurations
 				}
 		}
 	
+	/** controlla a quale altro player e' stato assegnato quel tasto e assegna quello vecchio. */
+	private void checkDuplicatedKey( int code, int oldCode, int index )
+		{
+			for(int j = 0; j < maps.size(); j++) {
+				Map<String, Integer> map = maps.get( j );
+				if(map.get( "Sparo" ) == code) { map.put( "Sparo", oldCode ); if(index == j) keys.get( 0 ).setKey( Input.getKeyName( oldCode ) ); }
+				if(map.get( "Salto" ) == code) { map.put( "Salto", oldCode ); if(index == j) keys.get( 1 ).setKey( Input.getKeyName( oldCode ) ); }
+				if(map.get( "Sx" ) == code) { map.put( "Sx", oldCode ); if(index == j) keys.get( 2 ).setKey( Input.getKeyName( oldCode ) ); }
+				if(map.get( "Dx" ) == code) { map.put( "Dx", oldCode ); if(index == j) keys.get( 3 ).setKey( Input.getKeyName( oldCode ) ); }
+			}
+		}
+	
 	/** controlla gli input ricevuti e lo assegna al bottone selezionato
 	 * aggiornando maps */
 	public void checkInput( Input in, int index )
 		{
 			for(int i = 0; i < 255; i++)
-				if(in.isKeyPressed( i ) && checkUniqueValue( i ))
+				if(in.isKeyPressed( i ))
 					{
+						int oldCode;
+						if(index == 0) oldCode = maps.get( numPlayer ).get( "Salto" );
+						else if(index == 1) oldCode = maps.get( numPlayer ).get( "Sparo" );
+						else if(index == 2) oldCode = maps.get( numPlayer ).get( "Sx" );
+						else oldCode = maps.get( numPlayer ).get( "Dx" );
+						
+						checkDuplicatedKey( i, oldCode, numPlayer );
+						
+						// Assegna il valore al giocatore selezionato.
 						keys.get( index ).setKey( Input.getKeyName( i ) );
-						if(index == 0)
-							maps.get( numPlayer ).put( "Salto", i );
-						else if(index == 1)
-							maps.get( numPlayer ).put( "Sparo", i );
-						else if(index == 2)
-							maps.get( numPlayer ).put( "Sx", i );
-						else
-							maps.get( numPlayer ).put( "Dx", i );
-									
+						
+						if(index == 0) maps.get( numPlayer ).put( "Salto", i );
+						else if(index == 1) maps.get( numPlayer ).put( "Sparo", i );
+						else if(index == 2) maps.get( numPlayer ).put( "Sx", i );
+						else maps.get( numPlayer ).put( "Dx", i );
+						
 						resetSelected();
 						return;
 					}
@@ -231,18 +215,7 @@ public class Configurations
 			keys.get( 3 ).setKey( Input.getKeyName( ( maps.get( index ).get( "Dx" ) ) ) );
 		}
 	
-	/** controlla se il nuovo tasto configurato non sia gia' stato bindato */
-	public boolean checkUniqueValue( int code )
-		{
-			for(int j = 0; j < maps.size(); j++)
-				if(maps.get( j ).get( "Sparo" ) == code || maps.get( j ).get( "Sx" ) == code || 
-				   maps.get( j ).get( "Salto" ) == code || maps.get( j ).get( "Dx" ) == code)
-					return false;
-		
-			return true;
-		}
-	
-	/** controlla se e' stato modificato un qualunque bind */
+	/** controlla se e' stato modificato un bind */
 	public boolean checkDifference()
 		{
 			for(int i = 0; i < maps.size(); i++)
@@ -260,9 +233,6 @@ public class Configurations
 	/** aggiorna gli oggetti alle nuove proporzioni */
 	public void updateDates() throws SlickException
 		{	
-			for(SimpleButton button: buttons)
-				button.buildButton( button.getX() * Global.ratioW, button.getY() * Global.ratioH );
-			
 			for(ArrowButton arrow: arrows)
 				arrow.translate( Global.ratioW, Global.ratioH );
 			
@@ -270,34 +240,15 @@ public class Configurations
 				key.updateDates();
 		}
 	
-	public void update( GameContainer gc )
+	public boolean isChanged() { return isChanged; }
+	
+	public void update( Input input, int mouseX, int mouseY )
 		{
-			Input input = gc.getInput();
-			int mouseX = input.getMouseX();
-			int mouseY = input.getMouseY();
-
-			// se e' stato modificato un qualunque bind viene permesso di applicare tale cambiamenti
-			if(checkDifference())
-				{
-					setChanging = true;
-					buttons.get( 1 ).setColor( Color.orange );
-				}
-			else
-				{
-					setChanging = false;
-					buttons.get( 1 ).setColor( Color.gray );
-				}
+			isChanged = checkDifference();
 			
 			if(indexCursor < 0 &&((input.isKeyPressed( Input.KEY_UP ) || input.isKeyPressed( Input.KEY_DOWN )
 			|| input.isKeyPressed( Input.KEY_LEFT ) || input.isKeyPressed( Input.KEY_RIGHT ))))
 				indexCursor = 0;
-			else if(input.isKeyPressed( Input.KEY_LEFT ))
-				{
-					if(--indexCursor < 0)
-						indexCursor = buttons.size() - 1;
-				}
-			else if(input.isKeyPressed( Input.KEY_RIGHT ))
-            	indexCursor = (indexCursor + 1)%(buttons.size() - 1);
 
 			for(int i = 0; i < keys.size(); i++)
 				if(keys.get( i ).isSelected())
@@ -317,24 +268,20 @@ public class Configurations
 		                    			break;
 		                    		}
 		                    
-		                    for(SimpleButton button : buttons)
-		                        if(button.checkClick( mouseX, mouseY, input ))
-		                        	if(button.isClickable() && !button.isPressed())
-	                            		button.setPressed();
-		                    
 		                    for(ArrowButton arrow: arrows)
-		                    	if(arrow.contains( mouseX, mouseY, input ))
+		                    	if(arrow.contains( mouseX, mouseY, input )) {
 		                    		if(!arrow.isPressed())
 		                    			arrow.setPressed();
+		                    	}
 		                }
 	            }
 	        else
 	            {
 	                if(mouseDown || checkKeyPressed( input ))
 		                {
-		                    mouseDown = false;
+	                		mouseDown = false;
 		                    int i = 0;
-		                    for(i = 0; i < buttons.size(); i++)
+		                    /*for(; i < buttons.size(); i++)
 		                    	{
 		                    		int value = checkButton( buttons.get( i ), input, i );
 		                        	boolean pressed = true;
@@ -348,6 +295,7 @@ public class Configurations
 				                            // pressed tramite mouse || value==2 tramite tastiera
 				                            if(pressed || value == 2)
 					                            {
+				                            		// TODO qui e' cosa accade quando uno preme su uno dei 2 bottoni dell'interfaccia
 				                            		if(buttons.get( i ).getName().equals( BACK ))
 				                            			{
 				                            				numPlayer = 0;
@@ -376,44 +324,45 @@ public class Configurations
 						                            break;
 					                            }
 		                    			}
-		                    	}
-		                    if(i == buttons.size())
-			                    // se non e' stato premuto un bottone controllo le frecce
-		                    	for(i = 0; i < arrows.size(); i++)
-		                    		{
-			                    		int value = checkArrow( arrows.get( i ), input, i );
-			                        	boolean pressed = true;
-			                        	// se e' stato premuto il tasto
-			                    		if(value > 0)
-			                    			{
-				                                for(ArrowButton arrow: arrows)
-				                                	if(arrow.isPressed())
-				                                		arrow.setPressed();
-				                                pressed = arrows.get( i ).contains( mouseX, mouseY, input );
-					                            // pressed tramite mouse || value==2 tramite tastiera
-					                            if(pressed || value == 2)
-						                            {
-			                                    		// premuta freccia sinistra
-					                            		if(arrows.get( i ).getDirection() == ArrowButton.LEFT)
-					                            			{
-					                            				int oldNum = numPlayer;
-					                            				numPlayer = Math.max( 0, --numPlayer );
-					                            				if(oldNum != numPlayer)
-					                            					updateKeys( numPlayer, input );
-					                            			}
-					                            		// premuta freccia destra
-					                            		else if(arrows.get( i ).getDirection() == ArrowButton.RIGHT)
-					                            			{
-					                            				int oldNum = numPlayer;
-					                            				numPlayer = Math.min( 3, ++numPlayer );
-					                            				if(oldNum != numPlayer)
-					                            					updateKeys( numPlayer, input );
-					                            			}
-					                            		
-							                            break;
-						                            }
-			                    			}
-		                    		}
+		                    	}*/
+		                    
+	                    	// se non e' stato premuto un bottone controllo le frecce
+	                    	for(i = 0; i < arrows.size(); i++)
+	                    		{
+		                    		int value = checkArrow( arrows.get( i ), input, i );
+		                        	boolean pressed = true;
+		                        	System.out.println( "VALUE: " + value );
+		                        	// se e' stato premuto il tasto
+		                    		if(value > 0)
+		                    			{
+			                                for(ArrowButton arrow: arrows)
+			                                	if(arrow.isPressed())
+			                                		arrow.setPressed();
+			                                pressed = arrows.get( i ).contains( mouseX, mouseY, input );
+				                            // pressed tramite mouse || value==2 tramite tastiera
+				                            if(pressed || value == 2)
+					                            {
+		                                    		// premuta freccia sinistra
+				                            		if(arrows.get( i ).getDirection() == ArrowButton.LEFT)
+				                            			{
+				                            				int oldNum = numPlayer;
+				                            				numPlayer = Math.max( 0, --numPlayer );
+				                            				if(oldNum != numPlayer)
+				                            					updateKeys( numPlayer, input );
+				                            			}
+				                            		// premuta freccia destra
+				                            		else if(arrows.get( i ).getDirection() == ArrowButton.RIGHT)
+				                            			{
+				                            				int oldNum = numPlayer;
+				                            				numPlayer = Math.min( 3, ++numPlayer );
+				                            				if(oldNum != numPlayer)
+				                            					updateKeys( numPlayer, input );
+				                            			}
+				                            		
+						                            break;
+					                            }
+		                    			}
+	                    		}
 		                }
 	            }
 		}
@@ -428,11 +377,9 @@ public class Configurations
 	public void draw( GameContainer gc )
 		{
 			Graphics g = gc.getGraphics();
-			img.draw( 0, 0, Global.W, Global.H );
+			//img.draw( 0, 0, Global.W, Global.H );
 			
 			g.setColor( Color.gray );
-			for(SimpleButton button: buttons)
-				button.draw( g );
 			for(ArrowButton arrow: arrows)
 				arrow.draw( g );
 			
@@ -440,9 +387,6 @@ public class Configurations
 			g.scale( Global.W/Global.Width, Global.H/Global.Height );
 			g.drawString( "Player " + (numPlayer+1), Global.W*10/22*Global.Width/Global.W, Global.H/40*Global.Height/Global.H );
 			g.resetTransform();
-			
-			if(indexCursor >= 0)
-				cursor.draw( buttons.get( indexCursor ).getX() - widthC, buttons.get( indexCursor ).getY(), widthC, heightC );
 			
 			yString = Global.H/5;
 			g.scale( Global.W/Global.Width, Global.H/Global.Height );

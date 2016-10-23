@@ -1,13 +1,5 @@
 package bubbleMaster;
 
-import interfaces.Begin;
-import interfaces.ChooseLevel;
-import interfaces.Edit;
-import interfaces.End;
-import interfaces.InGame;
-import interfaces.Settings;
-import interfaces.Configurations;
-
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.GameContainer;
@@ -16,6 +8,12 @@ import org.newdawn.slick.SlickException;
 
 import Utils.Global;
 import Utils.Statistics;
+import interfaces.Begin;
+import interfaces.ChooseLevel;
+import interfaces.Edit;
+import interfaces.End;
+import interfaces.InGame;
+import interfaces.Settings;
 
 public class Start extends BasicGame
 {	
@@ -26,7 +24,6 @@ public class Start extends BasicGame
 	private Settings opt;
 	public static ChooseLevel cl;
 	public static Statistics stats;
-	private Configurations config;
 	
 	public static int chooseLevel, startGame, endGame, editGame, creaLvl, settings, configuration;
 	public static int begin = 1;
@@ -71,8 +68,6 @@ public class Start extends BasicGame
 				cl.draw( gc );
 			else if(settings == 1)
 				opt.draw( gc );
-			else if(configuration == 1)
-				config.draw( gc );
 		}
 
 	@Override
@@ -83,8 +78,7 @@ public class Start extends BasicGame
 			e = new End();
 			edit = new Edit( gc );
 			cl = new ChooseLevel( gc );
-			opt = new Settings();
-			config = new Configurations();
+			opt = new Settings( gc );
 		}
 
 	@Override
@@ -101,9 +95,7 @@ public class Start extends BasicGame
 			else if(chooseLevel == 1)
 				cl.update( gc, edit );
 			else if(settings == 1)
-				opt.update( gc, edit, e, config );
-			else if(configuration == 1)
-				config.update( gc );
+				opt.update( gc, edit, e );
 			
 			gc.getInput().clearKeyPressedRecord();
 			gc.getInput().clearMousePressedRecord();

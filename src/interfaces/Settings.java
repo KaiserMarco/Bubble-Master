@@ -25,7 +25,7 @@ import dataObstacles.Tubo;
 public class Settings
 {
 	private ArrayList<SimpleButton> buttons;
-	private SimpleButton saveChanges, back, config;
+	private SimpleButton saveChanges, back;
 	private ArrayList<ArrowButton> arrows;
 	private ArrowButton leftLife, rightLife, leftDrop, rightDrop;
 	
@@ -54,7 +54,7 @@ public class Settings
 	// le immagini del cuore
 	private Image heart, halfHeart, noHeart;
 	
-	private static final String BACK = "INDIETRO", APPLY = "APPLICA", CONFIG = "CONFIGURAZIONE TASTI";
+	private static final String BACK = "INDIETRO", APPLY = "APPLICA";
 	
 	/*indice di posizionamento del cursore*/
 	private int indexCursor;
@@ -64,6 +64,8 @@ public class Settings
 	private Image cursor;
 	
 	private int dropRate;
+	
+	private Configurations config;
 	
 	/** la barra della luminosita' */
 	private SlideBar bar;
@@ -75,13 +77,13 @@ public class Settings
 	// valori inziali delle dimensioni finestra come riferimento per i cambiamenti
 	private String startResW, startResH;
 	
-	public Settings() throws SlickException
+	public Settings( GameContainer gc ) throws SlickException
 		{
 			Color color = Color.orange;
 			back = new SimpleButton( Global.W/5, Global.H*8/9, BACK, color );
 			saveChanges = new SimpleButton( Global.W*2/3, Global.H*8/9, APPLY, color );
 			color = new Color( 34, 139, 34 );
-			config = new SimpleButton( Global.W*10/28, Global.H*10/13, CONFIG, color );
+			//config = new SimpleButton( Global.W*10/28, Global.H*10/13, CONFIG, color );
 			
 			int width = Global.W/20, height = Global.H/50;
 			
@@ -100,7 +102,7 @@ public class Settings
 			buttons = new ArrayList<SimpleButton>();
 			buttons.add( back );
 			buttons.add( saveChanges );
-			buttons.add( config );
+			//buttons.add( config );
 			
 			sfondo = new Image( "./data/Image/settings.png" );
 			
@@ -145,6 +147,9 @@ public class Settings
 			setChanging = false;
 			startResW = widthP;
 			startResH = heightP;
+			
+			config = new Configurations();
+			config.updateKeys( 0, gc.getInput() );
 		}
 	
 	public void draw( GameContainer gc )
@@ -207,6 +212,8 @@ public class Settings
 				cursor.draw( buttons.get( indexCursor ).getX() - widthC, buttons.get( indexCursor ).getY(), widthC, heightC );
 			
 			bar.render( g );
+			
+			config.draw( gc );
 			
 			Global.drawScreenBrightness( g );
 		}
@@ -304,14 +311,14 @@ public class Settings
 	            }
 		}
 	
-	public void update( GameContainer gc, Edit editor, End end, Configurations config ) throws SlickException
+	public void update( GameContainer gc, Edit editor, End end ) throws SlickException
 		{
 			Input input = gc.getInput();
 			int mouseX = input.getMouseX();
 			int mouseY = input.getMouseY();
 			
 			// controlla se il bottone APPLICA e' usabile oppure no
-			if(Global.lifes != vite || Global.dropRate != (double) dropRate/100
+			if(config.isChanged() || Global.lifes != vite || Global.dropRate != (double) dropRate/100
 			|| startResW != dimensioni.get( 0 ).getW() || startResH != dimensioni.get( 0 ).getH() || bar.getValue() != valBright)
 				{
 					setChanging = true;
@@ -323,11 +330,14 @@ public class Settings
 					buttons.get( 1 ).setColor( Color.gray );
 				}
 			
+			config.update( input, mouseX, mouseY );
+			
 			if(input.isKeyPressed( Input.KEY_ESCAPE ) || input.isKeyPressed( Input.KEY_BACK ))
 				{
 					indexCursor = -1;
 					Start.settings = 0;
 					Start.begin = 1;
+					config.resetInterface( input );
 				}
 
 			if(indexCursor < 0 &&((input.isKeyPressed( Input.KEY_UP ) || input.isKeyPressed( Input.KEY_DOWN )
@@ -390,6 +400,7 @@ public class Settings
 				                            						Global.brightness = valBright;
 				                            					}
 				                            				
+				                            				config.resetInterface( input );
 					                                		indexCursor = -1;
 			                                				Start.settings = 0;
 					                            			Start.begin = 1;
@@ -403,19 +414,14 @@ public class Settings
 				                            						startResW = dimensioni.get( 0 ).getW();
 				                            						startResH = dimensioni.get( 0 ).getH();
 				                            						applicaCambiamenti( editor, gc, end, config );
-				                            			        
+				                            						
+				                            						config.updateFileConfig();
+				                            						config.resetInterface( input );
+				                            						
 				                            						indexCursor = -1;
 				                            						Start.settings = 0;
 				                            						Start.begin = 1;
 				                            					}
-				                            			}
-				                            		else if(buttons.get( i ).getName().equals( CONFIG ))
-				                            			{
-				                            				config.updateKeys( 0, input );
-				                            			
-					                                		indexCursor = -1;
-			                                				Start.settings = 0;
-					                            			Start.configuration = 1;
 				                            			}
 				                            		
 						                            break;
