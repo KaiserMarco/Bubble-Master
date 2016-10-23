@@ -187,8 +187,8 @@ public class Player extends Ostacolo
 			
 			shots = 0;
 			
-			heart = new Image( "./data/Image/heart.png" );
-			halfHeart = new Image( "./data/Image/halfHeart.png" );
+			heart = new Image( "./data/Image/heart" + colour + ".png" );
+			halfHeart = new Image( "./data/Image/halfHeart" + colour + ".png" );
 			noHeart = new Image( "./data/Image/noHeart.png" );
 			widthH = gc.getWidth()/40; heightH = gc.getHeight()/30;
 			
@@ -534,7 +534,6 @@ public class Player extends Ostacolo
 			if(drawLifes)
 				{
 					int j = 0;
-					// TODO INSERIRE CUORI COLORATI A SECONDA DEL COLORE DEL PLAYER
 					for(;j < lifes/2; j++)
 						{
 							heart.draw( pos, Global.H/30, widthH, heightH );
@@ -776,8 +775,6 @@ public class Player extends Ostacolo
 			
 			movingDx = false;
 			movingSx = false;
-			
-			// TODO CAPIRE PERCHE LE COLLISIONI SONO SMATTATE COSI (EPPURE IL CODICE E' EASY)
 			
 			/*ZONA CONTROLLO COLLISIONE PERSONAGGIO - SFERE*/
 			if(!invincible && !immortal)

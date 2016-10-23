@@ -113,8 +113,8 @@ public class Settings
 			wRes = Global.W/10;
 			hRes = Global.H/30;
 			
-			heart = new Image( "./data/Image/heart.png" );
-			halfHeart = new Image( "./data/Image/halfHeart.png" );
+			heart = new Image( "./data/Image/heartRed.png" );
+			halfHeart = new Image( "./data/Image/halfHeartRed.png" );
 			noHeart = new Image( "./data/Image/noHeart.png" );
 			widthH = Global.W/40; heightH = Global.H/30;
 			
