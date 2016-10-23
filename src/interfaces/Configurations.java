@@ -51,7 +51,8 @@ public class Configurations
 	private Document document;
 	
 	// coordinata x e y in cui scrivere nome e lettera bindata
-	float xString = Global.W*10/45, yString = Global.H/5;
+	float xString = Global.W*10/45, yString = Global.H/9 + 4*Global.H*10/75;
+	int sum = Global.H/90;
 	
 	// le mappe dei tasti
 	private ArrayList<Map<String, Integer>> maps;
@@ -62,20 +63,23 @@ public class Configurations
 			
 			numPlayer = 0;
 			
-			int width = Global.W/20, height = Global.H/50;			
-			left = new ArrowButton( LEFT, ArrowButton.LEFT, new float[]{ Global.W*10/32, Global.H/40 + height/2, Global.W*10/32 + width, Global.H/40, Global.W*10/32 + width, Global.H/40 + height }, Color.white );
-			right = new ArrowButton( RIGHT, ArrowButton.RIGHT, new float[]{ Global.W*10/16, Global.H/40, Global.W*10/16, Global.H/40 + height, Global.W*10/16 + width, Global.H/40 + height/2 },Color.white );
+			// TODO SETTARE CORRETTAMENTE LE POSIZIONI DI BOTTONI, FRECCE E KEYS
+			
+			int width = Global.W/20, height = Global.H/50;
+			float yStart = Global.H/9 + 4*Global.H*10/75;
+			left = new ArrowButton( LEFT, ArrowButton.LEFT, new float[]{ Global.W*10/32, yStart + height/2, Global.W*10/32 + width, yStart, Global.W*10/32 + width, yStart + height }, Color.white );
+			right = new ArrowButton( RIGHT, ArrowButton.RIGHT, new float[]{ Global.W*10/16, yStart, Global.W*10/16, yStart + height, Global.W*10/16 + width, yStart + height/2 },Color.white );
 			
 			arrows = new ArrayList<ArrowButton>();
 			arrows.add( left );
 			arrows.add( right );
 
 			float widthK = Global.W/20;
-			kSalto = new KeyButton( xString + Global.W/10, yString, widthK );
-			kSparo = new KeyButton( xString + Global.W/3 + Global.W*10/98, yString, widthK );
-			yString = Global.H/2;
-			kSx = new KeyButton( xString + Global.W/8, yString, widthK );
-			kDx = new KeyButton( xString + Global.W/3 + Global.W*10/94, yString, widthK );
+			kSalto = new KeyButton( xString + Global.W/10, yString + 5*sum, widthK );
+			kSparo = new KeyButton( xString + Global.W/3 + Global.W*10/98, yString + 5*sum, widthK );
+
+			kSx = new KeyButton( xString + Global.W/10, yString + 13*sum, widthK );
+			kDx = new KeyButton( xString + Global.W/3 + Global.W*10/94, yString + 13*sum, widthK );
 			
 			keys = new ArrayList<KeyButton>();
 			keys.add( kSalto );
@@ -281,57 +285,12 @@ public class Configurations
 		                {
 	                		mouseDown = false;
 		                    int i = 0;
-		                    /*for(; i < buttons.size(); i++)
-		                    	{
-		                    		int value = checkButton( buttons.get( i ), input, i );
-		                        	boolean pressed = true;
-		                        	// se e' stato premuto il tasto
-		                    		if(value > 0)
-		                    			{
-			                                for(SimpleButton button: buttons)
-			                                	if(button.isPressed())
-			                                		button.setPressed();
-			                                pressed = buttons.get( i ).checkClick( mouseX, mouseY, input );
-				                            // pressed tramite mouse || value==2 tramite tastiera
-				                            if(pressed || value == 2)
-					                            {
-				                            		// TODO qui e' cosa accade quando uno preme su uno dei 2 bottoni dell'interfaccia
-				                            		if(buttons.get( i ).getName().equals( BACK ))
-				                            			{
-				                            				numPlayer = 0;
-					                            			resetSelected();
-					                                		indexCursor = -1;
-		                            						Start.configuration = 0;
-		                            						Start.settings = 1;
-				                            			}
-				                            		else if(buttons.get( i ).getName().equals( APPLY ))
-				                            			{
-				                            				if(setChanging)
-			                            						{
-					                            					numPlayer = 0;
-				                            						setChanging = false;
-
-				                            						updateFileConfig();
-				                            						
-				                            						resetSelected();
-				                            			        
-				                            						indexCursor = -1;
-				                            						Start.configuration = 0;
-				                            						Start.settings = 1;
-				                            					}
-				                            			}
-				                            		
-						                            break;
-					                            }
-		                    			}
-		                    	}*/
 		                    
 	                    	// se non e' stato premuto un bottone controllo le frecce
 	                    	for(i = 0; i < arrows.size(); i++)
 	                    		{
 		                    		int value = checkArrow( arrows.get( i ), input, i );
 		                        	boolean pressed = true;
-		                        	System.out.println( "VALUE: " + value );
 		                        	// se e' stato premuto il tasto
 		                    		if(value > 0)
 		                    			{
@@ -385,17 +344,15 @@ public class Configurations
 			
 			g.setColor( Color.white );
 			g.scale( Global.W/Global.Width, Global.H/Global.Height );
-			g.drawString( "Player " + (numPlayer+1), Global.W*10/22*Global.Width/Global.W, Global.H/40*Global.Height/Global.H );
+			g.drawString( "Player " + (numPlayer+1), left.getMaxX() + (right.getX() - left.getMaxX())/2 - Global.W/30, left.getY() - left.getHeight()/2 );
 			g.resetTransform();
-			
-			yString = Global.H/5;
-			g.scale( Global.W/Global.Width, Global.H/Global.Height );
-			g.drawString( SALTO, xString*Global.Width/Global.W, yString*Global.Height/Global.H );
-			g.drawString( SPARO, (xString + Global.W/3)*Global.Width/Global.W, yString*Global.Height/Global.H );			
 
-			yString = Global.H/2;
-			g.drawString( LEFT, xString*Global.Width/Global.W, yString*Global.Height/Global.H );
-			g.drawString( RIGHT, (xString + Global.W/3)*Global.Width/Global.W, yString*Global.Height/Global.H );
+			g.scale( Global.W/Global.Width, Global.H/Global.Height );
+			g.drawString( SALTO, xString*Global.Width/Global.W, kSalto.getY()*Global.Height/Global.H );
+			g.drawString( SPARO, (xString + Global.W/3)*Global.Width/Global.W, kSparo.getY()*Global.Height/Global.H );
+
+			g.drawString( LEFT, xString*Global.Width/Global.W, kSx.getY()*Global.Height/Global.H );
+			g.drawString( RIGHT, (xString + Global.W/3)*Global.Width/Global.W, kDx.getY()*Global.Height/Global.H );
 			g.resetTransform();
 
 			for(KeyButton key: keys)

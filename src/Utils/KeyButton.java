@@ -39,6 +39,24 @@ public class KeyButton
 	public void setSelected()
 		{ selected = !selected; }
 	
+	public float getY()
+		{ return ostr.getY(); }
+	
+	public float getX()
+		{ return ostr.getX(); }
+	
+	public float getMaxX()
+		{ return ostr.getMaxX(); }
+	
+	public float getMaxY()
+		{ return ostr.getMaxY(); }
+	
+	public float getWidth()
+		{ return ostr.getWidth(); }
+	
+	public float getHeight()
+		{ return ostr.getHeight(); }
+	
 	public boolean contains( float mouseX, float mouseY )
 		{ return ostr.contains( mouseX, mouseY ); }
 	
