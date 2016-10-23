@@ -41,6 +41,9 @@ public class Dimension
 	public Rectangle getArea()
 		{ return ostr; }
 	
+	public float getY()
+		{ return ostr.getY(); }
+	
 	public String getW()
 		{ return w; }
 	

@@ -76,6 +76,7 @@ public class Settings
 	private boolean setChanging;
 	// valori inziali delle dimensioni finestra come riferimento per i cambiamenti
 	private String startResW, startResH;
+	float sum = Global.H*10/75, yStart = Global.H/9 + sum;
 	
 	public Settings( GameContainer gc ) throws SlickException
 		{
@@ -87,14 +88,12 @@ public class Settings
 			color = new Color( 34, 139, 34 );
 			//config = new SimpleButton( Global.W*10/28, Global.H*10/13, CONFIG, color );
 			
-			float width = Global.W/20, height = Global.H/50, sum = Global.H*10/75;
-			float yStart = Global.H/9 + sum;
+			float width = Global.W/20, height = Global.H/50;
 			leftLife = new ArrowButton( lifes, ArrowButton.LEFT, new float[]{ Global.W*10/32, yStart + height/2, Global.W*10/32 + width, yStart, Global.W*10/32 + width, yStart + height }, Color.white );
 			rightLife = new ArrowButton( lifes, ArrowButton.RIGHT, new float[]{ Global.W*52/100, yStart, Global.W*52/100, yStart + height, Global.W*52/100 + width, yStart + height/2 },Color.white );
 
-			yStart = yStart + sum;
-			leftDrop = new ArrowButton( drop, ArrowButton.LEFT, new float[]{ Global.W*10/32, yStart + height/2, Global.W*10/32 + width, yStart, Global.W*10/32 + width, yStart + height }, Color.white );
-			rightDrop = new ArrowButton( drop, ArrowButton.RIGHT, new float[]{ Global.W*52/100, yStart, Global.W*52/100, yStart + height, Global.W*52/100 + width, yStart + height/2 },Color.white );
+			leftDrop = new ArrowButton( drop, ArrowButton.LEFT, new float[]{ Global.W*10/32, yStart + sum + height/2, Global.W*10/32 + width, yStart + sum, Global.W*10/32 + width, yStart + sum + height }, Color.white );
+			rightDrop = new ArrowButton( drop, ArrowButton.RIGHT, new float[]{ Global.W*52/100, yStart + sum, Global.W*52/100, yStart + sum + height, Global.W*52/100 + width, yStart + sum + height/2 },Color.white );
 			
 			arrows = new ArrayList<ArrowButton>();
 			arrows.add( leftLife );
@@ -139,8 +138,7 @@ public class Settings
 			
 			dropRate = (int)(Global.dropRate * 100);
 			
-			yStart = yStart + sum;
-			bar = new SlideBar( xRes, yStart, "", 255.f - Global.brightness, 150.f, 255.f );
+			bar = new SlideBar( xRes, yStart + 2*sum, "", 255.f - Global.brightness, 150.f, 255.f );
 			
 			Global.init();
 			
@@ -168,9 +166,9 @@ public class Settings
 			// TODO CONTROLLARE COME MAI HO MESSO WIDTH ED HEIGHT INVECE DI W E H		
 			g.setColor( Color.red );
 			g.scale( Global.W/Global.Width, Global.H/Global.Height );
-			g.drawString( resolution, Global.Width/5, Global.Height/9 );
-			g.drawString( lifes, Global.Width/5, Global.Height/9 + sum );
-			g.drawString( drop, Global.Width/5, Global.Height/9 + 2*sum );
+			g.drawString( resolution, Global.Width/5, dimensioni.get( 0 ).getY() );
+			g.drawString( lifes, Global.Width/5, leftLife.getY() );
+			g.drawString( drop, Global.Width/5, leftDrop.getY() );
 			g.drawString( bright, Global.Width/5, Global.Height/9 + 3*sum );
 			g.resetTransform();
 			
@@ -191,7 +189,7 @@ public class Settings
 			
 			g.setColor( Color.black );
 			g.scale( Global.W/Global.Width, Global.H/Global.Height );
-			float xDrop = leftDrop.getMaxX() + (rightDrop.getX() - leftDrop.getMaxX())/2 - Global.W/40, yDrop = Global.H/9 + 2*sum - Global.H/200;
+			float xDrop = leftDrop.getMaxX() + (rightDrop.getX() - leftDrop.getMaxX())/2 - Global.W/40, yDrop = leftDrop.getY() - Global.H/200;
 			g.drawString( dropRate + " %" , xDrop*Global.Width/Global.W, yDrop*Global.Height/Global.H );
 			g.resetTransform();
 				
@@ -272,7 +270,10 @@ public class Settings
             		config.updateDates();
 	        	
 	        		xRes = xRes * Global.ratioW;
-	        		bar = new SlideBar( xRes, (float) Global.H*100/166, "", 255.f - Global.brightness, 150.f, 255.f );
+	        		yStart = yStart * Global.ratioH;
+	        		sum = sum*Global.ratioH;
+	        		System.out.println( "yStart = " + yStart );
+	        		bar = new SlideBar( xRes, yStart + 2*sum, "", 255.f - Global.brightness, 150.f, 255.f );
                 	
 	                for(Livello levels: Begin.livelli)
 	                    {
