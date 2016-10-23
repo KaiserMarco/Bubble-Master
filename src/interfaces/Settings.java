@@ -87,7 +87,7 @@ public class Settings
 			color = new Color( 34, 139, 34 );
 			//config = new SimpleButton( Global.W*10/28, Global.H*10/13, CONFIG, color );
 			
-			int width = Global.W/20, height = Global.H/50, sum = Global.H*10/75;
+			float width = Global.W/20, height = Global.H/50, sum = Global.H*10/75;
 			float yStart = Global.H/9 + sum;
 			leftLife = new ArrowButton( lifes, ArrowButton.LEFT, new float[]{ Global.W*10/32, yStart + height/2, Global.W*10/32 + width, yStart, Global.W*10/32 + width, yStart + height }, Color.white );
 			rightLife = new ArrowButton( lifes, ArrowButton.RIGHT, new float[]{ Global.W*52/100, yStart, Global.W*52/100, yStart + height, Global.W*52/100 + width, yStart + height/2 },Color.white );
@@ -163,7 +163,7 @@ public class Settings
 			for(int i = 0; i < buttons.size(); i++)
 				buttons.get( i ).draw( g );
 			
-			int sum = Global.H*10/75;
+			float sum = Global.H*10/75;
 			
 			// TODO CONTROLLARE COME MAI HO MESSO WIDTH ED HEIGHT INVECE DI W E H		
 			g.setColor( Color.red );

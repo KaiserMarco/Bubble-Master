@@ -52,7 +52,7 @@ public class Configurations
 	
 	// coordinata x e y in cui scrivere nome e lettera bindata
 	float xString = Global.W*10/45, yString = Global.H/9 + 4*Global.H*10/75;
-	int sum = Global.H/90;
+	float sum = Global.H/90;
 	
 	// le mappe dei tasti
 	private ArrayList<Map<String, Integer>> maps;
@@ -65,7 +65,7 @@ public class Configurations
 			
 			// TODO SETTARE CORRETTAMENTE LE POSIZIONI DI BOTTONI, FRECCE E KEYS
 			
-			int width = Global.W/20, height = Global.H/50;
+			float width = Global.W/20, height = Global.H/50;
 			float yStart = Global.H/9 + 4*Global.H*10/75;
 			left = new ArrowButton( LEFT, ArrowButton.LEFT, new float[]{ Global.W*10/32, yStart + height/2, Global.W*10/32 + width, yStart, Global.W*10/32 + width, yStart + height }, Color.white );
 			right = new ArrowButton( RIGHT, ArrowButton.RIGHT, new float[]{ Global.W*10/16, yStart, Global.W*10/16, yStart + height, Global.W*10/16 + width, yStart + height/2 },Color.white );
@@ -79,7 +79,7 @@ public class Configurations
 			kSparo = new KeyButton( xString + Global.W/3 + Global.W*10/98, yString + 5*sum, widthK );
 
 			kSx = new KeyButton( xString + Global.W/10, yString + 13*sum, widthK );
-			kDx = new KeyButton( xString + Global.W/3 + Global.W*10/94, yString + 13*sum, widthK );
+			kDx = new KeyButton( xString + Global.W/3 + Global.W*10/98, yString + 13*sum, widthK );
 			
 			keys = new ArrayList<KeyButton>();
 			keys.add( kSalto );
@@ -344,7 +344,7 @@ public class Configurations
 			
 			g.setColor( Color.white );
 			g.scale( Global.W/Global.Width, Global.H/Global.Height );
-			g.drawString( "Player " + (numPlayer+1), left.getMaxX() + (right.getX() - left.getMaxX())/2 - Global.W/30, left.getY() - left.getHeight()/2 );
+			g.drawString( "Player " + (numPlayer+1), (left.getMaxX() + (right.getX() - left.getMaxX())/2 - Global.W/30)*Global.Width/Global.W, (left.getY() - left.getHeight()/2)*Global.Height/Global.H );
 			g.resetTransform();
 
 			g.scale( Global.W/Global.Width, Global.H/Global.Height );
