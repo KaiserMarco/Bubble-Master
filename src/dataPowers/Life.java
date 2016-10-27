@@ -22,7 +22,7 @@ public class Life extends PowerUp
 			ostr = new Circle( x, y, ray );
 			this.maxH = maxH;
 			
-			img = new Image( "./data/Image/heart.png" );
+			img = new Image( "./data/Image/heartRed.png" );
 		}
 	
 	public Circle getArea()

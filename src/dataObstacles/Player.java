@@ -46,6 +46,7 @@ public class Player extends Ostacolo
 	private int maxJump = 0, tempJump;
 	
 	// la direzione di movimento del personaggio
+	// TODO TRASFORMARE DIR IN UNA STRINGA
 	private int dir = 0;
 	
 	/*sottodivisione del rettangolo in lati e spigoli*/
@@ -77,8 +78,8 @@ public class Player extends Ostacolo
 	// il colore del personaggio
 	private Color color;
 	
-	/*movimento a destra - movimento a sinistra - movimento in alto - movimento in basso*/
-	boolean movingDx, movingSx, movingJ;
+	/*movimento a destra/sinistra - salto*/
+	boolean moving, movingJ;
 	
 	// l'immagine delle vite del personaggio
 	private Image heart, halfHeart, noHeart;
@@ -212,308 +213,66 @@ public class Player extends Ostacolo
 			
 			currAmmo = 0;
 			hits = 0;
+		
+			frameMove = animTimeMove/right.length;
+			frameJump = animTimeJump/saltoDx.length;
 		}
 	
 	public void drawMoving( Graphics g )
 		{
-			frameMove = animTimeMove/right.length;
-			frameJump = animTimeJump/saltoDx.length;
+			if(immortal)
+				imm = new Color( 28, 57, 187, 200 );
+			else
+				imm = new Color( 255, 255, 255, 255 );
+			
+			int index;
 
-			// il personaggio si muove verso destra
-			if(dir == 0)
+			// il personaggio sta saltando
+			if(movingJ)
 				{
-					// il personaggio sta saltando
-					if(movingJ)
+					index = Math.min( (int) (animTime/frameJump), 8 );					
+					// salta verso destra
+					if(dir == 0)
 						{
 							area = new Rectangle( xPlayer, yPlayer, width, height );
 							body = new Rectangle( xPlayer, yPlayer + Global.Height/40, width, Global.Height/12 );
 							head = new Rectangle( xPlayer + width/2 - Global.Width/110, yPlayer, width/2, Global.Height/40 );
 							
-							if(animTime < frameJump)
-								{
-									if(immortal)
-										saltoDx[0].draw( xPlayer, yPlayer, width, height, imm );
-									else
-										saltoDx[0].draw( xPlayer, yPlayer, width, height );
-								}
-							else if(animTime < frameJump * 2)
-								{
-									if(immortal)
-										saltoDx[1].draw( xPlayer, yPlayer, width, height, imm );
-									else
-										saltoDx[1].draw( xPlayer, yPlayer, width, height );
-								}
-							else if(animTime < frameJump * 3)
-								{
-									if(immortal)
-										saltoDx[2].draw( xPlayer, yPlayer, width, height, imm );
-									else
-										saltoDx[2].draw( xPlayer, yPlayer, width, height );
-								}
-							else if(animTime < frameJump * 4)
-								{
-									if(immortal)
-										saltoDx[3].draw( xPlayer, yPlayer, width, height, imm );
-									else
-										saltoDx[3].draw( xPlayer, yPlayer, width, height );
-								}
-							else if(animTime < frameJump * 5)
-								{
-									if(immortal)
-										saltoDx[4].draw( xPlayer, yPlayer, width, height, imm );
-									else
-										saltoDx[4].draw( xPlayer, yPlayer, width, height );
-								}
-							else if(animTime < frameJump * 6)
-								{
-									if(immortal)
-										saltoDx[5].draw( xPlayer, yPlayer, width, height, imm );
-									else
-										saltoDx[5].draw( xPlayer, yPlayer, width, height );
-								}
-							else if(animTime < frameJump * 7)
-								{
-									if(immortal)
-										saltoDx[6].draw( xPlayer, yPlayer, width, height, imm );
-									else
-										saltoDx[6].draw( xPlayer, yPlayer, width, height );
-								}
-							else if(animTime < frameJump * 8)
-								{
-									if(immortal)
-										saltoDx[7].draw( xPlayer, yPlayer, width, height, imm );
-									else
-										saltoDx[7].draw( xPlayer, yPlayer, width, height );
-								}
-							else if(immortal)
-								saltoDx[8].draw( xPlayer, yPlayer, width, height, imm );
-							else
-								saltoDx[8].draw( xPlayer, yPlayer, width, height );
+							saltoDx[index].draw( xPlayer, yPlayer, width, height, imm );
 						}
-					// il personaggio sta camminando
-					else if(movingDx)
-						{
-							if(animTime < frameMove)
-								{
-									if(immortal)
-										right[0].draw( xPlayer, yPlayer, widthI, height, imm );
-									else										
-										right[0].draw( xPlayer, yPlayer, widthI, height );
-								}
-							else if(animTime < frameMove*2)
-								{
-									if(immortal)
-										right[1].draw( xPlayer, yPlayer, widthI, height, imm );
-									else										
-										right[1].draw( xPlayer, yPlayer, widthI, height );
-								}
-							else if(animTime < frameMove*3)
-								{
-									if(immortal)
-										right[2].draw( xPlayer, yPlayer, widthI, height, imm );
-									else										
-										right[2].draw( xPlayer, yPlayer, widthI, height );
-								}
-							else if(animTime < frameMove*4)
-								{
-									if(immortal)
-										right[3].draw( xPlayer, yPlayer, widthI, height, imm );
-									else										
-										right[3].draw( xPlayer, yPlayer, widthI, height );
-								}
-							else if(animTime < frameMove*5)
-								{
-									if(immortal)
-										right[4].draw( xPlayer, yPlayer, widthI, height, imm );
-									else										
-										right[4].draw( xPlayer, yPlayer, widthI, height );
-								}
-							else if(animTime < frameMove*6)
-								{
-									if(immortal)
-										right[5].draw( xPlayer, yPlayer, widthI, height, imm );
-									else										
-										right[5].draw( xPlayer, yPlayer, widthI, height );
-								}
-							else if(animTime < frameMove*7)
-								{
-									if(immortal)
-										right[6].draw( xPlayer, yPlayer, widthI, height, imm );
-									else										
-										right[6].draw( xPlayer, yPlayer, widthI, height );
-								}
-							else if(animTime < frameMove*8)
-								{
-									if(immortal)
-										right[7].draw( xPlayer, yPlayer, widthI, height, imm );
-									else										
-										right[7].draw( xPlayer, yPlayer, widthI, height );									
-								}
-							else if(animTime <= frameMove*9)
-								{
-									if(immortal)
-										right[8].draw( xPlayer, yPlayer, widthI, height, imm );
-									else										
-										right[8].draw( xPlayer, yPlayer, widthI, height );
-								}
-						}
-					// il personaggio e' fermo
-					else if(immortal)
-						pgdx.draw( xPlayer, yPlayer, widthI, height, imm );
+					// salta verso sinistra
 					else
-						pgdx.draw( xPlayer, yPlayer, widthI, height );
-				}
-			// il personaggio si muove verso sinistra
-			else 
-				{
-					// il personaggio sta saltando
-					if(movingJ)
 						{
 							area = new Rectangle( xPlayer, yPlayer, width, height );
 							body = new Rectangle( xPlayer, yPlayer + Global.Height/40, width, Global.Height/10 );
 							head = new Rectangle( xPlayer + Global.Width/110, yPlayer, width/2, Global.Height/40 );
-							
-							if(animTime < frameJump)
-								{
-									if(immortal)
-										saltoSx[0].draw( xPlayer, yPlayer, width, height, imm );
-									else
-										saltoSx[0].draw( xPlayer, yPlayer, width, height );
-								}
-							else if(animTime < frameJump * 2)
-								{
-									if(immortal)
-										saltoSx[1].draw( xPlayer, yPlayer, width, height, imm );
-									else
-										saltoSx[1].draw( xPlayer, yPlayer, width, height );
-								}
-							else if(animTime < frameJump * 3)
-								{
-									if(immortal)
-										saltoSx[2].draw( xPlayer, yPlayer, width, height, imm );
-									else
-										saltoSx[2].draw( xPlayer, yPlayer, width, height );
-								}
-							else if(animTime < frameJump * 4)
-								{
-									if(immortal)
-										saltoSx[3].draw( xPlayer, yPlayer, width, height, imm );
-									else
-										saltoSx[3].draw( xPlayer, yPlayer, width, height );
-								}
-							else if(animTime < frameJump * 5)
-								{
-									if(immortal)
-										saltoSx[4].draw( xPlayer, yPlayer, width, height, imm );
-									else
-										saltoSx[4].draw( xPlayer, yPlayer, width, height );
-								}
-							else if(animTime < frameJump * 6)
-								{
-									if(immortal)
-										saltoSx[5].draw( xPlayer, yPlayer, width, height, imm );
-									else
-										saltoSx[5].draw( xPlayer, yPlayer, width, height );
-								}
-							else if(animTime < frameJump * 7)
-								{
-									if(immortal)
-										saltoSx[6].draw( xPlayer, yPlayer, width, height, imm );
-									else
-										saltoSx[6].draw( xPlayer, yPlayer, width, height );
-								}
-							else if(animTime < frameJump * 8)
-								{
-									if(immortal)
-										saltoSx[7].draw( xPlayer, yPlayer, width, height, imm );
-									else
-										saltoSx[7].draw( xPlayer, yPlayer, width, height );
-								}
-							else if(immortal)
-								saltoSx[8].draw( xPlayer, yPlayer, width, height, imm );
-							else
-								saltoSx[8].draw( xPlayer, yPlayer, width, height );
+
+							saltoSx[index].draw( xPlayer, yPlayer, width, height, imm );
 						}
-					// il personaggio sta camminando
-					else if(movingSx)
-						{
-							if(animTime < frameMove)
-								{
-									if(immortal)
-										left[0].draw( xPlayer - offset, yPlayer, widthI, height, imm );
-									else
-										left[0].draw( xPlayer - offset, yPlayer, widthI, height );
-								}
-							else if(animTime < frameMove*2)
-								{
-									if(immortal)
-										left[1].draw( xPlayer - offset, yPlayer, widthI, height, imm );
-									else
-										left[1].draw( xPlayer - offset, yPlayer, widthI, height );
-								}
-							else if(animTime < frameMove*3)
-								{
-									if(immortal)
-										left[2].draw( xPlayer - offset, yPlayer, widthI, height, imm );
-									else
-										left[2].draw( xPlayer - offset, yPlayer, widthI, height );
-								}
-							else if(animTime < frameMove*4)
-								{
-									if(immortal)
-										left[3].draw( xPlayer - offset, yPlayer, widthI, height, imm );
-									else
-										left[3].draw( xPlayer - offset, yPlayer, widthI, height );
-								}
-							else if(animTime < frameMove*5)
-								{
-									if(immortal)
-										left[4].draw( xPlayer - offset, yPlayer, widthI, height, imm );
-									else
-										left[4].draw( xPlayer - offset, yPlayer, widthI, height );
-								}
-							else if(animTime < frameMove*6)
-								{
-									if(immortal)
-										left[5].draw( xPlayer - offset, yPlayer, widthI, height, imm );
-									else
-										left[5].draw( xPlayer - offset, yPlayer, widthI, height );
-								}
-							else if(animTime < frameMove*7)
-								{
-									if(immortal)
-										left[6].draw( xPlayer - offset, yPlayer, widthI, height, imm );
-									else
-										left[6].draw( xPlayer - offset, yPlayer, widthI, height );
-								}
-							else if(animTime < frameMove*8)
-								{
-									if(immortal)
-										left[7].draw( xPlayer - offset, yPlayer, widthI, height, imm );
-									else
-										left[7].draw( xPlayer - offset, yPlayer, widthI, height );
-								}
-							else if(animTime <= frameMove*9)
-								{
-									if(immortal)
-										left[8].draw( xPlayer - offset, yPlayer, widthI, height, imm );
-									else
-										left[8].draw( xPlayer - offset, yPlayer, widthI, height );
-								}
-						}
-					// il personaggio e' fermo
-					else if(immortal)
-						pgsx.draw( xPlayer - offset, yPlayer, widthI, height, imm );
-					else
-						pgsx.draw( xPlayer - offset, yPlayer, widthI, height );
 				}
+			// il personaggio si sta solo muovendo
+			else if(moving)
+				{
+					index = Math.min( (int) (animTime/frameMove), 8 );
+					// si muove verso destra
+					if(dir == 0)
+						right[index].draw( xPlayer, yPlayer, widthI, height, imm );
+					// si muove verso sinistra
+					else
+						left[index].draw( xPlayer - offset, yPlayer, widthI, height, imm );
+				}
+			// il personaggio e' fermo rivolto verso destra
+			else if(dir == 0)
+				pgdx.draw( xPlayer, yPlayer, widthI, height, imm );
+			// il personaggio e' fermo rivolto verso sinistra
+			else
+				pgsx.draw( xPlayer - offset, yPlayer, widthI, height, imm );
+				
 		}
 	
 	public void draw( Graphics g ) throws SlickException
 		{			
-			if(!invincible)
-				drawMoving( g );
-			else if(invincible && currentTickInv > 0 && currentTickInv % 2 == 0)
+			if(!invincible || (invincible && currentTickInv > 0 && currentTickInv % 2 == 0))
 				drawMoving( g );
 			
 			/*inserisce la trasparenza rosso/verde nella modalita' di editing*/
@@ -761,8 +520,7 @@ public class Player extends Ostacolo
 							currentTimeInv = 0;
 				}
 			
-			movingDx = false;
-			movingSx = false;
+			moving = false;
 			
 			/*ZONA CONTROLLO COLLISIONE PERSONAGGIO - SFERE*/
 			if(!invincible && !immortal)
@@ -828,13 +586,13 @@ public class Player extends Ostacolo
 			/*ZONA SPOSTAMENTI-SALTI*/			
 			if(input.isKeyDown( Global.mapButtons.get( numPlayer-1 ).get( "Dx" ) ))
 				{
-					movingDx = true;
+					moving = true;
 					dir = 0;
 					setXY( move, 0, "move" );
 				}
 			else if(input.isKeyDown( Global.mapButtons.get( numPlayer-1 ).get( "Sx" ) ))
 				{
-					movingSx = true;
+					moving = true;
 					dir = 1;
 					setXY( -move, 0, "move" );
 				}
@@ -958,7 +716,7 @@ public class Player extends Ostacolo
 				Global.inGame = false;
 			
 			/*gestione dell'animazione*/
-			if(movingDx || movingSx || jump)
+			if(moving || jump)
 				animTime = (animTime + delta) % animTimeMove;
 		}
 
