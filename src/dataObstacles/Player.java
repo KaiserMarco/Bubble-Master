@@ -44,10 +44,11 @@ public class Player extends Ostacolo
 	private int maxHeight;
 	
 	private int maxJump = 0, tempJump;
+
+	private static final String SINISTRA = "Sx", DESTRA = "Dx";
 	
 	// la direzione di movimento del personaggio
-	// TODO TRASFORMARE DIR IN UNA STRINGA
-	private int dir = 0;
+	private String dir;
 	
 	/*sottodivisione del rettangolo in lati e spigoli*/
 	public Rectangle latoSu = null, latoGiu = null, latoDx = null, latoSx = null;
@@ -142,9 +143,9 @@ public class Player extends Ostacolo
 			this.numPlayer = numPlayer;	
 			
 			right = new Image[9];
-			left = new Image[9];
-			
-			saltoDx = new Image[9]; saltoSx = new Image[9];
+			left = new Image[9];			
+			saltoDx = new Image[9];
+			saltoSx = new Image[9];
 			
 			// questi valori devono restare assoluti (altrimenti l'animazione, giustamente, smatta)
 			widthS = 36; heightS = 41;
@@ -185,6 +186,9 @@ public class Player extends Ostacolo
 			animTimeMove = 504;
 			animTimeJump = 396;
 			animTime = 0;
+		
+			frameMove = animTimeMove/right.length;
+			frameJump = animTimeJump/saltoDx.length;
 			
 			shots = 0;
 			
@@ -213,26 +217,22 @@ public class Player extends Ostacolo
 			
 			currAmmo = 0;
 			hits = 0;
-		
-			frameMove = animTimeMove/right.length;
-			frameJump = animTimeJump/saltoDx.length;
 		}
 	
 	public void drawMoving( Graphics g )
 		{
+			int index;
+			
 			if(immortal)
 				imm = new Color( 28, 57, 187, 200 );
 			else
 				imm = new Color( 255, 255, 255, 255 );
-			
-			int index;
 
 			// il personaggio sta saltando
 			if(movingJ)
 				{
-					index = Math.min( (int) (animTime/frameJump), 8 );					
-					// salta verso destra
-					if(dir == 0)
+					index = Math.min( (int) (animTime/frameJump), 8 );
+					if(dir == DESTRA)
 						{
 							area = new Rectangle( xPlayer, yPlayer, width, height );
 							body = new Rectangle( xPlayer, yPlayer + Global.Height/40, width, Global.Height/12 );
@@ -240,7 +240,6 @@ public class Player extends Ostacolo
 							
 							saltoDx[index].draw( xPlayer, yPlayer, width, height, imm );
 						}
-					// salta verso sinistra
 					else
 						{
 							area = new Rectangle( xPlayer, yPlayer, width, height );
@@ -255,14 +254,14 @@ public class Player extends Ostacolo
 				{
 					index = Math.min( (int) (animTime/frameMove), 8 );
 					// si muove verso destra
-					if(dir == 0)
+					if(dir == DESTRA)
 						right[index].draw( xPlayer, yPlayer, widthI, height, imm );
 					// si muove verso sinistra
 					else
 						left[index].draw( xPlayer - offset, yPlayer, widthI, height, imm );
 				}
 			// il personaggio e' fermo rivolto verso destra
-			else if(dir == 0)
+			else if(dir == DESTRA)
 				pgdx.draw( xPlayer, yPlayer, widthI, height, imm );
 			// il personaggio e' fermo rivolto verso sinistra
 			else
@@ -411,7 +410,7 @@ public class Player extends Ostacolo
 				}
 			
 			area.setLocation( xPlayer, yPlayer );
-			if(dir == 0)
+			if(dir == DESTRA)
 				{
 					body.setLocation( xPlayer, yPlayer + Global.Height/40 );
 					head.setLocation( xPlayer + width/2 - Global.Width/110, yPlayer );
@@ -587,13 +586,13 @@ public class Player extends Ostacolo
 			if(input.isKeyDown( Global.mapButtons.get( numPlayer-1 ).get( "Dx" ) ))
 				{
 					moving = true;
-					dir = 0;
+					dir = DESTRA;
 					setXY( move, 0, "move" );
 				}
 			else if(input.isKeyDown( Global.mapButtons.get( numPlayer-1 ).get( "Sx" ) ))
 				{
 					moving = true;
-					dir = 1;
+					dir = SINISTRA;
 					setXY( -move, 0, "move" );
 				}
 			/*ZONA SPARO*/
