@@ -98,9 +98,9 @@ public class Player extends Ostacolo
 	private long currentTimeInv, currentTickInv, currentTimeShot;
 	private long currentTimeImm;
 	// la differenza fra il tempo corrente e quello preso
-	float cd = 0;
-	float tickCd;	
-	int index = 0;
+	private float cd = 0;
+	private float tickCd;	
+	private int index = 0;
 	
 	// il numero di colpi andati a segno
 	private int hits;
@@ -121,6 +121,8 @@ public class Player extends Ostacolo
 	private Rectangle coolDown;
 	
 	private float space = Global.Height*10/857;
+	
+	private	int indice;
 	
 	public Player( int x, int y, int numPlayer, GameContainer gc, Color color ) throws SlickException
 		{
@@ -217,12 +219,12 @@ public class Player extends Ostacolo
 			
 			currAmmo = 0;
 			hits = 0;
+			
+			dir = DESTRA;
 		}
 	
 	public void drawMoving( Graphics g )
 		{
-			int index;
-			
 			if(immortal)
 				imm = new Color( 28, 57, 187, 200 );
 			else
@@ -231,14 +233,14 @@ public class Player extends Ostacolo
 			// il personaggio sta saltando
 			if(movingJ)
 				{
-					index = Math.min( (int) (animTime/frameJump), 8 );
+					indice = Math.min( (int) (animTime/frameJump), 8 );
 					if(dir == DESTRA)
 						{
 							area = new Rectangle( xPlayer, yPlayer, width, height );
 							body = new Rectangle( xPlayer, yPlayer + Global.Height/40, width, Global.Height/12 );
 							head = new Rectangle( xPlayer + width/2 - Global.Width/110, yPlayer, width/2, Global.Height/40 );
 							
-							saltoDx[index].draw( xPlayer, yPlayer, width, height, imm );
+							saltoDx[indice].draw( xPlayer, yPlayer, width, height, imm );
 						}
 					else
 						{
@@ -246,24 +248,21 @@ public class Player extends Ostacolo
 							body = new Rectangle( xPlayer, yPlayer + Global.Height/40, width, Global.Height/10 );
 							head = new Rectangle( xPlayer + Global.Width/110, yPlayer, width/2, Global.Height/40 );
 
-							saltoSx[index].draw( xPlayer, yPlayer, width, height, imm );
+							saltoSx[indice].draw( xPlayer, yPlayer, width, height, imm );
 						}
 				}
 			// il personaggio si sta solo muovendo
 			else if(moving)
 				{
-					index = Math.min( (int) (animTime/frameMove), 8 );
-					// si muove verso destra
+					indice = Math.min( (int) (animTime/frameMove), 8 );
 					if(dir == DESTRA)
-						right[index].draw( xPlayer, yPlayer, widthI, height, imm );
-					// si muove verso sinistra
+						right[indice].draw( xPlayer, yPlayer, widthI, height, imm );
 					else
-						left[index].draw( xPlayer - offset, yPlayer, widthI, height, imm );
+						left[indice].draw( xPlayer - offset, yPlayer, widthI, height, imm );
 				}
-			// il personaggio e' fermo rivolto verso destra
+			// il personaggio e' fermo
 			else if(dir == DESTRA)
 				pgdx.draw( xPlayer, yPlayer, widthI, height, imm );
-			// il personaggio e' fermo rivolto verso sinistra
 			else
 				pgsx.draw( xPlayer - offset, yPlayer, widthI, height, imm );
 				
@@ -583,13 +582,13 @@ public class Player extends Ostacolo
 			Rectangle previousArea = new Rectangle( area.getX(), area.getY(), width, height );
 			
 			/*ZONA SPOSTAMENTI-SALTI*/			
-			if(input.isKeyDown( Global.mapButtons.get( numPlayer-1 ).get( "Dx" ) ))
+			if(input.isKeyDown( Global.mapButtons.get( numPlayer-1 ).get( DESTRA ) ))
 				{
 					moving = true;
 					dir = DESTRA;
 					setXY( move, 0, "move" );
 				}
-			else if(input.isKeyDown( Global.mapButtons.get( numPlayer-1 ).get( "Sx" ) ))
+			else if(input.isKeyDown( Global.mapButtons.get( numPlayer-1 ).get( SINISTRA ) ))
 				{
 					moving = true;
 					dir = SINISTRA;
