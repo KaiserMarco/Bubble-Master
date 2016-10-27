@@ -8,7 +8,6 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
 
-import Utils.Global;
 import bubbleMaster.Start;
 
 public class Tubo extends Ostacolo{
@@ -136,47 +135,6 @@ public class Tubo extends Ostacolo{
 				}
     		base.setSpigoli();
     		enter.setSpigoli();
-    		setSpigoli();
-    	}
-    
-    public void updateStats( GameContainer gc )
-    	{}
-    
-    // setta i parametri sulla base della nuova risoluzione
-    public void updateValues( GameContainer gc ) throws SlickException
-    	{
-    		setXY( getX() * Global.ratioW, getY() * Global.ratioH, "restore" );
-    		
-    		if(type.equals( "dx" ))
-				{
-        			width = width * Global.ratioW;
-        			height = height * Global.ratioH; 
-					base = new Base( getX(), getY() + gc.getHeight()/120, gc.getWidth()*10/119, height - gc.getHeight()/60 );
-					enter = new Enter( base.getMaxX(), getY(), width - base.getWidth(), height );
-				}
-			else if(type.equals( "sx" ))
-				{
-	    			width = width * Global.ratioW;
-	    			height = height * Global.ratioH; 
-					enter = new Enter( getX(), getY(), width - gc.getWidth()*10/119, height );
-					base = new Base( enter.getMaxX(), getY() + gc.getHeight()/120, gc.getWidth()*10/119, height - gc.getHeight()/60 );
-				}
-			else if(type.equals( "up" ))
-				{
-	    			width = width * Global.ratioH;
-	    			height = height * Global.ratioW; 
-					enter = new Enter( getX(), getY(), width, height - gc.getHeight()*10/89 );
-					base = new Base( getX() + gc.getWidth()/160, enter.getMaxY(), width - gc.getWidth()/80, height - enter.getHeight() );
-				}
-			else
-				{
-	    			width = width * Global.ratioH;
-	    			height = height * Global.ratioW; 
-					base = new Base( getX() + gc.getWidth()/160, getY(), width - gc.getWidth()/80, gc.getHeight()*10/89 );
-					enter = new Enter( getX(), base.getMaxY(), width, height - base.getHeight() );
-				}
-
-    		ostr = new Rectangle( getX(), getY(), width, height );
     		setSpigoli();
     	}
 	

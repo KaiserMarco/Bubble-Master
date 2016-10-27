@@ -2,7 +2,6 @@ package dataButton;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
@@ -15,8 +14,6 @@ public class Button
 	protected String name;
 	/* determina se il bottone e' stato premuto */
 	protected boolean pressed = false;
-	/* immagine del bottone */
-	Image change = null;
 
 	public Button()
 		{}

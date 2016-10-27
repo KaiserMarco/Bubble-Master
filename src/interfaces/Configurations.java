@@ -51,8 +51,8 @@ public class Configurations
 	private Document document;
 	
 	// coordinata x e y in cui scrivere nome e lettera bindata
-	float xString = Global.W*10/45, yString = Global.H/9 + 4*Global.H*10/75;
-	float sum = Global.H/90;
+	float xString = Global.Width*10/45, yString = Global.Height/9 + 4*Global.Height*10/75;
+	float sum = Global.Height/90;
 	
 	// le mappe dei tasti
 	private ArrayList<Map<String, Integer>> maps;
@@ -63,23 +63,21 @@ public class Configurations
 			
 			numPlayer = 0;
 			
-			// TODO SETTARE CORRETTAMENTE LE POSIZIONI DI BOTTONI, FRECCE E KEYS
-			
-			float width = Global.W/20, height = Global.H/50;
-			float yStart = Global.H/9 + 4*Global.H*10/75;
-			left = new ArrowButton( LEFT, ArrowButton.LEFT, new float[]{ Global.W*10/32, yStart + height/2, Global.W*10/32 + width, yStart, Global.W*10/32 + width, yStart + height }, Color.white );
-			right = new ArrowButton( RIGHT, ArrowButton.RIGHT, new float[]{ Global.W*10/16, yStart, Global.W*10/16, yStart + height, Global.W*10/16 + width, yStart + height/2 },Color.white );
+			float width = Global.Width/20, height = Global.Height/50;
+			float dist = Global.Height*10/75, yStart = Global.Height/9 + 7*dist/2;
+			left = new ArrowButton( LEFT, ArrowButton.LEFT, new float[]{ Global.Width*10/32, yStart + height/2, Global.Width*10/32 + width, yStart, Global.Width*10/32 + width, yStart + height }, Color.white );
+			right = new ArrowButton( RIGHT, ArrowButton.RIGHT, new float[]{ Global.Width*10/16, yStart, Global.Width*10/16, yStart + height, Global.Width*10/16 + width, yStart + height/2 },Color.white );
 			
 			arrows = new ArrayList<ArrowButton>();
 			arrows.add( left );
 			arrows.add( right );
 
-			float widthK = Global.W/20;
-			kSalto = new KeyButton( xString + Global.W/10, yString + 5*sum, widthK );
-			kSparo = new KeyButton( xString + Global.W/3 + Global.W*10/98, yString + 5*sum, widthK );
+			float widthK = Global.Width/20;
+			kSalto = new KeyButton( xString + Global.Width/10, left.getY() + 8*sum, widthK );
+			kSparo = new KeyButton( xString + Global.Width/3 + Global.Width*10/98, left.getY() + 8*sum, widthK );
 
-			kSx = new KeyButton( xString + Global.W/10, yString + 13*sum, widthK );
-			kDx = new KeyButton( xString + Global.W/3 + Global.W*10/98, yString + 13*sum, widthK );
+			kSx = new KeyButton( xString + Global.Width/10, left.getY() + 16*sum, widthK );
+			kDx = new KeyButton( xString + Global.Width/3 + Global.Width*10/98, left.getY() + 16*sum, widthK );
 			
 			keys = new ArrayList<KeyButton>();
 			keys.add( kSalto );
@@ -234,16 +232,6 @@ public class Configurations
 			return false;
 		}
 	
-	/** aggiorna gli oggetti alle nuove proporzioni */
-	public void updateDates() throws SlickException
-		{	
-			for(ArrowButton arrow: arrows)
-				arrow.translate( Global.ratioW, Global.ratioH );
-			
-			for(KeyButton key: keys)
-				key.updateDates();
-		}
-	
 	public boolean isChanged() { return isChanged; }
 	
 	public void update( Input input, int mouseX, int mouseY )
@@ -336,23 +324,20 @@ public class Configurations
 	public void draw( GameContainer gc )
 		{
 			Graphics g = gc.getGraphics();
-			//img.draw( 0, 0, Global.W, Global.H );
 			
 			g.setColor( Color.gray );
 			for(ArrowButton arrow: arrows)
 				arrow.draw( g );
 			
 			g.setColor( Color.white );
-			g.scale( Global.W/Global.Width, Global.H/Global.Height );
-			g.drawString( "Player " + (numPlayer+1), (left.getMaxX() + (right.getX() - left.getMaxX())/2 - Global.W/30)*Global.Width/Global.W, (left.getY() - left.getHeight()/2)*Global.Height/Global.H );
+			g.drawString( "Player " + (numPlayer+1), left.getMaxX() + (right.getX() - left.getMaxX())/2 - Global.Width/25, left.getY() - left.getHeight()/2 );
 			g.resetTransform();
 
-			g.scale( Global.W/Global.Width, Global.H/Global.Height );
-			g.drawString( SALTO, xString*Global.Width/Global.W, kSalto.getY()*Global.Height/Global.H );
-			g.drawString( SPARO, (xString + Global.W/3)*Global.Width/Global.W, kSparo.getY()*Global.Height/Global.H );
+			g.drawString( SALTO, xString, kSalto.getY() );
+			g.drawString( SPARO, xString + Global.Width/3, kSparo.getY() );
 
-			g.drawString( LEFT, xString*Global.Width/Global.W, kSx.getY()*Global.Height/Global.H );
-			g.drawString( RIGHT, (xString + Global.W/3)*Global.Width/Global.W, kDx.getY()*Global.Height/Global.H );
+			g.drawString( LEFT, xString, kSx.getY() );
+			g.drawString( RIGHT, xString + Global.Width/3, kDx.getY() );
 			g.resetTransform();
 
 			for(KeyButton key: keys)

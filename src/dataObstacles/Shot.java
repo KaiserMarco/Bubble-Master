@@ -127,7 +127,7 @@ public class Shot
 							hit = true;
 							if(Math.random() <= Global.dropRate)
 								{
-									int ray = (int) (gc.getHeight()/40 * Global.H/Global.Height);
+									float ray = Global.Height/40;
 									double power = Math.random();
 									if(power <= 0.2)
 										InGame.powerUp.add( new Invincible( (int) (ost.getArea().getCenterX() - ray), (int) ost.getArea().getCenterY(), ray, ost.getMaxHeight() ) );
@@ -139,13 +139,13 @@ public class Shot
 										InGame.powerUp.add( new Life( (int) (ost.getArea().getCenterX() - ray), (int) ost.getArea().getCenterY(), ray, ost.getMaxHeight() ) );
 								}
 						
-							if(ost.getWidth() == gc.getWidth()/32)
+							if(ost.getWidth() == Global.Width/32)
 								play.setPoint( 50 );
-							else if(ost.getWidth() == gc.getWidth()/64)
+							else if(ost.getWidth() == Global.Width/64)
 								play.setPoint( 150 );
 							else
 								play.setPoint( 300 );
-							if(ost.getWidth() > gc.getWidth()/128)
+							if(ost.getWidth() > Global.Width/128)
 								{
 									ost.setXY( (int) ost.getWidth()/2, (int) ost.getWidth()/2, "setRay" );
 									
@@ -165,8 +165,8 @@ public class Shot
 									
 									if(speedY == 0)
 										{
-											temp1.setSpeed( speedX, Global.H/Global.Height );
-											temp2.setSpeed( -speedX,  Global.H/Global.Height );
+											temp1.setSpeed( speedX, Math.abs( speedX/(1.5f) ) );
+											temp2.setSpeed( -speedX,  Math.abs( speedX/(1.5f) ) );
 										}
 									else
 										{

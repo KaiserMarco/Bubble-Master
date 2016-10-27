@@ -27,7 +27,6 @@ import Utils.TextBox;
 import bubbleMaster.Start;
 import dataButton.Button;
 import dataButton.SimpleButton;
-import dataObstacles.Bubble;
 import dataObstacles.Ostacolo;
 import dataObstacles.Player;
 import dataObstacles.Tubo;
@@ -93,8 +92,6 @@ public class Edit
 	private final static String SAVE = "SALVA LIVELLO", BACK = "INDIETRO";
 	
 	private boolean mouseDown = false;
-	
-	private float rappX = 0, rappY = 0;
 	
 	private TextBox tBox;
 	
@@ -251,65 +248,6 @@ public class Edit
 			
 			this.nameLvl = nameLvl;
 			this.index = index;
-		}
-	
-	public void updateStats( GameContainer gc ) throws SlickException
-		{
-			float currRatioW = Global.ratioW, currRatioH = Global.ratioH;
-			
-			if(rappX != currRatioW || rappY != currRatioH)
-				{
-					minHighEditor = minHighEditor * Global.ratioH;
-				
-					widthArrow = widthArrow * Global.ratioW;
-					heightArrow = heightArrow * Global.ratioH;
-				
-					widthChoise = gc.getWidth()/8 * Global.ratioH;
-					heightChoise = gc.getHeight()/30* Global.ratioW;
-					widthBase = widthBase * Global.ratioW;
-					
-					base = new Rectangle( base.getX() * Global.ratioW, base.getY() * Global.ratioH, widthBase, Global.H );		
-					choise = new Rectangle( choise.getX() * Global.ratioW, Global.H - heightChoise*Global.ratioH, widthChoise, heightChoise );
-					
-					for(SimpleButton button: buttons)
-						button.buildButton( button.getX() * Global.ratioW, button.getY() * Global.ratioH );
-
-					for(Ostacolo item: items)
-						{
-							item.setXY( item.getX() * Global.ratioW, item.getY() * Global.ratioH, "restore" );
-							if(item.getID().equals( Global.BOLLA ))
-								{
-									item.setWidth( item.getWidth() * Global.ratioH );
-									((Bubble) item).setMaxWidth( (float) (item.getMaxWidth() * Global.ratioW) );
-								}
-							else
-								{
-									item.setWidth( item.getWidth() * Global.ratioW );
-									if(item.getID().equals( Global.PLAYER ))
-										((Player) item).setWidthI( ((Player) item).getWidthI() * Global.ratioW );
-									item.setHeight( item.getHeight() * Global.ratioH );
-								}
-							
-							item.setArea( gc );
-						}
-					
-					for(Sfondo sfondo: sfondi)
-						{
-							sfondo.setX( sfondo.getX() * Global.ratioW );
-							sfondo.setY( sfondo.getY() * Global.ratioH );
-						
-							sfondo.setMaxWidth( sfondo.getMaxWidth() * Global.ratioW );
-							sfondo.setMaxHeight( sfondo.getMaxHeight() * Global.ratioH );
-
-							sfondo.setWidth( sfondo.getWidth() * Global.ratioW );
-							sfondo.setHeight( sfondo.getHeight() * Global.ratioH );
-						}
-
-					tBox = new TextBox( gc );
-					
-					rappX = currRatioW;
-					rappY = currRatioH;
-				}
 		}
 	
 	public void setChoise( GameContainer gc )
@@ -576,10 +514,7 @@ public class Edit
 	    		item.setAttribute( "y", "0" );
 	    		item.setAttribute( "name", sfondi.get( indexSfondo ).getName() );
 	    		livello.addContent( item );
-	    		
-	    		item = new Element( "risoluzione" );
-	    		item.setAttribute( "w", Global.W + "" );
-	    		item.setAttribute( "h", Global.H + "" );
+
 	    		livello.addContent( item );
 	    		
 	    		if(nameLvl != null)

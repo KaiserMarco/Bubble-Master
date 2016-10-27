@@ -118,7 +118,7 @@ public class Player extends Ostacolo
 	
 	private Rectangle coolDown;
 	
-	private int space = (int) (Global.Height*10/857 * Global.W/Global.Width);
+	private float space = Global.Height*10/857;
 	
 	public Player( int x, int y, int numPlayer, GameContainer gc, Color color ) throws SlickException
 		{
@@ -170,8 +170,8 @@ public class Player extends Ostacolo
 			sheetJumpSx = new SpriteSheet( new Image( "./data/Image/jumpSx" + colour + ".png" ), wJump, hJump );
 			
 			area = new Rectangle( xPlayer, yPlayer, width, height );
-			body = new Rectangle( xPlayer, yPlayer + Global.H/40, width, Global.H/10 );
-			head = new Rectangle( xPlayer + width/2 - Global.W/600, yPlayer, width/2, Global.H/40 );
+			body = new Rectangle( xPlayer, yPlayer + Global.Height/40, width, Global.Height/10 );
+			head = new Rectangle( xPlayer + width/2 - Global.Width/600, yPlayer, width/2, Global.Height/40 );
 			
 			for(int i = 0; i < 9; i++)
 				{
@@ -208,7 +208,7 @@ public class Player extends Ostacolo
 			
 			powerUp = new ArrayList<PowerUp>();
 
-			coolDown = new Rectangle( space + Global.Width/40, maxHeight, Global.H - maxHeight, Global.H - maxHeight );
+			coolDown = new Rectangle( space + Global.Width/40, maxHeight, Global.Height - maxHeight, Global.Height - maxHeight );
 			
 			currAmmo = 0;
 			hits = 0;
@@ -226,8 +226,8 @@ public class Player extends Ostacolo
 					if(movingJ)
 						{
 							area = new Rectangle( xPlayer, yPlayer, width, height );
-							body = new Rectangle( xPlayer, yPlayer + Global.H/40, width, Global.H/12 );
-							head = new Rectangle( xPlayer + width/2 - Global.W/110, yPlayer, width/2, Global.H/40 );
+							body = new Rectangle( xPlayer, yPlayer + Global.Height/40, width, Global.Height/12 );
+							head = new Rectangle( xPlayer + width/2 - Global.Width/110, yPlayer, width/2, Global.Height/40 );
 							
 							if(animTime < frameJump)
 								{
@@ -370,8 +370,8 @@ public class Player extends Ostacolo
 					if(movingJ)
 						{
 							area = new Rectangle( xPlayer, yPlayer, width, height );
-							body = new Rectangle( xPlayer, yPlayer + Global.H/40, width, Global.H/10 );
-							head = new Rectangle( xPlayer + Global.W/110, yPlayer, width/2, Global.H/40 );
+							body = new Rectangle( xPlayer, yPlayer + Global.Height/40, width, Global.Height/10 );
+							head = new Rectangle( xPlayer + Global.Width/110, yPlayer, width/2, Global.Height/40 );
 							
 							if(animTime < frameJump)
 								{
@@ -530,24 +530,24 @@ public class Player extends Ostacolo
 				if(fuoco.isShooting())
 					fuoco.draw();
 
-			float pos = Global.W/40 + Global.W*10/42*(numPlayer-1);
+			float pos = Global.Width/40 + Global.Width*10/42*(numPlayer-1);
 			if(drawLifes)
 				{
 					int j = 0;
 					for(;j < lifes/2; j++)
 						{
-							heart.draw( pos, Global.H/30, widthH, heightH );
+							heart.draw( pos, Global.Height/30, widthH, heightH );
 							pos = pos + widthH;
 						}
 					if(lifes%2 == 1)
 						{
 							j++;
-							halfHeart.draw( pos, Global.H/30, widthH, heightH );
+							halfHeart.draw( pos, Global.Height/30, widthH, heightH );
 							pos = pos + widthH;
 						}
 					for(;j < Global.lifes/2; j++)
 						{
-							noHeart.draw( pos, Global.H/30, widthH, heightH );
+							noHeart.draw( pos, Global.Height/30, widthH, heightH );
 							pos = pos + widthH;
 						}
 				}
@@ -555,15 +555,15 @@ public class Player extends Ostacolo
 			if(drawPoints)
 				{
 					g.setColor( color );
-					g.drawString( "SCORE : " + points, pos + Global.W/80, Global.H/30);
+					g.drawString( "SCORE : " + points, pos + Global.Width/80, Global.Height/30);
 				}
 			
 			if(currAmmo > 0)
 				{
-					float offset = Global.W/4 + Global.W/40;
-					Rectangle zone = new Rectangle( space + Global.W/40 + offset*(numPlayer-1), maxHeight, Global.H - maxHeight, Global.H - maxHeight );
+					float offset = Global.Width/4 + Global.Width/40;
+					Rectangle zone = new Rectangle( space + Global.Width/40 + offset*(numPlayer-1), maxHeight, Global.Height - maxHeight, Global.Height - maxHeight );
 					g.fill( zone );
-					powerUp.get( 0 ).getImage().draw( zone.getX(), maxHeight, Global.H - maxHeight, Global.H - maxHeight );
+					powerUp.get( 0 ).getImage().draw( zone.getX(), maxHeight, Global.Height - maxHeight, Global.Height - maxHeight );
 					g.drawString( "X " + currAmmo, zone.getMaxX() + space, maxHeight );
 					coolDown.setX( zone.getX() );
 					coolDown.setY( coolDown.getY() + tickCd );
@@ -582,24 +582,12 @@ public class Player extends Ostacolo
 					if(area.intersects( obs.component( "latoSu" ) ))
 						yPlayer = obs.getY() - height;
 		}
-
-    public void updateStats( GameContainer gc )
-    	{
-	    	width = width * Global.ratioW;
-			height = height * Global.ratioH;
-	    	widthI = widthI * Global.ratioW;
-			xPlayer = xPlayer * Global.ratioW;
-			yPlayer = yPlayer * Global.ratioH;
-			
-			maxHeight = (int) (maxHeight * Global.ratioH);
-    		area = new Rectangle( xPlayer, yPlayer, width, height );
-    	}
     
     public void setArea( GameContainer gc )
     	{ 
     		area = new Rectangle( xPlayer, yPlayer, width, height );
-    		head = new Rectangle( xPlayer + Global.W/110, yPlayer, width/2, Global.H/40 );
-    		body = new Rectangle( xPlayer, yPlayer + Global.H/40, width, Global.H/10 );
+    		head = new Rectangle( xPlayer + Global.Width/110, yPlayer, width/2, Global.Height/40 );
+    		body = new Rectangle( xPlayer, yPlayer + Global.Height/40, width, Global.Height/10 );
 		}
     
     public String getColor()
@@ -666,13 +654,13 @@ public class Player extends Ostacolo
 			area.setLocation( xPlayer, yPlayer );
 			if(dir == 0)
 				{
-					body.setLocation( xPlayer, yPlayer + Global.H/40 );
-					head.setLocation( xPlayer + width/2 - Global.W/110, yPlayer );
+					body.setLocation( xPlayer, yPlayer + Global.Height/40 );
+					head.setLocation( xPlayer + width/2 - Global.Width/110, yPlayer );
 				}
 			else
 				{
-					body.setLocation( xPlayer, yPlayer + Global.H/40 );
-					head.setLocation( xPlayer + Global.W/110, yPlayer );
+					body.setLocation( xPlayer, yPlayer + Global.Height/40 );
+					head.setLocation( xPlayer + Global.Width/110, yPlayer );
 				}
 		}
 	
@@ -680,8 +668,8 @@ public class Player extends Ostacolo
 		{
 			maxHeight = (int) val;
 			coolDown.setY( maxHeight );
-			coolDown.setWidth( Global.H - maxHeight );
-			coolDown.setHeight( Global.H - maxHeight );
+			coolDown.setWidth( Global.Height - maxHeight );
+			coolDown.setHeight( Global.Height - maxHeight );
 		}
 
 	public Ostacolo clone( GameContainer gc ) {
@@ -738,7 +726,7 @@ public class Player extends Ostacolo
 	
 	public void update( GameContainer gc, int delta, Input input ) throws SlickException
 		{
-			int move = Global.W/400;
+			float move = Global.Width/400;
 			
 			if(powerUp.size() == 0)
 				powerUp.add( new Ammo( 0, 0, gc.getHeight()/40, maxHeight ) );
@@ -825,7 +813,7 @@ public class Player extends Ostacolo
 											fire.add( new Shot( gc ) );
 											currentTimeShot = gc.getTime();
 											coolDown.setY( maxHeight );
-											coolDown.setHeight( Global.H - maxHeight );
+											coolDown.setHeight( Global.Height - maxHeight );
 											index = 270*timerShot/3000;
 											tickCd = coolDown.getHeight()/index;
 										}
@@ -853,7 +841,7 @@ public class Player extends Ostacolo
 			/*ZONA SPARO*/
 			if(input.isKeyDown( Global.mapButtons.get( numPlayer-1 ).get( "Sparo" ) ) && !isShooting)
 	            {					
-					float space = widthI/(fire.size() + 1) * Global.W/Global.Width;
+					float space = widthI/(fire.size() + 1);
 
 					for(int i = 0; i < fire.size(); i++)
 						{
@@ -901,12 +889,12 @@ public class Player extends Ostacolo
 				{ isShooting = false; }
 			
 			if(maxJump == 1)
-				setXY( 0, -move + (0.2f * (40 - tempJump--)) * Global.H/Global.Height, "move" );
+				setXY( 0, -move + 0.2f*(40 - tempJump--), "move" );
 			else
 				{
 					jump = true;
 					movingJ = true;
-					setXY( 0, move + (0.1f * tempJump++) * Global.H/Global.Height, "move" );
+					setXY( 0, move + 0.1f*tempJump++, "move" );
 				}
 			
 			/*controlla se non sono stati superati i limiti della schermata*/

@@ -59,6 +59,12 @@ public class SlideBar
 		else
 			return false;
 	}
+	
+	/** restituisce il valore di y
+	 * @return il valore della coordinata y
+	*/
+	public float getY()
+		{ return area.getY(); }
 
 	/** determina se il puntatore e' stato cliccato
 	 * @return TRUE se e' stato cliccato, FALSE altrimenti

@@ -68,7 +68,7 @@ public class Sfondo
 	
 	/**disegna lo sfondo a schermo intero*/
 	public void draw( GameContainer gc )
-		{ sfondo.draw( 0, 0, Global.W, Global.H ); }
+		{ sfondo.draw( 0, 0, Global.Width, Global.Height ); }
 	
 	/**disegna lo sfondo nella selezione sfondo*/
 	public void draw()

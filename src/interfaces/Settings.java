@@ -8,12 +8,9 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.geom.Rectangle;
 
-import Utils.Dimension;
 import Utils.Global;
 import Utils.Livello;
-import Utils.Sfondo;
 import Utils.SlideBar;
 import bubbleMaster.Start;
 import dataButton.ArrowButton;
@@ -21,7 +18,6 @@ import dataButton.Button;
 import dataButton.SimpleButton;
 import dataObstacles.Ostacolo;
 import dataObstacles.Player;
-import dataObstacles.Tubo;
 
 public class Settings
 {
@@ -30,20 +26,12 @@ public class Settings
 	private ArrayList<ArrowButton> arrows;
 	private ArrowButton leftLife, rightLife, leftDrop, rightDrop;
 	
-	private final String resolution = "RISOLUZIONE", lifes = "VITE", drop = "DROP", bright = "LUMINOSITA'";
-	
-	/** il vettore di caselle PER le dimensioni */
-	private ArrayList<Dimension> dimensioni;
-	
-	private String widthP, heightP;
+	private final String lifes = "VITE", drop = "DROP", bright = "LUMINOSITA'";
 	
 	private Image sfondo;
 	
-	// determina se disegnare le posisibli scelte di risoluzione
-	private boolean drawChoiseRes;
-	
 	// l'ordinata, l'ascissa, la lunghezza e l'altezza dei bottoni risoluzione
-	private float xRes, yRes, wRes, hRes;
+	private float xRes;
 	
 	// determina se e' stato effettuato un click
 	private boolean mouseDown = false;
@@ -75,26 +63,21 @@ public class Settings
 	
 	// determina se e' possibile effettuare i cambiamenti
 	private boolean setChanging;
-	// valori inziali delle dimensioni finestra come riferimento per i cambiamenti
-	private String startResW, startResH;
-	float sum = Global.H*10/75, yStart = Global.H/9 + sum;
+	float sum = Global.Height*10/75, yStart = Global.Height/9;
 	
 	public Settings( GameContainer gc ) throws SlickException
 		{
-			// TODO SETTARE TUTTO PIU IN ALTO (TRANNE I BOTTONI)
-		
 			Color color = Color.orange;
-			back = new SimpleButton( Global.W/5, Global.H*8/9, BACK, color );
-			saveChanges = new SimpleButton( Global.W*2/3, Global.H*8/9, APPLY, color );
+			back = new SimpleButton( Global.Width/5, Global.Height*8/9, BACK, color );
+			saveChanges = new SimpleButton( Global.Width*2/3, Global.Height*8/9, APPLY, color );
 			color = new Color( 34, 139, 34 );
-			//config = new SimpleButton( Global.W*10/28, Global.H*10/13, CONFIG, color );
 			
-			float width = Global.W/20, height = Global.H/50;
-			leftLife = new ArrowButton( lifes, ArrowButton.LEFT, new float[]{ Global.W*10/32, yStart + height/2, Global.W*10/32 + width, yStart, Global.W*10/32 + width, yStart + height }, Color.white );
-			rightLife = new ArrowButton( lifes, ArrowButton.RIGHT, new float[]{ Global.W*52/100, yStart, Global.W*52/100, yStart + height, Global.W*52/100 + width, yStart + height/2 },Color.white );
+			float width = Global.Width/20, height = Global.Height/50;
+			leftLife = new ArrowButton( lifes, ArrowButton.LEFT, new float[]{ Global.Width*10/32, yStart + height/2, Global.Width*10/32 + width, yStart, Global.Width*10/32 + width, yStart + height }, Color.white );
+			rightLife = new ArrowButton( lifes, ArrowButton.RIGHT, new float[]{ Global.Width*52/100, yStart, Global.Width*52/100, yStart + height, Global.Width*52/100 + width, yStart + height/2 },Color.white );
 
-			leftDrop = new ArrowButton( drop, ArrowButton.LEFT, new float[]{ Global.W*10/32, yStart + sum + height/2, Global.W*10/32 + width, yStart + sum, Global.W*10/32 + width, yStart + sum + height }, Color.white );
-			rightDrop = new ArrowButton( drop, ArrowButton.RIGHT, new float[]{ Global.W*52/100, yStart + sum, Global.W*52/100, yStart + sum + height, Global.W*52/100 + width, yStart + sum + height/2 },Color.white );
+			leftDrop = new ArrowButton( drop, ArrowButton.LEFT, new float[]{ Global.Width*10/32, yStart + sum + height/2, Global.Width*10/32 + width, yStart + sum, Global.Width*10/32 + width, yStart + sum + height }, Color.white );
+			rightDrop = new ArrowButton( drop, ArrowButton.RIGHT, new float[]{ Global.Width*52/100, yStart + sum, Global.Width*52/100, yStart + sum + height, Global.Width*52/100 + width, yStart + sum + height/2 },Color.white );
 			
 			arrows = new ArrayList<ArrowButton>();
 			arrows.add( leftLife );
@@ -105,7 +88,6 @@ public class Settings
 			buttons = new ArrayList<SimpleButton>();
 			buttons.add( back );
 			buttons.add( saveChanges );
-			//buttons.add( config );
 			
 			sfondo = new Image( "./data/Image/settings.png" );
 			
@@ -114,31 +96,16 @@ public class Settings
 			heart = new Image( "./data/Image/heartRed.png" );
 			halfHeart = new Image( "./data/Image/halfHeartRed.png" );
 			noHeart = new Image( "./data/Image/noHeart.png" );
-			widthH = Global.W/40; heightH = Global.H/30;
-			
-			xRes = Global.W*10/26; yRes = Global.H/9;
-			wRes = Global.W/10; hRes = Global.H/30;
-			
-			dimensioni = new ArrayList<Dimension>();
-			dimensioni.add( new Dimension( xRes, yRes, wRes, hRes, "800", "600", Color.gray, true ) );
-			Dimension dim0 = dimensioni.get( 0 );
-			dimensioni.add( new Dimension( dimensioni.get( dimensioni.size() - 1 ).getArea().getMaxX(), yRes, Global.W/100, dim0.getArea().getHeight(), "", "", Color.gray, true ) );
-			dimensioni.add( new Dimension( xRes, dimensioni.get( dimensioni.size() - 1 ).getArea().getMaxY(), wRes, hRes, "800", "600", Color.white, false ) );
-			dimensioni.add( new Dimension( xRes, dimensioni.get( dimensioni.size() - 1 ).getArea().getMaxY(), wRes, hRes, "1200", "900", Color.white, false ) );
-			dimensioni.add( new Dimension( xRes, dimensioni.get( dimensioni.size() - 1 ).getArea().getMaxY(), wRes, hRes, "1280", "720", Color.white, false ) );
-			
-			widthP = dim0.getW();
-			heightP = dim0.getH();
-			
-			drawChoiseRes = false;
+			widthH = Global.Width/40; heightH = Global.Height/30;
 			
 			indexCursor = -1;
-			widthC = Global.W*100/1777;
-			heightC = Global.H/24;			
+			widthC = Global.Width*100/1777;
+			heightC = Global.Height/24;			
 			cursor = new Image( "./data/Image/cursore.png" );
 			
 			dropRate = (int)(Global.dropRate * 100);
 			
+			xRes = Global.Width*10/26;
 			bar = new SlideBar( xRes, yStart + 2*sum, "", 255.f - Global.brightness, 150.f, 255.f );
 			
 			Global.init();
@@ -146,8 +113,6 @@ public class Settings
 			valBright = bar.getValue();
 			
 			setChanging = false;
-			startResW = widthP;
-			startResH = heightP;
 			
 			config = new Configurations();
 			config.updateKeys( 0, gc.getInput() );
@@ -157,17 +122,15 @@ public class Settings
 		{
 			Graphics g = gc.getGraphics();
 			
-			sfondo.draw( 0, 0, Global.W, Global.H );
+			sfondo.draw( 0, 0, Global.Width, Global.Height );
 		
 			for(int i = 0; i < buttons.size(); i++)
 				buttons.get( i ).draw( g );
 		
 			g.setColor( Color.red );
-			g.scale( Global.W/Global.Width, Global.H/Global.Height );
-			g.drawString( resolution, Global.Width/5, dimensioni.get( 0 ).getY() );
 			g.drawString( lifes, Global.Width/5, leftLife.getY() );
 			g.drawString( drop, Global.Width/5, leftDrop.getY() );
-			g.drawString( bright, Global.Width/5, Global.Height/9 + 3*Global.Height*10/75 );
+			g.drawString( bright, Global.Width/5, bar.getY() );
 			g.resetTransform();
 			
 			leftLife.draw( g );
@@ -186,28 +149,9 @@ public class Settings
 				noHeart.draw( startX + widthH*j, startY, widthH, heightH );
 			
 			g.setColor( Color.black );
-			g.scale( Global.W/Global.Width, Global.H/Global.Height );
-			float xDrop = leftDrop.getMaxX() + (rightDrop.getX() - leftDrop.getMaxX())/2 - Global.W/40, yDrop = leftDrop.getY() - Global.H/200;
-			g.drawString( dropRate + " %" , xDrop*Global.Width/Global.W, yDrop*Global.Height/Global.H );
+			float xDrop = leftDrop.getMaxX() + (rightDrop.getX() - leftDrop.getMaxX())/2 - Global.Width/40, yDrop = leftDrop.getY() - Global.Height/200;
+			g.drawString( dropRate + " %" , xDrop, yDrop );
 			g.resetTransform();
-				
-			for(Dimension dim: dimensioni)
-				{
-					if(dim.isDrawble())
-						{
-							g.setColor( dim.getColor() );					
-							g.fill( dim.getArea() );
-							g.setColor( Color.black );
-							g.draw( dim.getArea() );
-		
-							if(!dim.getW().equals( "" ))
-								{
-									g.scale( Global.W/Global.Width, Global.H/Global.Height );
-									g.drawString( dim.getFullName(), dim.getArea().getX()*Global.Width/Global.W, dim.getArea().getY()*Global.Height/Global.H );
-									g.resetTransform();
-								}
-						}
-				}
 			
 			if(indexCursor >= 0)
 				cursor.draw( buttons.get( indexCursor ).getX() - widthC, buttons.get( indexCursor ).getY(), widthC, heightC );
@@ -218,7 +162,7 @@ public class Settings
 			
 			Global.drawScreenBrightness( g );
 			
-			g.fill( new Rectangle( 99, 99, 1200, 1200 ) );
+			//g.fill( new Rectangle( 99, 99, 1200, 1200 ) );
 		}
 	
 	private int checkButton( Button button, Input input, int i )
@@ -248,9 +192,6 @@ public class Settings
 			// TODO CAPIRE PERCHE ORA LA VARIAZIONE DI RISOLUZIONE LA ESEGUE IN QUESTO MODO
 			// ALLE BRUTTE LA RIMUOVO, CON BUONA PACE DI TUTTI
 		
-			widthH = widthH * Global.ratioW;
-			heightH = heightH * Global.ratioH;
-		
 			if(valBright != bar.getValue())
 				valBright = bar.getValue();
 		
@@ -264,63 +205,6 @@ public class Settings
 				}
 			
 			Global.dropRate = (double) dropRate/100;
-			
-	        if(Global.ratioW != 1 || Global.ratioH != 1)
-	            {
-	        		// setto i parametri dell'editor e dell'end
-            		editor.updateStats( gc );
-            		end.updateDates();
-            		config.updateDates();
-	        	
-	        		xRes = xRes * Global.ratioW;
-	        		yStart = yStart * Global.ratioH;
-	        		sum = sum*Global.ratioH;
-	        		//System.out.println( "yStart = " + yStart );
-	        		bar = new SlideBar( xRes, yStart + 2*sum, "", 255.f - Global.brightness, 150.f, 255.f );
-                	
-	                for(Livello levels: Begin.livelli)
-	                    {
-	                        for(Ostacolo elem: levels.getElements())
-	                        	{
-		                        	if(elem.getID().equals( Global.TUBO ))
-		                        		{
-		                        			((Tubo) elem).updateValues( gc );
-	                        				((Tubo) elem).setSpace( gc );
-		                        		}
-		                        	else
-		                        		{
-		                        			elem.updateStats( gc );
-	                        				elem.setArea( gc );
-		                        			if(elem.getID().equals( Global.PLAYER ))
-		                        				((Player) elem).checkPosition( levels.getElements() );
-		                        		}
-		                        }
-	                            
-	                        Sfondo img = levels.getImage();
-	                        img.setMaxHeight( img.getMaxHeight() * Global.ratioH );
-	                        img.setHeight( img.getHeight() * Global.ratioH );
-	                        img.setMaxWidth( img.getMaxWidth() * Global.ratioW );
-	                        img.setWidth( img.getWidth() * Global.ratioW );
-	                    }
-
-        			for(SimpleButton button: buttons)
-        				button.buildButton( button.getX() * Global.ratioW, button.getY() * Global.ratioH );
-	        			
-	                Start.cl.setUpdates();
-	                
-	                for(Dimension dim: dimensioni)
-	                	{
-                			dim.getArea().setBounds( dim.getArea().getX() * Global.ratioW, dim.getArea().getY() * Global.ratioH, dim.getArea().getWidth() * Global.ratioW, dim.getArea().getHeight() * Global.ratioH);
-                			//System.out.println( "dim.X = " + dim.getY() );
-	                	}
-	
-	                leftLife.translate( Global.ratioW, Global.ratioH );
-	                rightLife.translate( Global.ratioW, Global.ratioH );
-	                leftDrop.translate( Global.ratioW, Global.ratioH );
-	                rightDrop.translate( Global.ratioW, Global.ratioH );
-			        
-			        Start.setAppDisplay();
-	            }
 		}
 	
 	public void update( GameContainer gc, Edit editor, End end ) throws SlickException
@@ -331,7 +215,7 @@ public class Settings
 			
 			// controlla se il bottone APPLICA e' cliccabile oppure no
 			if(config.isChanged() || Global.lifes != vite || Global.dropRate != (double) dropRate/100
-			|| startResW != dimensioni.get( 0 ).getW() || startResH != dimensioni.get( 0 ).getH() || bar.getValue() != valBright)
+			|| bar.getValue() != valBright)
 				{
 					setChanging = true;
 					buttons.get( 1 ).setColor( Color.orange );
@@ -419,12 +303,9 @@ public class Settings
 				                            			}
 				                            		else if(buttons.get( i ).getName().equals( APPLY ))
 				                            			{
-				                            	        	Global.computeRatio( Integer.parseInt( widthP ), Integer.parseInt( heightP ) );
-				                            				if(setChanging)
+				                            	        	if(setChanging)
 			                            						{
 				                            						setChanging = false;
-				                            						startResW = dimensioni.get( 0 ).getW();
-				                            						startResH = dimensioni.get( 0 ).getH();
 				                            						applicaCambiamenti( editor, gc, end, config );
 				                            						
 				                            						config.updateFileConfig();
@@ -478,27 +359,6 @@ public class Settings
 		                    		bar.setPressed();
 		                }
 	            }
-		
-			if(dimensioni.get( 1 ).contains( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON ))
-				{
-					drawChoiseRes = !drawChoiseRes;
-					for(int i = 2; i < dimensioni.size(); i++)
-						dimensioni.get( i ).setDrawble( drawChoiseRes );
-				}
-			else if(drawChoiseRes)
-					{
-						if(input.isMousePressed( Input.MOUSE_LEFT_BUTTON ))
-							for(int i = 2; i < dimensioni.size(); i++)
-								if(dimensioni.get( i ).contains( mouseX, mouseY ))
-									{
-										widthP = dimensioni.get( i ).getW();
-										heightP = dimensioni.get( i ).getH();
-										dimensioni.get( 0 ).setName( widthP, heightP );
-										drawChoiseRes = false;
-										for(int j = 2; j < dimensioni.size(); j++)
-											dimensioni.get( j ).setDrawble( drawChoiseRes );
-									}
-					}
 			
 			bar.update( mouseX );
 			Global.brightness = 255.f - bar.getValue();

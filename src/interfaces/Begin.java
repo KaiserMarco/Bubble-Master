@@ -64,8 +64,6 @@ public class Begin
 	//immagine schermata iniziale
 	private Sfondo pang;
 	
-	private float checkRatioW, checkRatioH;
-	
 	private boolean mouseDown = false;
 	
 	private static final String OPTIONS = "OPZIONI", LEVELS = "LIVELLI", BEGIN = "Premi un tasto qualsiasi per iniziare";
@@ -80,9 +78,13 @@ public class Begin
 	    
 			livelli = new ArrayList<Livello>();
 			
+			buttons = new ArrayList<SimpleButton>();
 			Color color = Color.orange;
-			options = new SimpleButton( 0, gc.getHeight()*5/6, OPTIONS, color );
-			levels = new SimpleButton( gc.getWidth(), gc.getHeight()*5/6, LEVELS, color );
+			options = new SimpleButton( 0, Global.Height*5/6, OPTIONS, color );
+			levels = new SimpleButton( Global.Width, Global.Height*5/6, LEVELS, color );
+			
+			buttons.add( levels );
+			buttons.add( options );
 
 	        xFinale = gc.getWidth()/3;
 	        countNumFinale = 25;
@@ -148,7 +150,6 @@ public class Begin
 						NodeList name = document.getElementsByTagName( "livello" );
 						NodeList ostacoli = document.getElementsByTagName( "ostacolo" );
 						NodeList back = document.getElementsByTagName( "sfondo" );
-						NodeList res = document.getElementsByTagName( "risoluzione" );
 						Sfondo sfondo;
 			 
 						String tmp;
@@ -182,24 +183,21 @@ public class Begin
 											colour = Color.green;
 									}
 								
-								float ratioW = Global.ratioW;
-								float ratioH = Global.ratioH;
-								
 								if(type.equals( Global.BOLLA ))
-								    elements.add( new Bubble( (int) (x * ratioW), (int) (y * ratioH), gc.getWidth()/32, gc.getWidth(), gc ) );
+								    elements.add( new Bubble( x, y, Global.Width/32, Global.Width, gc ) );
 								else if(type.equals( Global.SBARRA ))
 								    {
-									    elements.add( new Sbarra( (int) (x * ratioW), (int) (y * ratioH), orienting, gc ) );
+									    elements.add( new Sbarra( x, y, orienting, gc ) );
                                         elements.get( elements.size() - 1 ).setSpigoli();
 								    }
 								else if(type.equals( Global.TUBO ))
                                     {
-                                        elements.add( new Tubo( (int) (x * ratioW), (int) (y * ratioH), orienting, gc ) );
+                                        elements.add( new Tubo( x, y, orienting, gc ) );
                                         ((Tubo) elements.get( elements.size() - 1 )).setSpace( gc );
                                         elements.get( elements.size() - 1 ).setUnion( union );
                                     }
 								else if(type.equals( Global.PLAYER ))
-									elements.add( new Player( (int) (x * ratioW), (int) (y * ratioH), Integer.parseInt( numPlayer ), gc, colour ) );
+									elements.add( new Player( x, y, Integer.parseInt( numPlayer ), gc, colour ) );
 							}
 						
 						Node nodo = back.item( 0 );
@@ -211,16 +209,6 @@ public class Begin
 						Element node = (Element) var;
 						tmp = node.getAttribute( "nome" );
 						
-						Node resolution = res.item( 0 );
-						Element w = (Element) resolution;
-						String lungh = w.getAttribute( "w" );
-						
-						Element h = (Element) resolution;
-						String alt = h.getAttribute( "h" );
-						
-						if(Integer.parseInt( lungh ) != Global.W || Integer.parseInt( alt ) != Global.H)
-							cambiaProporzioni( Integer.parseInt( lungh ), Integer.parseInt( alt ), gc );
-						
 						livelli.add( new Livello( elements, sfondo, tmp ) );
 						
 						System.out.println( "livello " + files[j] + " caricato" );
@@ -231,18 +219,11 @@ public class Begin
 			}
 			
 			cursor = new Image( "./data/Image/cursore.png" );
-			
-			buttons = new ArrayList<SimpleButton>();
-			buttons.add( levels );
-			buttons.add( options );
 
 			widthC = gc.getWidth()*100/1777;
 			heightC = gc.getHeight()/24;
 			
 			indexCursor = -1;
-			
-			checkRatioW = Global.ratioW;
-			checkRatioH = Global.ratioH;
 			
 			showBegin = false;
 			timeShowBegin = timeLimitBegin - 1;
@@ -291,16 +272,6 @@ public class Begin
 			Global.drawScreenBrightness( g );
 		}
 	
-	// aggiorna le dimensioni al variare della risoluzione
-	public void setStats() throws SlickException
-		{
-			for(SimpleButton button: buttons)
-				button.buildButton( button.getX() * Global.ratioW, button.getY() * Global.ratioH );
-			
-			checkRatioW = Global.ratioW;
-			checkRatioH = Global.ratioH;
-		}
-	
 	private int checkButton( Button button, Input input, int i )
 		{
 			if(button.isPressed())
@@ -317,9 +288,6 @@ public class Begin
 			Input input = gc.getInput();
 			int mouseX = input.getMouseX();
 			int mouseY = input.getMouseY();
-			
-			if(checkRatioW != Global.ratioW || checkRatioH != Global.ratioH)
-				setStats();
 			
 			//schermata iniziale del "premi un tasto qualsiasi"
 			if(!insertButton)

@@ -42,16 +42,15 @@ public class Start extends BasicGame
 			app = new AppGameContainer( new Start( "Bubble Master" ) );
 		 
 			app.setTargetFrameRate( Global.FRAME );
-			app.setDisplayMode( Global.W, Global.H, false );
+			app.setDisplayMode( Global.Width, Global.Height, false );
 			
-			Global.computeRatio( app.getWidth(), app.getHeight() );
 			Global.initMap();
 			
 			app.start();
 		}
 	
-	public static void setAppDisplay() throws SlickException
-		{ app.setDisplayMode( Global.W, Global.H, false); }
+	//public static void setAppDisplay() throws SlickException
+		//{ app.setDisplayMode( Global.Width, Global.Height, false); }
 
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException 

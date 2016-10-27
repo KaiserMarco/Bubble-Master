@@ -63,8 +63,8 @@ public class TextBox
 	*/
 	private void createWindow( final GameContainer gc, final Font font ) throws SlickException
 	{
-	    area = new Rectangle( Global.W/2 - Global.W*10/53, Global.H/2 - Global.H/6, Global.W*10/26, Global.H/3 );
-        text = new TextField( gc, font, (int)area.getCenterX() - Global.W/8, (int)area.getCenterY() - 35, Global.W/4, Global.H/20 );
+	    area = new Rectangle( Global.Width/2 - Global.Width*10/53, Global.Height/2 - Global.Height/6, Global.Width*10/26, Global.Height/3 );
+        text = new TextField( gc, font, (int)area.getCenterX() - Global.Width/8, (int)area.getCenterY() - 35, Global.Width/4, Global.Height/20 );
         text.setBackgroundColor( Color.black );
         text.setMaxLength( 15 );
 
@@ -74,11 +74,11 @@ public class TextBox
 
         this.font = font;
         //int x = text.getX() + (int) Global.sizewBox / 4, y = text.getY() + (int) (Global.sizehBox * 3/2);
-        int x = text.getX() + Global.W/40, y = text.getY() + Global.H/30;
+        int x = text.getX() + Global.Width/40, y = text.getY() + Global.Height/30;
         for(int i = 0; i < data.length; i++)
 	        {
-	            buttons[i] = new SimpleButton( x + Global.W/40*i, y + Global.H/30, data[i], new Color( 20, 35, 120 ) );
-	            x = x + (int)buttons[i].getRect().getWidth() + Global.W/40;
+	            buttons[i] = new SimpleButton( x + Global.Width/40*i, y + Global.Height/30, data[i], new Color( 20, 35, 120 ) );
+	            x = x + (int)buttons[i].getRect().getWidth() + Global.Width/40;
 	        }
 	}
 
@@ -239,9 +239,8 @@ public class TextBox
 				String txt = "INSERIRE NOME LIVELLO";
 				float x = area.getCenterX() - font.getWidth( txt )/2;
 				float y = text.getY() - (text.getY() - area.getY())/2 - font.getHeight( txt )/2;
-	
-				g.scale( Global.W/Global.Width, Global.H/Global.Height );
-				font.drawString( x * Global.Width/Global.W, y * Global.Height/Global.H, txt, Color.red );
+
+				font.drawString( x, y, txt, Color.red );
 				g.resetTransform();
 	
 				//ErrorWindow.draw( g );

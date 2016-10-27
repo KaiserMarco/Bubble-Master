@@ -36,21 +36,19 @@ public class End
 	
 	private boolean mouseDown = false;
 	
-	private float currRatioW = Global.Width, currRatioH = Global.Height;
-	
 	private static final String REPLAY = "GIOCA ANCORA", HOME = "TORNA ALLA SCHERMATA PRINCIPALE", LEVELS = "TORNA ALLA SCHERMATA DEI LIVELLI";
 	
 	public End() throws SlickException
 		{
 			cursor = new Image( "./data/Image/cursore.png" ); 
 			//lunghezza e altezza del cursore
-			widthC = Global.H*10/133;
-			heightC = Global.H/24;
+			widthC = Global.Height*10/133;
+			heightC = Global.Height/24;
 			
 			buttons = new ArrayList<SimpleButton>();
 
 			float buttonX = Global.Width/20, buttonAlt = Global.Width/30;
-			replay = new SimpleButton( buttonX, Global.H*2/3, REPLAY, Color.orange );
+			replay = new SimpleButton( buttonX, Global.Height*2/3, REPLAY, Color.orange );
 			begin = new SimpleButton( buttonX, replay.getY() + replay.getAlt() + buttonAlt, HOME, Color.orange );
 			choose = new SimpleButton( buttonX, begin.getY() + begin.getAlt() + buttonAlt, LEVELS, Color.orange );
 			
@@ -79,19 +77,18 @@ public class End
 			
 			Color black = new Color( 0, 0, 0, 185 );
 			g.setColor( black );
-			g.fillRect( 0, 0, Global.W, Global.H );
+			g.fillRect( 0, 0, Global.Width, Global.Height );
 			
 			g.setColor( Color.lightGray );
 			
 			// TODO INSERIRE "HAI VINTO" O "HAI PERSO"
 
 			// ascissa e ordinata delle stringhe da stampare
-			float x = Global.H/8 * Global.Width/Global.W, y = Global.H/6 * Global.Height/Global.H;
+			float x = Global.Height/8, y = Global.Height/6;
 			
 			//trasformo il tempo da millisecondi a secondi
 			int timing = (int)(Start.stats.getTempo())/1000;
 			g.scale( 1.05f, 1.05f );
-			g.scale( Global.W/Global.Width, Global.H/Global.Height );
 			int h = timing/3600;
 			int m = (timing - (h*3600))/60;
 			int s = timing - h*3600 - m*60;
@@ -113,14 +110,14 @@ public class End
 			String seconds = "TEMPO IMPIEGATO =     " + h + "h : " + m + "m : " + s + "s";
 			g.drawString( seconds, x, y + pos*44/10 );
 			
-			float width = Global.W/17 * Global.Width/Global.W, height = Global.H/10 * Global.Height/Global.H;
-			float startX = Global.W*10/26 * Global.Width/Global.W, startY = Global.H/25 * Global.Height/Global.H;
-			float offset = Global.W/10 * Global.Width/Global.W;
+			float width = Global.Width/17, height = Global.Height/10;
+			float startX = Global.Width*10/26, startY = Global.Height/25;
+			float offset = Global.Width/10;
 
 			for(int i = 0; i < InGame.players.size(); i++)
 				{
 					Player player = ((Player) InGame.players.get( i ));
-					player.getImage().draw( startX + width + Global.W/100 + offset*i, startY, Global.W/17 * Global.Width/Global.W, height );
+					player.getImage().draw( startX + width + Global.Width/100 + offset*i, startY, Global.Width/17, height );
 	
 					float xString = startX + width/2 + width + offset*i;
 					g.setColor( Color.gray );
@@ -163,24 +160,12 @@ public class End
 		
 			return 0;
 		}
-	
-	public void updateDates() throws SlickException
-		{
-			for(SimpleButton button: buttons)
-				button.buildButton( button.getX() * Global.ratioW, button.getY() * Global.ratioH );
-			
-			currRatioH = Global.H;
-			currRatioW = Global.W;
-		}
 
 	public void update(GameContainer gc) throws SlickException
 		{
 			Input input = gc.getInput();
 			int mouseX = input.getMouseX();
 			int mouseY = input.getMouseY();
-			
-			if(currRatioW != Global.W || currRatioH != Global.H)
-				updateDates();
 
 			if(indexCursor < 0 &&((input.isKeyPressed( Input.KEY_UP ) || input.isKeyPressed( Input.KEY_DOWN )
 			|| input.isKeyPressed( Input.KEY_LEFT ) || input.isKeyPressed( Input.KEY_RIGHT ))))

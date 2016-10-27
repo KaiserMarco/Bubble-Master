@@ -8,7 +8,6 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
 
-import Utils.Global;
 import bubbleMaster.Start;
 
 public class Sbarra extends Ostacolo
@@ -86,16 +85,6 @@ public class Sbarra extends Ostacolo
     		ostr = new Rectangle( getX(), getY(), width, height );
     		setSpigoli();
 		}
-    
-    public void updateStats( GameContainer gc )
-    	{
-    		width = width * Global.ratioW;
-    		height = height * Global.ratioH; 
-    		setXY( getX() * Global.ratioW, getY() * Global.ratioH, "restore" );
-    		
-    		ostr = new Rectangle( getX(), getY(), width, height );
-    		setSpigoli();
-    	}
 	
 	public float getX()
 		{ return (int)ostr.getX(); }

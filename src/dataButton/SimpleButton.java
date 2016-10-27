@@ -18,9 +18,9 @@ public class SimpleButton extends Button
 	private Color c;
 	
 	public static UnicodeFont font;
-	public float ratioH = 0;
+	public float ratioH = 1.f;
 	/* offset per lo spostamento */
-	private float offset = 20.f * Global.ratioH;
+	private float offset = 20.f;
 	/* i punti del bottone triangolare */
 	float[] points = new float[6];
 	/* lunghezza e altezza del bottone triangolare */
@@ -50,18 +50,14 @@ public class SimpleButton extends Button
 	
 	@SuppressWarnings("unchecked")
 	public void buildButton( float x, float y ) throws SlickException
-		{
-			if(ratioH != Global.ratioH)
-				{
-					ratioH = Global.ratioH;
-			        ratioFont = ratioFont * ratioH;
-			        
-					font = new UnicodeFont( "./data/fonts/prstart.ttf", (int)(ratioFont), false, true );
-					font.addAsciiGlyphs();
-			        font.addGlyphs( Global.W, Global.H );
-			        font.getEffects().add( new ColorEffect( java.awt.Color.WHITE ) );
-			        font.loadGlyphs();
-				}
+		{	
+	        ratioFont = ratioFont * ratioH;
+	        
+			font = new UnicodeFont( "./data/fonts/prstart.ttf", (int)(ratioFont), false, true );
+			font.addAsciiGlyphs();
+	        font.addGlyphs( Global.Width, Global.Height );
+	        font.getEffects().add( new ColorEffect( java.awt.Color.WHITE ) );
+	        font.loadGlyphs();
 
 			int width = font.getWidth( name ), height = font.getHeight( name );
 			rect = new Rectangle( x, y, width + offset, height + offset );
@@ -107,35 +103,19 @@ public class SimpleButton extends Button
 			g.setAntiAlias( true );
 			g.setColor( c );
 			g.fill( rect );
-			
-			if(name.equals( "Right" ) || name.equals( "Left" ))
-				{
-					if(name.equals( "Right" ))
-						change.draw( points[0], points[1], width, height );
-					else
-						change.draw( points[0], points[3], width, height );
-				}
+
+			super.draw( g );
+
+			float width = 1.f;
+			if(pressed)
+				font.drawString( rect.getX() + offset/2 + width, rect.getY() + offset/2 + width, name, Color.black );
 			else
+				font.drawString( rect.getX() + offset/2, rect.getY() + offset/2, name, Color.black );
+			
+			if(!active)
 				{
-					super.draw( g );
-		
-					float width = 1.f * Global.ratioH;
-					if(pressed)
-						font.drawString( rect.getX() + offset/2 + width, rect.getY() + offset/2 + width, name, Color.black );
-					else
-						font.drawString( rect.getX() + offset/2, rect.getY() + offset/2, name, Color.black );
-					
-					if(!active)
-						{
-							g.setColor( new Color( 0, 0, 0, 100 ) );
-							g.fill( rect );
-						}
+					g.setColor( new Color( 0, 0, 0, 100 ) );
+					g.fill( rect );
 				}
 		}
-	
-	/** restituisce il nome del bottone
-	 * @return name - il nome
-	*/
-	/*public String getName()
-		{ return name; }*/
 }

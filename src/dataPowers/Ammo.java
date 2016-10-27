@@ -15,7 +15,7 @@ public class Ammo extends PowerUp
 	// determina se l'oggetto ha raggiunto terra
 	private boolean arrived = false;
 	
-	public Ammo( int x, int y, int ray, double maxH ) throws SlickException
+	public Ammo( int x, int y, float ray, double maxH ) throws SlickException
 		{
 			super( "ammo" );
 			

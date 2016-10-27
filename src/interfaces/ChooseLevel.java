@@ -121,25 +121,6 @@ public class ChooseLevel
 	public int getIndexLevel()
 		{ return pos; }
 	
-	/**setta i valori degli oggetti in proporzione alla variazione di risoluzione
-	 * @throws SlickException */
-	public void setUpdates() throws SlickException
-		{
-			width = width * Global.ratioW;
-			height = height * Global.ratioH;
-			
-			lungh = lungh * Global.ratioW;
-			alt = alt * Global.ratioH;
-			
-			buttonY = buttonY * Global.ratioH;
-			
-			for(ArrowButton arrow: arrows)
-				arrow.translate( Global.ratioW, Global.ratioH );
-
-			for(SimpleButton button: buttons)
-				button.buildButton( button.getX() * Global.ratioW, button.getY() * Global.ratioH );
-		}
-	
 	private int checkButton( Button button, Input input, int i )
 		{
 			if(button.isPressed())

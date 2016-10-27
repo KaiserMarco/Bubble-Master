@@ -51,8 +51,8 @@ public class InGame
 			due = new Image( "./data/Image/2.png" );
 			uno = new Image( "./data/Image/1.png" );
 			
-			widthI = Global.W/25;
-			heightI = Global.H/20;
+			widthI = Global.Width/25;
+			heightI = Global.Height/20;
 			
 			animNumbers = 30;
 			
@@ -125,11 +125,11 @@ public class InGame
 			if(Global.drawCountdown)
 				{
 					if(animNumbers > 20)
-						tre.draw( Global.W/2 - (widthI*(10 - animNumbers%10))/2, Global.H/2 - (heightI*(10 - animNumbers%10))/2, widthI*(10 - animNumbers%10), heightI*(10 - animNumbers%10) );
+						tre.draw( Global.Width/2 - (widthI*(10 - animNumbers%10))/2, Global.Height/2 - (heightI*(10 - animNumbers%10))/2, widthI*(10 - animNumbers%10), heightI*(10 - animNumbers%10) );
 					else if(animNumbers > 10)
-						due.draw( Global.W/2 - (widthI*(10 - animNumbers%10))/2, Global.H/2 - (heightI*(10 - animNumbers%10))/2, widthI*(10 - animNumbers%10), heightI*(10 - animNumbers%10) );	
+						due.draw( Global.Width/2 - (widthI*(10 - animNumbers%10))/2, Global.Height/2 - (heightI*(10 - animNumbers%10))/2, widthI*(10 - animNumbers%10), heightI*(10 - animNumbers%10) );	
 					else if(animNumbers > 0)
-						uno.draw( Global.W/2 - (widthI*(10 - animNumbers%10))/2, Global.H/2 - (heightI*(10 - animNumbers%10))/2, widthI*(10 - animNumbers%10), heightI*(10 - animNumbers%10) );
+						uno.draw( Global.Width/2 - (widthI*(10 - animNumbers%10))/2, Global.Height/2 - (heightI*(10 - animNumbers%10))/2, widthI*(10 - animNumbers%10), heightI*(10 - animNumbers%10) );
 					else
 						{
 							Global.drawCountdown = false;

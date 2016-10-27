@@ -14,20 +14,12 @@ import org.newdawn.slick.font.effects.ColorEffect;
 public class Global
 {
 	/** lunghezza di base */
-	public static final float Width = 800;
+	public static final int Width = 800;
 	/** altezza di base */
-	public static final float Height = 600;
-	
-	/** lunghezza attuale */
-	public static int W = 800;
-	/** altezza attuale */
-	public static int H = 600;
+	public static final int Height = 600;
 	
 	// numero di frame da eseguire
 	public static final int FRAME = 90;
-	
-	// il rapporto fra altezza e lunghezza attuali con quelli di default
-	public static float ratioW, ratioH;
 	
 	// determina se disegnare il countdown iniziale
 	public static boolean drawCountdown;
@@ -47,7 +39,7 @@ public class Global
 	public static float brightness = 0;
 	
 	/** dimensione della barra della luminosita' */
-	public static float sizewBox = W/17, sizehBox = H/17;
+	public static float sizewBox = Width/17, sizehBox = Height/17;
 	
 	/** font dei caratteri e della finestra di stato */
 	public static UnicodeFont stateFont;
@@ -68,18 +60,8 @@ public class Global
 			if(brightness > 0)
 				{
 					g.setColor( new Color( 0, 0, 0, (int) brightness ) );
-					g.fillRect( 0, 0, W, H );
+					g.fillRect( 0, 0, Width, Height );
 				}
-		}
-	
-	// calcola il rapporto fra altezza e lunghezza attuali con quelli di default
-	public static void computeRatio( float width, float height )
-		{
-			ratioW = width/W;
-			ratioH = height/H;
-			
-			W = (int) width;
-			H = (int) height;
 		}
 	
 	/** ritorna il vettore dei tasti (la clone non funzionava) */

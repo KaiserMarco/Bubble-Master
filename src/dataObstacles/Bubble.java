@@ -8,7 +8,6 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Shape;
 
-import Utils.Global;
 import bubbleMaster.Start;
 import interfaces.InGame;
  
@@ -41,7 +40,7 @@ public class Bubble extends Ostacolo
     public Bubble( Ostacolo ost, GameContainer gc ) throws SlickException
         { this( (int) ost.getX(), (int) ost.getY(), (int) ost.getWidth(), ost.getMaxWidth(), gc ); }
      
-    public Bubble( int x, int y, int ray, double maxW, GameContainer gc ) throws SlickException
+    public Bubble( float x, float y, float ray, double maxW, GameContainer gc ) throws SlickException
         {       
             super( "bolla" );
              
@@ -84,20 +83,6 @@ public class Bubble extends Ostacolo
     						immagine.draw( ostr.getX(), ostr.getY(), ray*2, ray*2, cg );
     			}
 		}
-    
-    public void updateStats()
-    	{
-    		ray = ray * Global.ratioH;
-    		ostr.setCenterX( ostr.getCenterX() * Global.ratioW );
-    		ostr.setCenterY( ostr.getCenterY() * Global.ratioH );
-    		
-    		ostr = new Circle( ostr.getCenterX(), ostr.getCenterY(), ray );
-    		maxW = maxW * Global.ratioW;
-    		maxH = maxH * Global.ratioH;
-    		
-    		speedX = speedX * Global.W/Global.Width;
-    		speedY = speedY * Global.H/Global.Height;
-    	}
     
     public double getMaxWidth()
     	{ return maxW; }
@@ -485,7 +470,7 @@ public class Bubble extends Ostacolo
             /*controllo collisione con i bordi della schermata*/
             checkBorders();
 
-            setCenter( ostr, speedX * Global.W/Global.Width, speedY * Global.H/Global.Height );
+            setCenter( ostr, speedX, speedY );
             
             if(!primoTubo)
             	{
@@ -498,7 +483,7 @@ public class Bubble extends Ostacolo
 	                        	if(!InGame.ostacoli.get( i ).getID().equals( "bolla" ))
 	                        		checkAll( i, InGame.ostacoli.get( i ) );
 
-	                        setCenter( ostr, speedX * Global.W/Global.Width, speedY * Global.H/Global.Height );
+	                        setCenter( ostr, speedX, speedY );
             			}
             	}
         }
@@ -574,18 +559,4 @@ public class Bubble extends Ostacolo
     
     public void setArea( GameContainer gc )
     	{ ostr = new Circle( ostr.getCenterX(), ostr.getCenterY(), ray ); }
-    
-    public void updateStats( GameContainer gc )
-    	{
-    		ray = ray * Global.ratioH;
-    		ostr.setCenterX( ostr.getCenterX() * Global.ratioW );
-    		ostr.setCenterY( ostr.getCenterY() * Global.ratioH );
-    		
-    		ostr = new Circle( ostr.getCenterX(), ostr.getCenterY(), ray );
-    		maxW = maxW * Global.ratioW;
-    		maxH = maxH * Global.ratioH;
-    		
-    		speedX = speedX * Global.W/Global.Width;
-    		speedY = speedY * Global.H/Global.Height;
-    	}
 }
