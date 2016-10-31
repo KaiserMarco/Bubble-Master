@@ -222,7 +222,7 @@ public class Player extends Ostacolo
 			powerUp = new ArrayList<PowerUp>();
 			powerUp.add( new Ammo( 0, 0, gc.getHeight()/40, maxHeight ) );
 
-			coolDown = new Rectangle( space + Global.Width/40, maxHeight, Global.Height - maxHeight, Global.Height - maxHeight );
+			coolDown = new Rectangle( 2*widthH + Global.Width/40 + Global.Width*10/42*(numPlayer-1), maxHeight, Global.Height - maxHeight, Global.Height - maxHeight );
 			
 			currAmmo = 0;
 			hits = 0;
@@ -295,13 +295,13 @@ public class Player extends Ostacolo
 
 			float pos = Global.Width/40 + Global.Width*10/42*(numPlayer-1);
 			g.setColor( col );
-			if(currAmmo >= 0)
+			if(currAmmo > 0)
 				{
-					Rectangle zone = new Rectangle( pos, maxHeight, Global.Height - maxHeight, Global.Height - maxHeight );
+					Rectangle zone = new Rectangle( pos + 2*widthH, maxHeight, Global.Height - maxHeight, Global.Height - maxHeight );
 					g.fill( zone );
-					powerUp.get( 0 ).getImage().draw( pos, maxHeight, Global.Height - maxHeight, Global.Height - maxHeight );
+					powerUp.get( 0 ).getImage().draw( zone.getX(), maxHeight, Global.Height - maxHeight, Global.Height - maxHeight );
 					g.drawString( "X " + currAmmo, zone.getMaxX() + space, maxHeight );
-					coolDown.setLocation( pos, coolDown.getY() + tickCd );
+					coolDown.setY( coolDown.getY() + tickCd );
 					coolDown.setHeight( coolDown.getHeight() - tickCd );
 					g.fill( coolDown );
 					index--;
