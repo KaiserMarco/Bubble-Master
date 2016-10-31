@@ -500,8 +500,6 @@ public class Edit
 		    		item.setAttribute( "y", "0" );
 		    		item.setAttribute( "name", sfondi.get( indexSfondo ).getName() );
 		    		livello.addContent( item );
-	
-		    		livello.addContent( item );
 		    		
 		    		if(nameLvl != null)
 		    			{
