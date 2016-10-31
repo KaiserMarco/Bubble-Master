@@ -5,6 +5,8 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
 
+import Utils.Global;
+
 public class Enter extends Ostacolo
 {
 	private Rectangle ostr;
@@ -84,23 +86,23 @@ public class Enter extends Ostacolo
 	
 	public Rectangle component( String part ) 
 		{
-			if(part.equals( "latoSu" ))
+			if(part.equals( Global.LATOSU ))
 				return latoSu;
-			else if(part.equals( "latoGiu" ))
+			else if(part.equals( Global.LATOGIU ))
 				return latoGiu;
-			else if(part.equals( "latoSx" ))
+			else if(part.equals( Global.LATOSX ))
 				return latoSx;
-			else if(part.equals( "latoDx" ))
+			else if(part.equals( Global.LATODX ))
 				return latoDx;
-			else if(part.equals( "spigASx" ))
+			else if(part.equals( Global.SPIGASX ))
 				return spigASx;
-			else if(part.equals( "spigADx" ))
+			else if(part.equals( Global.SPIGADX ))
 				return spigADx;
-			else if(part.equals( "spigBSx" ))
+			else if(part.equals( Global.SPIGBSX ))
 				return spigBSx;
-			else if(part.equals( "spigBDx" ))
+			else if(part.equals( Global.SPIGBDX ))
 				return spigBDx;
-			else if(part.equals( "rect" ))
+			else if(part.equals( Global.RECT ))
 				return ostr;
 			else if(part.equals( "latoIngresso" ))
 				if(dir.equals( "sx" ))

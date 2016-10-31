@@ -46,7 +46,12 @@ public class Global
 	
 	/** gli ID degli oggetti del gioco */
 	public static final String TUBO = "tubo", BASE = "base", ENTER = "enter", PLAYER = "player", BOLLA = "bolla", SBARRA = "sbarra";
-
+	/** gli ID delle azioni del player */
+	public static final String SPARO = "Sparo", SALTO = "Salto";
+	/***/
+	public static final String SPIGASX = "spigASx", SPIGADX = "spigADx", SPIGBSX = "spigBSx", SPIGBDX = "spigBDx",
+							   LATOSU = "latoSu", LATOGIU = "latoGiu", LATOSX = "latoSx", LATODX = "latoDx", RECT = "rect";
+	
 	/** hashMap contente i vettori di configurazione tasti */
 	public static ArrayList<Map<String, Integer>> mapButtons;
 	public static Map<String, Integer> play1 = new HashMap<>(), play2 = new HashMap<>();

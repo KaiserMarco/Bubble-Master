@@ -46,6 +46,7 @@ public class Player extends Ostacolo
 	private int maxJump = 0, tempJump;
 
 	private static final String SINISTRA = "Sx", DESTRA = "Dx";
+	private static final String RESTORE = "restore", MOVE = "move";
 	
 	// la direzione di movimento del personaggio
 	private String dir;
@@ -124,11 +125,16 @@ public class Player extends Ostacolo
 	
 	private	int indice;
 	
+	private static final String LIFE = "life", COIN = "coin", INVINCIBLE = "invincible", AMMO = "ammo";
+	
+	private Color col;
+	
 	public Player( float x, float y, int numPlayer, GameContainer gc, Color color ) throws SlickException
 		{
 			super( "player" );
 			
 			this.color = color;
+			col = new Color( color.getRed(), color.getGreen(), color.getBlue(), 220 );
 			
 			xPlayer = x;
 			yPlayer = y;
@@ -214,6 +220,7 @@ public class Player extends Ostacolo
 			points = 0;
 			
 			powerUp = new ArrayList<PowerUp>();
+			powerUp.add( new Ammo( 0, 0, gc.getHeight()/40, maxHeight ) );
 
 			coolDown = new Rectangle( space + Global.Width/40, maxHeight, Global.Height - maxHeight, Global.Height - maxHeight );
 			
@@ -287,6 +294,18 @@ public class Player extends Ostacolo
 					fuoco.draw();
 
 			float pos = Global.Width/40 + Global.Width*10/42*(numPlayer-1);
+			if(currAmmo >= 0)
+				{
+					g.setColor( col );
+					Rectangle zone = new Rectangle( pos, maxHeight, Global.Height - maxHeight, Global.Height - maxHeight );
+					g.fill( zone );
+					powerUp.get( 0 ).getImage().draw( pos, maxHeight, Global.Height - maxHeight, Global.Height - maxHeight );
+					g.drawString( "X " + currAmmo, zone.getMaxX() + space, maxHeight );
+					coolDown.setLocation( pos, coolDown.getY() + tickCd );
+					coolDown.setHeight( coolDown.getHeight() - tickCd );
+					g.fill( coolDown );
+					index--;
+				}
 			if(drawLifes)
 				{
 					int j = 0;
@@ -313,22 +332,6 @@ public class Player extends Ostacolo
 					g.setColor( color );
 					g.drawString( "SCORE : " + points, pos + Global.Width/80, Global.Height/30);
 				}
-			
-			if(currAmmo > 0)
-				{
-					float offset = Global.Width/4 + Global.Width/40;
-					Rectangle zone = new Rectangle( space + Global.Width/40 + offset*(numPlayer-1), maxHeight, Global.Height - maxHeight, Global.Height - maxHeight );
-					g.fill( zone );
-					powerUp.get( 0 ).getImage().draw( zone.getX(), maxHeight, Global.Height - maxHeight, Global.Height - maxHeight );
-					g.drawString( "X " + currAmmo, zone.getMaxX() + space, maxHeight );
-					coolDown.setX( zone.getX() );
-					coolDown.setY( coolDown.getY() + tickCd );
-					coolDown.setHeight( coolDown.getHeight() - tickCd );
-					Color col = new Color( color.getRed(), color.getGreen(), color.getBlue(), 220 );
-					g.setColor( col );
-					g.fill( coolDown );
-					index--;
-				}
 		}
 	
 	public void setNumPlayer( int val )
@@ -337,8 +340,8 @@ public class Player extends Ostacolo
 	public void checkPosition( ArrayList<Ostacolo> obstacles )
 		{
 			for(Ostacolo obs: obstacles)
-				if(!obs.getID().startsWith( "player" ))
-					if(area.intersects( obs.component( "latoSu" ) ))
+				if(!obs.getID().startsWith( Global.PLAYER ))
+					if(area.intersects( obs.component( Global.LATOSU ) ))
 						yPlayer = obs.getY() - height;
 		}
     
@@ -398,7 +401,7 @@ public class Player extends Ostacolo
 
 	public void setXY( float x, float y, String function ) 
 		{
-			if(function.equals( "move" ))
+			if(function.equals( MOVE ))
 				{
 					xPlayer = xPlayer + x;
 					yPlayer = yPlayer + y;
@@ -487,9 +490,6 @@ public class Player extends Ostacolo
 		{
 			float move = Global.Width/400;
 			
-			if(powerUp.size() == 0)
-				powerUp.add( new Ammo( 0, 0, gc.getHeight()/40, maxHeight ) );
-			
 			if(!isShooting && currAmmo == 0)
 				if(fire.size() > 1)
 					for(int i = fire.size() - 1; i > 0; i--)
@@ -527,7 +527,7 @@ public class Player extends Ostacolo
 				{
 					for(int i = 0; i < InGame.ostacoli.size(); i++)
 						{
-							if(InGame.ostacoli.get( i ).getID().equals( "bolla" ))
+							if(InGame.ostacoli.get( i ).getID().equals( Global.BOLLA ))
 								if(area.intersects( InGame.ostacoli.get( i ).component( "" ) ))
 									{
 										if(--lifes == 0)
@@ -543,8 +543,6 @@ public class Player extends Ostacolo
 												currentTimeInv = 0;
 												currentTickInv = tickInv;
 											}
-										System.out.println( "vite = " + lifes );
-										System.out.println( "vite dimezzate = " + lifes/2 );
 									}
 						}
 				}
@@ -554,16 +552,16 @@ public class Player extends Ostacolo
 				{
 					if(area.intersects( InGame.powerUp.get( i ).getArea() ))
 						{							
-							if(InGame.powerUp.get( i ).getID().equals( "coin" ))
+							if(InGame.powerUp.get( i ).getID().equals( COIN ))
 								points = points + 500;
-							else if(InGame.powerUp.get( i ).getID().equals( "life" ))
+							else if(InGame.powerUp.get( i ).getID().equals( LIFE ))
 								lifes = Math.min( ++lifes, Global.lifes );
-							else if(InGame.powerUp.get( i ).getID().equals( "invincible" ))
+							else if(InGame.powerUp.get( i ).getID().equals( INVINCIBLE ))
 								{
 									immortal = true;
 									currentTimeImm = gc.getTime();
 								}
-							else if(InGame.powerUp.get( i ).getID().equals( "ammo" ))
+							else if(InGame.powerUp.get( i ).getID().equals( AMMO ))
 								{
 									if(currAmmo < maxAmmo)
 										{
@@ -588,16 +586,16 @@ public class Player extends Ostacolo
 				{
 					moving = true;
 					dir = DESTRA;
-					setXY( move, 0, "move" );
+					setXY( move, 0, MOVE );
 				}
 			else if(input.isKeyDown( Global.mapButtons.get( numPlayer-1 ).get( SINISTRA ) ))
 				{
 					moving = true;
 					dir = SINISTRA;
-					setXY( -move, 0, "move" );
+					setXY( -move, 0, MOVE );
 				}
 			/*ZONA SPARO*/
-			if(input.isKeyDown( Global.mapButtons.get( numPlayer-1 ).get( "Sparo" ) ) && !isShooting)
+			if(input.isKeyDown( Global.mapButtons.get( numPlayer-1 ).get( Global.SPARO ) ) && !isShooting)
 	            {					
 					float space = widthI/(fire.size() + 1);
 
@@ -611,7 +609,7 @@ public class Player extends Ostacolo
 					isShooting = true;
 	            }
 			/*ZONA SALTO*/
-			if(input.isKeyDown( Global.mapButtons.get( numPlayer-1 ).get( "Salto" ) ) && !jump)
+			if(input.isKeyDown( Global.mapButtons.get( numPlayer-1 ).get( Global.SALTO ) ) && !jump)
 				{
 					movingJ = true;
 					jump = true;
@@ -632,7 +630,7 @@ public class Player extends Ostacolo
 							else
 								{
 									for(Ostacolo ost: InGame.ostacoli)
-										if(!ost.getID().equals( "tubo" ))
+										if(!ost.getID().equals( Global.TUBO ))
 											if(fuoco.collision( this, ost, ost.getID(), gc ))
 												{
 													if(fuoco.checkHit())
@@ -647,61 +645,61 @@ public class Player extends Ostacolo
 				{ isShooting = false; }
 			
 			if(maxJump == 1)
-				setXY( 0, -move + 0.2f*(40 - tempJump--), "move" );
+				setXY( 0, -move + 0.2f*(40 - tempJump--), MOVE );
 			else
 				{
 					jump = true;
 					movingJ = true;
-					setXY( 0, move + 0.1f*tempJump++, "move" );
+					setXY( 0, move + 0.1f*tempJump++, MOVE );
 				}
 			
 			/*controlla se non sono stati superati i limiti della schermata*/
 			if(area.getX() + width > gc.getWidth())
-				setXY( gc.getWidth() - width, (int) area.getY(), "restore" );
+				setXY( gc.getWidth() - width, (int) area.getY(), RESTORE );
 			else if(area.getX() < 0)
-				setXY( 0, (int) area.getY(), "restore" );
+				setXY( 0, (int) area.getY(), RESTORE );
 			if(area.getY() + height > maxHeight)
 				{
 					maxJump = 0;
 					tempJump = 0;
 					jump = false;
 					movingJ = false;
-					setXY( (int) area.getX(), maxHeight - height, "restore" );
+					setXY( (int) area.getX(), maxHeight - height, RESTORE );
 				}
 			else if(area.getY() < 0)
 				{
 					maxJump = 0;
 					tempJump = 0;
 					animTime = animTimeJump/5;
-					setXY( (int) area.getX(), 0, "restore" );
+					setXY( (int) area.getX(), 0, RESTORE );
 				}
 		
 			/*controlla la collisione con gli ostacoli del gioco (tranne le sfere)*/
 			for(Ostacolo ost: InGame.ostacoli)
 				{
-					if(!ost.getID().equals( "bolla" ) && !ost.getID().equals( "tubo" ))
+					if(!ost.getID().equals( Global.BOLLA ) && !ost.getID().equals( Global.TUBO ))
 						{
-							if(area.intersects( ost.component( "rect" ) ))
+							if(area.intersects( ost.component( Global.RECT ) ))
 								{
-									if(area.intersects( ost.component( "latoSu" ) ) && (previousArea.getY() + height <= ost.getY()))
+									if(area.intersects( ost.component( Global.LATOSU ) ) && (previousArea.getY() + height <= ost.getY()))
 										{
 											maxJump = 0;
 											tempJump = 0;
 											jump = false;
 											movingJ = false;
-											setXY( (int) area.getX(), (int) (ost.getY() - height), "restore" );
+											setXY( (int) area.getX(), (int) (ost.getY() - height), RESTORE );
 										}										
-									else if(area.intersects( ost.component( "latoGiu" ) ) && (previousArea.getY() > ost.getY() + ost.getHeight()))
+									else if(area.intersects( ost.component( Global.LATOGIU ) ) && (previousArea.getY() > ost.getY() + ost.getHeight()))
 										{
 											maxJump = 0;
 											tempJump = 0;
 											animTime = animTimeJump/5;
-											setXY( (int) area.getX(), (int) (ost.getY() + ost.getHeight()), "restore" );
+											setXY( (int) area.getX(), (int) (ost.getY() + ost.getHeight()), RESTORE );
 										}
-									else if(area.intersects( ost.component( "latoDx" ) ))
-										setXY( (int) (ost.getX() + ost.getWidth()) + 1, (int) area.getY(), "restore" );
-									else if(area.intersects( ost.component( "latoSx" ) ))
-										setXY( (int) (ost.getX() - width) - 1, (int) area.getY(), "restore" );
+									else if(area.intersects( ost.component( Global.LATODX ) ))
+										setXY( (int) (ost.getX() + ost.getWidth()) + 1, (int) area.getY(), RESTORE );
+									else if(area.intersects( ost.component( Global.LATOSX ) ))
+										setXY( (int) (ost.getX() - width) - 1, (int) area.getY(), RESTORE );
 								}
 						}
 				}
@@ -709,7 +707,7 @@ public class Player extends Ostacolo
 			/*controlla se sono state distrutte tutte le sfere*/
 			boolean check = true;
 			for(Ostacolo ost: InGame.ostacoli)
-				if(ost.getID().equals( "bolla" ))
+				if(ost.getID().equals( Global.BOLLA ))
 					check = false;
 			
 			if(check)
