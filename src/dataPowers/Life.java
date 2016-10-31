@@ -1,11 +1,14 @@
 package dataPowers;
 
+import java.util.ArrayList;
+
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Circle;
 
+import dataObstacles.Ostacolo;
 import dataObstacles.Player;
 import interfaces.InGame;
 
@@ -20,11 +23,13 @@ public class Life extends PowerUp
 	
 	// determina quale cuore sto disegnando
 	private int index;
-	private long limit;
-	private boolean change;
+	private final long limit = 500;
 	
 	// determina il tempo corrente di rendering del cuore
 	private int currTimeHeart;
+	
+	// vettore contenenti le immagini delle vite relative dei players
+	private ArrayList<Image> cuori;
 	
 	public Life( int x, int y, float ray, double maxH ) throws SlickException
 		{
@@ -33,10 +38,10 @@ public class Life extends PowerUp
 			ostr = new Circle( x, y, ray );
 			this.maxH = maxH;
 			
+			cuori = new ArrayList<Image>();
+			
 			index = 0;
-			change = false;
 			currTimeHeart = 0;
-			limit = 500;
 		}
 	
 	public Circle getArea()
@@ -44,14 +49,22 @@ public class Life extends PowerUp
 	
 	public Image getImage()
 		{ return img; }
+	
+	public void setPlayers() throws SlickException
+		{
+			for(Ostacolo player: InGame.players)
+				cuori.add( new Image( "./data/Image/heart" + ((Player) player).getColor() + ".png" ) );
+			
+			img = cuori.get( 0 );
+		}
 
 	public void update(GameContainer gc, int delta)
 		{
 			currTimeHeart = currTimeHeart + delta;
 			if(currTimeHeart >= limit)
 				{
-					change = true;
-					index = (++index)%InGame.players.size();
+					img = cuori.get( (++index)%cuori.size() );
+					currTimeHeart = 0;
 				}
 		
 			if(!arrived)
@@ -67,15 +80,5 @@ public class Life extends PowerUp
 		}
 	
 	public void draw( Graphics g ) throws SlickException
-		{
-			if(img == null)
-				img = new Image( "./data/Image/heart" + ((Player) InGame.players.get( index )).getColor() + ".png" );
-			if(change)
-				{
-					img = new Image( "./data/Image/heart" + ((Player) InGame.players.get( index )).getColor() + ".png" );
-					change = false;
-					currTimeHeart = 0;
-				}
-			img.draw( ostr.getX(), ostr.getY(), ostr.getWidth(), ostr.getHeight() );
-		}
+		{ img.draw( ostr.getX(), ostr.getY(), ostr.getWidth(), ostr.getHeight() ); }
 }

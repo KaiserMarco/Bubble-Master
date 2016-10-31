@@ -136,7 +136,10 @@ public class Shot
 									else if(power <= 0.7)
 										InGame.powerUp.add( new Coin( (int) (ost.getArea().getCenterX() - ray), (int) ost.getArea().getCenterY(), ray, ost.getMaxHeight() ) );
 									else
-										InGame.powerUp.add( new Life( (int) (ost.getArea().getCenterX() - ray), (int) ost.getArea().getCenterY(), ray, ost.getMaxHeight() ) );
+										{
+											InGame.powerUp.add( new Life( (int) (ost.getArea().getCenterX() - ray), (int) ost.getArea().getCenterY(), ray, ost.getMaxHeight() ) );
+											((Life) InGame.powerUp.get( InGame.powerUp.size() - 1 )).setPlayers();
+										}
 								}
 						
 							if(ost.getWidth() == Global.Width/32)
