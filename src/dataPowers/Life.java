@@ -6,14 +6,25 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Circle;
 
+import dataObstacles.Player;
+import interfaces.InGame;
+
 public class Life extends PowerUp
 {
 	private double maxH;
 	private Circle ostr;
-	private Image img;
+	private Image img = null;
 	
 	// determina se l'oggetto ha raggiunto terra
 	private boolean arrived = false;
+	
+	// determina quale cuore sto disegnando
+	private int index;
+	private long limit;
+	private boolean change;
+	
+	// determina il tempo corrente di rendering del cuore
+	private int currTimeHeart;
 	
 	public Life( int x, int y, float ray, double maxH ) throws SlickException
 		{
@@ -22,7 +33,10 @@ public class Life extends PowerUp
 			ostr = new Circle( x, y, ray );
 			this.maxH = maxH;
 			
-			img = new Image( "./data/Image/heartRed.png" );
+			index = 0;
+			change = false;
+			currTimeHeart = 0;
+			limit = 500;
 		}
 	
 	public Circle getArea()
@@ -33,9 +47,15 @@ public class Life extends PowerUp
 
 	public void update(GameContainer gc, int delta)
 		{
+			currTimeHeart = currTimeHeart + delta;
+			if(currTimeHeart >= limit)
+				{
+					change = true;
+					index = (++index)%InGame.players.size();
+				}
+		
 			if(!arrived)
 				{
-				
 					if(ostr.getY() + ostr.getRadius()*2 < maxH)
 						ostr.setCenterY( ostr.getCenterY() + delta/5 );
 					else
@@ -46,6 +66,16 @@ public class Life extends PowerUp
 				}
 		}
 	
-	public void draw( Graphics g )
-		{ img.draw( ostr.getX(), ostr.getY(), ostr.getWidth(), ostr.getHeight() ); }
+	public void draw( Graphics g ) throws SlickException
+		{
+			if(img == null)
+				img = new Image( "./data/Image/heart" + ((Player) InGame.players.get( index )).getColor() + ".png" );
+			if(change)
+				{
+					img = new Image( "./data/Image/heart" + ((Player) InGame.players.get( index )).getColor() + ".png" );
+					change = false;
+					currTimeHeart = 0;
+				}
+			img.draw( ostr.getX(), ostr.getY(), ostr.getWidth(), ostr.getHeight() );
+		}
 }

@@ -103,10 +103,8 @@ public class Edit
 			items = elem.getItems();
 			ostacoli = new ArrayList<Ostacolo>();
 			
-			((Player) items.get( 3 )).setDrawLifes( false );
-			((Player) items.get( 4 )).setDrawLifes( false );
-			((Player) items.get( 5 )).setDrawLifes( false );
-			((Player) items.get( 6 )).setDrawLifes( false );
+			for(int i = 3; i < 7; i++)
+				((Player) items.get( i )).setDrawLifes( false );
 			
 			up = new Image( "./data/Image/up.png" );
 			down = new Image( "./data/Image/down.png" );
@@ -465,6 +463,12 @@ public class Edit
 		{
 			//posiziona i tubi all'inizio dell'array
 			setTubeInArray( gc );
+			
+			int num = 0;
+			// settare in maniera opportuna il numPlayer dei giocatori
+			for(Ostacolo obs: ostacoli)
+				if(obs.getID().equals( Global.PLAYER ))
+					((Player) obs).setNumPlayer( num++ );
 			
 			// TODO CAPIRE PERCHE ALCUNI LIVELLI VENGONO SALVATI MALE (SOPRATTUTTO I TUBI, ALCUNI SCOMPAIONO)
 			// SE INIZIO CON IL TUBO RISOLVTO A SINISTRA, QUESTO POI SCOMPARE ( E NON CAPISCO PERCHE)

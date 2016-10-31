@@ -265,7 +265,6 @@ public class Player extends Ostacolo
 				pgdx.draw( xPlayer, yPlayer, widthI, height, imm );
 			else
 				pgsx.draw( xPlayer - offset, yPlayer, widthI, height, imm );
-				
 		}
 	
 	public void draw( Graphics g ) throws SlickException
@@ -331,6 +330,9 @@ public class Player extends Ostacolo
 					index--;
 				}
 		}
+	
+	public void setNumPlayer( int val )
+		{ numPlayer = val; }
 	
 	public void checkPosition( ArrayList<Ostacolo> obstacles )
 		{
