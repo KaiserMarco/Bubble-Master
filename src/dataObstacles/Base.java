@@ -50,7 +50,7 @@ public class Base extends Ostacolo
 		{ return indexTube; }
 
 	public void draw(Graphics g) throws SlickException
-		{ g.fill( ostr ); }
+		{ /*g.fill( ostr );*/ }
 	
 	public Rectangle getArea()
 		{ return ostr; }

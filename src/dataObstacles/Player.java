@@ -124,7 +124,7 @@ public class Player extends Ostacolo
 	
 	private	int indice;
 	
-	public Player( int x, int y, int numPlayer, GameContainer gc, Color color ) throws SlickException
+	public Player( float x, float y, int numPlayer, GameContainer gc, Color color ) throws SlickException
 		{
 			super( "player" );
 			
@@ -434,7 +434,7 @@ public class Player extends Ostacolo
 	public Ostacolo clone( GameContainer gc ) {
 		try
 			{
-				Player p = new Player( (int) xPlayer, (int) yPlayer, numPlayer, gc, color );				
+				Player p = new Player( xPlayer, yPlayer, numPlayer, gc, color );				
 				p.setDrawLifes( getDrawLifes() );				
 				return p;
 			}

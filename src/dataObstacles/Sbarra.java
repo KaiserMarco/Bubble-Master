@@ -37,7 +37,7 @@ public class Sbarra extends Ostacolo
 	
 	public static final String ID = "sbarra";
 	
-	public Sbarra( int x, int y, String type, GameContainer gc ) throws SlickException
+	public Sbarra( float x, float y, String type, GameContainer gc ) throws SlickException
 		{
 			super( ID );
 			
