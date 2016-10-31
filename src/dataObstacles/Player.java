@@ -293,8 +293,9 @@ public class Player extends Ostacolo
 				if(fuoco.isShooting())
 					fuoco.draw();
 
-			float pos = Global.Width/40 + Global.Width*10/42*(numPlayer-1);
 			g.setColor( col );
+			
+			float pos = Global.Width/40 + Global.Width*10/42*(numPlayer-1);
 			if(currAmmo > 0)
 				{
 					Rectangle zone = new Rectangle( pos + 2*widthH, maxHeight, Global.Height - maxHeight, Global.Height - maxHeight );
@@ -525,7 +526,7 @@ public class Player extends Ostacolo
 					for(int i = 0; i < InGame.ostacoli.size(); i++)
 						{
 							if(InGame.ostacoli.get( i ).getID().equals( Global.BOLLA ))
-								if(area.intersects( InGame.ostacoli.get( i ).component( "" ) ))
+								if(area.intersects( InGame.ostacoli.get( i ).component( Global.RECT ) ))
 									{
 										if(--lifes == 0)
 											{
@@ -760,7 +761,7 @@ public class Player extends Ostacolo
 	public void setUnion(int val)
 		{}
 
-	public Point getMidArea()
+	public float[] getMidArea()
 		{ return null; }
 	
 	public void setWidth( float val )

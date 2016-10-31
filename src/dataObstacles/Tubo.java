@@ -325,8 +325,8 @@ public class Tubo extends Ostacolo{
 		{ return unione; }
 	
 	//calcola il punto a meta' dell'oggetto per generare la linea che unisce i tubi connessi
-	public Point getMidArea()
-		{ return new Point( getX() + width/2, getY() + height/2 ); }
+	public float[] getMidArea()
+		{ return ostr.getCenter(); }
 	
 	public void setWidth( float val )
 		{

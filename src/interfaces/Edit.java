@@ -166,9 +166,9 @@ public class Edit
 						{
 							((Tubo) obs).getBase().draw( g );
 							if(obs.getUnion() == -1)
-								g.drawGradientLine( obs.getMidArea().getX(), obs.getMidArea().getY(), Color.red, temp.getMidArea().getX(), temp.getMidArea().getY(), Color.red );
+								g.drawGradientLine( obs.getMidArea()[0], obs.getMidArea()[1], Color.red, temp.getMidArea()[0], temp.getMidArea()[1], Color.red );
 							else
-								g.drawGradientLine( obs.getMidArea().getX(), obs.getMidArea().getY(), Color.red, ostacoli.get( obs.getUnion() ).getMidArea().getX(), ostacoli.get( obs.getUnion() ).getMidArea().getY(), Color.red );
+								g.drawGradientLine( obs.getMidArea()[0], obs.getMidArea()[1], Color.red, ostacoli.get( obs.getUnion() ).getMidArea()[0], ostacoli.get( obs.getUnion() ).getMidArea()[1], Color.red );
 						}
 				}
 			

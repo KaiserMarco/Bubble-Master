@@ -59,5 +59,5 @@ public abstract class Ostacolo
 	public abstract int getUnion();
 	public abstract void setUnion( int val );
 	
-	public abstract Point getMidArea();
+	public abstract float[] getMidArea();
 }

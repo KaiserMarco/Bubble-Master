@@ -164,7 +164,7 @@ public class Enter extends Ostacolo
 	public void setUnion(int val)
 		{}
 	
-	public Point getMidArea()
+	public float[] getMidArea()
 		{ return null; }
 	
 	public void updateStats(GameContainer gc)

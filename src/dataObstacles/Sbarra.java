@@ -233,7 +233,7 @@ public class Sbarra extends Ostacolo
 	public void setUnion(int val)
 		{}
 
-	public Point getMidArea()
+	public float[] getMidArea()
 		{ return null; }
 	
 	public void setWidth( float val )

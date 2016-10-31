@@ -332,7 +332,7 @@ public class Bubble extends Ostacolo
     		//la sfera e' nel SECONDO tubo
     		else
     			{
-	    			setXY( ost.getMidArea().getX() - getWidth(), ost.getMidArea().getY() - getWidth(), "restore" );
+	    			setXY( ost.getMidArea()[0] - getWidth(), ost.getMidArea()[1] - getWidth(), "restore" );
 					
 					if(ost.getOrienting().equals( "sx" ))
 						{
@@ -363,13 +363,13 @@ public class Bubble extends Ostacolo
     		// se la sfera e' nel PRIMO tubo
     		if(primoTubo)
 	    		{
-    				if(tubo.getOrienting().equals( "sx" ) && ostr.getCenterX() >= tubo.getMidArea().getX())
+    				if(tubo.getOrienting().equals( "sx" ) && ostr.getCenterX() >= tubo.getMidArea()[0])
 						primoTubo = false;
-    				else if(tubo.getOrienting().equals( "dx" ) && ostr.getCenterX() < tubo.getMidArea().getX())
+    				else if(tubo.getOrienting().equals( "dx" ) && ostr.getCenterX() < tubo.getMidArea()[0])
 						primoTubo = false;
-    				else if(tubo.getOrienting().equals( "up" ) && ostr.getCenterY() >= tubo.getMidArea().getY())
+    				else if(tubo.getOrienting().equals( "up" ) && ostr.getCenterY() >= tubo.getMidArea()[1])
 						primoTubo = false;
-    				else if(tubo.getOrienting().equals( "down" ) && ostr.getCenterY() < tubo.getMidArea().getY())
+    				else if(tubo.getOrienting().equals( "down" ) && ostr.getCenterY() < tubo.getMidArea()[1])
 						primoTubo = false;
 
     				// setta la velocita' nel PRIMO tubo
@@ -548,7 +548,7 @@ public class Bubble extends Ostacolo
 	public void setUnion(int val)
 		{}
 
-	public Point getMidArea()
+	public float[] getMidArea()
 		{ return null; }
 	
 	public void setWidth( float val )
