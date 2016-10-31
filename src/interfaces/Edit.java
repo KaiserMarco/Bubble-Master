@@ -44,8 +44,6 @@ public class Edit
 	
 	private ArrayList<Sfondo> sfondi;
 	
-	private int gamer, ball = 0;
-	
 	private int indexSfondo = 3;
 	
 	private Image up, down;
@@ -231,18 +229,11 @@ public class Edit
 					indexSfondo = i;
 		
 			for(Ostacolo obs: ostacoli)
-				{
-					if(!obs.getID().equals( Global.BASE ) && !obs.getID().equals( Global.ENTER ))
-						this.ostacoli.add( obs );
-					
-					if(obs.getID().equals( Global.BOLLA ))
-						ball++;
-				}
+				if(!obs.getID().equals( Global.BASE ) && !obs.getID().equals( Global.ENTER ))
+					this.ostacoli.add( obs );
 			
 			for(Ostacolo player: giocatori)
 				this.ostacoli.add( player );
-			
-			gamer = 1;
 			
 			this.nameLvl = nameLvl;
 			this.index = index;
@@ -281,10 +272,6 @@ public class Edit
 											nuovaCoppiaTubi = true;
 											nuovoTubo1 = true;
 										}
-									if(temp.getID().equals( Global.PLAYER ))
-										gamer++;
-									else if(temp.getID().equals( Global.BOLLA ))
-										ball++;
 									temp.setInsert( true, true );
 									
 									indexCursor = -1;
@@ -317,11 +304,6 @@ public class Edit
 													nuovaCoppiaTubi = true;
 													nuovoTubo1 = true;
 												}
-											
-											if(temp.getID().equals( Global.PLAYER ))
-												gamer++;
-											else if(temp.getID().equals( Global.BOLLA ))
-												ball++;
 											temp.setInsert( true, true );
 											
 											tempX = x;
@@ -479,72 +461,73 @@ public class Edit
 						System.out.println( "ID = " + obs.getID() + " DIR = " + ((Tubo) obs).getDirection() );
 				}		
 			try
-			{
-			    livello = new Element( "level" );
-			    document = new Document( livello );
-			    
-			    XMLOutputter outputter = new XMLOutputter();
-				// imposta un bel formato all'outputter 
-				outputter.setFormat( Format.getPrettyFormat() );
-				// creazione del file xml con il nome scelto
+				{
+				    livello = new Element( "level" );
+				    document = new Document( livello );
+				    
+				    XMLOutputter outputter = new XMLOutputter();
+					// imposta un bel formato all'outputter 
+					outputter.setFormat( Format.getPrettyFormat() );
+					// creazione del file xml con il nome scelto
+		
+					Element item;
+				    livello.addContent( new Comment( "Objects" ) );
+				    
+				    item = new Element( "livello" );
+				    item.setAttribute( "nome", name );
+				    livello.addContent( item );
+				    for(Ostacolo obs: ostacoli)
+				    	{									    			
+		    				item = new Element( "ostacolo" );
+		    				item.setAttribute( "x", (float) obs.getX() + "" );
+		    				item.setAttribute( "y", (float) obs.getY() + "" );
+		    				item.setAttribute( "union", obs.getUnion() + "" );
+		    				if(obs.getOrienting() != null)
+		    				    item.setAttribute( "type", obs.getOrienting() );
+		    				else
+		    				    item.setAttribute( "type", "null" );
+		    				if(obs.getID().equals( Global.PLAYER ))
+		    					{
+		    						item.setAttribute( "number", ((Player) obs).getNumPlayer() + "" );
+		    						item.setAttribute( "color", ((Player) obs).getColor() );
+		    					}
+		    				item.setAttribute( "ID", obs.getID() );
+		    				livello.addContent( item );
+				    	}
+					
+		    		item = new Element( "sfondo" );
+		    		item.setAttribute( "x", "0" );
+		    		item.setAttribute( "y", "0" );
+		    		item.setAttribute( "name", sfondi.get( indexSfondo ).getName() );
+		    		livello.addContent( item );
 	
-				Element item;
-			    livello.addContent( new Comment( "Objects" ) );
-			    
-			    item = new Element( "livello" );
-			    item.setAttribute( "nome", name );
-			    livello.addContent( item );
-			    for(Ostacolo obs: ostacoli)
-			    	{									    			
-	    				item = new Element( "ostacolo" );
-	    				item.setAttribute( "x", (float) obs.getX() + "" );
-	    				item.setAttribute( "y", (float) obs.getY() + "" );
-	    				item.setAttribute( "union", obs.getUnion() + "" );
-	    				if(obs.getOrienting() != null)
-	    				    item.setAttribute( "type", obs.getOrienting() );
-	    				else
-	    				    item.setAttribute( "type", "null" );
-	    				if(obs.getID().equals( Global.PLAYER ))
-	    					{
-	    						item.setAttribute( "number", ((Player) obs).getNumPlayer() + "" );
-	    						item.setAttribute( "color", ((Player) obs).getColor() );
-	    					}
-	    				item.setAttribute( "ID", obs.getID() );
-	    				livello.addContent( item );
-			    	}
-				
-	    		item = new Element( "sfondo" );
-	    		item.setAttribute( "x", "0" );
-	    		item.setAttribute( "y", "0" );
-	    		item.setAttribute( "name", sfondi.get( indexSfondo ).getName() );
-	    		livello.addContent( item );
-
-	    		livello.addContent( item );
-	    		
-	    		if(nameLvl != null)
-	    			{
-	    				removeFile();
-	    				Begin.livelli.remove( index );
-	    				Begin.livelli.add( index, new Livello( ostacoli, sfondi.get( indexSfondo ), name ) );
-
-	    	    		outputter.output( document, new FileOutputStream( "data/livelli/" + name + ".xml" ) );
-	    	    		Start.cl.updateNameLvl();
-	    			}
-	    		else
-	    			{
-						Begin.livelli.add( new Livello( ostacoli, sfondi.get( indexSfondo ), name ) );
-			    		outputter.output( document, new FileOutputStream( "data/livelli/" + name + ".xml" ) );
-	    			}
-	    		
-	    		System.out.println( "livello " + name + ".xml salvato" );
-
-				nameLvl = null;
-				index = -1;
-			}
-			catch( IOException e ){
-				System.err.println( "Error while creating the level" );
-				e.printStackTrace();
-			}
+		    		livello.addContent( item );
+		    		
+		    		if(nameLvl != null)
+		    			{
+		    				removeFile();
+		    				Begin.livelli.remove( index );
+		    				Begin.livelli.add( index, new Livello( ostacoli, sfondi.get( indexSfondo ), name ) );
+	
+		    	    		outputter.output( document, new FileOutputStream( "data/livelli/" + name + ".xml" ) );
+		    	    		Start.cl.updateNameLvl();
+		    			}
+		    		else
+		    			{
+							Begin.livelli.add( new Livello( ostacoli, sfondi.get( indexSfondo ), name ) );
+				    		outputter.output( document, new FileOutputStream( "data/livelli/" + name + ".xml" ) );
+		    			}
+		    		
+		    		System.out.println( "livello " + name + ".xml salvato" );
+	
+					nameLvl = null;
+					index = -1;
+				}
+			catch( IOException e )
+				{
+					System.err.println( "Error while creating the level" );
+					e.printStackTrace();
+				}
 		}
 	
 	/** setta la posizione dell'editor */
@@ -721,11 +704,6 @@ public class Edit
 					/*cancellazione oggetti del gioco*/
 					if(input.isMousePressed( Input.MOUSE_RIGHT_BUTTON ) || input.isKeyPressed( Input.KEY_DELETE ))
 						{
-							if(temp.getID().equals( Global.BOLLA ))
-								ball = Math.max( ball - 1, 0);
-							else if(temp.getID().equals( Global.PLAYER ))
-								gamer = Math.max( gamer - 1, 0 );
-							
 							//se il tubo ha un'altro tubo collegato, elimina anche il collegamento
 							if(temp.getID().equals( Global.TUBO ))
 								{
@@ -857,17 +835,14 @@ public class Edit
 						                            			{
 						                            				if(!insertEditor)
 							                            				{
-							                            					if(gamer > 0 && ball > 0)
-								                            					{
-							                            							for(Ostacolo obs: ostacoli)
-							                            								if(obs.getID().equals( Global.PLAYER ))
-							                            									((Player) obs).setDrawLifes( true );
-							                            					        // apre la textBox
-							                            					        tBox.setOpen( true );
-								                            					    // setta il nome del livello
-							                            					        if(index >= 0)
-							                            					        	tBox.setText( Begin.livelli.get( index ).getName() );
-								                            					}
+					                            							for(Ostacolo obs: ostacoli)
+					                            								if(obs.getID().equals( Global.PLAYER ))
+					                            									((Player) obs).setDrawLifes( true );
+					                            					        // apre la textBox
+					                            					        tBox.setOpen( true );
+						                            					    // setta il nome del livello
+					                            					        if(index >= 0)
+					                            					        	tBox.setText( Begin.livelli.get( index ).getName() );
 							                            				}
 						                            			}
 						                            		
@@ -901,8 +876,6 @@ public class Edit
 		                    resetStatus();
 		                    Start.editGame = 0;
 		                    indexCursor = -1;
-		                    gamer = 0;
-		                    ball = 0;
 		                
 		                    Start.chooseLevel = 1;
 					    }
