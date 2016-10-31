@@ -294,9 +294,9 @@ public class Player extends Ostacolo
 					fuoco.draw();
 
 			float pos = Global.Width/40 + Global.Width*10/42*(numPlayer-1);
+			g.setColor( col );
 			if(currAmmo >= 0)
 				{
-					g.setColor( col );
 					Rectangle zone = new Rectangle( pos, maxHeight, Global.Height - maxHeight, Global.Height - maxHeight );
 					g.fill( zone );
 					powerUp.get( 0 ).getImage().draw( pos, maxHeight, Global.Height - maxHeight, Global.Height - maxHeight );
@@ -328,10 +328,7 @@ public class Player extends Ostacolo
 				}
 			
 			if(drawPoints)
-				{
-					g.setColor( color );
-					g.drawString( "SCORE : " + points, pos + Global.Width/80, Global.Height/30);
-				}
+				g.drawString( "SCORE : " + points, pos + Global.Width/80, Global.Height/30);
 		}
 	
 	public void setNumPlayer( int val )

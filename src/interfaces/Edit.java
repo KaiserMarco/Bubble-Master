@@ -464,7 +464,7 @@ public class Edit
 			//posiziona i tubi all'inizio dell'array
 			setTubeInArray( gc );
 			
-			int num = 0;
+			int num = 1;
 			// settare in maniera opportuna il numPlayer dei giocatori
 			for(Ostacolo obs: ostacoli)
 				if(obs.getID().equals( Global.PLAYER ))
