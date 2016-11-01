@@ -2,6 +2,9 @@ package Utils;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.SlickException;
+import org.newdawn.slick.UnicodeFont;
+import org.newdawn.slick.font.effects.ColorEffect;
 import org.newdawn.slick.geom.Rectangle;
 
 public class KeyButton
@@ -9,22 +12,40 @@ public class KeyButton
 	private Rectangle ostr;
 	
 	// il tasto associato al binding
-	private String bind;
+	private String bind = "";
+	private int sizeW = 0, sizeH = 0;
+	
+	private static UnicodeFont font = null;
 	
 	// determina se il pulsante e' stato selezionato oppure no
 	private boolean selected;
 	
-	public KeyButton( float x, float y , float width )
+	private static final float OFFSET_X = 5, OFFSET_Y = 0;
+	
+	@SuppressWarnings("unchecked")
+    public KeyButton( float x, float y , float height ) throws SlickException
 		{
-			ostr = new Rectangle( x, y, width, width );
+    	    if(font == null) {
+                font = new UnicodeFont( "./data/fonts/prstart.ttf", 25, false, true );
+                font.addAsciiGlyphs();
+                font.addGlyphs( Global.Width, Global.Height );
+                font.getEffects().add( new ColorEffect( java.awt.Color.WHITE ) );
+                font.loadGlyphs();
+            }
+	        
+	        final float maxWidth = font.getWidth( "SPACE" ) + OFFSET_X * 2;
+			ostr = new Rectangle( x, y, maxWidth, height + OFFSET_Y * 2 );
 			
 			selected = false;
-			
-			bind = "";
 		}
 	
 	public void setKey( String val )
-		{ bind = val; }
+		{
+	        bind = val;
+	        // Update the dimension of the key.
+	        sizeW = font.getWidth( bind );
+	        sizeH = font.getHeight( bind );
+	    }
 	
 	public String getKey()
 		{ return bind; }
@@ -64,8 +85,8 @@ public class KeyButton
 			if(selected)
 				g.draw( ostr );
 			
-			g.scale( 2, 2 );
-			g.drawString( bind, (ostr.getX() + Global.Width/100)/2, (ostr.getY() + Global.Height/300)/2 );
-			g.resetTransform();
+			float X = ostr.getX() + ((ostr.getWidth() - sizeW) / 2);
+			float Y = ostr.getY() + ((ostr.getHeight() - sizeH) / 2);
+			font.drawString( X, Y, bind, Color.red );
 		}
 }

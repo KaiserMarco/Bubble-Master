@@ -30,8 +30,6 @@ public class Configurations
 	// lo sfondo
 	//Image img;
 	
-	private boolean isChanged = false;
-	
 	// determina se e' stato effettuato un click
 	private boolean mouseDown = false;
 	
@@ -51,8 +49,9 @@ public class Configurations
 	private Document document;
 	
 	// coordinata x e y in cui scrivere nome e lettera bindata
-	float xString = Global.Width*10/45, yString = Global.Height/9 + 4*Global.Height*10/75;
-	float sum = Global.Height/90;
+	private final float xString = Global.Width*10/45;
+	//private final float yString = Global.Height/9 + 4*Global.Height*10/75;
+	private final float sum = Global.Height/90;
 	
 	// le mappe dei tasti
 	private ArrayList<Map<String, Integer>> maps;
@@ -71,13 +70,14 @@ public class Configurations
 			arrows = new ArrayList<ArrowButton>();
 			arrows.add( left );
 			arrows.add( right );
-
-			float widthK = Global.Width/20;
-			kSalto = new KeyButton( xString + Global.Width/10, left.getY() + 8*sum, widthK );
-			kSparo = new KeyButton( xString + Global.Width/3 + Global.Width*10/98, left.getY() + 8*sum, widthK );
-
-			kSx = new KeyButton( xString + Global.Width/10, left.getY() + 16*sum, widthK );
-			kDx = new KeyButton( xString + Global.Width/3 + Global.Width*10/98, left.getY() + 16*sum, widthK );
+			
+			//System.out.println( "W: " + widthK + ", OLD: " + (Global.Width/20) );
+			final float heightK = Global.Width/25;
+			kSalto = new KeyButton( xString + Global.Width/10, left.getY() + 8*sum, heightK );
+			kSparo = new KeyButton( xString + Global.Width/3 + Global.Width*10/98, left.getY() + 8*sum, heightK );
+			
+			kSx = new KeyButton( xString + Global.Width/10, left.getY() + 16*sum, heightK );
+			kDx = new KeyButton( xString + Global.Width/3 + Global.Width*10/98, left.getY() + 16*sum, heightK );
 			
 			keys = new ArrayList<KeyButton>();
 			keys.add( kSalto );
@@ -195,6 +195,8 @@ public class Configurations
 						else if(index == 2) maps.get( numPlayer ).put( "Sx", i );
 						else maps.get( numPlayer ).put( "Dx", i );
 						
+						updateKeys( numPlayer, in );
+						
 						resetSelected();
 						return;
 					}
@@ -232,12 +234,10 @@ public class Configurations
 			return false;
 		}
 	
-	public boolean isChanged() { return isChanged; }
+	public boolean isChanged() { return checkDifference(); }
 	
 	public void update( Input input, int mouseX, int mouseY )
 		{
-			isChanged = checkDifference();
-			
 			if(indexCursor < 0 &&((input.isKeyPressed( Input.KEY_UP ) || input.isKeyPressed( Input.KEY_DOWN )
 			|| input.isKeyPressed( Input.KEY_LEFT ) || input.isKeyPressed( Input.KEY_RIGHT ))))
 				indexCursor = 0;
