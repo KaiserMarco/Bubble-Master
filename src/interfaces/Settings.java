@@ -150,7 +150,9 @@ public class Settings
 			
 			g.setColor( Color.black );
 			float xDrop = leftDrop.getMaxX() + (rightDrop.getX() - leftDrop.getMaxX())/2 - Global.Width/40, yDrop = leftDrop.getY() - Global.Height/200;
-			g.drawString( dropRate + " %" , xDrop, yDrop );
+			float scale = 1.1f;
+			g.scale( scale, scale );
+			g.drawString( dropRate + " %" , xDrop/scale, yDrop/scale );
 			g.resetTransform();
 			
 			if(indexCursor >= 0)
@@ -161,8 +163,6 @@ public class Settings
 			config.draw( gc );
 			
 			Global.drawScreenBrightness( g );
-			
-			//g.fill( new Rectangle( 99, 99, 1200, 1200 ) );
 		}
 	
 	private int checkButton( Button button, Input input, int i )

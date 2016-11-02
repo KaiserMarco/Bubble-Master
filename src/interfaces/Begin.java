@@ -258,9 +258,13 @@ public class Begin
 	        			showBegin = !showBegin;
 	        		if(showBegin)
 	        			{
+	        				float xBeg = Global.Width*5/22, yBeg = Global.Height*5/6;
+	        				float scale = 1.3f;
+	        				g.scale( scale, scale );
 	        				g.setColor( Color.red );
-        					g.drawString( BEGIN, gc.getWidth()*5/17, gc.getHeight()*5/6 );
+        					g.drawString( BEGIN, xBeg/scale, yBeg/scale );
         					g.setColor( Color.transparent );
+        					g.resetTransform();
 	        			}
 
 					timeShowBegin = (timeShowBegin + 1)%timeLimitBegin;

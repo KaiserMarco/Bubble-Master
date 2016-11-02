@@ -452,9 +452,6 @@ public class Edit
 				if(obs.getID().equals( Global.PLAYER ))
 					((Player) obs).setNumPlayer( num++ );
 			
-			// TODO CAPIRE PERCHE ALCUNI LIVELLI VENGONO SALVATI MALE (SOPRATTUTTO I TUBI, ALCUNI SCOMPAIONO)
-			// SE INIZIO CON IL TUBO RISOLVTO A SINISTRA, QUESTO POI SCOMPARE ( E NON CAPISCO PERCHE)
-			
 			for(Ostacolo obs: this.ostacoli)
 				{
 					if(obs.getID().equals( Global.TUBO ))
@@ -629,7 +626,10 @@ public class Edit
 				}
 			// se HO cliccato su un elemento da inserire
 			if(temp != null)
-				{					
+				{
+					// determina l'altezza massima inseribile dell'oggetto
+					float maxHeight = sfondi.get( indexSfondo ).getMaxHeight();
+					
 					for(Ostacolo ost: ostacoli)
 						if(checkCollision( ost ))
 							collide = true;
@@ -686,14 +686,15 @@ public class Edit
 						{
 							if(temp.getX() + 2*temp.getWidth() >= gc.getWidth())
 								temp.setXY( gc.getWidth() - 2 * (int) temp.getWidth(), temp.getY(), "restore" );
-							if(temp.getY() + temp.getHeight()*2 > sfondi.get( indexSfondo ).getMaxHeight())
-								temp.setXY( temp.getX(), temp.getY() - temp.getHeight()*2, "restore" );
+							if(temp.getY() + temp.getHeight()*2 > maxHeight)
+								temp.setXY( temp.getX(), maxHeight - temp.getHeight()*2, "restore" );
 						}
-					else if(temp.getX() + temp.getWidth() >= gc.getWidth())
+					else
 						{
-							temp.setXY( gc.getWidth() - (int) temp.getWidth(), temp.getY(), "restore" );
-							if(temp.getY() + temp.getHeight() > sfondi.get( indexSfondo ).getMaxHeight())
-								temp.setXY( temp.getX(), temp.getY() - temp.getHeight(), "restore" );
+							if(temp.getX() + temp.getWidth() >= gc.getWidth())
+								temp.setXY( gc.getWidth() - (int) temp.getWidth(), temp.getY(), "restore" );
+							if(temp.getY() + temp.getHeight() > maxHeight)
+								temp.setXY( temp.getX(), maxHeight - temp.getHeight(), "restore" );
 						}
 					
 					tempX = mouseX;
