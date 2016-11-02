@@ -234,7 +234,8 @@ public class Configurations
 			return false;
 		}
 	
-	public boolean isChanged() { return checkDifference(); }
+	public boolean isChanged()
+		{ return checkDifference(); }
 	
 	public void update( Input input, int mouseX, int mouseY )
 		{

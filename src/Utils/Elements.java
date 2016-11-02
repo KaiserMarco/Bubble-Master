@@ -32,25 +32,25 @@ public class Elements
 			height = gc.getWidth()/20;
 			
 			ray = gc.getWidth()/32;
-		
+			
 			int heightS = gc.getHeight()*10/24;
 			sfondi = new ArrayList<Sfondo>();
-			sfondi.add( new Sfondo( new Image( "./data/Image/sfondo.png" ), maxH, maxW, gc.getWidth()/8, heightS, width, height, "sfondo" ) );
-			sfondi.add( new Sfondo( new Image( "./data/Image/sfondo2.png" ), maxH, maxW, gc.getWidth()*29/100, heightS, width, height, "sfondo2" ) );
-			sfondi.add( new Sfondo( new Image( "./data/Image/sfondo3.jpg" ), maxH, maxW, gc.getWidth()*46/100, heightS, width, height, "sfondo3" ) );
-			sfondi.add( new Sfondo( new Image( "./data/Image/sfondo4.jpg" ), maxH, maxW, gc.getWidth()*63/100, heightS, width, height, "sfondo4" ) );
-			sfondi.add( new Sfondo( new Image( "./data/Image/sfondo5.jpg" ), maxH, maxW, gc.getWidth()*8/10, heightS, width, height, "sfondo5" ) );			
+			sfondi.add( new Sfondo( new Image( "./data/Image/sfondo1.png" ), maxH, maxW, gc.getWidth()/8, heightS, width, height, "sfondo" ) );
+			sfondi.add( new Sfondo( new Image( "./data/Image/sfondo8.png" ), maxH, maxW, gc.getWidth()*29/100, heightS, width, height, "sfondo2" ) );
+			sfondi.add( new Sfondo( new Image( "./data/Image/sfondo7.png" ), maxH, maxW, gc.getWidth()*46/100, heightS, width, height, "sfondo3" ) );
+			sfondi.add( new Sfondo( new Image( "./data/Image/sfondo4.png" ), maxH, maxW, gc.getWidth()*63/100, heightS, width, height, "sfondo4" ) );
+			sfondi.add( new Sfondo( new Image( "./data/Image/sfondo5.png" ), maxH, maxW, gc.getWidth()*8/10, heightS, width, height, "sfondo5" ) );			
 
 			items = new ArrayList<Ostacolo>();
 			int heightObs = gc.getHeight()*10/17;
 			items.add( new Sbarra( gc.getWidth()/5, heightObs + gc.getHeight()/20 - gc.getHeight()/60, "hor", gc ) );
 			items.add( new Tubo( gc.getWidth()/2 - gc.getHeight()/20, heightObs, "sx", gc ) );
 			items.add( new Bubble( gc.getWidth()*2/3 + gc.getHeight()/20 - gc.getHeight()/48, heightObs, ray, maxW, gc ) );
-			int heightP = gc.getHeight()*3/4;
-			items.add( new Player( gc.getWidth()*2/10, heightP, 1, gc, Color.red ) );
-			items.add( new Player( gc.getWidth()*4/10, heightP, 2, gc, Color.blue ) );
-			items.add( new Player( gc.getWidth()*6/10, heightP, 3, gc, Color.yellow ) );
-			items.add( new Player( gc.getWidth()*8/10, heightP, 4, gc, Color.green ) );
+			int heightP = gc.getHeight()*3/4; float xItem = Global.Width*2/10;
+			items.add( new Player( xItem, heightP, 1, gc, Color.red ) );
+			items.add( new Player( 2*xItem, heightP, 2, gc, Color.blue ) );
+			items.add( new Player( 3*xItem, heightP, 3, gc, Color.yellow ) );
+			items.add( new Player( 4*xItem, heightP, 4, gc, Color.green ) );
 		}
 	
 	public ArrayList<Sfondo> getSfondi()
