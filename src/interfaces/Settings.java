@@ -139,7 +139,7 @@ public class Settings
 			rightDrop.draw( g );
 
 			int j;
-			float startX =  leftLife.getMaxX() + (rightLife.getX() - leftLife.getMaxX())/2 - widthH*2;
+			float startX = leftLife.getMaxX() + (rightLife.getX() - leftLife.getMaxX())/2 - widthH*2;
 			float startY = leftLife.getY() + leftLife.getHeight()/2 - heightH/2;
 			for(j = 0; j < vite/2; j++)
 				heart.draw( startX + widthH*j, startY, widthH, heightH );
