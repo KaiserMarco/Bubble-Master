@@ -682,17 +682,17 @@ public class Edit
 						temp.setXY( 0, temp.getY(), "restore" );					
 					if(temp.getY() <= 0)
 						temp.setXY( temp.getX(), 0, "restore" );
-					else if(temp.getID().equals( Global.BOLLA ))
+					if(temp.getID().equals( Global.BOLLA ))
 						{
 							if(temp.getX() + 2*temp.getWidth() >= gc.getWidth())
-								temp.setXY( gc.getWidth() - 2 * (int) temp.getWidth(), temp.getY(), "restore" );
+								temp.setXY( gc.getWidth() - 2 * temp.getWidth(), temp.getY(), "restore" );
 							if(temp.getY() + temp.getHeight()*2 > maxHeight)
 								temp.setXY( temp.getX(), maxHeight - temp.getHeight()*2, "restore" );
 						}
 					else
 						{
 							if(temp.getX() + temp.getWidth() >= gc.getWidth())
-								temp.setXY( gc.getWidth() - (int) temp.getWidth(), temp.getY(), "restore" );
+								temp.setXY( gc.getWidth() - temp.getWidth(), temp.getY(), "restore" );
 							if(temp.getY() + temp.getHeight() > maxHeight)
 								temp.setXY( temp.getX(), maxHeight - temp.getHeight(), "restore" );
 						}
