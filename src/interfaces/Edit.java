@@ -788,7 +788,10 @@ public class Edit
 	              //se e' stato scelto uno sfondo o un oggetto da inserire nel livello tramite mouse
 					else if(input.isMousePressed( Input.MOUSE_LEFT_BUTTON ))
 						if(checkPressed( mouseX, mouseY, gc, "mouse" ))
-							choise.setLocation( choise.getX(), gc.getHeight() - heightChoise );
+							{
+								choise.setLocation( choise.getX(), gc.getHeight() - heightChoise );
+								insertEditor = false;
+							}
 					
 					if(input.isMouseButtonDown( Input.MOUSE_LEFT_BUTTON ))
 						{

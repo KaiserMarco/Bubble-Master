@@ -35,9 +35,9 @@ public class Elements
 			
 			int heightS = gc.getHeight()*10/24;
 			sfondi = new ArrayList<Sfondo>();
-			sfondi.add( new Sfondo( new Image( "./data/Image/sfondo1.png" ), maxH, maxW, gc.getWidth()/8, heightS, width, height, "sfondo" ) );
-			sfondi.add( new Sfondo( new Image( "./data/Image/sfondo8.png" ), maxH, maxW, gc.getWidth()*29/100, heightS, width, height, "sfondo2" ) );
-			sfondi.add( new Sfondo( new Image( "./data/Image/sfondo7.png" ), maxH, maxW, gc.getWidth()*46/100, heightS, width, height, "sfondo3" ) );
+			sfondi.add( new Sfondo( new Image( "./data/Image/sfondo1.png" ), maxH, maxW, gc.getWidth()/8, heightS, width, height, "sfondo1" ) );
+			sfondi.add( new Sfondo( new Image( "./data/Image/sfondo8.png" ), maxH, maxW, gc.getWidth()*29/100, heightS, width, height, "sfondo8" ) );
+			sfondi.add( new Sfondo( new Image( "./data/Image/sfondo7.png" ), maxH, maxW, gc.getWidth()*46/100, heightS, width, height, "sfondo7" ) );
 			sfondi.add( new Sfondo( new Image( "./data/Image/sfondo4.png" ), maxH, maxW, gc.getWidth()*63/100, heightS, width, height, "sfondo4" ) );
 			sfondi.add( new Sfondo( new Image( "./data/Image/sfondo5.png" ), maxH, maxW, gc.getWidth()*8/10, heightS, width, height, "sfondo5" ) );			
 
