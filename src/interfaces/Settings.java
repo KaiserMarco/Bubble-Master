@@ -189,9 +189,6 @@ public class Settings
 	
 	private void applicaCambiamenti( Edit editor, GameContainer gc, End end, Configurations config ) throws SlickException
 		{
-			// TODO CAPIRE PERCHE ORA LA VARIAZIONE DI RISOLUZIONE LA ESEGUE IN QUESTO MODO
-			// ALLE BRUTTE LA RIMUOVO
-		
 			if(valBright != bar.getValue())
 				valBright = bar.getValue();
 		

@@ -256,15 +256,18 @@ public class Configurations
 		                    for(KeyButton key: keys)
 		                    	if(key.contains( mouseX, mouseY ))
 		                    		{
-		                    			resetSelected();
+		                    			//resetSelected();
 		                    			key.setSelected();
 		                    			break;
 		                    		}
 		                    
 		                    for(ArrowButton arrow: arrows)
-		                    	if(arrow.contains( mouseX, mouseY, input )) {
-		                    		if(!arrow.isPressed())
-		                    			arrow.setPressed();
+		                    	{
+		                    		if(arrow.contains( mouseX, mouseY, input ))
+		                    			{
+		                    				if(!arrow.isPressed())
+		                    					arrow.setPressed();
+		                    			}
 		                    	}
 		                }
 	            }
@@ -291,16 +294,18 @@ public class Configurations
 				                            if(pressed || value == 2)
 					                            {
 		                                    		// premuta freccia sinistra
-				                            		if(arrows.get( i ).getDirection() == ArrowButton.LEFT)
+				                            		if(arrows.get( i ).getDirection() == ArrowButton.LEFT && numPlayer > 0)
 				                            			{
+				                            				resetSelected();
 				                            				int oldNum = numPlayer;
 				                            				numPlayer = Math.max( 0, --numPlayer );
 				                            				if(oldNum != numPlayer)
 				                            					updateKeys( numPlayer, input );
 				                            			}
 				                            		// premuta freccia destra
-				                            		else if(arrows.get( i ).getDirection() == ArrowButton.RIGHT)
+				                            		else if(arrows.get( i ).getDirection() == ArrowButton.RIGHT && numPlayer < 4)
 				                            			{
+			                            					resetSelected();
 				                            				int oldNum = numPlayer;
 				                            				numPlayer = Math.min( 3, ++numPlayer );
 				                            				if(oldNum != numPlayer)
