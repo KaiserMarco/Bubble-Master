@@ -215,7 +215,7 @@ public class Edit
 	
 	public void resetData()
 		{
-			indexSfondo = 3;
+			indexSfondo = 0;
 			ostacoli.clear();
 			nameLvl = null;
 			index = -1;

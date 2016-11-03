@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<level>
+  <!--Objects-->
+  <livello nome="livello1" />
+  <ostacolo x="230.5" y="506.0" union="-1" type="null" number="1" color="red" ID="player" />
+  <ostacolo x="158.0" y="200.0" union="-1" type="hor" ID="sbarra" />
+  <ostacolo x="461.0" y="197.0" union="-1" type="ver" ID="sbarra" />
+  <ostacolo x="607.0" y="276.0" union="-1" type="null" ID="bolla" />
+  <ostacolo x="140.0" y="335.0" union="-1" type="null" ID="bolla" />
+  <ostacolo x="336.0" y="520.0" union="-1" type="hor" ID="sbarra" />
+  <ostacolo x="491.0" y="455.0" union="-1" type="hor" ID="sbarra" />
+  <ostacolo x="334.0" y="71.0" union="-1" type="null" ID="bolla" />
+  <sfondo x="0" y="0" name="sfondo1" />
+</level>
