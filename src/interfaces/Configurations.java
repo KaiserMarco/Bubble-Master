@@ -91,7 +91,8 @@ public class Configurations
 	public void resetInterface( Input input )
 		{
 			numPlayer = 0;
-			updateKeys( 0, input );
+			resetKeys( 0 );
+			resetSelected();
 		}
 	
 	private int checkArrow( ArrowButton button, Input input, int i )
@@ -210,6 +211,15 @@ public class Configurations
 	        		key.setSelected();
 		}
 	
+	/** resetta i tasti all'ultima configurazione salvata */
+	public void resetKeys( int index )
+		{
+			keys.get( 0 ).setKey( Input.getKeyName( ( Global.mapButtons.get( index ).get( "Salto" ) ) ) );
+			keys.get( 1 ).setKey( Input.getKeyName( ( Global.mapButtons.get( index ).get( "Sparo" ) ) ) );
+			keys.get( 2 ).setKey( Input.getKeyName( ( Global.mapButtons.get( index ).get( "Sx" ) ) ) );
+			keys.get( 3 ).setKey( Input.getKeyName( ( Global.mapButtons.get( index ).get( "Dx" ) ) ) );
+		}
+	
 	/** aggiorna i tasti del giocatore caricato */
 	public void updateKeys( int index, Input input )
 		{
@@ -254,21 +264,13 @@ public class Configurations
 		                    mouseDown = true;
 		                    
 		                    for(KeyButton key: keys)
-		                    	if(key.contains( mouseX, mouseY ))
-		                    		{
-		                    			//resetSelected();
-		                    			key.setSelected();
-		                    			break;
-		                    		}
+		                    	if(key.contains( mouseX, mouseY ) || key.isSelected())
+		                    		key.setSelected();
 		                    
 		                    for(ArrowButton arrow: arrows)
-		                    	{
-		                    		if(arrow.contains( mouseX, mouseY, input ))
-		                    			{
-		                    				if(!arrow.isPressed())
-		                    					arrow.setPressed();
-		                    			}
-		                    	}
+		                    	if(arrow.contains( mouseX, mouseY, input ))
+		                    		if(!arrow.isPressed())
+		                    			arrow.setPressed();
 		                }
 	            }
 	        else
@@ -296,7 +298,6 @@ public class Configurations
 		                                    		// premuta freccia sinistra
 				                            		if(arrows.get( i ).getDirection() == ArrowButton.LEFT && numPlayer > 0)
 				                            			{
-				                            				resetSelected();
 				                            				int oldNum = numPlayer;
 				                            				numPlayer = Math.max( 0, --numPlayer );
 				                            				if(oldNum != numPlayer)
@@ -305,7 +306,6 @@ public class Configurations
 				                            		// premuta freccia destra
 				                            		else if(arrows.get( i ).getDirection() == ArrowButton.RIGHT && numPlayer < 4)
 				                            			{
-			                            					resetSelected();
 				                            				int oldNum = numPlayer;
 				                            				numPlayer = Math.min( 3, ++numPlayer );
 				                            				if(oldNum != numPlayer)

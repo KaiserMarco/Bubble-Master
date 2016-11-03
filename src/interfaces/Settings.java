@@ -206,6 +206,8 @@ public class Settings
 	
 	public void update( GameContainer gc, Edit editor, End end ) throws SlickException
 		{
+			boolean isClicked = false;
+		
 			Input input = gc.getInput();
 			int mouseX = input.getMouseX();
 			int mouseY = input.getMouseY();
@@ -222,8 +224,6 @@ public class Settings
 					setChanging = false;
 					buttons.get( 1 ).setColor( Color.gray );
 				}
-			
-			config.update( input, mouseX, mouseY );
 			
 			if(input.isKeyPressed( Input.KEY_ESCAPE ) || input.isKeyPressed( Input.KEY_BACK ))
 				{
@@ -278,6 +278,7 @@ public class Settings
 		                        	// se e' stato premuto il tasto
 		                    		if(value > 0)
 		                    			{
+		                    				isClicked = true;
 			                                for(SimpleButton button: buttons)
 			                                	if(button.isPressed())
 			                                		button.setPressed();
@@ -327,6 +328,7 @@ public class Settings
 			                        	// se e' stato premuto il tasto
 			                    		if(value > 0)
 			                    			{
+			                    				isClicked = true;
 				                                for(ArrowButton button: arrows)
 				                                	if(button.isPressed())
 				                                		button.setPressed();
@@ -359,6 +361,11 @@ public class Settings
 			
 			bar.update( mouseX );
 			Global.brightness = 255.f - bar.getValue();
+			
+			if(!isClicked)
+				config.update( input, mouseX, mouseY );
+			else
+				config.resetSelected();
 		}
 	
 	private boolean checkKeyPressed( final Input input )
