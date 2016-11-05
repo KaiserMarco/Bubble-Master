@@ -1,5 +1,6 @@
 package interfaces;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import org.newdawn.slick.Color;
@@ -21,7 +22,7 @@ public class ChooseLevel
 {	
 	private int pos = 0;
 	
-	private SimpleButton start, back, edit, newLvl, nameLvl;
+	private SimpleButton start, back, edit, newLvl, nameLvl, canc;
 	private ArrowButton right, left;
 	private ArrayList<SimpleButton> buttons;
 	private ArrayList<ArrowButton> arrows;
@@ -43,12 +44,13 @@ public class ChooseLevel
 	/*immagine del cursore*/
 	private Image cursor;
 	
-	private final static String BACK = "Indietro", START = "Gioca", EDIT = "Modifica", NEW = "Nuovo Livello";
+	private final static String BACK = "Indietro", START = "Gioca", CANC = "Elimina",
+								EDIT = "Modifica", NEW = "Nuovo Livello";
 	
 	public ChooseLevel( GameContainer gc ) throws SlickException
 		{
-			width = gc.getWidth(); 
-			height = gc.getHeight();
+			width = Global.Width; 
+			height = Global.Height;
 			
 			lungh = width/15;
 			alt = width/40;
@@ -56,12 +58,12 @@ public class ChooseLevel
 			right = new ArrowButton( "", ArrowButton.RIGHT, new float[]{height, height*4/5, height, height*4/5 + alt, height + lungh, height*4/5 + alt/2}, Color.orange );
 			left = new ArrowButton( "", ArrowButton.LEFT, new float[]{width/4 - width/15, height*4/5 + alt/2, width/4 - width/15 + lungh, height*4/5, width/4 - width/15 + lungh, height*4/5 + alt}, Color.orange);
 			
-			buttonY = height*8/9;
-			
+			buttonY = height*6/7;			
 			back = new SimpleButton( width*10/108, buttonY, BACK, Color.orange );
 			start = new SimpleButton( width*10/33, buttonY, START, Color.orange );
 			edit = new SimpleButton( width/2, buttonY, EDIT, Color.orange );
 			newLvl = new SimpleButton( width*3/4, buttonY, NEW, Color.orange );
+			canc = new SimpleButton( width/2 - width/20, buttonY + height/15, CANC, Color.orange );
 			nameLvl = new SimpleButton( 0, 0, Begin.livelli.get( pos ).getName(), Color.white );
 			
 			buttons = new ArrayList<SimpleButton>();
@@ -69,6 +71,7 @@ public class ChooseLevel
 			buttons.add( start );
 			buttons.add( edit );
 			buttons.add( newLvl );
+			buttons.add( canc );
 			buttons.add( nameLvl );
 			
 			arrows = new ArrayList<ArrowButton>();
@@ -77,8 +80,8 @@ public class ChooseLevel
 			
 			indexCursor = -1;
 
-			widthC = gc.getWidth()*100/1777;
-			heightC = gc.getHeight()/24;
+			widthC = Global.Width*100/1777;
+			heightC = Global.Height/24;
 			
 			cursor = new Image( "./data/Image/cursore.png" );
 		}
@@ -141,6 +144,21 @@ public class ChooseLevel
 					return 2;
 		
 			return 0;
+		}
+	
+	public void setNameLvl()
+		{
+	        buttons.remove( buttons.size() - 1 );
+	        buttons.add( nameLvl );
+	        nameLvl.setName( Begin.livelli.get( pos ).getName() );
+		}
+	
+	public void removeFile( int index )
+		{
+			System.out.println( "rimosso = " + Begin.livelli.get( index ).getName() + ".xml" );
+			File levels = new File( "data/livelli/" + Begin.livelli.get( index ).getName() + ".xml" );
+			if(levels.delete())
+				System.out.println( "file eliminato" );
 		}
 	
 	public void update( GameContainer gc, Edit editor ) throws SlickException
@@ -238,6 +256,14 @@ public class ChooseLevel
 				                            				editor.resetData();
 				                            				Start.editGame = 1;
 				                            			}
+				                            		else if(buttons.get( i ).getName().equals( CANC ))
+				                            			{
+				                            				removeFile( pos );
+				                		    				Begin.livelli.remove( pos );
+				                		    				if(pos > 0)
+				                		    					pos--;
+				                		    				setNameLvl();
+				                            			}
 				                            		
 						                            break;
 					                            }
@@ -263,17 +289,13 @@ public class ChooseLevel
 					                            		if(arrows.get( i ).getDirection() == ArrowButton.RIGHT && pos < Begin.livelli.size() - 1)
 					                            			{
 						                            			nameLvl = new SimpleButton( 0, 0, Begin.livelli.get( ++pos ).getName(), Color.white );                    
-						                                        buttons.remove( buttons.size() - 1 );
-						                                        buttons.add( nameLvl );
-						                                        nameLvl.setName( Begin.livelli.get( pos ).getName() );
+						                                        setNameLvl();
 					                            			}
 					                            		// premuta freccia sinistra
 					                            		else if(arrows.get( i ).getDirection() == ArrowButton.LEFT && pos > 0)
 					                            			{
 						                            			nameLvl = new SimpleButton( 0, 0, Begin.livelli.get( --pos ).getName(), Color.white );                    
-						                                        buttons.remove( buttons.size() - 1 );
-						                                        buttons.add( nameLvl );
-						                                        nameLvl.setName( Begin.livelli.get( pos ).getName() );
+						                                        setNameLvl();
 					                            			}
 				                                        
 				                                        buttons.get( buttons.size() - 1 ).setX( width/2 - buttons.get( buttons.size() - 1 ).getLungh()/2 );
