@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <level>
   <!--Objects-->
-  <ostacolo x="158.0" y="200.0" union="-1" type="hor" ID="sbarra" />
-  <ostacolo x="461.0" y="197.0" union="-1" type="ver" ID="sbarra" />
-  <ostacolo x="607.0" y="276.0" union="-1" type="null" ID="bolla" />
-  <ostacolo x="140.0" y="335.0" union="-1" type="null" ID="bolla" />
-  <ostacolo x="336.0" y="520.0" union="-1" type="hor" ID="sbarra" />
-  <ostacolo x="491.0" y="455.0" union="-1" type="hor" ID="sbarra" />
-  <ostacolo x="334.0" y="71.0" union="-1" type="null" ID="bolla" />
-  <ostacolo x="230.0" y="506.0" union="-1" type="null" number="1" color="red" ID="player" />
-  <ostacolo x="408.0" y="450.0" union="-1" type="null" number="2" color="blue" ID="player" />
-  <ostacolo x="497.0" y="385.0" union="-1" type="null" number="3" color="yellow" ID="player" />
-  <ostacolo x="209.0" y="130.0" union="-1" type="null" number="4" color="green" ID="player" />
+  <ostacolo x="150.0" y="187.0" union="-1" type="hor" ID="sbarra" />
+  <ostacolo x="438.0" y="414.0" union="-1" type="hor" ID="sbarra" />
+  <ostacolo x="415.0" y="154.0" union="-1" type="ver" ID="sbarra" />
+  <ostacolo x="198.5" y="506.0" union="-1" type="null" number="1" color="red" ID="player" />
+  <ostacolo x="445.5" y="506.0" union="-1" type="null" number="2" color="blue" ID="player" />
+  <ostacolo x="478.5" y="344.0" union="-1" type="null" number="3" color="yellow" ID="player" />
+  <ostacolo x="197.5" y="117.0" union="-1" type="null" number="4" color="green" ID="player" />
+  <ostacolo x="224.0" y="328.0" union="-1" type="null" ID="bolla" />
+  <ostacolo x="592.0" y="176.0" union="-1" type="null" ID="bolla" />
+  <ostacolo x="667.0" y="399.0" union="-1" type="null" ID="bolla" />
+  <ostacolo x="478.0" y="33.0" union="-1" type="null" ID="bolla" />
   <sfondo name="sfondo1" />
 </level>

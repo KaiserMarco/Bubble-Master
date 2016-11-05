@@ -146,12 +146,27 @@ public class ChooseLevel
 			return 0;
 		}
 	
-	public void removeFile( int index )
+	public void removeLevel( int pos )
 		{
-			System.out.println( "rimosso = " + Begin.livelli.get( index ).getName() + ".xml" );
-			File levels = new File( "data/livelli/" + Begin.livelli.get( index ).getName() + ".xml" );
-			if(levels.delete())
-				System.out.println( "file eliminato" );
+			File levels = new File( "data/livelli" );
+			String[] files = levels.list();
+			for(int i = 0; i < files.length; i++)
+				if(files[i].equals( Begin.livelli.get( pos ).getName() + ".xml" ))
+					{
+						File rem = new File( "data/livelli/" + files[i] );
+						rem.delete();
+						break;
+					}
+			
+			//System.out.println( "ELIMINO IL FILE = " + Begin.livelli.get( pos ).getName() + ".xml" );
+			/*File level = new File( "data/livelli/" + Begin.livelli.get( pos ).getName() + ".xml" );
+			if(level.delete())
+				System.out.println( "file eliminato" );*/
+
+			System.out.println( "livelli = " + Begin.livelli.size() );
+			System.out.println( "rimosso = " + Begin.livelli.get( pos ).getName() + ".xml" );
+			Begin.livelli.remove( pos );
+			System.out.println( "livelli = " + Begin.livelli.size() );
 		}
 	
 	public void update( GameContainer gc, Edit editor ) throws SlickException
@@ -251,8 +266,7 @@ public class ChooseLevel
 				                            			}
 				                            		else if(buttons.get( i ).getName().equals( CANC ))
 				                            			{
-				                            				removeFile( pos );
-				                		    				Begin.livelli.remove( pos );
+				                            				removeLevel( pos );
 				                		    				pos = Math.max( 0, --pos );
 				                		    				updateNameLvl();
 				                            			}

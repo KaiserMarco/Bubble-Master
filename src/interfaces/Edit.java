@@ -737,6 +737,8 @@ public class Edit
 											
 											indiceTuboRimasto = -1;
 										}
+									else if(!nuovoTubo1)
+										ostacoli.remove( ostacoli.size() - 1 );
 								}
 							
 							temp = null;
@@ -758,8 +760,10 @@ public class Edit
 											//inserisce una nuova coppia di tubi
 											if(nuovaCoppiaTubi)
 												{
+													// inserisce il primo dei 2 tubi
 													if(nuovoTubo1)
 														{
+															// TODO FORSE VA SISTEMATO QUI
 															Ostacolo temp2 = temp.clone( gc );
 															
 															temp = temp2;
