@@ -763,7 +763,6 @@ public class Edit
 													// inserisce il primo dei 2 tubi
 													if(nuovoTubo1)
 														{
-															// TODO FORSE VA SISTEMATO QUI
 															Ostacolo temp2 = temp.clone( gc );
 															
 															temp = temp2;
