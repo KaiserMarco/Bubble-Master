@@ -142,7 +142,7 @@ public class Edit
 			buttons.add( back );
 			buttons.add( saveLevel );
 			
-			minHighEditor = (float) (gc.getHeight() - gc.getHeight()/1.34);
+			minHighEditor = (float) (Global.Height - Global.Height/1.34);
 			
 			nuovaCoppiaTubi = false;
 			nuovoTubo1 = false;
@@ -186,9 +186,9 @@ public class Edit
 			choiseI.draw( choise.getX(), choise.getY(), choise.getWidth(), choise.getHeight() );
 			
 			if(insertEditor)
-				down.draw( choise.getX() + (widthChoise/2 - widthArrow/2), choise.getY() + gc.getHeight()/200, widthArrow, heightArrow );
+				down.draw( choise.getX() + (widthChoise/2 - widthArrow/2), choise.getY() + Global.Height/200, widthArrow, heightArrow );
 			else
-				up.draw( choise.getX() + (widthChoise/2 - widthArrow/2), choise.getY() + gc.getHeight()/200, widthArrow, heightArrow );
+				up.draw( choise.getX() + (widthChoise/2 - widthArrow/2), choise.getY() + Global.Height/200, widthArrow, heightArrow );
 			
 			if(indexCursor >= 0 || indexCursorButton >= 0)
 				if(insertEditor)
@@ -243,7 +243,7 @@ public class Edit
 		}
 	
 	public void setChoise( GameContainer gc )
-		{ choise.setLocation( choise.getX(), base.getY() - heightChoise + gc.getWidth()/150 ); }
+		{ choise.setLocation( choise.getX(), base.getY() - heightChoise + Global.Width/150 ); }
 	
 	public void aggiornaIndiciTubi( int i )
 		{
@@ -257,6 +257,16 @@ public class Edit
 			indexCursor = -1;
 			indexCursorButton = -1;
 			indexCursorSfondi = -1;
+		}
+	
+	public boolean checkPlayer( Ostacolo item )
+		{
+			for(Ostacolo ost: ostacoli)
+				if(ost.getID().equals( Global.PLAYER ))
+					if(((Player) ost).getColor().equals( ((Player) item).getColor() ))
+						return false;
+		
+			return true;
 		}
 	
 	public boolean checkPressed( int x, int y, GameContainer gc, String type ) throws SlickException
@@ -300,6 +310,13 @@ public class Edit
 								{
 									if(item.contains( x, y ))
 										{
+											// controlla se posso inserire un nuovo player
+											if(item.getID().equals( Global.PLAYER ))
+												if(!checkPlayer( item ))
+													{
+														temp = null;
+														return false;
+													}
 											temp = item.clone( gc );
 											//sto inserendo una nuova coppia di tubi
 											if(temp.getID().equals( Global.TUBO ))
@@ -648,24 +665,24 @@ public class Edit
 							// posizionamento player sopra gli ostacoli		
 							if(temp.getID().equals( Global.PLAYER ))
 								{
-									float posY = gc.getHeight();
+									float posY = Global.Height;
 									for(Ostacolo obs: ostacoli)
 										{
 											if(obs.getID().equals( Global.TUBO ))
 												{
 													Ostacolo ost = ((Tubo) obs).getBase();
-													if(checkPosition( ost, mouseX, mouseY, gc.getHeight() ) && ost.getY() < posY)
+													if(checkPosition( ost, mouseX, mouseY, Global.Height ) && ost.getY() < posY)
 														posY = ost.getY();
 													
 													ost = ((Tubo) obs).getEnter();
-													if(checkPosition( ost, mouseX, mouseY, gc.getHeight() ) && ost.getY() < posY)
+													if(checkPosition( ost, mouseX, mouseY, Global.Height ) && ost.getY() < posY)
 														posY = ost.getY();
 												}
-											else if(checkPosition( obs, mouseX, mouseY, gc.getHeight() ) && obs.getY() < posY)
+											else if(checkPosition( obs, mouseX, mouseY, Global.Height ) && obs.getY() < posY)
 												posY = obs.getY();
 										}
 									
-									if(posY == gc.getHeight())
+									if(posY == Global.Height)
 										temp.setXY( mouseX - temp.getWidth()/2, sfondi.get( indexSfondo ).getMaxHeight() - temp.getHeight(), "restore" );
 									else
 										temp.setXY( mouseX - temp.getWidth()/2, posY - temp.getHeight(), "restore" );
@@ -679,15 +696,15 @@ public class Edit
 						temp.setXY( temp.getX(), 0, "restore" );
 					if(temp.getID().equals( Global.BOLLA ))
 						{
-							if(temp.getX() + 2*temp.getWidth() >= gc.getWidth())
-								temp.setXY( gc.getWidth() - 2 * temp.getWidth(), temp.getY(), "restore" );
+							if(temp.getX() + 2*temp.getWidth() >= Global.Width)
+								temp.setXY( Global.Width - 2 * temp.getWidth(), temp.getY(), "restore" );
 							if(temp.getY() + temp.getHeight()*2 > maxHeight)
 								temp.setXY( temp.getX(), maxHeight - temp.getHeight()*2, "restore" );
 						}
 					else
 						{
-							if(temp.getX() + temp.getWidth() >= gc.getWidth())
-								temp.setXY( gc.getWidth() - temp.getWidth(), temp.getY(), "restore" );
+							if(temp.getX() + temp.getWidth() >= Global.Width)
+								temp.setXY( Global.Width - temp.getWidth(), temp.getY(), "restore" );
 							if(temp.getY() + temp.getHeight() > maxHeight)
 								temp.setXY( temp.getX(), maxHeight - temp.getHeight(), "restore" );
 						}
@@ -769,7 +786,7 @@ public class Edit
 					if((insertEditor && choise.contains( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )) || input.isKeyPressed( Input.KEY_DOWN ))
 						{
 							insertEditor = false;
-		                    base.setY( gc.getHeight() );
+		                    base.setY( Global.Height );
 		                    heightBase = 0;
 		                    setChoise( gc );
 		                    resetIndexCursor();
@@ -782,11 +799,19 @@ public class Edit
 						}
 	              //se e' stato scelto uno sfondo o un oggetto da inserire nel livello tramite mouse
 					else if(input.isMousePressed( Input.MOUSE_LEFT_BUTTON ))
-						if(checkPressed( mouseX, mouseY, gc, "mouse" ))
-							{
-								choise.setLocation( choise.getX(), gc.getHeight() - heightChoise );
-								insertEditor = false;
-							}
+						{
+							if(checkPressed( mouseX, mouseY, gc, "mouse" ))
+								{
+									choise.setLocation( choise.getX(), Global.Height - heightChoise );
+									insertEditor = false;
+								}
+						}
+	              //se e' stato scelto uno sfondo o un oggetto da inserire nel livello tramite mouse
+					else if(input.isKeyPressed( Input.KEY_ENTER ))
+						{
+							if(checkPressed( mouseX, mouseY, gc, "keyboard" ))
+								choise.setLocation( choise.getX(), Global.Height - heightChoise );
+						}
 					
 					if(input.isMouseButtonDown( Input.MOUSE_LEFT_BUTTON ))
 						{
@@ -845,12 +870,6 @@ public class Edit
 				                    			}
 				                    	}
 				                }
-			              //se e' stato scelto uno sfondo o un oggetto da inserire nel livello tramite mouse
-							else if(input.isKeyPressed( Input.KEY_ENTER ))
-								{
-									if(checkPressed( mouseX, mouseY, gc, "keyboard" ))
-										choise.setLocation( choise.getX(), gc.getHeight() - heightChoise );
-								}
 			            }
 				}
 			
