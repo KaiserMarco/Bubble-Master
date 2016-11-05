@@ -26,27 +26,25 @@ public class Elements
 	
 	public Elements( GameContainer gc ) throws SlickException
 		{
-			maxH = gc.getHeight()*100/104;
-			maxW = gc.getWidth();
-			width = gc.getHeight()/10;
-			height = gc.getWidth()/20;
+			maxW = Global.Width; maxH = Global.Height*100/104;
+			width = Global.Width*10/133; height = Global.Height/15;
 			
-			ray = gc.getWidth()/32;
+			ray = Global.Width/32;
 			
-			int heightS = gc.getHeight()*10/24;
+			int heightS = Global.Height*10/24;
 			sfondi = new ArrayList<Sfondo>();
-			sfondi.add( new Sfondo( new Image( "./data/Image/sfondo1.png" ), maxH, maxW, gc.getWidth()/8, heightS, width, height, "sfondo1" ) );
-			sfondi.add( new Sfondo( new Image( "./data/Image/sfondo8.png" ), maxH, maxW, gc.getWidth()*29/100, heightS, width, height, "sfondo8" ) );
-			sfondi.add( new Sfondo( new Image( "./data/Image/sfondo7.png" ), maxH, maxW, gc.getWidth()*46/100, heightS, width, height, "sfondo7" ) );
-			sfondi.add( new Sfondo( new Image( "./data/Image/sfondo4.png" ), maxH, maxW, gc.getWidth()*63/100, heightS, width, height, "sfondo4" ) );
-			sfondi.add( new Sfondo( new Image( "./data/Image/sfondo5.png" ), maxH, maxW, gc.getWidth()*8/10, heightS, width, height, "sfondo5" ) );			
+			sfondi.add( new Sfondo( new Image( "./data/Image/sfondo1.png" ), maxH, maxW, Global.Width/8, heightS, width, height, "sfondo1" ) );
+			sfondi.add( new Sfondo( new Image( "./data/Image/sfondo8.png" ), maxH, maxW, Global.Width*29/100, heightS, width, height, "sfondo8" ) );
+			sfondi.add( new Sfondo( new Image( "./data/Image/sfondo7.png" ), maxH, maxW, Global.Width*46/100, heightS, width, height, "sfondo7" ) );
+			sfondi.add( new Sfondo( new Image( "./data/Image/sfondo4.png" ), maxH, maxW, Global.Width*63/100, heightS, width, height, "sfondo4" ) );
+			sfondi.add( new Sfondo( new Image( "./data/Image/sfondo5.png" ), maxH, maxW, Global.Width*8/10, heightS, width, height, "sfondo5" ) );			
 
 			items = new ArrayList<Ostacolo>();
-			int heightObs = gc.getHeight()*10/17;
-			items.add( new Sbarra( gc.getWidth()/5, heightObs + gc.getHeight()/20 - gc.getHeight()/60, "hor", gc ) );
-			items.add( new Tubo( gc.getWidth()/2 - gc.getHeight()/20, heightObs, "sx", gc ) );
-			items.add( new Bubble( gc.getWidth()*2/3 + gc.getHeight()/20 - gc.getHeight()/48, heightObs, ray, maxW, gc ) );
-			int heightP = gc.getHeight()*3/4; float xItem = Global.Width*2/10;
+			int heightObs = Global.Height*10/17;
+			items.add( new Sbarra( Global.Width/5, heightObs + Global.Height/20 - Global.Height/60, "hor", gc ) );
+			items.add( new Tubo( Global.Width/2 - Global.Height/20, heightObs, "sx", gc ) );
+			items.add( new Bubble( Global.Width*2/3 + Global.Height/20 - Global.Height/48, heightObs, ray, maxW, gc ) );
+			int heightP = Global.Height*3/4; float xItem = Global.Width*2/10;
 			items.add( new Player( xItem, heightP, 1, gc, Color.red ) );
 			items.add( new Player( 2*xItem, heightP, 2, gc, Color.blue ) );
 			items.add( new Player( 3*xItem, heightP, 3, gc, Color.yellow ) );

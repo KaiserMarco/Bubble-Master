@@ -292,14 +292,14 @@ public class Player extends Ostacolo
 			for(Shot fuoco: fire)
 				if(fuoco.isShooting())
 					fuoco.draw();
-
-			g.setColor( col );
 			
 			float pos = Global.Width/40 + Global.Width*10/42*(numPlayer-1);
+			g.setColor( Color.black );
 			if(currAmmo > 0)
 				{
 					Rectangle zone = new Rectangle( pos + 2*widthH, maxHeight, Global.Height - maxHeight, Global.Height - maxHeight );
 					g.fill( zone );
+					g.setColor( col );
 					powerUp.get( 0 ).getImage().draw( zone.getX(), maxHeight, Global.Height - maxHeight, Global.Height - maxHeight );
 					g.drawString( "X " + currAmmo, zone.getMaxX() + space, maxHeight );
 					coolDown.setY( coolDown.getY() + tickCd );
@@ -327,7 +327,8 @@ public class Player extends Ostacolo
 							pos = pos + widthH;
 						}
 				}
-			
+
+			g.setColor( col );
 			if(drawPoints)
 				g.drawString( "SCORE : " + points, pos + Global.Width/80, Global.Height/30);
 		}

@@ -95,152 +95,132 @@ public class Begin
 			
 			pang = new Sfondo( new Image( "/data/Image/pang.png" ), 0, 0, 0, 0, gc.getWidth(), gc.getHeight(), "pang" );
 			
-			try {
-				documentFactory = DocumentBuilderFactory.newInstance();
-	 
-				builder = documentFactory.newDocumentBuilder();
-				
-				/* LETTURA FILE CONFIGURAZIONE TASTI */
-				File levels = new File( "data/Configuration" );
-				String[] files = levels.list();
-				
-				//for(int j = 0; j < files.length; j++)
-					{
-						document = builder.parse( new File( "data/Configuration/" + files[0] ) );
-
-						NodeList button = document.getElementsByTagName( "key" );
+			try
+				{
+					documentFactory = DocumentBuilderFactory.newInstance();
+		 
+					builder = documentFactory.newDocumentBuilder();
+					
+					/* LETTURA FILE CONFIGURAZIONE TASTI */
+					File levels = new File( "data/Configuration" );
+					String[] files = levels.list();
 						
-						for(int i = 0; i < button.getLength(); i++)
-							{
-								Node node = button.item( i );
-								Element ogg = (Element) node;
-								
-								int shoot = Integer.parseInt( ogg.getAttribute( "sparo" ) );
-								int jump = Integer.parseInt( ogg.getAttribute( "salto" ) );
-								int left = Integer.parseInt( ogg.getAttribute( "left" ) );
-								int right = Integer.parseInt( ogg.getAttribute( "right" ) );
-								Global.setMap( i, jump, shoot, left, right );
-							}
-						
-						System.out.println( "tasti " + files[0] + " caricati" );
-					}
-			}
-			catch(Exception e) {
-				e.printStackTrace();
-			}
+					document = builder.parse( new File( "data/Configuration/" + files[0] ) );
+	
+					NodeList button = document.getElementsByTagName( "key" );
+					
+					for(int i = 0; i < button.getLength(); i++)
+						{
+							Node node = button.item( i );
+							Element ogg = (Element) node;
+							
+							int shoot = Integer.parseInt( ogg.getAttribute( "sparo" ) );
+							int jump = Integer.parseInt( ogg.getAttribute( "salto" ) );
+							int left = Integer.parseInt( ogg.getAttribute( "left" ) );
+							int right = Integer.parseInt( ogg.getAttribute( "right" ) );
+							Global.setMap( i, jump, shoot, left, right );
+						}
+					
+					System.out.println( "tasti " + files[0] + " caricati" );
+				}
+			catch(Exception e)
+				{ e.printStackTrace(); }
 			
 			//caricamento livelli da file .xml
-			try {
-				documentFactory = DocumentBuilderFactory.newInstance();
-	 
-				builder = documentFactory.newDocumentBuilder();
-				
-				/*	LETTURA LIVELLI DI GIOCO */
-				File levels = new File( "data/livelli" );
-				String[] files = levels.list();
-				
-				for(int j = 0; j < files.length; j++)
-					{				
-						//resetto il vettore e lo sfondo
-						elements.clear();
-						sfondo = null;
-						
-						document = builder.parse( new File( "data/livelli/" + files[j] ) );
-			 
-						NodeList name = document.getElementsByTagName( "livello" );
-						NodeList ostacoli = document.getElementsByTagName( "ostacolo" );
-						NodeList back = document.getElementsByTagName( "sfondo" );
-						Sfondo sfondo;
-			 
-						String tmp;
-						for(int i = 0; i < ostacoli.getLength(); i++)
-							{								
-								Node nodo = ostacoli.item( i );
-								
-								Element obs = (Element) nodo;
-								
-								tmp = obs.getAttribute( "x" );
-								int x = Integer.parseInt( tmp.substring( 0, tmp.length() - 2 ) );
-								tmp = obs.getAttribute( "y" );
-								int y = Integer.parseInt( tmp.substring( 0, tmp.length() - 2 ) );
-								tmp = obs.getAttribute( "union" );
-								int union = Integer.parseInt( tmp.substring( 0, tmp.length() ) );
-								String type = obs.getAttribute( "ID" );
-								String orienting = obs.getAttribute( "type" );
-								String numPlayer = null;
-								Color colour = null;
-								if(type.equals( Global.PLAYER ))
-									{
-										numPlayer = obs.getAttribute( "number" );
-										String c = obs.getAttribute( "color" );
-										if(c.equals( "red" ))
-											colour = Color.red;
-										else if(c.equals( "blue" ))
-											colour = Color.blue;
-										else if(c.equals( "yellow" ))
-											colour = Color.yellow;
-										else
-											colour = Color.green;
-									}
-								
-								if(type.equals( Global.BOLLA ))
-								    elements.add( new Bubble( x, y, Global.Width/32, Global.Width, gc ) );
-								else if(type.equals( Global.SBARRA ))
-								    {
-									    elements.add( new Sbarra( x, y, orienting, gc ) );
-                                        elements.get( elements.size() - 1 ).setSpigoli();
-								    }
-								else if(type.equals( Global.TUBO ))
-                                    {
-                                        elements.add( new Tubo( x, y, orienting, gc ) );
-                                        ((Tubo) elements.get( elements.size() - 1 )).setSpace( gc );
-                                        elements.get( elements.size() - 1 ).setUnion( union );
-                                    }
-								else if(type.equals( Global.PLAYER ))
-									elements.add( new Player( x, y, Integer.parseInt( numPlayer ), gc, colour ) );
-							}
-						
-						Node nodo = back.item( 0 );
-						Element img = (Element) nodo;
-						tmp = img.getAttribute( "name" );
-						sfondo = new Sfondo( new Image( "./data/Image/" + tmp + ".png" ), gc.getHeight()*100/104, gc.getWidth(), 0, 0, gc.getWidth(), gc.getHeight(), tmp );
-
-						Node var = name.item( 0 );
-						Element node = (Element) var;
-						tmp = node.getAttribute( "nome" );
-						
-						livelli.add( new Livello( elements, sfondo, tmp ) );
-						
-						System.out.println( "livello " + files[j] + " caricato" );
-					}
-			}
-			catch(Exception e) {
-				e.printStackTrace();
-			}
+			try
+				{
+					documentFactory = DocumentBuilderFactory.newInstance();
+		 
+					builder = documentFactory.newDocumentBuilder();
+					
+					/*	LETTURA LIVELLI DI GIOCO */
+					File levels = new File( "data/livelli" );
+					String[] files = levels.list();
+					
+					for(int j = 0; j < files.length; j++)
+						{				
+							//resetto il vettore e lo sfondo
+							elements.clear();
+							sfondo = null;
+							
+							document = builder.parse( new File( "data/livelli/" + files[j] ) );
+	
+							NodeList ostacoli = document.getElementsByTagName( "ostacolo" );
+							NodeList back = document.getElementsByTagName( "sfondo" );
+							Sfondo sfondo;
+				 
+							String tmp;
+							for(int i = 0; i < ostacoli.getLength(); i++)
+								{								
+									Node nodo = ostacoli.item( i );
+									
+									Element obs = (Element) nodo;
+									
+									tmp = obs.getAttribute( "x" );
+									int x = Integer.parseInt( tmp.substring( 0, tmp.length() - 2 ) );
+									tmp = obs.getAttribute( "y" );
+									int y = Integer.parseInt( tmp.substring( 0, tmp.length() - 2 ) );
+									tmp = obs.getAttribute( "union" );
+									int union = Integer.parseInt( tmp.substring( 0, tmp.length() ) );
+									String type = obs.getAttribute( "ID" );
+									String orienting = obs.getAttribute( "type" );
+									String numPlayer = null;
+									Color colour = null;
+									if(type.equals( Global.PLAYER ))
+										{
+											numPlayer = obs.getAttribute( "number" );
+											String c = obs.getAttribute( "color" );
+											if(c.equals( "red" ))
+												colour = Color.red;
+											else if(c.equals( "blue" ))
+												colour = Color.blue;
+											else if(c.equals( "yellow" ))
+												colour = Color.yellow;
+											else
+												colour = Color.green;
+										}
+									
+									if(type.equals( Global.BOLLA ))
+									    elements.add( new Bubble( x, y, Global.Width/32, Global.Width, gc ) );
+									else if(type.equals( Global.SBARRA ))
+									    {
+										    elements.add( new Sbarra( x, y, orienting, gc ) );
+	                                        elements.get( elements.size() - 1 ).setSpigoli();
+									    }
+									else if(type.equals( Global.TUBO ))
+	                                    {
+	                                        elements.add( new Tubo( x, y, orienting, gc ) );
+	                                        ((Tubo) elements.get( elements.size() - 1 )).setSpace( gc );
+	                                        elements.get( elements.size() - 1 ).setUnion( union );
+	                                    }
+									else if(type.equals( Global.PLAYER ))
+										elements.add( new Player( x, y, Integer.parseInt( numPlayer ), gc, colour ) );
+								}
+							
+							Node nodo = back.item( 0 );
+							Element img = (Element) nodo;
+							tmp = img.getAttribute( "name" );
+							sfondo = new Sfondo( new Image( "./data/Image/" + tmp + ".png" ), gc.getHeight()*100/104, gc.getWidth(), 0, 0, gc.getWidth(), gc.getHeight(), tmp );
+	
+							tmp = files[j].substring( 0, files[j].length() - 4 );
+							
+							livelli.add( new Livello( elements, sfondo, tmp ) );
+							
+							System.out.println( "livello " + files[j] + " caricato" );
+						}
+				}
+			catch(Exception e)
+				{ e.printStackTrace(); }
 			
 			cursor = new Image( "./data/Image/cursore.png" );
 
-			widthC = gc.getWidth()*100/1777;
-			heightC = gc.getHeight()/24;
+			widthC = Global.Width*100/1777;
+			heightC = Global.Height/24;
 			
 			indexCursor = -1;
 			
 			showBegin = false;
 			timeShowBegin = timeLimitBegin - 1;
-		}
-	
-	public void cambiaProporzioni( float w, float h, GameContainer gc ) throws SlickException
-		{
-			float rappW = Global.Width/w, rappH = Global.Height/h;
-		
-			for(Ostacolo elem: elements)
-				{
-					elem.setXY( elem.getX() * rappW, elem.getY() * rappH, "restore" );
-					if(elem.getID().equals( Global.TUBO ))
-						((Tubo) elem).setSpace( gc );
-					else
-						elem.setArea( gc );
-				}
 		}
 
 	public void draw( GameContainer gc ) throws SlickException

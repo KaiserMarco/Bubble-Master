@@ -106,29 +106,29 @@ public class Edit
 			
 			up = new Image( "./data/Image/up.png" );
 			down = new Image( "./data/Image/down.png" );
-			widthArrow = gc.getWidth()/15;
-			heightArrow = gc.getHeight()/40;
+			widthArrow = Global.Width/15;
+			heightArrow = Global.Height/40;
 
-			back = new SimpleButton( gc.getWidth()/15, gc.getHeight()*24/25, BACK, Color.orange );
-			saveLevel = new SimpleButton( gc.getWidth()*3/4, gc.getHeight()*24/25, SAVE, Color.orange );
+			back = new SimpleButton( Global.Width/15, Global.Height*24/25, BACK, Color.orange );
+			saveLevel = new SimpleButton( Global.Width*3/4, Global.Height*24/25, SAVE, Color.orange );
 
 			choiseI = new Image( "./data/Image/choise.png" );
 			baseI = new Image( "./data/Image/Window.png" );
 			cursor = new Image( "./data/Image/cursore.png" );
 			
 			//lunghezza e altezza del cursore
-			widthC = gc.getHeight()*10/133;
-			heightC = gc.getHeight()/24;
+			widthC = Global.Width*10/177;
+			heightC = Global.Height/24;
 			
-			widthChoise = gc.getWidth()/8;
-			heightChoise = gc.getHeight()/30;
+			widthChoise = Global.Width/8;
+			heightChoise = Global.Height/30;
 			
 			//lunghezza e altezza della base di selezione elementi
-			widthBase = (float) (gc.getWidth()/1.11);
+			widthBase = Global.Width/1.11f;
 			heightBase = 0;
 			
-			choise = new Rectangle( gc.getWidth()/2 - widthChoise/2, gc.getHeight() - heightChoise, widthChoise, heightChoise );			
-			base = new Rectangle( gc.getWidth()/2 - widthBase/2, gc.getHeight(), widthBase, heightBase );
+			choise = new Rectangle( Global.Width/2 - widthChoise/2, Global.Height - heightChoise, widthChoise, heightChoise );			
+			base = new Rectangle( Global.Width/2 - widthBase/2, Global.Height, widthBase, heightBase );
 			
 			insertEditor = false;
 			indexCursor = -1;
@@ -162,7 +162,6 @@ public class Edit
 					obs.draw( g );
 					if(obs.getID().equals( Global.TUBO ))
 						{
-							((Tubo) obs).getBase().draw( g );
 							if(obs.getUnion() == -1)
 								g.drawGradientLine( obs.getMidArea()[0], obs.getMidArea()[1], Color.red, temp.getMidArea()[0], temp.getMidArea()[1], Color.red );
 							else
@@ -233,7 +232,11 @@ public class Edit
 					this.ostacoli.add( obs );
 			
 			for(Ostacolo player: giocatori)
-				this.ostacoli.add( player );
+				{
+					((Player) player).setDrawLifes( false );
+					((Player) player).setDrawPoints( false );
+					this.ostacoli.add( player );
+				}
 			
 			this.nameLvl = nameLvl;
 			this.index = index;
@@ -452,11 +455,6 @@ public class Edit
 				if(obs.getID().equals( Global.PLAYER ))
 					((Player) obs).setNumPlayer( num++ );
 			
-			for(Ostacolo obs: this.ostacoli)
-				{
-					if(obs.getID().equals( Global.TUBO ))
-						System.out.println( "ID = " + obs.getID() + " DIR = " + ((Tubo) obs).getDirection() );
-				}		
 			try
 				{
 				    livello = new Element( "level" );
@@ -469,15 +467,12 @@ public class Edit
 		
 					Element item;
 				    livello.addContent( new Comment( "Objects" ) );
-				    
-				    item = new Element( "livello" );
-				    item.setAttribute( "nome", name );
-				    livello.addContent( item );
+
 				    for(Ostacolo obs: ostacoli)
 				    	{									    			
 		    				item = new Element( "ostacolo" );
-		    				item.setAttribute( "x", (float) obs.getX() + "" );
-		    				item.setAttribute( "y", (float) obs.getY() + "" );
+		    				item.setAttribute( "x", obs.getX() + "" );
+		    				item.setAttribute( "y", obs.getY() + "" );
 		    				item.setAttribute( "union", obs.getUnion() + "" );
 		    				if(obs.getOrienting() != null)
 		    				    item.setAttribute( "type", obs.getOrienting() );
@@ -493,8 +488,6 @@ public class Edit
 				    	}
 					
 		    		item = new Element( "sfondo" );
-		    		item.setAttribute( "x", "0" );
-		    		item.setAttribute( "y", "0" );
 		    		item.setAttribute( "name", sfondi.get( indexSfondo ).getName() );
 		    		livello.addContent( item );
 		    		
@@ -538,12 +531,12 @@ public class Edit
                     {
                         insertItem = true;
                         base.setY( minHighEditor );
-                        heightBase = gc.getHeight() - minHighEditor;
+                        heightBase = Global.Height - minHighEditor;
                     }
             else
                 {
                     insertItem = false;
-                    base.setY( gc.getHeight() );
+                    base.setY( Global.Height );
                     heightBase = 0;
                 }
             setChoise( gc );
@@ -577,8 +570,8 @@ public class Edit
 	/** controlla la collisione fra i vari oggetti */
 	private boolean checkCollision( Ostacolo ost )
 		{
-			Shape areaPlayer = temp.component( "rect" );
-			Shape areaObs = ost.component( "rect" );
+			Shape areaPlayer = temp.component( Global.RECT );
+			Shape areaObs = ost.component( Global.RECT );
 		
 		    if(temp.getID().equals( Global.PLAYER ))
 		        {						    	
@@ -596,11 +589,11 @@ public class Edit
 		            			else if(areaPlayer.intersects( areaBase ) && temp.getY() + temp.getHeight() < ((Tubo) ost).getY())
 		            				return true;
 		            		}
-		            else if(temp.component( "rect" ).intersects( ost.component( "latoGiu" ) ))
+		            else if(temp.component( Global.RECT ).intersects( ost.component( Global.LATOGIU ) ))
                         return true;
 		        }
 		    else if(!ost.getID().equals( Global.BASE ) && !ost.getID().equals( Global.ENTER ))
-		    	if(temp.component( "rect" ).intersects( ost.component( "rect" ) ))
+		    	if(temp.component( Global.RECT ).intersects( ost.component( Global.RECT ) ))
 		    		return true;
 		    
 		    return false;

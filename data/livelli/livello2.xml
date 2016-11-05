@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <level>
   <!--Objects-->
-  <livello nome="livello2" />
   <ostacolo x="522.0" y="128.0" union="1" type="dx" ID="tubo" />
   <ostacolo x="302.0" y="364.0" union="0" type="up" ID="tubo" />
   <ostacolo x="123.0" y="225.0" union="3" type="sx" ID="tubo" />
@@ -14,5 +13,5 @@
   <ostacolo x="251.0" y="357.0" union="-1" type="null" ID="bolla" />
   <ostacolo x="172.0" y="120.0" union="-1" type="null" ID="bolla" />
   <ostacolo x="535.0" y="63.0" union="-1" type="null" number="1" color="red" ID="player" />
-  <sfondo x="0" y="0" name="sfondo5" />
+  <sfondo name="sfondo5" />
 </level>

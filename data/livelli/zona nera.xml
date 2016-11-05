@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<level>
+  <!--Objects-->
+  <ostacolo x="562.0" y="114.0" union="1" type="sx" ID="tubo" />
+  <ostacolo x="310.0" y="242.0" union="0" type="sx" ID="tubo" />
+  <ostacolo x="403.0" y="456.0" union="-1" type="null" ID="bolla" />
+  <ostacolo x="160.0" y="372.0" union="-1" type="hor" ID="sbarra" />
+  <ostacolo x="310.0" y="506.0" union="-1" type="null" number="1" color="yellow" ID="player" />
+  <sfondo name="sfondo8" />
+</level>
