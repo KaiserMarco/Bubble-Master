@@ -142,7 +142,7 @@ public class Edit
 			buttons.add( back );
 			buttons.add( saveLevel );
 			
-			minHighEditor = (float) (Global.Height - Global.Height/1.34);
+			minHighEditor = Global.Height - Global.Height/1.34f;
 			
 			nuovaCoppiaTubi = false;
 			nuovoTubo1 = false;
@@ -228,14 +228,26 @@ public class Edit
 					indexSfondo = i;
 		
 			for(Ostacolo obs: ostacoli)
-				if(!obs.getID().equals( Global.BASE ) && !obs.getID().equals( Global.ENTER ))
-					this.ostacoli.add( obs );
+				{
+					if(!obs.getID().equals( Global.BASE ) && !obs.getID().equals( Global.ENTER ))
+						{
+							this.ostacoli.add( obs.clone( gc ) );
+							Ostacolo ost = this.ostacoli.get( this.ostacoli.size() - 1 );
+							if(!ost.getID().equals( Global.TUBO ))
+								ost.setSpigoli();
+							else
+								{
+									((Tubo) ost).setSpace( gc );
+									((Tubo) ost).setUnion( ((Tubo) obs).getUnion() );
+								}
+						}
+				}
 			
 			for(Ostacolo player: giocatori)
 				{
 					((Player) player).setDrawLifes( false );
 					((Player) player).setDrawPoints( false );
-					this.ostacoli.add( player );
+					this.ostacoli.add( player.clone( gc ) );
 				}
 			
 			this.nameLvl = nameLvl;
