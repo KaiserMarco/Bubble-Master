@@ -64,7 +64,10 @@ public class ChooseLevel
 			edit = new SimpleButton( width/2, buttonY, EDIT, Color.orange );
 			newLvl = new SimpleButton( width*3/4, buttonY, NEW, Color.orange );
 			canc = new SimpleButton( width/2 - width/20, buttonY + height/15, CANC, Color.orange );
-			nameLvl = new SimpleButton( 0, 0, Begin.livelli.get( pos ).getName(), Color.white );
+			if(Begin.livelli.size() > 0)
+				nameLvl = new SimpleButton( 0, 0, Begin.livelli.get( pos ).getName(), Color.white );
+			else
+				nameLvl = new SimpleButton( 0, 0, "", Color.white );
 			
 			buttons = new ArrayList<SimpleButton>();
 			buttons.add( back );
@@ -86,26 +89,34 @@ public class ChooseLevel
 			cursor = new Image( "./data/Image/cursore.png" );
 		}
 	
+	public void setPos( int val )
+		{ pos = val; }
+	
 	public void draw( GameContainer gc ) throws SlickException
-		{		
-			sfondo = Begin.livelli.get( pos ).getImage();
-		
-			ArrayList<Ostacolo> obs = Begin.livelli.get( pos ).getElements();
-			
+		{
 			Graphics g = gc.getGraphics();
-    		
-			float scale = 0.7f;
-			
-    		g.translate( width/2 - width*scale/2, width/25 );
-    		g.scale( scale, scale );
-    		
+
     		g.setBackground( Color.blue );
-			sfondo.draw( gc );
+			if(pos >= 0)
+				{
+					sfondo = Begin.livelli.get( pos ).getImage();
+				
+					ArrayList<Ostacolo> obs = Begin.livelli.get( pos ).getElements();
+		    		
+					float scale = 0.7f;
+					
+		    		g.translate( width/2 - width*scale/2, width/25 );
+		    		g.scale( scale, scale );
+
+					sfondo.draw( gc );
+					
+					if(pos >= 0)
+						for(int i = 0; i < obs.size(); i++)
+							obs.get( i ).draw( g );
+				}
+    		
 			g.setColor( Color.black );
 			g.drawRect( 0, 0, width, height );
-			
-			for(int i = 0; i < obs.size(); i++)
-				obs.get( i ).draw( g );
 			
 			g.resetTransform();
 			
@@ -148,6 +159,9 @@ public class ChooseLevel
 	
 	public void removeLevel( int pos )
 		{
+			// TODO CAPIRE PERCHE NON RIMUOVE CORRETTAMENTE IL FILE DALLA CARTELLA
+			// TODO MA LO FA SOLO NEL VETTORE DEI LIVELLI
+		
 			File levels = new File( "data/livelli" );
 			String[] files = levels.list();
 			for(int i = 0; i < files.length; i++)

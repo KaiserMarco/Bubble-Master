@@ -344,7 +344,13 @@ public class Begin
 							                            			Start.chooseLevel = 0;
 						                            			}
 						                            		else if(buttons.get( i ).getName().equals( LEVELS ))
-						                                        Start.chooseLevel = 1;
+						                            			{
+						                                        	Start.chooseLevel = 1;
+						                                        	if(Begin.livelli.size() > 0)
+						                                        		Start.cl.setPos( 0 );
+						                                        	else
+						                                        		Start.cl.setPos( -1 );
+						                            			}
 						                            		
 								                            break;
 							                            }
