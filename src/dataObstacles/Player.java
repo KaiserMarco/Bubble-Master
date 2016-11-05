@@ -142,11 +142,11 @@ public class Player extends Ostacolo
 			fire = new ArrayList<Shot>();
 			fire.add( new Shot( gc ) );
 			
-			offset = gc.getHeight()/40;
-			widthI = gc.getHeight()/10;
+			offset = Global.Height/40;
+			widthI = Global.Width*10/133;
 			
 			width = widthI - offset;
-			height = gc.getWidth()*100/1142;
+			height = Global.Height*100/857;
 			
 			this.numPlayer = numPlayer;	
 			

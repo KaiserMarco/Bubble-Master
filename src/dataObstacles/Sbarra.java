@@ -45,14 +45,14 @@ public class Sbarra extends Ostacolo
 			if(type.equals( "hor" ))
 				{
 					immagine = hor;					
-					width = gc.getWidth()*10/61;
-					height = gc.getHeight()/30;
+					width = Global.Width*10/61;
+					height = Global.Height/30;
 				}
 			else
 				{
 					immagine = ver;					
-					width = gc.getHeight()/30;
-					height = gc.getWidth()*10/61;
+					width = Global.Width/40;
+					height = Global.Height*1000/4575;
 				}
 			
 			this.type = type;

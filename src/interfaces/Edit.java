@@ -450,7 +450,7 @@ public class Edit
 			setTubeInArray( gc );
 			
 			int num = 1;
-			// settare in maniera opportuna il numPlayer dei giocatori
+			// setta in maniera opportuna il numPlayer dei giocatori
 			for(Ostacolo obs: ostacoli)
 				if(obs.getID().equals( Global.PLAYER ))
 					((Player) obs).setNumPlayer( num++ );
@@ -522,17 +522,19 @@ public class Edit
 	public void setEditor( int delta, GameContainer gc )
 	    {
     	    if(insertEditor)
-                if(base.getY() - delta/2 > minHighEditor)
-                    {
-                        base.setY( base.getY() - delta*6/5 );
-                        heightBase = heightBase + delta*6/5;
-                    }
-                else
-                    {
-                        insertItem = true;
-                        base.setY( minHighEditor );
-                        heightBase = Global.Height - minHighEditor;
-                    }
+	    	    {
+	                if(base.getY() - delta/2 > minHighEditor)
+	                    {
+	                        base.setY( base.getY() - delta*6/5 );
+	                        heightBase = heightBase + delta*6/5;
+	                    }
+	                else
+	                    {
+	                        insertItem = true;
+	                        base.setY( minHighEditor );
+	                        heightBase = Global.Height - minHighEditor;
+	                    }
+	    	    }
             else
                 {
                     insertItem = false;
@@ -830,9 +832,6 @@ public class Edit
 						                            			{
 						                            				if(!insertEditor)
 							                            				{
-					                            							for(Ostacolo obs: ostacoli)
-					                            								if(obs.getID().equals( Global.PLAYER ))
-					                            									((Player) obs).setDrawLifes( true );
 					                            					        // apre la textBox
 					                            					        tBox.setOpen( true );
 						                            					    // setta il nome del livello

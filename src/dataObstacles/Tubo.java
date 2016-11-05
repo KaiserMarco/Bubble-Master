@@ -67,13 +67,13 @@ public class Tubo extends Ostacolo{
 		
 		if(type.equals( "sx" ) || type.equals( "dx" ))
 			{
-				width = gc.getWidth()/10;
-				height = gc.getHeight()/10;
+				width = Global.Width/10;
+				height = Global.Height/10;
 			}
 		else
 			{
-				width = gc.getHeight()/10;
-				height = gc.getWidth()/10;
+				width = Global.Width*10/133;
+				height = Global.Height*10/75;
 			}
 		
 		ostr = new Rectangle( x, y, width, height );
@@ -110,22 +110,22 @@ public class Tubo extends Ostacolo{
     		ostr = new Rectangle( getX(), getY(), width, height );
     		if(type.equals( "dx" ))
 				{
-    				base = new Base( getX(), getY() + gc.getHeight()/120, gc.getWidth()*10/119, height - gc.getHeight()/60 );
+    				base = new Base( getX(), getY() + Global.Height/120, Global.Width*10/119, height - Global.Height/60 );
     				enter = new Enter( base.getMaxX(), getY(), width - base.getWidth(), height );
 				}
 			else if(type.equals( "sx" ))
 				{
-					enter = new Enter( getX(), getY(), width - gc.getWidth()*10/119, height );
-					base = new Base( enter.getMaxX(), getY() + gc.getHeight()/120, gc.getWidth()*10/119, height - gc.getHeight()/60 );
+					enter = new Enter( getX(), getY(), width - Global.Width*10/119, height );
+					base = new Base( enter.getMaxX(), getY() + Global.Height/120, Global.Width*10/119, height - Global.Height/60 );
 				}
     		else if(type.equals( "up" ))
 				{
-					enter = new Enter( getX(), getY(), width, height - gc.getHeight()*10/89 );
-					base = new Base( getX() + gc.getWidth()/160, enter.getMaxY(), width - gc.getWidth()/80, height - enter.getHeight() );
+					enter = new Enter( getX(), getY(), width, height - Global.Height*10/89 );
+					base = new Base( getX() + Global.Width/160, enter.getMaxY(), width - Global.Width/80, height - enter.getHeight() );
 				}
 			else
 				{
-					base = new Base( getX() + gc.getWidth()/160, getY(), width - gc.getWidth()/80, gc.getHeight()*10/89 );
+					base = new Base( getX() + Global.Width/160, getY(), width - Global.Width/80, Global.Height*10/89 );
 					enter = new Enter( getX(), base.getMaxY(), width, height - base.getHeight() );
 				}
     		base.setSpigoli();
