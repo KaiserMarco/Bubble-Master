@@ -146,13 +146,6 @@ public class ChooseLevel
 			return 0;
 		}
 	
-	public void setNameLvl()
-		{
-	        buttons.remove( buttons.size() - 1 );
-	        buttons.add( nameLvl );
-	        nameLvl.setName( Begin.livelli.get( pos ).getName() );
-		}
-	
 	public void removeFile( int index )
 		{
 			System.out.println( "rimosso = " + Begin.livelli.get( index ).getName() + ".xml" );
@@ -260,9 +253,8 @@ public class ChooseLevel
 				                            			{
 				                            				removeFile( pos );
 				                		    				Begin.livelli.remove( pos );
-				                		    				if(pos > 0)
-				                		    					pos--;
-				                		    				setNameLvl();
+				                		    				pos = Math.max( 0, --pos );
+				                		    				updateNameLvl();
 				                            			}
 				                            		
 						                            break;
@@ -288,18 +280,15 @@ public class ChooseLevel
 			                                    		// premuta freccia destra
 					                            		if(arrows.get( i ).getDirection() == ArrowButton.RIGHT && pos < Begin.livelli.size() - 1)
 					                            			{
-						                            			nameLvl = new SimpleButton( 0, 0, Begin.livelli.get( ++pos ).getName(), Color.white );                    
-						                                        setNameLvl();
+					                            				pos++;
+					                            				updateNameLvl();
 					                            			}
 					                            		// premuta freccia sinistra
 					                            		else if(arrows.get( i ).getDirection() == ArrowButton.LEFT && pos > 0)
 					                            			{
-						                            			nameLvl = new SimpleButton( 0, 0, Begin.livelli.get( --pos ).getName(), Color.white );                    
-						                                        setNameLvl();
+					                            				pos--;
+					                            				updateNameLvl();
 					                            			}
-				                                        
-				                                        buttons.get( buttons.size() - 1 ).setX( width/2 - buttons.get( buttons.size() - 1 ).getLungh()/2 );
-				                                        buttons.get( buttons.size() - 1 ).setY( height*4/5 + width/80 - buttons.get( buttons.size() - 1 ).getAlt()/2 );
 				                                        
 							                            break;
 						                            }
@@ -314,6 +303,9 @@ public class ChooseLevel
 			buttons.remove( buttons.size() - 1 );
 			nameLvl = new SimpleButton( 0, 0, Begin.livelli.get( pos ).getName(), Color.white );
 			buttons.add( nameLvl );
+            
+            buttons.get( buttons.size() - 1 ).setX( width/2 - buttons.get( buttons.size() - 1 ).getLungh()/2 );
+            buttons.get( buttons.size() - 1 ).setY( height*4/5 + width/80 - buttons.get( buttons.size() - 1 ).getAlt()/2 );
 		}
 	
 	private boolean checkKeyPressed( final Input input )
