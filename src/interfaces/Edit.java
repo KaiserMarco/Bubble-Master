@@ -606,6 +606,7 @@ public class Edit
 			if(input.isKeyPressed( Input.KEY_ESCAPE ))
 				{
 					resetStatus();
+					moveEditor = true;
 					Start.editGame = 0;
 					Start.chooseLevel = 1;
 				}
@@ -825,6 +826,7 @@ public class Edit
     	                                                            indexCursor = -1;
 						                            				nameLvl = null;
 						            								resetStatus();
+						            								moveEditor = true;
 						            								Start.chooseLevel = 1;
 							                            		}
 						                            		else if(button.getName().equals( SAVE ))
