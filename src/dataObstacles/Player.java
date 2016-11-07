@@ -279,64 +279,73 @@ public class Player extends Ostacolo
 		}
 	
 	public void draw( Graphics g ) throws SlickException
-		{			
-			if(!invincible || (invincible && currentTickInv > 0 && currentTickInv % 2 == 0))
-				drawMoving( g );
-			
-			/*inserisce la trasparenza rosso/verde nella modalita' di editing*/
-			if(Start.editGame == 1)
+		{
+			/* disegna il player durante la scelta livello e durante l'editing */
+			if(Start.editGame == 1 || Start.chooseLevel == 1)
 				{
+					pgdx.draw( xPlayer, yPlayer, widthI, height );
+					Color col = null;
 					if(!selectable)
-						pgdx.draw( xPlayer, yPlayer, widthI, height, Color.black );
+						col = Color.black;
 					if(checkInsert)
-						if(!insert)
-							pgdx.draw( xPlayer, yPlayer, widthI, height, cr);
-						else
-							pgdx.draw( xPlayer, yPlayer, widthI, height, cg);
+						{
+							if(!insert)
+								col = cr;
+							else
+								col = cg;
+						}
+					if(col != null)
+						pgdx.draw( xPlayer, yPlayer, widthI, height, col );
 				}
-			
-			for(Shot fuoco: fire)
-				if(fuoco.isShooting())
-					fuoco.draw();
-			
-			float pos = Global.Width/40 + Global.Width*10/42*(numPlayer-1);
-			g.setColor( Color.black );
-			if(currAmmo > 0)
+			/* disegna il player durante la durante la partita */
+			else if(Start.startGame == 1)
 				{
-					Rectangle zone = new Rectangle( pos + 2*widthH, maxHeight, Global.Height - maxHeight, Global.Height - maxHeight );
-					g.fill( zone );
+					if(!invincible || (invincible && currentTickInv > 0 && currentTickInv % 2 == 0))
+						drawMoving( g );
+					
+					for(Shot fuoco: fire)
+						if(fuoco.isShooting())
+							fuoco.draw();
+					
+					float pos = Global.Width/40 + Global.Width*10/42*(numPlayer-1);
+					g.setColor( Color.black );
+					if(currAmmo > 0)
+						{
+							Rectangle zone = new Rectangle( pos + 2*widthH, maxHeight, Global.Height - maxHeight, Global.Height - maxHeight );
+							g.fill( zone );
+							g.setColor( col );
+							powerUp.get( 0 ).getImage().draw( zone.getX(), maxHeight, Global.Height - maxHeight, Global.Height - maxHeight );
+							g.drawString( "X " + currAmmo, zone.getMaxX() + space, maxHeight );
+							coolDown.setY( coolDown.getY() + tickCd );
+							coolDown.setHeight( coolDown.getHeight() - tickCd );
+							g.fill( coolDown );
+							index--;
+						}
+					if(drawLifes)
+						{
+							int j = 0;
+							for(;j < lifes/2; j++)
+								{
+									heart.draw( pos, Global.Height/30, widthH, heightH );
+									pos = pos + widthH;
+								}
+							if(lifes%2 == 1)
+								{
+									j++;
+									halfHeart.draw( pos, Global.Height/30, widthH, heightH );
+									pos = pos + widthH;
+								}
+							for(;j < Global.lifes/2; j++)
+								{
+									noHeart.draw( pos, Global.Height/30, widthH, heightH );
+									pos = pos + widthH;
+								}
+						}
+		
 					g.setColor( col );
-					powerUp.get( 0 ).getImage().draw( zone.getX(), maxHeight, Global.Height - maxHeight, Global.Height - maxHeight );
-					g.drawString( "X " + currAmmo, zone.getMaxX() + space, maxHeight );
-					coolDown.setY( coolDown.getY() + tickCd );
-					coolDown.setHeight( coolDown.getHeight() - tickCd );
-					g.fill( coolDown );
-					index--;
+					if(drawPoints)
+						g.drawString( "SCORE : " + points, pos + Global.Width/80, Global.Height/30);
 				}
-			if(drawLifes)
-				{
-					int j = 0;
-					for(;j < lifes/2; j++)
-						{
-							heart.draw( pos, Global.Height/30, widthH, heightH );
-							pos = pos + widthH;
-						}
-					if(lifes%2 == 1)
-						{
-							j++;
-							halfHeart.draw( pos, Global.Height/30, widthH, heightH );
-							pos = pos + widthH;
-						}
-					for(;j < Global.lifes/2; j++)
-						{
-							noHeart.draw( pos, Global.Height/30, widthH, heightH );
-							pos = pos + widthH;
-						}
-				}
-
-			g.setColor( col );
-			if(drawPoints)
-				g.drawString( "SCORE : " + points, pos + Global.Width/80, Global.Height/30);
 		}
 	
 	public void setSelectable( boolean val )

@@ -263,19 +263,21 @@ public class ChooseLevel
 					                                        Start.stats.startTempo();
 					                                        Global.drawCountdown = true;
 					                                        Global.inGame = true;
-					                                        
+
+			                                				Start.chooseLevel = 0;
 					                                        Start.startGame = 1;
 				                                        }
 				                            		else if(buttons.get( i ).getName().equals( EDIT ))
 				                            			{				                            			
 					                            			Start.ig.addOstacoli( Begin.livelli.get( pos ).getElements(), Begin.livelli.get( pos ).getImage(), gc );
 					                                        editor.setElements( InGame.ostacoli, InGame.players, Begin.livelli.get( pos ).getName(), pos, Begin.livelli.get( pos ).getImage(), gc );
-					                                        
+
+			                                				Start.chooseLevel = 0;
 					                                        Start.editGame = 1;
 				                            			}
 				                            		else if(buttons.get( i ).getName().equals( NEW ))
 				                            			{
-				                            				//editor.resetData();
+		                                					Start.chooseLevel = 0;
 				                            				Start.editGame = 1;
 				                            			}
 				                            		else if(buttons.get( i ).getName().equals( CANC ))
