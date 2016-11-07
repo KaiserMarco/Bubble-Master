@@ -46,6 +46,8 @@ public class Tubo extends Ostacolo{
 	
 	private static final String ID = "tubo";
 	
+	private float rotation;
+	
 	public Tubo( int x, int y, String type, GameContainer gc ) throws SlickException
 	{
 		super( ID );
@@ -77,6 +79,8 @@ public class Tubo extends Ostacolo{
 			}
 		
 		ostr = new Rectangle( x, y, width, height );
+		
+		rotation = 0;
 	}
 
 	public void draw( Graphics g ) throws SlickException
@@ -272,8 +276,8 @@ public class Tubo extends Ostacolo{
     	        }
 	    }
 	
-	public void setOrienting( GameContainer gc ) throws SlickException
-        {
+	public void orienting(GameContainer gc ) throws SlickException
+	    {
 	        if(type.equals( "sx" ))
 	            {
 	                type = "up";
@@ -298,7 +302,10 @@ public class Tubo extends Ostacolo{
 	                immagine = tubosx;
 	                modificaArea( 2, gc );
 	            }
-        }
+	    }
+	
+	public void setOrienting( GameContainer gc ) throws SlickException
+        { rotation = (rotation + 1)%360; }
 
 	public String getOrienting()
         { return type; }
@@ -339,4 +346,10 @@ public class Tubo extends Ostacolo{
 			height = val;
 			ostr.setHeight( height );
 		}
+
+	public float getRotate()
+		{ return rotation; }
+
+	public void setRotate(float val)
+		{ rotation = val; }
 }

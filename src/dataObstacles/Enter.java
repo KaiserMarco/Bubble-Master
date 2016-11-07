@@ -169,4 +169,16 @@ public class Enter extends Ostacolo
 	
 	public void updateStats(GameContainer gc)
 		{}
+
+	@Override
+	public float getRotate() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void setRotate(float val) {
+		// TODO Auto-generated method stub
+		
+	}
 }

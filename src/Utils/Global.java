@@ -48,9 +48,12 @@ public class Global
 	public static final String TUBO = "tubo", BASE = "base", ENTER = "enter", PLAYER = "player", BOLLA = "bolla", SBARRA = "sbarra";
 	/** gli ID delle azioni del player */
 	public static final String SPARO = "Sparo", SALTO = "Salto";
-	/***/
+	/** gli ID dei segmenti dell'oggetto */
 	public static final String SPIGASX = "spigASx", SPIGADX = "spigADx", SPIGBSX = "spigBSx", SPIGBDX = "spigBDx",
 							   LATOSU = "latoSu", LATOGIU = "latoGiu", LATOSX = "latoSx", LATODX = "latoDx", RECT = "rect";
+	
+	/** stringhe di movimento oggetti */
+	public static final String MOVE = "move", RESTORE = "restore";
 	
 	/** hashMap contente i vettori di configurazione tasti */
 	public static ArrayList<Map<String, Integer>> mapButtons;

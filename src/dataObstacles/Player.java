@@ -779,4 +779,16 @@ public class Player extends Ostacolo
 
 	public void update(GameContainer gc, int delta) throws SlickException 
 		{}
+
+	@Override
+	public float getRotate() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void setRotate(float val) {
+		// TODO Auto-generated method stub
+		
+	}
 }

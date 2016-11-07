@@ -17,6 +17,9 @@ public abstract class Ostacolo
 	
 	public abstract void draw( Graphics g ) throws SlickException;
 	
+	public abstract float getRotate();
+	public abstract void setRotate( float val );
+	
 	public abstract float getX();	
 	public abstract float getY();
 	

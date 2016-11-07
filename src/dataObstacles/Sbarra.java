@@ -13,7 +13,6 @@ import bubbleMaster.Start;
 
 public class Sbarra extends Ostacolo
 {
-
 	private Image immagine;
 	private Image hor = new Image( "./data/Image/sbarra.png" ), ver = new Image( "./data/Image/sbarraVer.png" );
 	
@@ -38,6 +37,8 @@ public class Sbarra extends Ostacolo
 	
 	public static final String ID = "sbarra";
 	
+	private float rotation;
+	
 	public Sbarra( float x, float y, String type, GameContainer gc ) throws SlickException
 		{
 			super( ID );
@@ -60,6 +61,8 @@ public class Sbarra extends Ostacolo
 			ostr = new Rectangle( x, y, width, height );
 			
 			collide = false;
+			
+			rotation = 0;
 		}
 	
 	public Sbarra clone( GameContainer gc )
@@ -79,6 +82,8 @@ public class Sbarra extends Ostacolo
 						immagine.draw( ostr.getX(), ostr.getY(), width, height, cr);
 					else
 						immagine.draw( ostr.getX(), ostr.getY(), width, height, cg);
+			
+			//g.fill( ostr );
 		}
     
     public void setArea( GameContainer gc )
@@ -116,10 +121,10 @@ public class Sbarra extends Ostacolo
 	
 	public void setXY( float x, float y, String function )
 		{			
-			if(function.compareTo( "move" ) == 0)
+			if(function.equals( Global.MOVE ))
 				ostr.setLocation( ostr.getX() + x, ostr.getY() + y );
 			
-			else if(function.compareTo( "restore" ) == 0)
+			else if(function.equals( Global.RESTORE ))
 				ostr.setLocation( x, y );
 		}
 
@@ -171,7 +176,7 @@ public class Sbarra extends Ostacolo
 	public double getMaxWidth()
 		{ return 0; }
 
-    public void setOrienting( GameContainer gc )
+    public void orienting( GameContainer gc )
         {
     		float tmp;
     	
@@ -211,6 +216,9 @@ public class Sbarra extends Ostacolo
 
     public String getOrienting()
         { return type; }
+	
+	public void setOrienting( GameContainer gc ) throws SlickException
+        { rotation = (rotation + 1)%360; }
 
     public void setSpigoli()
         {    	
@@ -234,11 +242,17 @@ public class Sbarra extends Ostacolo
 		{}
 
 	public float[] getMidArea()
-		{ return null; }
+		{ return ostr.getCenter(); }
 	
 	public void setWidth( float val )
 		{ width = val; }
 	
 	public void setHeight( float val )
 		{ height = val; }
+
+	public float getRotate()
+		{ return rotation; }
+
+	public void setRotate(float val)
+		{ rotation = val; }
 }

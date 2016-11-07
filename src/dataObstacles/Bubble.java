@@ -559,4 +559,16 @@ public class Bubble extends Ostacolo
     
     public void setArea( GameContainer gc )
     	{ ostr = new Circle( ostr.getCenterX(), ostr.getCenterY(), ray ); }
+
+	@Override
+	public float getRotate() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void setRotate(float val) {
+		// TODO Auto-generated method stub
+		
+	}
 }
