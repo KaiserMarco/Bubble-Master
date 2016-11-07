@@ -38,7 +38,7 @@ public class Bubble extends Ostacolo
 	private float backupSpeedX, backupSpeedY;
      
     public Bubble( Ostacolo ost, GameContainer gc ) throws SlickException
-        { this( (int) ost.getX(), (int) ost.getY(), (int) ost.getWidth(), ost.getMaxWidth(), gc ); }
+        { this( ost.getX(), ost.getY(), ost.getWidth()/2, ost.getMaxWidth(), gc ); }
      
     public Bubble( float x, float y, float ray, double maxW, GameContainer gc ) throws SlickException
         {       
@@ -99,7 +99,10 @@ public class Bubble extends Ostacolo
                 ostr.setLocation( x, y );
              
             else if(function.compareTo( "setRay" ) == 0)
-                ray = x;
+            	{
+            		System.out.println( "RAY = " + x );
+                	ray = x;
+            	}
         }
     
     public void setPrimoTubo( boolean val )

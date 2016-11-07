@@ -120,7 +120,7 @@ public class Shot
 	
 	public boolean collision( Player play, Ostacolo ost, String type, GameContainer gc ) throws SlickException
 		{
-			if(getArea().intersects( ost.component( "rect" ) ))
+			if(getArea().intersects( ost.component( Global.RECT ) ))
 				{
 					if(type.equals( "bolla" ))
 						{
@@ -142,15 +142,15 @@ public class Shot
 										}
 								}
 						
-							if(ost.getWidth() == Global.Width/32)
+							if(ost.getWidth() == Global.Width/16)
 								play.setPoint( 50 );
-							else if(ost.getWidth() == Global.Width/64)
+							else if(ost.getWidth() == Global.Width/32)
 								play.setPoint( 150 );
 							else
 								play.setPoint( 300 );
-							if(ost.getWidth() > Global.Width/128)
+							if(ost.getWidth() > Global.Width/64)
 								{
-									ost.setXY( (int) ost.getWidth()/2, (int) ost.getWidth()/2, "setRay" );
+									ost.setXY( (int) ost.getWidth()/4, (int) ost.getWidth()/4, "setRay" );
 									
 									Bubble temp1 = new Bubble( ost, gc );
 									Bubble temp2 = new Bubble( ost, gc );

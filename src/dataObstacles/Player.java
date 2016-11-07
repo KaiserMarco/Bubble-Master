@@ -251,6 +251,7 @@ public class Player extends Ostacolo
 							body = new Rectangle( xPlayer, yPlayer + Global.Height/40, width, Global.Height/12 );
 							head = new Rectangle( xPlayer + width/2 - Global.Width/110, yPlayer, width/2, Global.Height/40 );
 							
+							saltoDx[indice].draw( xPlayer, yPlayer, width, height );
 							saltoDx[indice].draw( xPlayer, yPlayer, width, height, imm );
 						}
 					else
@@ -259,6 +260,7 @@ public class Player extends Ostacolo
 							body = new Rectangle( xPlayer, yPlayer + Global.Height/40, width, Global.Height/10 );
 							head = new Rectangle( xPlayer + Global.Width/110, yPlayer, width/2, Global.Height/40 );
 
+							saltoSx[indice].draw( xPlayer, yPlayer, width, height );
 							saltoSx[indice].draw( xPlayer, yPlayer, width, height, imm );
 						}
 				}
@@ -267,15 +269,27 @@ public class Player extends Ostacolo
 				{
 					indice = Math.min( (int) (animTime/frameMove), 8 );
 					if(dir == DESTRA)
-						right[indice].draw( xPlayer, yPlayer, widthI, height, imm );
+						{
+							right[indice].draw( xPlayer, yPlayer, widthI, height );
+							right[indice].draw( xPlayer, yPlayer, widthI, height, imm );
+						}
 					else
-						left[indice].draw( xPlayer - offset, yPlayer, widthI, height, imm );
+						{
+							left[indice].draw( xPlayer - offset, yPlayer, widthI, height );
+							left[indice].draw( xPlayer - offset, yPlayer, widthI, height, imm );
+						}
 				}
 			// il personaggio e' fermo
 			else if(dir == DESTRA)
-				pgdx.draw( xPlayer, yPlayer, widthI, height, imm );
+				{
+					pgdx.draw( xPlayer, yPlayer, widthI, height );
+					pgdx.draw( xPlayer, yPlayer, widthI, height, imm );
+				}
 			else
-				pgsx.draw( xPlayer - offset, yPlayer, widthI, height, imm );
+				{
+					pgsx.draw( xPlayer - offset, yPlayer, widthI, height );
+					pgsx.draw( xPlayer - offset, yPlayer, widthI, height, imm );
+				}
 		}
 	
 	public void draw( Graphics g ) throws SlickException
@@ -425,8 +439,7 @@ public class Player extends Ostacolo
 					xPlayer = xPlayer + x;
 					yPlayer = yPlayer + y;
 				}
-			
-			else if(function.equals( "restore" ))
+			else if(function.equals( RESTORE ))
 				{
 					xPlayer = x;
 					yPlayer = y;

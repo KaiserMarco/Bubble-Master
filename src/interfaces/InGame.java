@@ -115,9 +115,7 @@ public class InGame
 			for(PowerUp pu: powerUp)
 				pu.draw( g );
 			
-			// serve ad evitare che se 2 sfere sono
-			// esattamente nello stesso punto solo 1 viene disegnata
-			// altrimenti non verrebbero disegnate entrambe
+			// evita di non far disegnare entrambe le sfere sovrapposte
 			int dodgeIndex = -1;
 			for(int i = ostacoli.size() - 1; i >= 0; i--)
 				{
