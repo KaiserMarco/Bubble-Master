@@ -616,7 +616,7 @@ public class Edit
 					resetStatus();
 					Start.chooseLevel = 1;
 				}
-			// se HO cliccato su un elemento da inserire
+			// se HO un elemento da inserire
 			if(temp != null)
 				{
 					// determina l'altezza massima inseribile dell'oggetto
@@ -765,7 +765,7 @@ public class Edit
 								}
 						}
 				}
-			//se NON ho cliccato su un elemento da inserire
+			//se NON ho ancora un elemento da inserire
 			else if(temp == null)
 				{
 					if(input.isKeyPressed( Input.KEY_DOWN ))
