@@ -4,6 +4,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
+import org.newdawn.slick.geom.Shape;
 
 import Utils.Global;
 
@@ -158,15 +159,20 @@ public class Base extends Ostacolo
 	public void updateStats(GameContainer gc)
 		{}
 
-	@Override
-	public float getRotate() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+	public float getRotate()
+		{ return 0; }
 
-	@Override
-	public void setRotate(float val) {
-		// TODO Auto-generated method stub
+	public void setRotate( float val )
+		{}
+
+	public boolean contains( Shape shape )
+		{
+			if(shape.getY() >= ostr.getY())
+				if(shape.getY() + 2*shape.getHeight() <= ostr.getMaxY())
+					if(shape.getX() >= ostr.getX())
+						if(shape.getX() + 2*shape.getHeight() <= ostr.getMaxX())
+							return true;
 		
-	}
+			return false;
+		}
 }

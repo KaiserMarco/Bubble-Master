@@ -139,10 +139,10 @@ public class Bubble extends Ostacolo
         { return ostr; }
  
     public float getWidth()
-        { return ray; }
+        { return 2*ray; }
  
     public float getHeight()
-        { return ray; }
+        { return 2*ray; }
  
     public float getSpeedX()
         { return speedX; }
@@ -321,18 +321,18 @@ public class Bubble extends Ostacolo
     		if(primoTubo)
     			{
 	    			if(pos.equals( "sx" ))
-						setXY( ostr.getX(), ingr.getY() + ost.getHeight()/2 - getWidth(), "restore" );
+						setXY( ostr.getX(), ingr.getY() + ost.getHeight()/2 - getHeight()/2, "restore" );
 					else if(pos.equals( "dx" ))
-						setXY( ostr.getX(), ingr.getY() + ost.getHeight()/2 - getWidth(), "restore" );
+						setXY( ostr.getX(), ingr.getY() + ost.getHeight()/2 - getHeight()/2, "restore" );
 					else if(pos.equals( "down" ))
-						setXY( ingr.getX() + ost.getWidth()/2 - getWidth(), ostr.getY(), "restore" );
+						setXY( ingr.getX() + ost.getWidth()/2 - getWidth()/2, ostr.getY(), "restore" );
 					else
-						setXY( ingr.getX() + ost.getWidth()/2 - getWidth(), ostr.getY(), "restore" );
+						setXY( ingr.getX() + ost.getWidth()/2 - getWidth()/2, ostr.getY(), "restore" );
     			}
     		//la sfera e' nel SECONDO tubo
     		else
     			{
-	    			setXY( ost.getMidArea()[0] - getWidth(), ost.getMidArea()[1] - getWidth(), "restore" );
+	    			setXY( ost.getMidArea()[0] - getWidth()/2, ost.getMidArea()[1] - getHeight()/2, "restore" );
 					
 					if(ost.getOrienting().equals( "sx" ))
 						{
@@ -560,15 +560,20 @@ public class Bubble extends Ostacolo
     public void setArea( GameContainer gc )
     	{ ostr = new Circle( ostr.getCenterX(), ostr.getCenterY(), ray ); }
 
-	@Override
-	public float getRotate() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+	public float getRotate()
+		{ return 0; }
 
-	@Override
-	public void setRotate(float val) {
-		// TODO Auto-generated method stub
+	public void setRotate( float val )
+		{}
+
+	public boolean contains( Shape shape )
+		{
+			if(shape.getY() >= ostr.getY())
+				if(shape.getY() + 2*shape.getHeight() <= ostr.getMaxY())
+					if(shape.getX() >= ostr.getX())
+						if(shape.getX() + 2*shape.getHeight() <= ostr.getMaxX())
+							return true;
 		
-	}
+			return false;
+		}
 }

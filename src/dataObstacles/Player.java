@@ -800,15 +800,20 @@ public class Player extends Ostacolo
 	public void update(GameContainer gc, int delta) throws SlickException 
 		{}
 
-	@Override
-	public float getRotate() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+	public float getRotate()
+		{ return 0; }
 
-	@Override
-	public void setRotate(float val) {
-		// TODO Auto-generated method stub
+	public void setRotate( float val )
+		{}
+
+	public boolean contains( Shape shape )
+		{
+			if(shape.getY() >= area.getY())
+				if(shape.getY() + 2*shape.getHeight() <= area.getMaxY())
+					if(shape.getX() >= area.getX())
+						if(shape.getX() + 2*shape.getHeight() <= area.getMaxX())
+							return true;
 		
-	}
+			return false;
+		}
 }

@@ -666,20 +666,10 @@ public class Edit
 						temp.setXY( 0, temp.getY(), Global.RESTORE );
 					if(temp.getY() <= 0)
 						temp.setXY( temp.getX(), 0, Global.RESTORE );
-					if(temp.getID().equals( Global.BOLLA ))
-						{
-							if(temp.getX() + 2*temp.getWidth() >= Global.Width)
-								temp.setXY( Global.Width - 2*temp.getWidth(), temp.getY(), Global.RESTORE );
-							if(temp.getY() + temp.getHeight()*2 > maxHeight)
-								temp.setXY( temp.getX(), maxHeight - temp.getHeight()*2, Global.RESTORE );
-						}
-					else
-						{
-							if(temp.getX() + temp.getWidth() >= Global.Width)
-								temp.setXY( Global.Width - temp.getWidth(), temp.getY(), Global.RESTORE );
-							if(temp.getY() + temp.getHeight() > maxHeight)
-								temp.setXY( temp.getX(), maxHeight - temp.getHeight(), Global.RESTORE );
-						}
+					if(temp.getX() + temp.getWidth() >= Global.Width)
+						temp.setXY( Global.Width - temp.getWidth(), temp.getY(), Global.RESTORE );
+					if(temp.getY() + temp.getHeight() > maxHeight)
+						temp.setXY( temp.getX(), maxHeight - temp.getHeight(), Global.RESTORE );
 					
 					tempX = mouseX;
 					tempY = mouseY;

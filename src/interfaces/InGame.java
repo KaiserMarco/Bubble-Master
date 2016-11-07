@@ -123,11 +123,15 @@ public class InGame
 							boolean dark = false;
 							for(int j = 0; j < ostacoli.size(); j++)
 								{
-									if(j != i && ostacoli.get( j ).getArea().contains( ostacoli.get( i ).getArea() ))
+									if(ostacoli.get( j ).getID().equals( Global.TUBO ))
 										{
-											System.out.println( "SONO QUI" );
-											dark = true;
-											break;
+											//System.out.println( "VEDIAMO UN PO" );
+											if(j != i && ostacoli.get( j ).contains( ostacoli.get( i ).getArea() ))
+												{
+													System.out.println( "SONO QUI" );
+													dark = true;
+													break;
+												}
 										}
 								}
 									

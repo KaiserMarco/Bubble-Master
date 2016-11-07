@@ -31,6 +31,8 @@ public abstract class Ostacolo
 	public abstract double getMaxHeight();
 	public abstract double getMaxWidth();
 	
+	public abstract boolean contains( Shape shape );
+	
 	public abstract void setArea( GameContainer gc );
 	
 	public abstract void setType( String type );
