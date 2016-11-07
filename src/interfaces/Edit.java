@@ -545,7 +545,7 @@ public class Edit
 			if(ost.getID().equals( Global.SBARRA ) || ost.getID().equals( Global.TUBO ))
 				{
 					g.rotate( ost.getMidArea()[0], ost.getMidArea()[1], ost.getRotate() );
-					System.out.println( "sono qui eh" );
+					//System.out.println( "sono qui eh" );
 				}
 			if(mouseY < ost.getY())
 				if(!(mouseX + temp.getWidth()/2 < ost.getX() || mouseX - temp.getWidth()/2 > ost.getMaxX()))
@@ -577,7 +577,7 @@ public class Edit
 		            			Shape areaEnter = ((Tubo) ost).getEnter().getArea();
 		            			if(areaPlayer.intersects( areaBase ) && areaPlayer.intersects( areaEnter ))
 	            					return true;
-		            			else if(areaPlayer.intersects( areaBase ) && temp.getY() + temp.getHeight() < ((Tubo) ost).getY())
+		            			else if(areaPlayer.intersects( areaBase ) && temp.getY() + temp.getHeight() > areaBase.getY())
 		            				return true;
 		            		}
 		            else if(temp.component( Global.RECT ).intersects( ost.component( Global.LATOGIU ) ))
