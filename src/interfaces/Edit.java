@@ -665,7 +665,7 @@ public class Edit
 
 					// controlla se l'oggetto da inserire non superi i confini dello schermo di gioco					
 					if(temp.getX() <= 0)
-						temp.setXY( 0, temp.getY(), Global.RESTORE );					
+						temp.setXY( 0, temp.getY(), Global.RESTORE );
 					if(temp.getY() <= 0)
 						temp.setXY( temp.getX(), 0, Global.RESTORE );
 					if(temp.getID().equals( Global.BOLLA ))
@@ -764,9 +764,6 @@ public class Edit
 						{
 							insertEditor = false;
 							moveEditor = true;
-		                    base.setY( Global.Height );
-		                    heightBase = 0;
-		                    setChoise( gc );
 		                    resetIndexCursor();
 						}
 					//innalza la schermata di selezione elemento
