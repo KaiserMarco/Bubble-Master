@@ -280,13 +280,13 @@ public class Edit
 		}
 	
 	/** controlla se e' stato cliccato su un qualche elemento del livello */
-	public boolean checkPressed( int x, int y, GameContainer gc ) throws SlickException
+	public void checkPressed( int x, int y, GameContainer gc ) throws SlickException
 		{
 			if(choise.contains( x, y ))
 				{
 					insertEditor = !insertEditor;
 					moveEditor = true;
-					return true;
+					return;
 				}
 		
 			//se e' stato scelto un elemento nuovo da inserire
@@ -301,7 +301,7 @@ public class Edit
 										if(!((Player) item).isSelectable())
 											{
 												temp = null;
-												return false;
+												return;
 											}
 									temp = item.clone( gc );
 									//sto inserendo una nuova coppia di tubi
@@ -319,7 +319,7 @@ public class Edit
 									insertEditor = false;
 									moveEditor = true;
 									
-									return true;
+									return;
 								}
 						}
 					for(int i = 0; i < sfondi.size(); i++)
@@ -327,7 +327,7 @@ public class Edit
 							if(sfondi.get( i ).contains( x, y ))
 								{
 									indexSfondo = i;
-									return true;
+									return;
 								}
 						}
 				}
@@ -362,11 +362,6 @@ public class Edit
 								}
 						}
 				}
-			
-			indexCursor = -1;
-			indexCursorButton = -1;
-			
-			return false;
 		}
 	
 	//resetta tutte le variabili e il vettore degli oggetti del livello

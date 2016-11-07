@@ -116,22 +116,27 @@ public class InGame
 				pu.draw( g );
 			
 			for(int i = ostacoli.size() - 1; i >= 0; i--)
-				if(ostacoli.get( i ).getID().equals( Global.BOLLA ))
-					{
-						// TODO LAVORARCI UN POINO SU QUESTO PSEUDO-CLIPPING
-						boolean dark = false;
-						for(int j = ostacoli.size() - 1; j >= 0; j--)
-							if(j != i && ostacoli.get( j ).getArea().contains( ostacoli.get( i ).getArea() ))
-								dark = true;
-								
-						if(!dark)
-							{
+				{
+					if(ostacoli.get( i ).getID().equals( Global.BOLLA ))
+						{
+							// TODO LAVORARCI UN POINO SU QUESTO PSEUDO-CLIPPING
+							boolean dark = false;
+							for(int j = 0; j < ostacoli.size(); j++)
+								{
+									if(j != i && ostacoli.get( j ).getArea().contains( ostacoli.get( i ).getArea() ))
+										{
+											System.out.println( "SONO QUI" );
+											dark = true;
+											break;
+										}
+								}
+									
+							if(!dark)
 								ostacoli.get( i ).draw( g );
-								System.out.println( "SONO QUI" );
-							}
-					}
-				else
-					ostacoli.get( i ).draw( g );
+						}
+					else
+						ostacoli.get( i ).draw( g );
+				}
 			
 			for(Ostacolo player: players)
 				player.draw( g );
