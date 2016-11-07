@@ -10,8 +10,8 @@
   <ostacolo x="682.0" y="55.0" union="-1" type="null" ID="bolla" />
   <ostacolo x="335.0" y="33.0" union="-1" type="null" ID="bolla" />
   <ostacolo x="67.0" y="395.0" union="-1" type="null" ID="bolla" />
+  <ostacolo x="518.0" y="357.0" union="-1" type="hor" ID="sbarra" />
   <ostacolo x="555.0" y="67.0" union="-1" type="null" number="1" color="red" ID="player" />
   <ostacolo x="436.0" y="506.0" union="-1" type="null" number="2" color="blue" ID="player" />
-  <ostacolo x="518.0" y="357.0" union="-1" type="hor" ID="sbarra" />
   <sfondo name="sfondo5" />
 </level>

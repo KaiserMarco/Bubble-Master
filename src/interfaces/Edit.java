@@ -44,7 +44,7 @@ public class Edit
 	
 	private ArrayList<Sfondo> sfondi;
 	
-	private int indexSfondo = 3;
+	private int indexSfondo = 0;
 	
 	private Image up, down;
 	private float widthArrow, heightArrow;
@@ -225,14 +225,6 @@ public class Edit
 	public void setIndex( int index )
 		{ this.index = index; }
 	
-	public void resetData()
-		{
-			indexSfondo = 0;
-			ostacoli.clear();
-			nameLvl = null;
-			index = -1;
-		}
-	
 	/**setta gli elementi base di modifica livello*/
 	public void setElements( ArrayList<Ostacolo> ostacoli, ArrayList<Ostacolo> giocatori, String nameLvl, int index, Sfondo sfondo, GameContainer gc ) throws SlickException
 		{
@@ -287,10 +279,6 @@ public class Edit
 			indexCursorSfondi = -1;
 		}
 	
-	/** controlla se il player e' inseribile */
-	public boolean checkPlayer( Ostacolo item )
-		{ return ((Player) item).isSelectable(); }
-	
 	/** controlla se e' stato cliccato su un qualche elemento del livello */
 	public boolean checkPressed( int x, int y, GameContainer gc ) throws SlickException
 		{
@@ -303,7 +291,7 @@ public class Edit
 								{
 									// controlla se posso inserire un nuovo player
 									if(item.getID().equals( Global.PLAYER ))
-										if(!checkPlayer( item ))
+										if(!((Player) item).isSelectable())
 											{
 												temp = null;
 												return false;
@@ -374,14 +362,27 @@ public class Edit
 			return false;
 		}
 	
-	//resetta tutte le variabili e il vettore degi ostacoli del livello
+	//resetta tutte le variabili e il vettore degli oggetti del livello
 	public void resetStatus()
 		{
+			// reimposta tutti i player in modalita' selezionabile
+			for(Ostacolo item: items)
+				if(item.getID().equals( Global.PLAYER ))
+					((Player) item).setSelectable( true );
+			
+			tBox.setText( "" );
+			tBox.setOpen( false );
+		
 			ostacoli.clear();
+			nameLvl = null;
+			index = -1;
+			indexSfondo = 0;
+			insertEditor = false;
+			moveEditor = true;
+			temp = null;
+
 			indexCursor = -1;
 			indexCursorButton = -1;
-			insertEditor = false;
-			temp = null;
 		}
 	
 	private void setTubeInArray( GameContainer gc )
@@ -606,7 +607,6 @@ public class Edit
 			if(input.isKeyPressed( Input.KEY_ESCAPE ))
 				{
 					resetStatus();
-					moveEditor = true;
 					Start.editGame = 0;
 					Start.chooseLevel = 1;
 				}
@@ -628,11 +628,10 @@ public class Edit
 					if(!temp.getID().equals( Global.BOLLA ) && !temp.getID().equals( Global.PLAYER ))
 					    if(input.isKeyDown( Input.KEY_SPACE ))
 					    	temp.setOrienting( gc );
-					
-					indexCursor = -1;
-					indexCursorButton = -1;
-					indexCursorSfondi = -1;
+
+					// spostamento dell'oggetto in relazione alla posizione del mouse
 					temp.setXY( mouseX - tempX, mouseY - tempY, Global.MOVE );
+					
 					// posizionamento player sopra gli ostacoli		
 					if(temp.getID().equals( Global.PLAYER ))
 						{
@@ -823,10 +822,7 @@ public class Edit
 						                            		if(button.getName().equals( BACK ))
 							                            		{
     						                            		    Start.editGame = 0;
-    	                                                            indexCursor = -1;
-						                            				nameLvl = null;
 						            								resetStatus();
-						            								moveEditor = true;
 						            								Start.chooseLevel = 1;
 							                            		}
 						                            		else if(button.getName().equals( SAVE ))

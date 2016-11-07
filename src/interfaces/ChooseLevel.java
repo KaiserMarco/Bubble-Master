@@ -275,7 +275,7 @@ public class ChooseLevel
 				                            			}
 				                            		else if(buttons.get( i ).getName().equals( NEW ))
 				                            			{
-				                            				editor.resetData();
+				                            				//editor.resetData();
 				                            				Start.editGame = 1;
 				                            			}
 				                            		else if(buttons.get( i ).getName().equals( CANC ))
