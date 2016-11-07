@@ -392,6 +392,7 @@ public class Edit
 			indexCursorButton = -1;
 			
             Start.editGame = 0;
+			Start.chooseLevel = 1;
 		}
 	
 	private void setTubeInArray( GameContainer gc )
@@ -612,10 +613,8 @@ public class Edit
 				setEditor( delta, gc );
 
 			if(input.isKeyPressed( Input.KEY_ESCAPE ))
-				{
-					resetStatus();
-					Start.chooseLevel = 1;
-				}
+				resetStatus();
+			
 			// se HO un elemento da inserire
 			if(temp != null)
 				{
@@ -815,10 +814,7 @@ public class Edit
 						                            if(pressed || value == 2)
 							                            {
 						                            		if(button.getName().equals( BACK ))
-							                            		{
-						            								resetStatus();
-						            								Start.chooseLevel = 1;
-							                            		}
+							                            		resetStatus();
 						                            		else if(button.getName().equals( SAVE ))
 						                            			{
 						                            				if(!insertEditor)
@@ -851,7 +847,6 @@ public class Edit
 					        addNewLevel( gc, name );
 		                    
 		                    resetStatus();
-		                    Start.chooseLevel = 1;
 					    }
 				}
 		}
