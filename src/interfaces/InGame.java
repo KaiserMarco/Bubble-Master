@@ -121,13 +121,15 @@ public class InGame
 			int dodgeIndex = -1;
 			for(int i = ostacoli.size() - 1; i >= 0; i--)
 				{
-					if(ostacoli.get( i ).getID().equals( Global.BOLLA ))
+					if(i != dodgeIndex && ostacoli.get( i ).getID().equals( Global.BOLLA ))
 						{
 							boolean dark = false;
 							for(int j = 0; j < ostacoli.size(); j++)
 								{
 									if(j != i && ostacoli.get( j ).contains( ostacoli.get( i ).getArea() ))
 										{
+											if(ostacoli.get( j ).getID().equals( Global.BOLLA ))
+												dodgeIndex = j;
 											dark = true;
 											break;
 										}
