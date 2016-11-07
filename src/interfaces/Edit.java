@@ -93,6 +93,8 @@ public class Edit
 	
 	private TextBox tBox;
 	
+	private boolean moveEditor;
+	
     public Edit( GameContainer gc ) throws SlickException
 		{
 			elem = new Elements( gc );
@@ -151,6 +153,8 @@ public class Edit
 			temp = null;
 			
 			tBox = new TextBox( gc );
+			
+			moveEditor = false;
 		}
 	
 	public void draw( GameContainer gc, Graphics g ) throws SlickException
@@ -291,17 +295,24 @@ public class Edit
 		}
 	
 	/** controlla se e' stato cliccato su un qualche elemento del livello */
-	public boolean checkPressed( int x, int y, GameContainer gc, String type ) throws SlickException
+	public boolean checkPressed( int x, int y, GameContainer gc ) throws SlickException
 		{
 			//se e' stato scelto un elemento nuovo da inserire
 			if(insertEditor)
 				{
-					//inserimento da tastiera
-					if(type.equals( "keyboard" ))
+					for(Ostacolo item: items)
 						{
-							if(indexCursor >= 0)
+							if(item.contains( x, y ))
 								{
-									temp = items.get( indexCursor ).clone( gc );
+									// controlla se posso inserire un nuovo player
+									if(item.getID().equals( Global.PLAYER ))
+										if(!checkPlayer( item ))
+											{
+												temp = null;
+												return false;
+											}
+									temp = item.clone( gc );
+									//sto inserendo una nuova coppia di tubi
 									if(temp.getID().equals( Global.TUBO ))
 										{
 											nuovaCoppiaTubi = true;
@@ -309,124 +320,53 @@ public class Edit
 										}
 									temp.setInsert( true, true );
 									
-									indexCursor = -1;
-									indexCursorButton = -1;
+									tempX = x;
+									tempY = y;
+									
+									resetIndexCursor();
 									insertEditor = false;
-
-									tempX = gc.getInput().getMouseX();
-									tempY = gc.getInput().getMouseY();
+									moveEditor = true;
 									
 									return true;
 								}
-							else if(indexCursorSfondi >= 0)
-								{
-									indexSfondo = indexCursorSfondi;
-								
-									return true;
-								}
 						}
-					//inserimento tramite click del mouse
-					else
+					for(int i = 0; i < sfondi.size(); i++)
 						{
-							for(Ostacolo item: items)
+							if(sfondi.get( i ).contains( x, y ))
 								{
-									if(item.contains( x, y ))
-										{
-											// controlla se posso inserire un nuovo player
-											if(item.getID().equals( Global.PLAYER ))
-												if(!checkPlayer( item ))
-													{
-														temp = null;
-														return false;
-													}
-											temp = item.clone( gc );
-											//sto inserendo una nuova coppia di tubi
-											if(temp.getID().equals( Global.TUBO ))
-												{
-													nuovaCoppiaTubi = true;
-													nuovoTubo1 = true;
-												}
-											temp.setInsert( true, true );
-											
-											tempX = x;
-											tempY = y;
-											
-											resetIndexCursor();
-											insertEditor = false;
-											
-											return true;
-										}
-								}
-							for(int i = 0; i < sfondi.size(); i++)
-								{
-									if(sfondi.get( i ).contains( x, y ))
-										{
-											indexSfondo = i;
-											return true;
-										}
+									indexSfondo = i;
+									return true;
 								}
 						}
 				}
 			//se e' stato scelto un elemento gia' presente nel gioco
 			else
 				{
-					if(type.equals( "keyboard" ) && indexCursor >= 0)
+					for(int i = 0; i < ostacoli.size(); i++)
 						{
-							temp = ostacoli.get( indexCursor );
-							//modifica la posizione di un tubo gia' esistente
-							if(temp.getID().equals( Global.TUBO ))
+							if(ostacoli.get( i ).contains( x, y ))
 								{
-									ostacoli.get( temp.getUnion() ).setUnion( - 1 );
-									
-									if(temp.getUnion() > indexCursor)											
-										indiceTuboRimasto = temp.getUnion() - 1;
-									else
-										indiceTuboRimasto = temp.getUnion();
-									
-									//sistema gli indici dei tubi puntati
-									aggiornaIndiciTubi( indexCursor );
-									ostacoli.remove( indexCursor );
-								}
-							else
-								{
-									//sistema gli indici dei tubi puntati
-									aggiornaIndiciTubi( indexCursor );									
-									ostacoli.remove( indexCursor );
-								}
-							
-							temp.setInsert( true, true );
-							
-							tempX = gc.getInput().getMouseX();
-							tempY = gc.getInput().getMouseY();
-						}
-					else
-						{
-							for(int i = 0; i < ostacoli.size(); i++)
-								{
-									if(ostacoli.get( i ).contains( x, y ))
-										{
-											temp = ostacoli.get( i );
-											//modifica la posizione di un tubo gia' esistente
-											if(temp.getID().equals( Global.TUBO ))
-												{								
-													ostacoli.get( temp.getUnion() ).setUnion( - 1 );
-	
-													indiceTuboRimasto = temp.getUnion();
-													if(temp.getUnion() > i)											
-														indiceTuboRimasto--;
-												}
-												
-											//sistema gli indici dei tubi puntati
-											aggiornaIndiciTubi( i );
-											ostacoli.remove( i );
-											
-											temp.setInsert( true, true );
-											
-											tempX = x;
-											tempY = y;
-											
-											break;
+									temp = ostacoli.get( i );
+									//modifica la posizione di un tubo gia' esistente
+									if(temp.getID().equals( Global.TUBO ))
+										{								
+											ostacoli.get( temp.getUnion() ).setUnion( - 1 );
+
+											indiceTuboRimasto = temp.getUnion();
+											if(temp.getUnion() > i)											
+												indiceTuboRimasto--;
 										}
+										
+									//sistema gli indici dei tubi puntati
+									aggiornaIndiciTubi( i );
+									ostacoli.remove( i );
+									
+									temp.setInsert( true, true );
+									
+									tempX = x;
+									tempY = y;
+									
+									break;
 								}
 						}
 				}
@@ -575,6 +515,7 @@ public class Edit
 	                        insertItem = true;
 	                        base.setY( minHighEditor );
 	                        heightBase = Global.Height - minHighEditor;
+	                        moveEditor = false;
 	                    }
 	    	    }
             else
@@ -582,6 +523,7 @@ public class Edit
                     insertItem = false;
                     base.setY( Global.Height );
                     heightBase = 0;
+                    moveEditor = false;
                 }
             setChoise( gc );
 	    }
@@ -658,7 +600,8 @@ public class Edit
 			boolean collide = false;
 			
 			// aggiornamento altezza editor
-			setEditor( delta, gc );
+			if(moveEditor)
+				setEditor( delta, gc );
 
 			if(input.isKeyPressed( Input.KEY_ESCAPE ))
 				{
@@ -821,6 +764,7 @@ public class Edit
 					if((insertEditor && choise.contains( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )) || input.isKeyPressed( Input.KEY_DOWN ))
 						{
 							insertEditor = false;
+							moveEditor = true;
 		                    base.setY( Global.Height );
 		                    heightBase = 0;
 		                    setChoise( gc );
@@ -830,22 +774,18 @@ public class Edit
 					else if((choise.contains( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )) || input.isKeyPressed( Input.KEY_UP ))
 						{
 							insertEditor = true;
+							moveEditor = true;
 							resetIndexCursor();
 						}
-	              //se e' stato scelto uno sfondo o un oggetto da inserire nel livello tramite mouse
+					//se e' stato scelto uno sfondo o un oggetto da inserire nel livello
 					else if(input.isMousePressed( Input.MOUSE_LEFT_BUTTON ))
 						{
-							if(checkPressed( mouseX, mouseY, gc, "mouse" ))
+							if(checkPressed( mouseX, mouseY, gc ))
 								{
 									choise.setLocation( choise.getX(), Global.Height - heightChoise );
 									insertEditor = false;
+									moveEditor = true;
 								}
-						}
-	              //se e' stato scelto uno sfondo o un oggetto da inserire nel livello tramite mouse
-					else if(input.isKeyPressed( Input.KEY_ENTER ))
-						{
-							if(checkPressed( mouseX, mouseY, gc, "keyboard" ))
-								choise.setLocation( choise.getX(), Global.Height - heightChoise );
 						}
 					
 					if(input.isMouseButtonDown( Input.MOUSE_LEFT_BUTTON ))
