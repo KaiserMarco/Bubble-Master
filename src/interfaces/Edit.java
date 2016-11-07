@@ -632,7 +632,7 @@ public class Edit
 								}
 
 					if(!temp.getID().equals( Global.BOLLA ) && !temp.getID().equals( Global.PLAYER ))
-					    if(input.isKeyDown( Input.KEY_SPACE ))
+					    if(input.isKeyPressed( Input.KEY_SPACE ))
 					    	temp.setOrienting( gc );
 
 					// spostamento dell'oggetto in relazione alla posizione del mouse
@@ -718,8 +718,8 @@ public class Edit
 								{
 									indexCursor = -1;
 									temp.setInsert( true, true );
-									ostacoli.add( temp );
 									temp.setSpigoli();
+									ostacoli.add( temp );
 									
 									if(temp.getID().equals( Global.PLAYER ))
 										updateItemPlayer( (Player) temp, false );

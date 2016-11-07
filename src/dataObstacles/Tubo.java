@@ -276,7 +276,7 @@ public class Tubo extends Ostacolo{
     	        }
 	    }
 	
-	public void orienting(GameContainer gc ) throws SlickException
+	public void setOrienting(GameContainer gc ) throws SlickException
 	    {
 	        if(type.equals( "sx" ))
 	            {
@@ -304,7 +304,7 @@ public class Tubo extends Ostacolo{
 	            }
 	    }
 	
-	public void setOrienting( GameContainer gc ) throws SlickException
+	public void orienting( GameContainer gc ) throws SlickException
         { rotation = (rotation + 1)%360; }
 
 	public String getOrienting()

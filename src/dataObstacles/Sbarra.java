@@ -176,7 +176,7 @@ public class Sbarra extends Ostacolo
 	public double getMaxWidth()
 		{ return 0; }
 
-    public void orienting( GameContainer gc )
+    public void setOrienting( GameContainer gc )
         {
     		float tmp;
     	
@@ -217,7 +217,7 @@ public class Sbarra extends Ostacolo
     public String getOrienting()
         { return type; }
 	
-	public void setOrienting( GameContainer gc ) throws SlickException
+	public void orienting( GameContainer gc ) throws SlickException
         { rotation = (rotation + 1)%360; }
 
     public void setSpigoli()
