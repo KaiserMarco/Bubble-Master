@@ -159,9 +159,6 @@ public class ChooseLevel
 	
 	public void removeLevel( int pos )
 		{
-			// TODO CAPIRE PERCHE NON RIMUOVE CORRETTAMENTE IL FILE DALLA CARTELLA
-			// TODO MA LO FA SOLO NEL VETTORE DEI LIVELLI
-		
 			File levels = new File( "data/livelli" );
 			String[] files = levels.list();
 			for(int i = 0; i < files.length; i++)
@@ -171,16 +168,9 @@ public class ChooseLevel
 						rem.delete();
 						break;
 					}
-			
-			//System.out.println( "ELIMINO IL FILE = " + Begin.livelli.get( pos ).getName() + ".xml" );
-			/*File level = new File( "data/livelli/" + Begin.livelli.get( pos ).getName() + ".xml" );
-			if(level.delete())
-				System.out.println( "file eliminato" );*/
 
-			System.out.println( "livelli = " + Begin.livelli.size() );
-			System.out.println( "rimosso = " + Begin.livelli.get( pos ).getName() + ".xml" );
 			Begin.livelli.remove( pos );
-			System.out.println( "livelli = " + Begin.livelli.size() );
+			System.out.println( "rimosso il livello = " + Begin.livelli.size() );
 		}
 	
 	public void update( GameContainer gc, Edit editor ) throws SlickException
@@ -250,9 +240,9 @@ public class ChooseLevel
 				                            // pressed tramite mouse || value==2 tramite tastiera
 				                            if(pressed || value == 2)
 					                            {
-		                                			indexCursor = -1;
 				                            		if(buttons.get( i ).getName().equals( BACK ))
 				                            			{
+			                                				indexCursor = -1;
 			                                				Start.chooseLevel = 0;
 					                            			Start.begin = 1;
 				                            			}
@@ -263,6 +253,8 @@ public class ChooseLevel
 					                                        Start.stats.startTempo();
 					                                        Global.drawCountdown = true;
 					                                        Global.inGame = true;
+					                                        
+				                                			indexCursor = -1;
 
 			                                				Start.chooseLevel = 0;
 					                                        Start.startGame = 1;
@@ -272,11 +264,15 @@ public class ChooseLevel
 					                            			Start.ig.addOstacoli( Begin.livelli.get( pos ).getElements(), Begin.livelli.get( pos ).getImage(), gc );
 					                                        editor.setElements( InGame.ostacoli, InGame.players, Begin.livelli.get( pos ).getName(), pos, Begin.livelli.get( pos ).getImage(), gc );
 
+				                                			indexCursor = -1;
+				                                			
 			                                				Start.chooseLevel = 0;
 					                                        Start.editGame = 1;
 				                            			}
 				                            		else if(buttons.get( i ).getName().equals( NEW ))
 				                            			{
+			                                				indexCursor = -1;
+			                                				
 		                                					Start.chooseLevel = 0;
 				                            				Start.editGame = 1;
 				                            			}
