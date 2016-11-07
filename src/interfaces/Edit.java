@@ -864,7 +864,7 @@ public class Edit
 	
 	/** aggiorna l'inseribilita' di quello specifico player
 	 * 
-	 *  @param select -  true = diventa inseribile
+	 *  @param select - true = diventa inseribile
 	 *  				false = diventa non inseribile*/
 	private void updateItemPlayer( Player ost, boolean select )
 		{
