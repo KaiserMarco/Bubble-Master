@@ -282,6 +282,13 @@ public class Edit
 	/** controlla se e' stato cliccato su un qualche elemento del livello */
 	public boolean checkPressed( int x, int y, GameContainer gc ) throws SlickException
 		{
+			if(choise.contains( x, y ))
+				{
+					insertEditor = !insertEditor;
+					moveEditor = true;
+					return true;
+				}
+		
 			//se e' stato scelto un elemento nuovo da inserire
 			if(insertEditor)
 				{
@@ -761,31 +768,20 @@ public class Edit
 			//se NON ho cliccato su un elemento da inserire
 			else if(temp == null)
 				{
-					//abbassa la schermata di selezione elemento
-					if((insertEditor && choise.contains( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )) || input.isKeyPressed( Input.KEY_DOWN ))
+					if(input.isKeyPressed( Input.KEY_DOWN ))
 						{
 							insertEditor = false;
 							moveEditor = true;
-		                    resetIndexCursor();
 						}
-					//innalza la schermata di selezione elemento
-					else if((choise.contains( mouseX, mouseY ) && input.isMousePressed( Input.MOUSE_LEFT_BUTTON )) || input.isKeyPressed( Input.KEY_UP ))
+					else if(input.isKeyPressed( Input.KEY_UP ))
 						{
 							insertEditor = true;
 							moveEditor = true;
-							resetIndexCursor();
 						}
-					//se e' stato scelto uno sfondo o un oggetto da inserire nel livello
 					else if(input.isMousePressed( Input.MOUSE_LEFT_BUTTON ))
-						{
-							if(checkPressed( mouseX, mouseY, gc ))
-								{
-									insertEditor = false;
-									moveEditor = true;
-								}
-						}
+						checkPressed( mouseX, mouseY, gc );
 					
-					if(input.isMouseButtonDown( Input.MOUSE_LEFT_BUTTON ))
+					else if(input.isMouseButtonDown( Input.MOUSE_LEFT_BUTTON ))
 						{
 			                if(!mouseDown)
 				                {
