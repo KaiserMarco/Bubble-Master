@@ -614,16 +614,15 @@ public class Edit
 				{
 					// determina l'altezza massima inseribile dell'oggetto
 					float maxHeight = sfondi.get( indexSfondo ).getMaxHeight();
-					
+
+					temp.setInsert( false, false );
 					for(Ostacolo ost: ostacoli)
 						if(!(ost.getID().equals( Global.BASE ) && ost.getID().equals( Global.ENTER )))
 							if(checkCollision( ost ))
-								collide = true;
-					
-					if(collide)
-						temp.setInsert( false, false );
-					else
-						temp.setInsert( true, false );
+								{
+									collide = true;
+									temp.setInsert( false, false );
+								}
 
 					if(!temp.getID().equals( Global.BOLLA ) && !temp.getID().equals( Global.PLAYER ))
 					    if(input.isKeyDown( Input.KEY_SPACE ))
