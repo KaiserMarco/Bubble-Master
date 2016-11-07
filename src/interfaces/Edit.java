@@ -258,11 +258,12 @@ public class Edit
 			
 			for(Ostacolo player: giocatori)
 				{
-					((Player) player).setDrawLifes( false );
-					((Player) player).setDrawPoints( false );
+					Player play = (Player) player;
+					play.setDrawLifes( false );
+					play.setDrawPoints( false );
 					this.ostacoli.add( player.clone( gc ) );
 					
-					updateItemPlayer( player, false );
+					updateItemPlayer( play, false );
 				}
 			
 			this.nameLvl = nameLvl;
@@ -700,7 +701,7 @@ public class Edit
 								}
 							
 							else if(temp.getID().equals( Global.PLAYER ))
-								updateItemPlayer( temp, true );
+								updateItemPlayer( (Player) temp, true );
 							
 							temp = null;
 						}
@@ -715,7 +716,7 @@ public class Edit
 									temp.setSpigoli();
 									
 									if(temp.getID().equals( Global.PLAYER ))
-										updateItemPlayer( temp, false );
+										updateItemPlayer( (Player) temp, false );
 
 									if(temp.getID().equals( Global.TUBO ))
 									    {
@@ -871,11 +872,11 @@ public class Edit
 	 * 
 	 *  @param select -  true = diventa inseribile
 	 *  				false = diventa non inseribile*/
-	private void updateItemPlayer( Ostacolo ost, boolean select )
+	private void updateItemPlayer( Player ost, boolean select )
 		{
 			for(Ostacolo item: items)
 				if(item.getID().equals( Global.PLAYER ))
-					if(((Player) item).getColor().equals( ((Player) ost).getColor() ))
+					if(((Player) item).getColor().equals( ost.getColor() ))
 						((Player) item).setSelectable( select );
 		}
 	
