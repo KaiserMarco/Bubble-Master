@@ -288,12 +288,11 @@ public class Player extends Ostacolo
 					if(!selectable)
 						col = Color.black;
 					if(checkInsert)
-						{
-							if(!insert)
-								col = cr;
-							else
-								col = cg;
-						}
+						if(!insert)
+							col = cr;
+						else
+							col = cg;
+					
 					if(col != null)
 						pgdx.draw( xPlayer, yPlayer, widthI, height, col );
 				}

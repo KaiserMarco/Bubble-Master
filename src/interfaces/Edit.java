@@ -782,7 +782,6 @@ public class Edit
 						{
 							if(checkPressed( mouseX, mouseY, gc ))
 								{
-									choise.setLocation( choise.getX(), Global.Height - heightChoise );
 									insertEditor = false;
 									moveEditor = true;
 								}
