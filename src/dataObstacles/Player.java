@@ -808,10 +808,10 @@ public class Player extends Ostacolo
 
 	public boolean contains( Shape shape )
 		{
-			if(shape.getY() >= area.getY())
-				if(shape.getY() + 2*shape.getHeight() <= area.getMaxY())
-					if(shape.getX() >= area.getX())
-						if(shape.getX() + 2*shape.getHeight() <= area.getMaxX())
+			if(shape.getY() >= body.getY())
+				if(shape.getY() + shape.getHeight() <= body.getMaxY())
+					if(shape.getX() >= body.getX())
+						if(shape.getX() + shape.getHeight() <= body.getMaxX())
 							return true;
 		
 			return false;

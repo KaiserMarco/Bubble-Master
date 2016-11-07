@@ -115,26 +115,23 @@ public class InGame
 			for(PowerUp pu: powerUp)
 				pu.draw( g );
 			
+			// serve ad evitare che se 2 sfere sono
+			// esattamente nello stesso punto solo 1 viene disegnata
+			// altrimenti non verrebbero disegnate entrambe
+			int dodgeIndex = -1;
 			for(int i = ostacoli.size() - 1; i >= 0; i--)
 				{
 					if(ostacoli.get( i ).getID().equals( Global.BOLLA ))
 						{
-							// TODO LAVORARCI UN POINO SU QUESTO PSEUDO-CLIPPING
 							boolean dark = false;
 							for(int j = 0; j < ostacoli.size(); j++)
 								{
-									if(ostacoli.get( j ).getID().equals( Global.TUBO ))
+									if(j != i && ostacoli.get( j ).contains( ostacoli.get( i ).getArea() ))
 										{
-											//System.out.println( "VEDIAMO UN PO" );
-											if(j != i && ostacoli.get( j ).contains( ostacoli.get( i ).getArea() ))
-												{
-													System.out.println( "SONO QUI" );
-													dark = true;
-													break;
-												}
+											dark = true;
+											break;
 										}
 								}
-									
 							if(!dark)
 								ostacoli.get( i ).draw( g );
 						}

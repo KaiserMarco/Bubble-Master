@@ -166,13 +166,5 @@ public class Base extends Ostacolo
 		{}
 
 	public boolean contains( Shape shape )
-		{
-			if(shape.getY() >= ostr.getY())
-				if(shape.getY() + 2*shape.getHeight() <= ostr.getMaxY())
-					if(shape.getX() >= ostr.getX())
-						if(shape.getX() + 2*shape.getHeight() <= ostr.getMaxX())
-							return true;
-		
-			return false;
-		}
+		{ return false; }
 }
