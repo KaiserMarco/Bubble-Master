@@ -383,6 +383,8 @@ public class Edit
 
 			indexCursor = -1;
 			indexCursorButton = -1;
+			
+            Start.editGame = 0;
 		}
 	
 	private void setTubeInArray( GameContainer gc )
@@ -607,7 +609,6 @@ public class Edit
 			if(input.isKeyPressed( Input.KEY_ESCAPE ))
 				{
 					resetStatus();
-					Start.editGame = 0;
 					Start.chooseLevel = 1;
 				}
 			// se HO cliccato su un elemento da inserire
@@ -821,7 +822,6 @@ public class Edit
 							                            {
 						                            		if(button.getName().equals( BACK ))
 							                            		{
-    						                            		    Start.editGame = 0;
 						            								resetStatus();
 						            								Start.chooseLevel = 1;
 							                            		}
@@ -854,13 +854,9 @@ public class Edit
 				    String name = tBox.getText();
 				    if(name != null && !name.isEmpty())
 					    {
-					        tBox.setText( "" );
 					        addNewLevel( gc, name );
 		                    
 		                    resetStatus();
-		                    Start.editGame = 0;
-		                    indexCursor = -1;
-		                
 		                    Start.chooseLevel = 1;
 					    }
 				}
