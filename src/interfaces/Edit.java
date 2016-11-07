@@ -544,8 +544,11 @@ public class Edit
 		{
 			if(ost.getID().equals( Global.SBARRA ) || ost.getID().equals( Global.TUBO ))
 				{
-					g.rotate( ost.getMidArea()[0], ost.getMidArea()[1], ost.getRotate() );
-					//System.out.println( "sono qui eh" );
+					if(ost.getRotate() > 0)
+						{
+							g.rotate( ost.getMidArea()[0], ost.getMidArea()[1], ost.getRotate() );
+							//System.out.println( "SBARRA.Y = " + ost.getY() );
+						}
 				}
 			if(mouseY < ost.getY())
 				if(!(mouseX + temp.getWidth()/2 < ost.getX() || mouseX - temp.getWidth()/2 > ost.getMaxX()))
@@ -628,40 +631,36 @@ public class Edit
 					    if(input.isKeyDown( Input.KEY_SPACE ))
 					    	temp.setOrienting( gc );
 					
-					/*spostamento player*/
-					if(mouseX != tempX || mouseY != tempY)	
+					indexCursor = -1;
+					indexCursorButton = -1;
+					indexCursorSfondi = -1;
+					temp.setXY( mouseX - tempX, mouseY - tempY, Global.MOVE );
+					// posizionamento player sopra gli ostacoli		
+					if(temp.getID().equals( Global.PLAYER ))
 						{
-							indexCursor = -1;
-							indexCursorButton = -1;
-							indexCursorSfondi = -1;
-							temp.setXY( mouseX - tempX, mouseY - tempY, Global.MOVE );
-							// posizionamento player sopra gli ostacoli		
-							if(temp.getID().equals( Global.PLAYER ))
+							float posY = Global.Height;
+							for(Ostacolo obs: ostacoli)
 								{
-									float posY = Global.Height;
-									for(Ostacolo obs: ostacoli)
+									if(obs.getID().equals( Global.TUBO ))
 										{
-											if(obs.getID().equals( Global.TUBO ))
-												{
-													Ostacolo ost = ((Tubo) obs).getBase();
-													if(checkPosition( ost, mouseX, mouseY, Global.Height, gc.getGraphics() ) && ost.getY() < posY)
-														posY = ost.getY();
-													
-													ost = ((Tubo) obs).getEnter();
-													if(checkPosition( ost, mouseX, mouseY, Global.Height, gc.getGraphics() ) && ost.getY() < posY)
-														posY = ost.getY();
-												}
-											else if(checkPosition( obs, mouseX, mouseY, Global.Height, gc.getGraphics() ) && obs.getY() < posY)
-												posY = obs.getY();
+											Ostacolo ost = ((Tubo) obs).getBase();
+											if(checkPosition( ost, mouseX, mouseY, Global.Height, gc.getGraphics() ) && ost.getY() < posY)
+												posY = ost.getY();
 											
-											gc.getGraphics().resetTransform();
+											ost = ((Tubo) obs).getEnter();
+											if(checkPosition( ost, mouseX, mouseY, Global.Height, gc.getGraphics() ) && ost.getY() < posY)
+												posY = ost.getY();
 										}
+									else if(checkPosition( obs, mouseX, mouseY, Global.Height, gc.getGraphics() ) && obs.getY() < posY)
+										posY = obs.getY();
 									
-									if(posY == Global.Height)
-										temp.setXY( mouseX - temp.getWidth()/2, sfondi.get( indexSfondo ).getMaxHeight() - temp.getHeight(), Global.RESTORE );
-									else
-										temp.setXY( mouseX - temp.getWidth()/2, posY - temp.getHeight(), Global.RESTORE );
+									gc.getGraphics().resetTransform();
 								}
+							
+							if(posY == Global.Height)
+								temp.setXY( mouseX - temp.getWidth()/2, sfondi.get( indexSfondo ).getMaxHeight() - temp.getHeight(), Global.RESTORE );
+							else
+								temp.setXY( mouseX - temp.getWidth()/2, posY - temp.getHeight(), Global.RESTORE );
 						}
 
 					// controlla se l'oggetto da inserire non superi i confini dello schermo di gioco					
