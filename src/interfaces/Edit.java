@@ -261,6 +261,8 @@ public class Edit
 					((Player) player).setDrawLifes( false );
 					((Player) player).setDrawPoints( false );
 					this.ostacoli.add( player.clone( gc ) );
+					
+					updateItemPlayer( player, false );
 				}
 			
 			this.nameLvl = nameLvl;
@@ -284,15 +286,9 @@ public class Edit
 			indexCursorSfondi = -1;
 		}
 	
+	/** controlla se il player e' inseribile */
 	public boolean checkPlayer( Ostacolo item )
-		{
-			for(Ostacolo ost: ostacoli)
-				if(ost.getID().equals( Global.PLAYER ))
-					if(((Player) ost).getColor().equals( ((Player) item).getColor() ))
-						return false;
-		
-			return true;
-		}
+		{ return ((Player) item).isSelectable(); }
 	
 	/** controlla se e' stato cliccato su un qualche elemento del livello */
 	public boolean checkPressed( int x, int y, GameContainer gc ) throws SlickException
@@ -703,6 +699,9 @@ public class Edit
 										ostacoli.remove( ostacoli.size() - 1 );
 								}
 							
+							else if(temp.getID().equals( Global.PLAYER ))
+								updateItemPlayer( temp, true );
+							
 							temp = null;
 						}
 					/*inserimento oggetto nel gioco*/
@@ -714,6 +713,9 @@ public class Edit
 									temp.setInsert( true, true );
 									ostacoli.add( temp );
 									temp.setSpigoli();
+									
+									if(temp.getID().equals( Global.PLAYER ))
+										updateItemPlayer( temp, false );
 
 									if(temp.getID().equals( Global.TUBO ))
 									    {
@@ -835,7 +837,6 @@ public class Edit
 					                            					        	tBox.setText( Begin.livelli.get( index ).getName() );
 							                            				}
 						                            			}
-						                            		
 								                            break;
 							                            }
 				                    			}
@@ -864,6 +865,18 @@ public class Edit
 		                    Start.chooseLevel = 1;
 					    }
 				}
+		}
+	
+	/** aggiorna l'inseribilita' di quello specifico player
+	 * 
+	 *  @param select -  true = diventa inseribile
+	 *  				false = diventa non inseribile*/
+	private void updateItemPlayer( Ostacolo ost, boolean select )
+		{
+			for(Ostacolo item: items)
+				if(item.getID().equals( Global.PLAYER ))
+					if(((Player) item).getColor().equals( ((Player) ost).getColor() ))
+						((Player) item).setSelectable( select );
 		}
 	
 	private boolean checkKeyPressed( final Input input )

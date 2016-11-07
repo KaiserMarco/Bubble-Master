@@ -129,6 +129,8 @@ public class Player extends Ostacolo
 	
 	private Color col;
 	
+	private boolean selectable;
+	
 	public Player( float x, float y, int numPlayer, GameContainer gc, Color color ) throws SlickException
 		{
 			super( "player" );
@@ -228,6 +230,8 @@ public class Player extends Ostacolo
 			hits = 0;
 			
 			dir = DESTRA;
+			
+			selectable = true;
 		}
 	
 	public void drawMoving( Graphics g )
@@ -282,6 +286,8 @@ public class Player extends Ostacolo
 			/*inserisce la trasparenza rosso/verde nella modalita' di editing*/
 			if(Start.editGame == 1)
 				{
+					if(!selectable)
+						pgdx.draw( xPlayer, yPlayer, widthI, height, Color.black );
 					if(checkInsert)
 						if(!insert)
 							pgdx.draw( xPlayer, yPlayer, widthI, height, cr);
@@ -332,6 +338,12 @@ public class Player extends Ostacolo
 			if(drawPoints)
 				g.drawString( "SCORE : " + points, pos + Global.Width/80, Global.Height/30);
 		}
+	
+	public void setSelectable( boolean val )
+		{ selectable = val; }
+	
+	public boolean isSelectable()
+		{ return selectable; }
 	
 	public void setNumPlayer( int val )
 		{ numPlayer = val; }
