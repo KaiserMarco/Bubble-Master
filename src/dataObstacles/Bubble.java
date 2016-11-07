@@ -99,10 +99,7 @@ public class Bubble extends Ostacolo
                 ostr.setLocation( x, y );
              
             else if(function.compareTo( "setRay" ) == 0)
-            	{
-            		System.out.println( "RAY = " + x );
-                	ray = x;
-            	}
+            	ray = x;
         }
     
     public void setPrimoTubo( boolean val )
