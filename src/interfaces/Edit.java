@@ -578,17 +578,15 @@ public class Edit
 		            		{
 		            			Shape areaBase = ((Tubo) ost).getBase().getArea();
 		            			Shape areaEnter = ((Tubo) ost).getEnter().getArea();
-		            			if(areaPlayer.intersects( areaBase ) && areaPlayer.intersects( areaEnter ))
-	            					return true;
-		            			else if(areaPlayer.intersects( areaBase ) && temp.getY() + temp.getHeight() > areaBase.getY())
-		            				return true;
+		            			if(areaPlayer.intersects( areaBase ))
+		            				if(areaPlayer.intersects( areaEnter ) || temp.getY() + temp.getHeight() > areaBase.getY())
+		            					return true;
 		            		}
 		            else if(temp.component( Global.RECT ).intersects( ost.component( Global.LATOGIU ) ))
                         return true;
 		        }
-		    else if(!ost.getID().equals( Global.BASE ) && !ost.getID().equals( Global.ENTER ))
-		    	if(temp.component( Global.RECT ).intersects( ost.component( Global.RECT ) ))
-		    		return true;
+		    else if(temp.component( Global.RECT ).intersects( ost.component( Global.RECT ) ))
+	    		return true;
 		    
 		    return false;
 		}
@@ -618,8 +616,9 @@ public class Edit
 					float maxHeight = sfondi.get( indexSfondo ).getMaxHeight();
 					
 					for(Ostacolo ost: ostacoli)
-						if(checkCollision( ost ))
-							collide = true;
+						if(!(ost.getID().equals( Global.BASE ) && ost.getID().equals( Global.ENTER )))
+							if(checkCollision( ost ))
+								collide = true;
 					
 					if(collide)
 						temp.setInsert( false, false );
