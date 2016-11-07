@@ -48,9 +48,9 @@ public class End
 			buttons = new ArrayList<SimpleButton>();
 
 			float buttonX = Global.Width/20, buttonAlt = Global.Width/30;
-			replay = new SimpleButton( buttonX, Global.Height*2/3, REPLAY, Color.orange );
-			begin = new SimpleButton( buttonX, replay.getY() + replay.getAlt() + buttonAlt, HOME, Color.orange );
-			choose = new SimpleButton( buttonX, begin.getY() + begin.getAlt() + buttonAlt, LEVELS, Color.orange );
+			replay = new SimpleButton( buttonX, Global.Height*2/3, REPLAY, Color.orange, 0 );
+			begin = new SimpleButton( buttonX, replay.getY() + replay.getAlt() + buttonAlt, HOME, Color.orange, 1 );
+			choose = new SimpleButton( buttonX, begin.getY() + begin.getAlt() + buttonAlt, LEVELS, Color.orange, 2 );
 			
 			buttons.add( replay );
 			buttons.add( begin );

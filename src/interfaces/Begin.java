@@ -80,8 +80,8 @@ public class Begin
 			
 			buttons = new ArrayList<SimpleButton>();
 			Color color = Color.orange;
-			options = new SimpleButton( 0, Global.Height*5/6, OPTIONS, color );
-			levels = new SimpleButton( Global.Width, Global.Height*5/6, LEVELS, color );
+			options = new SimpleButton( 0, Global.Height*5/6, OPTIONS, color, 0 );
+			levels = new SimpleButton( Global.Width, Global.Height*5/6, LEVELS, color, 1 );
 			
 			buttons.add( levels );
 			buttons.add( options );

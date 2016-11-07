@@ -77,7 +77,7 @@ public class TextBox
         int x = text.getX() + Global.Width/40, y = text.getY() + Global.Height/30;
         for(int i = 0; i < data.length; i++)
 	        {
-	            buttons[i] = new SimpleButton( x + Global.Width/40*i, y + Global.Height/30, data[i], new Color( 20, 35, 120 ) );
+	            buttons[i] = new SimpleButton( x + Global.Width/40*i, y + Global.Height/30, data[i], new Color( 20, 35, 120 ), 0 );
 	            x = x + (int)buttons[i].getRect().getWidth() + Global.Width/40;
 	        }
 	}

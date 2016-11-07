@@ -29,6 +29,8 @@ public class SimpleButton extends Button
 	float ratioFont = 10.0f;
 	// determina se il bottone e' cliccabile
 	boolean clickable;
+	// l'indice del bottone
+	int index;
 
 	/** crea un nuovo bottone rettangolare
 	 * @param x - coordinata X
@@ -36,7 +38,7 @@ public class SimpleButton extends Button
 	 * @param name - il nome del bottone
 	 * @throws SlickException 
 	*/
-    public SimpleButton( float x, float y, String name, Color color ) throws SlickException
+    public SimpleButton( float x, float y, String name, Color color, int index ) throws SlickException
 		{
 			super();
 			
@@ -46,6 +48,8 @@ public class SimpleButton extends Button
 			buildButton( x, y );
 			
 			clickable = true;
+			
+			this.index = index;
 		}
 	
 	@SuppressWarnings("unchecked")
@@ -62,6 +66,9 @@ public class SimpleButton extends Button
 			int width = font.getWidth( name ), height = font.getHeight( name );
 			rect = new Rectangle( x, y, width + offset, height + offset );
 		}
+	
+	public int getIndex()
+		{ return index; }
 	
 	public boolean isClickable()
 		{ return clickable; }

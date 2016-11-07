@@ -111,8 +111,8 @@ public class Edit
 			widthArrow = Global.Width/15;
 			heightArrow = Global.Height/40;
 
-			back = new SimpleButton( Global.Width/15, Global.Height*24/25, BACK, Color.orange );
-			saveLevel = new SimpleButton( Global.Width*3/4, Global.Height*24/25, SAVE, Color.orange );
+			back = new SimpleButton( Global.Width/15, Global.Height*24/25, BACK, Color.orange, 0 );
+			saveLevel = new SimpleButton( Global.Width*3/4, Global.Height*24/25, SAVE, Color.orange, 1 );
 
 			choiseI = new Image( "./data/Image/choise.png" );
 			baseI = new Image( "./data/Image/Window.png" );
@@ -804,21 +804,21 @@ public class Edit
 				                {
 				                    mouseDown = false;
 				                    
-				                    for(int i = 0; i < buttons.size(); i++)
+				                    for(SimpleButton button: buttons)
 				                    	{
-				                    		int value = checkButton( buttons.get( i ), input, i );
+				                    		int value = checkButton( button, input, button.getIndex() );
 				                        	boolean pressed = true;
 				                        	// se e' stato premuto il tasto
 				                    		if(value > 0)
 				                    			{
-					                                for(SimpleButton button: buttons)
-					                                	if(button.isPressed())
-					                                		button.setPressed();
-					                                pressed = buttons.get( i ).checkClick( mouseX, mouseY, input );
+					                                for(SimpleButton bottone: buttons)
+					                                	if(bottone.isPressed())
+					                                		bottone.setPressed();
+					                                pressed = button.checkClick( mouseX, mouseY, input );
 						                            // pressed tramite mouse || value==2 tramite tastiera
 						                            if(pressed || value == 2)
 							                            {
-						                            		if(buttons.get( i ).getName().equals( BACK ))
+						                            		if(button.getName().equals( BACK ))
 							                            		{
     						                            		    Start.editGame = 0;
     	                                                            indexCursor = -1;
@@ -826,7 +826,7 @@ public class Edit
 						            								resetStatus();
 						            								Start.chooseLevel = 1;
 							                            		}
-						                            		else if(buttons.get( i ).getName().equals( SAVE ))
+						                            		else if(button.getName().equals( SAVE ))
 						                            			{
 						                            				if(!insertEditor)
 							                            				{

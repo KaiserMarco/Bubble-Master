@@ -68,8 +68,8 @@ public class Settings
 	public Settings( GameContainer gc ) throws SlickException
 		{
 			Color color = Color.orange;
-			back = new SimpleButton( Global.Width/5, Global.Height*8/9, BACK, color );
-			saveChanges = new SimpleButton( Global.Width*2/3, Global.Height*8/9, APPLY, color );
+			back = new SimpleButton( Global.Width/5, Global.Height*8/9, BACK, color, 0 );
+			saveChanges = new SimpleButton( Global.Width*2/3, Global.Height*8/9, APPLY, color, 1 );
 			color = new Color( 34, 139, 34 );
 			
 			float width = Global.Width/20, height = Global.Height/50;

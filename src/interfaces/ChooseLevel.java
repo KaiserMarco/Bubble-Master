@@ -59,15 +59,15 @@ public class ChooseLevel
 			left = new ArrowButton( "", ArrowButton.LEFT, new float[]{width/4 - width/15, height*4/5 + alt/2, width/4 - width/15 + lungh, height*4/5, width/4 - width/15 + lungh, height*4/5 + alt}, Color.orange);
 			
 			buttonY = height*6/7;			
-			back = new SimpleButton( width*10/108, buttonY, BACK, Color.orange );
-			start = new SimpleButton( width*10/33, buttonY, START, Color.orange );
-			edit = new SimpleButton( width/2, buttonY, EDIT, Color.orange );
-			newLvl = new SimpleButton( width*3/4, buttonY, NEW, Color.orange );
-			canc = new SimpleButton( width/2 - width/20, buttonY + height/15, CANC, Color.orange );
+			back = new SimpleButton( width*10/108, buttonY, BACK, Color.orange, 0 );
+			start = new SimpleButton( width*10/33, buttonY, START, Color.orange, 1 );
+			edit = new SimpleButton( width/2, buttonY, EDIT, Color.orange, 2 );
+			newLvl = new SimpleButton( width*3/4, buttonY, NEW, Color.orange, 3 );
+			canc = new SimpleButton( width/2 - width/20, buttonY + height/15, CANC, Color.orange, 4 );
 			if(Begin.livelli.size() > 0)
-				nameLvl = new SimpleButton( 0, 0, Begin.livelli.get( pos ).getName(), Color.white );
+				nameLvl = new SimpleButton( 0, 0, Begin.livelli.get( pos ).getName(), Color.white, 5 );
 			else
-				nameLvl = new SimpleButton( 0, 0, "", Color.white );
+				nameLvl = new SimpleButton( 0, 0, "", Color.white, 5 );
 			
 			buttons = new ArrayList<SimpleButton>();
 			buttons.add( back );
@@ -329,7 +329,7 @@ public class ChooseLevel
 	public void updateNameLvl() throws SlickException
 		{
 			buttons.remove( buttons.size() - 1 );
-			nameLvl = new SimpleButton( 0, 0, Begin.livelli.get( pos ).getName(), Color.white );
+			nameLvl = new SimpleButton( 0, 0, Begin.livelli.get( pos ).getName(), Color.white, 5 );
 			buttons.add( nameLvl );
             
             buttons.get( buttons.size() - 1 ).setX( width/2 - buttons.get( buttons.size() - 1 ).getLungh()/2 );
