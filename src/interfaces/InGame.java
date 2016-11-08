@@ -69,7 +69,6 @@ public class InGame
 		
 			for(Ostacolo elem: obs)
 				{
-					System.out.println( "class = " + elem.getClass() );
 					if(elem.getID().equals( Global.PLAYER ))
 						{
 							players.add( elem.clone( gc ) );

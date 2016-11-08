@@ -470,19 +470,21 @@ public class Player extends Ostacolo
 			coolDown.setHeight( Global.Height - maxHeight );
 		}
 
-	public Ostacolo clone( GameContainer gc ) {
-		try
-			{
-				Player p = new Player( xPlayer, yPlayer, numPlayer, gc, color );				
-				p.setDrawLifes( getDrawLifes() );				
-				return p;
-			}
-		catch (SlickException e)
-			{
-				e.printStackTrace();
-				return null;
-			}
-	}
+	public Ostacolo clone( GameContainer gc )
+		{
+			try
+				{
+					Player p = new Player( xPlayer, yPlayer, numPlayer, gc, color );				
+					p.setDrawLifes( getDrawLifes() );
+					p.setDrawPoints( getDrawPoints() );
+					return p;
+				}
+			catch (SlickException e)
+				{
+					e.printStackTrace();
+					return null;
+				}
+		}
 
 	public float getX()	
 		{ return xPlayer; }

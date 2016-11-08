@@ -261,8 +261,7 @@ public class ChooseLevel
 				                                        }
 				                            		else if(buttons.get( i ).getName().equals( EDIT ))
 				                            			{				                            			
-					                            			Start.ig.addOstacoli( Begin.livelli.get( pos ).getElements(), Begin.livelli.get( pos ).getImage(), gc );
-					                                        editor.setElements( InGame.ostacoli, InGame.players, Begin.livelli.get( pos ).getName(), pos, Begin.livelli.get( pos ).getImage(), gc );
+					                            			editor.setElements( Begin.livelli.get( pos ).getElements(), InGame.players, Begin.livelli.get( pos ).getName(), pos, Begin.livelli.get( pos ).getImage(), gc );
 
 				                                			indexCursor = -1;
 				                                			

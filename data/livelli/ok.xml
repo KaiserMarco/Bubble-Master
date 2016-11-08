@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<level>
+  <!--Objects-->
+  <ostacolo x="270.0" y="355.0" union="1" type="sx" ID="tubo" />
+  <ostacolo x="463.0" y="235.0" union="0" type="up" ID="tubo" />
+  <ostacolo x="740.0" y="496.0" union="3" type="up" ID="tubo" />
+  <ostacolo x="656.0" y="516.0" union="2" type="sx" ID="tubo" />
+  <ostacolo x="302.0" y="78.0" union="-1" type="null" ID="bolla" />
+  <ostacolo x="79.0" y="286.0" union="-1" type="null" ID="bolla" />
+  <ostacolo x="229.0" y="506.0" union="-1" type="null" number="1" color="red" ID="player" />
+  <ostacolo x="225.0" y="175.0" union="-1" type="null" ID="bolla" />
+  <sfondo name="sfondo1" />
+</level>
