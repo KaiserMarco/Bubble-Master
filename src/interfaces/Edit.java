@@ -675,37 +675,34 @@ public class Edit
 							temp = null;
 						}
 					/*inserimento oggetto nel gioco*/
-					else if(input.isMousePressed( Input.MOUSE_LEFT_BUTTON )|| input.isKeyPressed( Input.KEY_ENTER ))
+					else if(!collide && input.isMousePressed( Input.MOUSE_LEFT_BUTTON ))
 						{
-							if(!collide)
-								{
-									temp.setInsert( true, true );
-									temp.setSpigoli();
-									ostacoli.add( temp );
-									
-									if(temp.getID().equals( Global.PLAYER ))
-										updateItemPlayer( (Player) temp, false );
+							temp.setInsert( true, true );
+							temp.setSpigoli();
+							ostacoli.add( temp );
+							
+							if(temp.getID().equals( Global.PLAYER ))
+								updateItemPlayer( (Player) temp, false );
 
-									if(temp.getID().equals( Global.TUBO ))
-									    {
-											// inserisce una coppia nuova di tubi
-											if(nuovoTubo)
-												{
-													temp = ostacoli.get( ostacoli.size() - 1 ).clone( gc );
-													nuovoTubo = false;
-													indexFirstTube = ostacoli.size() - 1;
-												}
-											else
-												{
-													ostacoli.get( ostacoli.size() - 1 ).setUnion( indexFirstTube );
-													ostacoli.get( indexFirstTube ).setUnion( ostacoli.size() - 1 );
-													
-													temp = null;
-												}
-									    }
+							if(temp.getID().equals( Global.TUBO ))
+							    {
+									// inserisce una coppia nuova di tubi
+									if(nuovoTubo)
+										{
+											temp = ostacoli.get( ostacoli.size() - 1 ).clone( gc );
+											nuovoTubo = false;
+											indexFirstTube = ostacoli.size() - 1;
+										}
 									else
-										temp = null;
-								}
+										{
+											ostacoli.get( ostacoli.size() - 1 ).setUnion( indexFirstTube );
+											ostacoli.get( indexFirstTube ).setUnion( ostacoli.size() - 1 );
+											
+											temp = null;
+										}
+							    }
+							else
+								temp = null;
 						}
 				}
 			//se NON ho ancora un elemento da inserire
