@@ -543,16 +543,8 @@ public class Edit
 		}
 	
 	/** determina la posizione del player rispetto agli ostacoli in fase di inserimento */
-	private boolean checkPosition( Ostacolo ost, int mouseX, int mouseY, double tmp, Graphics g )
+	private boolean checkPosition( Ostacolo ost, int mouseX, int mouseY, double tmp )
 		{
-			if(ost.getID().equals( Global.SBARRA ) || ost.getID().equals( Global.TUBO ))
-				{
-					if(ost.getRotate() > 0)
-						{
-							g.rotate( ost.getMidArea()[0], ost.getMidArea()[1], ost.getRotate() );
-							//System.out.println( "SBARRA.Y = " + ost.getY() );
-						}
-				}
 			if(mouseY < ost.getY())
 				if(!(mouseX + temp.getWidth()/2 < ost.getX() || mouseX - temp.getWidth()/2 > ost.getMaxX()))
 					if(Math.abs( mouseY - ost.getY() ) < tmp)
@@ -636,29 +628,24 @@ public class Edit
 					// posizionamento player sopra gli ostacoli		
 					if(temp.getID().equals( Global.PLAYER ))
 						{
-							float posY = Global.Height;
+							float posY = maxHeight;
 							for(Ostacolo obs: ostacoli)
 								{
 									if(obs.getID().equals( Global.TUBO ))
 										{
 											Ostacolo ost = ((Tubo) obs).getBase();
-											if(checkPosition( ost, mouseX, mouseY, Global.Height, gc.getGraphics() ) && ost.getY() < posY)
+											if(checkPosition( ost, mouseX, mouseY, Global.Height ) && ost.getY() < posY)
 												posY = ost.getY();
 											
 											ost = ((Tubo) obs).getEnter();
-											if(checkPosition( ost, mouseX, mouseY, Global.Height, gc.getGraphics() ) && ost.getY() < posY)
+											if(checkPosition( ost, mouseX, mouseY, Global.Height ) && ost.getY() < posY)
 												posY = ost.getY();
 										}
-									else if(checkPosition( obs, mouseX, mouseY, Global.Height, gc.getGraphics() ) && obs.getY() < posY)
+									else if(checkPosition( obs, mouseX, mouseY, Global.Height ) && obs.getY() < posY)
 										posY = obs.getY();
-									
-									gc.getGraphics().resetTransform();
 								}
 							
-							if(posY == Global.Height)
-								temp.setXY( mouseX - temp.getWidth()/2, sfondi.get( indexSfondo ).getMaxHeight() - temp.getHeight(), Global.RESTORE );
-							else
-								temp.setXY( mouseX - temp.getWidth()/2, posY - temp.getHeight(), Global.RESTORE );
+							temp.setXY( temp.getX(), posY - temp.getHeight(), Global.RESTORE );
 						}
 
 					// controlla se l'oggetto da inserire non superi i confini dello schermo di gioco					
@@ -690,7 +677,6 @@ public class Edit
 									else if(!nuovoTubo1)
 										ostacoli.remove( ostacoli.size() - 1 );
 								}
-							
 							else if(temp.getID().equals( Global.PLAYER ))
 								updateItemPlayer( (Player) temp, true );
 							
@@ -713,6 +699,7 @@ public class Edit
 									    {
 											((Tubo) temp).setSpace( gc );
 										
+											// TODO PER ME SI PUO OTTIMIZZARE, MO GUARDO UN POINO
 											//inserisce una nuova coppia di tubi
 											if(nuovaCoppiaTubi)
 												{
