@@ -34,7 +34,8 @@ public class Elements
 			int heightS = Global.Height*10/24;
 			sfondi = new ArrayList<Sfondo>();
 			// TODO REINSERIRE SFONDO1 AL POSTO DI WHITE UNA VOLTA TERMINATO
-			sfondi.add( new Sfondo( new Image( "./data/Image/white.png" ), maxH, maxW, Global.Width/8, heightS, width, height, "sfondo1" ) );
+			//sfondi.add( new Sfondo( new Image( "./data/Image/white.png" ), maxH, maxW, Global.Width/8, heightS, width, height, "sfondo1" ) );
+			sfondi.add( new Sfondo( new Image( "./data/Image/sfondo1.png" ), maxH, maxW, Global.Width/8, heightS, width, height, "sfondo1" ) );
 			sfondi.add( new Sfondo( new Image( "./data/Image/sfondo8.png" ), maxH, maxW, Global.Width*29/100, heightS, width, height, "sfondo8" ) );
 			sfondi.add( new Sfondo( new Image( "./data/Image/sfondo7.png" ), maxH, maxW, Global.Width*46/100, heightS, width, height, "sfondo7" ) );
 			sfondi.add( new Sfondo( new Image( "./data/Image/sfondo4.png" ), maxH, maxW, Global.Width*63/100, heightS, width, height, "sfondo4" ) );

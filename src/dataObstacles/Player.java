@@ -237,8 +237,8 @@ public class Player extends Ostacolo
 	public void drawMoving( Graphics g )
 		{
 			// TODO ELIMINARE QUESTA PARTE UNA VOLTA PULITA L'ANIMAZIONE
-			for(int i = 0; i < 8; i++)
-				right[i].draw( xPlayer + (Global.Width/20 + widthS)*i, yPlayer, widthI, height );
+			/*for(int i = 0; i < 8; i++)
+				right[i].draw( xPlayer + (Global.Width/20 + widthS)*i, yPlayer, widthI, height );*/
 		
 			if(immortal)
 				imm = new Color( 28, 57, 187, 200 );
