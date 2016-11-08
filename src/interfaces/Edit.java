@@ -71,11 +71,10 @@ public class Edit
 	private Element livello;
 	private Document document;
 	
-	//determina se stiamo inserendo una NUOVA coppia di tubi
-	private boolean nuovaCoppiaTubi, nuovoTubo1;
-	
+	// determina se si sta inserendo una nuova coppia di tubi
+	private boolean nuovoTubo;
 	//salva il valore del tubo rimanente
-	private int indiceTuboRimasto;
+	private int indexFirstTube;
 	
 	//l'oggetto Elements per recuperare le informazioni di gioco
 	private Elements elem;
@@ -146,9 +145,8 @@ public class Edit
 			
 			minHighEditor = Global.Height - Global.Height/1.34f;
 			
-			nuovaCoppiaTubi = false;
-			nuovoTubo1 = false;
-			indiceTuboRimasto = -1;
+			nuovoTubo = false;
+			indexFirstTube = -1;
 			
 			temp = null;
 			
@@ -306,10 +304,8 @@ public class Edit
 									temp = item.clone( gc );
 									//sto inserendo una nuova coppia di tubi
 									if(temp.getID().equals( Global.TUBO ))
-										{
-											nuovaCoppiaTubi = true;
-											nuovoTubo1 = true;
-										}
+										nuovoTubo = true;
+									
 									temp.setInsert( true, true );
 									
 									tempX = x;
@@ -344,9 +340,9 @@ public class Edit
 										{								
 											ostacoli.get( temp.getUnion() ).setUnion( - 1 );
 
-											indiceTuboRimasto = temp.getUnion();
+											indexFirstTube = temp.getUnion();
 											if(temp.getUnion() > i)											
-												indiceTuboRimasto--;
+												indexFirstTube--;
 										}
 										
 									//sistema gli indici dei tubi puntati
@@ -667,14 +663,14 @@ public class Edit
 							//se il tubo ha un'altro tubo collegato, elimina anche il collegamento
 							if(temp.getID().equals( Global.TUBO ))
 								{
-									if(indiceTuboRimasto >= 0)
+									if(indexFirstTube >= 0)
 										{
-											aggiornaIndiciTubi( indiceTuboRimasto );
-											ostacoli.remove( indiceTuboRimasto );
+											aggiornaIndiciTubi( indexFirstTube );
+											ostacoli.remove( indexFirstTube );
 											
-											indiceTuboRimasto = -1;
+											indexFirstTube = -1;
 										}
-									else if(!nuovoTubo1)
+									else if(!nuovoTubo)
 										ostacoli.remove( ostacoli.size() - 1 );
 								}
 							else if(temp.getID().equals( Global.PLAYER ))
@@ -687,7 +683,6 @@ public class Edit
 						{
 							if(!collide)
 								{
-									indexCursor = -1;
 									temp.setInsert( true, true );
 									temp.setSpigoli();
 									ostacoli.add( temp );
@@ -698,37 +693,19 @@ public class Edit
 									if(temp.getID().equals( Global.TUBO ))
 									    {
 											((Tubo) temp).setSpace( gc );
-										
-											// TODO PER ME SI PUO OTTIMIZZARE, MO GUARDO UN POINO
-											//inserisce una nuova coppia di tubi
-											if(nuovaCoppiaTubi)
+											
+											// inserisce una coppia nuova di tubi
+											if(nuovoTubo)
 												{
-													// inserisce il primo dei 2 tubi
-													if(nuovoTubo1)
-														{
-															Ostacolo temp2 = temp.clone( gc );
-															
-															temp = temp2;
-															nuovoTubo1 = false;
-														}
-													else
-														{
-															//setto i nuovi indici dei tubi puntati
-															ostacoli.get( ostacoli.size() - 1 ).setUnion( ostacoli.size() - 2 );
-															ostacoli.get( ostacoli.size() - 2 ).setUnion( ostacoli.size() - 1 );
-															nuovaCoppiaTubi = false;
-
-															temp = null;
-														}
+													temp = ostacoli.get( ostacoli.size() - 1 ).clone( gc );
+													nuovoTubo = false;
+													indexFirstTube = ostacoli.size() - 1;
 												}
-											//inserisce un tubo gia esistente
 											else
 												{
-													ostacoli.get( indiceTuboRimasto ).setUnion( ostacoli.size() - 1 );
-													ostacoli.get( ostacoli.size() - 1 ).setUnion( indiceTuboRimasto );
+													ostacoli.get( ostacoli.size() - 1 ).setUnion( indexFirstTube );
+													ostacoli.get( indexFirstTube ).setUnion( ostacoli.size() - 1 );
 													
-													indiceTuboRimasto = -1;
-												
 													temp = null;
 												}
 									    }
