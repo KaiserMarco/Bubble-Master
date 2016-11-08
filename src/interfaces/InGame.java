@@ -97,7 +97,7 @@ public class InGame
 			for(int i = 0; i < size; i++)
 				if(ostacoli.get( i ).getID().equals( Global.TUBO ))
 					{
-						((Tubo) ostacoli.get( i )).setSpace( gc );
+						ostacoli.get( i ).setSpigoli();
 						ostacoli.add( ((Tubo) ostacoli.get( i )).getBase() );
 						((Base) ostacoli.get( ostacoli.size() - 1 )).setIndexTube( i );
 						ostacoli.add( ((Tubo) ostacoli.get( i )).getEnter() );

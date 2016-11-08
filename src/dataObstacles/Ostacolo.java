@@ -59,7 +59,7 @@ public abstract class Ostacolo
 
 	public abstract Shape getArea();
 	
-	public abstract void setSpigoli();
+	public abstract void setSpigoli() throws SlickException;
 	
 	public abstract int getUnion();
 	public abstract void setUnion( int val );

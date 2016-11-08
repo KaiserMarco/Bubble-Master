@@ -190,7 +190,7 @@ public class Begin
 									else if(type.equals( Global.TUBO ))
 	                                    {
 	                                        elements.add( new Tubo( x, y, orienting, gc ) );
-	                                        ((Tubo) elements.get( elements.size() - 1 )).setSpace( gc );
+	                                        elements.get( elements.size() - 1 ).setSpigoli();
 	                                        elements.get( elements.size() - 1 ).setUnion( union );
 	                                    }
 									else if(type.equals( Global.PLAYER ))

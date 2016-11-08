@@ -109,7 +109,7 @@ public class Tubo extends Ostacolo{
 	public void setArea( GameContainer gc )
 		{}
     
-    public void setSpace( GameContainer gc ) throws SlickException
+    /*public void setSpace( GameContainer gc ) throws SlickException
     	{
     		ostr = new Rectangle( getX(), getY(), width, height );
     		if(type.equals( "dx" ))
@@ -135,7 +135,7 @@ public class Tubo extends Ostacolo{
     		base.setSpigoli();
     		enter.setSpigoli();
     		setSpigoli();
-    	}
+    	}*/
 	
 	public void setType( String type )
 		{ this.type = type; }
@@ -263,7 +263,7 @@ public class Tubo extends Ostacolo{
 	                width = height;
 	                height = tmp;
 	                
-                    setSpace( gc );
+                    setSpigoli();
     	        }
 	        //se la modifica e' da verticale a orizzontale
 	        else
@@ -272,7 +272,7 @@ public class Tubo extends Ostacolo{
 	                width = height;
 	                height = tmp;
 	                
-                    setSpace( gc );
+                    setSpigoli();
     	        }
 	    }
 	
@@ -310,8 +310,32 @@ public class Tubo extends Ostacolo{
 	public String getOrienting()
         { return type; }
 
-	public void setSpigoli()
+	public void setSpigoli() throws SlickException
         {
+			ostr = new Rectangle( getX(), getY(), width, height );
+			if(type.equals( "dx" ))
+				{
+					base = new Base( getX(), getY() + Global.Height/120, Global.Width*10/119, height - Global.Height/60 );
+					enter = new Enter( base.getMaxX(), getY(), width - base.getWidth(), height );
+				}
+			else if(type.equals( "sx" ))
+				{
+					enter = new Enter( getX(), getY(), width - Global.Width*10/119, height );
+					base = new Base( enter.getMaxX(), getY() + Global.Height/120, Global.Width*10/119, height - Global.Height/60 );
+				}
+			else if(type.equals( "up" ))
+				{
+					enter = new Enter( getX(), getY(), width, height - Global.Height*10/89 );
+					base = new Base( getX() + Global.Width/160, enter.getMaxY(), width - Global.Width/80, height - enter.getHeight() );
+				}
+			else
+				{
+					base = new Base( getX() + Global.Width/160, getY(), width - Global.Width/80, Global.Height*10/89 );
+					enter = new Enter( getX(), base.getMaxY(), width, height - base.getHeight() );
+				}
+			base.setSpigoli();
+			enter.setSpigoli();
+		
             /*creazione lati*/
             latoSu = new Rectangle( ostr.getX() + 1, ostr.getY(), ostr.getWidth() - 2, 1 );
             latoGiu = new Rectangle( ostr.getX() + 1, ostr.getY() + ostr.getHeight() - 1, ostr.getWidth() - 2, 1 );

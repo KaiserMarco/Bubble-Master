@@ -236,13 +236,9 @@ public class Edit
 						{
 							this.ostacoli.add( obs.clone( gc ) );
 							Ostacolo ost = this.ostacoli.get( this.ostacoli.size() - 1 );
-							if(!ost.getID().equals( Global.TUBO ))
-								ost.setSpigoli();
-							else
-								{
-									((Tubo) ost).setSpace( gc );
-									((Tubo) ost).setUnion( ((Tubo) obs).getUnion() );
-								}
+							ost.setSpigoli();
+							if(ost.getID().equals( Global.TUBO ))
+								((Tubo) ost).setUnion( ((Tubo) obs).getUnion() );
 						}
 				}
 			
@@ -386,7 +382,7 @@ public class Edit
 			Start.chooseLevel = 1;
 		}
 	
-	private void setTubeInArray( GameContainer gc )
+	private void setTubeInArray( GameContainer gc ) throws SlickException
 		{
 			int j = 0;
 			for(int i = 0; i < ostacoli.size(); i++)
@@ -692,8 +688,6 @@ public class Edit
 
 									if(temp.getID().equals( Global.TUBO ))
 									    {
-											((Tubo) temp).setSpace( gc );
-											
 											// inserisce una coppia nuova di tubi
 											if(nuovoTubo)
 												{
