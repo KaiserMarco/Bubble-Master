@@ -13,7 +13,7 @@
   <ostacolo x="683.0" y="264.0" union="-1" type="null" ID="bolla" />
   <ostacolo x="682.0" y="55.0" union="-1" type="null" ID="bolla" />
   <ostacolo x="335.0" y="33.0" union="-1" type="null" ID="bolla" />
-  <ostacolo x="648.0" y="506.0" union="-1" type="null" number="1" color="blue" ID="player" />
-  <ostacolo x="549.0" y="62.0" union="-1" type="null" number="2" color="red" ID="player" />
+  <ostacolo x="549.0" y="67.0" union="-1" type="null" number="1" color="red" ID="player" />
+  <ostacolo x="666.0" y="506.0" union="-1" type="null" number="2" color="blue" ID="player" />
   <sfondo name="sfondo5" />
 </level>

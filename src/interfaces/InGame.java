@@ -69,17 +69,17 @@ public class InGame
 		
 			for(Ostacolo elem: obs)
 				{
-					Ostacolo ost = elem;
-					if(ost.getID().equals( Global.PLAYER ))
+					System.out.println( "class = " + elem.getClass() );
+					if(elem.getID().equals( Global.PLAYER ))
 						{
-							players.add( ost.clone( gc ) );
+							players.add( elem.clone( gc ) );
 							
 							Player player = ((Player) players.get( players.size() - 1 ));
 							player.setDrawLifes( true );
 							player.setDrawPoints( true );
-							player.setHeight( ost.getHeight() );
-							player.setWidth( ost.getWidth() );
-							player.setWidthI( ((Player) ost).getWidthI() );
+							player.setHeight( elem.getHeight() );
+							player.setWidth( elem.getWidth() );
+							player.setWidthI( ((Player) elem).getWidthI() );
 							player.setMaxHeight( sfondo.getMaxHeight() );
 							
 							player.setArea( gc );
@@ -90,19 +90,22 @@ public class InGame
 							ostacoli.get( ostacoli.size() - 1 ).setMaxHeight( sfondo.getMaxHeight() );
 						}
 					else
-						ostacoli.add( ost );
+						ostacoli.add( elem );
 				}
 			
 			int size = ostacoli.size();
 			for(int i = 0; i < size; i++)
-				if(ostacoli.get( i ).getID().equals( Global.TUBO ))
-					{
-						ostacoli.get( i ).setSpigoli();
-						ostacoli.add( ((Tubo) ostacoli.get( i )).getBase() );
-						((Base) ostacoli.get( ostacoli.size() - 1 )).setIndexTube( i );
-						ostacoli.add( ((Tubo) ostacoli.get( i )).getEnter() );
-						((Enter) ostacoli.get( ostacoli.size() - 1 )).setIndexTube( i );
-					}
+				{
+					Ostacolo ost = ostacoli.get( i );
+					if(ost.getID().equals( Global.TUBO ))
+						{
+							ost.setSpigoli();
+							ostacoli.add( ((Tubo) ost).getBase() );
+							((Base) ostacoli.get( ostacoli.size() - 1 )).setIndexTube( i );
+							ostacoli.add( ((Tubo) ost).getEnter() );
+							((Enter) ostacoli.get( ostacoli.size() - 1 )).setIndexTube( i );
+						}
+				}
 			
 			Global.sfondo = sfondo;
 		}
