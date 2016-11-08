@@ -535,14 +535,14 @@ public class Edit
 		}
 	
 	/** determina la posizione del player rispetto agli ostacoli in fase di inserimento */
-	private boolean checkPosition( Ostacolo ost, int mouseX, int mouseY, double tmp )
+	private float checkPosition( Ostacolo ost, int mouseX, int mouseY, float posY )
 		{
 			if(mouseY < ost.getY())
 				if(!(mouseX + temp.getWidth()/2 < ost.getX() || mouseX - temp.getWidth()/2 > ost.getMaxX()))
-					if(Math.abs( mouseY - ost.getY() ) < tmp)
-						return true;
+					if(Math.abs( mouseY - ost.getY() ) < posY)
+						return posY = ost.getY();
 			
-			return false;
+			return posY;
 		}
 	
 	/** controlla la collisione fra i vari oggetti */
@@ -625,16 +625,14 @@ public class Edit
 											if(obs.getID().equals( Global.TUBO ))
 												{
 													Ostacolo ost = ((Tubo) obs).getBase();
-													if(checkPosition( ost, mouseX, mouseY, posY ))
-														posY = ost.getY();
+													posY = checkPosition( ost, mouseX, mouseY, posY );
 													
 													ost = ((Tubo) obs).getEnter();
 													if(ost.getY() < posY)
-														if(checkPosition( ost, mouseX, mouseY, posY ))
-															posY = ost.getY();
+														posY = checkPosition( ost, mouseX, mouseY, posY );
 												}
-											else if(checkPosition( obs, mouseX, mouseY, posY ))
-												posY = obs.getY();
+											else 
+												posY = checkPosition( obs, mouseX, mouseY, posY );
 										}
 								}
 							temp.setXY( temp.getX(), posY - temp.getHeight(), Global.RESTORE );
