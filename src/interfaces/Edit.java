@@ -94,6 +94,8 @@ public class Edit
 	
 	private boolean moveEditor;
 	
+	private float posY;
+	
     public Edit( GameContainer gc ) throws SlickException
 		{
 			elem = new Elements( gc );
@@ -224,7 +226,7 @@ public class Edit
 		{ this.index = index; }
 	
 	/**setta gli elementi base di modifica livello*/
-	public void setElements( ArrayList<Ostacolo> ostacoli, ArrayList<Ostacolo> giocatori, String nameLvl, int index, Sfondo sfondo, GameContainer gc ) throws SlickException
+	public void setElements( ArrayList<Ostacolo> ostacoli, String nameLvl, int index, Sfondo sfondo, GameContainer gc ) throws SlickException
 		{
 			for(int i = 0; i < sfondi.size(); i++)
 				if(sfondi.get( i ).getName().equals( sfondo.getName() ))
@@ -239,17 +241,9 @@ public class Edit
 							ost.setSpigoli();
 							if(ost.getID().equals( Global.TUBO ))
 								((Tubo) ost).setUnion( ((Tubo) obs).getUnion() );
+							else if(obs.getID().equals( Global.PLAYER ))
+								updateItemPlayer( (Player) obs, false );
 						}
-				}
-			
-			for(Ostacolo player: giocatori)
-				{
-					Player play = (Player) player;
-					play.setDrawLifes( false );
-					play.setDrawPoints( false );
-					this.ostacoli.add( player.clone( gc ) );
-					
-					updateItemPlayer( play, false );
 				}
 			
 			this.nameLvl = nameLvl;
@@ -535,14 +529,12 @@ public class Edit
 		}
 	
 	/** determina la posizione del player rispetto agli ostacoli in fase di inserimento */
-	private float checkPosition( Ostacolo ost, int mouseX, int mouseY, float posY )
+	private void checkPosition( Ostacolo ost, int mouseX, int mouseY )
 		{
 			if(mouseY < ost.getY())
 				if(!(mouseX + temp.getWidth()/2 < ost.getX() || mouseX - temp.getWidth()/2 > ost.getMaxX()))
 					if(Math.abs( mouseY - ost.getY() ) < posY)
-						return posY = ost.getY();
-			
-			return posY;
+						posY = ost.getY();
 		}
 	
 	/** controlla la collisione fra i vari oggetti */
@@ -617,7 +609,7 @@ public class Edit
 					// posizionamento player sopra gli ostacoli		
 					if(temp.getID().equals( Global.PLAYER ))
 						{
-							float posY = maxHeight;
+							posY = maxHeight;
 							for(Ostacolo obs: ostacoli)
 								{
 									if(obs.getY() < posY)
@@ -625,14 +617,14 @@ public class Edit
 											if(obs.getID().equals( Global.TUBO ))
 												{
 													Ostacolo ost = ((Tubo) obs).getBase();
-													posY = checkPosition( ost, mouseX, mouseY, posY );
+													checkPosition( ost, mouseX, mouseY );
 													
 													ost = ((Tubo) obs).getEnter();
 													if(ost.getY() < posY)
-														posY = checkPosition( ost, mouseX, mouseY, posY );
+														checkPosition( ost, mouseX, mouseY );
 												}
 											else 
-												posY = checkPosition( obs, mouseX, mouseY, posY );
+												checkPosition( obs, mouseX, mouseY );
 										}
 								}
 							temp.setXY( temp.getX(), posY - temp.getHeight(), Global.RESTORE );

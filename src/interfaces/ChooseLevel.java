@@ -260,8 +260,8 @@ public class ChooseLevel
 					                                        Start.startGame = 1;
 				                                        }
 				                            		else if(buttons.get( i ).getName().equals( EDIT ))
-				                            			{				                            			
-					                            			editor.setElements( Begin.livelli.get( pos ).getElements(), InGame.players, Begin.livelli.get( pos ).getName(), pos, Begin.livelli.get( pos ).getImage(), gc );
+				                            			{
+					                            			editor.setElements( Begin.livelli.get( pos ).getElements(), Begin.livelli.get( pos ).getName(), pos, Begin.livelli.get( pos ).getImage(), gc );
 
 				                                			indexCursor = -1;
 				                                			
