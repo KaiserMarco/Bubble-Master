@@ -540,10 +540,7 @@ public class Edit
 			if(mouseY < ost.getY())
 				if(!(mouseX + temp.getWidth()/2 < ost.getX() || mouseX - temp.getWidth()/2 > ost.getMaxX()))
 					if(Math.abs( mouseY - ost.getY() ) < tmp)
-						{
-							tmp = Math.abs( mouseY - ost.getY() );
-							return true;
-						}
+						return true;
 			
 			return false;
 		}
@@ -623,20 +620,23 @@ public class Edit
 							float posY = maxHeight;
 							for(Ostacolo obs: ostacoli)
 								{
-									if(obs.getID().equals( Global.TUBO ))
+									if(obs.getY() < posY)
 										{
-											Ostacolo ost = ((Tubo) obs).getBase();
-											if(checkPosition( ost, mouseX, mouseY, Global.Height ) && ost.getY() < posY)
-												posY = ost.getY();
-											
-											ost = ((Tubo) obs).getEnter();
-											if(checkPosition( ost, mouseX, mouseY, Global.Height ) && ost.getY() < posY)
-												posY = ost.getY();
+											if(obs.getID().equals( Global.TUBO ))
+												{
+													Ostacolo ost = ((Tubo) obs).getBase();
+													if(checkPosition( ost, mouseX, mouseY, posY ))
+														posY = ost.getY();
+													
+													ost = ((Tubo) obs).getEnter();
+													if(ost.getY() < posY)
+														if(checkPosition( ost, mouseX, mouseY, posY ))
+															posY = ost.getY();
+												}
+											else if(checkPosition( obs, mouseX, mouseY, posY ))
+												posY = obs.getY();
 										}
-									else if(checkPosition( obs, mouseX, mouseY, Global.Height ) && obs.getY() < posY)
-										posY = obs.getY();
 								}
-							
 							temp.setXY( temp.getX(), posY - temp.getHeight(), Global.RESTORE );
 						}
 

@@ -6,14 +6,14 @@
   <ostacolo x="143.0" y="285.0" union="1" type="up" ID="tubo" />
   <ostacolo x="374.0" y="340.0" union="0" type="up" ID="tubo" />
   <ostacolo x="393.0" y="468.0" union="5" type="sx" ID="tubo" />
-  <ostacolo x="587.0" y="467.0" union="4" type="up" ID="tubo" />
-  <ostacolo x="335.0" y="33.0" union="-1" type="null" ID="bolla" />
+  <ostacolo x="583.0" y="470.0" union="4" type="down" ID="tubo" />
   <ostacolo x="67.0" y="395.0" union="-1" type="null" ID="bolla" />
   <ostacolo x="518.0" y="357.0" union="-1" type="hor" ID="sbarra" />
   <ostacolo x="98.0" y="51.0" union="-1" type="hor" ID="sbarra" />
   <ostacolo x="683.0" y="264.0" union="-1" type="null" ID="bolla" />
   <ostacolo x="682.0" y="55.0" union="-1" type="null" ID="bolla" />
-  <ostacolo x="555.0" y="67.0" union="-1" type="null" number="1" color="red" ID="player" />
-  <ostacolo x="589.5" y="397.0" union="-1" type="null" number="2" color="blue" ID="player" />
+  <ostacolo x="335.0" y="33.0" union="-1" type="null" ID="bolla" />
+  <ostacolo x="648.0" y="506.0" union="-1" type="null" number="1" color="blue" ID="player" />
+  <ostacolo x="549.0" y="62.0" union="-1" type="null" number="2" color="red" ID="player" />
   <sfondo name="sfondo5" />
 </level>
