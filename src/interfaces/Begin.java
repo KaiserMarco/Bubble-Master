@@ -31,7 +31,7 @@ import dataObstacles.Tubo;
 
 public class Begin
 {
-	public SimpleButton levels, tasto, options;
+	private SimpleButton levels, options;
 	
 	/**array contente tutti i livelli creati*/
 	public static ArrayList<Livello> livelli;

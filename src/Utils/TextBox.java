@@ -2,6 +2,7 @@
 package Utils;
 
 import java.io.File;
+import java.util.ArrayList;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Font;
@@ -30,9 +31,11 @@ public class TextBox
 	/* determina se e' attivo */
 	private boolean isOpen = false;
 	/* bottoni per la scelta */
-	private SimpleButton buttons[];
+	private ArrayList<SimpleButton> buttons;
+	/* bottoni */
+	private SimpleButton ok, cancel;
 	/* nomi dei bottoni */
-	private String data[] = { "OK", "CANCEL" };
+	private final String OK = "OK", CANC = "CANCEL";
 	/* determina se e' stato premuto un pulsante */
 	private boolean pressed = false;
 	/* determina se ho modificato il nome originale del livello */
@@ -68,18 +71,22 @@ public class TextBox
         text.setBackgroundColor( Color.black );
         text.setMaxLength( 15 );
 
-        buttons = new SimpleButton[data.length];
 
         img = new Image( "data/Image/Window.png" );
 
         this.font = font;
         //int x = text.getX() + (int) Global.sizewBox / 4, y = text.getY() + (int) (Global.sizehBox * 3/2);
         int x = text.getX() + Global.Width/40, y = text.getY() + Global.Height/30;
-        for(int i = 0; i < data.length; i++)
-	        {
-	            buttons[i] = new SimpleButton( x + Global.Width/40*i, y + Global.Height/30, data[i], new Color( 20, 35, 120 ), 0 );
-	            x = x + (int)buttons[i].getRect().getWidth() + Global.Width/40;
-	        }
+
+        ok = new SimpleButton( x, y + Global.Height/30, OK, new Color( 20, 35, 120 ), 0 );
+        
+        buttons = new ArrayList<SimpleButton>();
+        buttons.add( ok );
+        
+        x = x + (int)buttons.get( 0 ).getRect().getWidth() + Global.Width/40;
+        cancel = new SimpleButton( x + Global.Width/40, y + Global.Height/30, CANC, new Color( 20, 35, 120 ), 0 );
+        
+        buttons.add( cancel );
 	}
 
 	/**
@@ -176,11 +183,11 @@ public class TextBox
 			{
 				if(!pressed)
 					{
-						for(int i = 0; i < buttons.length; i++)
+						for(SimpleButton button: buttons)
 							{
-								if(buttons[i].getRect().contains( x, y ))
+								if(button.getRect().contains( x, y ))
 									{
-										buttons[i].setPressed();
+										button.setPressed();
 										pressed = true;
 										break;
 									}
@@ -191,14 +198,14 @@ public class TextBox
 			{
 				pressed = false;
 	
-				for(int i = 0; i < buttons.length; i++)
+				for(SimpleButton button: buttons)
 					{
-						if(buttons[i].isPressed())
+						if(button.isPressed())
 							{
-								buttons[i].setPressed();
-								if(buttons[i].getRect().contains( x, y ))
+								button.setPressed();
+								if(button.getRect().contains( x, y ))
 									{
-										if(buttons[i].getName().equals( data[0] ))
+										if(button.getName().equals( OK ))
 											{
 												// premuto tasto OK: salva il livello se non ci sono problemi					
 												if(text.getText().length() > 0 && checkName( text.getText(), level ))
@@ -230,8 +237,8 @@ public class TextBox
 			{
 				img.draw( area.getX(), area.getY(), area.getWidth(), area.getHeight() );
 	
-				for(int i = 0; i < buttons.length; i++)
-					buttons[i].draw( g );
+				for(SimpleButton button: buttons)
+					button.draw( g );
 	
 				g.setColor( Color.white );
 				text.render( gc, g );
