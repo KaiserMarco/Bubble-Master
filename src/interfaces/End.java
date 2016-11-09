@@ -72,7 +72,7 @@ public class End
 			for(Ostacolo player: InGame.players)
 				player.draw( g );
 
-			for(int i = 0; i < ostacoli.size(); i++)
+			for(int i = ostacoli.size() - 1; i >= 0; i--)
 				ostacoli.get( i ).draw( g );
 			
 			Color black = new Color( 0, 0, 0, 185 );
@@ -80,8 +80,6 @@ public class End
 			g.fillRect( 0, 0, Global.Width, Global.Height );
 			
 			g.setColor( Color.lightGray );
-			
-			// TODO INSERIRE "HAI VINTO" O "HAI PERSO"
 
 			// ascissa e ordinata delle stringhe da stampare
 			float x = Global.Height/8, y = Global.Height/6;
