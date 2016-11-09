@@ -746,14 +746,13 @@ public class Edit
 							                            		resetStatus();
 						                            		else if(button.getName().equals( SAVE ))
 						                            			{
-						                            				if(!insertEditor)
-							                            				{
-					                            					        // apre la textBox
-					                            					        tBox.setOpen( true );
-						                            					    // setta il nome del livello
-					                            					        if(index >= 0)
-					                            					        	tBox.setText( Begin.livelli.get( index ).getName() );
-							                            				}
+						                            				insertEditor = false;
+							                            				
+			                            					        // apre la textBox
+			                            					        tBox.setOpen( true );
+				                            					    // setta il nome del livello
+			                            					        if(index >= 0)
+			                            					        	tBox.setText( Begin.livelli.get( index ).getName() );
 						                            			}
 								                            break;
 							                            }
@@ -765,18 +764,8 @@ public class Edit
 			
 			// gestione della textbox per il nome del livello
 			if(tBox.isOpen())
-				{
-					if(index >= 0)
-						tBox.update( input, Begin.livelli.get( index ) );
-					else
-						tBox.update( input, null );
-				}
-			else
-				{
-				    String name = tBox.getText();
-				    if(name != null && !name.isEmpty())
-					    addNewLevel( gc, name );
-				}
+				if(tBox.update( input, index ))
+					addNewLevel( gc, tBox.getText() );
 		}
 	
 	/** aggiorna l'inseribilita' di quello specifico player

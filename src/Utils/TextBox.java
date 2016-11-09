@@ -17,6 +17,7 @@ import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.gui.TextField;
 
 import dataButton.SimpleButton;
+import interfaces.Begin;
 
 public class TextBox
 {
@@ -38,8 +39,8 @@ public class TextBox
 	private final String OK = "OK", CANC = "CANCEL";
 	/* determina se e' stato premuto un pulsante */
 	private boolean pressed = false;
-	/* determina se ho modificato il nome originale del livello */
-	//private boolean modified = false;
+	/* il livello di riferimento */
+	private Livello level = null;
 	
 	@SuppressWarnings("unchecked")
     public TextBox( final GameContainer gc ) throws SlickException
@@ -157,10 +158,13 @@ public class TextBox
 	 * @param input - il gestore degli input
  	 * @param level - il livello corrente
 	*/
-	public void update( Input input, Livello level )
+	public boolean update( Input input, int index )
 	{
 		if(!isOpen)
-			return;
+			return false;
+		
+		if(index >= 0)
+			level = Begin.livelli.get( index );
 
 		//if(StateWindow.isOpen() && text.hasFocus())
 			//text.setFocus( false );
@@ -212,6 +216,8 @@ public class TextBox
 													{
 														//TODO CreateLevel.saveLevel();
 														setOpen( false );
+														level = null;
+														return true;
 													}
 											}
 										else
@@ -219,12 +225,14 @@ public class TextBox
 												// premuto tasto CANCEL: chiude la finestra
 									        	text.setText( "" );
 										        setOpen( false );
+										        return false;
 											}
 										break;
 									}
 							}
 					}
 			}
+		return false;
 	}
 
 	/** disegna la finestra di dialogo
