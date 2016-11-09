@@ -96,6 +96,12 @@ public class Edit
 	
 	private float posY;
 	
+	// determina l'altezza massima inseribile dell'oggetto
+	private float maxHeight;
+	
+	// determina se l'oggetto sta collidendo con altri oggetti
+	private boolean collide;
+	
     public Edit( GameContainer gc ) throws SlickException
 		{
 			elem = new Elements( gc );
@@ -103,6 +109,8 @@ public class Edit
 			sfondi = elem.getSfondi();
 			items = elem.getItems();
 			ostacoli = new ArrayList<Ostacolo>();
+			
+			maxHeight = sfondi.get( indexSfondo ).getMaxHeight();
 			
 			for(int i = 3; i < 7; i++)
 				((Player) items.get( i )).setDrawLifes( false );
@@ -230,7 +238,10 @@ public class Edit
 		{
 			for(int i = 0; i < sfondi.size(); i++)
 				if(sfondi.get( i ).getName().equals( sfondo.getName() ))
-					indexSfondo = i;
+					{
+						indexSfondo = i;
+						maxHeight = sfondi.get( indexSfondo ).getMaxHeight();
+					}
 		
 			for(Ostacolo obs: ostacoli)
 				{
@@ -365,6 +376,7 @@ public class Edit
 			nameLvl = null;
 			index = -1;
 			indexSfondo = 0;
+			maxHeight = sfondi.get( indexSfondo ).getMaxHeight();
 			insertEditor = false;
 			moveEditor = true;
 			temp = null;
@@ -571,9 +583,8 @@ public class Edit
 			Input input = gc.getInput();
 			int mouseX = input.getMouseX();
 			int mouseY = input.getMouseY();
-			
-			// determina se l'oggetto sta collidendo con altri oggetti
-			boolean collide = false;
+
+			collide = false;
 			
 			// aggiornamento altezza editor
 			if(moveEditor)
@@ -585,8 +596,8 @@ public class Edit
 			// se HO un elemento da inserire
 			if(temp != null)
 				{
-					// determina l'altezza massima inseribile dell'oggetto
-					float maxHeight = sfondi.get( indexSfondo ).getMaxHeight();
+					// spostamento dell'oggetto in relazione alla posizione del mouse
+					temp.setXY( mouseX - tempX, mouseY - tempY, Global.MOVE );
 
 					temp.setInsert( true, false );
 					for(Ostacolo ost: ostacoli)
@@ -601,9 +612,6 @@ public class Edit
 					if(!temp.getID().equals( Global.BOLLA ) && !temp.getID().equals( Global.PLAYER ))
 					    if(input.isKeyPressed( Input.KEY_SPACE ))
 					    	temp.setOrienting( gc );
-
-					// spostamento dell'oggetto in relazione alla posizione del mouse
-					temp.setXY( mouseX - tempX, mouseY - tempY, Global.MOVE );
 					
 					// posizionamento player sopra gli ostacoli		
 					if(temp.getID().equals( Global.PLAYER ))
