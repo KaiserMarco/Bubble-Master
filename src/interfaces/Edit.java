@@ -765,17 +765,19 @@ public class Edit
 				}
 			
 			// gestione della textbox per il nome del livello
-			if(index >= 0)
-				tBox.update( input, Begin.livelli.get( index ) );
+			if(tBox.isOpen())
+				{
+					if(index >= 0)
+						tBox.update( input, Begin.livelli.get( index ) );
+					else
+						tBox.update( input, null );
+				}
 			else
-				tBox.update( input, null );
-			if(!tBox.isOpen())
 				{
 				    String name = tBox.getText();
 				    if(name != null && !name.isEmpty())
 					    {
 					        addNewLevel( gc, name );
-		                    
 		                    resetStatus();
 					    }
 				}
