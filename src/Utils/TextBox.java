@@ -200,7 +200,7 @@ public class TextBox
 									{
 										if(buttons[i].getName().equals( data[0] ))
 											{
-												// premuto tasto OK: salva la mappa se non ci sono problemi					
+												// premuto tasto OK: salva il livello se non ci sono problemi					
 												if(text.getText().length() > 0 && checkName( text.getText(), level ))
 													{
 														//TODO CreateLevel.saveLevel();
