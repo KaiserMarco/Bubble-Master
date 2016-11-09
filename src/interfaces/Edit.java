@@ -612,7 +612,7 @@ public class Edit
 							posY = maxHeight;
 							for(Ostacolo obs: ostacoli)
 								{
-									if(obs.getY() < posY)
+									if(!obs.getID().equals( Global.PLAYER ) && obs.getY() < posY)
 										{
 											if(obs.getID().equals( Global.TUBO ))
 												{
