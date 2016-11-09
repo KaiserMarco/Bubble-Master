@@ -478,9 +478,8 @@ public class Edit
 		    			}
 		    		
 		    		System.out.println( "livello " + name + ".xml salvato" );
-	
-					nameLvl = null;
-					index = -1;
+
+		            resetStatus();
 				}
 			catch( IOException e )
 				{
@@ -776,10 +775,7 @@ public class Edit
 				{
 				    String name = tBox.getText();
 				    if(name != null && !name.isEmpty())
-					    {
-					        addNewLevel( gc, name );
-		                    resetStatus();
-					    }
+					    addNewLevel( gc, name );
 				}
 		}
 	
