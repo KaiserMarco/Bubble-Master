@@ -491,17 +491,29 @@ public class Bubble extends Ostacolo
     public void checkBorders()
     	{
 	    	if(ostr.getX() + 2*ray >= maxW)
-	        	if(speedX > 0)
-	        		speedX = -speedX;
+	    		{
+	    			secondoTubo = false;
+	        		if(speedX > 0)
+	        			speedX = -speedX;
+	    		}
 	        if(ostr.getX() <= 0)
-	        	if(speedX < 0)
-	        		speedX = -speedX;
+	        	{
+    				secondoTubo = false;
+	        		if(speedX < 0)
+	        			speedX = -speedX;
+	        	}
 	        if(ostr.getY() + 2*ray >= maxH)
-	        	if(speedY > 0)
-	        		speedY = -speedY;
+	        	{
+    				secondoTubo = false;
+	        		if(speedY > 0)
+	        			speedY = -speedY;
+	        	}
 	        if(ostr.getY() <= 0)
-	        	if(speedY < 0)
-	        		speedY = -speedY;
+	        	{
+    				secondoTubo = false;
+	        		if(speedY < 0)
+	        			speedY = -speedY;
+	        	}
     	}
  
     public void setType(String type)
