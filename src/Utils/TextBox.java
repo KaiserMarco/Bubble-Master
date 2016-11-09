@@ -207,7 +207,7 @@ public class TextBox
 						if(button.isPressed())
 							{
 								button.setPressed();
-								if(button.getRect().contains( x, y ))
+								if(button.contains( x, y ))
 									{
 										if(button.getName().equals( OK ))
 											{
