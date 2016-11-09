@@ -583,8 +583,6 @@ public class Edit
 			Input input = gc.getInput();
 			int mouseX = input.getMouseX();
 			int mouseY = input.getMouseY();
-
-			collide = false;
 			
 			// aggiornamento altezza editor
 			if(moveEditor)
@@ -596,6 +594,7 @@ public class Edit
 			// se HO un elemento da inserire
 			if(temp != null)
 				{
+					collide = false;
 					// spostamento dell'oggetto in relazione alla posizione del mouse
 					temp.setXY( mouseX - tempX, mouseY - tempY, Global.MOVE );
 
