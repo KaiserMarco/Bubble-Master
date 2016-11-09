@@ -163,8 +163,12 @@ public class TextBox
 		if(!isOpen)
 			return false;
 		
-		if(index >= 0)
-			level = Begin.livelli.get( index );
+		if(index >= 0 && text.getText().isEmpty())
+			{
+				level = Begin.livelli.get( index );
+				text.setText( level.getName() );
+				text.setCursorPos( level.getName().length() );
+			}
 
 		//if(StateWindow.isOpen() && text.hasFocus())
 			//text.setFocus( false );

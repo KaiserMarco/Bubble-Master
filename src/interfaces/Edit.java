@@ -757,10 +757,7 @@ public class Edit
 							                            				
 			                            					        // apre la textBox
 			                            					        tBox.setOpen( true );
-				                            					    // setta il nome del livello
-			                            					        if(index >= 0)
-			                            					        	tBox.setText( Begin.livelli.get( index ).getName() );
-						                            			}
+		                            					        }
 								                            break;
 							                            }
 				                    			}
