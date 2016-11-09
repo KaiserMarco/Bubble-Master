@@ -52,11 +52,9 @@ public class Edit
 	// baseI = la schermatona di selezione elementi e sfondi
 	// choiseI = il pulsante per "tirare su" la schermatona 
 	private Image choiseI, baseI;
-	private Image cursor;
 	
 	//indice relativo alla posizione del cursore
-	private int indexCursor, indexCursorButton, indexCursorSfondi;
-	private int widthC, heightC;
+	private int indexCursor;
 	
 	private boolean insertEditor, insertItem;
 	/**base -> la finestra di selezione sfondo/elemento*/
@@ -125,11 +123,6 @@ public class Edit
 
 			choiseI = new Image( "./data/Image/choise.png" );
 			baseI = new Image( "./data/Image/Window.png" );
-			cursor = new Image( "./data/Image/cursore.png" );
-			
-			//lunghezza e altezza del cursore
-			widthC = Global.Width*10/177;
-			heightC = Global.Height/24;
 			
 			widthChoise = Global.Width/8;
 			heightChoise = Global.Height/30;
@@ -143,8 +136,6 @@ public class Edit
 			
 			insertEditor = false;
 			indexCursor = -1;
-			indexCursorButton = -1;
-			indexCursorSfondi = -1;
 			
 			insertItem = false;
 			
@@ -171,10 +162,7 @@ public class Edit
 						
 			for(Ostacolo obs: ostacoli)
 				{
-					if(obs.getID().equals( Global.SBARRA ) || obs.getID().equals( Global.TUBO ))
-						g.rotate( obs.getMidArea()[0], obs.getMidArea()[1], obs.getRotate() );
 					obs.draw( g );
-					g.resetTransform();
 					if(obs.getID().equals( Global.TUBO ))
 						{
 							if(obs.getUnion() == -1)
@@ -184,8 +172,8 @@ public class Edit
 						}
 				}
 			
-			for(int i = 0; i < buttons.size(); i++)
-				buttons.get( i ).draw( g );
+			for(SimpleButton button: buttons)
+				button.draw( g );
 
 			baseI.draw( base.getX(), base.getY(), base.getWidth(), heightBase );
 
@@ -204,26 +192,9 @@ public class Edit
 				down.draw( choise.getX() + (widthChoise/2 - widthArrow/2), choise.getY() + Global.Height/200, widthArrow, heightArrow );
 			else
 				up.draw( choise.getX() + (widthChoise/2 - widthArrow/2), choise.getY() + Global.Height/200, widthArrow, heightArrow );
-			
-			if(indexCursor >= 0 || indexCursorButton >= 0)
-				if(insertEditor)
-					cursor.draw( items.get( indexCursor ).getX() - widthC, items.get( indexCursor ).getY(), widthC, heightC );	
-				else if(indexCursorButton >= 0)
-					cursor.draw( buttons.get( indexCursorButton ).getX() - widthC, buttons.get( indexCursorButton ).getY(), widthC, heightC );
-				else if(ostacoli.size() >= 0)
-					cursor.draw( ostacoli.get( indexCursor ).getX() - widthC, ostacoli.get( indexCursor ).getY(), widthC, heightC );
-			
-			if(indexCursorSfondi >= 0)
-				cursor.draw( sfondi.get( indexCursorSfondi ).getX() - widthC, sfondi.get( indexCursorSfondi ).getY(), widthC, heightC );
 
 			if(temp != null)
-				{
-					if(temp.getID().equals( Global.SBARRA ) || temp.getID().equals( Global.TUBO ))
-						g.rotate( temp.getMidArea()[0], temp.getMidArea()[1], temp.getRotate() );
-
-					temp.draw( g );
-					g.resetTransform();
-				}
+				temp.draw( g );
 			
 			tBox.render( gc, g );
 			
@@ -274,8 +245,6 @@ public class Edit
 	public void resetIndexCursor()
 		{
 			indexCursor = -1;
-			indexCursorButton = -1;
-			indexCursorSfondi = -1;
 		}
 	
 	/** controlla se e' stato cliccato su un qualche elemento del livello */
@@ -382,7 +351,6 @@ public class Edit
 			temp = null;
 
 			indexCursor = -1;
-			indexCursorButton = -1;
 			
             Start.editGame = 0;
 			Start.chooseLevel = 1;
@@ -543,7 +511,7 @@ public class Edit
 	private void checkPosition( Ostacolo ost, int mouseX, int mouseY )
 		{
 			if(mouseY < ost.getY())
-				if(!(mouseX + temp.getWidth()/2 < ost.getX() || mouseX - temp.getWidth()/2 > ost.getMaxX()))
+				if(mouseX >= ost.getX() && mouseX <= ost.getMaxX())
 					if(Math.abs( mouseY - ost.getY() ) < posY)
 						posY = ost.getY();
 		}
