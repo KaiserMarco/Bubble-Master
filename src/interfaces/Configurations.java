@@ -249,10 +249,6 @@ public class Configurations
 	
 	public void update( Input input, int mouseX, int mouseY )
 		{
-			if(indexCursor < 0 &&((input.isKeyPressed( Input.KEY_UP ) || input.isKeyPressed( Input.KEY_DOWN )
-			|| input.isKeyPressed( Input.KEY_LEFT ) || input.isKeyPressed( Input.KEY_RIGHT ))))
-				indexCursor = 0;
-
 			for(int i = 0; i < keys.size(); i++)
 				if(keys.get( i ).isSelected())
 					checkInput( input, i );

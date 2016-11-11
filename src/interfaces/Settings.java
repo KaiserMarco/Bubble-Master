@@ -315,7 +315,6 @@ public class Settings
 			bar.update( mouseX );
 			Global.brightness = 255.f - bar.getValue();
 			
-			// TODO CAPIRE PERCHE AL PRIMO GIRO IL LEFT, IL RIGHT, L'UP E IL DOWN NON VENGONO "SENTITI"
 			if(!isClicked)
 				config.update( input, mouseX, mouseY );
 			else
