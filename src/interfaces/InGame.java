@@ -40,6 +40,9 @@ public class InGame
 	
 	// lunghezza e altezza base dei numeri del countdown
 	private int widthI, heightI;
+	
+	// gli input in gioco
+	Input input;
 
 	public InGame() throws SlickException
 		{
@@ -173,7 +176,7 @@ public class InGame
 	
 	public void update( GameContainer gc, int delta, End end ) throws SlickException
 		{		
-			Input input = gc.getInput();
+			input = gc.getInput();
 		
 			if(input.isKeyPressed( Input.KEY_ESCAPE ))
 				{

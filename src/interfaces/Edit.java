@@ -100,6 +100,10 @@ public class Edit
 	// determina se l'oggetto sta collidendo con altri oggetti
 	private boolean collide;
 	
+	// gli input dell'interfaccia
+	Input input;
+	int mouseX, mouseY;
+	
     public Edit( GameContainer gc ) throws SlickException
 		{
 			elem = new Elements( gc );
@@ -548,9 +552,9 @@ public class Edit
 	
 	public void update( GameContainer gc, int delta )throws SlickException
 		{
-			Input input = gc.getInput();
-			int mouseX = input.getMouseX();
-			int mouseY = input.getMouseY();
+			input = gc.getInput();
+			mouseX = input.getMouseX();
+			mouseY = input.getMouseY();
 			
 			// aggiornamento altezza editor
 			if(moveEditor)

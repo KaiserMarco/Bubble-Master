@@ -58,6 +58,10 @@ public class Settings
 	private boolean setChanging;
 	float sum = Global.Height*10/75, yStart = Global.Height/9;
 	
+	// gli input nei settaggi
+	Input input;
+	int mouseX, mouseY;
+	
 	public Settings( GameContainer gc ) throws SlickException
 		{
 			Color color = Color.orange;
@@ -199,9 +203,9 @@ public class Settings
 	
 	public void update( GameContainer gc, Edit editor, End end ) throws SlickException
 		{
-			Input input = gc.getInput();
-			int mouseX = input.getMouseX();
-			int mouseY = input.getMouseY();
+			input = gc.getInput();
+			mouseX = input.getMouseX();
+			mouseY = input.getMouseY();
 
 			buttons.get( 1 ).setColor( checkDifference() );
 			

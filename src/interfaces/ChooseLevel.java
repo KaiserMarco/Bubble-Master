@@ -44,6 +44,10 @@ public class ChooseLevel
 	/*immagine del cursore*/
 	private Image cursor;
 	
+	// gli input nella selezione livelli
+	Input input;
+	int mouseX, mouseY;
+	
 	private final static String BACK = "Indietro", START = "Gioca", CANC = "Elimina",
 								EDIT = "Modifica", NEW = "Nuovo Livello";
 	
@@ -175,9 +179,9 @@ public class ChooseLevel
 	
 	public void update( GameContainer gc, Edit editor ) throws SlickException
 		{
-			Input input = gc.getInput();
-			int mouseX = input.getMouseX();
-			int mouseY = input.getMouseY();
+			input = gc.getInput();
+			mouseX = input.getMouseX();
+			mouseY = input.getMouseY();
 			
 			if(buttons.get( buttons.size() - 1 ).getX() == 0)
 				{

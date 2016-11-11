@@ -38,6 +38,9 @@ public class End
 	
 	private static final String REPLAY = "GIOCA ANCORA", HOME = "TORNA ALLA SCHERMATA PRINCIPALE", LEVELS = "TORNA ALLA SCHERMATA DEI LIVELLI";
 	
+	Input input;
+	int mouseX, mouseY;
+	
 	public End() throws SlickException
 		{
 			cursor = new Image( "./data/Image/cursore.png" ); 
@@ -161,9 +164,9 @@ public class End
 
 	public void update(GameContainer gc) throws SlickException
 		{
-			Input input = gc.getInput();
-			int mouseX = input.getMouseX();
-			int mouseY = input.getMouseY();
+			input = gc.getInput();
+			mouseX = input.getMouseX();
+			mouseY = input.getMouseY();
 
 			if(indexCursor < 0 &&((input.isKeyPressed( Input.KEY_UP ) || input.isKeyPressed( Input.KEY_DOWN )
 			|| input.isKeyPressed( Input.KEY_LEFT ) || input.isKeyPressed( Input.KEY_RIGHT ))))

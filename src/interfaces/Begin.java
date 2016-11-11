@@ -72,6 +72,10 @@ public class Begin
 	private int timeShowBegin;
 	private final int timeLimitBegin = 65;
 	
+	// gli input nella schermata iniziale
+	Input input;
+	int mouseX, mouseY;
+	
 	public Begin( GameContainer gc ) throws SlickException
 		{
 	        insertButton = false;
@@ -269,9 +273,9 @@ public class Begin
 
 	public void update(GameContainer gc, int delta) throws SlickException 
 		{
-			Input input = gc.getInput();
-			int mouseX = input.getMouseX();
-			int mouseY = input.getMouseY();
+			input = gc.getInput();
+			mouseX = input.getMouseX();
+			mouseY = input.getMouseY();
 			
 			//schermata iniziale del "premi un tasto qualsiasi"
 			if(!insertButton)

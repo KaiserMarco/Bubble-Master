@@ -173,7 +173,7 @@ public class Configurations
 	
 	/** controlla gli input ricevuti e lo assegna al bottone selezionato
 	 * aggiornando maps */
-	public void checkInput( Input in, int index )
+	public boolean checkInput( Input in, int index )
 		{
 			for(int i = 0; i < 255; i++)
 				if(in.isKeyPressed( i ))
@@ -197,8 +197,9 @@ public class Configurations
 						updateKeys( numPlayer, in );
 						
 						resetSelected();
-						return;
+						return true;
 					}
+			return false;
 		}
 	
 	/** resetta il bottone selezionato */
@@ -241,7 +242,8 @@ public class Configurations
 		{
 			for(int i = 0; i < keys.size(); i++)
 				if(keys.get( i ).isSelected())
-					checkInput( input, i );
+					if(checkInput( input, i ))
+						return;
 			
 			if(input.isMouseButtonDown( Input.MOUSE_LEFT_BUTTON ))
 				{
