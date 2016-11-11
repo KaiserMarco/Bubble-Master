@@ -58,8 +58,6 @@ public class Configurations
 
 	public Configurations() throws SlickException
 		{
-			indexCursor = -1;
-			
 			numPlayer = 0;
 			
 			float width = Global.Width/20, height = Global.Height/50;
@@ -229,23 +227,15 @@ public class Configurations
 			keys.get( 3 ).setKey( Input.getKeyName( ( maps.get( index ).get( "Dx" ) ) ) );
 		}
 	
-	/** controlla se e' stato modificato un bind */
+	/** controlla se e' stato modificato un bind dei tasti */
 	public boolean checkDifference()
 		{
 			for(int i = 0; i < maps.size(); i++)
-				{
-					if(maps.get( i ).get( "Sparo" ) != Global.mapButtons.get( i ).get( "Sparo" )
-					|| maps.get( i ).get( "Salto" ) != Global.mapButtons.get( i ).get( "Salto" )
-					|| maps.get( i ).get( "Sx" ) != Global.mapButtons.get( i ).get( "Sx" )
-					|| maps.get( i ).get( "Dx" ) != Global.mapButtons.get( i ).get( "Dx" ))
-						return true;
-				}
+				if(!maps.get( i ).equals( Global.mapButtons.get( i ) ))
+					return true;
 			
 			return false;
 		}
-	
-	public boolean isChanged()
-		{ return checkDifference(); }
 	
 	public void update( Input input, int mouseX, int mouseY )
 		{
@@ -308,7 +298,7 @@ public class Configurations
 				                            					updateKeys( numPlayer, input );
 				                            			}
 				                            		
-						                            break;
+						                            return;
 					                            }
 		                    			}
 	                    		}

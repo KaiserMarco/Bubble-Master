@@ -62,7 +62,7 @@ public class Settings
 		{
 			Color color = Color.orange;
 			back = new SimpleButton( Global.Width/5, Global.Height*8/9, BACK, color, 0 );
-			saveChanges = new SimpleButton( Global.Width*2/3, Global.Height*8/9, APPLY, color, 1 );
+			saveChanges = new SimpleButton( Global.Width*2/3, Global.Height*8/9, APPLY, Color.gray, 1 );
 			color = new Color( 34, 139, 34 );
 			
 			float width = Global.Width/20, height = Global.Height/50;
@@ -181,6 +181,21 @@ public class Settings
 				}
 			
 			Global.dropRate = (double) dropRate/100;
+			buttons.get( 1 ).setColor( Color.gray );
+		}
+	
+	/** controlla se ci sono state variazioni rispetto ai settaggi di default */
+	public Color checkDifference()
+		{
+			if(config.checkDifference() || Global.lifes != vite
+			|| Global.dropRate != (double) dropRate/100 || bar.getValue() != valBright)
+				{
+					setChanging = true;
+					return Color.orange;
+				}
+		
+			setChanging = false;
+			return Color.gray;
 		}
 	
 	public void update( GameContainer gc, Edit editor, End end ) throws SlickException
@@ -190,19 +205,8 @@ public class Settings
 			Input input = gc.getInput();
 			int mouseX = input.getMouseX();
 			int mouseY = input.getMouseY();
-			
-			// controlla se il bottone APPLICA e' cliccabile oppure no
-			if(config.isChanged() || Global.lifes != vite || Global.dropRate != (double) dropRate/100
-			|| bar.getValue() != valBright)
-				{
-					setChanging = true;
-					buttons.get( 1 ).setColor( Color.orange );
-				}
-			else
-				{
-					setChanging = false;
-					buttons.get( 1 ).setColor( Color.gray );
-				}
+
+			buttons.get( 1 ).setColor( checkDifference() );
 			
 			if(input.isKeyPressed( Input.KEY_ESCAPE ) || input.isKeyPressed( Input.KEY_BACK ))
 				{
@@ -276,7 +280,7 @@ public class Settings
 		                            					}
 		                            			}
 		                            		
-				                            break;
+			                                return;
 		                    			}
 		                    	}
 		                    if(i == buttons.size())
@@ -293,18 +297,22 @@ public class Settings
 				                                		button.setPressed();
 					                            // premuta freccia sinistra
 			                            		if(arrows.get( i ).getDirection() == ArrowButton.LEFT)
-			                            			if(arrows.get( i ).getName().equals( lifes ))
-			                            				vite = Math.max( 1, --vite );
-			                            			else
-			                            				dropRate = Math.max( 0, dropRate - 10 );
+			                            			{
+			                            				if(arrows.get( i ).getName().equals( lifes ))
+			                            					vite = Math.max( 1, --vite );
+			                            				else
+			                            					dropRate = Math.max( 0, dropRate - 10 );
+			                            			}
 			                            		// premuta freccia destra
 			                            		else if(arrows.get( i ).getDirection() == ArrowButton.RIGHT)
-			                            			if(arrows.get( i ).getName().equals( lifes ))
-			                            				vite = Math.min( ++vite, 8 );
-			                            			else
-			                            				dropRate = Math.min( 100, dropRate + 10 );
+				                            		{
+				                            			if(arrows.get( i ).getName().equals( lifes ))
+				                            				vite = Math.min( ++vite, 8 );
+				                            			else
+				                            				dropRate = Math.min( 100, dropRate + 10 );
+				                            		}
 			                            		
-					                            break;
+					                            return;
 			                    			}
 		                    		}
 		                    if(bar.isPressed())
