@@ -57,6 +57,8 @@ public class Settings
 	// determina se e' possibile effettuare i cambiamenti
 	private boolean setChanging;
 	float sum = Global.Height*10/75, yStart = Global.Height/9;
+	// determina se un tasto dell'interfaccia settings e' stato premuto
+	boolean isClicked;
 	
 	public Settings( GameContainer gc ) throws SlickException
 		{
@@ -200,7 +202,7 @@ public class Settings
 	
 	public void update( GameContainer gc, Edit editor, End end ) throws SlickException
 		{
-			boolean isClicked = false;
+			isClicked = false;
 		
 			Input input = gc.getInput();
 			int mouseX = input.getMouseX();
@@ -316,7 +318,10 @@ public class Settings
 			                    			}
 		                    		}
 		                    if(bar.isPressed())
-		                    	bar.setPressed();
+		                    	{
+		                    		isClicked = true;
+		                    		bar.setPressed();
+		                    	}
 		                }
 	            }
 			
