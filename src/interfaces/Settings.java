@@ -57,8 +57,6 @@ public class Settings
 	// determina se e' possibile effettuare i cambiamenti
 	private boolean setChanging;
 	float sum = Global.Height*10/75, yStart = Global.Height/9;
-	// determina se un tasto dell'interfaccia settings e' stato premuto
-	boolean isClicked;
 	
 	public Settings( GameContainer gc ) throws SlickException
 		{
@@ -170,8 +168,7 @@ public class Settings
 	
 	private void applicaCambiamenti( Edit editor, GameContainer gc, End end, Configurations config ) throws SlickException
 		{
-			if(valBright != bar.getValue())
-				valBright = bar.getValue();
+			valBright = bar.getValue();
 		
 			if(Global.lifes != vite)
 				{
@@ -202,8 +199,6 @@ public class Settings
 	
 	public void update( GameContainer gc, Edit editor, End end ) throws SlickException
 		{
-			isClicked = false;
-		
 			Input input = gc.getInput();
 			int mouseX = input.getMouseX();
 			int mouseY = input.getMouseY();
@@ -212,9 +207,15 @@ public class Settings
 			
 			if(input.isKeyPressed( Input.KEY_ESCAPE ) || input.isKeyPressed( Input.KEY_BACK ))
 				{
+					if(valBright != bar.getValue())
+						{
+							bar.setX( valBright );
+							Global.brightness = valBright;
+						}
+
+					config.resetInterface( input );
 					Start.settings = 0;
 					Start.begin = 1;
-					config.resetInterface( input );
 				}
 			
 			if(input.isMouseButtonDown( Input.MOUSE_LEFT_BUTTON ))
@@ -248,15 +249,17 @@ public class Settings
 		                    		// se e' stato premuto il tasto
 		                    		if(checkButton( button, input, button.getIndex() ) == 1)
 		                    			{
-		                    				isClicked = true;
 			                                for(SimpleButton bottone: buttons)
 			                                	if(bottone.isPressed())
 			                                		bottone.setPressed();
 			                               
 			                                if(button.getName().equals( BACK ))
 		                            			{
+			                                		// TODO RISOLVERE IL PROBLEMA CHE SE CAMBIO LUMINOSITA E POI PREMO SUL PULSANTE INDIETRO
+			                                		// LO SCHERMO DIVENTA NEO MENTRE SE PREMO ESC SI RESETTA CORRETTAMENTE
 		                            				if(valBright != bar.getValue())
 		                            					{
+		                    								System.out.println( "sono qui" );
 		                            						bar.setX( valBright );
 		                            						Global.brightness = valBright;
 		                            					}
@@ -289,7 +292,6 @@ public class Settings
 	                        	// se e' stata premuta la freccia
 	                    		if(checkArrow( arrow, input, arrow.getIndex() ) == 1)
 	                    			{
-	                    				isClicked = true;
 		                                for(ArrowButton button: arrows)
 		                                	if(button.isPressed())
 		                                		button.setPressed();
@@ -307,25 +309,25 @@ public class Settings
 	                            				vite = Math.min( ++vite, 8 );
 	                            			else
 	                            				dropRate = Math.min( 100, dropRate + 10 );
-	                            		
+
+	                    				config.resetSelected();
 			                            return;
 	                    			}
 	                    		}
 		                    if(bar.isPressed())
 		                    	{
-		                    		isClicked = true;
 		                    		bar.setPressed();
+		                			
+		                			bar.update( mouseX );
+		                			Global.brightness = 255.f - bar.getValue();
+
+		            				config.resetSelected();
+		                			return;
 		                    	}
 		                }
 	            }
 			
-			bar.update( mouseX );
-			Global.brightness = 255.f - bar.getValue();
-			
-			if(!isClicked)
-				config.update( input, mouseX, mouseY );
-			else
-				config.resetSelected();
+			config.update( input, mouseX, mouseY );
 		}
 	
 	private boolean checkKeyPressed( final Input input )
