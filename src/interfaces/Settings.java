@@ -45,13 +45,6 @@ public class Settings
 	
 	private static final String BACK = "INDIETRO", APPLY = "APPLICA";
 	
-	/*indice di posizionamento del cursore*/
-	private int indexCursor;
-	/*dimensioni del cursore*/
-	private int widthC, heightC;
-	/*immagine del cursore*/
-	private Image cursor;
-	
 	private int dropRate;
 	
 	private Configurations config;
@@ -97,11 +90,6 @@ public class Settings
 			halfHeart = new Image( "./data/Image/halfHeartRed.png" );
 			noHeart = new Image( "./data/Image/noHeart.png" );
 			widthH = Global.Width/40; heightH = Global.Height/30;
-			
-			indexCursor = -1;
-			widthC = Global.Width*100/1777;
-			heightC = Global.Height/24;			
-			cursor = new Image( "./data/Image/cursore.png" );
 			
 			dropRate = (int)(Global.dropRate * 100);
 			
@@ -155,9 +143,6 @@ public class Settings
 			g.drawString( dropRate + " %" , xDrop/scale, yDrop/scale );
 			g.resetTransform();
 			
-			if(indexCursor >= 0)
-				cursor.draw( buttons.get( indexCursor ).getX() - widthC, buttons.get( indexCursor ).getY(), widthC, heightC );
-			
 			bar.render( g );
 			
 			config.draw( gc );
@@ -169,9 +154,6 @@ public class Settings
 		{
 			if(button.isPressed())
 				return 1;
-			else if(indexCursor >= 0 && indexCursor == i)
-				if(input.isKeyPressed( Input.KEY_ENTER ))
-					return 2;
 		
 			return 0;
 		}
@@ -180,9 +162,6 @@ public class Settings
 		{
 			if(button.isPressed())
 				return 1;
-			else if(indexCursor >= 0 && indexCursor == i)
-				if(input.isKeyPressed( Input.KEY_ENTER ))
-					return 2;
 		
 			return 0;
 		}
@@ -227,22 +206,10 @@ public class Settings
 			
 			if(input.isKeyPressed( Input.KEY_ESCAPE ) || input.isKeyPressed( Input.KEY_BACK ))
 				{
-					indexCursor = -1;
 					Start.settings = 0;
 					Start.begin = 1;
 					config.resetInterface( input );
 				}
-
-			if(indexCursor < 0 &&((input.isKeyPressed( Input.KEY_UP ) || input.isKeyPressed( Input.KEY_DOWN )
-			|| input.isKeyPressed( Input.KEY_LEFT ) || input.isKeyPressed( Input.KEY_RIGHT ))))
-				indexCursor = 0;
-			else if(input.isKeyPressed( Input.KEY_LEFT ))
-				{
-					if(--indexCursor < 0)
-						indexCursor = buttons.size() - 1;
-				}
-			else if(input.isKeyPressed( Input.KEY_RIGHT ))
-            	indexCursor = (indexCursor + 1)%(buttons.size() - 1);
 			
 			if(input.isMouseButtonDown( Input.MOUSE_LEFT_BUTTON ))
 				{
@@ -274,49 +241,42 @@ public class Settings
 		                    for(i = 0; i < buttons.size(); i++)
 		                    	{
 		                    		int value = checkButton( buttons.get( i ), input, i );
-		                        	boolean pressed = true;
 		                        	// se e' stato premuto il tasto
-		                    		if(value > 0)
+		                    		if(value == 1)
 		                    			{
 		                    				isClicked = true;
 			                                for(SimpleButton button: buttons)
 			                                	if(button.isPressed())
 			                                		button.setPressed();
-			                                pressed = buttons.get( i ).checkClick( mouseX, mouseY, input );
-				                            // pressed tramite mouse || value==2 tramite tastiera
-				                            if(pressed || value == 2)
-					                            {
-				                            		if(buttons.get( i ).getName().equals( BACK ))
-				                            			{
-				                            				if(valBright != bar.getValue())
-				                            					{
-				                            						bar.setX( valBright );
-				                            						Global.brightness = valBright;
-				                            					}
-				                            				
-				                            				config.resetInterface( input );
-					                                		indexCursor = -1;
-			                                				Start.settings = 0;
-					                            			Start.begin = 1;
-				                            			}
-				                            		else if(buttons.get( i ).getName().equals( APPLY ))
-				                            			{
-				                            	        	if(setChanging)
-			                            						{
-				                            						setChanging = false;
-				                            						applicaCambiamenti( editor, gc, end, config );
-				                            						
-				                            						config.updateFileConfig();
-				                            						config.resetInterface( input );
-				                            						
-				                            						indexCursor = -1;
-				                            						Start.settings = 0;
-				                            						Start.begin = 1;
-				                            					}
-				                            			}
-				                            		
-						                            break;
-					                            }
+			                               
+			                                if(buttons.get( i ).getName().equals( BACK ))
+		                            			{
+		                            				if(valBright != bar.getValue())
+		                            					{
+		                            						bar.setX( valBright );
+		                            						Global.brightness = valBright;
+		                            					}
+		                            				
+		                            				config.resetInterface( input );
+	                                				Start.settings = 0;
+			                            			Start.begin = 1;
+		                            			}
+		                            		else if(buttons.get( i ).getName().equals( APPLY ))
+		                            			{
+		                            	        	if(setChanging)
+	                            						{
+		                            						setChanging = false;
+		                            						applicaCambiamenti( editor, gc, end, config );
+		                            						
+		                            						config.updateFileConfig();
+		                            						config.resetInterface( input );
+
+		                            						Start.settings = 0;
+		                            						Start.begin = 1;
+		                            					}
+		                            			}
+		                            		
+				                            break;
 		                    			}
 		                    	}
 		                    if(i == buttons.size())
@@ -324,33 +284,27 @@ public class Settings
 		                    	for(i = 0; i < arrows.size(); i++)
 		                    		{
 			                    		int value = checkArrow( arrows.get( i ), input, i );
-			                        	boolean pressed = true;
 			                        	// se e' stato premuto il tasto
-			                    		if(value > 0)
+			                    		if(value == 1)
 			                    			{
 			                    				isClicked = true;
 				                                for(ArrowButton button: arrows)
 				                                	if(button.isPressed())
 				                                		button.setPressed();
-				                                pressed = arrows.get( i ).contains( mouseX, mouseY, input );
-					                            // pressed tramite mouse || value==2 tramite tastiera
-					                            if(pressed || value == 2)
-						                            {
-			                                    		// premuta freccia sinistra
-					                            		if(arrows.get( i ).getDirection() == ArrowButton.LEFT)
-					                            			if(arrows.get( i ).getName().equals( lifes ))
-					                            				vite = Math.max( 1, --vite );
-					                            			else
-					                            				dropRate = Math.max( 0, dropRate - 10 );
-					                            		// premuta freccia destra
-					                            		else if(arrows.get( i ).getDirection() == ArrowButton.RIGHT)
-					                            			if(arrows.get( i ).getName().equals( lifes ))
-					                            				vite = Math.min( ++vite, 8 );
-					                            			else
-					                            				dropRate = Math.min( 100, dropRate + 10 );
-					                            		
-							                            break;
-						                            }
+					                            // premuta freccia sinistra
+			                            		if(arrows.get( i ).getDirection() == ArrowButton.LEFT)
+			                            			if(arrows.get( i ).getName().equals( lifes ))
+			                            				vite = Math.max( 1, --vite );
+			                            			else
+			                            				dropRate = Math.max( 0, dropRate - 10 );
+			                            		// premuta freccia destra
+			                            		else if(arrows.get( i ).getDirection() == ArrowButton.RIGHT)
+			                            			if(arrows.get( i ).getName().equals( lifes ))
+			                            				vite = Math.min( ++vite, 8 );
+			                            			else
+			                            				dropRate = Math.min( 100, dropRate + 10 );
+			                            		
+					                            break;
 			                    			}
 		                    		}
 		                    if(i == arrows.size())
@@ -362,6 +316,7 @@ public class Settings
 			bar.update( mouseX );
 			Global.brightness = 255.f - bar.getValue();
 			
+			// TODO CAPIRE PERCHE AL PRIMO GIRO IL LEFT, IL RIGHT, L'UP E IL DOWN NON VENGONO "SENTITI"
 			if(!isClicked)
 				config.update( input, mouseX, mouseY );
 			else
