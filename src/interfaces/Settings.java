@@ -307,9 +307,8 @@ public class Settings
 					                            break;
 			                    			}
 		                    		}
-		                    if(i == arrows.size())
-		                    	if(bar.isPressed())
-		                    		bar.setPressed();
+		                    if(bar.isPressed())
+		                    	bar.setPressed();
 		                }
 	            }
 			
