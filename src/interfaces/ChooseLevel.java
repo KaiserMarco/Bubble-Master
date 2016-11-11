@@ -225,28 +225,27 @@ public class ChooseLevel
 	                if(mouseDown || checkKeyPressed( input ))
 		                {
 		                    mouseDown = false;
-		                    int i = 0;
-		                    for(i = 0; i < buttons.size(); i++)
+		                    for(SimpleButton button: buttons)
 		                    	{
-		                    		int value = checkButton( buttons.get( i ), input, i );
+		                    		int value = checkButton( button, input, button.getIndex() );
 		                        	boolean pressed = true;
 		                        	// se e' stato premuto il tasto
 		                    		if(value > 0)
 		                    			{
-			                                for(SimpleButton button: buttons)
-			                                	if(button.isPressed())
-			                                		button.setPressed();
-			                                pressed = buttons.get( i ).checkClick( mouseX, mouseY, input );
+			                                for(SimpleButton bottone: buttons)
+			                                	if(bottone.isPressed())
+			                                		bottone.setPressed();
+			                                pressed = button.checkClick( mouseX, mouseY, input );
 				                            // pressed tramite mouse || value==2 tramite tastiera
 				                            if(pressed || value == 2)
 					                            {
-				                            		if(buttons.get( i ).getName().equals( BACK ))
+				                            		if(button.getName().equals( BACK ))
 				                            			{
 			                                				indexCursor = -1;
 			                                				Start.chooseLevel = 0;
 					                            			Start.begin = 1;
 				                            			}
-				                            		else if(buttons.get( i ).getName().equals( START ))
+				                            		else if(button.getName().equals( START ))
 				                                        {
 					                            			Start.ig.addOstacoli( Begin.livelli.get( pos ).getElements(), Begin.livelli.get( pos ).getImage(), gc );
 					                                        
@@ -259,7 +258,7 @@ public class ChooseLevel
 			                                				Start.chooseLevel = 0;
 					                                        Start.startGame = 1;
 				                                        }
-				                            		else if(buttons.get( i ).getName().equals( EDIT ))
+				                            		else if(button.getName().equals( EDIT ))
 				                            			{
 					                            			editor.setElements( Begin.livelli.get( pos ).getElements(), Begin.livelli.get( pos ).getName(), pos, Begin.livelli.get( pos ).getImage(), gc );
 
@@ -268,57 +267,50 @@ public class ChooseLevel
 			                                				Start.chooseLevel = 0;
 					                                        Start.editGame = 1;
 				                            			}
-				                            		else if(buttons.get( i ).getName().equals( NEW ))
+				                            		else if(button.getName().equals( NEW ))
 				                            			{
 			                                				indexCursor = -1;
 			                                				
 		                                					Start.chooseLevel = 0;
 				                            				Start.editGame = 1;
 				                            			}
-				                            		else if(buttons.get( i ).getName().equals( CANC ))
+				                            		else if(button.getName().equals( CANC ))
 				                            			{
 				                            				removeLevel( pos );
 				                		    				pos = Math.max( 0, --pos );
 				                		    				updateNameLvl();
 				                            			}
 				                            		
-						                            break;
+						                            return;
 					                            }
 		                    			}
 		                    	}
-		                    if(i == buttons.size())
-			                    // se non e' stato premuto un bottone controllo le frecce
-		                    	for(i = 0; i < arrows.size(); i++)
-		                    		{
-			                    		int value = checkArrow( arrows.get( i ), input, i );
-			                        	boolean pressed = true;
-			                        	// se e' stato premuto il tasto
-			                    		if(value > 0)
-			                    			{
-				                                for(ArrowButton button: arrows)
-				                                	if(button.isPressed())
-				                                		button.setPressed();
-				                                pressed = arrows.get( i ).contains( mouseX, mouseY, input );
-					                            // pressed tramite mouse || value==2 tramite tastiera
-					                            if(pressed || value == 2)
-						                            {
-			                                    		// premuta freccia destra
-					                            		if(arrows.get( i ).getDirection() == ArrowButton.RIGHT && pos < Begin.livelli.size() - 1)
-					                            			{
-					                            				pos++;
-					                            				updateNameLvl();
-					                            			}
-					                            		// premuta freccia sinistra
-					                            		else if(arrows.get( i ).getDirection() == ArrowButton.LEFT && pos > 0)
-					                            			{
-					                            				pos--;
-					                            				updateNameLvl();
-					                            			}
-				                                        
-							                            break;
-						                            }
-			                    			}
-		                    		}
+		                    // se non e' stato premuto un bottone controllo le frecce
+	                    	for(ArrowButton arrow: arrows)
+	                    		{
+		                        	// se e' stato premuto il tasto
+		                    		if(checkArrow( arrow, input, arrow.getIndex() ) > 0)
+		                    			{
+			                                for(ArrowButton freccia: arrows)
+			                                	if(freccia.isPressed())
+			                                		freccia.setPressed();
+	
+	                                		// premuta freccia destra
+		                            		if(arrow.getDirection() == ArrowButton.RIGHT && pos < Begin.livelli.size() - 1)
+		                            			{
+		                            				pos++;
+		                            				updateNameLvl();
+		                            			}
+		                            		// premuta freccia sinistra
+		                            		else if(arrow.getDirection() == ArrowButton.LEFT && pos > 0)
+		                            			{
+		                            				pos--;
+		                            				updateNameLvl();
+		                            			}
+	                                        
+				                            return;
+		                    			}
+	                    		}
 		                }
 	            }
 		}

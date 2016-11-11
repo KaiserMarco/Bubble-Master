@@ -274,27 +274,24 @@ public class Configurations
 			                                	if(freccia.isPressed())
 			                                		freccia.setPressed();
 
-				                            if(arrow.contains( mouseX, mouseY, input ))
-					                            {
-		                                    		// premuta freccia sinistra
-				                            		if(arrow.getDirection() == ArrowButton.LEFT && numPlayer > 0)
-				                            			{
-				                            				int oldNum = numPlayer;
-				                            				numPlayer = Math.max( 0, --numPlayer );
-				                            				if(oldNum != numPlayer)
-				                            					updateKeys( numPlayer, input );
-				                            			}
-				                            		// premuta freccia destra
-				                            		else if(arrow.getDirection() == ArrowButton.RIGHT && numPlayer < 4)
-				                            			{
-				                            				int oldNum = numPlayer;
-				                            				numPlayer = Math.min( 3, ++numPlayer );
-				                            				if(oldNum != numPlayer)
-				                            					updateKeys( numPlayer, input );
-				                            			}
-				                            		
-						                            return;
-					                            }
+                                    		// premuta freccia sinistra
+		                            		if(arrow.getDirection() == ArrowButton.LEFT && numPlayer > 0)
+		                            			{
+		                            				int oldNum = numPlayer;
+		                            				numPlayer = Math.max( 0, --numPlayer );
+		                            				if(oldNum != numPlayer)
+		                            					updateKeys( numPlayer, input );
+		                            			}
+		                            		// premuta freccia destra
+		                            		else if(arrow.getDirection() == ArrowButton.RIGHT && numPlayer < 4)
+		                            			{
+		                            				int oldNum = numPlayer;
+		                            				numPlayer = Math.min( 3, ++numPlayer );
+		                            				if(oldNum != numPlayer)
+		                            					updateKeys( numPlayer, input );
+		                            			}
+		                            		
+				                            return;
 		                    			}
 	                    		}
 		                }

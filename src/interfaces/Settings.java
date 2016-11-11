@@ -245,9 +245,8 @@ public class Settings
 		                    mouseDown = false;
 		                    for(SimpleButton button: buttons)
 		                    	{
-		                    		int value = checkButton( button, input, button.getIndex() );
-		                        	// se e' stato premuto il tasto
-		                    		if(value == 1)
+		                    		// se e' stato premuto il tasto
+		                    		if(checkButton( button, input, button.getIndex() ) == 1)
 		                    			{
 		                    				isClicked = true;
 			                                for(SimpleButton bottone: buttons)
@@ -294,9 +293,9 @@ public class Settings
 		                                for(ArrowButton button: arrows)
 		                                	if(button.isPressed())
 		                                		button.setPressed();
+		                                
 			                            // premuta freccia sinistra
 	                            		if(arrow.getDirection() == ArrowButton.LEFT)
-	                            			
                             				if(arrow.getName().equals( lifes ))
                             					vite = Math.max( 1, --vite );
                             				else
