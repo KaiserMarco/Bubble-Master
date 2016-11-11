@@ -210,7 +210,7 @@ public class Settings
 					if(valBright != bar.getValue())
 						{
 							bar.setX( valBright );
-							Global.brightness = valBright;
+							Global.brightness = 255.f - valBright;
 						}
 
 					config.resetInterface( input );
@@ -255,13 +255,10 @@ public class Settings
 			                               
 			                                if(button.getName().equals( BACK ))
 		                            			{
-			                                		// TODO RISOLVERE IL PROBLEMA CHE SE CAMBIO LUMINOSITA E POI PREMO SUL PULSANTE INDIETRO
-			                                		// LO SCHERMO DIVENTA NEO MENTRE SE PREMO ESC SI RESETTA CORRETTAMENTE
 		                            				if(valBright != bar.getValue())
 		                            					{
-		                    								System.out.println( "sono qui" );
 		                            						bar.setX( valBright );
-		                            						Global.brightness = valBright;
+		                            						Global.brightness = 255.f - valBright;
 		                            					}
 		                            				
 		                            				config.resetInterface( input );
