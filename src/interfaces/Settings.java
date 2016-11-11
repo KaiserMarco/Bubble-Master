@@ -271,7 +271,6 @@ public class Settings
 		                            			{
 		                            	        	if(setChanging)
 	                            						{
-		                            						setChanging = false;
 		                            						applicaCambiamenti( editor, gc, end, config );
 		                            						
 		                            						config.updateFileConfig();
