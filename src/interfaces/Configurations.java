@@ -62,8 +62,8 @@ public class Configurations
 			
 			float width = Global.Width/20, height = Global.Height/50;
 			float dist = Global.Height*10/75, yStart = Global.Height/9 + 7*dist/2;
-			left = new ArrowButton( LEFT, ArrowButton.LEFT, new float[]{ Global.Width*10/32, yStart + height/2, Global.Width*10/32 + width, yStart, Global.Width*10/32 + width, yStart + height }, Color.white );
-			right = new ArrowButton( RIGHT, ArrowButton.RIGHT, new float[]{ Global.Width*10/16, yStart, Global.Width*10/16, yStart + height, Global.Width*10/16 + width, yStart + height/2 },Color.white );
+			left = new ArrowButton( LEFT, ArrowButton.LEFT, new float[]{ Global.Width*10/32, yStart + height/2, Global.Width*10/32 + width, yStart, Global.Width*10/32 + width, yStart + height }, Color.white, 0 );
+			right = new ArrowButton( RIGHT, ArrowButton.RIGHT, new float[]{ Global.Width*10/16, yStart, Global.Width*10/16, yStart + height, Global.Width*10/16 + width, yStart + height/2 },Color.white, 1 );
 			
 			arrows = new ArrayList<ArrowButton>();
 			arrows.add( left );
@@ -263,26 +263,21 @@ public class Configurations
 	            {
 	                if(mouseDown || checkKeyPressed( input ))
 		                {
-	                		mouseDown = false;
-		                    int i = 0;
-		                    
+	                		mouseDown = false;		                    
 	                    	// se non e' stato premuto un bottone controllo le frecce
-	                    	for(i = 0; i < arrows.size(); i++)
+	                    	for(ArrowButton arrow: arrows)
 	                    		{
-		                    		int value = checkArrow( arrows.get( i ), input, i );
-		                        	boolean pressed = true;
 		                        	// se e' stato premuto il tasto
-		                    		if(value > 0)
+		                    		if(checkArrow( arrow, input, arrow.getIndex() ) == 1)
 		                    			{
-			                                for(ArrowButton arrow: arrows)
-			                                	if(arrow.isPressed())
-			                                		arrow.setPressed();
-			                                pressed = arrows.get( i ).contains( mouseX, mouseY, input );
-				                            // pressed tramite mouse || value==2 tramite tastiera
-				                            if(pressed || value == 2)
+			                                for(ArrowButton freccia: arrows)
+			                                	if(freccia.isPressed())
+			                                		freccia.setPressed();
+
+				                            if(arrow.contains( mouseX, mouseY, input ))
 					                            {
 		                                    		// premuta freccia sinistra
-				                            		if(arrows.get( i ).getDirection() == ArrowButton.LEFT && numPlayer > 0)
+				                            		if(arrow.getDirection() == ArrowButton.LEFT && numPlayer > 0)
 				                            			{
 				                            				int oldNum = numPlayer;
 				                            				numPlayer = Math.max( 0, --numPlayer );
@@ -290,7 +285,7 @@ public class Configurations
 				                            					updateKeys( numPlayer, input );
 				                            			}
 				                            		// premuta freccia destra
-				                            		else if(arrows.get( i ).getDirection() == ArrowButton.RIGHT && numPlayer < 4)
+				                            		else if(arrow.getDirection() == ArrowButton.RIGHT && numPlayer < 4)
 				                            			{
 				                            				int oldNum = numPlayer;
 				                            				numPlayer = Math.min( 3, ++numPlayer );

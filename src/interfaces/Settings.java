@@ -68,11 +68,11 @@ public class Settings
 			color = new Color( 34, 139, 34 );
 			
 			float width = Global.Width/20, height = Global.Height/50;
-			leftLife = new ArrowButton( lifes, ArrowButton.LEFT, new float[]{ Global.Width*10/32, yStart + height/2, Global.Width*10/32 + width, yStart, Global.Width*10/32 + width, yStart + height }, Color.white );
-			rightLife = new ArrowButton( lifes, ArrowButton.RIGHT, new float[]{ Global.Width*52/100, yStart, Global.Width*52/100, yStart + height, Global.Width*52/100 + width, yStart + height/2 },Color.white );
+			leftLife = new ArrowButton( lifes, ArrowButton.LEFT, new float[]{ Global.Width*10/32, yStart + height/2, Global.Width*10/32 + width, yStart, Global.Width*10/32 + width, yStart + height }, Color.white, 0 );
+			rightLife = new ArrowButton( lifes, ArrowButton.RIGHT, new float[]{ Global.Width*52/100, yStart, Global.Width*52/100, yStart + height, Global.Width*52/100 + width, yStart + height/2 },Color.white, 1 );
 
-			leftDrop = new ArrowButton( drop, ArrowButton.LEFT, new float[]{ Global.Width*10/32, yStart + sum + height/2, Global.Width*10/32 + width, yStart + sum, Global.Width*10/32 + width, yStart + sum + height }, Color.white );
-			rightDrop = new ArrowButton( drop, ArrowButton.RIGHT, new float[]{ Global.Width*52/100, yStart + sum, Global.Width*52/100, yStart + sum + height, Global.Width*52/100 + width, yStart + sum + height/2 },Color.white );
+			leftDrop = new ArrowButton( drop, ArrowButton.LEFT, new float[]{ Global.Width*10/32, yStart + sum + height/2, Global.Width*10/32 + width, yStart + sum, Global.Width*10/32 + width, yStart + sum + height }, Color.white, 0 );
+			rightDrop = new ArrowButton( drop, ArrowButton.RIGHT, new float[]{ Global.Width*52/100, yStart + sum, Global.Width*52/100, yStart + sum + height, Global.Width*52/100 + width, yStart + sum + height/2 },Color.white, 1 );
 			
 			arrows = new ArrayList<ArrowButton>();
 			arrows.add( leftLife );
@@ -243,19 +243,18 @@ public class Settings
 	                if(mouseDown || checkKeyPressed( input ))
 		                {
 		                    mouseDown = false;
-		                    int i = 0;
-		                    for(i = 0; i < buttons.size(); i++)
+		                    for(SimpleButton button: buttons)
 		                    	{
-		                    		int value = checkButton( buttons.get( i ), input, i );
+		                    		int value = checkButton( button, input, button.getIndex() );
 		                        	// se e' stato premuto il tasto
 		                    		if(value == 1)
 		                    			{
 		                    				isClicked = true;
-			                                for(SimpleButton button: buttons)
-			                                	if(button.isPressed())
-			                                		button.setPressed();
+			                                for(SimpleButton bottone: buttons)
+			                                	if(bottone.isPressed())
+			                                		bottone.setPressed();
 			                               
-			                                if(buttons.get( i ).getName().equals( BACK ))
+			                                if(button.getName().equals( BACK ))
 		                            			{
 		                            				if(valBright != bar.getValue())
 		                            					{
@@ -267,7 +266,7 @@ public class Settings
 	                                				Start.settings = 0;
 			                            			Start.begin = 1;
 		                            			}
-		                            		else if(buttons.get( i ).getName().equals( APPLY ))
+		                            		else if(button.getName().equals( APPLY ))
 		                            			{
 		                            	        	if(setChanging)
 	                            						{
@@ -285,38 +284,34 @@ public class Settings
 			                                return;
 		                    			}
 		                    	}
-		                    if(i == buttons.size())
-			                    // se non e' stato premuto un bottone controllo le frecce
-		                    	for(i = 0; i < arrows.size(); i++)
-		                    		{
-			                    		int value = checkArrow( arrows.get( i ), input, i );
-			                        	// se e' stato premuto il tasto
-			                    		if(value == 1)
-			                    			{
-			                    				isClicked = true;
-				                                for(ArrowButton button: arrows)
-				                                	if(button.isPressed())
-				                                		button.setPressed();
-					                            // premuta freccia sinistra
-			                            		if(arrows.get( i ).getDirection() == ArrowButton.LEFT)
-			                            			{
-			                            				if(arrows.get( i ).getName().equals( lifes ))
-			                            					vite = Math.max( 1, --vite );
-			                            				else
-			                            					dropRate = Math.max( 0, dropRate - 10 );
-			                            			}
-			                            		// premuta freccia destra
-			                            		else if(arrows.get( i ).getDirection() == ArrowButton.RIGHT)
-				                            		{
-				                            			if(arrows.get( i ).getName().equals( lifes ))
-				                            				vite = Math.min( ++vite, 8 );
-				                            			else
-				                            				dropRate = Math.min( 100, dropRate + 10 );
-				                            		}
-			                            		
-					                            return;
-			                    			}
-		                    		}
+	                    // se non e' stato premuto un bottone controllo le frecce
+                    	for(ArrowButton arrow: arrows)
+                    		{
+	                        	// se e' stata premuta la freccia
+	                    		if(checkArrow( arrow, input, arrow.getIndex() ) == 1)
+	                    			{
+	                    				isClicked = true;
+		                                for(ArrowButton button: arrows)
+		                                	if(button.isPressed())
+		                                		button.setPressed();
+			                            // premuta freccia sinistra
+	                            		if(arrow.getDirection() == ArrowButton.LEFT)
+	                            			
+                            				if(arrow.getName().equals( lifes ))
+                            					vite = Math.max( 1, --vite );
+                            				else
+                            					dropRate = Math.max( 0, dropRate - 10 );
+	                            			
+	                            		// premuta freccia destra
+	                            		else if(arrow.getDirection() == ArrowButton.RIGHT)
+	                            			if(arrow.getName().equals( lifes ))
+	                            				vite = Math.min( ++vite, 8 );
+	                            			else
+	                            				dropRate = Math.min( 100, dropRate + 10 );
+	                            		
+			                            return;
+	                    			}
+	                    		}
 		                    if(bar.isPressed())
 		                    	{
 		                    		isClicked = true;

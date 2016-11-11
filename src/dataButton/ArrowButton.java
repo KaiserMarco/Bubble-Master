@@ -22,20 +22,29 @@ public class ArrowButton
 	private float[] points;
 	/* il nome del bottone */
 	public String name;
+	/* l'indice della freccia */
+	public int index;
 
-	public ArrowButton( String name, int direction, float points[], Color color )
+	public ArrowButton( String name, int direction, float points[], Color color, int index )
 	{
 		this.points = points;
 		c = color;
 		this.direction = direction;
 		row = new Polygon( points );
 		this.name = name;
+		this.index = index;
 	}
 
 	/** modifica lo stato (premuto/non premuto) della freccia*/
 	public void setPressed()
 	{
 		pressed = !pressed;
+	}
+	
+	/** restituisce l'indice della freccia */
+	public int getIndex()
+	{
+		return index;
 	}
 	
 	/** restituisce il nome del bottones
