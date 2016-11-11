@@ -100,9 +100,8 @@ public class Edit
 	// determina se l'oggetto sta collidendo con altri oggetti
 	private boolean collide;
 	
-	// gli input dell'interfaccia
-	Input input;
-	int mouseX, mouseY;
+	// la posizione del mouse
+	private int mouseX, mouseY;
 	
     public Edit( GameContainer gc ) throws SlickException
 		{
@@ -550,9 +549,8 @@ public class Edit
 		    return false;
 		}
 	
-	public void update( GameContainer gc, int delta )throws SlickException
+	public void update( GameContainer gc, int delta, Input input )throws SlickException
 		{
-			input = gc.getInput();
 			mouseX = input.getMouseX();
 			mouseY = input.getMouseY();
 			

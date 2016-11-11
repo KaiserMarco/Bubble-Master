@@ -58,9 +58,8 @@ public class Settings
 	private boolean setChanging;
 	float sum = Global.Height*10/75, yStart = Global.Height/9;
 	
-	// gli input nei settaggi
-	Input input;
-	int mouseX, mouseY;
+	// la posizione del mouse
+	private int mouseX, mouseY;
 	
 	public Settings( GameContainer gc ) throws SlickException
 		{
@@ -201,12 +200,11 @@ public class Settings
 			return Color.gray;
 		}
 	
-	public void update( GameContainer gc, Edit editor, End end ) throws SlickException
+	public void update( GameContainer gc, Edit editor, End end, Input input ) throws SlickException
 		{
-			input = gc.getInput();
 			mouseX = input.getMouseX();
 			mouseY = input.getMouseY();
-
+		
 			buttons.get( 1 ).setColor( checkDifference() );
 			
 			if(input.isKeyPressed( Input.KEY_ESCAPE ) || input.isKeyPressed( Input.KEY_BACK ))

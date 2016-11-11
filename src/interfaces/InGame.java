@@ -40,9 +40,6 @@ public class InGame
 	
 	// lunghezza e altezza base dei numeri del countdown
 	private int widthI, heightI;
-	
-	// gli input in gioco
-	Input input;
 
 	public InGame() throws SlickException
 		{
@@ -112,7 +109,7 @@ public class InGame
 			Global.sfondo = sfondo;
 		}
 
-	public void draw( GameContainer gc, Graphics g) throws SlickException
+	public void draw( GameContainer gc, Graphics g ) throws SlickException
 		{		
 			g.setAntiAlias( true );
 			sfondo.draw( gc );
@@ -174,10 +171,8 @@ public class InGame
 			Global.drawScreenBrightness( g );
 		}
 	
-	public void update( GameContainer gc, int delta, End end ) throws SlickException
-		{		
-			input = gc.getInput();
-		
+	public void update( GameContainer gc, int delta, End end, Input input ) throws SlickException
+		{
 			if(input.isKeyPressed( Input.KEY_ESCAPE ))
 				{
 					animNumbers = 30;

@@ -38,9 +38,6 @@ public class End
 	
 	private static final String REPLAY = "GIOCA ANCORA", HOME = "TORNA ALLA SCHERMATA PRINCIPALE", LEVELS = "TORNA ALLA SCHERMATA DEI LIVELLI";
 	
-	Input input;
-	int mouseX, mouseY;
-	
 	public End() throws SlickException
 		{
 			cursor = new Image( "./data/Image/cursore.png" ); 
@@ -162,12 +159,8 @@ public class End
 			return 0;
 		}
 
-	public void update(GameContainer gc) throws SlickException
+	public void update( GameContainer gc, Input input ) throws SlickException
 		{
-			input = gc.getInput();
-			mouseX = input.getMouseX();
-			mouseY = input.getMouseY();
-
 			if(indexCursor < 0 &&((input.isKeyPressed( Input.KEY_UP ) || input.isKeyPressed( Input.KEY_DOWN )
 			|| input.isKeyPressed( Input.KEY_LEFT ) || input.isKeyPressed( Input.KEY_RIGHT ))))
 				indexCursor = 0;
@@ -194,7 +187,7 @@ public class End
 		                    mouseDown = true;
 		                    
 		                    for(SimpleButton button : buttons)
-		                        if(button.checkClick( mouseX, mouseY, input ))
+		                        if(button.checkClick( input.getMouseX(), input.getMouseY(), input ))
 		                        	if(!button.isPressed())
 	                            		button.setPressed();
 		                }
@@ -213,7 +206,7 @@ public class End
 		                    		if(value > 0)
 		                    			{
 			                                buttons.get( i ).setPressed();
-			                                pressed = buttons.get( i ).checkClick( mouseX, mouseY, input );
+			                                pressed = buttons.get( i ).checkClick( input.getMouseX(), input.getMouseY(), input );
 				                            // pressed tramite mouse || value==2 tramite tastiera
 				                            if(pressed || value == 2)
 					                            {				                    			

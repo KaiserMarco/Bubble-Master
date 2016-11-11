@@ -73,7 +73,6 @@ public class Begin
 	private final int timeLimitBegin = 65;
 	
 	// gli input nella schermata iniziale
-	Input input;
 	int mouseX, mouseY;
 	
 	public Begin( GameContainer gc ) throws SlickException
@@ -271,9 +270,8 @@ public class Begin
 			return 0;
 		}
 
-	public void update(GameContainer gc, int delta) throws SlickException 
+	public void update( GameContainer gc, int delta, Input input ) throws SlickException 
 		{
-			input = gc.getInput();
 			mouseX = input.getMouseX();
 			mouseY = input.getMouseY();
 			

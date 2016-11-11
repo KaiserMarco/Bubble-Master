@@ -81,17 +81,17 @@ public class Start extends BasicGame
 	public void update(GameContainer gc, int delta) throws SlickException 
 		{
 			if(begin == 1)
-				b.update( gc, delta );
+				b.update( gc, delta, gc.getInput() );
 			else if(startGame == 1)
-				ig.update( gc, delta, e );
+				ig.update( gc, delta, e, gc.getInput() );
 			else if(editGame == 1)
-				edit.update( gc, delta );
+				edit.update( gc, delta, gc.getInput() );
 			else if(endGame == 1)
-				e.update( gc );
+				e.update( gc, gc.getInput() );
 			else if(chooseLevel == 1)
-				cl.update( gc, edit );
+				cl.update( gc, edit, gc.getInput() );
 			else if(settings == 1)
-				opt.update( gc, edit, e );
+				opt.update( gc, edit, e, gc.getInput() );
 			
 			gc.getInput().clearKeyPressedRecord();
 			gc.getInput().clearMousePressedRecord();

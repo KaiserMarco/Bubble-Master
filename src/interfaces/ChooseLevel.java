@@ -44,10 +44,6 @@ public class ChooseLevel
 	/*immagine del cursore*/
 	private Image cursor;
 	
-	// gli input nella selezione livelli
-	Input input;
-	int mouseX, mouseY;
-	
 	private final static String BACK = "Indietro", START = "Gioca", CANC = "Elimina",
 								EDIT = "Modifica", NEW = "Nuovo Livello";
 	
@@ -177,12 +173,8 @@ public class ChooseLevel
 			System.out.println( "rimosso il livello = " + Begin.livelli.size() );
 		}
 	
-	public void update( GameContainer gc, Edit editor ) throws SlickException
+	public void update( GameContainer gc, Edit editor, Input input ) throws SlickException
 		{
-			input = gc.getInput();
-			mouseX = input.getMouseX();
-			mouseY = input.getMouseY();
-			
 			if(buttons.get( buttons.size() - 1 ).getX() == 0)
 				{
 					buttons.get( buttons.size() - 1 ).setX( width/2 - buttons.get( buttons.size() - 1 ).getLungh()/2 );
@@ -214,12 +206,12 @@ public class ChooseLevel
 		                    mouseDown = true;
 		                    
 		                    for(SimpleButton button : buttons)
-		                        if(button.checkClick( mouseX, mouseY, input ))
+		                        if(button.checkClick( input.getMouseX(), input.getMouseY(), input ))
 		                        	if(!button.isPressed())
 	                            		button.setPressed();
 		                    
 		                    for(ArrowButton arrow: arrows)
-		                    	if(arrow.contains( mouseX, mouseY, input ))
+		                    	if(arrow.contains( input.getMouseX(), input.getMouseY(), input ))
 		                    		if(!arrow.isPressed())
 		                    			arrow.setPressed();
 		                }
@@ -239,7 +231,7 @@ public class ChooseLevel
 			                                for(SimpleButton bottone: buttons)
 			                                	if(bottone.isPressed())
 			                                		bottone.setPressed();
-			                                pressed = button.checkClick( mouseX, mouseY, input );
+			                                pressed = button.checkClick( input.getMouseX(), input.getMouseY(), input );
 				                            // pressed tramite mouse || value==2 tramite tastiera
 				                            if(pressed || value == 2)
 					                            {
