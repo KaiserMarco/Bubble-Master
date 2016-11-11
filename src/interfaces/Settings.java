@@ -310,7 +310,6 @@ public class Settings
 	                            			else
 	                            				dropRate = Math.min( 100, dropRate + 10 );
 
-	                    				config.resetSelected();
 			                            return;
 	                    			}
 	                    		}
@@ -321,7 +320,6 @@ public class Settings
 		                			bar.update( mouseX );
 		                			Global.brightness = 255.f - bar.getValue();
 
-		            				config.resetSelected();
 		                			return;
 		                    	}
 		                }
