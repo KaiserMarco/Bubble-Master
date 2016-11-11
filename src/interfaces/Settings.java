@@ -184,6 +184,9 @@ public class Settings
 			
 			Global.dropRate = (double) dropRate/100;
 			buttons.get( 1 ).setColor( Color.gray );
+			
+			if(config.checkDifference())
+				config.updateFileConfig();
 		}
 	
 	/** controlla se ci sono state variazioni rispetto ai settaggi di default */
@@ -273,7 +276,6 @@ public class Settings
 	                            						{
 		                            						applicaCambiamenti( editor, gc, end, config );
 		                            						
-		                            						config.updateFileConfig();
 		                            						config.resetInterface( input );
 
 		                            						Start.settings = 0;

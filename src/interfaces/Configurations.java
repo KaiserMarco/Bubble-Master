@@ -128,15 +128,13 @@ public class Configurations
 					Element item;
 				    livello.addContent( new Comment( "Objects" ) );
 					
-				    for(int i = 0; i < maps.size(); i++)
-				    	{
-							Map<String, Integer> tmp = maps.get( i );
-							
+				    for(Map<String, Integer> map: maps)
+				    	{							
 							item = new Element( "key" );
-							item.setAttribute( "sparo", tmp.get( "Sparo" ) + "" );
-							item.setAttribute( "salto", tmp.get( "Salto" ) + "" );
-							item.setAttribute( "left", tmp.get( "Sx" ) + "" );
-							item.setAttribute( "right", tmp.get( "Dx" ) + "" );
+							item.setAttribute( "sparo", map.get( "Sparo" ) + "" );
+							item.setAttribute( "salto", map.get( "Salto" ) + "" );
+							item.setAttribute( "left", map.get( "Sx" ) + "" );
+							item.setAttribute( "right", map.get( "Dx" ) + "" );
 							livello.addContent( item );
 				    	}
 	
