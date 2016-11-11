@@ -618,8 +618,16 @@ public class Player extends Ostacolo
 			
 			/*la posizione del player un attimo prima di spostarsi*/
 			Rectangle previousArea = new Rectangle( area.getX(), area.getY(), width, height );
-			
-			/*ZONA SPOSTAMENTI-SALTI*/			
+
+			/*ZONA SALTO*/
+			if(input.isKeyDown( Global.mapButtons.get( numPlayer-1 ).get( Global.SALTO ) ) && !jump)
+				{
+					movingJ = true;
+					jump = true;
+					maxJump = 1;
+					tempJump = 60;
+				}
+			/*ZONA SPOSTAMENTI DESTRA-SINISTRA*/			
 			if(input.isKeyDown( Global.mapButtons.get( numPlayer-1 ).get( DESTRA ) ))
 				{
 					moving = true;
@@ -646,14 +654,6 @@ public class Player extends Ostacolo
 					
 					isShooting = true;
 	            }
-			/*ZONA SALTO*/
-			if(input.isKeyDown( Global.mapButtons.get( numPlayer-1 ).get( Global.SALTO ) ) && !jump)
-				{
-					movingJ = true;
-					jump = true;
-					maxJump = 1;
-					tempJump = 60;
-				}
 			/*ZONA UPDATE SPARO/I*/
 			for(Shot fuoco: fire)
 				{
