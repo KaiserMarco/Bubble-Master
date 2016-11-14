@@ -161,10 +161,10 @@ public class ChooseLevel
 		{
 			File levels = new File( "data/livelli" );
 			String[] files = levels.list();
-			for(int i = 0; i < files.length; i++)
-				if(files[i].equals( Begin.livelli.get( pos ).getName() + ".xml" ))
+			for(String file: files)
+				if(file.equals( Begin.livelli.get( pos ).getName() + ".xml" ))
 					{
-						File rem = new File( "data/livelli/" + files[i] );
+						File rem = new File( "data/livelli/" + file );
 						rem.delete();
 						break;
 					}

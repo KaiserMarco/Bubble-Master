@@ -178,7 +178,7 @@ public class Edit
 			for(SimpleButton button: buttons)
 				button.draw( g );
 
-			baseI.draw( base.getX(), base.getY(), base.getWidth(), heightBase );
+			baseI.draw( base.getX(), base.getY(), widthBase, heightBase );
 
 			if(insertItem)
 				{
@@ -189,7 +189,7 @@ public class Edit
 						sfondo.draw();
 				}
 			
-			choiseI.draw( choise.getX(), choise.getY(), choise.getWidth(), choise.getHeight() );
+			choiseI.draw( choise.getX(), choise.getY(), widthChoise, heightChoise );
 			
 			if(insertEditor)
 				down.draw( choise.getX() + (widthChoise/2 - widthArrow/2), choise.getY() + Global.Height/200, widthArrow, heightArrow );
@@ -210,12 +210,8 @@ public class Edit
 	/**setta gli elementi base di modifica livello*/
 	public void setElements( ArrayList<Ostacolo> ostacoli, String nameLvl, int index, Sfondo sfondo, GameContainer gc ) throws SlickException
 		{
-			for(int i = 0; i < sfondi.size(); i++)
-				if(sfondi.get( i ).getName().equals( sfondo.getName() ))
-					{
-						indexSfondo = i;
-						maxHeight = sfondi.get( indexSfondo ).getMaxHeight();
-					}
+			indexSfondo = sfondo.getIndex();
+			maxHeight = sfondi.get( indexSfondo ).getMaxHeight();
 		
 			for(Ostacolo obs: ostacoli)
 				{
@@ -246,19 +242,13 @@ public class Edit
 		}
 	/**resetta indexCursor, indexCursorButton e indexCursorSfondi*/
 	public void resetIndexCursor()
-		{
-			indexCursor = -1;
-		}
+		{ indexCursor = -1; }
 	
 	/** controlla se e' stato cliccato su un qualche elemento del livello */
-	public void checkPressed( int x, int y, GameContainer gc ) throws SlickException
+	public boolean checkPressed( int x, int y, GameContainer gc ) throws SlickException
 		{
 			if(choise.contains( x, y ))
-				{
-					insertEditor = !insertEditor;
-					moveEditor = true;
-					return;
-				}
+				return true;
 		
 			//se e' stato scelto un elemento nuovo da inserire
 			if(insertEditor)
@@ -270,10 +260,7 @@ public class Edit
 									// controlla se posso inserire un nuovo player
 									if(item.getID().equals( Global.PLAYER ))
 										if(!((Player) item).isSelectable())
-											{
-												temp = null;
-												return;
-											}
+											return false;
 									temp = item.clone( gc );
 									//sto inserendo una nuova coppia di tubi
 									if(temp.getID().equals( Global.TUBO ))
@@ -285,18 +272,16 @@ public class Edit
 									tempY = y;
 									
 									resetIndexCursor();
-									insertEditor = false;
-									moveEditor = true;
 									
-									return;
+									return true;
 								}
 						}
-					for(int i = 0; i < sfondi.size(); i++)
+					for(Sfondo sfondo: sfondi)
 						{
-							if(sfondi.get( i ).contains( x, y ))
+							if(sfondo.contains( x, y ))
 								{
-									indexSfondo = i;
-									return;
+									indexSfondo = sfondo.getIndex();
+									return true;
 								}
 						}
 				}
@@ -327,10 +312,11 @@ public class Edit
 									tempX = x;
 									tempY = y;
 									
-									break;
+									return false;
 								}
 						}
 				}
+			return false;
 		}
 	
 	//resetta tutte le variabili e il vettore degli oggetti del livello
@@ -685,7 +671,11 @@ public class Edit
 							moveEditor = true;
 						}
 					else if(input.isMousePressed( Input.MOUSE_LEFT_BUTTON ))
-						checkPressed( mouseX, mouseY, gc );
+						if(checkPressed( mouseX, mouseY, gc ))
+							{
+								insertEditor = false;
+								moveEditor = true;
+							}
 					
 					else if(input.isMouseButtonDown( Input.MOUSE_LEFT_BUTTON ))
 						{
@@ -728,7 +718,7 @@ public class Edit
 			                            					        // apre la textBox
 			                            					        tBox.setOpen( true );
 		                            					        }
-								                            break;
+								                            return;
 							                            }
 				                    			}
 				                    	}

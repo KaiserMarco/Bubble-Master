@@ -96,7 +96,7 @@ public class Begin
 			
 			elements = new ArrayList<Ostacolo>();
 			
-			pang = new Sfondo( new Image( "/data/Image/pang.png" ), 0, 0, 0, 0, gc.getWidth(), gc.getHeight(), "pang" );
+			pang = new Sfondo( new Image( "/data/Image/pang.png" ), 0, 0, 0, 0, gc.getWidth(), gc.getHeight(), "pang", 0 );
 			
 			try
 				{
@@ -140,13 +140,13 @@ public class Begin
 					File levels = new File( "data/livelli" );
 					String[] files = levels.list();
 					
-					for(int j = 0; j < files.length; j++)
+					for(String file: files)
 						{				
 							//resetto il vettore e lo sfondo
 							elements.clear();
 							sfondo = null;
 							
-							document = builder.parse( new File( "data/livelli/" + files[j] ) );
+							document = builder.parse( new File( "data/livelli/" + file ) );
 	
 							NodeList ostacoli = document.getElementsByTagName( "ostacolo" );
 							NodeList back = document.getElementsByTagName( "sfondo" );
@@ -203,13 +203,13 @@ public class Begin
 							Node nodo = back.item( 0 );
 							Element img = (Element) nodo;
 							tmp = img.getAttribute( "name" );
-							sfondo = new Sfondo( new Image( "./data/Image/" + tmp + ".png" ), gc.getHeight()*100/104, gc.getWidth(), 0, 0, gc.getWidth(), gc.getHeight(), tmp );
+							sfondo = new Sfondo( new Image( "./data/Image/" + tmp + ".png" ), gc.getHeight()*100/104, gc.getWidth(), 0, 0, gc.getWidth(), gc.getHeight(), tmp, 0 );
 	
-							tmp = files[j].substring( 0, files[j].length() - 4 );
+							tmp = file.substring( 0, file.length() - 4 );
 							
 							livelli.add( new Livello( elements, sfondo, tmp ) );
 							
-							System.out.println( "livello " + files[j] + " caricato" );
+							System.out.println( "livello " + file + " caricato" );
 						}
 				}
 			catch(Exception e)
@@ -327,16 +327,14 @@ public class Begin
 				                    for(SimpleButton button: buttons)
 				                    	{
 				                    		int value = checkButton( button, input, button.getIndex() );
-				                        	boolean pressed = true;
 				                        	// se e' stato premuto il tasto
 				                    		if(value > 0)
 				                    			{
 					                                for(SimpleButton bottone: buttons)
 					                                	if(bottone.isPressed())
 					                                		bottone.setPressed();
-					                                pressed = button.checkClick( mouseX, mouseY, input );
 						                            // pressed tramite mouse || value==2 tramite tastiera
-						                            if(pressed || value == 2)
+						                            if(button.checkClick( mouseX, mouseY, input ) || value == 2)
 							                            {
 				                                			Start.begin = 0;
 						                                	indexCursor = -1;

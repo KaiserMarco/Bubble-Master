@@ -11,8 +11,10 @@ public class Sfondo
 	private float x, y, width, height;
 	//il nome dello sfondo
 	private String name;
+	//l'indice dello sfondo
+	private int index;
 	
-	public Sfondo( Image sfondo, float maxH, float maxW, int x, int y, int width, int height, String name )
+	public Sfondo( Image sfondo, float maxH, float maxW, int x, int y, int width, int height, String name, int index )
 		{
 			this.sfondo = sfondo;
 			this.maxHeight = maxH;
@@ -22,7 +24,11 @@ public class Sfondo
 			this.width = width;
 			this.height = height;
 			this.name = name;
+			this.index = index;
 		}
+	
+	public int getIndex()
+		{ return index; }
 	
 	public String getName()
 		{ return name; }
