@@ -169,7 +169,7 @@ public class Settings
 			return 0;
 		}
 	
-	private void applicaCambiamenti( Edit editor, GameContainer gc, End end, Configurations config ) throws SlickException
+	private void applicaCambiamenti( Edit editor, End end, Configurations config ) throws SlickException
 		{
 			valBright = bar.getValue();
 		
@@ -267,20 +267,18 @@ public class Settings
 		                            					}
 		                            				
 		                            				config.resetInterface( input );
+		                            				
 	                                				Start.settings = 0;
 			                            			Start.begin = 1;
 		                            			}
-		                            		else if(button.getName().equals( APPLY ))
+		                            		else if(setChanging && button.getName().equals( APPLY ))
 		                            			{
-		                            	        	if(setChanging)
-	                            						{
-		                            						applicaCambiamenti( editor, gc, end, config );
-		                            						
-		                            						config.resetInterface( input );
+                            						applicaCambiamenti( editor, end, config );
+                            						
+                            						config.resetInterface( input );
 
-		                            						Start.settings = 0;
-		                            						Start.begin = 1;
-		                            					}
+                            						Start.settings = 0;
+                            						Start.begin = 1;
 		                            			}
 		                            		
 			                                return;
