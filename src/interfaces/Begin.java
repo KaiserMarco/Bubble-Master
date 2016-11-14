@@ -324,28 +324,25 @@ public class Begin
 				                {
 				                    mouseDown = false;
 				                    
-				                    for(int i = 0; i < buttons.size(); i++)
+				                    for(SimpleButton button: buttons)
 				                    	{
-				                    		int value = checkButton( buttons.get( i ), input, i );
+				                    		int value = checkButton( button, input, button.getIndex() );
 				                        	boolean pressed = true;
 				                        	// se e' stato premuto il tasto
 				                    		if(value > 0)
 				                    			{
-					                                for(SimpleButton button: buttons)
-					                                	if(button.isPressed())
-					                                		button.setPressed();
-					                                pressed = buttons.get( i ).checkClick( mouseX, mouseY, input );
+					                                for(SimpleButton bottone: buttons)
+					                                	if(bottone.isPressed())
+					                                		bottone.setPressed();
+					                                pressed = button.checkClick( mouseX, mouseY, input );
 						                            // pressed tramite mouse || value==2 tramite tastiera
 						                            if(pressed || value == 2)
 							                            {
 				                                			Start.begin = 0;
 						                                	indexCursor = -1;
-						                            		if(buttons.get( i ).getName().equals( OPTIONS ))
-						                            			{
-							                            			Start.settings = 1;
-							                            			Start.chooseLevel = 0;
-						                            			}
-						                            		else if(buttons.get( i ).getName().equals( LEVELS ))
+						                            		if(button.getName().equals( OPTIONS ))
+						                            			Start.settings = 1;
+						                            		else if(button.getName().equals( LEVELS ))
 						                            			{
 						                                        	Start.chooseLevel = 1;
 						                                        	if(Begin.livelli.size() > 0)

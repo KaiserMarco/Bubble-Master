@@ -45,7 +45,7 @@ public class Settings
 	
 	private static final String BACK = "INDIETRO", APPLY = "APPLICA";
 	
-	private int dropRate;
+	private double dropRate;
 	
 	private Configurations config;
 	
@@ -94,7 +94,7 @@ public class Settings
 			noHeart = new Image( "./data/Image/noHeart.png" );
 			widthH = Global.Width/40; heightH = Global.Height/30;
 			
-			dropRate = (int)(Global.dropRate * 100);
+			dropRate = Global.dropRate * 100;
 			
 			xRes = Global.Width*10/26;
 			bar = new SlideBar( xRes, yStart + 2*sum, "", 255.f - Global.brightness, 150.f, 255.f );
@@ -115,8 +115,8 @@ public class Settings
 			
 			sfondo.draw( 0, 0, Global.Width, Global.Height );
 		
-			for(int i = 0; i < buttons.size(); i++)
-				buttons.get( i ).draw( g );
+			for(SimpleButton button: buttons)
+				button.draw( g );
 		
 			g.setColor( Color.red );
 			g.drawString( lifes, Global.Width/5, leftLife.getY() );
@@ -182,7 +182,7 @@ public class Settings
 								((Player) elem).setLifes( vite );
 				}
 			
-			Global.dropRate = (double) dropRate/100;
+			Global.dropRate = dropRate/100;
 			buttons.get( 1 ).setColor( Color.gray );
 			
 			if(config.checkDifference())
