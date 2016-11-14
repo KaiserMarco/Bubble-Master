@@ -86,7 +86,7 @@ public class Configurations
 			maps = Global.getMapButton();
 		}
 	
-	public void resetInterface( Input input )
+	public void resetInterface()
 		{
 			numPlayer = 0;
 			resetKeys( 0 );

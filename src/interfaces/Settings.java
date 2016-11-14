@@ -169,7 +169,7 @@ public class Settings
 			return 0;
 		}
 	
-	private void applicaCambiamenti( Edit editor, End end, Configurations config ) throws SlickException
+	private void applicaCambiamenti( Configurations config ) throws SlickException
 		{
 			valBright = bar.getValue();
 		
@@ -178,7 +178,7 @@ public class Settings
 					Global.lifes = vite;
 					for(Livello levels: Begin.livelli)
 						for(Ostacolo elem: levels.getElements())
-							if(elem.getID().startsWith( "player" ))
+							if(elem.getID().startsWith( Global.PLAYER ))
 								((Player) elem).setLifes( vite );
 				}
 			
@@ -203,7 +203,21 @@ public class Settings
 			return Color.gray;
 		}
 	
-	public void update( GameContainer gc, Edit editor, End end, Input input ) throws SlickException
+	public void resetStatus()
+		{
+			if(valBright != bar.getValue())
+				{
+					bar.setX( valBright );
+					Global.brightness = 255.f - valBright;
+				}
+			
+			config.resetInterface();
+			
+			Start.settings = 0;
+			Start.begin = 1;
+		}
+	
+	public void update( GameContainer gc, Input input ) throws SlickException
 		{
 			mouseX = input.getMouseX();
 			mouseY = input.getMouseY();
@@ -211,17 +225,7 @@ public class Settings
 			buttons.get( 1 ).setColor( checkDifference() );
 			
 			if(input.isKeyPressed( Input.KEY_ESCAPE ) || input.isKeyPressed( Input.KEY_BACK ))
-				{
-					if(valBright != bar.getValue())
-						{
-							bar.setX( valBright );
-							Global.brightness = 255.f - valBright;
-						}
-
-					config.resetInterface( input );
-					Start.settings = 0;
-					Start.begin = 1;
-				}
+				resetStatus();
 			
 			if(input.isMouseButtonDown( Input.MOUSE_LEFT_BUTTON ))
 				{
@@ -259,23 +263,12 @@ public class Settings
 			                                		bottone.setPressed();
 			                               
 			                                if(button.getName().equals( BACK ))
-		                            			{
-		                            				if(valBright != bar.getValue())
-		                            					{
-		                            						bar.setX( valBright );
-		                            						Global.brightness = 255.f - valBright;
-		                            					}
-		                            				
-		                            				config.resetInterface( input );
-		                            				
-	                                				Start.settings = 0;
-			                            			Start.begin = 1;
-		                            			}
+		                            			resetStatus();
 		                            		else if(setChanging && button.getName().equals( APPLY ))
 		                            			{
-                            						applicaCambiamenti( editor, end, config );
+                            						applicaCambiamenti( config );
                             						
-                            						config.resetInterface( input );
+                            						config.resetInterface();
 
                             						Start.settings = 0;
                             						Start.begin = 1;
