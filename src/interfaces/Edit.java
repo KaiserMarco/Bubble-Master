@@ -673,7 +673,7 @@ public class Edit
 					else if(input.isMousePressed( Input.MOUSE_LEFT_BUTTON ))
 						if(checkPressed( mouseX, mouseY, gc ))
 							{
-								insertEditor = false;
+								insertEditor = !insertEditor;
 								moveEditor = true;
 							}
 					
