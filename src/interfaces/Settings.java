@@ -203,6 +203,7 @@ public class Settings
 			return Color.gray;
 		}
 	
+	/** riporta i valori all'ultimo stato salvato */
 	public void resetStatus()
 		{
 			if(valBright != bar.getValue())
