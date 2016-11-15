@@ -41,7 +41,7 @@ public class Player extends Ostacolo
 	
 	private int numPlayer;
 	
-	private int maxHeight;
+	private float maxHeight = Global.maxHeight;
 	
 	private int maxJump = 0, tempJump;
 
@@ -466,7 +466,6 @@ public class Player extends Ostacolo
 	
 	public void setMaxHeight( double val )
 		{
-			maxHeight = (int) val;
 			coolDown.setY( maxHeight );
 			coolDown.setWidth( Global.Height - maxHeight );
 			coolDown.setHeight( Global.Height - maxHeight );
@@ -681,21 +680,24 @@ public class Player extends Ostacolo
 			if(isShooting && !checkFire())
 				{ isShooting = false; }
 			
-			if(maxJump == 1)
+			// TODO SE USO TEMPJUMP IL SALTO SMATTA UN POCHINO...MAH
+			if(tempJump > 0)
 				setXY( 0, -move + 0.2f*(40 - tempJump--), MOVE );
 			else
 				{
 					jump = true;
 					movingJ = true;
-					setXY( 0, move + 0.1f*tempJump++, MOVE );
+					setXY( 0, move + Math.abs( 0.1f*(tempJump--) ), MOVE );
+					System.out.println( "tempJump = " + tempJump );
+					System.out.println( "move = " + (move + (-0.1f)*tempJump) );
 				}
 			
 			/*controlla se non sono stati superati i limiti della schermata*/
-			if(area.getX() + width > Global.Width)
+			if(area.getMaxX() > Global.Width)
 				setXY( Global.Width - width, area.getY(), RESTORE );
 			else if(area.getX() < 0)
 				setXY( 0, area.getY(), RESTORE );
-			if(area.getY() + height > maxHeight)
+			if(area.getMaxY() > Global.maxHeight)
 				{
 					maxJump = 0;
 					tempJump = 0;
@@ -718,7 +720,7 @@ public class Player extends Ostacolo
 						{
 							if(area.intersects( ost.component( Global.RECT ) ))
 								{
-									if(area.intersects( ost.component( Global.LATOSU ) ) && (previousArea.getY() + height <= ost.getY()))
+									if(area.intersects( ost.component( Global.LATOSU ) ) && previousArea.getMaxY() <= ost.getY())
 										{
 											maxJump = 0;
 											tempJump = 0;
@@ -726,7 +728,7 @@ public class Player extends Ostacolo
 											movingJ = false;
 											setXY( area.getX(), ost.getY() - height, RESTORE );
 										}										
-									else if(area.intersects( ost.component( Global.LATOGIU ) ) && (previousArea.getY() > ost.getMaxY()))
+									else if(area.intersects( ost.component( Global.LATOGIU ) ) && previousArea.getY() > ost.getMaxY())
 										{
 											maxJump = 0;
 											tempJump = 0;

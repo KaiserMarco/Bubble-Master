@@ -55,6 +55,9 @@ public class Global
 	/** stringhe di movimento oggetti */
 	public static final String MOVE = "move", RESTORE = "restore";
 	
+	/** l'altezza del pavimento dei livelli */
+	public static final float maxHeight = Global.Height*100/104;
+	
 	/** hashMap contente i vettori di configurazione tasti */
 	public static ArrayList<Map<String, Integer>> mapButtons;
 	public static Map<String, Integer> play1 = new HashMap<>(), play2 = new HashMap<>();
