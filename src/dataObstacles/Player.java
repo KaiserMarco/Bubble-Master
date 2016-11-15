@@ -692,7 +692,7 @@ public class Player extends Ostacolo
 			
 			/*controlla se non sono stati superati i limiti della schermata*/
 			if(area.getX() + width > Global.Width)
-				setXY( gc.getWidth() - width, area.getY(), RESTORE );
+				setXY( Global.Width - width, area.getY(), RESTORE );
 			else if(area.getX() < 0)
 				setXY( 0, area.getY(), RESTORE );
 			if(area.getY() + height > maxHeight)
@@ -726,7 +726,7 @@ public class Player extends Ostacolo
 											movingJ = false;
 											setXY( area.getX(), ost.getY() - height, RESTORE );
 										}										
-									else if(area.intersects( ost.component( Global.LATOGIU ) ) && (previousArea.getY() > ost.getY() + ost.getHeight()))
+									else if(area.intersects( ost.component( Global.LATOGIU ) ) && (previousArea.getY() > ost.getMaxY()))
 										{
 											maxJump = 0;
 											tempJump = 0;

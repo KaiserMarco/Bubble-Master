@@ -677,7 +677,7 @@ public class Edit
 								moveEditor = true;
 							}
 					
-					else if(input.isMouseButtonDown( Input.MOUSE_LEFT_BUTTON ))
+					if(input.isMouseButtonDown( Input.MOUSE_LEFT_BUTTON ))
 						{
 			                if(!mouseDown)
 				                {
@@ -713,6 +713,7 @@ public class Edit
 							                            		resetStatus();
 						                            		else if(button.getName().equals( SAVE ))
 						                            			{
+						                            				System.out.println( "sono qui" );
 						                            				insertEditor = false;
 							                            				
 			                            					        // apre la textBox
