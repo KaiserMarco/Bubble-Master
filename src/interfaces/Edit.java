@@ -97,9 +97,6 @@ public class Edit
 	// determina l'altezza massima inseribile dell'oggetto
 	private float maxHeight;
 	
-	// determina se l'oggetto sta collidendo con altri oggetti
-	private boolean collide;
-	
 	// la posizione del mouse
 	private int mouseX, mouseY;
 	
@@ -506,38 +503,44 @@ public class Edit
 		}
 	
 	/** controlla la collisione fra i vari oggetti */
-	private boolean checkCollision( Ostacolo ost )
+	private boolean checkCollision()
 		{
-			Shape areaTemp = temp.component( Global.RECT );
-			Shape areaObs = ost.component( Global.RECT );
-		
-		    if(temp.getID().equals( Global.PLAYER ))
-		        {						    	
-		            if(ost.getID().equals( Global.BOLLA ))
-		                {
-			                if(areaTemp.intersects( areaObs ))
-			                    return true;
-		                }
-		            else if(ost.getID().equals( Global.TUBO ))
-		            		{
-		            			Shape areaBase = ((Tubo) ost).getBase().getArea();
-		            			Shape areaEnter = ((Tubo) ost).getEnter().getArea();
-		            			
-		            			if(areaTemp.intersects( areaEnter ))
-	            					if(((Tubo) ost).getDirection().equals( "sx" ) || ((Tubo) ost).getDirection().equals( "dx" ))
-	            						return true;
-		            				
-		            			if(areaTemp.intersects( areaBase ))
-	            					if(areaTemp.intersects( areaEnter ) || temp.getMaxY() > areaBase.getY())
-	            						return true;
-	            				}
-		            else if(areaTemp.intersects( ost.component( Global.LATOGIU ) ))
-                        return true;
-		        }
-		    else if(areaTemp.intersects( ost.component( Global.RECT ) ))
-	    		return true;
+			for(Ostacolo ost: ostacoli)
+				{
+					if(!(ost.getID().equals( Global.BASE ) && ost.getID().equals( Global.ENTER )))
+						{
+							Shape areaTemp = temp.component( Global.RECT );
+							Shape areaObs = ost.component( Global.RECT );
+						
+						    if(temp.getID().equals( Global.PLAYER ))
+						        {						    	
+						            if(ost.getID().equals( Global.BOLLA ))
+						                {
+							                if(areaTemp.intersects( areaObs ))
+							                    return false;
+						                }
+						            else if(ost.getID().equals( Global.TUBO ))
+						            		{
+						            			Shape areaBase = ((Tubo) ost).getBase().getArea();
+						            			Shape areaEnter = ((Tubo) ost).getEnter().getArea();
+						            			
+						            			if(areaTemp.intersects( areaEnter ))
+					            					if(((Tubo) ost).getDirection().equals( "sx" ) || ((Tubo) ost).getDirection().equals( "dx" ))
+					            						return false;
+						            				
+						            			if(areaTemp.intersects( areaBase ))
+					            					if(areaTemp.intersects( areaEnter ) || temp.getMaxY() > areaBase.getY())
+					            						return false;
+					            				}
+						            else if(areaTemp.intersects( ost.component( Global.LATOGIU ) ))
+				                        return false;
+						        }
+						    else if(areaTemp.intersects( ost.component( Global.RECT ) ))
+					    		return false;
+						}
+				}
 		    
-		    return false;
+		    return true;
 		}
 	
 	public void update( GameContainer gc, int delta, Input input )throws SlickException
@@ -555,19 +558,11 @@ public class Edit
 			// se HO un elemento da inserire
 			if(temp != null)
 				{
-					collide = false;
 					// spostamento dell'oggetto in relazione alla posizione del mouse
 					temp.setXY( mouseX - tempX, mouseY - tempY, Global.MOVE );
 
-					temp.setInsert( true, false );
-					for(Ostacolo ost: ostacoli)
-						if(!(ost.getID().equals( Global.BASE ) && ost.getID().equals( Global.ENTER )))
-							if(checkCollision( ost ))
-								{
-									collide = true;
-									temp.setInsert( false, false );
-									break;
-								}
+					// controlla la collisione con gli oggetti gia' inseriti nel livello
+					temp.setInsert( checkCollision(), false );
 
 					if(!temp.getID().equals( Global.BOLLA ) && !temp.getID().equals( Global.PLAYER ))
 					    if(input.isKeyPressed( Input.KEY_SPACE ))
@@ -632,7 +627,7 @@ public class Edit
 							temp = null;
 						}
 					/*inserimento oggetto nel gioco*/
-					else if(!collide && input.isMousePressed( Input.MOUSE_LEFT_BUTTON ))
+					else if(temp.getInsert() && input.isMousePressed( Input.MOUSE_LEFT_BUTTON ))
 						{
 							temp.setInsert( true, true );
 							temp.setSpigoli();

@@ -24,6 +24,7 @@ public abstract class Ostacolo
 	public abstract float getY();
 	
 	public abstract void setInsert( boolean insert, boolean change );
+	public abstract boolean getInsert();
 	
 	public abstract Ostacolo clone( GameContainer gc );
 	

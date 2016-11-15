@@ -591,4 +591,7 @@ public class Bubble extends Ostacolo
 
 	public float getMaxY()
 		{ return ostr.getY() + 2*ray; }
+
+	public boolean getInsert()
+		{ return insert; }
 }

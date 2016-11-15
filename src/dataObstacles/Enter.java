@@ -50,7 +50,7 @@ public class Enter extends Ostacolo
 		}
 
 	public void draw(Graphics g) throws SlickException
-		{ /*g.draw( ostr );*/ }
+		{ g.fill( ostr ); }
 	
 	public void setIndexTube( int val )
 		{ indexTube = val; }
@@ -178,5 +178,8 @@ public class Enter extends Ostacolo
 		{}
 
 	public boolean contains( Shape shape )
+		{ return false; }
+
+	public boolean getInsert()
 		{ return false; }
 }

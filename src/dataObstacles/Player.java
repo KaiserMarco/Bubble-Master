@@ -499,7 +499,7 @@ public class Player extends Ostacolo
 	public Shape component( String part )
 		{ return area; }
 
-	public void setInsert(boolean insert, boolean change)
+	public void setInsert( boolean insert, boolean change )
 		{
 			checkInsert = !change;
 			this.insert = insert;
@@ -847,4 +847,7 @@ public class Player extends Ostacolo
 
 	public float getMaxY()
 		{ return area.getMaxY(); }
+
+	public boolean getInsert()
+		{ return insert; }
 }

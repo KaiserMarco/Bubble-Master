@@ -269,4 +269,7 @@ public class Sbarra extends Ostacolo
 
 	public float getMaxY()
 		{ return ostr.getMaxY(); }
+
+	public boolean getInsert()
+		{ return insert; }
 }
