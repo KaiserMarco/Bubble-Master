@@ -224,16 +224,14 @@ public class ChooseLevel
 		                    for(SimpleButton button: buttons)
 		                    	{
 		                    		int value = checkButton( button, input, button.getIndex() );
-		                        	boolean pressed = true;
 		                        	// se e' stato premuto il tasto
 		                    		if(value > 0)
 		                    			{
 			                                for(SimpleButton bottone: buttons)
 			                                	if(bottone.isPressed())
 			                                		bottone.setPressed();
-			                                pressed = button.checkClick( input.getMouseX(), input.getMouseY(), input );
 				                            // pressed tramite mouse || value==2 tramite tastiera
-				                            if(pressed || value == 2)
+				                            if(button.checkClick( input.getMouseX(), input.getMouseY(), input ) || value == 2)
 					                            {
 				                            		if(button.getName().equals( BACK ))
 				                            			{

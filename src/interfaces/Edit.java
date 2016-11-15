@@ -486,7 +486,7 @@ public class Edit
 		{
 			if(button.isPressed())
 				return 1;
-			else if(indexCursor >= 0 && indexCursor == i)
+			else if(indexCursor == i)
 				if(input.isKeyPressed( Input.KEY_ENTER ))
 					return 2;
 		
@@ -689,42 +689,33 @@ public class Edit
 			                            		button.setPressed();
 				                }
 			            }
-		            else
-			            {
-			                if(mouseDown || checkKeyPressed( input ))
-				                {
-				                    mouseDown = false;
-				                    
+		            else if(mouseDown || checkKeyPressed( input ))
+		                {
+		                    mouseDown = false;
+		                    if(!insertEditor)
+		                    	{
 				                    for(SimpleButton button: buttons)
 				                    	{
 				                    		int value = checkButton( button, input, button.getIndex() );
-				                        	boolean pressed = true;
 				                        	// se e' stato premuto il tasto
 				                    		if(value > 0)
 				                    			{
 					                                for(SimpleButton bottone: buttons)
 					                                	if(bottone.isPressed())
 					                                		bottone.setPressed();
-					                                pressed = button.checkClick( mouseX, mouseY, input );
 						                            // pressed tramite mouse || value==2 tramite tastiera
-						                            if(pressed || value == 2)
+						                            if(button.checkClick( mouseX, mouseY, input ) || value == 2)
 							                            {
 						                            		if(button.getName().equals( BACK ))
 							                            		resetStatus();
 						                            		else if(button.getName().equals( SAVE ))
-						                            			{
-						                            				System.out.println( "sono qui" );
-						                            				insertEditor = false;
-							                            				
-			                            					        // apre la textBox
-			                            					        tBox.setOpen( true );
-		                            					        }
+		                            					        tBox.setOpen( true );
 								                            return;
 							                            }
 				                    			}
 				                    	}
-				                }
-			            }
+		                    	}
+		                }
 				}
 			
 			// gestione della textbox per il nome del livello

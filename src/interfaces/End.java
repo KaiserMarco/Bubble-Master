@@ -198,24 +198,21 @@ public class End
 		                {
 		                    mouseDown = false;
 		                    
-		                    for(int i = 0; i < buttons.size(); i++)
+		                    for(SimpleButton button: buttons)
 		                    	{
-		                    		int value = checkButton( buttons.get( i ), input, i );
-		                        	boolean pressed = true;
+		                    		int value = checkButton( button, input, button.getIndex() );
 		                        	// se e' stato premuto il tasto
 		                    		if(value > 0)
 		                    			{
-			                                buttons.get( i ).setPressed();
-			                                pressed = buttons.get( i ).checkClick( input.getMouseX(), input.getMouseY(), input );
 				                            // pressed tramite mouse || value==2 tramite tastiera
-				                            if(pressed || value == 2)
+				                            if(button.checkClick( input.getMouseX(), input.getMouseY(), input ) || value == 2)
 					                            {				                    			
-					                    			for(SimpleButton button : buttons)
-					                    				if(button.isPressed())
-					                    					button.setPressed();
+					                    			for(SimpleButton bottone : buttons)
+					                    				if(bottone.isPressed())
+					                    					bottone.setPressed();
 				                                	Start.endGame = 0;
 					                                indexCursor = -1;
-				                            		if(buttons.get( i ).getName().equals( REPLAY ))
+				                            		if(button.getName().equals( REPLAY ))
 					                            		{
 							                                Start.ig.addOstacoli( Begin.livelli.get( Start.cl.getIndexLevel() ).getElements(), Begin.livelli.get( Start.cl.getIndexLevel() ).getImage(), gc );
 							                                Global.drawCountdown = true;
@@ -223,9 +220,9 @@ public class End
 							                                Global.inGame = true;
 							                                Start.startGame = 1;
 					                            		}
-				                            		else if(buttons.get( i ).getName().equals( HOME ))
+				                            		else if(button.getName().equals( HOME ))
 				                            			returnToBegin();
-				                            		else if(buttons.get( i ).getName().equals( LEVELS ))
+				                            		else if(button.getName().equals( LEVELS ))
 				                                        Start.chooseLevel = 1;
 				                            		
 				                            		sfondo = null;

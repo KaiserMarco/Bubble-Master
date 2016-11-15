@@ -92,6 +92,8 @@ public class Tubo extends Ostacolo{
                         immagine.draw( ostr.getX(), ostr.getY(), width, height, cr);
                     else
                         immagine.draw( ostr.getX(), ostr.getY(), width, height, cg);
+            //enter.draw( g );
+            //base.draw( g );
 		}
 	
 	public int getIndexBase()
