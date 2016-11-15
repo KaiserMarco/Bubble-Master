@@ -585,19 +585,20 @@ public class Player extends Ostacolo
 			/*ZONA CONTROLLO COLLISIONE PERSONAGGIO - POWERUP*/
 			for(int i = 0; i < InGame.powerUp.size(); i++)
 				{
-					if(area.intersects( InGame.powerUp.get( i ).getArea() ))
+					PowerUp powerUp = InGame.powerUp.get( i );
+					if(area.intersects( powerUp.getArea() ))
 						{							
-							if(InGame.powerUp.get( i ).getID().equals( COIN ))
+							if(powerUp.getID().equals( COIN ))
 								points = points + 500;
-							else if(InGame.powerUp.get( i ).getID().equals( LIFE ))
+							else if(powerUp.getID().equals( LIFE ))
 								lifes = Math.min( ++lifes, Global.lifes );
-							else if(InGame.powerUp.get( i ).getID().equals( INVINCIBLE ))
+							else if(powerUp.getID().equals( INVINCIBLE ))
 								{
 									immortal = true;
 									invincible = false;
 									currentTimeImm = gc.getTime();
 								}
-							else if(InGame.powerUp.get( i ).getID().equals( AMMO ))
+							else if(powerUp.getID().equals( AMMO ))
 								{
 									if(currAmmo < maxAmmo)
 										{
@@ -610,7 +611,7 @@ public class Player extends Ostacolo
 											tickCd = coolDown.getHeight()/index;
 										}
 								}							
-							InGame.powerUp.remove( InGame.powerUp.get( i ) );
+							InGame.powerUp.remove( powerUp );
 						}
 				}
 			
@@ -639,7 +640,7 @@ public class Player extends Ostacolo
 					setXY( -move, 0, MOVE );
 				}
 			/*ZONA SPARO*/
-			if(input.isKeyDown( Global.mapButtons.get( numPlayer-1 ).get( Global.SPARO ) ) && !isShooting)
+			if(!isShooting && input.isKeyPressed( Global.mapButtons.get( numPlayer-1 ).get( Global.SPARO ) ))
 	            {					
 					float space = widthI/(fire.size() + 1);
 
