@@ -131,6 +131,8 @@ public class Player extends Ostacolo
 	
 	private boolean selectable;
 	
+	private final float move = Global.Width/400;
+	
 	public Player( float x, float y, int numPlayer, GameContainer gc, Color color ) throws SlickException
 		{
 			super( "player" );
@@ -526,7 +528,7 @@ public class Player extends Ostacolo
 	
 	public void update( GameContainer gc, int delta, Input input ) throws SlickException
 		{
-			float move = Global.Width/400;
+			moving = false;
 			
 			if(!isShooting && currAmmo == 0)
 				if(fire.size() > 1)
@@ -545,10 +547,11 @@ public class Player extends Ostacolo
 				}
 			
 			if(immortal)
-				if((gc.getTime() - currentTimeImm) >= timerImm)
-					immortal = false;
-			
-			if(invincible)
+				{
+					if((gc.getTime() - currentTimeImm) >= timerImm)
+						immortal = false;
+				}			
+			else if(invincible)
 				{
 					currentTimeInv = currentTimeInv + delta;
 					if(currentTimeInv >= timerInv)						
@@ -556,35 +559,29 @@ public class Player extends Ostacolo
 							invincible = false;
 						else
 							currentTimeInv = 0;
-				}
-			
-			moving = false;
-			
+				}			
 			/*ZONA CONTROLLO COLLISIONE PERSONAGGIO - SFERE*/
-			if(!invincible && !immortal)
+			else for(Ostacolo ost: InGame.ostacoli)
 				{
-					for(int i = 0; i < InGame.ostacoli.size(); i++)
-						{
-							if(InGame.ostacoli.get( i ).getID().equals( Global.BOLLA ))
-								if(area.intersects( InGame.ostacoli.get( i ).component( Global.RECT ) ))
+					if(ost.getID().equals( Global.BOLLA ))
+						if(area.intersects( ost.component( Global.RECT ) ))
+							{
+								if(--lifes == 0)
 									{
-										if(--lifes == 0)
-											{
-												drawLifes = false;
-												drawPoints = false;
-												Global.inGame = false;
-											}
-										else
-											{
-												points = points - 100;
-												invincible = true;
-												currentTimeInv = 0;
-												currentTickInv = tickInv;
-											}
+										drawLifes = false;
+										drawPoints = false;
+										Global.inGame = false;
 									}
-						}
+								else
+									{
+										points = points - 100;
+										invincible = true;
+										currentTimeInv = 0;
+										currentTickInv = tickInv;
+									}
+							}
 				}
-			
+		
 			/*ZONA CONTROLLO COLLISIONE PERSONAGGIO - POWERUP*/
 			for(int i = 0; i < InGame.powerUp.size(); i++)
 				{
@@ -597,6 +594,7 @@ public class Player extends Ostacolo
 							else if(InGame.powerUp.get( i ).getID().equals( INVINCIBLE ))
 								{
 									immortal = true;
+									invincible = false;
 									currentTimeImm = gc.getTime();
 								}
 							else if(InGame.powerUp.get( i ).getID().equals( AMMO ))
