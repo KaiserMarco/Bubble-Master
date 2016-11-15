@@ -266,4 +266,7 @@ public class Sbarra extends Ostacolo
 		
 			return false;
 		}
+
+	public float getMaxY()
+		{ return ostr.getMaxY(); }
 }

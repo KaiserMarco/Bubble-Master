@@ -387,4 +387,7 @@ public class Tubo extends Ostacolo{
 		
 			return false;
 		}
+
+	public float getMaxY()
+		{ return ostr.getMaxY(); }
 }

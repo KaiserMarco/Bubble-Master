@@ -18,7 +18,7 @@ import dataPowers.Life;
 
 public class Shot 
 {
-	private int posX, posY, startY;
+	private float posX, posY, startY;
 	
 	private int widthS, heightS;
 	private int widthC, heightC;
@@ -61,7 +61,7 @@ public class Shot
 			hit = false;
 		}
 	
-	public void setXY( int x, int y )
+	public void setXY( float x, float y )
 		{
 			sparo.clear();
 			sparo.add( shot[0] );
@@ -72,7 +72,7 @@ public class Shot
 
 	public void draw() throws SlickException
 		{
-			int saveY = startY;
+			float saveY = startY;
 			for(Image fuoco: sparo)
 				{
 					startY = startY - heightC;

@@ -647,7 +647,7 @@ public class Player extends Ostacolo
 
 					for(int i = 0; i < fire.size(); i++)
 						{
-							fire.get( i ).setXY( (int) (xPlayer + space*(i + 1) - fire.get( i ).getWidth()/2), (int) (yPlayer + height - 1) );
+							fire.get( i ).setXY( xPlayer + space*(i + 1) - fire.get( i ).getWidth()/2, yPlayer + height - 1 );
 							fire.get( i ).setShot( true );
 			                shots++;
 						}
@@ -692,24 +692,24 @@ public class Player extends Ostacolo
 				}
 			
 			/*controlla se non sono stati superati i limiti della schermata*/
-			if(area.getX() + width > gc.getWidth())
-				setXY( gc.getWidth() - width, (int) area.getY(), RESTORE );
+			if(area.getX() + width > Global.Width)
+				setXY( gc.getWidth() - width, area.getY(), RESTORE );
 			else if(area.getX() < 0)
-				setXY( 0, (int) area.getY(), RESTORE );
+				setXY( 0, area.getY(), RESTORE );
 			if(area.getY() + height > maxHeight)
 				{
 					maxJump = 0;
 					tempJump = 0;
 					jump = false;
 					movingJ = false;
-					setXY( (int) area.getX(), maxHeight - height, RESTORE );
+					setXY( area.getX(), maxHeight - height, RESTORE );
 				}
 			else if(area.getY() < 0)
 				{
 					maxJump = 0;
 					tempJump = 0;
 					animTime = animTimeJump/5;
-					setXY( (int) area.getX(), 0, RESTORE );
+					setXY( area.getX(), 0, RESTORE );
 				}
 		
 			/*controlla la collisione con gli ostacoli del gioco (tranne le sfere)*/
@@ -725,19 +725,19 @@ public class Player extends Ostacolo
 											tempJump = 0;
 											jump = false;
 											movingJ = false;
-											setXY( (int) area.getX(), (int) (ost.getY() - height), RESTORE );
+											setXY( area.getX(), ost.getY() - height, RESTORE );
 										}										
 									else if(area.intersects( ost.component( Global.LATOGIU ) ) && (previousArea.getY() > ost.getY() + ost.getHeight()))
 										{
 											maxJump = 0;
 											tempJump = 0;
 											animTime = animTimeJump/5;
-											setXY( (int) area.getX(), (int) (ost.getY() + ost.getHeight()), RESTORE );
+											setXY( area.getX(), ost.getMaxY(), RESTORE );
 										}
-									else if(area.intersects( ost.component( Global.LATODX ) ))
-										setXY( (int) (ost.getX() + ost.getWidth()) + 1, (int) area.getY(), RESTORE );
-									else if(area.intersects( ost.component( Global.LATOSX ) ))
-										setXY( (int) (ost.getX() - width) - 1, (int) area.getY(), RESTORE );
+									else if(body.intersects( ost.component( Global.LATODX ) ))
+										setXY( ost.getMaxX(), area.getY(), RESTORE );
+									else if(body.intersects( ost.component( Global.LATOSX ) ))
+										setXY( ost.getX() - width, area.getY(), RESTORE );
 								}
 						}
 				}
@@ -835,4 +835,7 @@ public class Player extends Ostacolo
 		
 			return false;
 		}
+
+	public float getMaxY()
+		{ return area.getMaxY(); }
 }

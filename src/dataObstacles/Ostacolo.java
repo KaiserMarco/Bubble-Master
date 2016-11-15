@@ -40,6 +40,7 @@ public abstract class Ostacolo
 	public abstract Shape component( String part );
 	
 	public abstract float getMaxX();
+	public abstract float getMaxY();
 	
 	public abstract void setWidth( float val );
 	public abstract float getWidth();
