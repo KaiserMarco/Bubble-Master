@@ -681,16 +681,13 @@ public class Player extends Ostacolo
 				{ isShooting = false; }
 			
 			// TODO SE USO TEMPJUMP IL SALTO SMATTA UN POCHINO...MAH
-			if(tempJump > 0)
+			if(maxJump > 0)
 				setXY( 0, -move + 0.2f*(40 - tempJump--), MOVE );
 			else
 				{
 					jump = true;
 					movingJ = true;
-					setXY( 0, move + Math.abs( 0.1f*(tempJump) ), MOVE );
-					System.out.println( "tempJump = " + tempJump );
-					System.out.println( "move = " + (move + (-0.1f)*tempJump) );
-					tempJump--;
+					setXY( 0, move + Math.abs( 0.1f*tempJump-- ), MOVE );
 				}
 			
 			/*controlla se non sono stati superati i limiti della schermata*/
