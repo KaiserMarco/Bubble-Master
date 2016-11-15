@@ -367,6 +367,7 @@ public class Player extends Ostacolo
 					if(drawPoints)
 						g.drawString( "SCORE : " + points, pos + Global.Width/80, Global.Height/30);
 				}
+			//g.fill( area );
 		}
 	
 	public void setSelectable( boolean val )
@@ -703,7 +704,7 @@ public class Player extends Ostacolo
 				{
 					jump = true;
 					movingJ = true;
-					setXY( 0, move + Math.abs( 0.1f*tempJump-- ), MOVE );
+					setXY( 0, move + Math.abs( 0.1f * tempJump-- ), MOVE );
 				}
 			
 			/*controlla se non sono stati superati i limiti della schermata*/

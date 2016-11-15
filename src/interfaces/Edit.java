@@ -508,28 +508,33 @@ public class Edit
 	/** controlla la collisione fra i vari oggetti */
 	private boolean checkCollision( Ostacolo ost )
 		{
-			Shape areaPlayer = temp.component( Global.RECT );
+			Shape areaTemp = temp.component( Global.RECT );
 			Shape areaObs = ost.component( Global.RECT );
 		
 		    if(temp.getID().equals( Global.PLAYER ))
 		        {						    	
 		            if(ost.getID().equals( Global.BOLLA ))
 		                {
-			                if(areaPlayer.intersects( areaObs ))
+			                if(areaTemp.intersects( areaObs ))
 			                    return true;
 		                }
 		            else if(ost.getID().equals( Global.TUBO ))
 		            		{
 		            			Shape areaBase = ((Tubo) ost).getBase().getArea();
 		            			Shape areaEnter = ((Tubo) ost).getEnter().getArea();
-		            			if(areaPlayer.intersects( areaBase ))
-		            				if(areaPlayer.intersects( areaEnter ) || temp.getY() + temp.getHeight() > areaBase.getY())
-		            					return true;
-		            		}
-		            else if(temp.component( Global.RECT ).intersects( ost.component( Global.LATOGIU ) ))
+		            			
+		            			if(areaTemp.intersects( areaEnter ))
+	            					if(((Tubo) ost).getDirection().equals( "sx" ) || ((Tubo) ost).getDirection().equals( "dx" ))
+	            						return true;
+		            				
+		            			if(areaTemp.intersects( areaBase ))
+	            					if(areaTemp.intersects( areaEnter ) || temp.getMaxY() > areaBase.getY())
+	            						return true;
+	            				}
+		            else if(areaTemp.intersects( ost.component( Global.LATOGIU ) ))
                         return true;
 		        }
-		    else if(temp.component( Global.RECT ).intersects( ost.component( Global.RECT ) ))
+		    else if(areaTemp.intersects( ost.component( Global.RECT ) ))
 	    		return true;
 		    
 		    return false;
