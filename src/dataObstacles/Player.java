@@ -133,6 +133,8 @@ public class Player extends Ostacolo
 	
 	private final float move = Global.Width/400;
 	
+	private boolean check;
+	
 	public Player( float x, float y, int numPlayer, GameContainer gc, Color color ) throws SlickException
 		{
 			super( "player" );
@@ -525,6 +527,21 @@ public class Player extends Ostacolo
 	public int getHits()
 		{ return hits; }
 	
+	/** controlla se tutte le sfere sono state distrutte */
+	public void checkSpheres()
+		{
+			check = true;
+			for(Ostacolo ost: InGame.ostacoli)
+				if(ost.getID().equals( Global.BOLLA ))
+					{
+						check = false;
+						return;
+					}
+			
+			if(check)
+				Global.inGame = false;
+		}
+	
 	public void update( GameContainer gc, int delta, Input input ) throws SlickException
 		{
 			moving = false;
@@ -679,8 +696,7 @@ public class Player extends Ostacolo
 				}
 			if(isShooting && !checkFire())
 				{ isShooting = false; }
-			
-			// TODO SE USO TEMPJUMP IL SALTO SMATTA UN POCHINO...MAH
+
 			if(maxJump > 0)
 				setXY( 0, -move + 0.2f*(40 - tempJump--), MOVE );
 			else
@@ -741,13 +757,7 @@ public class Player extends Ostacolo
 				}
 			
 			/*controlla se sono state distrutte tutte le sfere*/
-			boolean check = true;
-			for(Ostacolo ost: InGame.ostacoli)
-				if(ost.getID().equals( Global.BOLLA ))
-					check = false;
-			
-			if(check)
-				Global.inGame = false;
+			checkSpheres();
 			
 			/*gestione dell'animazione*/
 			if(moving || jump)
