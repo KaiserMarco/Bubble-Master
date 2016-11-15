@@ -236,12 +236,12 @@ public class Configurations
 			return false;
 		}
 	
-	public void update( Input input, int mouseX, int mouseY )
+	public boolean update( Input input, int mouseX, int mouseY )
 		{
 			for(int i = 0; i < keys.size(); i++)
 				if(keys.get( i ).isSelected())
 					if(checkInput( input, i ))
-						return;
+						return checkDifference();
 			
 			if(input.isMouseButtonDown( Input.MOUSE_LEFT_BUTTON ))
 				{
@@ -291,11 +291,12 @@ public class Configurations
 		                            					updateKeys( numPlayer, input );
 		                            			}
 		                            		
-				                            return;
+				                            return checkDifference();
 		                    			}
 	                    		}
 		                }
 	            }
+			return false;
 		}
 	
 	private boolean checkKeyPressed( final Input input )

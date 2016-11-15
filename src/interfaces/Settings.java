@@ -214,8 +214,13 @@ public class Settings
 			
 			config.resetInterface();
 			
+			dropRate = Global.dropRate*100;
+			vite = Global.lifes;
+			
 			Start.settings = 0;
 			Start.begin = 1;
+			
+			buttons.get( 1 ).setColor( Color.gray );
 		}
 	
 	public void update( GameContainer gc, Input input ) throws SlickException
@@ -274,36 +279,40 @@ public class Settings
                             						Start.settings = 0;
                             						Start.begin = 1;
 		                            			}
+
+			                    			buttons.get( 1 ).setColor( checkDifference() );
 		                            		
 			                                return;
 		                    			}
 		                    	}
-	                    // se non e' stato premuto un bottone controllo le frecce
-                    	for(ArrowButton arrow: arrows)
-                    		{
-	                        	// se e' stata premuta la freccia
-	                    		if(checkArrow( arrow, input, arrow.getIndex() ) == 1)
-	                    			{
-		                                for(ArrowButton button: arrows)
-		                                	if(button.isPressed())
-		                                		button.setPressed();
-		                                
-			                            // premuta freccia sinistra
-	                            		if(arrow.getDirection() == ArrowButton.LEFT)
-                            				if(arrow.getName().equals( lifes ))
-                            					vite = Math.max( 1, --vite );
-                            				else
-                            					dropRate = Math.max( 0, dropRate - 10 );
-	                            			
-	                            		// premuta freccia destra
-	                            		else if(arrow.getDirection() == ArrowButton.RIGHT)
-	                            			if(arrow.getName().equals( lifes ))
-	                            				vite = Math.min( ++vite, 8 );
-	                            			else
-	                            				dropRate = Math.min( 100, dropRate + 10 );
-
-			                            return;
-	                    			}
+		                    // se non e' stato premuto un bottone controllo le frecce
+	                    	for(ArrowButton arrow: arrows)
+	                    		{
+		                        	// se e' stata premuta la freccia
+		                    		if(checkArrow( arrow, input, arrow.getIndex() ) == 1)
+		                    			{
+			                                for(ArrowButton button: arrows)
+			                                	if(button.isPressed())
+			                                		button.setPressed();
+			                                
+				                            // premuta freccia sinistra
+		                            		if(arrow.getDirection() == ArrowButton.LEFT)
+	                            				if(arrow.getName().equals( lifes ))
+	                            					vite = Math.max( 1, --vite );
+	                            				else
+	                            					dropRate = Math.max( 0, dropRate - 10 );
+		                            			
+		                            		// premuta freccia destra
+		                            		else if(arrow.getDirection() == ArrowButton.RIGHT)
+		                            			if(arrow.getName().equals( lifes ))
+		                            				vite = Math.min( ++vite, 8 );
+		                            			else
+		                            				dropRate = Math.min( 100, dropRate + 10 );
+		                            		
+		                        			buttons.get( 1 ).setColor( checkDifference() );
+	
+				                            return;
+		                    			}
 	                    		}
 		                    if(bar.isPressed())
 		                    	{
@@ -311,13 +320,16 @@ public class Settings
 		                			
 		                			bar.update( mouseX );
 		                			Global.brightness = 255.f - bar.getValue();
+		                			
+		                			buttons.get( 1 ).setColor( checkDifference() );
 
 		                			return;
 		                    	}
 		                }
 	            }
 			
-			config.update( input, mouseX, mouseY );
+			if(config.update( input, mouseX, mouseY ))
+				buttons.get( 1 ).setColor( checkDifference() );
 		}
 	
 	private boolean checkKeyPressed( final Input input )
