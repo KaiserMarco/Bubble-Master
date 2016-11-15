@@ -687,9 +687,10 @@ public class Player extends Ostacolo
 				{
 					jump = true;
 					movingJ = true;
-					setXY( 0, move + Math.abs( 0.1f*(tempJump--) ), MOVE );
+					setXY( 0, move + Math.abs( 0.1f*(tempJump) ), MOVE );
 					System.out.println( "tempJump = " + tempJump );
 					System.out.println( "move = " + (move + (-0.1f)*tempJump) );
+					tempJump--;
 				}
 			
 			/*controlla se non sono stati superati i limiti della schermata*/
@@ -700,7 +701,6 @@ public class Player extends Ostacolo
 			if(area.getMaxY() > Global.maxHeight)
 				{
 					maxJump = 0;
-					tempJump = 0;
 					jump = false;
 					movingJ = false;
 					setXY( area.getX(), maxHeight - height, RESTORE );
