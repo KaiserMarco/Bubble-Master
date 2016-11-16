@@ -598,30 +598,30 @@ public class Edit
 							// spostamento dell'oggetto in relazione alla posizione del mouse
 							temp.setXY( mouseX - tempX, mouseY - tempY, Global.MOVE );
 							
-							tempX = mouseX;
-							tempY = mouseY;
-							
 							// posizionamento player sopra gli ostacoli		
 							if(temp.getID().equals( Global.PLAYER ))
 								setPlayer();
 							
 							// setta il colore dell'oggetto in fase di inserimento
 							temp.setInsert( checkCollision(), true );
+
+							// controlla se l'oggetto da inserire non superi i confini dello schermo di gioco					
+							if(temp.getX() <= 0)
+								temp.setXY( 0, temp.getY(), Global.RESTORE );
+							if(temp.getY() <= 0)
+								temp.setXY( temp.getX(), 0, Global.RESTORE );
+							if(temp.getMaxX() >= Global.Width)
+								temp.setXY( Global.Width - temp.getWidth(), temp.getY(), Global.RESTORE );
+							if(temp.getMaxY() > maxHeight)
+								temp.setXY( temp.getX(), maxHeight - temp.getHeight(), Global.RESTORE );
+							
+							tempX = mouseX;
+							tempY = mouseY;
 						}
 
 					if(!temp.getID().equals( Global.BOLLA ) && !temp.getID().equals( Global.PLAYER ))
 					    if(input.isKeyPressed( Input.KEY_SPACE ))
 					    	temp.setOrienting( gc );
-
-					// controlla se l'oggetto da inserire non superi i confini dello schermo di gioco					
-					if(temp.getX() <= 0)
-						temp.setXY( 0, temp.getY(), Global.RESTORE );
-					if(temp.getY() <= 0)
-						temp.setXY( temp.getX(), 0, Global.RESTORE );
-					if(temp.getMaxX() >= Global.Width)
-						temp.setXY( Global.Width - temp.getWidth(), temp.getY(), Global.RESTORE );
-					if(temp.getMaxY() > maxHeight)
-						temp.setXY( temp.getX(), maxHeight - temp.getHeight(), Global.RESTORE );
 					
 					/*cancellazione oggetti del gioco*/
 					if(input.isMousePressed( Input.MOUSE_RIGHT_BUTTON ) || input.isKeyPressed( Input.KEY_DELETE ))
