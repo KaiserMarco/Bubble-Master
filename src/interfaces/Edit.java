@@ -229,9 +229,6 @@ public class Edit
 			this.index = index;
 		}
 	
-	public void setChoise( GameContainer gc )
-		{ choise.setLocation( choise.getX(), base.getY() - heightChoise + Global.Width/150 ); }
-	
 	public void aggiornaIndiciTubi( int i )
 		{
 			for(Ostacolo obs: ostacoli)
@@ -480,7 +477,8 @@ public class Edit
                     heightBase = 0;
                     moveEditor = false;
                 }
-            setChoise( gc );
+    	    
+			choise.setY( base.getY() - heightChoise );
 	    }
 	
 	private int checkButton( Button button, Input input, int i )
