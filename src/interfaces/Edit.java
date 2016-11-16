@@ -262,9 +262,9 @@ public class Edit
 									temp = item.clone( gc );
 									//sto inserendo una nuova coppia di tubi
 									if(temp.getID().equals( Global.TUBO ))
-										nuovoTubo = true;
-									
-									temp.setInsert( true, true );
+										nuovoTubo = true;									
+
+									temp.setInsert( checkCollision(), false );
 									
 									tempX = x;
 									tempY = y;
@@ -305,7 +305,7 @@ public class Edit
 									aggiornaIndiciTubi( i );
 									ostacoli.remove( i );
 									
-									temp.setInsert( true, true );
+									temp.setInsert( checkCollision(), false );
 									
 									tempX = x;
 									tempY = y;
@@ -580,7 +580,8 @@ public class Edit
 					temp.setXY( mouseX - tempX, mouseY - tempY, Global.MOVE );
 
 					// setta il colore dell'oggetto in fase di inserimento
-					temp.setInsert( checkCollision(), false );
+					if(mouseX != tempX || mouseY != tempY)
+						temp.setInsert( checkCollision(), false );
 
 					if(!temp.getID().equals( Global.BOLLA ) && !temp.getID().equals( Global.PLAYER ))
 					    if(input.isKeyPressed( Input.KEY_SPACE ))
@@ -647,6 +648,7 @@ public class Edit
 									if(nuovoTubo)
 										{
 											temp = ostacoli.get( ostacoli.size() - 1 ).clone( gc );
+											temp.setInsert( checkCollision(), false );
 											nuovoTubo = false;
 											indexFirstTube = ostacoli.size() - 1;
 										}
