@@ -749,9 +749,9 @@ public class Player extends Ostacolo
 											animTime = animTimeJump/5;
 											setXY( area.getX(), ost.getMaxY(), RESTORE );
 										}
-									else if(body.intersects( ost.component( Global.LATODX ) ))
+									else if(area.intersects( ost.component( Global.LATODX ) ))
 										setXY( ost.getMaxX(), area.getY(), RESTORE );
-									else if(body.intersects( ost.component( Global.LATOSX ) ))
+									else if(area.intersects( ost.component( Global.LATOSX ) ))
 										setXY( ost.getX() - width, area.getY(), RESTORE );
 								}
 						}
