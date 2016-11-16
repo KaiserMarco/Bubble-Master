@@ -501,7 +501,7 @@ public class Player extends Ostacolo
 
 	public void setInsert( boolean insert, boolean change )
 		{
-			checkInsert = !change;
+			checkInsert = change;
 			this.insert = insert;
 		}
 	

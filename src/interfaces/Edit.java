@@ -261,7 +261,7 @@ public class Edit
 									if(temp.getID().equals( Global.TUBO ))
 										nuovoTubo = true;									
 
-									temp.setInsert( checkCollision(), false );
+									temp.setInsert( checkCollision(), true );
 									
 									tempX = x;
 									tempY = y;
@@ -302,7 +302,7 @@ public class Edit
 									aggiornaIndiciTubi( i );
 									ostacoli.remove( i );
 									
-									temp.setInsert( checkCollision(), false );
+									temp.setInsert( checkCollision(), true );
 									
 									tempX = x;
 									tempY = y;
@@ -546,7 +546,14 @@ public class Edit
 						            				
 						            			if(areaTemp.intersects( areaBase ))
 					            					if(areaTemp.intersects( areaEnter ) || temp.getMaxY() > areaBase.getY())
-					            						return false;
+					            						{
+					            							// TODO CAPIRE PERCHE FA COSI
+					            							System.out.println( "PLAYER.maxY = " + temp.getY() );
+					            							System.out.println( "BASE.getY =  = " + areaBase.getY() );
+					            							return false;
+					            						}
+					            					else
+					            						return true;
 				            				}
 						            else if(areaTemp.intersects( ost.component( Global.LATOGIU ) ))
 				                        return false;
@@ -574,16 +581,16 @@ public class Edit
 			// se HO un elemento da inserire
 			if(temp != null)
 				{
-					// spostamento dell'oggetto in relazione alla posizione del mouse
-					temp.setXY( mouseX - tempX, mouseY - tempY, Global.MOVE );
-
-					// setta il colore dell'oggetto in fase di inserimento
 					if(mouseX != tempX || mouseY != tempY)
-						temp.setInsert( checkCollision(), false );
-
-					if(!temp.getID().equals( Global.BOLLA ) && !temp.getID().equals( Global.PLAYER ))
-					    if(input.isKeyPressed( Input.KEY_SPACE ))
-					    	temp.setOrienting( gc );
+						{
+							// spostamento dell'oggetto in relazione alla posizione del mouse
+							temp.setXY( mouseX - tempX, mouseY - tempY, Global.MOVE );
+							// setta il colore dell'oggetto in fase di inserimento
+							temp.setInsert( checkCollision(), true );
+							
+							tempX = mouseX;
+							tempY = mouseY;
+						}
 					
 					// posizionamento player sopra gli ostacoli		
 					if(temp.getID().equals( Global.PLAYER ))
@@ -596,6 +603,10 @@ public class Edit
 							temp.setXY( temp.getX(), posY - temp.getHeight(), Global.RESTORE );
 						}
 
+					if(!temp.getID().equals( Global.BOLLA ) && !temp.getID().equals( Global.PLAYER ))
+					    if(input.isKeyPressed( Input.KEY_SPACE ))
+					    	temp.setOrienting( gc );
+
 					// controlla se l'oggetto da inserire non superi i confini dello schermo di gioco					
 					if(temp.getX() <= 0)
 						temp.setXY( 0, temp.getY(), Global.RESTORE );
@@ -605,9 +616,6 @@ public class Edit
 						temp.setXY( Global.Width - temp.getWidth(), temp.getY(), Global.RESTORE );
 					if(temp.getMaxY() > maxHeight)
 						temp.setXY( temp.getX(), maxHeight - temp.getHeight(), Global.RESTORE );
-					
-					tempX = mouseX;
-					tempY = mouseY;
 					
 					/*cancellazione oggetti del gioco*/
 					if(input.isMousePressed( Input.MOUSE_RIGHT_BUTTON ) || input.isKeyPressed( Input.KEY_DELETE ))
@@ -633,7 +641,7 @@ public class Edit
 					/*inserimento oggetto nel gioco*/
 					else if(temp.getInsert() && input.isMousePressed( Input.MOUSE_LEFT_BUTTON ))
 						{
-							temp.setInsert( true, true );
+							temp.setInsert( true, false );
 							temp.setSpigoli();
 							ostacoli.add( temp );
 							
@@ -646,7 +654,7 @@ public class Edit
 									if(nuovoTubo)
 										{
 											temp = ostacoli.get( ostacoli.size() - 1 ).clone( gc );
-											temp.setInsert( checkCollision(), false );
+											temp.setInsert( checkCollision(), true );
 											nuovoTubo = false;
 											indexFirstTube = ostacoli.size() - 1;
 										}
@@ -710,6 +718,7 @@ public class Edit
 					                                for(SimpleButton bottone: buttons)
 					                                	if(bottone.isPressed())
 					                                		bottone.setPressed();
+					                                
 						                            // pressed tramite mouse || value==2 tramite tastiera
 						                            if(button.checkClick( mouseX, mouseY, input ) || value == 2)
 							                            {
