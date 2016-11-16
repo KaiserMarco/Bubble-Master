@@ -593,6 +593,7 @@ public class Edit
 			// se HO un elemento da inserire
 			if(temp != null)
 				{
+					// se e' stato mosso il mouse
 					if(mouseX != tempX || mouseY != tempY)
 						{
 							// spostamento dell'oggetto in relazione alla posizione del mouse
