@@ -603,10 +603,7 @@ public class Edit
 							
 							// posizionamento player sopra gli ostacoli		
 							if(temp.getID().equals( Global.PLAYER ))
-								{
-									setPlayer();
-									System.out.println( "posY - height = " + (posY - temp.getHeight()) );
-								}
+								setPlayer();
 							
 							// setta il colore dell'oggetto in fase di inserimento
 							temp.setInsert( checkCollision(), true );
