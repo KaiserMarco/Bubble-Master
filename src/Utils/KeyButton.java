@@ -22,8 +22,11 @@ public class KeyButton
 	
 	private static final float OFFSET_X = 5, OFFSET_Y = 0;
 	
+	// il nome del bottone
+	private String name;
+	
 	@SuppressWarnings("unchecked")
-    public KeyButton( float x, float y , float height ) throws SlickException
+    public KeyButton( float x, float y , float height, String name ) throws SlickException
 		{
     	    if(font == null) {
                 font = new UnicodeFont( "./data/fonts/prstart.ttf", 25, false, true );
@@ -37,6 +40,8 @@ public class KeyButton
 			ostr = new Rectangle( x, y, maxWidth, height + OFFSET_Y * 2 );
 			
 			selected = false;
+			
+			this.name = name;
 		}
 	
 	public void setKey( String val )
@@ -46,6 +51,9 @@ public class KeyButton
 	        sizeW = font.getWidth( bind );
 	        sizeH = font.getHeight( bind );
 	    }
+	
+	public String getName()
+		{ return name; }
 	
 	public String getKey()
 		{ return bind; }

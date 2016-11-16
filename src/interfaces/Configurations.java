@@ -35,6 +35,7 @@ public class Configurations
 	
 	// nome dei tasti in game
 	private static final String SALTO = "Salto:", SPARO = "Sparo:", LEFT = "Sinistra:", RIGHT = "Destra:";
+	private static final String JUMP = "Salto", SHOT = "Sparo", SX = "Sx", DX = "Dx";
 	
 	/*indice di posizionamento del cursore*/
 	private int indexCursor;
@@ -71,11 +72,11 @@ public class Configurations
 			
 			//System.out.println( "W: " + widthK + ", OLD: " + (Global.Width/20) );
 			final float heightK = Global.Width/25;
-			kSalto = new KeyButton( xString + Global.Width/10, left.getY() + 8*sum, heightK );
-			kSparo = new KeyButton( xString + Global.Width/3 + Global.Width*10/98, left.getY() + 8*sum, heightK );
+			kSalto = new KeyButton( xString + Global.Width/10, left.getY() + 8*sum, heightK, JUMP );
+			kSparo = new KeyButton( xString + Global.Width/3 + Global.Width*10/98, left.getY() + 8*sum, heightK, SHOT );
 			
-			kSx = new KeyButton( xString + Global.Width/10, left.getY() + 16*sum, heightK );
-			kDx = new KeyButton( xString + Global.Width/3 + Global.Width*10/98, left.getY() + 16*sum, heightK );
+			kSx = new KeyButton( xString + Global.Width/10, left.getY() + 16*sum, heightK, SX );
+			kDx = new KeyButton( xString + Global.Width/3 + Global.Width*10/98, left.getY() + 16*sum, heightK, DX );
 			
 			keys = new ArrayList<KeyButton>();
 			keys.add( kSalto );
@@ -171,26 +172,17 @@ public class Configurations
 	
 	/** controlla gli input ricevuti e lo assegna al bottone selezionato
 	 * aggiornando maps */
-	public boolean checkInput( Input in, int index )
+	public boolean checkInput( Input in, KeyButton key )
 		{
 			for(int i = 0; i < 255; i++)
 				if(in.isKeyPressed( i ))
 					{
-						int oldCode;
-						if(index == 0) oldCode = maps.get( numPlayer ).get( "Salto" );
-						else if(index == 1) oldCode = maps.get( numPlayer ).get( "Sparo" );
-						else if(index == 2) oldCode = maps.get( numPlayer ).get( "Sx" );
-						else oldCode = maps.get( numPlayer ).get( "Dx" );
+						checkDuplicatedKey( i, maps.get( numPlayer ).get( key.getName() ), numPlayer );
 						
-						checkDuplicatedKey( i, oldCode, numPlayer );
+						// Assegna il valore al giocatore selezionato
+						key.setKey( Input.getKeyName( i ) );
 						
-						// Assegna il valore al giocatore selezionato.
-						keys.get( index ).setKey( Input.getKeyName( i ) );
-						
-						if(index == 0) maps.get( numPlayer ).put( "Salto", i );
-						else if(index == 1) maps.get( numPlayer ).put( "Sparo", i );
-						else if(index == 2) maps.get( numPlayer ).put( "Sx", i );
-						else maps.get( numPlayer ).put( "Dx", i );
+						maps.get( numPlayer ).put( key.getName(), i );
 						
 						updateKeys( numPlayer, in );
 						
@@ -238,9 +230,9 @@ public class Configurations
 	
 	public boolean update( Input input, int mouseX, int mouseY )
 		{
-			for(int i = 0; i < keys.size(); i++)
-				if(keys.get( i ).isSelected())
-					if(checkInput( input, i ))
+			for(KeyButton key: keys)
+				if(key.isSelected())
+					if(checkInput( input, key ))
 						return checkDifference();
 			
 			if(input.isMouseButtonDown( Input.MOUSE_LEFT_BUTTON ))

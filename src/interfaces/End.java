@@ -210,6 +210,7 @@ public class End
 					                    			for(SimpleButton bottone : buttons)
 					                    				if(bottone.isPressed())
 					                    					bottone.setPressed();
+					                    			
 				                                	Start.endGame = 0;
 					                                indexCursor = -1;
 				                            		if(button.getName().equals( REPLAY ))
