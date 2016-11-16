@@ -151,10 +151,10 @@ public class Configurations
 
 			for(int i = 0; i < maps.size(); i++)
 				{
-					Global.mapButtons.get( i ).put( "Salto", maps.get( i ).get( "Salto" ) );
-					Global.mapButtons.get( i ).put( "Sparo", maps.get( i ).get( "Sparo" ) );
-					Global.mapButtons.get( i ).put( "Sx", maps.get( i ).get( "Sx" ) );
-					Global.mapButtons.get( i ).put( "Dx", maps.get( i ).get( "Dx" ) );
+					Global.mapButtons.get( i ).put( JUMP, maps.get( i ).get( JUMP ) );
+					Global.mapButtons.get( i ).put( SHOT, maps.get( i ).get( SHOT ) );
+					Global.mapButtons.get( i ).put( SX, maps.get( i ).get( SX ) );
+					Global.mapButtons.get( i ).put( DX, maps.get( i ).get( DX ) );
 				}
 		}
 	
@@ -207,6 +207,14 @@ public class Configurations
 			keys.get( 1 ).setKey( Input.getKeyName( ( Global.mapButtons.get( index ).get( SHOT ) ) ) );
 			keys.get( 2 ).setKey( Input.getKeyName( ( Global.mapButtons.get( index ).get( SX ) ) ) );
 			keys.get( 3 ).setKey( Input.getKeyName( ( Global.mapButtons.get( index ).get( DX ) ) ) );
+			
+			for(int i = 0; i < maps.size(); i++)
+				{
+					Global.mapButtons.get( i ).put( JUMP, maps.get( i ).get( JUMP ) );
+					Global.mapButtons.get( i ).put( SHOT, maps.get( i ).get( SHOT ) );
+					Global.mapButtons.get( i ).put( SX, maps.get( i ).get( SX ) );
+					Global.mapButtons.get( i ).put( DX, maps.get( i ).get( DX ) );
+				}
 		}
 	
 	/** aggiorna i tasti del giocatore caricato */
