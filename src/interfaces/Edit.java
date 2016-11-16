@@ -493,8 +493,7 @@ public class Edit
 			return 0;
 		}
 	
-	/** determina la posizione del player rispetto agli ostacoli in fase di inserimento */
-	private void checkPosition( Ostacolo ost, int mouseX, int mouseY )
+	public void controllaPosizione( Ostacolo ost )
 		{
 			if(mouseY < ost.getY())
 				if(mouseX >= ost.getX() && mouseX <= ost.getMaxX())
@@ -502,7 +501,22 @@ public class Edit
 						posY = ost.getY();
 		}
 	
-	/** controlla la collisione fra i vari oggetti */
+	/** determina la posizione del player rispetto agli ostacoli in fase di inserimento */
+	private void checkPosition( Ostacolo ost )
+		{
+			if(ost.getID().equals( Global.TUBO ))
+				{
+					controllaPosizione( ((Tubo) ost).getBase() );
+					if(((Tubo) ost).getEnter().getY() < posY)
+						controllaPosizione( ((Tubo) ost).getEnter() );					
+				}
+			else
+				controllaPosizione( ost );
+		}
+	
+	/** controlla la collisione fra i vari oggetti
+	 * return false = collide
+	 * return true = non collide */
 	private boolean checkCollision()
 		{
 			for(Ostacolo ost: ostacoli)
@@ -526,12 +540,15 @@ public class Edit
 						            			
 						            			if(areaTemp.intersects( areaEnter ))
 					            					if(((Tubo) ost).getDirection().equals( "sx" ) || ((Tubo) ost).getDirection().equals( "dx" ))
-					            						return false;
+					            						if(areaTemp.getMaxY() > areaEnter.getY())
+					            							return false;
+					            						else
+					            							return true;
 						            				
 						            			if(areaTemp.intersects( areaBase ))
 					            					if(areaTemp.intersects( areaEnter ) || temp.getMaxY() > areaBase.getY())
 					            						return false;
-					            				}
+				            				}
 						            else if(areaTemp.intersects( ost.component( Global.LATOGIU ) ))
 				                        return false;
 						        }
@@ -573,20 +590,9 @@ public class Edit
 						{
 							posY = maxHeight;
 							for(Ostacolo obs: ostacoli)
-								{
-									if(!obs.getID().equals( Global.PLAYER ) && obs.getY() < posY)
-										{
-											if(obs.getID().equals( Global.TUBO ))
-												{
-													checkPosition( ((Tubo) obs).getBase(), mouseX, mouseY );
-													
-													if(((Tubo) obs).getEnter().getY() < posY)
-														checkPosition( ((Tubo) obs).getEnter(), mouseX, mouseY );
-												}
-											else 
-												checkPosition( obs, mouseX, mouseY );
-										}
-								}
+								if(!obs.getID().equals( Global.PLAYER ))
+									checkPosition( obs );
+							
 							temp.setXY( temp.getX(), posY - temp.getHeight(), Global.RESTORE );
 						}
 
