@@ -163,10 +163,10 @@ public class Configurations
 		{
 			for(Map<String, Integer> map: maps)
 				{
-					if(map.get( SHOT ) == code) { map.put( SHOT, oldCode ); key.setKey( Input.getKeyName( oldCode ) ); }
-					if(map.get( JUMP ) == code) { map.put( JUMP, oldCode ); key.setKey( Input.getKeyName( oldCode ) ); }
-					if(map.get( SX ) == code) { map.put( SX, oldCode ); key.setKey( Input.getKeyName( oldCode ) ); }
-					if(map.get( DX ) == code) { map.put( DX, oldCode ); key.setKey( Input.getKeyName( oldCode ) ); }
+					if(map.get( SHOT ) == code) { map.put( SHOT, oldCode ); key.setKey( Input.getKeyName( oldCode ) ); break; }
+					if(map.get( JUMP ) == code) { map.put( JUMP, oldCode ); key.setKey( Input.getKeyName( oldCode ) ); break; }
+					if(map.get( SX ) == code) { map.put( SX, oldCode ); key.setKey( Input.getKeyName( oldCode ) ); break; }
+					if(map.get( DX ) == code) { map.put( DX, oldCode ); key.setKey( Input.getKeyName( oldCode ) ); break; }
 				}
 		}
 	
@@ -203,18 +203,18 @@ public class Configurations
 	/** resetta i tasti all'ultima configurazione salvata */
 	public void resetKeys( int index )
 		{
-			keys.get( 0 ).setKey( Input.getKeyName( ( Global.mapButtons.get( index ).get( JUMP ) ) ) );
-			keys.get( 1 ).setKey( Input.getKeyName( ( Global.mapButtons.get( index ).get( SHOT ) ) ) );
-			keys.get( 2 ).setKey( Input.getKeyName( ( Global.mapButtons.get( index ).get( SX ) ) ) );
-			keys.get( 3 ).setKey( Input.getKeyName( ( Global.mapButtons.get( index ).get( DX ) ) ) );
-			
 			for(int i = 0; i < maps.size(); i++)
 				{
-					Global.mapButtons.get( i ).put( JUMP, maps.get( i ).get( JUMP ) );
-					Global.mapButtons.get( i ).put( SHOT, maps.get( i ).get( SHOT ) );
-					Global.mapButtons.get( i ).put( SX, maps.get( i ).get( SX ) );
-					Global.mapButtons.get( i ).put( DX, maps.get( i ).get( DX ) );
+					maps.get( i ).put( JUMP, Global.mapButtons.get( i ).get( JUMP ) );
+					maps.get( i ).put( SHOT, Global.mapButtons.get( i ).get( SHOT ) );
+					maps.get( i ).put( SX, Global.mapButtons.get( i ).get( SX ) );
+					maps.get( i ).put( DX, Global.mapButtons.get( i ).get( DX ) );
 				}
+
+			keys.get( 0 ).setKey( Input.getKeyName( ( maps.get( index ).get( JUMP ) ) ) );
+			keys.get( 1 ).setKey( Input.getKeyName( ( maps.get( index ).get( SHOT ) ) ) );
+			keys.get( 2 ).setKey( Input.getKeyName( ( maps.get( index ).get( SX ) ) ) );
+			keys.get( 3 ).setKey( Input.getKeyName( ( maps.get( index ).get( DX ) ) ) );
 		}
 	
 	/** aggiorna i tasti del giocatore caricato */
