@@ -561,7 +561,7 @@ public class Edit
 					// spostamento dell'oggetto in relazione alla posizione del mouse
 					temp.setXY( mouseX - tempX, mouseY - tempY, Global.MOVE );
 
-					// controlla la collisione con gli oggetti gia' inseriti nel livello
+					// setta il colore dell'oggetto in fase di inserimento
 					temp.setInsert( checkCollision(), false );
 
 					if(!temp.getID().equals( Global.BOLLA ) && !temp.getID().equals( Global.PLAYER ))
@@ -578,12 +578,10 @@ public class Edit
 										{
 											if(obs.getID().equals( Global.TUBO ))
 												{
-													Ostacolo ost = ((Tubo) obs).getBase();
-													checkPosition( ost, mouseX, mouseY );
+													checkPosition( ((Tubo) obs).getBase(), mouseX, mouseY );
 													
-													ost = ((Tubo) obs).getEnter();
-													if(ost.getY() < posY)
-														checkPosition( ost, mouseX, mouseY );
+													if(((Tubo) obs).getEnter().getY() < posY)
+														checkPosition( ((Tubo) obs).getEnter(), mouseX, mouseY );
 												}
 											else 
 												checkPosition( obs, mouseX, mouseY );
@@ -671,11 +669,13 @@ public class Edit
 							moveEditor = true;
 						}
 					else if(input.isMousePressed( Input.MOUSE_LEFT_BUTTON ))
-						if(checkPressed( mouseX, mouseY, gc ))
-							{
-								insertEditor = !insertEditor;
-								moveEditor = true;
-							}
+						{
+							if(checkPressed( mouseX, mouseY, gc ))
+								{
+									insertEditor = !insertEditor;
+									moveEditor = true;
+								}
+						}
 					
 					if(input.isMouseButtonDown( Input.MOUSE_LEFT_BUTTON ))
 						{

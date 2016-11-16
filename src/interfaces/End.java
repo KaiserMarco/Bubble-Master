@@ -145,9 +145,6 @@ public class End
 				cursor.draw( buttons.get( indexCursor ).getX() - widthC, buttons.get( indexCursor ).getY(), widthC, heightC );
 		}
 	
-	private void returnToBegin()
-		{ Start.begin = 1; }
-	
 	private int checkButton( Button button, Input input, int i )
 		{
 			if(button.isPressed())
@@ -177,7 +174,7 @@ public class End
             		Start.endGame = 0;
                 	indexCursor = -1;
                 	sfondo = null;
-					returnToBegin();
+                	Start.begin = 1;
 				}
 			
 			if(input.isMouseButtonDown( Input.MOUSE_LEFT_BUTTON ))
@@ -222,7 +219,7 @@ public class End
 							                                Start.startGame = 1;
 					                            		}
 				                            		else if(button.getName().equals( HOME ))
-				                            			returnToBegin();
+				                            			Start.begin = 1;
 				                            		else if(button.getName().equals( LEVELS ))
 				                                        Start.chooseLevel = 1;
 				                            		
