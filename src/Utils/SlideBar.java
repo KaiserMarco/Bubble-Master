@@ -112,28 +112,30 @@ public class SlideBar
 	 * @param x - la coordinata X del mouse
 	*/
 	public void update( int x )
-	{
-		if(pressed){
-			if(x >= area.getX() && x <= area.getMaxX()){
-				float updateX = pointer.getX() + (x - click), w = pointer.getWidth();
-				if(updateX < area.getX() - w/2)
-					updateX = area.getX() - w / 2;
-				else{
-					if(updateX > area.getMaxX() - w / 2)
-						updateX = area.getMaxX() - w / 2;
+		{
+			if(pressed)
+				{
+					if(x >= area.getX() && x <= area.getMaxX())
+						{
+							float updateX = pointer.getX() + (x - click), w = pointer.getWidth();
+							if(updateX < area.getX() - w/2)
+								updateX = area.getX() - w / 2;
+							else if(updateX > area.getMaxX() - w / 2)
+								updateX = area.getMaxX() - w / 2;
+							
+							pointer.setX( updateX );
+						}
+					else
+						{
+							float w = pointer.getWidth();
+							if(x < area.getX())
+								pointer.setX( area.getX() - w / 2 );
+							else
+								pointer.setX( area.getMaxX() - w / 2 );
+						}			
+					click = x;
 				}
-				pointer.setX( updateX );
-			}
-			else{
-				float w = pointer.getWidth();
-				if(x < area.getX())
-					pointer.setX( area.getX() - w / 2 );
-				else
-					pointer.setX( area.getMaxX() - w / 2 );
-			}			
-			click = x;
 		}
-	}
 
 	/** disegna l'oggetto
 	 * @param g - il contesto grafico

@@ -702,7 +702,6 @@ public class Player extends Ostacolo
 				setXY( 0, -move + 0.2f*(40 - tempJump--), MOVE );
 			else
 				{
-					jump = true;
 					movingJ = true;
 					setXY( 0, move + Math.abs( 0.1f * tempJump-- ), MOVE );
 				}
@@ -769,7 +768,7 @@ public class Player extends Ostacolo
 		{}
 
 	public float getMaxX()
-		{ return xPlayer + width;	}
+		{ return area.getMaxX();	}
 
 	public float getWidth()
 		{ return width;	}
