@@ -206,7 +206,7 @@ public class Configurations
 			keys.get( 0 ).setKey( Input.getKeyName( ( Global.mapButtons.get( index ).get( JUMP ) ) ) );
 			keys.get( 1 ).setKey( Input.getKeyName( ( Global.mapButtons.get( index ).get( SHOT ) ) ) );
 			keys.get( 2 ).setKey( Input.getKeyName( ( Global.mapButtons.get( index ).get( SX ) ) ) );
-			keys.get( 3 ).setKey( Input.getKeyName( ( Global.mapButtons.get( index ).get( DX) ) ) );
+			keys.get( 3 ).setKey( Input.getKeyName( ( Global.mapButtons.get( index ).get( DX ) ) ) );
 		}
 	
 	/** aggiorna i tasti del giocatore caricato */
