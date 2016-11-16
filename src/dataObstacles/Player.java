@@ -455,7 +455,6 @@ public class Player extends Ostacolo
 				}
 			
 			area.setLocation( xPlayer, yPlayer );
-			System.out.println( "AREA.Y = " + area.getY()  );
 			if(dir == DESTRA)
 				{
 					body.setLocation( xPlayer, yPlayer + Global.Height/40 );
