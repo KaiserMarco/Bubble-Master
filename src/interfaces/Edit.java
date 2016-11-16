@@ -84,7 +84,8 @@ public class Edit
 	//determina l'indice del livello
 	private int index = -1;
 	
-	private final static String SAVE = "SALVA LIVELLO", BACK = "INDIETRO";
+	private final static String SAVE = "SALVA LIVELLO", BACK = "INDIETRO",
+								SX = "sx", DX = "dx";
 	
 	private boolean mouseDown = false;
 	
@@ -539,7 +540,7 @@ public class Edit
 						            			Shape areaEnter = ((Tubo) ost).getEnter().getArea();
 						            			
 						            			if(areaTemp.intersects( areaEnter ))
-					            					if(((Tubo) ost).getDirection().equals( "sx" ) || ((Tubo) ost).getDirection().equals( "dx" ))
+					            					if(((Tubo) ost).getDirection().equals( SX ) || ((Tubo) ost).getDirection().equals( DX ))
 					            						if(areaTemp.getMaxY() > areaEnter.getY())
 					            							return false;
 					            						else
