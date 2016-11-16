@@ -601,9 +601,9 @@ public class Edit
 						temp.setXY( 0, temp.getY(), Global.RESTORE );
 					if(temp.getY() <= 0)
 						temp.setXY( temp.getX(), 0, Global.RESTORE );
-					if(temp.getX() + temp.getWidth() >= Global.Width)
+					if(temp.getMaxX() >= Global.Width)
 						temp.setXY( Global.Width - temp.getWidth(), temp.getY(), Global.RESTORE );
-					if(temp.getY() + temp.getHeight() > maxHeight)
+					if(temp.getMaxY() > maxHeight)
 						temp.setXY( temp.getX(), maxHeight - temp.getHeight(), Global.RESTORE );
 					
 					tempX = mouseX;
