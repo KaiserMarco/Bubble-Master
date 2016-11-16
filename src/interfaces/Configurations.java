@@ -158,16 +158,16 @@ public class Configurations
 				}
 		}
 	
-	/** controlla a quale altro player e' stato assegnato quel tasto e assegna quello vecchio. */
-	private void checkDuplicatedKey( int code, int oldCode, int index )
+	/** controlla a quale altro player e' stato assegnato quel tasto e effettua con esso lo scambio */
+	private void checkDuplicatedKey( int code, int oldCode, KeyButton key )
 		{
-			for(int j = 0; j < maps.size(); j++) {
-				Map<String, Integer> map = maps.get( j );
-				if(map.get( "Sparo" ) == code) { map.put( "Sparo", oldCode ); if(index == j) keys.get( 0 ).setKey( Input.getKeyName( oldCode ) ); }
-				if(map.get( "Salto" ) == code) { map.put( "Salto", oldCode ); if(index == j) keys.get( 1 ).setKey( Input.getKeyName( oldCode ) ); }
-				if(map.get( "Sx" ) == code) { map.put( "Sx", oldCode ); if(index == j) keys.get( 2 ).setKey( Input.getKeyName( oldCode ) ); }
-				if(map.get( "Dx" ) == code) { map.put( "Dx", oldCode ); if(index == j) keys.get( 3 ).setKey( Input.getKeyName( oldCode ) ); }
-			}
+			for(Map<String, Integer> map: maps)
+				{
+					if(map.get( SHOT ) == code) { map.put( SHOT, oldCode ); key.setKey( Input.getKeyName( oldCode ) ); }
+					if(map.get( JUMP ) == code) { map.put( JUMP, oldCode ); key.setKey( Input.getKeyName( oldCode ) ); }
+					if(map.get( SX ) == code) { map.put( SX, oldCode ); key.setKey( Input.getKeyName( oldCode ) ); }
+					if(map.get( DX ) == code) { map.put( DX, oldCode ); key.setKey( Input.getKeyName( oldCode ) ); }
+				}
 		}
 	
 	/** controlla gli input ricevuti e lo assegna al bottone selezionato
@@ -177,7 +177,7 @@ public class Configurations
 			for(int i = 0; i < 255; i++)
 				if(in.isKeyPressed( i ))
 					{
-						checkDuplicatedKey( i, maps.get( numPlayer ).get( key.getName() ), numPlayer );
+						checkDuplicatedKey( i, maps.get( numPlayer ).get( key.getName() ), key );
 						
 						// Assegna il valore al giocatore selezionato
 						key.setKey( Input.getKeyName( i ) );
@@ -203,19 +203,19 @@ public class Configurations
 	/** resetta i tasti all'ultima configurazione salvata */
 	public void resetKeys( int index )
 		{
-			keys.get( 0 ).setKey( Input.getKeyName( ( Global.mapButtons.get( index ).get( "Salto" ) ) ) );
-			keys.get( 1 ).setKey( Input.getKeyName( ( Global.mapButtons.get( index ).get( "Sparo" ) ) ) );
-			keys.get( 2 ).setKey( Input.getKeyName( ( Global.mapButtons.get( index ).get( "Sx" ) ) ) );
-			keys.get( 3 ).setKey( Input.getKeyName( ( Global.mapButtons.get( index ).get( "Dx" ) ) ) );
+			keys.get( 0 ).setKey( Input.getKeyName( ( Global.mapButtons.get( index ).get( JUMP ) ) ) );
+			keys.get( 1 ).setKey( Input.getKeyName( ( Global.mapButtons.get( index ).get( SHOT ) ) ) );
+			keys.get( 2 ).setKey( Input.getKeyName( ( Global.mapButtons.get( index ).get( SX ) ) ) );
+			keys.get( 3 ).setKey( Input.getKeyName( ( Global.mapButtons.get( index ).get( DX) ) ) );
 		}
 	
 	/** aggiorna i tasti del giocatore caricato */
 	public void updateKeys( int index, Input input )
 		{
-			keys.get( 0 ).setKey( Input.getKeyName( ( maps.get( index ).get( "Salto" ) ) ) );
-			keys.get( 1 ).setKey( Input.getKeyName( ( maps.get( index ).get( "Sparo" ) ) ) );
-			keys.get( 2 ).setKey( Input.getKeyName( ( maps.get( index ).get( "Sx" ) ) ) );
-			keys.get( 3 ).setKey( Input.getKeyName( ( maps.get( index ).get( "Dx" ) ) ) );
+			keys.get( 0 ).setKey( Input.getKeyName( ( maps.get( index ).get( JUMP ) ) ) );
+			keys.get( 1 ).setKey( Input.getKeyName( ( maps.get( index ).get( SHOT ) ) ) );
+			keys.get( 2 ).setKey( Input.getKeyName( ( maps.get( index ).get( SX ) ) ) );
+			keys.get( 3 ).setKey( Input.getKeyName( ( maps.get( index ).get( DX ) ) ) );
 		}
 	
 	/** controlla se e' stato modificato un bind dei tasti */

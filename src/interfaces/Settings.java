@@ -219,7 +219,7 @@ public class Settings
 			
 			Start.settings = 0;
 			Start.begin = 1;
-			
+
 			buttons.get( 1 ).setColor( Color.gray );
 		}
 	
