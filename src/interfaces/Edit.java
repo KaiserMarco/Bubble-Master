@@ -645,7 +645,7 @@ public class Edit
 							temp = null;
 						}
 					/*inserimento oggetto nel gioco*/
-					else if(temp.getInsert() && input.isMousePressed( Input.MOUSE_LEFT_BUTTON ))
+					else if(input.isMousePressed( Input.MOUSE_LEFT_BUTTON ) && temp.getInsert())
 						{
 							temp.setInsert( true, false );
 							temp.setSpigoli();
