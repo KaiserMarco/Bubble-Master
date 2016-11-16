@@ -455,6 +455,7 @@ public class Player extends Ostacolo
 				}
 			
 			area.setLocation( xPlayer, yPlayer );
+			System.out.println( "AREA.Y = " + area.getY()  );
 			if(dir == DESTRA)
 				{
 					body.setLocation( xPlayer, yPlayer + Global.Height/40 );
@@ -845,7 +846,7 @@ public class Player extends Ostacolo
 		}
 
 	public float getMaxY()
-		{ return area.getMaxY(); }
+		{ return yPlayer + height; }
 
 	public boolean getInsert()
 		{ return insert; }

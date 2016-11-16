@@ -256,7 +256,13 @@ public class Edit
 									if(item.getID().equals( Global.PLAYER ))
 										if(!((Player) item).isSelectable())
 											return false;
-									temp = item.clone( gc );
+										else
+											{
+												temp = item.clone( gc );
+												setPlayer();
+											}
+									else
+										temp = item.clone( gc );
 									//sto inserendo una nuova coppia di tubi
 									if(temp.getID().equals( Global.TUBO ))
 										nuovoTubo = true;									
@@ -546,12 +552,7 @@ public class Edit
 						            				
 						            			if(areaTemp.intersects( areaBase ))
 					            					if(areaTemp.intersects( areaEnter ) || temp.getMaxY() > areaBase.getY())
-					            						{
-					            							// TODO CAPIRE PERCHE FA COSI
-					            							System.out.println( "PLAYER.maxY = " + temp.getY() );
-					            							System.out.println( "BASE.getY =  = " + areaBase.getY() );
-					            							return false;
-					            						}
+					            						return false;
 					            					else
 					            						return true;
 				            				}
@@ -564,6 +565,17 @@ public class Edit
 				}
 		    
 		    return true;
+		}
+	
+	/** muove il player attraverso gli ostacoli */
+	public void setPlayer()
+		{
+			posY = maxHeight;
+			for(Ostacolo obs: ostacoli)
+				if(!obs.getID().equals( Global.PLAYER ))
+					checkPosition( obs );
+			
+			temp.setXY( temp.getX(), posY - temp.getHeight(), Global.RESTORE );
 		}
 	
 	public void update( GameContainer gc, int delta, Input input )throws SlickException
@@ -585,22 +597,19 @@ public class Edit
 						{
 							// spostamento dell'oggetto in relazione alla posizione del mouse
 							temp.setXY( mouseX - tempX, mouseY - tempY, Global.MOVE );
-							// setta il colore dell'oggetto in fase di inserimento
-							temp.setInsert( checkCollision(), true );
 							
 							tempX = mouseX;
 							tempY = mouseY;
-						}
-					
-					// posizionamento player sopra gli ostacoli		
-					if(temp.getID().equals( Global.PLAYER ))
-						{
-							posY = maxHeight;
-							for(Ostacolo obs: ostacoli)
-								if(!obs.getID().equals( Global.PLAYER ))
-									checkPosition( obs );
 							
-							temp.setXY( temp.getX(), posY - temp.getHeight(), Global.RESTORE );
+							// posizionamento player sopra gli ostacoli		
+							if(temp.getID().equals( Global.PLAYER ))
+								{
+									setPlayer();
+									System.out.println( "posY - height = " + (posY - temp.getHeight()) );
+								}
+							
+							// setta il colore dell'oggetto in fase di inserimento
+							temp.setInsert( checkCollision(), true );
 						}
 
 					if(!temp.getID().equals( Global.BOLLA ) && !temp.getID().equals( Global.PLAYER ))
