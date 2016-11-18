@@ -501,7 +501,7 @@ public class Bubble extends Ostacolo
 	                        checkBorders();
 	                        
 	                        for(int i = 0; i < InGame.ostacoli.size(); i++)
-	                        	if(!InGame.ostacoli.get( i ).getID().equals( Global.BOLLA ) && !InGame.ostacoli.get( i ).getID().equals( Global.TUBO ))
+	                        	if(!InGame.ostacoli.get( i ).getID().equals( Global.BOLLA ))
 	                        		checkAll( i, InGame.ostacoli.get( i ) );
 
 	                        setCenter( ostr, speedX, speedY );
