@@ -8,6 +8,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Shape;
 
+import Utils.Global;
 import bubbleMaster.Start;
 import interfaces.InGame;
  
@@ -408,7 +409,7 @@ public class Bubble extends Ostacolo
     /**gestisce collisioni fra tutti gli elementi*/
     public void checkAll( int i, Ostacolo ost )
     	{
-    		if(ost.getID().equals( "tubo" ))
+    		if(ost.getID().equals( Global.TUBO ))
     			{					
 					if(!primoTubo)
     					{
@@ -430,11 +431,11 @@ public class Bubble extends Ostacolo
         	
 			if(secondoTubo)
 				{
-					if(indexTube != i && !ost.getID().equals( "base" ) && !ost.getID().equals( "enter" ))
+					if(indexTube != i && !ost.getID().equals( Global.BASE ) && !ost.getID().equals( Global.ENTER ))
 						if(ostr.intersects( ost.component( "rect" ) ))
 							gestioneCollisioni( ost );
 				}
-			else if(!primoTubo && !ost.getID().equals( "tubo" ))
+			else if(!primoTubo && !ost.getID().equals( Global.TUBO ))
 				if(ostr.intersects( ost.component( "rect" ) ))
 					gestioneCollisioni( ost );
     	}
@@ -445,16 +446,16 @@ public class Bubble extends Ostacolo
 
     		if(dir.equals( "sx" ) || dir.equals( "dx" ))
 	    		{
-	    			if(!ostr.intersects( ost.component( "latoSu" ) ) && !ostr.intersects( ost.component( "latoGiu" ) ))
-			    		if((ostr.intersects( ingr ) && ostr.getCenterY() > ingr.getY() && ostr.getCenterY() < ingr.getY() + ost.getHeight())
-						|| (ostr.intersects( ingr ) && ostr.getCenterX() > ost.getX() && ostr.getCenterX() < ost.getX() + ost.getWidth()))
+	    			if(!ostr.intersects( ost.component( Global.LATOSU ) ) && !ostr.intersects( ost.component( Global.LATOGIU ) ))
+			    		if((ostr.intersects( ingr ) && ostr.getCenterY() > ingr.getY() && ostr.getCenterY() < ingr.getMaxY())
+						|| (ostr.intersects( ingr ) && ostr.getCenterX() > ost.getX() && ostr.getCenterX() < ost.getMaxX()))
 			    			return true;
 	    		}
     		else if(dir.equals( "up" ) || dir.equals( "down" ))
     			{
-	    			if(!ostr.intersects( ost.component( "latoSx" ) ) && !ostr.intersects( ost.component( "latoDx" ) ))
-			    		if((ostr.intersects( ingr ) && ostr.getCenterY() > ingr.getY() && ostr.getCenterY() < ingr.getY() + ost.getHeight())
-						|| (ostr.intersects( ingr ) && ostr.getCenterX() > ost.getX() && ostr.getCenterX() < ost.getX() + ost.getWidth()))
+	    			if(!ostr.intersects( ost.component( Global.LATOSX ) ) && !ostr.intersects( ost.component( Global.LATODX ) ))
+			    		if((ostr.intersects( ingr ) && ostr.getCenterY() > ingr.getY() && ostr.getCenterY() < ingr.getMaxY())
+						|| (ostr.intersects( ingr ) && ostr.getCenterX() > ost.getX() && ostr.getCenterX() < ost.getMaxX()))
 			    			return true;
     			}
     		
