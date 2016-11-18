@@ -416,7 +416,7 @@ public class Bubble extends Ostacolo
 							// il lato di ingresso nel tubo
 							Shape ingr = ost.component( "latoIngresso" );
 	    					// se la sfera ha colliso con l'ingresso di un tubo
-    						if((secondoTubo && i!= indexTube) || !secondoTubo)
+    						if((secondoTubo && i != indexTube) || !secondoTubo)
 		    					if(checkEnter( ingr, ((Tubo) ost) ))
 		    						{
 		    							indexTube = i;
@@ -431,12 +431,32 @@ public class Bubble extends Ostacolo
         	
 			if(secondoTubo)
 				{
-					if(indexTube != i && !ost.getID().equals( Global.BASE ) && !ost.getID().equals( Global.ENTER ))
+					if(indexTube != i)
+						{
+							if(ost.getID().equals( Global.BASE ))
+								{
+									if(((Base) ost).getIndexTube() != i)
+										if(ostr.intersects( ost.component( Global.RECT ) ))
+											gestioneCollisioni( ost );
+								}
+								
+							else if(ost.getID().equals( Global.ENTER ))
+								{
+									if(((Enter) ost).getIndexTube() != i)
+										if(ostr.intersects( ost.component( Global.RECT ) ))
+											gestioneCollisioni( ost );
+								}
+							else if(ostr.intersects( ost.component( Global.RECT ) ))
+								gestioneCollisioni( ost );
+						}
+				
+					// TODO CODICE UN POINO PIU CORRETTO, MA DA SISTEMARE
+					/*if(indexTube != i && !ost.getID().equals( Global.BASE ) && !ost.getID().equals( Global.ENTER ))
 						if(ostr.intersects( ost.component( "rect" ) ))
-							gestioneCollisioni( ost );
+							gestioneCollisioni( ost );*/
 				}
 			else if(!primoTubo && !ost.getID().equals( Global.TUBO ))
-				if(ostr.intersects( ost.component( "rect" ) ))
+				if(ostr.intersects( ost.component( Global.RECT ) ))
 					gestioneCollisioni( ost );
     	}
     
@@ -465,7 +485,7 @@ public class Bubble extends Ostacolo
     public void update( GameContainer gc, int delta ) throws SlickException
         {
             for(int i = 0; i < InGame.ostacoli.size(); i++)
-            	if(!InGame.ostacoli.get( i ).getID().equals( "bolla" ))
+            	if(!InGame.ostacoli.get( i ).getID().equals( Global.BOLLA ))
             		checkAll( i, InGame.ostacoli.get( i ) );
              
             /*controllo collisione con i bordi della schermata*/
@@ -481,7 +501,7 @@ public class Bubble extends Ostacolo
 	                        checkBorders();
 	                        
 	                        for(int i = 0; i < InGame.ostacoli.size(); i++)
-	                        	if(!InGame.ostacoli.get( i ).getID().equals( "bolla" ))
+	                        	if(!InGame.ostacoli.get( i ).getID().equals( Global.BOLLA ) && !InGame.ostacoli.get( i ).getID().equals( Global.TUBO ))
 	                        		checkAll( i, InGame.ostacoli.get( i ) );
 
 	                        setCenter( ostr, speedX, speedY );
