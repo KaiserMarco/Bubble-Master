@@ -413,17 +413,10 @@ public class Bubble extends Ostacolo
     			{					
 					if(!primoTubo)
     					{
-							// il lato di ingresso nel tubo
-							Shape ingr = ost.component( "latoIngresso" );
 	    					// se la sfera ha colliso con l'ingresso di un tubo
     						if((secondoTubo && i != indexTube) || !secondoTubo)
-		    					if(checkEnter( ingr, ((Tubo) ost) ))
-		    						{
-		    							indexTube = i;
-		    							primoTubo = true;
-		    							secondoTubo = false;
-			        					setPositionInTube( ost, primoTubo );
-		    						}
+		    					if(checkEnter( ((Tubo) ost) ))
+	    							indexTube = i;
     					}
     				if(primoTubo || secondoTubo)
     					gestioneSferaInTubo();
@@ -431,18 +424,20 @@ public class Bubble extends Ostacolo
         	
 			if(secondoTubo)
 				{
-					if(indexTube != i)
+					if(!ost.getID().equals( Global.TUBO ))
 						{
 							if(ost.getID().equals( Global.BASE ))
 								{
-									if(((Base) ost).getIndexTube() != i)
-										if(ostr.intersects( ost.component( Global.RECT ) ))
-											gestioneCollisioni( ost );
+									if(((Base) ost).getIndexTube() != indexTube)
+										{
+											if(ostr.intersects( ost.component( Global.RECT ) ))
+												gestioneCollisioni( ost );
+										}
 								}
 								
 							else if(ost.getID().equals( Global.ENTER ))
 								{
-									if(((Enter) ost).getIndexTube() != i)
+									if(((Enter) ost).getIndexTube() != indexTube)
 										if(ostr.intersects( ost.component( Global.RECT ) ))
 											gestioneCollisioni( ost );
 								}
@@ -460,23 +455,35 @@ public class Bubble extends Ostacolo
 					gestioneCollisioni( ost );
     	}
     
-    public boolean checkEnter( Shape ingr, Tubo ost )
+    public boolean checkEnter( Tubo ost )
     	{
     		String dir = ost.getDirection();
+    		Enter enter = (Enter) ost.getEnter();
+    		Shape ingr = enter.getArea();
 
     		if(dir.equals( "sx" ) || dir.equals( "dx" ))
 	    		{
-	    			if(!ostr.intersects( ost.component( Global.LATOSU ) ) && !ostr.intersects( ost.component( Global.LATOGIU ) ))
-			    		if((ostr.intersects( ingr ) && ostr.getCenterY() > ingr.getY() && ostr.getCenterY() < ingr.getMaxY())
-						|| (ostr.intersects( ingr ) && ostr.getCenterX() > ost.getX() && ostr.getCenterX() < ost.getMaxX()))
-			    			return true;
+	    			if(!ostr.intersects( enter.component( Global.LATOSU ) ) && !ostr.intersects( enter.component( Global.LATOGIU ) ))
+	    				if(ostr.intersects( ingr ))
+	    					if((ostr.getCenterY() > ingr.getY() && ostr.getCenterY() < ingr.getMaxY()))
+		    					{
+	    							primoTubo = true;
+	    							secondoTubo = false;
+		        					setPositionInTube( ost, primoTubo );
+		        					return true;
+	    						}
 	    		}
     		else if(dir.equals( "up" ) || dir.equals( "down" ))
     			{
-	    			if(!ostr.intersects( ost.component( Global.LATOSX ) ) && !ostr.intersects( ost.component( Global.LATODX ) ))
-			    		if((ostr.intersects( ingr ) && ostr.getCenterY() > ingr.getY() && ostr.getCenterY() < ingr.getMaxY())
-						|| (ostr.intersects( ingr ) && ostr.getCenterX() > ost.getX() && ostr.getCenterX() < ost.getMaxX()))
-			    			return true;
+	    			if(!ostr.intersects( enter.component( Global.LATOSX ) ) && !ostr.intersects( enter.component( Global.LATODX ) ))
+	    				if(ostr.intersects( ingr ))
+	    					if((ostr.getCenterX() > ingr.getX() && ostr.getCenterX() < ingr.getMaxX()))
+		    					{
+	    							primoTubo = true;
+	    							secondoTubo = false;
+		        					setPositionInTube( ost, primoTubo );
+		        					return true;
+	    						}
     			}
     		
     		return false;
