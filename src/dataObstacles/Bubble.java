@@ -316,18 +316,14 @@ public class Bubble extends Ostacolo
     		//orientamento del tubo
 			String pos = ost.getOrienting();
 			// spigolo di riferimento per l'ingresso
-			Shape ingr = ost.component( "spigASx" );
+			Shape ingr = ost.component( Global.SPIGASX );
 			
     		//la sfera e' nel PRIMO tubo
     		if(primoTubo)
     			{
-	    			if(pos.equals( "sx" ))
+	    			if(pos.equals( "sx" ) || pos.equals( "dx" ))
 						setXY( ostr.getX(), ingr.getY() + ost.getHeight()/2 - getHeight()/2, "restore" );
-					else if(pos.equals( "dx" ))
-						setXY( ostr.getX(), ingr.getY() + ost.getHeight()/2 - getHeight()/2, "restore" );
-					else if(pos.equals( "down" ))
-						setXY( ingr.getX() + ost.getWidth()/2 - getWidth()/2, ostr.getY(), "restore" );
-					else
+	    			else if(pos.equals( "down" ) || pos.equals( "up" ))
 						setXY( ingr.getX() + ost.getWidth()/2 - getWidth()/2, ostr.getY(), "restore" );
     			}
     		//la sfera e' nel SECONDO tubo
@@ -395,32 +391,24 @@ public class Bubble extends Ostacolo
         				}
 	    		}
     		// la sfera e' nel SECONDO tubo
-    		else if(secondoTubo)
-    			{
-	    			if(!tubo.component( "rect" ).intersects( ostr ))
-	    				{
-	    					secondoTubo = false;
-	    					primoTubo = false;
-	    					indexTube = -1;
-	    				}
-    			}
+    		else if(secondoTubo && !tubo.getArea().intersects( ostr ))
+				{
+					secondoTubo = false;
+					primoTubo = false;
+					indexTube = -1;
+				}
     	}
     
     /**gestisce collisioni fra tutti gli elementi*/
     public void checkAll( int i, Ostacolo ost )
     	{
-    		if(ost.getID().equals( Global.TUBO ))
-    			{					
-					if(!primoTubo)
-    					{
-	    					// se la sfera ha colliso con l'ingresso di un tubo
-    						if((secondoTubo && i != indexTube) || !secondoTubo)
-		    					if(checkEnter( ((Tubo) ost) ))
-	    							indexTube = i;
-    					}
-    				if(primoTubo || secondoTubo)
-    					gestioneSferaInTubo();
-    			}
+    		if(ost.getID().equals( Global.TUBO ) && !primoTubo)
+				{
+					// se la sfera ha colliso con l'ingresso di un tubo
+					if((secondoTubo && i != indexTube) || !secondoTubo)
+    					if(checkEnter( ((Tubo) ost) ))
+							indexTube = i;
+				}
         	
 			if(secondoTubo)
 				{
@@ -428,18 +416,14 @@ public class Bubble extends Ostacolo
 						{
 							if(ost.getID().equals( Global.BASE ))
 								{
-									if(((Base) ost).getIndexTube() != indexTube)
-										{
-											if(ostr.intersects( ost.component( Global.RECT ) ))
-												gestioneCollisioni( ost );
-										}
+									if(((Base) ost).getIndexTube() != indexTube && ostr.intersects( ost.component( Global.RECT ) ))
+										gestioneCollisioni( ost );
 								}
 								
 							else if(ost.getID().equals( Global.ENTER ))
 								{
-									if(((Enter) ost).getIndexTube() != indexTube)
-										if(ostr.intersects( ost.component( Global.RECT ) ))
-											gestioneCollisioni( ost );
+									if(((Enter) ost).getIndexTube() != indexTube && ostr.intersects( ost.component( Global.RECT ) ))
+										gestioneCollisioni( ost );
 								}
 							else if(ostr.intersects( ost.component( Global.RECT ) ))
 								gestioneCollisioni( ost );
@@ -453,6 +437,9 @@ public class Bubble extends Ostacolo
 			else if(!primoTubo && !ost.getID().equals( Global.TUBO ))
 				if(ostr.intersects( ost.component( Global.RECT ) ))
 					gestioneCollisioni( ost );
+			
+			if(primoTubo || secondoTubo)
+				gestioneSferaInTubo();
     	}
     
     public boolean checkEnter( Tubo ost )
@@ -518,7 +505,7 @@ public class Bubble extends Ostacolo
     
     public void checkBorders()
     	{
-	    	if(ostr.getX() + 2*ray >= maxW)
+	    	if(getMaxX() >= maxW)
 	    		{
 	    			secondoTubo = false;
 	        		if(speedX > 0)
@@ -530,7 +517,7 @@ public class Bubble extends Ostacolo
 	        		if(speedX < 0)
 	        			speedX = -speedX;
 	        	}
-	        if(ostr.getY() + 2*ray >= maxH)
+	        if(getMaxY() >= maxH)
 	        	{
     				secondoTubo = false;
 	        		if(speedY > 0)
@@ -548,7 +535,7 @@ public class Bubble extends Ostacolo
         {}
  
     public float getMaxX()
-        { return ray*2; }
+        { return getX() + ray*2; }
  
     public Ostacolo clone( GameContainer gc ) {
         try
