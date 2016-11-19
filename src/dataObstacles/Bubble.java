@@ -38,7 +38,7 @@ public class Bubble extends Ostacolo
 	
 	private float backupSpeedX, backupSpeedY;
 	
-	private final String UP = "up", DOWN = "down", SX = "sx", DX = "dx", RESTORE = "restore", RAY = "setRay", MOVE = "move";
+	private static final String UP = "up", DOWN = "down", SX = "sx", DX = "dx", RESTORE = "restore", RAY = "setRay", MOVE = "move";
      
     public Bubble( Ostacolo ost, GameContainer gc ) throws SlickException
         { this( ost.getX(), ost.getY(), ost.getWidth()/2, ost.getMaxWidth(), gc ); }
@@ -155,7 +155,7 @@ public class Bubble extends Ostacolo
  
     public void setSpeed( float x, float y )
         {
-    		speedX = x;
+    		speedX = x;	
     		speedY = y;
         }
     
@@ -171,6 +171,10 @@ public class Bubble extends Ostacolo
     public void setMaxWidth( float val )
     	{ maxW = val; }
     
+    /** inverte le due componenti della velocita' */
+    private float[] reverseSpeed( float speed1, float speed2 )
+    	{ return new float[]{speed1, speed2}; }
+    
     /**determina la velocita' risultante nella collisione fra sfera e altri ostacoli*/
     public void gestioneCollisioni( Ostacolo ost )
     	{
@@ -180,33 +184,34 @@ public class Bubble extends Ostacolo
 			// alto a sinistra || in alto
 			if((speedX < 0 && speedY < 0) || (speedX == 0 && speedY < 0))
 				{
-					if(ostr.intersects( ost.component( "spigBSx" ) ))
+					if(ostr.intersects( ost.component( Global.SPIGBSX ) ))
 						{
 							speedY = -speedY;
 							if(speedX == 0)
-								if(ostr.getCenterX() < ost.component( "spigBSx" ).getX())
+								if(ostr.getCenterX() < ost.component( Global.SPIGBSX ).getX())
 									speedX = -1;
 						}
-					else if(ostr.intersects( ost.component( "spigADx" ) ))
+					else if(ostr.intersects( ost.component( Global.SPIGADX ) ))
 						speedX = -speedX;
-					else if(ostr.intersects( ost.component( "spigBDx" ) ))
+					else if(ostr.intersects( ost.component( Global.SPIGBDX ) ))
 						{
-							if(ostr.getCenterX() > ost.component( "spigBDx" ).getX() && ostr.getCenterY() > ost.component( "spigBDx" ).getY())
+							if(ostr.getCenterX() > ost.component( Global.SPIGBDX ).getX() && ostr.getCenterY() > ost.component( Global.SPIGBDX ).getY())
 								{
-									float tmp = speedX;
+									reverseSpeed( -speedY, speedX );
+									/*float tmp = speedX;
 									speedX = -speedY;
-									speedY = -tmp;
+									speedY = -tmp;*/
 									if(speedX == 0)
 										speedX = 1;
 								}
 							else if(speedX == 0)
 								speedY = -speedY;
-							else if(ostr.intersects( ost.component( "latoDx" ) ) && ostr.getCenterY() < ost.component( "spigBDx" ).getY())
+							else if(ostr.intersects( ost.component( Global.LATODX ) ) && ostr.getCenterY() < ost.component( Global.SPIGBDX ).getY())
 	    						speedX = -speedX;
 	    					else if(ostr.intersects( ost.component( "latoGiu" ) ))
 	    						speedY = -speedY;
 						}
-					else if(ostr.intersects( ost.component( "latoDx" ) ))
+					else if(ostr.intersects( ost.component( Global.LATODX ) ))
 						speedX = -speedX;
 					else if(ostr.intersects( ost.component( "latoGiu" ) ))
 						speedY = -speedY;
@@ -214,31 +219,32 @@ public class Bubble extends Ostacolo
 			// alto a destra || a destra
 			else if((speedX > 0 && speedY < 0) || (speedX > 0 && speedY == 0))
 				{
-					if(ostr.intersects( ost.component( "spigBDx" ) ))
+					if(ostr.intersects( ost.component( Global.SPIGBDX ) ))
 						speedY = -speedY;
-					else if(ostr.intersects( ost.component( "spigASx" ) ))
+					else if(ostr.intersects( ost.component( Global.SPIGASX ) ))
 						{
 							speedX = -speedX;
 							if(speedY == 0)
-								if(ostr.getCenterY() < ost.component( "spigASx" ).getY())
+								if(ostr.getCenterY() < ost.component( Global.SPIGASX ).getY())
 									speedY = -1;
 						}
-					else if(ostr.intersects( ost.component( "spigBSx" ) ))
+					else if(ostr.intersects( ost.component( Global.SPIGBSX ) ))
 						{
-    						if(ostr.getCenterX() < ost.component( "spigBSx" ).getMaxX() && ostr.getCenterY() > ost.component( "spigBSx" ).getY())
+    						if(ostr.getCenterX() < ost.component( Global.SPIGBSX ).getMaxX() && ostr.getCenterY() > ost.component( Global.SPIGBSX ).getY())
 								{
-    								float tmp = speedX;
+    								reverseSpeed( speedY, speedX );
+    								/*float tmp = speedX;
     								speedX = speedY;
-    								speedY = tmp;
+    								speedY = tmp;*/
     								if(speedY == 0)
     									speedY = 1;
 								}
-    						else if(ostr.intersects( ost.component( "latoSx" ) ) && ostr.getCenterY() < ost.component( "spigBSx" ).getY())
+    						else if(ostr.intersects( ost.component( Global.LATOSX ) ) && ostr.getCenterY() < ost.component( Global.SPIGBSX ).getY())
 	    						speedX = -speedX;
 	    					else if(ostr.intersects( ost.component( "latoGiu" ) ))
 	    						speedY = -speedY;
 						}
-					else if(ostr.intersects( ost.component( "latoSx" ) ))
+					else if(ostr.intersects( ost.component( Global.LATOSX ) ))
 						speedX = -speedX;
 					else if(ostr.intersects( ost.component( "latoGiu" ) ))
 						speedY = -speedY;
@@ -246,65 +252,68 @@ public class Bubble extends Ostacolo
 			// basso a destra || in basso
 			else if((speedX > 0 && speedY > 0) || (speedX == 0 && speedY > 0))
 				{
-    				if(ostr.intersects( ost.component( "spigBSx" ) ))
+    				if(ostr.intersects( ost.component( Global.SPIGBSX ) ))
 						speedX = -speedX;
-					else if(ostr.intersects( ost.component( "spigADx" ) ))
+					else if(ostr.intersects( ost.component( Global.SPIGADX ) ))
 						{
 							speedY = -speedY;
 							if(speedX == 0)
-								if(ostr.getCenterX() > ost.component( "spigADx" ).getMaxY())
+								if(ostr.getCenterX() > ost.component( Global.SPIGADX ).getMaxY())
 									speedX = 1;
 						}
-					else if(ostr.intersects( ost.component( "spigASx" ) ))
+					else if(ostr.intersects( ost.component( Global.SPIGASX ) ))
 						{
-							if(ostr.getCenterY() < ost.component( "spigASx" ).getMaxY() && ostr.getCenterX() < ost.component( "spigASx" ).getMaxX())
+							if(ostr.getCenterY() < ost.component( Global.SPIGASX ).getMaxY() && ostr.getCenterX() < ost.component( Global.SPIGASX ).getMaxX())
 								{
-									float tmp = speedX;
+									reverseSpeed( -speedY, speedX );
+									/*float tmp = speedX;
 									speedX = -speedY;
-									speedY = -tmp;
+									speedY = -tmp;*/
 									if(speedX == 0)
 										speedX = -1;
 								}
-	    					else if(ostr.intersects( ost.component( "latoSx" ) ) && ostr.getCenterY() > ost.component( "spigASx" ).getMaxX())
+	    					else if(ostr.intersects( ost.component( Global.LATOSX ) ) && ostr.getCenterY() > ost.component( Global.SPIGASX ).getMaxX())
 	    						speedX = -speedX;
-	    					else if(ostr.intersects( ost.component( "latoSu" ) ))
+	    					else if(ostr.intersects( ost.component( Global.LATOSU ) ))
 	    						speedY = -speedY;
 						}
-					else if(ostr.intersects( ost.component( "latoSx" ) ))
+					else if(ostr.intersects( ost.component( Global.LATOSX ) ))
 						speedX = -speedX;
-					else if(ostr.intersects( ost.component( "latoSu" ) ))
+					else if(ostr.intersects( ost.component( Global.LATOSU ) ))
 						speedY = -speedY;
 				}
 			// basso a sinistra || a sinistra
 			else if((speedX < 0 && speedY > 0) || (speedX < 0 && speedY == 0))
 				{
-    				if(ostr.intersects( ost.component( "spigBDx" ) ))
+    				if(ostr.intersects( ost.component( Global.SPIGBDX ) ))
     					{
 							speedX = -speedX;
 							if(speedY == 0)
-								if(ostr.getCenterY() > ost.component( "spigBDx" ).getY())
+								if(ostr.getCenterY() > ost.component( Global.SPIGBDX ).getY())
 									speedY = 1;
     					}
-					else if(ostr.intersects( ost.component( "spigASx" ) ))
+					else if(ostr.intersects( ost.component( Global.SPIGASX ) ))
 						speedY = -speedY;
-					else if(ostr.intersects( ost.component( "spigADx" ) ))
+					else if(ostr.intersects( ost.component( Global.SPIGADX ) ))
 						{
-							if(ostr.getCenterX() > ost.component( "spigADx" ).getX() && ostr.getCenterY() < ost.component( "spigADx" ).getMaxY())
+							if(ostr.getCenterX() > ost.component( Global.SPIGADX ).getX() && ostr.getCenterY() < ost.component( Global.SPIGADX ).getMaxY())
 								{
-									float tmp = speedX;
+									// TODO DA RIVEDERE
+									reverseSpeed( speedY, speedX );
+									/*float tmp = speedX;
 									speedX = speedY;
-									speedY = tmp;
+									speedY = tmp;*/
 									if(speedY == 0)
 										speedY = -1;
 								}
-	    					else if(ostr.intersects( ost.component( "latoDx"  ) ) && ostr.getCenterY() > ost.component( "spigADx" ).getMaxY())
+	    					else if(ostr.intersects( ost.component( Global.LATODX  ) ) && ostr.getCenterY() > ost.component( Global.SPIGADX ).getMaxY())
 	    						speedX = -speedX;
-	    					else if(ostr.intersects( ost.component( "latoSu" ) ))
+	    					else if(ostr.intersects( ost.component( Global.LATOSU ) ))
 	    						speedY = -speedY;
 						}
-					else if(ostr.intersects( ost.component( "latoDx"  ) ))
+					else if(ostr.intersects( ost.component( Global.LATODX  ) ))
 						speedX = -speedX;
-					else if(ostr.intersects( ost.component( "latoSu" ) ))
+					else if(ostr.intersects( ost.component( Global.LATOSU ) ))
 						speedY = -speedY;
 				}
     		
@@ -357,9 +366,8 @@ public class Bubble extends Ostacolo
     			}
     	}
     /**determina se la sfera e' ancora nel primo tubo o se e' ancora nel secondo*/
-    public void gestioneSferaInTubo()
+    public void gestioneSferaInTubo( Tubo tubo )
     	{
-			Ostacolo tubo = InGame.ostacoli.get( indexTube );
     		// se la sfera e' nel PRIMO tubo
     		if(primoTubo)
 	    		{
@@ -441,7 +449,7 @@ public class Bubble extends Ostacolo
 					gestioneCollisioni( ost );
 			
 			if(primoTubo || secondoTubo)
-				gestioneSferaInTubo();
+				gestioneSferaInTubo( (Tubo) InGame.ostacoli.get( indexTube ) );
     	}
     
     public boolean checkEnter( Tubo ost )
