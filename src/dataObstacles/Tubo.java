@@ -162,7 +162,7 @@ public class Tubo extends Ostacolo{
 
     public void setInsert(boolean insert, boolean change)
         {
-            checkInsert = !change;
+            checkInsert = change;
             this.insert = insert;
         }
 	

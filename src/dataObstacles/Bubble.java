@@ -85,8 +85,6 @@ public class Bubble extends Ostacolo
     					else
     						immagine.draw( ostr.getX(), ostr.getY(), ray*2, ray*2, cg );
     			}
-    		
-    		g.fill( getArea() );
 		}
     
     public double getMaxWidth()
@@ -552,7 +550,7 @@ public class Bubble extends Ostacolo
 
     public void setInsert(boolean insert, boolean change)
 		{
-			checkInsert = !change;
+			checkInsert = change;
 			this.insert = insert;
 		}
 

@@ -115,7 +115,7 @@ public class Sbarra extends Ostacolo
 
 	public void setInsert(boolean insert, boolean change)
 		{
-			checkInsert = !change;
+			checkInsert = change;
 			this.insert = insert;
 		}
 	
