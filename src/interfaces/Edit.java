@@ -606,7 +606,7 @@ public class Edit
 							// setta il colore dell'oggetto in fase di inserimento
 							temp.setInsert( checkCollision(), true );
 
-							// controlla se l'oggetto da inserire non superi i confini dello schermo di gioco					
+							// controlla se l'oggetto da inserire non supera i confini dello schermo di gioco					
 							if(temp.getX() <= 0)
 								temp.setXY( 0, temp.getY(), Global.RESTORE );
 							else if(temp.getMaxX() >= Global.Width)
