@@ -575,15 +575,6 @@ public class Player extends Ostacolo
 					maxJump = 1;
 					tempJump = 60;
 				}
-
-			if(maxJump > 0)
-				setXY( 0, -move + 0.2f*(40 - tempJump--), MOVE );
-			else
-				{
-					movingJ = true;
-					setXY( 0, move + Math.abs( 0.1f * tempJump-- ), MOVE );
-				}
-			
 			/*ZONA SPARO*/
 			if(!isShooting && input.isKeyPressed( Global.mapButtons.get( numPlayer-1 ).get( Global.SPARO ) ))
 	            {					
@@ -598,6 +589,14 @@ public class Player extends Ostacolo
 					
 					isShooting = true;
 	            }
+
+			if(maxJump > 0)
+				setXY( 0, -move + 0.2f*(40 - tempJump--), MOVE );
+			else
+				{
+					movingJ = true;
+					setXY( 0, move + Math.abs( 0.1f * tempJump-- ), MOVE );
+				}
 			
 			if(!isShooting && currAmmo == 0)
 				if(fire.size() > 1)
@@ -630,36 +629,26 @@ public class Player extends Ostacolo
 							currentTimeInv = 0;
 				}
 			
-			/*ZONA CONTROLLO COLLISIONE PERSONAGGIO - POWERUP*/
-			for(int i = 0; i < InGame.powerUp.size(); i++)
+			/*controlla se non sono stati superati i limiti della schermata*/
+			if(moving || movingJ)
 				{
-					PowerUp powerUp = InGame.powerUp.get( i );
-					if(area.intersects( powerUp.getArea() ))
-						{							
-							if(powerUp.getID().equals( COIN ))
-								points = points + 500;
-							else if(powerUp.getID().equals( LIFE ))
-								lifes = Math.min( ++lifes, Global.lifes );
-							else if(powerUp.getID().equals( INVINCIBLE ))
-								{
-									immortal = true;
-									invincible = false;
-									currentTimeImm = gc.getTime();
-								}
-							else if(powerUp.getID().equals( AMMO ))
-								{
-									if(currAmmo < maxAmmo)
-										{
-											currAmmo++;
-											fire.add( new Shot( gc ) );
-											currentTimeShot = gc.getTime();
-											coolDown.setY( maxHeight );
-											coolDown.setHeight( Global.Height - maxHeight );
-											index = 270*timerShot/3000;
-											tickCd = coolDown.getHeight()/index;
-										}
-								}							
-							InGame.powerUp.remove( powerUp );
+					if(area.getMaxX() > Global.Width)
+						setXY( Global.Width - width, area.getY(), RESTORE );
+					else if(area.getX() < 0)
+						setXY( 0, area.getY(), RESTORE );
+					if(area.getMaxY() > Global.maxHeight)
+						{
+							maxJump = 0;
+							jump = false;
+							movingJ = false;
+							setXY( area.getX(), maxHeight - height, RESTORE );
+						}
+					else if(area.getY() < 0)
+						{
+							maxJump = 0;
+							tempJump = 0;
+							animTime = animTimeJump/5;
+							setXY( area.getX(), 0, RESTORE );
 						}
 				}
 			
@@ -709,6 +698,39 @@ public class Player extends Ostacolo
 						}
 				}
 			
+			/*ZONA CONTROLLO COLLISIONE PERSONAGGIO - POWERUP*/
+			for(int i = 0; i < InGame.powerUp.size(); i++)
+				{
+					PowerUp powerUp = InGame.powerUp.get( i );
+					if(area.intersects( powerUp.getArea() ))
+						{							
+							if(powerUp.getID().equals( COIN ))
+								points = points + 500;
+							else if(powerUp.getID().equals( LIFE ))
+								lifes = Math.min( ++lifes, Global.lifes );
+							else if(powerUp.getID().equals( INVINCIBLE ))
+								{
+									immortal = true;
+									invincible = false;
+									currentTimeImm = gc.getTime();
+								}
+							else if(powerUp.getID().equals( AMMO ))
+								{
+									if(currAmmo < maxAmmo)
+										{
+											currAmmo++;
+											fire.add( new Shot( gc ) );
+											currentTimeShot = gc.getTime();
+											coolDown.setY( maxHeight );
+											coolDown.setHeight( Global.Height - maxHeight );
+											index = 270*timerShot/3000;
+											tickCd = coolDown.getHeight()/index;
+										}
+								}							
+							InGame.powerUp.remove( powerUp );
+						}
+				}
+			
 			/*ZONA UPDATE SPARO/I*/
 			for(Shot fuoco: fire)
 				{
@@ -736,29 +758,6 @@ public class Player extends Ostacolo
 				}
 			if(isShooting && !checkFire())
 				{ isShooting = false; }
-			
-			/*controlla se non sono stati superati i limiti della schermata*/
-			if(moving || movingJ)
-				{
-					if(area.getMaxX() > Global.Width)
-						setXY( Global.Width - width, area.getY(), RESTORE );
-					else if(area.getX() < 0)
-						setXY( 0, area.getY(), RESTORE );
-					if(area.getMaxY() > Global.maxHeight)
-						{
-							maxJump = 0;
-							jump = false;
-							movingJ = false;
-							setXY( area.getX(), maxHeight - height, RESTORE );
-						}
-					else if(area.getY() < 0)
-						{
-							maxJump = 0;
-							tempJump = 0;
-							animTime = animTimeJump/5;
-							setXY( area.getX(), 0, RESTORE );
-						}
-				}
 			
 			/*controlla se sono state distrutte tutte le sfere*/
 			checkSpheres();
