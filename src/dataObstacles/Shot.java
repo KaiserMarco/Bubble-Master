@@ -21,7 +21,8 @@ public class Shot
 	private float posX, posY, startY;
 	
 	private int widthS, heightS;
-	private int widthC, heightC;
+	// altezza e lunghezza del colpo (uguale per entrambe)
+	private int valC;
 	
 	private Image shot[];
 	private ArrayList<Image> sparo;
@@ -38,16 +39,15 @@ public class Shot
 	
 	public Shot( GameContainer gc ) throws SlickException
 		{
-			widthS = gc.getHeight()/40;
-			heightS = gc.getHeight()*10/285;
+			widthS = Global.Width/53;
+			heightS = Global.Height*10/285;
 			
-			widthC = gc.getHeight()*10/666;
-			heightC = gc.getHeight()*10/666;
+			valC = Global.Height*10/666;
 			
-			sheetShot = new SpriteSheet( new Image( "./data/Image/shot.png" ), gc.getWidth()/80, gc.getWidth()/50 );
-			sheetChainHor = new SpriteSheet( new Image( "./data/Image/chainHor.png" ), gc.getHeight()/100, gc.getHeight()/100 );
+			sheetShot = new SpriteSheet( new Image( "./data/Image/shot.png" ), Global.Width/80, Global.Height*10/375 );
+			sheetChainHor = new SpriteSheet( new Image( "./data/Image/chainHor.png" ), Global.Height/100, Global.Height/100 );
 		
-			shot = new Image[2];			
+			shot = new Image[2];
 			shot[0] = sheetShot.getSubImage( 0, 0 );
 			shot[1] = sheetChainHor.getSubImage( 0, 0 );
 			
@@ -75,10 +75,10 @@ public class Shot
 			float saveY = startY;
 			for(Image fuoco: sparo)
 				{
-					startY = startY - heightC;
-					fuoco.draw( posX, startY, widthC, heightC );
+					startY = startY - valC;
+					fuoco.draw( posX, startY, valC, valC );
 				}
-			sparo.get( sparo.size() - 1 ).draw( posX + widthC/2 - widthS/2, posY, widthS, heightS );
+			sparo.get( sparo.size() - 1 ).draw( posX + valC/2 - widthS/2, posY, widthS, heightS );
 			
 			startY = saveY;
 		}
@@ -130,11 +130,11 @@ public class Shot
 									float ray = Global.Height/40;
 									double power = Math.random();
 									if(power <= 0.2)
-										InGame.powerUp.add( new Invincible( ost.getArea().getCenterX() - ray, ost.getArea().getCenterY(), ray, ost.getMaxHeight() ) );
+										InGame.powerUp.add( new Invincible( ost.getArea().getX(), ost.getArea().getCenterY(), ray, ost.getMaxHeight() ) );
 									else if(power <= 0.5)
-										InGame.powerUp.add( new Ammo( ost.getArea().getCenterX() - ray, ost.getArea().getCenterY(), ray, ost.getMaxHeight() ) );
+										InGame.powerUp.add( new Ammo( ost.getArea().getX(), ost.getArea().getCenterY(), ray, ost.getMaxHeight() ) );
 									else if(power <= 0.7)
-										InGame.powerUp.add( new Coin( ost.getArea().getCenterX() - ray, ost.getArea().getCenterY(), ray, ost.getMaxHeight() ) );
+										InGame.powerUp.add( new Coin( ost.getArea().getX(), ost.getArea().getCenterY(), ray, ost.getMaxHeight() ) );
 									else
 										{
 											InGame.powerUp.add( new Life( ost.getArea().getCenterX() - ray, ost.getArea().getCenterY(), ray, ost.getMaxHeight() ) );
@@ -150,7 +150,7 @@ public class Shot
 								play.setPoint( 300 );
 							if(ost.getWidth() > Global.Width/64)
 								{
-									ost.setXY( (int) ost.getWidth()/4, (int) ost.getWidth()/4, "setRay" );
+									ost.setXY( ost.getWidth()/4, ost.getWidth()/4, "setRay" );
 									
 									Bubble temp1 = new Bubble( ost, gc );
 									Bubble temp2 = new Bubble( ost, gc );
@@ -195,6 +195,6 @@ public class Shot
 		{
 			/*aggiunge un nuovo pezzo allo sparo*/
 			sparo.add( 0, shot[1] );
-			posY = posY - heightC;
+			posY = posY - valC;
 		}
 }
