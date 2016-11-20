@@ -172,8 +172,11 @@ public class Bubble extends Ostacolo
     	{ maxW = val; }
     
     /** inverte le due componenti della velocita' */
-    private float[] reverseSpeed( float speed1, float speed2 )
-    	{ return new float[]{speed1, speed2}; }
+    private void reverseSpeed( float speed1, float speed2 )
+    	{ 
+    		speedX = speed1;
+    		speedY = speed2;
+    	}
     
     /**determina la velocita' risultante nella collisione fra sfera e altri ostacoli*/
     public void gestioneCollisioni( Ostacolo ost )
@@ -198,9 +201,6 @@ public class Bubble extends Ostacolo
 							if(ostr.getCenterX() > ost.component( Global.SPIGBDX ).getX() && ostr.getCenterY() > ost.component( Global.SPIGBDX ).getY())
 								{
 									reverseSpeed( -speedY, speedX );
-									/*float tmp = speedX;
-									speedX = -speedY;
-									speedY = -tmp;*/
 									if(speedX == 0)
 										speedX = 1;
 								}
@@ -233,9 +233,6 @@ public class Bubble extends Ostacolo
     						if(ostr.getCenterX() < ost.component( Global.SPIGBSX ).getMaxX() && ostr.getCenterY() > ost.component( Global.SPIGBSX ).getY())
 								{
     								reverseSpeed( speedY, speedX );
-    								/*float tmp = speedX;
-    								speedX = speedY;
-    								speedY = tmp;*/
     								if(speedY == 0)
     									speedY = 1;
 								}
@@ -266,9 +263,6 @@ public class Bubble extends Ostacolo
 							if(ostr.getCenterY() < ost.component( Global.SPIGASX ).getMaxY() && ostr.getCenterX() < ost.component( Global.SPIGASX ).getMaxX())
 								{
 									reverseSpeed( -speedY, speedX );
-									/*float tmp = speedX;
-									speedX = -speedY;
-									speedY = -tmp;*/
 									if(speedX == 0)
 										speedX = -1;
 								}
@@ -298,11 +292,7 @@ public class Bubble extends Ostacolo
 						{
 							if(ostr.getCenterX() > ost.component( Global.SPIGADX ).getX() && ostr.getCenterY() < ost.component( Global.SPIGADX ).getMaxY())
 								{
-									// TODO DA RIVEDERE
 									reverseSpeed( speedY, speedX );
-									/*float tmp = speedX;
-									speedX = speedY;
-									speedY = tmp;*/
 									if(speedY == 0)
 										speedY = -1;
 								}
