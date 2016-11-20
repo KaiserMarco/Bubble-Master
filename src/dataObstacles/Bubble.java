@@ -208,12 +208,12 @@ public class Bubble extends Ostacolo
 								speedY = -speedY;
 							else if(ostr.intersects( ost.component( Global.LATODX ) ) && ostr.getCenterY() < ost.component( Global.SPIGBDX ).getY())
 	    						speedX = -speedX;
-	    					else if(ostr.intersects( ost.component( "latoGiu" ) ))
+	    					else if(ostr.intersects( ost.component( Global.LATOGIU ) ))
 	    						speedY = -speedY;
 						}
 					else if(ostr.intersects( ost.component( Global.LATODX ) ))
 						speedX = -speedX;
-					else if(ostr.intersects( ost.component( "latoGiu" ) ))
+					else if(ostr.intersects( ost.component( Global.LATOGIU ) ))
 						speedY = -speedY;
 				}
 			// alto a destra || a destra
@@ -238,12 +238,12 @@ public class Bubble extends Ostacolo
 								}
     						else if(ostr.intersects( ost.component( Global.LATOSX ) ) && ostr.getCenterY() < ost.component( Global.SPIGBSX ).getY())
 	    						speedX = -speedX;
-	    					else if(ostr.intersects( ost.component( "latoGiu" ) ))
+	    					else if(ostr.intersects( ost.component( Global.LATOGIU ) ))
 	    						speedY = -speedY;
 						}
 					else if(ostr.intersects( ost.component( Global.LATOSX ) ))
 						speedX = -speedX;
-					else if(ostr.intersects( ost.component( "latoGiu" ) ))
+					else if(ostr.intersects( ost.component( Global.LATOGIU ) ))
 						speedY = -speedY;
 				}
 			// basso a destra || in basso
@@ -416,16 +416,16 @@ public class Bubble extends Ostacolo
 						{
 							if(ost.getID().equals( Global.BASE ))
 								{
-									if(((Base) ost).getIndexTube() != indexTube && ostr.intersects( ost.component( Global.RECT ) ))
+									if(((Base) ost).getIndexTube() != indexTube && ostr.intersects( ost.getArea() ))
 										gestioneCollisioni( ost );
 								}
 								
 							else if(ost.getID().equals( Global.ENTER ))
 								{
-									if(((Enter) ost).getIndexTube() != indexTube && ostr.intersects( ost.component( Global.RECT ) ))
+									if(((Enter) ost).getIndexTube() != indexTube && ostr.intersects( ost.getArea() ))
 										gestioneCollisioni( ost );
 								}
-							else if(ostr.intersects( ost.component( Global.RECT ) ))
+							else if(ostr.intersects( ost.getArea() ))
 								gestioneCollisioni( ost );
 						}
 				
@@ -435,7 +435,7 @@ public class Bubble extends Ostacolo
 							gestioneCollisioni( ost );*/
 				}
 			else if(!primoTubo && !ost.getID().equals( Global.TUBO ))
-				if(ostr.intersects( ost.component( Global.RECT ) ))
+				if(ostr.intersects( ost.getArea() ))
 					gestioneCollisioni( ost );
 			
 			if(primoTubo || secondoTubo)
@@ -537,7 +537,7 @@ public class Bubble extends Ostacolo
     public Ostacolo clone( GameContainer gc ) {
         try
 	        {        	
-	            Bubble b = new Bubble( (int) ostr.getX(), (int) ostr.getY(), (int) ray, maxW, gc );
+	            Bubble b = new Bubble( ostr.getX(), ostr.getY(), ray, maxW, gc );
 	            b.setSpeed( speedX, speedY );
 	            return b;
 	        }
@@ -593,9 +593,9 @@ public class Bubble extends Ostacolo
 	public boolean contains( Shape shape )
 		{
 			if(shape.getY() >= ostr.getY())
-				if(shape.getY() + shape.getHeight() <= ostr.getY() + ostr.getHeight())
+				if(shape.getMaxY() <= ostr.getMaxY())
 					if(shape.getX() >= ostr.getX())
-						if(shape.getX() + shape.getHeight() <= ostr.getX() + ostr.getWidth())
+						if(shape.getMaxX() <= ostr.getMaxX())
 							return true;
 		
 			return false;

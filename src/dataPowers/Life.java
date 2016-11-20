@@ -31,7 +31,7 @@ public class Life extends PowerUp
 	// vettore contenenti le immagini delle vite relative dei players
 	private ArrayList<Image> cuori;
 	
-	public Life( int x, int y, float ray, double maxH ) throws SlickException
+	public Life( float x, float y, float ray, double maxH ) throws SlickException
 		{
 			super( "life" );
 			

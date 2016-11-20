@@ -120,9 +120,9 @@ public class Shot
 	
 	public boolean collision( Player play, Ostacolo ost, String type, GameContainer gc ) throws SlickException
 		{
-			if(getArea().intersects( ost.component( Global.RECT ) ))
+			if(getArea().intersects( ost.getArea() ))
 				{
-					if(type.equals( "bolla" ))
+					if(type.equals( Global.BOLLA ))
 						{
 							hit = true;
 							if(Math.random() <= Global.dropRate)
@@ -130,14 +130,14 @@ public class Shot
 									float ray = Global.Height/40;
 									double power = Math.random();
 									if(power <= 0.2)
-										InGame.powerUp.add( new Invincible( (int) (ost.getArea().getCenterX() - ray), (int) ost.getArea().getCenterY(), ray, ost.getMaxHeight() ) );
+										InGame.powerUp.add( new Invincible( ost.getArea().getCenterX() - ray, ost.getArea().getCenterY(), ray, ost.getMaxHeight() ) );
 									else if(power <= 0.5)
-										InGame.powerUp.add( new Ammo( (int) (ost.getArea().getCenterX() - ray), (int) ost.getArea().getCenterY(), ray, ost.getMaxHeight() ) );
+										InGame.powerUp.add( new Ammo( ost.getArea().getCenterX() - ray, ost.getArea().getCenterY(), ray, ost.getMaxHeight() ) );
 									else if(power <= 0.7)
-										InGame.powerUp.add( new Coin( (int) (ost.getArea().getCenterX() - ray), (int) ost.getArea().getCenterY(), ray, ost.getMaxHeight() ) );
+										InGame.powerUp.add( new Coin( ost.getArea().getCenterX() - ray, ost.getArea().getCenterY(), ray, ost.getMaxHeight() ) );
 									else
 										{
-											InGame.powerUp.add( new Life( (int) (ost.getArea().getCenterX() - ray), (int) ost.getArea().getCenterY(), ray, ost.getMaxHeight() ) );
+											InGame.powerUp.add( new Life( ost.getArea().getCenterX() - ray, ost.getArea().getCenterY(), ray, ost.getMaxHeight() ) );
 											((Life) InGame.powerUp.get( InGame.powerUp.size() - 1 )).setPlayers();
 										}
 								}

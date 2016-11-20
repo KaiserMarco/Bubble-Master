@@ -15,7 +15,7 @@ public class Invincible extends PowerUp
 	// determina se l'oggetto ha raggiunto terra
 	private boolean arrived = false;
 	
-	public Invincible( int x, int y, float ray, double maxH ) throws SlickException
+	public Invincible( float x, float y, float ray, double maxH ) throws SlickException
 		{
 			super( "invincible" );
 			
