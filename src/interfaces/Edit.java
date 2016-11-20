@@ -609,11 +609,11 @@ public class Edit
 							// controlla se l'oggetto da inserire non superi i confini dello schermo di gioco					
 							if(temp.getX() <= 0)
 								temp.setXY( 0, temp.getY(), Global.RESTORE );
+							else if(temp.getMaxX() >= Global.Width)
+								temp.setXY( Global.Width - temp.getWidth(), temp.getY(), Global.RESTORE );
 							if(temp.getY() <= 0)
 								temp.setXY( temp.getX(), 0, Global.RESTORE );
-							if(temp.getMaxX() >= Global.Width)
-								temp.setXY( Global.Width - temp.getWidth(), temp.getY(), Global.RESTORE );
-							if(temp.getMaxY() > maxHeight)
+							else if(temp.getMaxY() > maxHeight)
 								temp.setXY( temp.getX(), maxHeight - temp.getHeight(), Global.RESTORE );
 							
 							tempX = mouseX;

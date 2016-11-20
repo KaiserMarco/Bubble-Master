@@ -135,6 +135,11 @@ public class Player extends Ostacolo
 	
 	private boolean check;
 	
+	private float spazio;
+
+	/*la posizione del player un attimo prima di spostarsi*/ 
+	private Rectangle prevArea;
+	
 	public Player( float x, float y, int numPlayer, GameContainer gc, Color color ) throws SlickException
 		{
 			super( "player" );
@@ -547,6 +552,53 @@ public class Player extends Ostacolo
 		{
 			moving = false;
 			
+			prevArea = new Rectangle( area.getX(), area.getY(), width, height );
+			
+			/*ZONA SPOSTAMENTI DESTRA-SINISTRA*/			
+			if(input.isKeyDown( Global.mapButtons.get( numPlayer-1 ).get( DESTRA ) ))
+				{
+					moving = true;
+					dir = DESTRA;
+					setXY( move, 0, MOVE );
+				}
+			else if(input.isKeyDown( Global.mapButtons.get( numPlayer-1 ).get( SINISTRA ) ))
+				{
+					moving = true;
+					dir = SINISTRA;
+					setXY( -move, 0, MOVE );
+				}
+			/*ZONA SALTO*/
+			if(input.isKeyDown( Global.mapButtons.get( numPlayer-1 ).get( Global.SALTO ) ) && !jump)
+				{
+					movingJ = true;
+					jump = true;
+					maxJump = 1;
+					tempJump = 60;
+				}
+
+			if(maxJump > 0)
+				setXY( 0, -move + 0.2f*(40 - tempJump--), MOVE );
+			else
+				{
+					movingJ = true;
+					setXY( 0, move + Math.abs( 0.1f * tempJump-- ), MOVE );
+				}
+			
+			/*ZONA SPARO*/
+			if(!isShooting && input.isKeyPressed( Global.mapButtons.get( numPlayer-1 ).get( Global.SPARO ) ))
+	            {					
+					spazio = widthI/(fire.size() + 1);
+
+					for(int i = 0; i < fire.size(); i++)
+						{
+							fire.get( i ).setXY( xPlayer + spazio*(i + 1) - fire.get( i ).getWidth()/2, yPlayer + height - 1 );
+							fire.get( i ).setShot( true );
+			                shots++;
+						}
+					
+					isShooting = true;
+	            }
+			
 			if(!isShooting && currAmmo == 0)
 				if(fire.size() > 1)
 					for(int i = fire.size() - 1; i > 0; i--)
@@ -567,7 +619,7 @@ public class Player extends Ostacolo
 				{
 					if((gc.getTime() - currentTimeImm) >= timerImm)
 						immortal = false;
-				}			
+				}
 			else if(invincible)
 				{
 					currentTimeInv = currentTimeInv + delta;
@@ -576,29 +628,8 @@ public class Player extends Ostacolo
 							invincible = false;
 						else
 							currentTimeInv = 0;
-				}			
-			/*ZONA CONTROLLO COLLISIONE PERSONAGGIO - SFERE*/
-			else for(Ostacolo ost: InGame.ostacoli)
-				{
-					if(ost.getID().equals( Global.BOLLA ))
-						if(area.intersects( ost.component( Global.RECT ) ))
-							{
-								if(--lifes == 0)
-									{
-										drawLifes = false;
-										drawPoints = false;
-										Global.inGame = false;
-									}
-								else
-									{
-										points = points - 100;
-										invincible = true;
-										currentTimeInv = 0;
-										currentTickInv = tickInv;
-									}
-							}
 				}
-		
+			
 			/*ZONA CONTROLLO COLLISIONE PERSONAGGIO - POWERUP*/
 			for(int i = 0; i < InGame.powerUp.size(); i++)
 				{
@@ -632,44 +663,52 @@ public class Player extends Ostacolo
 						}
 				}
 			
-			/*la posizione del player un attimo prima di spostarsi*/
-			Rectangle previousArea = new Rectangle( area.getX(), area.getY(), width, height );
-
-			/*ZONA SALTO*/
-			if(input.isKeyDown( Global.mapButtons.get( numPlayer-1 ).get( Global.SALTO ) ) && !jump)
+			/*ZONA CONTROLLO COLLISIONE PERSONAGGIO - OSTACOLI*/
+			for(Ostacolo ost: InGame.ostacoli)
 				{
-					movingJ = true;
-					jump = true;
-					maxJump = 1;
-					tempJump = 60;
-				}
-			/*ZONA SPOSTAMENTI DESTRA-SINISTRA*/			
-			if(input.isKeyDown( Global.mapButtons.get( numPlayer-1 ).get( DESTRA ) ))
-				{
-					moving = true;
-					dir = DESTRA;
-					setXY( move, 0, MOVE );
-				}
-			else if(input.isKeyDown( Global.mapButtons.get( numPlayer-1 ).get( SINISTRA ) ))
-				{
-					moving = true;
-					dir = SINISTRA;
-					setXY( -move, 0, MOVE );
-				}
-			/*ZONA SPARO*/
-			if(!isShooting && input.isKeyPressed( Global.mapButtons.get( numPlayer-1 ).get( Global.SPARO ) ))
-	            {					
-					float space = widthI/(fire.size() + 1);
-
-					for(int i = 0; i < fire.size(); i++)
+					if(ost.getID().equals( Global.BOLLA ))
 						{
-							fire.get( i ).setXY( xPlayer + space*(i + 1) - fire.get( i ).getWidth()/2, yPlayer + height - 1 );
-							fire.get( i ).setShot( true );
-			                shots++;
+							if(area.intersects( ost.getArea() ) && !immortal && !invincible)
+								{
+									if(--lifes == 0)
+										{
+											drawLifes = false;
+											drawPoints = false;
+											Global.inGame = false;
+										}
+									else
+										{
+											points = points - 100;
+											invincible = true;
+											currentTimeInv = 0;
+											currentTickInv = tickInv;
+										}
+								}
 						}
-					
-					isShooting = true;
-	            }
+					else if(!ost.getID().equals( Global.TUBO ))
+						{
+							if(area.intersects( ost.component( Global.LATOSU ) ) && prevArea.getMaxY() <= ost.getY())
+								{
+									maxJump = 0;
+									tempJump = 0;
+									jump = false;
+									movingJ = false;
+									setXY( area.getX(), ost.getY() - height, RESTORE );
+								}										
+							else if(area.intersects( ost.component( Global.LATOGIU ) ) && prevArea.getY() > ost.getMaxY())
+								{
+									maxJump = 0;
+									tempJump = 0;
+									animTime = animTimeJump/5;
+									setXY( area.getX(), ost.getMaxY(), RESTORE );
+								}
+							else if(area.intersects( ost.component( Global.LATODX ) ))
+								setXY( ost.getMaxX(), area.getY(), RESTORE );
+							else if(area.intersects( ost.component( Global.LATOSX ) ))
+								setXY( ost.getX() - width, area.getY(), RESTORE );
+						}
+				}
+			
 			/*ZONA UPDATE SPARO/I*/
 			for(Shot fuoco: fire)
 				{
@@ -697,62 +736,27 @@ public class Player extends Ostacolo
 				}
 			if(isShooting && !checkFire())
 				{ isShooting = false; }
-
-			if(maxJump > 0)
-				setXY( 0, -move + 0.2f*(40 - tempJump--), MOVE );
-			else
-				{
-					movingJ = true;
-					setXY( 0, move + Math.abs( 0.1f * tempJump-- ), MOVE );
-				}
 			
 			/*controlla se non sono stati superati i limiti della schermata*/
-			if(area.getMaxX() > Global.Width)
-				setXY( Global.Width - width, area.getY(), RESTORE );
-			else if(area.getX() < 0)
-				setXY( 0, area.getY(), RESTORE );
-			if(area.getMaxY() > Global.maxHeight)
+			if(moving || movingJ)
 				{
-					maxJump = 0;
-					jump = false;
-					movingJ = false;
-					setXY( area.getX(), maxHeight - height, RESTORE );
-				}
-			else if(area.getY() < 0)
-				{
-					maxJump = 0;
-					tempJump = 0;
-					animTime = animTimeJump/5;
-					setXY( area.getX(), 0, RESTORE );
-				}
-		
-			/*controlla la collisione con gli ostacoli del gioco (tranne le sfere)*/
-			for(Ostacolo ost: InGame.ostacoli)
-				{
-					if(!ost.getID().equals( Global.BOLLA ) && !ost.getID().equals( Global.TUBO ))
+					if(area.getMaxX() > Global.Width)
+						setXY( Global.Width - width, area.getY(), RESTORE );
+					else if(area.getX() < 0)
+						setXY( 0, area.getY(), RESTORE );
+					if(area.getMaxY() > Global.maxHeight)
 						{
-							if(area.intersects( ost.component( Global.RECT ) ))
-								{
-									if(area.intersects( ost.component( Global.LATOSU ) ) && previousArea.getMaxY() <= ost.getY())
-										{
-											maxJump = 0;
-											tempJump = 0;
-											jump = false;
-											movingJ = false;
-											setXY( area.getX(), ost.getY() - height, RESTORE );
-										}										
-									else if(area.intersects( ost.component( Global.LATOGIU ) ) && previousArea.getY() > ost.getMaxY())
-										{
-											maxJump = 0;
-											tempJump = 0;
-											animTime = animTimeJump/5;
-											setXY( area.getX(), ost.getMaxY(), RESTORE );
-										}
-									else if(area.intersects( ost.component( Global.LATODX ) ))
-										setXY( ost.getMaxX(), area.getY(), RESTORE );
-									else if(area.intersects( ost.component( Global.LATOSX ) ))
-										setXY( ost.getX() - width, area.getY(), RESTORE );
-								}
+							maxJump = 0;
+							jump = false;
+							movingJ = false;
+							setXY( area.getX(), maxHeight - height, RESTORE );
+						}
+					else if(area.getY() < 0)
+						{
+							maxJump = 0;
+							tempJump = 0;
+							animTime = animTimeJump/5;
+							setXY( area.getX(), 0, RESTORE );
 						}
 				}
 			

@@ -59,6 +59,17 @@ public class InGame
 			decrNumb = 4;
 		}
 	
+	public void setSpheres( GameContainer gc )
+		{
+			for(int i = ostacoli.size() - 1; i >= 0; i--)
+				if(ostacoli.get( i ).getID().equals( Global.BOLLA ))
+					{
+						ostacoli.add( ostacoli.get( i ).clone( gc ) );
+						ostacoli.get( ostacoli.size() - 1 ).setMaxHeight( sfondo.getMaxHeight() );
+						ostacoli.remove( i );
+					}
+		}
+	
 	public void addOstacoli( ArrayList<Ostacolo> obs, Sfondo sfondo, GameContainer gc ) throws SlickException
 		{
 			ostacoli.clear();
@@ -105,6 +116,8 @@ public class InGame
 							((Enter) ostacoli.get( ostacoli.size() - 1 )).setIndexTube( i );
 						}
 				}
+			
+			setSpheres( gc );
 			
 			Global.sfondo = sfondo;
 		}
