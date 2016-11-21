@@ -163,8 +163,17 @@ public class Edit
 						
 			for(Ostacolo obs: ostacoli)
 				{
-					if(temp == null || !temp.contains( obs.getArea() ))
+					if(temp != null)
+						{
+							if(!temp.getID().equals( Global.TUBO ) && !temp.contains( obs.getArea() ))
+								obs.draw( g );
+							else if(temp.getID().equals( Global.TUBO ))
+								if(!(((Tubo) temp).getBase().contains( obs.getArea() ) && ((Tubo) temp).getEnter().contains( obs.getArea() )))
+									obs.draw( g );
+						}
+					else
 						obs.draw( g );
+					
 					if(obs.getID().equals( Global.TUBO ))
 						{
 							if(obs.getUnion() == -1)
