@@ -72,14 +72,18 @@ public class Begin
 	private int timeShowBegin;
 	private final int timeLimitBegin = 65;
 	
-	int shoot, jump, left, right;
+	private int shoot, jump, left, right;
 	
 	// gli input nella schermata iniziale
-	int mouseX, mouseY;
+	private int mouseX, mouseY;
 	
-	int x, y, union;
-	String tmp, type, orienting, numPlayer = null;
-	Color colour = null;
+	private int x, y, union;
+	
+	private String tmp, type, orienting, numPlayer = null;
+	
+	private Color colour = null;
+
+	private float xBeg = Global.Width*5/22, yBeg = Global.Height*5/6, scale = 1.3f;
 	
 	public Begin( GameContainer gc ) throws SlickException
 		{
@@ -245,8 +249,6 @@ public class Begin
 	        			showBegin = !showBegin;
 	        		if(showBegin)
 	        			{
-	        				float xBeg = Global.Width*5/22, yBeg = Global.Height*5/6;
-	        				float scale = 1.3f;
 	        				g.scale( scale, scale );
 	        				g.setColor( Color.red );
         					g.drawString( BEGIN, xBeg/scale, yBeg/scale );
