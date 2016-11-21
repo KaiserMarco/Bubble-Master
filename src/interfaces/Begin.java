@@ -72,8 +72,14 @@ public class Begin
 	private int timeShowBegin;
 	private final int timeLimitBegin = 65;
 	
+	int shoot, jump, left, right;
+	
 	// gli input nella schermata iniziale
 	int mouseX, mouseY;
+	
+	int x, y, union;
+	String tmp, type, orienting, numPlayer = null;
+	Color colour = null;
 	
 	public Begin( GameContainer gc ) throws SlickException
 		{
@@ -117,10 +123,10 @@ public class Begin
 							Node node = button.item( i );
 							Element ogg = (Element) node;
 							
-							int shoot = Integer.parseInt( ogg.getAttribute( Global.SPARO ) );
-							int jump = Integer.parseInt( ogg.getAttribute( Global.SALTO ) );
-							int left = Integer.parseInt( ogg.getAttribute( Global.SX ) );
-							int right = Integer.parseInt( ogg.getAttribute( Global.DX ) );
+							shoot = Integer.parseInt( ogg.getAttribute( Global.SPARO ) );
+							jump = Integer.parseInt( ogg.getAttribute( Global.SALTO ) );
+							left = Integer.parseInt( ogg.getAttribute( Global.SX ) );
+							right = Integer.parseInt( ogg.getAttribute( Global.DX ) );
 							Global.setMap( i, jump, shoot, left, right );
 						}
 					
@@ -151,8 +157,7 @@ public class Begin
 							NodeList ostacoli = document.getElementsByTagName( "ostacolo" );
 							NodeList back = document.getElementsByTagName( "sfondo" );
 							Sfondo sfondo;
-				 
-							String tmp;
+
 							for(int i = 0; i < ostacoli.getLength(); i++)
 								{								
 									Node nodo = ostacoli.item( i );
@@ -160,15 +165,15 @@ public class Begin
 									Element obs = (Element) nodo;
 									
 									tmp = obs.getAttribute( "x" );
-									int x = Integer.parseInt( tmp.substring( 0, tmp.length() - 2 ) );
+									x = Integer.parseInt( tmp.substring( 0, tmp.length() - 2 ) );
 									tmp = obs.getAttribute( "y" );
-									int y = Integer.parseInt( tmp.substring( 0, tmp.length() - 2 ) );
+									y = Integer.parseInt( tmp.substring( 0, tmp.length() - 2 ) );
 									tmp = obs.getAttribute( "union" );
-									int union = Integer.parseInt( tmp.substring( 0, tmp.length() ) );
-									String type = obs.getAttribute( "ID" );
-									String orienting = obs.getAttribute( "type" );
-									String numPlayer = null;
-									Color colour = null;
+									union = Integer.parseInt( tmp.substring( 0, tmp.length() ) );
+									type = obs.getAttribute( "ID" );
+									orienting = obs.getAttribute( "type" );
+									numPlayer = null;
+									colour = null;
 									if(type.equals( Global.PLAYER ))
 										{
 											numPlayer = obs.getAttribute( "number" );
