@@ -227,6 +227,12 @@ public class InGame
 				{
 					Start.stats.stopTempo();
 					end.setTime();
+					
+					for(Ostacolo player: players)
+						{
+							((Player) player).setDrawLifes( true );
+							((Player) player).setDrawPoints( true );
+						}
 				
 					Start.startGame = 0;
 					Start.endGame = 1;
