@@ -43,7 +43,7 @@ public class InGame
 	private int widthI, heightI;
 
 	// l'ostacolo di turno da analizzare
-	private Ostacolo ost;
+	private Ostacolo ost, ostJ;
 
 	public InGame() throws SlickException
 		{
@@ -158,17 +158,19 @@ public class InGame
 											((Bubble) ost).setObscured( true );
 									
 									if(!((Bubble) ost).isObscured())
-										{
-											for(int j = 0; j < ostacoli.size(); j++)
-												{
-													if(j != i && ostacoli.get( j ).contains( ost.getArea() ))
-														{
-															if(ostacoli.get( j ).getID().equals( Global.BOLLA ))
-																((Bubble) ost).setObscured( true );
-															break;
-														}
-												}
-										}
+										for(int j = i - 1; j >= 0; j--)
+											{
+												ostJ = ostacoli.get( j );
+												if(ostJ.contains( ost.getArea() ))
+													{
+														if(ostJ.getID().equals( Global.BOLLA ) && !((Bubble) ostJ).isObscured())
+															((Bubble) ost).setObscured( true );
+														else if(!ostJ.getID().equals( Global.BOLLA ))
+															((Bubble) ost).setObscured( true );
+														break;
+													}
+											}
+									
 									if(!((Bubble) ost).isObscured())
 										ost.draw( g );
 								}
