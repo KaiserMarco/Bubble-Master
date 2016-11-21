@@ -25,7 +25,7 @@ public class Global
 	public static boolean drawCountdown;
 	
 	// numero di vite del personaggio
-	public static int lifes = 1;
+	public static int lifes = 8;
 	
 	// determina se il gioco e' in una partita
 	public static boolean inGame = false;

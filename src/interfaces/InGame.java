@@ -40,6 +40,12 @@ public class InGame
 	
 	// lunghezza e altezza base dei numeri del countdown
 	private int widthI, heightI;
+	
+	// determina se l'ostacolo viene "oscurato" da un'altro
+	private boolean dark;
+	
+	// l'ostacolo di turno da analizzare
+	private Ostacolo ost;
 
 	public InGame() throws SlickException
 		{
@@ -62,12 +68,15 @@ public class InGame
 	public void setSpheres( GameContainer gc )
 		{
 			for(int i = ostacoli.size() - 1; i >= 0; i--)
-				if(ostacoli.get( i ).getID().equals( Global.BOLLA ))
-					{
-						ostacoli.add( ostacoli.get( i ).clone( gc ) );
-						ostacoli.get( ostacoli.size() - 1 ).setMaxHeight( sfondo.getMaxHeight() );
-						ostacoli.remove( i );
-					}
+				{
+					ost = ostacoli.get( i );
+					if(ost.getID().equals( Global.BOLLA ))
+						{
+							ostacoli.add( ost.clone( gc ) );
+							ostacoli.get( ostacoli.size() - 1 ).setMaxHeight( sfondo.getMaxHeight() );
+							ostacoli.remove( i );
+						}
+				}
 		}
 	
 	public void addOstacoli( ArrayList<Ostacolo> obs, Sfondo sfondo, GameContainer gc ) throws SlickException
@@ -134,24 +143,32 @@ public class InGame
 			int dodgeIndex = -1;
 			for(int i = ostacoli.size() - 1; i >= 0; i--)
 				{
-					if(i != dodgeIndex && ostacoli.get( i ).getID().equals( Global.BOLLA ))
+					ost = ostacoli.get( i );
+					if(i != dodgeIndex && ost.getID().equals( Global.BOLLA ))
 						{
-							boolean dark = false;
-							for(int j = 0; j < ostacoli.size(); j++)
+							dark = false;
+							for(Ostacolo player: players)
+								if(player.contains( ost.getArea() ))
+									dark = true;
+							
+							if(!dark)
 								{
-									if(j != i && ostacoli.get( j ).contains( ostacoli.get( i ).getArea() ))
+									for(int j = 0; j < ostacoli.size(); j++)
 										{
-											if(ostacoli.get( j ).getID().equals( Global.BOLLA ))
-												dodgeIndex = j;
-											dark = true;
-											break;
+											if(j != i && ostacoli.get( j ).contains( ost.getArea() ))
+												{
+													if(ostacoli.get( j ).getID().equals( Global.BOLLA ))
+														dodgeIndex = j;
+													dark = true;
+													break;
+												}
 										}
 								}
 							if(!dark)
-								ostacoli.get( i ).draw( g );
+								ost.draw( g );
 						}
 					else
-						ostacoli.get( i ).draw( g );
+						ost.draw( g );
 				}
 			
 			for(Ostacolo player: players)
@@ -200,7 +217,7 @@ public class InGame
 						}
 				}
 		
-			if(!Global.drawCountdown && Global.inGame)
+			if(!Global.drawCountdown)
 				{				
 					for(PowerUp pu: powerUp)
 						if(pu.getID().equals( Global.LIFE ) || !pu.isArrived())

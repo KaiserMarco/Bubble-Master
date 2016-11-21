@@ -36,7 +36,7 @@ public class Life extends PowerUp
 		{
 			super( Global.LIFE );
 			
-			ostr = new Rectangle( x, y, Global.Width/20, Global.Height/30 );
+			ostr = new Rectangle( x, y, Global.Width/27, Global.Height/24 );
 			this.maxH = maxH;
 			
 			cuori = new ArrayList<Image>();
