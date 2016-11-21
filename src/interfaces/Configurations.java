@@ -132,10 +132,10 @@ public class Configurations
 				    for(Map<String, Integer> map: maps)
 				    	{							
 							item = new Element( "key" );
-							item.setAttribute( "sparo", map.get( SHOT ) + "" );
-							item.setAttribute( "salto", map.get( JUMP ) + "" );
-							item.setAttribute( "left", map.get( SX ) + "" );
-							item.setAttribute( "right", map.get( DX ) + "" );
+							item.setAttribute( Global.SPARO, map.get( SHOT ) + "" );
+							item.setAttribute( Global.SALTO, map.get( JUMP ) + "" );
+							item.setAttribute( Global.SX, map.get( SX ) + "" );
+							item.setAttribute( Global.DX, map.get( DX ) + "" );
 							livello.addContent( item );
 				    	}
 	

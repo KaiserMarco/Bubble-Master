@@ -110,34 +110,6 @@ public class Tubo extends Ostacolo{
 	
 	public void setArea( GameContainer gc )
 		{}
-    
-    /*public void setSpace( GameContainer gc ) throws SlickException
-    	{
-    		ostr = new Rectangle( getX(), getY(), width, height );
-    		if(type.equals( "dx" ))
-				{
-    				base = new Base( getX(), getY() + Global.Height/120, Global.Width*10/119, height - Global.Height/60 );
-    				enter = new Enter( base.getMaxX(), getY(), width - base.getWidth(), height );
-				}
-			else if(type.equals( "sx" ))
-				{
-					enter = new Enter( getX(), getY(), width - Global.Width*10/119, height );
-					base = new Base( enter.getMaxX(), getY() + Global.Height/120, Global.Width*10/119, height - Global.Height/60 );
-				}
-    		else if(type.equals( "up" ))
-				{
-					enter = new Enter( getX(), getY(), width, height - Global.Height*10/89 );
-					base = new Base( getX() + Global.Width/160, enter.getMaxY(), width - Global.Width/80, height - enter.getHeight() );
-				}
-			else
-				{
-					base = new Base( getX() + Global.Width/160, getY(), width - Global.Width/80, Global.Height*10/89 );
-					enter = new Enter( getX(), base.getMaxY(), width, height - base.getHeight() );
-				}
-    		base.setSpigoli();
-    		enter.setSpigoli();
-    		setSpigoli();
-    	}*/
 	
 	public void setType( String type )
 		{ this.type = type; }

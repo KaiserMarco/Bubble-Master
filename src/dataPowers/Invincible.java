@@ -21,7 +21,7 @@ public class Invincible extends PowerUp
 	
 	public Invincible( float x, float y, float maxH ) throws SlickException
 		{
-			super( "invincible" );
+			super( Global.INVINCIBLE );
 			
 			ostr = new Rectangle( x, y, Global.Width/25, Global.Height/25 );
 			this.maxH = maxH;

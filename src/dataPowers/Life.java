@@ -34,7 +34,7 @@ public class Life extends PowerUp
 	
 	public Life( float x, float y, float maxH ) throws SlickException
 		{
-			super( "life" );
+			super( Global.LIFE );
 			
 			ostr = new Rectangle( x, y, Global.Width/24, Global.Height/28 );
 			this.maxH = maxH;

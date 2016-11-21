@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <level>
   <!--Objects-->
-  <key sparo="30" salto="57" left="203" right="205" />
-  <key sparo="47" salto="31" left="41" right="53" />
-  <key sparo="20" salto="45" left="46" right="48" />
-  <key sparo="21" salto="22" left="23" right="16" />
+  <key Sparo="30" Salto="57" Left="203" Right="205" />
+  <key Sparo="47" Salto="31" Left="41" Right="53" />
+  <key Sparo="20" Salto="45" Left="46" Right="48" />
+  <key Sparo="21" Salto="22" Left="23" Right="16" />
 </level>

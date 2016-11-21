@@ -21,7 +21,7 @@ public class Coin extends PowerUp
 	
 	public Coin( float x, float y, float maxH ) throws SlickException
 		{
-			super( "coin" );
+			super( Global.COIN );
 		
 			ostr = new Rectangle( x, y, Global.Width/25, Global.Height/20 );
 			this.maxH = maxH;

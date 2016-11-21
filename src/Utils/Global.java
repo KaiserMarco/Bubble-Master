@@ -44,10 +44,12 @@ public class Global
 	/** font dei caratteri e della finestra di stato */
 	public static UnicodeFont stateFont;
 	
+	/** gli ID dei powerUp */
+	public static final String AMMO = "ammo", LIFE = "life", COIN = "coin", INVINCIBLE = "invincible";
 	/** gli ID degli oggetti del gioco */
 	public static final String TUBO = "tubo", BASE = "base", ENTER = "enter", PLAYER = "player", BOLLA = "bolla", SBARRA = "sbarra";
 	/** gli ID delle azioni del player */
-	public static final String SPARO = "Sparo", SALTO = "Salto";
+	public static final String SPARO = "Sparo", SALTO = "Salto", SX = "Left", DX = "Right";
 	/** gli ID dei segmenti dell'oggetto */
 	public static final String SPIGASX = "spigASx", SPIGADX = "spigADx", SPIGBSX = "spigBSx", SPIGBDX = "spigBDx",
 							   LATOSU = "latoSu", LATOGIU = "latoGiu", LATOSX = "latoSx", LATODX = "latoDx", RECT = "rect";

@@ -744,7 +744,7 @@ public class Player extends Ostacolo
 								{
 									for(Ostacolo ost: InGame.ostacoli)
 										if(!ost.getID().equals( Global.TUBO ))
-											if(fuoco.collision( this, ost, ost.getID(), gc ))
+											if(fuoco.collision( this, ost, gc ))
 												{
 													if(fuoco.checkHit())
 														hits++;

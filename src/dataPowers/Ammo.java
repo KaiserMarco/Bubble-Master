@@ -21,7 +21,7 @@ public class Ammo extends PowerUp
 	
 	public Ammo( float x, float y, float maxH ) throws SlickException
 		{
-			super( "ammo" );
+			super( Global.AMMO );
 			
 			ostr = new Rectangle( x, y, Global.Width/25, Global.Height/20 );
 			this.maxH = maxH;

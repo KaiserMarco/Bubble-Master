@@ -89,7 +89,7 @@ public class Begin
 			buttons.add( levels );
 			buttons.add( options );
 
-	        xFinale = gc.getWidth()/3;
+	        xFinale = Global.Width/3;
 	        countNumFinale = 25;
 	        numFinale1 = (xFinale - options.getLungh()/2)/countNumFinale;
 	        numFinale2 = (xFinale + levels.getLungh()/2)/countNumFinale;
@@ -117,10 +117,10 @@ public class Begin
 							Node node = button.item( i );
 							Element ogg = (Element) node;
 							
-							int shoot = Integer.parseInt( ogg.getAttribute( "sparo" ) );
-							int jump = Integer.parseInt( ogg.getAttribute( "salto" ) );
-							int left = Integer.parseInt( ogg.getAttribute( "left" ) );
-							int right = Integer.parseInt( ogg.getAttribute( "right" ) );
+							int shoot = Integer.parseInt( ogg.getAttribute( Global.SPARO ) );
+							int jump = Integer.parseInt( ogg.getAttribute( Global.SALTO ) );
+							int left = Integer.parseInt( ogg.getAttribute( Global.SX ) );
+							int right = Integer.parseInt( ogg.getAttribute( Global.DX ) );
 							Global.setMap( i, jump, shoot, left, right );
 						}
 					
