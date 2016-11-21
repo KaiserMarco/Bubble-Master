@@ -4,28 +4,32 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.geom.Circle;
+import org.newdawn.slick.geom.Rectangle;
+
+import Utils.Global;
+import dataObstacles.Ostacolo;
+import interfaces.InGame;
 
 public class Ammo extends PowerUp
 {
-	private double maxH;
-	private Circle ostr;
+	private float maxH;
+	private Rectangle ostr;
 	private Image img;
 	
 	// determina se l'oggetto ha raggiunto terra
 	private boolean arrived = false;
 	
-	public Ammo( float x, float y, float ray, double maxH ) throws SlickException
+	public Ammo( float x, float y, double maxH ) throws SlickException
 		{
 			super( "ammo" );
 			
-			ostr = new Circle( x, y, ray );
-			this.maxH = maxH;
+			ostr = new Rectangle( x, y, Global.Width/25, Global.Height/20 );
+			this.maxH = (float) maxH;
 			
 			img = new Image( "./data/Image/bullet.png" );
 		}
 	
-	public Circle getArea()
+	public Rectangle getArea()
 		{ return ostr; }
 	
 	public Image getImage()
@@ -34,15 +38,30 @@ public class Ammo extends PowerUp
 	public float getWidth()
 		{ return ostr.getWidth(); }
 	
-	public void update(GameContainer gc, int delta)
+	public float getHeight()
+		{ return ostr.getHeight(); }
+	
+	public boolean isArrived()
+		{ return arrived; }
+	
+	public void update( GameContainer gc, int delta )
 		{
 			if(!arrived)
 				{
-					if(ostr.getY() + ostr.getRadius()*2 < maxH)
-						ostr.setCenterY( ostr.getCenterY() + delta/5 );
+					for(Ostacolo ost: InGame.ostacoli)
+						if(!(ost.getID().equals( Global.BOLLA ) || ost.getID().equals( Global.TUBO )))
+							if(ostr.intersects( ost.getArea() ))
+								{
+									arrived = true;
+									ostr.setY( ost.getArea().getY() - getHeight() );
+									break;
+								}
+				
+					if(ostr.getY() + ostr.getHeight() < maxH)
+						ostr.setY( ostr.getY() + delta/5 );
 					else
 						{
-							ostr.setCenterY( (float) maxH - ostr.getRadius() );
+							ostr.setY( maxH - ostr.getHeight() );
 							arrived = true;
 						}
 				}

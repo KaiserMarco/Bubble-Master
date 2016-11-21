@@ -37,8 +37,6 @@ public class Shot
 	// determina se il colpo ha colpito una sfera
 	private boolean hit;
 	
-	private	float ray = Global.Height/40;
-	
 	public Shot( GameContainer gc ) throws SlickException
 		{
 			widthS = Global.Width/53;
@@ -131,14 +129,14 @@ public class Shot
 								{
 									double power = Math.random();
 									if(power <= 0.2)
-										InGame.powerUp.add( new Invincible( ost.getArea().getX(), ost.getArea().getCenterY(), ray, ost.getMaxHeight() ) );
+										InGame.powerUp.add( new Invincible( ost.getArea().getX(), ost.getArea().getCenterY(), ost.getMaxHeight() ) );
 									else if(power <= 0.5)
-										InGame.powerUp.add( new Ammo( ost.getArea().getX(), ost.getArea().getCenterY(), ray, ost.getMaxHeight() ) );
+										InGame.powerUp.add( new Ammo( ost.getArea().getX(), ost.getArea().getCenterY(), ost.getMaxHeight() ) );
 									else if(power <= 0.7)
-										InGame.powerUp.add( new Coin( ost.getArea().getX(), ost.getArea().getCenterY(), ray, ost.getMaxHeight() ) );
+										InGame.powerUp.add( new Coin( ost.getArea().getX(), ost.getArea().getCenterY(), ost.getMaxHeight() ) );
 									else
 										{
-											InGame.powerUp.add( new Life( ost.getArea().getX(), ost.getArea().getCenterY(), ray, ost.getMaxHeight() ) );
+											InGame.powerUp.add( new Life( ost.getArea().getX(), ost.getArea().getCenterY(), ost.getMaxHeight() ) );
 											((Life) InGame.powerUp.get( InGame.powerUp.size() - 1 )).setPlayers();
 										}
 								}

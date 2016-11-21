@@ -214,7 +214,7 @@ public class Player extends Ostacolo
 			heart = new Image( "./data/Image/heart" + colour + ".png" );
 			halfHeart = new Image( "./data/Image/halfHeart" + colour + ".png" );
 			noHeart = new Image( "./data/Image/noHeart.png" );
-			widthH = gc.getWidth()/40; heightH = gc.getHeight()/30;
+			widthH = Global.Width/40; heightH = Global.Height/30;
 			
 			invincible = false;
 			currentTimeInv = 0;
@@ -231,7 +231,7 @@ public class Player extends Ostacolo
 			points = 0;
 			
 			powerUp = new ArrayList<PowerUp>();
-			powerUp.add( new Ammo( 0, 0, gc.getHeight()/40, maxHeight ) );
+			powerUp.add( new Ammo( 0, 0, maxHeight ) );
 
 			coolDown = new Rectangle( 2*widthH + Global.Width/40 + Global.Width*10/42*(numPlayer-1), maxHeight, Global.Height - maxHeight, Global.Height - maxHeight );
 			

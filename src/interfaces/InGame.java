@@ -203,7 +203,8 @@ public class InGame
 			if(!Global.drawCountdown && Global.inGame)
 				{				
 					for(PowerUp pu: powerUp)
-						pu.update( gc, delta );
+						if(!pu.isArrived())
+							pu.update( gc, delta );
 
 					for(Ostacolo player: players)
 						((Player) player).update( gc, delta, input );

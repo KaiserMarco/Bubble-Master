@@ -4,7 +4,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.geom.Circle;
+import org.newdawn.slick.geom.Rectangle;
 
 public abstract class PowerUp
 {	
@@ -20,7 +20,9 @@ public abstract class PowerUp
 	
 	public abstract void draw( Graphics g ) throws SlickException;
 	
-	public abstract Circle getArea();
+	public abstract Rectangle getArea();
 	
 	public abstract Image getImage();
+	
+	public abstract boolean isArrived();
 }

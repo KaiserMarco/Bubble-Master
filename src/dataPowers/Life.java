@@ -6,16 +6,17 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.geom.Circle;
+import org.newdawn.slick.geom.Rectangle;
 
+import Utils.Global;
 import dataObstacles.Ostacolo;
 import dataObstacles.Player;
 import interfaces.InGame;
 
 public class Life extends PowerUp
 {
-	private double maxH;
-	private Circle ostr;
+	private float maxH;
+	private Rectangle ostr;
 	private Image img = null;
 	
 	// determina se l'oggetto ha raggiunto terra
@@ -31,12 +32,12 @@ public class Life extends PowerUp
 	// vettore contenenti le immagini delle vite relative dei players
 	private ArrayList<Image> cuori;
 	
-	public Life( float x, float y, float ray, double maxH ) throws SlickException
+	public Life( float x, float y, double maxH ) throws SlickException
 		{
 			super( "life" );
 			
-			ostr = new Circle( x, y, ray );
-			this.maxH = maxH;
+			ostr = new Rectangle( x, y, Global.Width/24, Global.Height/28 );
+			this.maxH = (float) maxH;
 			
 			cuori = new ArrayList<Image>();
 			
@@ -44,11 +45,20 @@ public class Life extends PowerUp
 			currTimeHeart = 0;
 		}
 	
-	public Circle getArea()
+	public Rectangle getArea()
 		{ return ostr; }
 	
 	public Image getImage()
 		{ return img; }
+	
+	public float getWidth()
+		{ return ostr.getWidth(); }
+	
+	public float getHeight()
+		{ return ostr.getHeight(); }
+	
+	public boolean isArrived()
+		{ return arrived; }
 	
 	public void setPlayers() throws SlickException
 		{
@@ -69,11 +79,20 @@ public class Life extends PowerUp
 		
 			if(!arrived)
 				{
-					if(ostr.getY() + ostr.getRadius()*2 < maxH)
-						ostr.setCenterY( ostr.getCenterY() + delta/5 );
+					for(Ostacolo ost: InGame.ostacoli)
+						if(!(ost.getID().equals( Global.BOLLA ) || ost.getID().equals( Global.TUBO )))
+							if(ostr.intersects( ost.getArea() ))
+								{
+									arrived = true;
+									ostr.setY( ost.getArea().getY() - getHeight() );
+									break;
+								}
+				
+					if(ostr.getY() + ostr.getHeight() < maxH)
+						ostr.setY( ostr.getY() + delta/5 );
 					else
 						{
-							ostr.setCenterY( (float) maxH - ostr.getRadius() );
+							ostr.setY( maxH - ostr.getHeight() );
 							arrived = true;
 						}
 				}
