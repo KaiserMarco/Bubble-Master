@@ -523,7 +523,7 @@ public class Edit
 				{
 					controllaPosizione( ((Tubo) ost).getBase() );
 					if(((Tubo) ost).getEnter().getY() < posY)
-						controllaPosizione( ((Tubo) ost).getEnter() );					
+						controllaPosizione( ((Tubo) ost).getEnter() );
 				}
 			else
 				controllaPosizione( ost );
