@@ -624,8 +624,8 @@ public class Edit
 							tempY = mouseY;
 						}
 
-					if(!temp.getID().equals( Global.BOLLA ) && !temp.getID().equals( Global.PLAYER ))
-					    if(input.isKeyPressed( Input.KEY_SPACE ))
+				    if(input.isKeyPressed( Input.KEY_SPACE ))
+						if(!(temp.getID().equals( Global.BOLLA ) || temp.getID().equals( Global.PLAYER )))
 					    	temp.setOrienting( gc );
 					
 					/*cancellazione oggetti del gioco*/
@@ -759,7 +759,10 @@ public class Edit
 			for(Ostacolo item: items)
 				if(item.getID().equals( Global.PLAYER ))
 					if(((Player) item).getColor().equals( ost.getColor() ))
-						((Player) item).setSelectable( select );
+						{
+							((Player) item).setSelectable( select );
+							break;
+						}
 		}
 	
 	private boolean checkKeyPressed( final Input input )
