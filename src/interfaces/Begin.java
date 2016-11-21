@@ -96,7 +96,7 @@ public class Begin
 			
 			elements = new ArrayList<Ostacolo>();
 			
-			pang = new Sfondo( new Image( "/data/Image/pang.png" ), 0, 0, 0, 0, gc.getWidth(), gc.getHeight(), "pang", 0 );
+			pang = new Sfondo( new Image( "/data/Image/pang.png" ), 0, 0, 0, 0, Global.Width, Global.Height, "pang", 0 );
 			
 			try
 				{
