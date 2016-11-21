@@ -264,20 +264,22 @@ public class Edit
 								{
 									// controlla se posso inserire un nuovo player
 									if(item.getID().equals( Global.PLAYER ))
-										if(!((Player) item).isSelectable())
-											return false;
-										else
-											{
-												temp = item.clone( gc );
-												setPlayer();
-											}
-									else
-										temp = item.clone( gc );
+										{
+											if(!((Player) item).isSelectable())
+												return false;
+											else
+												{
+													temp = item.clone( gc );
+													setPlayer();
+												}
+										}
+									else temp = item.clone( gc );
+									
 									//sto inserendo una nuova coppia di tubi
 									if(temp.getID().equals( Global.TUBO ))
-										nuovoTubo = true;									
+										nuovoTubo = true;
 
-									temp.setInsert( checkCollision(), true );
+									temp.setInsert( checkCollision( temp.getArea() ), true );
 									
 									tempX = x;
 									tempY = y;
@@ -288,13 +290,11 @@ public class Edit
 								}
 						}
 					for(Sfondo sfondo: sfondi)
-						{
-							if(sfondo.contains( x, y ))
-								{
-									indexSfondo = sfondo.getIndex();
-									return true;
-								}
-						}
+						if(sfondo.contains( x, y ))
+							{
+								indexSfondo = sfondo.getIndex();
+								return true;
+							}
 				}
 			//se e' stato scelto un elemento gia' presente nel gioco
 			else
@@ -318,7 +318,7 @@ public class Edit
 									aggiornaIndiciTubi( i );
 									ostacoli.remove( i );
 									
-									temp.setInsert( checkCollision(), true );
+									temp.setInsert( checkCollision( temp.getArea() ), true );
 									
 									tempX = x;
 									tempY = y;
@@ -532,46 +532,42 @@ public class Edit
 	/** controlla la collisione fra i vari oggetti
 	 * return false = collide
 	 * return true = non collide */
-	private boolean checkCollision()
+	private boolean checkCollision( Shape areaTemp )
 		{
 			for(Ostacolo ost: ostacoli)
 				{
-					if(!(ost.getID().equals( Global.BASE ) && ost.getID().equals( Global.ENTER )))
-						{
-							Shape areaTemp = temp.component( Global.RECT );
-							Shape areaObs = ost.component( Global.RECT );
-						
-						    if(temp.getID().equals( Global.PLAYER ))
-						        {						    	
-						            if(ost.getID().equals( Global.BOLLA ))
-						                {
-							                if(areaTemp.intersects( areaObs ))
-							                    return false;
-						                }
-						            else if(ost.getID().equals( Global.TUBO ))
-						            		{
-						            			Shape areaBase = ((Tubo) ost).getBase().getArea();
-						            			Shape areaEnter = ((Tubo) ost).getEnter().getArea();
-						            			
-						            			if(areaTemp.intersects( areaEnter ))
-					            					if(((Tubo) ost).getDirection().equals( SX ) || ((Tubo) ost).getDirection().equals( DX ))
-					            						if(areaTemp.getMaxY() > areaEnter.getY())
-					            							return false;
-					            						else
-					            							return true;
-						            				
-						            			if(areaTemp.intersects( areaBase ))
-					            					if(areaTemp.intersects( areaEnter ) || temp.getMaxY() > areaBase.getY())
-					            						return false;
-					            					else
-					            						return true;
-				            				}
-						            else if(areaTemp.intersects( ost.component( Global.LATOGIU ) ))
-				                        return false;
-						        }
-						    else if(areaTemp.intersects( ost.component( Global.RECT ) ))
-					    		return false;
-						}
+					Shape areaObs = ost.getArea();
+				
+				    if(temp.getID().equals( Global.PLAYER ))
+				        {						    	
+				            if(ost.getID().equals( Global.BOLLA ))
+				                {
+					                if(areaTemp.intersects( areaObs ))
+					                    return false;
+				                }
+				            else if(ost.getID().equals( Global.TUBO ))
+			            		{
+			            			Shape areaBase = ((Tubo) ost).getBase().getArea();
+			            			Shape areaEnter = ((Tubo) ost).getEnter().getArea();
+			            			
+			            			if(areaTemp.intersects( areaEnter ))
+		            					if(((Tubo) ost).getDirection().equals( SX ) || ((Tubo) ost).getDirection().equals( DX ))
+		            						if(areaTemp.getMaxY() > areaEnter.getY())
+		            							return false;
+		            						else
+		            							return true;
+			            				
+			            			if(areaTemp.intersects( areaBase ))
+		            					if(areaTemp.intersects( areaEnter ) || temp.getMaxY() > areaBase.getY())
+		            						return false;
+		            					else
+		            						return true;
+	            				}
+				            else if(areaTemp.intersects( ost.component( Global.LATOGIU ) ))
+		                        return false;
+				        }
+				    else if(areaTemp.intersects( ost.getArea() ))
+			    		return false;
 				}
 		    
 		    return true;
@@ -582,7 +578,7 @@ public class Edit
 		{
 			posY = maxHeight;
 			for(Ostacolo obs: ostacoli)
-				if(!obs.getID().equals( Global.PLAYER ))
+				if(!obs.getID().equals( Global.PLAYER ) && !obs.getID().equals( Global.BOLLA ))
 					checkPosition( obs );
 			
 			temp.setXY( temp.getX(), posY - temp.getHeight(), Global.RESTORE );
@@ -612,9 +608,9 @@ public class Edit
 							// posizionamento player sopra gli ostacoli		
 							if(temp.getID().equals( Global.PLAYER ))
 								setPlayer();
-							
+
 							// setta il colore dell'oggetto in fase di inserimento
-							temp.setInsert( checkCollision(), true );
+							temp.setInsert( checkCollision( temp.getArea() ), true );
 
 							// controlla se l'oggetto da inserire non supera i confini dello schermo di gioco					
 							if(temp.getX() <= 0)
@@ -672,7 +668,7 @@ public class Edit
 									if(nuovoTubo)
 										{
 											temp = ostacoli.get( ostacoli.size() - 1 ).clone( gc );
-											temp.setInsert( checkCollision(), true );
+											temp.setInsert( checkCollision( temp.getArea() ), true );
 											nuovoTubo = false;
 											indexFirstTube = ostacoli.size() - 1;
 										}
