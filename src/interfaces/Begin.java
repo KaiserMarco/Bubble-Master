@@ -156,7 +156,6 @@ public class Begin
 	
 							NodeList ostacoli = document.getElementsByTagName( "ostacolo" );
 							NodeList back = document.getElementsByTagName( "sfondo" );
-							Sfondo sfondo;
 
 							for(int i = 0; i < ostacoli.getLength(); i++)
 								{								
@@ -208,7 +207,7 @@ public class Begin
 							Node nodo = back.item( 0 );
 							Element img = (Element) nodo;
 							tmp = img.getAttribute( "name" );
-							sfondo = new Sfondo( new Image( "./data/Image/" + tmp + ".png" ), gc.getHeight()*100/104, gc.getWidth(), 0, 0, gc.getWidth(), gc.getHeight(), tmp, 0 );
+							Sfondo sfondo = new Sfondo( new Image( "./data/Image/" + tmp + ".png" ), Global.Height*100/104, Global.Width, 0, 0, gc.getWidth(), gc.getHeight(), tmp, 0 );
 	
 							tmp = file.substring( 0, file.length() - 4 );
 							
