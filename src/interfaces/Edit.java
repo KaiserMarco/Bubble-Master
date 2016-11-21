@@ -510,7 +510,7 @@ public class Edit
 	
 	public void controllaPosizione( Ostacolo ost )
 		{
-			if(mouseY < ost.getY())
+			if(mouseY < ost.getY() && ost.getY() < posY)
 				if(!(temp.getMaxX() < ost.getX() || temp.getX() > ost.getMaxX()))
 					posY = ost.getY();
 		}
@@ -521,8 +521,7 @@ public class Edit
 			if(ost.getID().equals( Global.TUBO ))
 				{
 					controllaPosizione( ((Tubo) ost).getBase() );
-					if(((Tubo) ost).getEnter().getY() < posY)
-						controllaPosizione( ((Tubo) ost).getEnter() );
+					controllaPosizione( ((Tubo) ost).getEnter() );
 				}
 			else
 				controllaPosizione( ost );
