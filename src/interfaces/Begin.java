@@ -240,24 +240,23 @@ public class Begin
 		
 			pang.draw( gc );
 		
-	        if(insertButton)
-    			for(SimpleButton button: buttons)
-    				button.draw( g );
-	        else
+	        if(!insertButton)
 	        	{
-	        		if(timeShowBegin == timeLimitBegin - 1)
+		        	if(timeShowBegin == timeLimitBegin - 1)
 	        			showBegin = !showBegin;
 	        		if(showBegin)
 	        			{
 	        				g.scale( scale, scale );
 	        				g.setColor( Color.red );
-        					g.drawString( BEGIN, xBeg/scale, yBeg/scale );
-        					g.setColor( Color.transparent );
-        					g.resetTransform();
+	    					g.drawString( BEGIN, xBeg/scale, yBeg/scale );
+	    					g.setColor( Color.transparent );
+	    					g.resetTransform();
 	        			}
-
+	
 					timeShowBegin = (timeShowBegin + 1)%timeLimitBegin;
 	        	}
+	        else for(SimpleButton button: buttons)
+				button.draw( g );
 			
 			if(indexCursor >= 0)
 				cursor.draw( buttons.get( indexCursor ).getX() - widthC, buttons.get( indexCursor ).getY(), widthC, heightC );
