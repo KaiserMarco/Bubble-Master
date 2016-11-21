@@ -372,7 +372,6 @@ public class Player extends Ostacolo
 					if(drawPoints)
 						g.drawString( "SCORE : " + points, pos + Global.Width/80, Global.Height/30);
 				}
-			//g.fill( area );
 		}
 	
 	public void setSelectable( boolean val )
@@ -578,9 +577,9 @@ public class Player extends Ostacolo
 			/*ZONA SPARO*/
 			if(!isShooting && input.isKeyPressed( Global.mapButtons.get( numPlayer-1 ).get( Global.SPARO ) ))
 	            {					
-					spazio = widthI/(fire.size() + 1);
+					spazio = widthI/(currAmmo + 2);
 
-					for(int i = 0; i < fire.size(); i++)
+					for(int i = 0; i < currAmmo + 1; i++)
 						{
 							fire.get( i ).setXY( xPlayer + spazio*(i + 1) - fire.get( i ).getWidth()/2, yPlayer + height - 1 );
 							fire.get( i ).setShot( true );
@@ -714,19 +713,18 @@ public class Player extends Ostacolo
 									invincible = false;
 									currentTimeImm = gc.getTime();
 								}
-							else if(powerUp.getID().equals( AMMO ))
+							else if(powerUp.getID().equals( AMMO ) && currAmmo < maxAmmo)
 								{
-									if(currAmmo < maxAmmo)
-										{
-											currAmmo++;
-											fire.add( new Shot( gc ) );
-											currentTimeShot = gc.getTime();
-											coolDown.setY( maxHeight );
-											coolDown.setHeight( Global.Height - maxHeight );
-											index = 270*timerShot/3000;
-											tickCd = coolDown.getHeight()/index;
-										}
-								}							
+									currAmmo++;
+									fire.add( new Shot( gc ) );
+									currentTimeShot = gc.getTime();
+									coolDown.setY( maxHeight );
+									coolDown.setHeight( Global.Height - maxHeight );
+									index = 270*timerShot/3000;
+									tickCd = coolDown.getHeight()/index;
+								}
+							else continue;
+							
 							InGame.powerUp.remove( powerUp );
 						}
 				}

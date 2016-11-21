@@ -128,9 +128,9 @@ public class Shot
 							if(Math.random() <= Global.dropRate)
 								{
 									double power = Math.random();
-									if(power <= 0.2)
+									if(power <= -0.2)
 										InGame.powerUp.add( new Invincible( ost.getArea().getX(), ost.getArea().getCenterY(), ost.getMaxHeight() ) );
-									else if(power <= 0.5)
+									else if(power <= 1)
 										InGame.powerUp.add( new Ammo( ost.getArea().getX(), ost.getArea().getCenterY(), ost.getMaxHeight() ) );
 									else if(power <= 0.7)
 										InGame.powerUp.add( new Coin( ost.getArea().getX(), ost.getArea().getCenterY(), ost.getMaxHeight() ) );
