@@ -543,7 +543,7 @@ public class Edit
 					                if(areaTemp.intersects( areaObs ))
 					                    return false;
 				                }
-				            if(ost.getID().equals( Global.TUBO ))
+				            else if(ost.getID().equals( Global.TUBO ))
 			            		{
 			            			Shape areaBase = ((Tubo) ost).getBase().getArea();
 			            			Shape areaEnter = ((Tubo) ost).getEnter().getArea();
@@ -561,10 +561,10 @@ public class Edit
 		            					else
 		            						return true;
 	            				}
-				            if(areaTemp.intersects( ost.component( Global.LATOGIU ) ))
+				            else if(areaTemp.intersects( ost.component( Global.LATOGIU ) ))
 		                        return false;
 				        }
-				    if(areaTemp.intersects( ost.getArea() ))
+				    else if(areaTemp.intersects( ost.getArea() ))
 			    		return false;
 				}
 		    
@@ -607,9 +607,6 @@ public class Edit
 							if(temp.getID().equals( Global.PLAYER ))
 								setPlayer();
 
-							// setta il colore dell'oggetto in fase di inserimento
-							temp.setInsert( checkCollision( temp.getArea() ), true );
-
 							// controlla se l'oggetto da inserire non supera i confini dello schermo di gioco					
 							if(temp.getX() <= 0)
 								temp.setXY( 0, temp.getY(), Global.RESTORE );
@@ -619,6 +616,9 @@ public class Edit
 								temp.setXY( temp.getX(), 0, Global.RESTORE );
 							else if(temp.getMaxY() > maxHeight)
 								temp.setXY( temp.getX(), maxHeight - temp.getHeight(), Global.RESTORE );
+
+							// setta il colore dell'oggetto in fase di inserimento
+							temp.setInsert( checkCollision( temp.getArea() ), true );
 							
 							tempX = mouseX;
 							tempY = mouseY;

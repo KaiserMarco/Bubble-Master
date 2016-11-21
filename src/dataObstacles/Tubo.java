@@ -353,11 +353,9 @@ public class Tubo extends Ostacolo{
 
 	public boolean contains( Shape shape )
 		{
-			if(shape.getY() > ostr.getY())
-				if(shape.getY() + shape.getHeight() < ostr.getMaxY())
-					if(shape.getX() > ostr.getX())
-						if(shape.getX() + shape.getHeight() < ostr.getMaxX())
-							return true;
+			if(shape.getY() >= ostr.getY() && shape.getMaxY() <= ostr.getMaxY())
+				if(shape.getX() >= ostr.getX() && shape.getMaxX() <= ostr.getMaxX())
+					return true;
 		
 			return false;
 		}

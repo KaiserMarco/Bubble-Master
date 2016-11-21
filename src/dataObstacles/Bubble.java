@@ -592,11 +592,9 @@ public class Bubble extends Ostacolo
 
 	public boolean contains( Shape shape )
 		{
-			if(shape.getY() >= ostr.getY())
-				if(shape.getMaxY() <= ostr.getMaxY())
-					if(shape.getX() >= ostr.getX())
-						if(shape.getMaxX() <= ostr.getMaxX())
-							return true;
+			if(shape.getY() >= ostr.getY() && shape.getMaxY() <= ostr.getMaxY())
+				if(shape.getX() >= ostr.getX() && shape.getMaxX() <= ostr.getMaxX())
+					return true;
 		
 			return false;
 		}
