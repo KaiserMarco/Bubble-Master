@@ -39,6 +39,8 @@ public class Bubble extends Ostacolo
 	private float backupSpeedX, backupSpeedY;
 	
 	private static final String UP = "up", DOWN = "down", SX = "sx", DX = "dx", RESTORE = "restore", RAY = "setRay", MOVE = "move";
+	
+	private boolean obscured;
      
     public Bubble( Ostacolo ost, GameContainer gc ) throws SlickException
         { this( ost.getX(), ost.getY(), ost.getWidth()/2, ost.getMaxWidth(), gc ); }
@@ -71,6 +73,8 @@ public class Bubble extends Ostacolo
             sign = (float) Math.random();
             if(sign < 0.5f)
             	speedY = -speedY;
+            
+            obscured = false;
         }
      
     public void draw( Graphics g ) throws SlickException
@@ -428,11 +432,6 @@ public class Bubble extends Ostacolo
 							else if(ostr.intersects( ost.getArea() ))
 								gestioneCollisioni( ost );
 						}
-				
-					// TODO CODICE UN POINO PIU CORRETTO, MA DA SISTEMARE
-					/*if(indexTube != i && !ost.getID().equals( Global.BASE ) && !ost.getID().equals( Global.ENTER ))
-						if(ostr.intersects( ost.component( "rect" ) ))
-							gestioneCollisioni( ost );*/
 				}
 			else if(!primoTubo && !ost.getID().equals( Global.TUBO ))
 				if(ostr.intersects( ost.getArea() ))
@@ -547,6 +546,12 @@ public class Bubble extends Ostacolo
 	            return null;
 	        }
     }
+    
+    public void setObscured( boolean val )
+    	{ obscured = val; }
+    
+    public boolean isObscured()
+    	{ return obscured; }
 
     public void setInsert(boolean insert, boolean change)
 		{

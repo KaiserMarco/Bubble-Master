@@ -12,6 +12,7 @@ import Utils.Global;
 import Utils.Sfondo;
 import bubbleMaster.Start;
 import dataObstacles.Base;
+import dataObstacles.Bubble;
 import dataObstacles.Enter;
 import dataObstacles.Ostacolo;
 import dataObstacles.Player;
@@ -40,15 +41,9 @@ public class InGame
 	
 	// lunghezza e altezza base dei numeri del countdown
 	private int widthI, heightI;
-	
-	// determina se l'ostacolo viene "oscurato" da un'altro
-	private boolean dark;
-	
+
 	// l'ostacolo di turno da analizzare
 	private Ostacolo ost;
-	
-	// l'indice della bolla da NON ricontrollare
-	private int dodgeIndex;
 
 	public InGame() throws SlickException
 		{
@@ -133,6 +128,14 @@ public class InGame
 			
 			Global.sfondo = sfondo;
 		}
+	
+	public void resetObscured()
+		{
+			for(Ostacolo ost: ostacoli)
+				if(ost.getID().equals( Global.BOLLA ))
+					if(((Bubble) ost).isObscured())
+						((Bubble) ost).setObscured( false );
+		}
 
 	public void draw( GameContainer gc, Graphics g ) throws SlickException
 		{
@@ -141,37 +144,35 @@ public class InGame
 			for(PowerUp pu: powerUp)
 				pu.draw( g );
 			
-			// evita di non far disegnare entrambe le sfere sovrapposte
-			dodgeIndex = -1;
+			resetObscured();
+			
 			for(int i = ostacoli.size() - 1; i >= 0; i--)
 				{
 					ost = ostacoli.get( i );
 					if(!(ost.getID().equals( Global.BASE ) || ost.getID().equals( Global.ENTER )))
 						{
-							if(i != dodgeIndex && ost.getID().equals( Global.BOLLA ))
+							if(ost.getID().equals( Global.BOLLA ) && !((Bubble) ost).isObscured())
 								{
-									dark = false;
 									for(Ostacolo player: players)
 										if(player.contains( ost.getArea() ))
-											dark = true;
+											((Bubble) ost).setObscured( true );
 									
-									if(!dark)
+									if(!((Bubble) ost).isObscured())
 										{
 											for(int j = 0; j < ostacoli.size(); j++)
 												{
 													if(j != i && ostacoli.get( j ).contains( ost.getArea() ))
 														{
 															if(ostacoli.get( j ).getID().equals( Global.BOLLA ))
-																dodgeIndex = j;
-															dark = true;
+																((Bubble) ost).setObscured( true );
 															break;
 														}
 												}
 										}
-									if(!dark)
+									if(!((Bubble) ost).isObscured())
 										ost.draw( g );
 								}
-							else
+							else if(!ost.getID().equals( Global.BOLLA ))
 								ost.draw( g );
 						}
 				}
