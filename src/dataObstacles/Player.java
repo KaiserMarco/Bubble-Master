@@ -770,13 +770,13 @@ public class Player extends Ostacolo
 		{}
 
 	public float getMaxX()
-		{ return area.getMaxX();	}
+		{ return area.getMaxX(); }
 
 	public float getWidth()
 		{ return width;	}
 
 	public float getHeight() 
-		{ return height;	}
+		{ return height; }
 
 	public void isCollision( Bubble bolla )
 		{}

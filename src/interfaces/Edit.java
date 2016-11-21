@@ -511,9 +511,8 @@ public class Edit
 	public void controllaPosizione( Ostacolo ost )
 		{
 			if(mouseY < ost.getY())
-				if(mouseX >= ost.getX() && mouseX <= ost.getMaxX())
-					if(Math.abs( mouseY - ost.getY() ) < posY)
-						posY = ost.getY();
+				if(!(temp.getMaxX() < ost.getX() || temp.getX() > ost.getMaxX()))
+					posY = ost.getY();
 		}
 	
 	/** determina la posizione del player rispetto agli ostacoli in fase di inserimento */
@@ -697,13 +696,10 @@ public class Edit
 							insertEditor = true;
 							moveEditor = true;
 						}
-					else if(input.isMousePressed( Input.MOUSE_LEFT_BUTTON ))
+					else if(input.isMousePressed( Input.MOUSE_LEFT_BUTTON ) && checkPressed( mouseX, mouseY, gc ))
 						{
-							if(checkPressed( mouseX, mouseY, gc ))
-								{
-									insertEditor = !insertEditor;
-									moveEditor = true;
-								}
+							insertEditor = !insertEditor;
+							moveEditor = true;
 						}
 					
 					if(input.isMouseButtonDown( Input.MOUSE_LEFT_BUTTON ))
