@@ -88,11 +88,11 @@ public class Life extends PowerUp
 									break;
 								}
 				
-					if(ostr.getY() + ostr.getHeight() < maxH)
+					if(ostr.getMaxY() < maxH)
 						ostr.setY( ostr.getY() + delta/5 );
 					else
 						{
-							ostr.setY( maxH - ostr.getHeight() );
+							ostr.setY( maxH - getHeight() );
 							arrived = true;
 						}
 				}

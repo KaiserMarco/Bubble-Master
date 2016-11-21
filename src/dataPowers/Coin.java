@@ -54,7 +54,7 @@ public class Coin extends PowerUp
 							ostr.setY( ost.getArea().getY() - getHeight() );
 							break;
 						}
-			if(ostr.getY() + ostr.getHeight() < maxH)
+			if(ostr.getMaxY() < maxH)
 				ostr.setY( ostr.getY() + delta/5 );
 			else
 				{
