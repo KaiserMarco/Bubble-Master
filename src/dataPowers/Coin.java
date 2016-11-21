@@ -23,7 +23,7 @@ public class Coin extends PowerUp
 		{
 			super( Global.COIN );
 		
-			ostr = new Rectangle( x, y, Global.Width/25, Global.Height/20 );
+			ostr = new Rectangle( x, y, Global.Width/25, Global.Height/25 );
 			this.maxH = maxH;
 			
 			img = new Image( "./data/Image/coin.png" );
