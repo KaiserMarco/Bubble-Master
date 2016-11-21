@@ -162,7 +162,7 @@ public class Player extends Ostacolo
 			width = widthI - offset;
 			height = Global.Height*100/857;
 			
-			this.numPlayer = numPlayer;	
+			this.numPlayer = numPlayer;
 			
 			right = new Image[9];
 			left = new Image[9];			
@@ -375,7 +375,7 @@ public class Player extends Ostacolo
 		
 					g.setColor( col );
 					if(drawPoints)
-						g.drawString( "SCORE : " + points, posX + Global.Width/90, posY );
+						g.drawString( "SCORE : " + points, posX + Global.Width/100, posY );
 				}
 		}
 	
