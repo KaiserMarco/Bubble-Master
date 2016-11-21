@@ -118,7 +118,7 @@ public class InGame
 			int size = ostacoli.size();
 			for(int i = 0; i < size; i++)
 				{
-					Ostacolo ost = ostacoli.get( i );
+					ost = ostacoli.get( i );
 					if(ost.getID().equals( Global.TUBO ))
 						{
 							ost.setSpigoli();

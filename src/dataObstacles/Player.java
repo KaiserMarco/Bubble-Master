@@ -3,6 +3,7 @@ package dataObstacles;
 import interfaces.InGame;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -139,6 +140,8 @@ public class Player extends Ostacolo
 
 	/*la posizione del player un attimo prima di spostarsi*/ 
 	private Rectangle prevArea;
+	
+	private Map<String, Integer> keyButtons;
 	
 	public Player( float x, float y, int numPlayer, GameContainer gc, Color color ) throws SlickException
 		{
@@ -546,6 +549,10 @@ public class Player extends Ostacolo
 			if(check)
 				Global.inGame = false;
 		}
+
+	/** setta i tasti del player */
+	public void setKeyButtons()
+		{ keyButtons = Global.mapButtons.get( numPlayer - 1 ); }
 	
 	public void update( GameContainer gc, int delta, Input input ) throws SlickException
 		{
@@ -554,20 +561,20 @@ public class Player extends Ostacolo
 			prevArea = new Rectangle( area.getX(), area.getY(), width, height );
 			
 			/*ZONA SPOSTAMENTI DESTRA-SINISTRA*/			
-			if(input.isKeyDown( Global.mapButtons.get( numPlayer-1 ).get( DESTRA ) ))
+			if(input.isKeyDown( keyButtons.get( DESTRA ) ))
 				{
 					moving = true;
 					dir = DESTRA;
 					setXY( move, 0, MOVE );
 				}
-			else if(input.isKeyDown( Global.mapButtons.get( numPlayer-1 ).get( SINISTRA ) ))
+			else if(input.isKeyDown( keyButtons.get( SINISTRA ) ))
 				{
 					moving = true;
 					dir = SINISTRA;
 					setXY( -move, 0, MOVE );
 				}
 			/*ZONA SALTO*/
-			if(input.isKeyDown( Global.mapButtons.get( numPlayer-1 ).get( Global.SALTO ) ) && !jump)
+			if(input.isKeyDown( keyButtons.get( Global.SALTO ) ) && !jump)
 				{
 					movingJ = true;
 					jump = true;
@@ -575,13 +582,13 @@ public class Player extends Ostacolo
 					tempJump = 60;
 				}
 			/*ZONA SPARO*/
-			if(!isShooting && input.isKeyPressed( Global.mapButtons.get( numPlayer-1 ).get( Global.SPARO ) ))
+			if(!isShooting && input.isKeyPressed( keyButtons.get( Global.SPARO ) ))
 	            {					
 					spazio = widthI/(currAmmo + 2);
 
 					for(int i = 0; i < currAmmo + 1; i++)
 						{
-							fire.get( i ).setXY( xPlayer + spazio*(i + 1) - fire.get( i ).getWidth()/2, yPlayer + height - 1 );
+							fire.get( i ).setXY( xPlayer + spazio*(i + 1) - fire.get( i ).getWidth()/2, getMaxY() - 1 );
 							fire.get( i ).setShot( true );
 			                shots++;
 						}
