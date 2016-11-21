@@ -164,16 +164,16 @@ public class Sbarra extends Ostacolo
 	public Shape getArea()
 		{ return ostr; }
 	
-	public void setMaxHeight( double val )
+	public void setMaxHeight( float val )
 		{}
 	
-	public double getMaxHeight()
+	public float getMaxHeight()
 		{ return 0; }
 
 	public void update(GameContainer gc, int delta) throws SlickException 
 		{}
 
-	public double getMaxWidth()
+	public float getMaxWidth()
 		{ return 0; }
 
     public void setOrienting( GameContainer gc )

@@ -471,7 +471,7 @@ public class Player extends Ostacolo
 				}
 		}
 	
-	public void setMaxHeight( double val )
+	public void setMaxHeight( float val )
 		{
 			coolDown.setY( maxHeight );
 			coolDown.setWidth( Global.Height - maxHeight );
@@ -783,10 +783,10 @@ public class Player extends Ostacolo
 	public Shape getArea()
 		{ return area; }
 
-	public double getMaxHeight()
+	public float getMaxHeight()
 		{ return maxHeight; }
 
-	public double getMaxWidth()
+	public float getMaxWidth()
 		{ return 0; }
 
 	public boolean getCollide()

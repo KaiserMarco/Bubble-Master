@@ -22,8 +22,8 @@ public class Bubble extends Ostacolo
      
     private Image immagine = new Image( "./data/Image/Palla.png" );
      
-    private double maxH;
-    private double maxW;
+    private float maxH;
+    private float maxW;
 	
 	private boolean insert = false, checkInsert = false;
 	
@@ -43,7 +43,7 @@ public class Bubble extends Ostacolo
     public Bubble( Ostacolo ost, GameContainer gc ) throws SlickException
         { this( ost.getX(), ost.getY(), ost.getWidth()/2, ost.getMaxWidth(), gc ); }
      
-    public Bubble( float x, float y, float ray, double maxW, GameContainer gc ) throws SlickException
+    public Bubble( float x, float y, float ray, float maxW, GameContainer gc ) throws SlickException
         {       
             super( "bolla" );
              
@@ -87,7 +87,7 @@ public class Bubble extends Ostacolo
     			}
 		}
     
-    public double getMaxWidth()
+    public float getMaxWidth()
     	{ return maxW; }
      
     public Circle getArea()
@@ -132,10 +132,10 @@ public class Bubble extends Ostacolo
             ostr.setCenterY( ostr.getCenterY() + y );
         }
      
-    public void setMaxHeight( double val )
+    public void setMaxHeight( float val )
         { maxH = val; }
      
-    public double getMaxHeight()
+    public float getMaxHeight()
         { return maxH; }
  
     public Shape component( String part )

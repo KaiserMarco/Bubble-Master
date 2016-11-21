@@ -19,12 +19,12 @@ public class Coin extends PowerUp
 	// determina se l'oggetto ha raggiunto terra
 	private boolean arrived = false;
 	
-	public Coin( float x, float y, double maxH ) throws SlickException
+	public Coin( float x, float y, float maxH ) throws SlickException
 		{
 			super( "coin" );
 		
 			ostr = new Rectangle( x, y, Global.Width/25, Global.Height/20 );
-			this.maxH = (float) maxH;
+			this.maxH = maxH;
 			
 			img = new Image( "./data/Image/coin.png" );
 		}

@@ -52,7 +52,7 @@ public class Base extends Ostacolo
 	public int getIndexTube()
 		{ return indexTube; }
 
-	public void draw(Graphics g) throws SlickException
+	public void draw( Graphics g ) throws SlickException
 		{ g.fill( ostr ); }
 	
 	public Rectangle getArea()
@@ -112,34 +112,34 @@ public class Base extends Ostacolo
 			return null;
 		}
 
-	public void setInsert(boolean insert, boolean change)
+	public void setInsert( boolean insert, boolean change )
 		{}
 
-	public Ostacolo clone(GameContainer gc)
+	public Ostacolo clone( GameContainer gc )
 		{ return null; }
 
-	public void setMaxHeight(double val)
+	public void setMaxHeight( float val )
 		{}
 
-	public double getMaxHeight()
+	public float getMaxHeight()
 		{ return 0; }
 
-	public double getMaxWidth()
+	public float getMaxWidth()
 		{ return 0; }
 
 	public void setType(String type)
 		{}
 
-	public boolean contains(int x, int y)
+	public boolean contains( int x, int y )
 		{ return false; }
 
-	public void setXY(float x, float y, String function)
+	public void setXY( float x, float y, String function )
 		{}
 
-	public void update(GameContainer gc) throws SlickException
+	public void update( GameContainer gc ) throws SlickException
 		{}
 
-	public void update(GameContainer gc, int delta) throws SlickException
+	public void update( GameContainer gc, int delta ) throws SlickException
 		{}
 
 	public void setOrienting( GameContainer gc )

@@ -28,9 +28,9 @@ public abstract class Ostacolo
 	
 	public abstract Ostacolo clone( GameContainer gc );
 	
-	public abstract void setMaxHeight( double val );	
-	public abstract double getMaxHeight();
-	public abstract double getMaxWidth();
+	public abstract void setMaxHeight( float val );	
+	public abstract float getMaxHeight();
+	public abstract float getMaxWidth();
 	
 	public abstract boolean contains( Shape shape );
 	

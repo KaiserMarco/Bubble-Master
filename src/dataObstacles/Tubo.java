@@ -223,10 +223,10 @@ public class Tubo extends Ostacolo{
 	public void update(GameContainer gc) throws SlickException 
 		{}
 	
-	public void setMaxHeight( double val )
+	public void setMaxHeight( float val )
 		{}
 	
-	public double getMaxHeight()
+	public float getMaxHeight()
 		{ return 0; }
 	
 	public Shape getArea()
@@ -251,7 +251,7 @@ public class Tubo extends Ostacolo{
 	public void update(GameContainer gc, int delta) throws SlickException 
 		{}
 
-	public double getMaxWidth()
+	public float getMaxWidth()
 		{ return 0; }
 
 	private void modificaArea( int type, GameContainer gc ) throws SlickException
