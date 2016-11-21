@@ -543,7 +543,7 @@ public class Edit
 					                if(areaTemp.intersects( areaObs ))
 					                    return false;
 				                }
-				            else if(ost.getID().equals( Global.TUBO ))
+				            if(ost.getID().equals( Global.TUBO ))
 			            		{
 			            			Shape areaBase = ((Tubo) ost).getBase().getArea();
 			            			Shape areaEnter = ((Tubo) ost).getEnter().getArea();
@@ -561,10 +561,10 @@ public class Edit
 		            					else
 		            						return true;
 	            				}
-				            else if(areaTemp.intersects( ost.component( Global.LATOGIU ) ))
+				            if(areaTemp.intersects( ost.component( Global.LATOGIU ) ))
 		                        return false;
 				        }
-				    else if(areaTemp.intersects( ost.getArea() ))
+				    if(areaTemp.intersects( ost.getArea() ))
 			    		return false;
 				}
 		    
