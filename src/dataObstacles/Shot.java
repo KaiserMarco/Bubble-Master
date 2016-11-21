@@ -147,7 +147,7 @@ public class Shot
 								play.setPoint( 150 );
 							else
 								play.setPoint( 300 );
-							if(ost.getWidth() > Global.Width/64)
+							if(ost.getWidth() >= Global.Width/32)
 								{
 									ost.setXY( ost.getWidth()/4, ost.getWidth()/4, "setRay" );
 									

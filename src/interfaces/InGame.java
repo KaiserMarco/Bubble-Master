@@ -12,7 +12,6 @@ import Utils.Global;
 import Utils.Sfondo;
 import bubbleMaster.Start;
 import dataObstacles.Base;
-import dataObstacles.Bubble;
 import dataObstacles.Enter;
 import dataObstacles.Ostacolo;
 import dataObstacles.Player;
@@ -43,7 +42,10 @@ public class InGame
 	private int widthI, heightI;
 
 	// l'ostacolo di turno da analizzare
-	private Ostacolo ost, ostJ;
+	private Ostacolo ost;
+	
+	// determina se l'oggetto e' visibile
+	private boolean dark;
 
 	public InGame() throws SlickException
 		{
@@ -128,14 +130,6 @@ public class InGame
 			
 			Global.sfondo = sfondo;
 		}
-	
-	public void resetObscured()
-		{
-			for(Ostacolo ost: ostacoli)
-				if(ost.getID().equals( Global.BOLLA ))
-					if(((Bubble) ost).isObscured())
-						((Bubble) ost).setObscured( false );
-		}
 
 	public void draw( GameContainer gc, Graphics g ) throws SlickException
 		{
@@ -144,37 +138,27 @@ public class InGame
 			for(PowerUp pu: powerUp)
 				pu.draw( g );
 			
-			resetObscured();
-			
 			for(int i = ostacoli.size() - 1; i >= 0; i--)
 				{
 					ost = ostacoli.get( i );
 					if(!(ost.getID().equals( Global.BASE ) || ost.getID().equals( Global.ENTER )))
 						{
-							if(ost.getID().equals( Global.BOLLA ) && !((Bubble) ost).isObscured())
+							if(ost.getID().equals( Global.BOLLA ))
 								{
+									dark = false;
 									for(Ostacolo player: players)
 										if(player.contains( ost.getArea() ))
-											((Bubble) ost).setObscured( true );
+											dark = true;
 									
-									if(!((Bubble) ost).isObscured())
+									if(!dark)
 										for(int j = i - 1; j >= 0; j--)
-											{
-												ostJ = ostacoli.get( j );
-												if(ostJ.contains( ost.getArea() ))
-													{
-														if(ostJ.getID().equals( Global.BOLLA ) && !((Bubble) ostJ).isObscured())
-															((Bubble) ost).setObscured( true );
-														else if(!ostJ.getID().equals( Global.BOLLA ))
-															((Bubble) ost).setObscured( true );
-														break;
-													}
-											}
+											if(ostacoli.get( j ).contains( ost.getArea() ))
+												dark = true;
 									
-									if(!((Bubble) ost).isObscured())
+									if(!dark)
 										ost.draw( g );
 								}
-							else if(!ost.getID().equals( Global.BOLLA ))
+							else
 								ost.draw( g );
 						}
 				}

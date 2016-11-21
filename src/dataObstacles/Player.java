@@ -338,7 +338,7 @@ public class Player extends Ostacolo
 						if(fuoco.isShooting())
 							fuoco.draw();
 					
-					pos = Global.Width/40 + Global.Width*10/42*(numPlayer-1);
+					pos = Global.Width/5 + Global.Width*10/42*(numPlayer-1);
 					g.setColor( Color.black );
 					if(currAmmo > 0)
 						{
