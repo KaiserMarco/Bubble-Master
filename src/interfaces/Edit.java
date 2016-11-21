@@ -653,7 +653,7 @@ public class Edit
 					else if(input.isMousePressed( Input.MOUSE_LEFT_BUTTON ) && temp.getInsert())
 						{
 							temp.setInsert( true, false );
-							if(temp.getID().equals( Global.TUBO ) || temp.getID().equals( Global.SBARRA ))
+							if(!(temp.getID().equals( Global.PLAYER ) && temp.getID().equals( Global.BOLLA )))
 								temp.setSpigoli();
 							ostacoli.add( temp );
 							
