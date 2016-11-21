@@ -46,6 +46,9 @@ public class InGame
 	
 	// l'ostacolo di turno da analizzare
 	private Ostacolo ost;
+	
+	// l'indice della bolla da NON ricontrollare
+	private int dodgeIndex;
 
 	public InGame() throws SlickException
 		{
@@ -132,43 +135,45 @@ public class InGame
 		}
 
 	public void draw( GameContainer gc, Graphics g ) throws SlickException
-		{		
-			g.setAntiAlias( true );
+		{
 			sfondo.draw( gc );
 
 			for(PowerUp pu: powerUp)
 				pu.draw( g );
 			
 			// evita di non far disegnare entrambe le sfere sovrapposte
-			int dodgeIndex = -1;
+			dodgeIndex = -1;
 			for(int i = ostacoli.size() - 1; i >= 0; i--)
 				{
 					ost = ostacoli.get( i );
-					if(i != dodgeIndex && ost.getID().equals( Global.BOLLA ))
+					if(!(ost.getID().equals( Global.BASE ) || ost.getID().equals( Global.ENTER )))
 						{
-							dark = false;
-							for(Ostacolo player: players)
-								if(player.contains( ost.getArea() ))
-									dark = true;
-							
-							if(!dark)
+							if(i != dodgeIndex && ost.getID().equals( Global.BOLLA ))
 								{
-									for(int j = 0; j < ostacoli.size(); j++)
+									dark = false;
+									for(Ostacolo player: players)
+										if(player.contains( ost.getArea() ))
+											dark = true;
+									
+									if(!dark)
 										{
-											if(j != i && ostacoli.get( j ).contains( ost.getArea() ))
+											for(int j = 0; j < ostacoli.size(); j++)
 												{
-													if(ostacoli.get( j ).getID().equals( Global.BOLLA ))
-														dodgeIndex = j;
-													dark = true;
-													break;
+													if(j != i && ostacoli.get( j ).contains( ost.getArea() ))
+														{
+															if(ostacoli.get( j ).getID().equals( Global.BOLLA ))
+																dodgeIndex = j;
+															dark = true;
+															break;
+														}
 												}
 										}
+									if(!dark)
+										ost.draw( g );
 								}
-							if(!dark)
+							else
 								ost.draw( g );
 						}
-					else
-						ost.draw( g );
 				}
 			
 			for(Ostacolo player: players)
