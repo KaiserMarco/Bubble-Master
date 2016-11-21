@@ -46,23 +46,20 @@ public class Coin extends PowerUp
 
 	public void update(GameContainer gc, int delta)
 		{
-			if(!arrived)
-				{
-					for(Ostacolo ost: InGame.ostacoli)
-						if(!(ost.getID().equals( Global.BOLLA ) || ost.getID().equals( Global.TUBO )))
-							if(ostr.intersects( ost.getArea() ))
-								{
-									arrived = true;
-									ostr.setY( ost.getArea().getY() - getHeight() );
-									break;
-								}
-					if(ostr.getY() + ostr.getHeight() < maxH)
-						ostr.setY( ostr.getY() + delta/5 );
-					else
+			for(Ostacolo ost: InGame.ostacoli)
+				if(!(ost.getID().equals( Global.BOLLA ) || ost.getID().equals( Global.TUBO )))
+					if(ostr.intersects( ost.getArea() ))
 						{
-							ostr.setY( maxH - ostr.getHeight() );
 							arrived = true;
+							ostr.setY( ost.getArea().getY() - getHeight() );
+							break;
 						}
+			if(ostr.getY() + ostr.getHeight() < maxH)
+				ostr.setY( ostr.getY() + delta/5 );
+			else
+				{
+					ostr.setY( maxH - ostr.getHeight() );
+					arrived = true;
 				}
 		}
 	

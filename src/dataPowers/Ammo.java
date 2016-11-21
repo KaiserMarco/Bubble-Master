@@ -19,12 +19,12 @@ public class Ammo extends PowerUp
 	// determina se l'oggetto ha raggiunto terra
 	private boolean arrived = false;
 	
-	public Ammo( float x, float y, double maxH ) throws SlickException
+	public Ammo( float x, float y, float maxH ) throws SlickException
 		{
 			super( "ammo" );
 			
 			ostr = new Rectangle( x, y, Global.Width/25, Global.Height/20 );
-			this.maxH = (float) maxH;
+			this.maxH = maxH;
 			
 			img = new Image( "./data/Image/bullet.png" );
 		}
@@ -46,24 +46,21 @@ public class Ammo extends PowerUp
 	
 	public void update( GameContainer gc, int delta )
 		{
-			if(!arrived)
-				{
-					for(Ostacolo ost: InGame.ostacoli)
-						if(!(ost.getID().equals( Global.BOLLA ) || ost.getID().equals( Global.TUBO )))
-							if(ostr.intersects( ost.getArea() ))
-								{
-									arrived = true;
-									ostr.setY( ost.getArea().getY() - getHeight() );
-									break;
-								}
-				
-					if(ostr.getY() + ostr.getHeight() < maxH)
-						ostr.setY( ostr.getY() + delta/5 );
-					else
+			for(Ostacolo ost: InGame.ostacoli)
+				if(!(ost.getID().equals( Global.BOLLA ) || ost.getID().equals( Global.TUBO )))
+					if(ostr.intersects( ost.getArea() ))
 						{
-							ostr.setY( maxH - ostr.getHeight() );
 							arrived = true;
+							ostr.setY( ost.getArea().getY() - getHeight() );
+							break;
 						}
+		
+			if(ostr.getY() + ostr.getHeight() < maxH)
+				ostr.setY( ostr.getY() + delta/5 );
+			else
+				{
+					ostr.setY( maxH - ostr.getHeight() );
+					arrived = true;
 				}
 		}
 	

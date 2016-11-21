@@ -32,12 +32,12 @@ public class Life extends PowerUp
 	// vettore contenenti le immagini delle vite relative dei players
 	private ArrayList<Image> cuori;
 	
-	public Life( float x, float y, double maxH ) throws SlickException
+	public Life( float x, float y, float maxH ) throws SlickException
 		{
 			super( "life" );
 			
 			ostr = new Rectangle( x, y, Global.Width/24, Global.Height/28 );
-			this.maxH = (float) maxH;
+			this.maxH = maxH;
 			
 			cuori = new ArrayList<Image>();
 			
