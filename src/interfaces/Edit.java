@@ -145,7 +145,7 @@ public class Edit
 			buttons.add( back );
 			buttons.add( saveLevel );
 			
-			minHighEditor = Global.Height - Global.Height/1.34f;
+			minHighEditor = Global.Height/4;
 			
 			nuovoTubo = false;
 			indexFirstTube = -1;
