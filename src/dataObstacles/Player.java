@@ -244,6 +244,8 @@ public class Player extends Ostacolo
 			dir = DESTRA;
 			
 			selectable = true;
+			
+			prevArea = new Rectangle( 0, 0, width, height );
 		}
 	
 	public void drawMoving( Graphics g )
@@ -558,7 +560,7 @@ public class Player extends Ostacolo
 		{
 			moving = false;
 			
-			prevArea = new Rectangle( area.getX(), area.getY(), width, height );
+			prevArea.setLocation( area.getX(), area.getY() );
 			
 			/*ZONA SPOSTAMENTI DESTRA-SINISTRA*/			
 			if(input.isKeyDown( keyButtons.get( DESTRA ) ))
