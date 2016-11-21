@@ -233,9 +233,9 @@ public class ChooseLevel
 				                            // pressed tramite mouse || value==2 tramite tastiera
 				                            if(button.checkClick( input.getMouseX(), input.getMouseY(), input ) || value == 2)
 					                            {
+                                					indexCursor = -1;
 				                            		if(button.getName().equals( BACK ))
 				                            			{
-			                                				indexCursor = -1;
 			                                				Start.chooseLevel = 0;
 					                            			Start.begin = 1;
 				                            			}
@@ -246,8 +246,6 @@ public class ChooseLevel
 					                                        Start.stats.startTempo();
 					                                        Global.drawCountdown = true;
 					                                        Global.inGame = true;
-					                                        
-				                                			indexCursor = -1;
 
 			                                				Start.chooseLevel = 0;
 					                                        Start.startGame = 1;
@@ -256,15 +254,11 @@ public class ChooseLevel
 				                            			{
 					                            			editor.setElements( Begin.livelli.get( pos ).getElements(), Begin.livelli.get( pos ).getName(), pos, Begin.livelli.get( pos ).getImage(), gc );
 
-				                                			indexCursor = -1;
-				                                			
 			                                				Start.chooseLevel = 0;
 					                                        Start.editGame = 1;
 				                            			}
 				                            		else if(button.getName().equals( NEW ))
 				                            			{
-			                                				indexCursor = -1;
-			                                				
 		                                					Start.chooseLevel = 0;
 				                            				Start.editGame = 1;
 				                            			}

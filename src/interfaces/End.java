@@ -10,7 +10,6 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 
 import Utils.Global;
-import Utils.Sfondo;
 import bubbleMaster.Start;
 import dataButton.Button;
 import dataButton.SimpleButton;
@@ -31,12 +30,20 @@ public class End
 	private int widthC, heightC;
 	// vettore dei giocatori partecipanti alla partita
 	private ArrayList<Ostacolo> ostacoli;
-	// lo sfondo del livello
-	private Sfondo sfondo = null;
 	
 	private boolean mouseDown = false;
 	
 	private static final String REPLAY = "GIOCA ANCORA", HOME = "TORNA ALLA SCHERMATA PRINCIPALE", LEVELS = "TORNA ALLA SCHERMATA DEI LIVELLI";
+	
+	private float width = Global.Width/17, height = Global.Height/10;
+	private float startX = Global.Width*10/26, startY = Global.Height/25;
+	private float offset = Global.Width/10;
+	// ascissa e ordinata delle stringhe da stampare
+	private float x = Global.Height/8, y = Global.Height/6;
+	
+	private int pos = 50;
+	
+	private int timing, h, m, s;
 	
 	public End() throws SlickException
 		{
@@ -61,16 +68,26 @@ public class End
 			ostacoli = InGame.ostacoli;
 		}
 	
+	/** calcola il tempo di gioco in termini di ore minuti e secondi */
+	public void setTime()
+		{
+			timing = (int)(Start.stats.getTempo())/1000;
+			h = timing/3600;
+			m = (timing - (h*3600))/60;
+			s = timing - h*3600 - m*60;
+		}
+	
 	public void draw( GameContainer gc ) throws SlickException
 		{
 			Graphics g = gc.getGraphics();
 
-			if(sfondo == null)				
-				sfondo = Global.sfondo;
-			sfondo.draw( gc );
+			Global.sfondo.draw( gc );
 			
 			for(Ostacolo player: InGame.players)
-				player.draw( g );
+				{
+					System.out.println( "size = " + InGame.players.size() );
+					player.draw( g );
+				}
 
 			for(int i = ostacoli.size() - 1; i >= 0; i--)
 				ostacoli.get( i ).draw( g );
@@ -81,17 +98,7 @@ public class End
 			
 			g.setColor( Color.lightGray );
 
-			// ascissa e ordinata delle stringhe da stampare
-			float x = Global.Height/8, y = Global.Height/6;
-			
-			//trasformo il tempo da millisecondi a secondi
-			int timing = (int)(Start.stats.getTempo())/1000;
 			g.scale( 1.05f, 1.05f );
-			int h = timing/3600;
-			int m = (timing - (h*3600))/60;
-			int s = timing - h*3600 - m*60;
-			
-			int pos = 50;
 			
 			String colpi = "COLPI SPARATI =       ";
 			g.drawString( colpi, x, y );
@@ -107,10 +114,6 @@ public class End
 			
 			String seconds = "TEMPO IMPIEGATO =     " + h + "h : " + m + "m : " + s + "s";
 			g.drawString( seconds, x, y + pos*44/10 );
-			
-			float width = Global.Width/17, height = Global.Height/10;
-			float startX = Global.Width*10/26, startY = Global.Height/25;
-			float offset = Global.Width/10;
 
 			for(int i = 0; i < InGame.players.size(); i++)
 				{
@@ -173,7 +176,6 @@ public class End
 				{
             		Start.endGame = 0;
                 	indexCursor = -1;
-                	sfondo = null;
                 	Start.begin = 1;
 				}
 			
@@ -222,8 +224,7 @@ public class End
 				                            			Start.begin = 1;
 				                            		else if(button.getName().equals( LEVELS ))
 				                                        Start.chooseLevel = 1;
-				                            		
-				                            		sfondo = null;
+
 						                            break;
 					                            }
 		                    			}

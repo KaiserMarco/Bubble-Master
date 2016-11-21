@@ -217,6 +217,7 @@ public class InGame
 			if(!Global.inGame)
 				{
 					Start.stats.stopTempo();
+					end.setTime();
 				
 					Start.startGame = 0;
 					Start.endGame = 1;
