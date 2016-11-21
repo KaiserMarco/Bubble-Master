@@ -136,7 +136,7 @@ public class Player extends Ostacolo
 	
 	private boolean check;
 	
-	private float spazio, posX, posY;
+	private float spazio, posX, posY = Global.Height/30;
 
 	/*la posizione del player un attimo prima di spostarsi*/ 
 	private Rectangle prevArea;
@@ -355,7 +355,6 @@ public class Player extends Ostacolo
 					if(drawLifes)
 						{
 							int j = 0;
-							posY = Global.Height/30;
 							for(;j < lifes/2; j++)
 								{
 									heart.draw( posX, posY, widthH, heightH );
@@ -376,7 +375,7 @@ public class Player extends Ostacolo
 		
 					g.setColor( col );
 					if(drawPoints)
-						g.drawString( "SCORE : " + points, posX + Global.Width/80, Global.Height/30);
+						g.drawString( "SCORE : " + points, posX + Global.Width/90, posY );
 				}
 		}
 	
