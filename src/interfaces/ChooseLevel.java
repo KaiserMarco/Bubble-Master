@@ -43,6 +43,8 @@ public class ChooseLevel
 	private int widthC, heightC;
 	/*immagine del cursore*/
 	private Image cursor;
+
+	private float scale = 0.7f;
 	
 	private final static String BACK = "Indietro", START = "Gioca", CANC = "Elimina",
 								EDIT = "Modifica", NEW = "Nuovo Livello";
@@ -102,17 +104,15 @@ public class ChooseLevel
 					sfondo = Begin.livelli.get( pos ).getImage();
 				
 					ArrayList<Ostacolo> obs = Begin.livelli.get( pos ).getElements();
-		    		
-					float scale = 0.7f;
-					
+		    							
 		    		g.translate( width/2 - width*scale/2, width/25 );
 		    		g.scale( scale, scale );
 
 					sfondo.draw( gc );
 					
 					if(pos >= 0)
-						for(int i = 0; i < obs.size(); i++)
-							obs.get( i ).draw( g );
+						for(Ostacolo ost: obs)
+							ost.draw( g );
 				}
     		
 			g.setColor( Color.black );
