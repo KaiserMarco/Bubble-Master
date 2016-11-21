@@ -86,7 +86,7 @@ public class End
 			
 			for(Ostacolo player: giocatori)
 				{
-					System.out.println( "size = " + InGame.players.size() );
+					System.out.println( "size = " + giocatori.size() );
 					player.draw( g );
 				}
 
