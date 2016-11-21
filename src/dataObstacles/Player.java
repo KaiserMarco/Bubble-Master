@@ -135,7 +135,7 @@ public class Player extends Ostacolo
 	
 	private boolean check;
 	
-	private float spazio;
+	private float spazio, pos;
 
 	/*la posizione del player un attimo prima di spostarsi*/ 
 	private Rectangle prevArea;
@@ -324,7 +324,7 @@ public class Player extends Ostacolo
 						pgdx.draw( xPlayer, yPlayer, widthI, height, col );
 				}
 			/* disegna il player durante la durante la partita */
-			else if(Start.startGame == 1)
+			else if(Start.startGame == 1 || Start.endGame == 1)
 				{
 					if(!invincible || (invincible && currentTickInv > 0 && currentTickInv % 2 == 0))
 						drawMoving( g );
@@ -333,7 +333,7 @@ public class Player extends Ostacolo
 						if(fuoco.isShooting())
 							fuoco.draw();
 					
-					float pos = Global.Width/40 + Global.Width*10/42*(numPlayer-1);
+					pos = Global.Width/40 + Global.Width*10/42*(numPlayer-1);
 					g.setColor( Color.black );
 					if(currAmmo > 0)
 						{
@@ -663,6 +663,7 @@ public class Player extends Ostacolo
 											drawLifes = false;
 											drawPoints = false;
 											Global.inGame = false;
+											return;
 										}
 									else
 										{
