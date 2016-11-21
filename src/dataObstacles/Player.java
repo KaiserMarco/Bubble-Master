@@ -136,7 +136,7 @@ public class Player extends Ostacolo
 	
 	private boolean check;
 	
-	private float spazio, pos;
+	private float spazio, posX, posY;
 
 	/*la posizione del player un attimo prima di spostarsi*/ 
 	private Rectangle prevArea;
@@ -217,7 +217,7 @@ public class Player extends Ostacolo
 			heart = new Image( "./data/Image/heart" + colour + ".png" );
 			halfHeart = new Image( "./data/Image/halfHeart" + colour + ".png" );
 			noHeart = new Image( "./data/Image/noHeart.png" );
-			widthH = Global.Width/40; heightH = Global.Height/30;
+			widthH = Global.Width/51; heightH = Global.Height/33;
 			
 			invincible = false;
 			currentTimeInv = 0;
@@ -338,11 +338,11 @@ public class Player extends Ostacolo
 						if(fuoco.isShooting())
 							fuoco.draw();
 					
-					pos = Global.Width/40 + Global.Width*10/38*(numPlayer-1);
+					posX = Global.Width/40 + Global.Width/4*(numPlayer-1);
 					g.setColor( Color.black );
 					if(currAmmo > 0)
 						{
-							Rectangle zone = new Rectangle( pos + 2*widthH, maxHeight, Global.Height - maxHeight, Global.Height - maxHeight );
+							Rectangle zone = new Rectangle( posX + 2*widthH, maxHeight, Global.Height - maxHeight, Global.Height - maxHeight );
 							g.fill( zone );
 							g.setColor( col );
 							powerUp.get( 0 ).getImage().draw( zone.getX(), maxHeight, Global.Height - maxHeight, Global.Height - maxHeight );
@@ -355,27 +355,28 @@ public class Player extends Ostacolo
 					if(drawLifes)
 						{
 							int j = 0;
+							posY = Global.Height/30;
 							for(;j < lifes/2; j++)
 								{
-									heart.draw( pos, Global.Height/30, widthH, heightH );
-									pos = pos + widthH;
+									heart.draw( posX, posY, widthH, heightH );
+									posX = posX + widthH;
 								}
 							if(lifes%2 == 1)
 								{
 									j++;
-									halfHeart.draw( pos, Global.Height/30, widthH, heightH );
-									pos = pos + widthH;
+									halfHeart.draw( posX, posY, widthH, heightH );
+									posX = posX + widthH;
 								}
 							for(;j < Global.lifes/2; j++)
 								{
-									noHeart.draw( pos, Global.Height/30, widthH, heightH );
-									pos = pos + widthH;
+									noHeart.draw( posX, posY, widthH, heightH );
+									posX = posX + widthH;
 								}
 						}
 		
 					g.setColor( col );
 					if(drawPoints)
-						g.drawString( "SCORE : " + points, pos + Global.Width/80, Global.Height/30);
+						g.drawString( "SCORE : " + points, posX + Global.Width/80, Global.Height/30);
 				}
 		}
 	
