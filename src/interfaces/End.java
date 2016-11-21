@@ -29,7 +29,7 @@ public class End
 	/*dimensioni del cursore*/
 	private int widthC, heightC;
 	// vettore dei giocatori partecipanti alla partita
-	private ArrayList<Ostacolo> ostacoli;
+	private ArrayList<Ostacolo> ostacoli, giocatori;
 	
 	private boolean mouseDown = false;
 	
@@ -66,6 +66,7 @@ public class End
 			indexCursor = -1;
 			
 			ostacoli = InGame.ostacoli;
+			giocatori = InGame.players;
 		}
 	
 	/** calcola il tempo di gioco in termini di ore minuti e secondi */
@@ -83,7 +84,7 @@ public class End
 
 			Global.sfondo.draw( gc );
 			
-			for(Ostacolo player: InGame.players)
+			for(Ostacolo player: giocatori)
 				{
 					System.out.println( "size = " + InGame.players.size() );
 					player.draw( g );
@@ -115,9 +116,9 @@ public class End
 			String seconds = "TEMPO IMPIEGATO =     " + h + "h : " + m + "m : " + s + "s";
 			g.drawString( seconds, x, y + pos*44/10 );
 
-			for(int i = 0; i < InGame.players.size(); i++)
+			for(int i = 0; i < giocatori.size(); i++)
 				{
-					Player player = ((Player) InGame.players.get( i ));
+					Player player = ((Player) giocatori.get( i ));
 					player.getImage().draw( startX + width + Global.Width/100 + offset*i, startY, Global.Width/17, height );
 	
 					float xString = startX + width/2 + width + offset*i;
