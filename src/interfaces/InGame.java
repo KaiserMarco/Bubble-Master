@@ -25,7 +25,7 @@ public class InGame
 	public static ArrayList<Ostacolo> ostacoli;
 	
 	/**array contenente i giocatori della partita*/
-	public static ArrayList<Ostacolo> players;
+	public static ArrayList<Player> players;
 	
 	// il vettore dei potenziamenti del personaggio
 	public static ArrayList<PowerUp> powerUp;
@@ -53,7 +53,7 @@ public class InGame
 	public InGame() throws SlickException
 		{
 			ostacoli = new ArrayList<Ostacolo>();
-			players = new ArrayList<Ostacolo>();
+			players = new ArrayList<Player>();
 			powerUp = new ArrayList<PowerUp>();
 			
 			tre = new Image( "./data/Image/3.png" );
@@ -94,9 +94,9 @@ public class InGame
 				{
 					if(elem.getID().equals( Global.PLAYER ))
 						{
-							players.add( elem.clone( gc ) );
+							players.add( (Player) elem.clone( gc ) );
 							
-							Player player = ((Player) players.get( players.size() - 1 ));
+							Player player = players.get( players.size() - 1 );
 							player.setDrawLifes( true );
 							player.setDrawPoints( true );
 							player.setHeight( elem.getHeight() );
@@ -210,15 +210,13 @@ public class InGame
 		{
 			if(input.isKeyPressed( Input.KEY_ESCAPE ))
 				{
-					animNumbers = 30;
-					decrNumb = 4;
 					Start.startGame = 0;
 					Start.chooseLevel = 1;
 					
-					for(Ostacolo player: players)
+					for(Player player: players)
 						{
-							((Player) player).setDrawLifes( false );
-							((Player) player).setDrawPoints( false );
+							player.setDrawLifes( false );
+							player.setDrawPoints( false );
 						}
 				}
 		
@@ -228,11 +226,11 @@ public class InGame
 						if(pu.getID().equals( Global.LIFE ) || !pu.isArrived())
 							pu.update( gc, delta );
 
-					for(Ostacolo player: players)
-						if(((Player) player).isJump() || checkInput( input, ((Player) player).getNumPlayer() ))
-							((Player) player).update( gc, delta, input );
+					for(Player player: players)
+						if(player.isUpdatable() || checkInput( input, player.getNumPlayer() ))
+							player.update( gc, delta, input );
 						else
-							((Player) player).setMoving( false );
+							player.setMoving( false );
 					
 					for(Ostacolo ost: ostacoli)
 						if(ost.getID().equals( Global.BOLLA ))
@@ -244,11 +242,12 @@ public class InGame
 					Start.stats.stopTempo();
 					end.setTime();
 					
-					for(Ostacolo player: players)
+					// TODO DA TESTARE
+					/*for(Player player: players)
 						{
-							((Player) player).setDrawLifes( true );
-							((Player) player).setDrawPoints( true );
-						}
+							player.setDrawLifes( true );
+							player.setDrawPoints( true );
+						}*/
 				
 					Start.startGame = 0;
 					Start.endGame = 1;

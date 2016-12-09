@@ -304,8 +304,13 @@ public class Player extends Ostacolo
 				}
 		}
 	
-	public boolean isJump()
-		{ return jump; }
+	public boolean isUpdatable()
+		{
+			if(moving || movingJ || jump || immortal || invincible)
+				return true;
+			else
+				return false;
+		}
 
 	public void setMoving( boolean val )
 		{ moving = val; }

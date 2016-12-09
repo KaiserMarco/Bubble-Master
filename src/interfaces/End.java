@@ -28,8 +28,9 @@ public class End
 	private int indexCursor;
 	/*dimensioni del cursore*/
 	private int widthC, heightC;
-	// vettore dei giocatori partecipanti alla partita
-	private ArrayList<Ostacolo> ostacoli, giocatori;
+	// vettore degli ostacoli e dei giocatori partecipanti alla partita
+	private ArrayList<Ostacolo> ostacoli;
+	private ArrayList<Player> giocatori;
 	
 	private boolean mouseDown = false;
 	
