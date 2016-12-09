@@ -166,8 +166,8 @@ public class InGame
 						}
 				}
 			
-			for(Ostacolo player: players)
-				((Player) player).drawPlay( g );
+			for(Player player: players)
+				player.drawPlay( g );
 			
 			// disegna il countdown iniziale
 			if(Global.drawCountdown)
@@ -241,13 +241,6 @@ public class InGame
 				{
 					Start.stats.stopTempo();
 					end.setTime();
-					
-					// TODO DA TESTARE
-					/*for(Player player: players)
-						{
-							player.setDrawLifes( true );
-							player.setDrawPoints( true );
-						}*/
 				
 					Start.startGame = 0;
 					Start.endGame = 1;

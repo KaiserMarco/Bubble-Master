@@ -141,6 +141,8 @@ public class Player extends Ostacolo
 	
 	private Map<String, Integer> keyButtons;
 	
+	private boolean isMoved = false;
+	
 	public Player( float x, float y, int numPlayer, GameContainer gc, Color color ) throws SlickException
 		{
 			super( "player" );
@@ -248,11 +250,6 @@ public class Player extends Ostacolo
 	
 	public void drawMoving( Graphics g )
 		{
-			if(immortal)
-				imm = new Color( 28, 57, 187, 200 );
-			else
-				imm = new Color( 255, 255, 255, 255 );
-
 			// il personaggio sta saltando
 			if(movingJ)
 				{
@@ -306,7 +303,7 @@ public class Player extends Ostacolo
 	
 	public boolean isUpdatable()
 		{
-			if(moving || movingJ || jump || immortal || invincible)
+			if(moving || movingJ || jump || immortal || invincible || isShooting)
 				return true;
 			else
 				return false;
@@ -318,8 +315,30 @@ public class Player extends Ostacolo
 	/** disegna il player durante e dopo la partita */
 	public void drawPlay( Graphics g ) throws SlickException
 		{
+			if(immortal)
+				imm = new Color( 28, 57, 187, 200 );
+			else
+				imm = new Color( 255, 255, 255, 255 );
+			
 			if(!invincible || (invincible && currentTickInv > 0 && currentTickInv % 2 == 0))
-				drawMoving( g );
+				{
+					if(!isMoved)
+						{
+							if(dir == DESTRA)
+								{
+									pgdx.draw( xPlayer, yPlayer, widthI, height );
+									pgdx.draw( xPlayer, yPlayer, widthI, height, imm );
+								}
+							else
+								{
+									pgsx.draw( xPlayer - offset, yPlayer, widthI, height );
+									pgsx.draw( xPlayer - offset, yPlayer, widthI, height, imm );
+								}
+							
+						}
+					else
+						drawMoving( g );
+				}
 			
 			for(Shot fuoco: fire)
 				if(fuoco.isShooting())
@@ -776,6 +795,11 @@ public class Player extends Ostacolo
 			/*gestione dell'animazione*/
 			if(moving || jump)
 				animTime = (animTime + delta) % animTimeMove;
+			
+			if(!area.getLocation().equals( prevArea.getLocation() ))
+				isMoved = true;
+			else
+				isMoved = false;
 		}
 
 	public void setType( String type )
