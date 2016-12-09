@@ -250,8 +250,22 @@ public class Player extends Ostacolo
 	
 	public void drawMoving( Graphics g )
 		{
+			// il personaggio NON si sta movendo
+			if(!isMoved)
+				{
+					if(dir == DESTRA)
+						{
+							pgdx.draw( xPlayer, yPlayer, widthI, height );
+							pgdx.draw( xPlayer, yPlayer, widthI, height, imm );
+						}
+					else
+						{
+							pgsx.draw( xPlayer - offset, yPlayer, widthI, height );
+							pgsx.draw( xPlayer - offset, yPlayer, widthI, height, imm );
+						}
+				}
 			// il personaggio sta saltando
-			if(movingJ)
+			else if(movingJ)
 				{
 					indice = Math.min( (int) (animTime/frameJump), 8 );
 					if(dir == DESTRA)
@@ -310,26 +324,7 @@ public class Player extends Ostacolo
 				imm = new Color( 255, 255, 255, 255 );
 			
 			if(!invincible || (invincible && currentTickInv > 0 && currentTickInv % 2 == 0))
-				{
-					// se il personaggio e' fermo
-					if(!isMoved)
-						{
-							if(dir == DESTRA)
-								{
-									pgdx.draw( xPlayer, yPlayer, widthI, height );
-									pgdx.draw( xPlayer, yPlayer, widthI, height, imm );
-								}
-							else
-								{
-									pgsx.draw( xPlayer - offset, yPlayer, widthI, height );
-									pgsx.draw( xPlayer - offset, yPlayer, widthI, height, imm );
-								}
-							
-						}
-					// se il personaggio NON e' fermo
-					else
-						drawMoving( g );
-				}
+				drawMoving( g );
 			
 			for(Shot fuoco: fire)
 				if(fuoco.isShooting())
@@ -379,6 +374,7 @@ public class Player extends Ostacolo
 	public void draw( Graphics g ) throws SlickException
 		{
 			pgdx.draw( xPlayer, yPlayer, widthI, height );
+			
 			Color col = null;
 			if(!selectable)
 				col = Color.black;
