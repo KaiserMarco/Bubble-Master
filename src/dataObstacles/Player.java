@@ -288,17 +288,6 @@ public class Player extends Ostacolo
 							left[indice].draw( xPlayer - offset, yPlayer, widthI, height, imm );
 						}
 				}
-			// il personaggio e' fermo
-			else if(dir == DESTRA)
-				{
-					pgdx.draw( xPlayer, yPlayer, widthI, height );
-					pgdx.draw( xPlayer, yPlayer, widthI, height, imm );
-				}
-			else
-				{
-					pgsx.draw( xPlayer - offset, yPlayer, widthI, height );
-					pgsx.draw( xPlayer - offset, yPlayer, widthI, height, imm );
-				}
 		}
 	
 	public boolean isUpdatable()
@@ -322,6 +311,7 @@ public class Player extends Ostacolo
 			
 			if(!invincible || (invincible && currentTickInv > 0 && currentTickInv % 2 == 0))
 				{
+					// se il personaggio e' fermo
 					if(!isMoved)
 						{
 							if(dir == DESTRA)
@@ -336,6 +326,7 @@ public class Player extends Ostacolo
 								}
 							
 						}
+					// se il personaggio NON e' fermo
 					else
 						drawMoving( g );
 				}
