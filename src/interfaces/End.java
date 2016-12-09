@@ -85,7 +85,7 @@ public class End
 			Global.sfondo.draw( gc );
 			
 			for(Ostacolo player: giocatori)
-				player.draw( g );
+				((Player) player).drawPlay( g );
 				
 			for(int i = ostacoli.size() - 1; i >= 0; i--)
 				ostacoli.get( i ).draw( g );

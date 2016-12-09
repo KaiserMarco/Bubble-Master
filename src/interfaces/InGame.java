@@ -1,6 +1,7 @@
 package interfaces;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -46,6 +47,8 @@ public class InGame
 	
 	// determina se l'oggetto e' visibile
 	private boolean dark;
+	
+	private final static String DESTRA = "Dx", SINISTRA = "Sx", SALTO = "Salto", SPARO = "Sparo";
 
 	public InGame() throws SlickException
 		{
@@ -164,7 +167,7 @@ public class InGame
 				}
 			
 			for(Ostacolo player: players)
-				player.draw( g );
+				((Player) player).drawPlay( g );
 			
 			// disegna il countdown iniziale
 			if(Global.drawCountdown)
@@ -193,6 +196,16 @@ public class InGame
 			Global.drawScreenBrightness( g );
 		}
 	
+	private boolean checkInput( Input input, int index )
+		{
+			Map<String, Integer> map = Global.mapButtons.get( index - 1 );
+			if(input.isKeyDown( map.get( DESTRA ) ) || input.isKeyDown( map.get( SINISTRA ) )
+			|| input.isKeyDown( map.get( SALTO ) )  || input.isKeyDown( map.get( SPARO ) ))
+				return true;
+		
+			return false;
+		}
+	
 	public void update( GameContainer gc, int delta, End end, Input input ) throws SlickException
 		{
 			if(input.isKeyPressed( Input.KEY_ESCAPE ))
@@ -216,7 +229,10 @@ public class InGame
 							pu.update( gc, delta );
 
 					for(Ostacolo player: players)
-						((Player) player).update( gc, delta, input );
+						if(((Player) player).isJump() || checkInput( input, ((Player) player).getNumPlayer() ))
+							((Player) player).update( gc, delta, input );
+						else
+							((Player) player).setMoving( false );
 					
 					for(Ostacolo ost: ostacoli)
 						if(ost.getID().equals( Global.BOLLA ))

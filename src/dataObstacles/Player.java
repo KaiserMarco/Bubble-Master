@@ -1,7 +1,5 @@
 package dataObstacles;
 
-import interfaces.InGame;
-
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -16,9 +14,9 @@ import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
 
 import Utils.Global;
-import bubbleMaster.Start;
 import dataPowers.Ammo;
 import dataPowers.PowerUp;
+import interfaces.InGame;
 
 public class Player extends Ostacolo
 {
@@ -306,73 +304,77 @@ public class Player extends Ostacolo
 				}
 		}
 	
+	public boolean isJump()
+		{ return jump; }
+
+	public void setMoving( boolean val )
+		{ moving = val; }
+	
+	/** disegna il player durante e dopo la partita */
+	public void drawPlay( Graphics g ) throws SlickException
+		{
+			if(!invincible || (invincible && currentTickInv > 0 && currentTickInv % 2 == 0))
+				drawMoving( g );
+			
+			for(Shot fuoco: fire)
+				if(fuoco.isShooting())
+					fuoco.draw();
+			
+			posX = Global.Width/40 + Global.Width/4*(numPlayer-1);
+			g.setColor( Color.black );
+			if(currAmmo > 0)
+				{
+					Rectangle zone = new Rectangle( posX + 2*widthH, maxHeight, Global.Height - maxHeight, Global.Height - maxHeight );
+					g.fill( zone );
+					g.setColor( col );
+					powerUp.get( 0 ).getImage().draw( zone.getX(), maxHeight, Global.Height - maxHeight, Global.Height - maxHeight );
+					g.drawString( "X " + currAmmo, zone.getMaxX() + space, maxHeight );
+					coolDown.setY( coolDown.getY() + tickCd );
+					coolDown.setHeight( coolDown.getHeight() - tickCd );
+					g.fill( coolDown );
+					index--;
+				}
+			if(drawLifes)
+				{
+					int j = 0;
+					for(;j < lifes/2; j++)
+						{
+							heart.draw( posX, posY, widthH, heightH );
+							posX = posX + widthH;
+						}
+					if(lifes%2 == 1)
+						{
+							j++;
+							halfHeart.draw( posX, posY, widthH, heightH );
+							posX = posX + widthH;
+						}
+					for(;j < Global.lifes/2; j++)
+						{
+							noHeart.draw( posX, posY, widthH, heightH );
+							posX = posX + widthH;
+						}
+				}
+	
+			g.setColor( col );
+			if(drawPoints)
+				g.drawString( "SCORE : " + points, posX + Global.Width/100, posY );
+		}
+
+	/** disegna il player durante la scelta livello e durante l'editing */
 	public void draw( Graphics g ) throws SlickException
 		{
-			/* disegna il player durante la scelta livello e durante l'editing */
-			if(Start.editGame == 1 || Start.chooseLevel == 1)
-				{
-					pgdx.draw( xPlayer, yPlayer, widthI, height );
-					Color col = null;
-					if(!selectable)
-						col = Color.black;
-					if(checkInsert)
-						if(!insert)
-							col = cr;
-						else
-							col = cg;
-					
-					if(col != null)
-						pgdx.draw( xPlayer, yPlayer, widthI, height, col );
-				}
-			/* disegna il player durante la durante la partita */
-			else if(Start.startGame == 1 || Start.endGame == 1)
-				{
-					if(!invincible || (invincible && currentTickInv > 0 && currentTickInv % 2 == 0))
-						drawMoving( g );
-					
-					for(Shot fuoco: fire)
-						if(fuoco.isShooting())
-							fuoco.draw();
-					
-					posX = Global.Width/40 + Global.Width/4*(numPlayer-1);
-					g.setColor( Color.black );
-					if(currAmmo > 0)
-						{
-							Rectangle zone = new Rectangle( posX + 2*widthH, maxHeight, Global.Height - maxHeight, Global.Height - maxHeight );
-							g.fill( zone );
-							g.setColor( col );
-							powerUp.get( 0 ).getImage().draw( zone.getX(), maxHeight, Global.Height - maxHeight, Global.Height - maxHeight );
-							g.drawString( "X " + currAmmo, zone.getMaxX() + space, maxHeight );
-							coolDown.setY( coolDown.getY() + tickCd );
-							coolDown.setHeight( coolDown.getHeight() - tickCd );
-							g.fill( coolDown );
-							index--;
-						}
-					if(drawLifes)
-						{
-							int j = 0;
-							for(;j < lifes/2; j++)
-								{
-									heart.draw( posX, posY, widthH, heightH );
-									posX = posX + widthH;
-								}
-							if(lifes%2 == 1)
-								{
-									j++;
-									halfHeart.draw( posX, posY, widthH, heightH );
-									posX = posX + widthH;
-								}
-							for(;j < Global.lifes/2; j++)
-								{
-									noHeart.draw( posX, posY, widthH, heightH );
-									posX = posX + widthH;
-								}
-						}
-		
-					g.setColor( col );
-					if(drawPoints)
-						g.drawString( "SCORE : " + points, posX + Global.Width/100, posY );
-				}
+			pgdx.draw( xPlayer, yPlayer, widthI, height );
+			Color col = null;
+			if(!selectable)
+				col = Color.black;
+			if(checkInsert)
+				if(!insert)
+					col = cr;
+				else
+					col = cg;
+			
+			if(col != null)
+				pgdx.draw( xPlayer, yPlayer, widthI, height, col );					
 		}
 	
 	public void setSelectable( boolean val )
