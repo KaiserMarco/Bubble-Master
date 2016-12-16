@@ -127,6 +127,9 @@ public class Shot
 						play.setPoint( 150 );
 					else
 						play.setPoint( 300 );
+					
+					InGame.spheres.remove( ost );
+					
 					if(ost.getWidth() >= Global.Width/32)
 						{
 							ost.setXY( ost.getWidth()/4, ost.getWidth()/4, "setRay" );
@@ -156,12 +159,9 @@ public class Shot
 									temp2.setSpeed( speedX, Math.abs( speedY ) );
 								}
 							
-							InGame.spheres.remove( ost );
 							InGame.spheres.add( temp1 );
 							InGame.spheres.add( temp2 );
 						}
-					else
-						InGame.spheres.remove( ost );
 					
 					return true;
 				}
