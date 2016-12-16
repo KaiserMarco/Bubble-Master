@@ -467,10 +467,7 @@ public class Player extends Ostacolo
 
 	public Ostacolo clone( GameContainer gc )
 		{
-			try
-				{
-					return new Player( xPlayer, yPlayer, numPlayer, gc, color );
-				}
+			try { return new Player( xPlayer, yPlayer, numPlayer, gc, color ); }
 			catch (SlickException e)
 				{
 					e.printStackTrace();
@@ -523,8 +520,6 @@ public class Player extends Ostacolo
 	public void update( GameContainer gc, int delta, Input input ) throws SlickException
 		{
 			moving = false;
-			
-			prevArea.setLocation( area.getX(), area.getY() );
 			
 			/*ZONA SPOSTAMENTI DESTRA-SINISTRA*/			
 			if(input.isKeyDown( keyButtons.get( DESTRA ) ))
@@ -755,7 +750,10 @@ public class Player extends Ostacolo
 			if(area.getLocation().equals( prevArea.getLocation() ))
 				isMoved = false;
 			else
-				isMoved = true;
+				{
+					isMoved = true;
+					prevArea.setLocation( area.getX(), area.getY() );
+				}
 		}
 
 	public void setType( String type )
