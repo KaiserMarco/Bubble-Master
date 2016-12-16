@@ -672,7 +672,7 @@ public class Player extends Ostacolo
 				}
 			
 			/*ZONA CONTROLLO COLLISIONE PERSONAGGIO - POWERUP*/
-			for(int i = 0; i < InGame.powerUp.size(); i++)
+			for(int i = InGame.powerUp.size() - 1; i >= 0; i--)
 				{
 					PowerUp powerUp = InGame.powerUp.get( i );
 					if(area.intersects( powerUp.getArea() ))
