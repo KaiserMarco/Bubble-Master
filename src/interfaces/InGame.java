@@ -12,6 +12,7 @@ import Utils.Global;
 import Utils.Sfondo;
 import bubbleMaster.Start;
 import dataObstacles.Base;
+import dataObstacles.Bubble;
 import dataObstacles.Enter;
 import dataObstacles.Ostacolo;
 import dataObstacles.Player;
@@ -20,14 +21,17 @@ import dataPowers.PowerUp;
 
 public class InGame
 {	
-	/**array contenente gli ostacoli della partita*/
+	/**vettore contenente gli ostacoli della partita*/
 	public static ArrayList<Ostacolo> ostacoli;
 	
-	/**array contenente i giocatori della partita*/
+	/**vettore contenente i giocatori della partita*/
 	public static ArrayList<Player> players;
 	
-	// il vettore dei potenziamenti del personaggio
+	/**vettore dei potenziamenti del personaggio*/
 	public static ArrayList<PowerUp> powerUp;
+	
+	/**vettore dei potenziamenti del personaggio*/
+	public static ArrayList<Bubble> spheres;
 	
 	// lo sfondo del livello
 	private Sfondo sfondo;
@@ -52,6 +56,7 @@ public class InGame
 			ostacoli = new ArrayList<Ostacolo>();
 			players = new ArrayList<Player>();
 			powerUp = new ArrayList<PowerUp>();
+			spheres = new ArrayList<Bubble>();
 			
 			tre = new Image( "./data/Image/3.png" );
 			due = new Image( "./data/Image/2.png" );
@@ -65,25 +70,12 @@ public class InGame
 			decrNumb = 4;
 		}
 	
-	public void setSpheres( GameContainer gc )
-		{
-			for(int i = ostacoli.size() - 1; i >= 0; i--)
-				{
-					ost = ostacoli.get( i );
-					if(ost.getID().equals( Global.BOLLA ))
-						{
-							ostacoli.add( ost.clone( gc ) );
-							ostacoli.get( ostacoli.size() - 1 ).setMaxHeight( sfondo.getMaxHeight() );
-							ostacoli.remove( i );
-						}
-				}
-		}
-	
 	public void addOstacoli( ArrayList<Ostacolo> obs, Sfondo sfondo, GameContainer gc ) throws SlickException
 		{
 			ostacoli.clear();
-			powerUp.clear();
 			players.clear();
+			spheres.clear();
+			powerUp.clear();
 			
 			this.sfondo = sfondo;
 		
@@ -103,8 +95,8 @@ public class InGame
 						}
 					else if(elem.getID().equals( Global.BOLLA ))
 						{
-							ostacoli.add( elem.clone( gc ) );
-							ostacoli.get( ostacoli.size() - 1 ).setMaxHeight( sfondo.getMaxHeight() );
+							spheres.add( (Bubble) elem.clone( gc ) );
+							spheres.get( spheres.size() - 1 ).setMaxHeight( sfondo.getMaxHeight() );
 						}
 					else
 						ostacoli.add( elem );
@@ -124,8 +116,6 @@ public class InGame
 						}
 				}
 			
-			setSpheres( gc );
-			
 			Global.sfondo = sfondo;
 		}
 
@@ -136,30 +126,22 @@ public class InGame
 			for(PowerUp pu: powerUp)
 				pu.draw( g );
 			
-			for(int i = ostacoli.size() - 1; i >= 0; i--)
+			for(Bubble bolla: spheres)
 				{
-					ost = ostacoli.get( i );
-					if(!(ost.getID().equals( Global.BASE ) || ost.getID().equals( Global.ENTER )))
-						{
-							if(ost.getID().equals( Global.BOLLA ))
-								{
-									dark = false;
-									for(Ostacolo player: players)
-										if(player.contains( ost.getArea() ))
-											dark = true;
-									
-									if(!dark)
-										for(int j = i - 1; j >= 0; j--)
-											if(ostacoli.get( j ).contains( ost.getArea() ))
-												dark = true;
-									
-									if(!dark)
-										ost.draw( g );
-								}
-							else
-								ost.draw( g );
-						}
+					dark = false;
+					for(Ostacolo ost: ostacoli)
+						if(ost.contains( bolla.getArea() ))
+							{
+								dark = true;
+								break;
+							}
+					
+					if(!dark)
+						bolla.draw( g );
 				}
+			
+			for(Ostacolo ost: ostacoli)
+				ost.draw( g );
 			
 			for(Player player: players)
 				player.drawPlay( g );
@@ -209,6 +191,10 @@ public class InGame
 						player.update( gc, delta, input );
 					
 					for(Ostacolo ost: ostacoli)
+						if(ost.getID().equals( Global.BOLLA ))
+							ost.update( gc, delta );
+					
+					for(Bubble ost: spheres)
 						if(ost.getID().equals( Global.BOLLA ))
 							ost.update( gc, delta );
 				}

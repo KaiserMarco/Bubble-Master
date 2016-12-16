@@ -138,6 +138,9 @@ public class Player extends Ostacolo
 	private Map<String, Integer> keyButtons;
 	
 	private boolean isMoved = false;
+
+	// determina se e' stata colpita o meno una sfera
+	private boolean hit;
 	
 	public Player( float x, float y, int numPlayer, GameContainer gc, Color color ) throws SlickException
 		{
@@ -466,8 +469,7 @@ public class Player extends Ostacolo
 		{
 			try
 				{
-					Player p = new Player( xPlayer, yPlayer, numPlayer, gc, color );
-					return p;
+					return new Player( xPlayer, yPlayer, numPlayer, gc, color );
 				}
 			catch (SlickException e)
 				{
@@ -513,16 +515,6 @@ public class Player extends Ostacolo
 	
 	public int getHits()
 		{ return hits; }
-	
-	/** controlla se tutte le sfere sono state distrutte */
-	public void checkSpheres()
-		{
-			for(Ostacolo ost: InGame.ostacoli)
-				if(ost.getID().equals( Global.BOLLA ))
-					return;
-			
-			Global.inGame = false;
-		}
 
 	/** setta i tasti del player */
 	public void setKeyButtons()
@@ -635,25 +627,7 @@ public class Player extends Ostacolo
 			/*ZONA CONTROLLO COLLISIONE PERSONAGGIO - OSTACOLI*/
 			for(Ostacolo ost: InGame.ostacoli)
 				{
-					if(ost.getID().equals( Global.BOLLA ))
-						{
-							if(area.intersects( ost.getArea() ) && !immortal && !invincible)
-								{
-									if(--lifes == 0)
-										{
-											Global.inGame = false;
-											return;
-										}
-									else
-										{
-											points = points - 100;
-											invincible = true;
-											currentTimeInv = 0;
-											currentTickInv = tickInv;
-										}
-								}
-						}
-					else if(!ost.getID().equals( Global.TUBO ))
+					if(!ost.getID().equals( Global.TUBO ))
 						{
 							if(area.intersects( ost.component( Global.LATOSU ) ) && prevArea.getMaxY() <= ost.getY())
 								{
@@ -674,6 +648,26 @@ public class Player extends Ostacolo
 								setXY( ost.getMaxX(), area.getY(), RESTORE );
 							else if(area.intersects( ost.component( Global.LATOSX ) ))
 								setXY( ost.getX() - width, area.getY(), RESTORE );
+						}
+				}
+			
+			/*ZONA CONTROLLO COLLISIONE PERSONAGGIO-SFERE*/
+			for(Bubble sfera: InGame.spheres)
+				{
+					if(area.intersects( sfera.getArea() ) && !immortal && !invincible)
+						{
+							if(--lifes == 0)
+								{
+									Global.inGame = false;
+									return;
+								}
+							else
+								{
+									points = points - 100;
+									invincible = true;
+									currentTimeInv = 0;
+									currentTickInv = tickInv;
+								}
 						}
 				}
 			
@@ -721,23 +715,37 @@ public class Player extends Ostacolo
 								fuoco.setShot( false );
 							else
 								{
-									for(Ostacolo ost: InGame.ostacoli)
-										if(!ost.getID().equals( Global.TUBO ))
-											if(fuoco.collision( this, ost, gc ))
+									hit = false;
+									for(Bubble sfera: InGame.spheres)
+										{
+											if(fuoco.collisionSphere( this, sfera, gc ) )
 												{
-													if(fuoco.checkHit())
-														hits++;
+													hits++;
+													if(InGame.spheres.size() == 0)
+														{
+															Global.inGame = false;
+															return;
+														}
 													fuoco.setShot( false );
 													break;
 												}
+										}
+								
+									if(!hit)
+										{
+											for(Ostacolo ost: InGame.ostacoli)
+												if(!ost.getID().equals( Global.TUBO ))
+													if(fuoco.getArea().intersects( ost.getArea() ))
+														{
+															fuoco.setShot( false );
+															break;
+														}
+										}
 								}
 						}
 				}
 			if(isShooting && !checkFire())
 				{ isShooting = false; }
-			
-			/*controlla se sono state distrutte tutte le sfere*/
-			checkSpheres();
 			
 			/*gestione dell'animazione*/
 			if(moving || jump)

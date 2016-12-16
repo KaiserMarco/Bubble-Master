@@ -34,9 +34,6 @@ public class Shot
 	
 	private int countShot;
 	
-	// determina se il colpo ha colpito una sfera
-	private boolean hit;
-	
 	public Shot( GameContainer gc ) throws SlickException
 		{
 			widthS = Global.Width/53;
@@ -57,8 +54,6 @@ public class Shot
 			shooting = false;
 			
 			countShot = 0;
-			
-			hit = false;
 		}
 	
 	public void setXY( float x, float y )
@@ -106,86 +101,78 @@ public class Shot
 	public void setAnimTime( int val )
 		{ countShot = val; }
 	
-	/** controlla se lo shot ha colpito una sfera */
-	public boolean checkHit()
-		{
-			if(hit)
-				{
-					hit = false;
-					return true;
-				}
-			else
-				return hit;
-		}
-	
-	public boolean collision( Player play, Ostacolo ost, GameContainer gc ) throws SlickException
+	public boolean collisionSphere( Player play, Bubble ost, GameContainer gc ) throws SlickException
 		{
 			if(getArea().intersects( ost.getArea() ))
 				{
-					if(ost.getID().equals( Global.BOLLA ))
+					if(Math.random() <= Global.dropRate)
 						{
-							hit = true;
-							if(Math.random() <= Global.dropRate)
-								{
-									double power = Math.random();
-									if(power <= 0.2)
-										InGame.powerUp.add( new Invincible( ost.getArea().getX(), ost.getArea().getCenterY(), ost.getMaxHeight() ) );
-									else if(power <= 0.5)
-										InGame.powerUp.add( new Ammo( ost.getArea().getX(), ost.getArea().getCenterY(), ost.getMaxHeight() ) );
-									else if(power <= 0.7)
-										InGame.powerUp.add( new Coin( ost.getArea().getX(), ost.getArea().getCenterY(), ost.getMaxHeight() ) );
-									else
-										{
-											InGame.powerUp.add( new Life( ost.getArea().getX(), ost.getArea().getCenterY(), ost.getMaxHeight() ) );
-											((Life) InGame.powerUp.get( InGame.powerUp.size() - 1 )).setPlayers();
-										}
-								}
-						
-							if(ost.getWidth() == Global.Width/16)
-								play.setPoint( 50 );
-							else if(ost.getWidth() == Global.Width/32)
-								play.setPoint( 150 );
+							double power = Math.random();
+							if(power <= 0.2)
+								InGame.powerUp.add( new Invincible( ost.getArea().getX(), ost.getArea().getCenterY(), ost.getMaxHeight() ) );
+							else if(power <= 0.5)
+								InGame.powerUp.add( new Ammo( ost.getArea().getX(), ost.getArea().getCenterY(), ost.getMaxHeight() ) );
+							else if(power <= 0.7)
+								InGame.powerUp.add( new Coin( ost.getArea().getX(), ost.getArea().getCenterY(), ost.getMaxHeight() ) );
 							else
-								play.setPoint( 300 );
-							if(ost.getWidth() >= Global.Width/32)
 								{
-									ost.setXY( ost.getWidth()/4, ost.getWidth()/4, "setRay" );
-									
-									Bubble temp1 = new Bubble( ost, gc );
-									Bubble temp2 = new Bubble( ost, gc );
-									
-									temp1.setMaxHeight( ost.getMaxHeight() );
-									temp2.setMaxHeight( ost.getMaxHeight() );
-									
-									temp1.setPrimoTubo( ((Bubble) ost).getPrimoTubo() );
-									temp2.setPrimoTubo( ((Bubble) ost).getPrimoTubo() );
-									
-									temp1.setIndexTube( ((Bubble) ost).getIndexTube() );
-									temp2.setIndexTube( ((Bubble) ost).getIndexTube() );
-									
-									float speedX = ((Bubble) ost).getSpeedX(), speedY = ((Bubble) ost).getSpeedY();
-									
-									if(speedY == 0)
-										{
-											temp1.setSpeed( speedX, Math.abs( speedX/(1.5f) ) );
-											temp2.setSpeed( -speedX,  Math.abs( speedX/(1.5f) ) );
-										}
-									else
-										{
-											temp1.setSpeed( -speedX, Math.abs( speedY ) );
-											temp2.setSpeed( speedX, Math.abs( speedY ) );
-										}
-									
-									InGame.ostacoli.remove( ost );
-									InGame.ostacoli.add( temp1 );
-									InGame.ostacoli.add( temp2 );
+									InGame.powerUp.add( new Life( ost.getArea().getX(), ost.getArea().getCenterY(), ost.getMaxHeight() ) );
+									((Life) InGame.powerUp.get( InGame.powerUp.size() - 1 )).setPlayers();
 								}
-							else
-								InGame.ostacoli.remove( ost );
 						}
-
+				
+					if(ost.getWidth() == Global.Width/16)
+						play.setPoint( 50 );
+					else if(ost.getWidth() == Global.Width/32)
+						play.setPoint( 150 );
+					else
+						play.setPoint( 300 );
+					if(ost.getWidth() >= Global.Width/32)
+						{
+							ost.setXY( ost.getWidth()/4, ost.getWidth()/4, "setRay" );
+							
+							Bubble temp1 = new Bubble( ost, gc );
+							Bubble temp2 = new Bubble( ost, gc );
+							
+							temp1.setMaxHeight( ost.getMaxHeight() );
+							temp2.setMaxHeight( ost.getMaxHeight() );
+							
+							temp1.setPrimoTubo( ((Bubble) ost).getPrimoTubo() );
+							temp2.setPrimoTubo( ((Bubble) ost).getPrimoTubo() );
+							
+							temp1.setIndexTube( ((Bubble) ost).getIndexTube() );
+							temp2.setIndexTube( ((Bubble) ost).getIndexTube() );
+							
+							float speedX = ((Bubble) ost).getSpeedX(), speedY = ((Bubble) ost).getSpeedY();
+							
+							if(speedY == 0)
+								{
+									temp1.setSpeed( speedX, Math.abs( speedX/(1.5f) ) );
+									temp2.setSpeed( -speedX,  Math.abs( speedX/(1.5f) ) );
+								}
+							else
+								{
+									temp1.setSpeed( -speedX, Math.abs( speedY ) );
+									temp2.setSpeed( speedX, Math.abs( speedY ) );
+								}
+							
+							InGame.spheres.remove( ost );
+							InGame.spheres.add( temp1 );
+							InGame.spheres.add( temp2 );
+						}
+					else
+						InGame.spheres.remove( ost );
+					
 					return true;
 				}
+		
+			return false;
+		}
+	
+	public boolean collisionObs( Player play, Ostacolo ost, GameContainer gc ) throws SlickException
+		{
+			if(getArea().intersects( ost.getArea() ))
+				return true;
 			
 			return false;
 		}
