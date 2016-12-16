@@ -111,9 +111,6 @@ public class Edit
 			
 			maxHeight = sfondi.get( indexSfondo ).getMaxHeight();
 			
-			for(int i = 3; i < 7; i++)
-				((Player) items.get( i )).setDrawLifes( false );
-			
 			up = new Image( "./data/Image/up.png" );
 			down = new Image( "./data/Image/down.png" );
 			widthArrow = Global.Width/15;

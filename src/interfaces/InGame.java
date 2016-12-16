@@ -1,7 +1,6 @@
 package interfaces;
 
 import java.util.ArrayList;
-import java.util.Map;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -47,8 +46,6 @@ public class InGame
 	
 	// determina se l'oggetto e' visibile
 	private boolean dark;
-	
-	private final static String DESTRA = "Dx", SINISTRA = "Sx", SALTO = "Salto", SPARO = "Sparo";
 
 	public InGame() throws SlickException
 		{
@@ -97,8 +94,6 @@ public class InGame
 							players.add( (Player) elem.clone( gc ) );
 							
 							Player player = players.get( players.size() - 1 );
-							player.setDrawLifes( true );
-							player.setDrawPoints( true );
 							player.setHeight( elem.getHeight() );
 							player.setWidth( elem.getWidth() );
 							player.setWidthI( ((Player) elem).getWidthI() );
@@ -196,28 +191,12 @@ public class InGame
 			Global.drawScreenBrightness( g );
 		}
 	
-	private boolean checkInput( Input input, int index )
-		{
-			Map<String, Integer> map = Global.mapButtons.get( index - 1 );
-			if(input.isKeyDown( map.get( DESTRA ) ) || input.isKeyDown( map.get( SINISTRA ) )
-			|| input.isKeyDown( map.get( SALTO ) )  || input.isKeyDown( map.get( SPARO ) ))
-				return true;
-		
-			return false;
-		}
-	
 	public void update( GameContainer gc, int delta, End end, Input input ) throws SlickException
 		{
 			if(input.isKeyPressed( Input.KEY_ESCAPE ))
 				{
 					Start.startGame = 0;
 					Start.chooseLevel = 1;
-					
-					for(Player player: players)
-						{
-							player.setDrawLifes( false );
-							player.setDrawPoints( false );
-						}
 				}
 		
 			if(!Global.drawCountdown)
@@ -227,10 +206,7 @@ public class InGame
 							pu.update( gc, delta );
 
 					for(Player player: players)
-						if(player.isUpdatable() || checkInput( input, player.getNumPlayer() ))
-							player.update( gc, delta, input );
-						else
-							player.setMoving( false );
+						player.update( gc, delta, input );
 					
 					for(Ostacolo ost: ostacoli)
 						if(ost.getID().equals( Global.BOLLA ))

@@ -183,6 +183,7 @@ public class TextBox
 					{
 						//TODO CreateLevel.saveLevel();
 						setOpen( false );
+						return true;
 					}
 			}
 

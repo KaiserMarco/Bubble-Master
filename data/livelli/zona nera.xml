@@ -6,5 +6,10 @@
   <ostacolo x="403.0" y="456.0" union="-1" type="null" ID="bolla" />
   <ostacolo x="160.0" y="372.0" union="-1" type="hor" ID="sbarra" />
   <ostacolo x="310.0" y="506.0" union="-1" type="null" number="1" color="yellow" ID="player" />
-  <sfondo name="sfondo8" />
+  <ostacolo x="177.0" y="129.0" union="-1" type="null" ID="bolla" />
+  <ostacolo x="74.0" y="267.0" union="-1" type="null" ID="bolla" />
+  <ostacolo x="358.0" y="107.0" union="-1" type="null" ID="bolla" />
+  <ostacolo x="36.0" y="424.0" union="-1" type="null" ID="bolla" />
+  <ostacolo x="554.0" y="284.0" union="-1" type="null" ID="bolla" />
+  <sfondo name="sfondo1" />
 </level>

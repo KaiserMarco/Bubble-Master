@@ -88,8 +88,6 @@ public class Player extends Ostacolo
 	
 	//le vite/i punti del personaggio
 	private int lifes, points;
-	// determina se disegnare o meno le vite/i punti del personaggio
-	private boolean drawLifes, drawPoints;
 	
 	//determina se il personaggio e' vulnerabile/mortale
 	private boolean invincible, immortal;
@@ -131,8 +129,6 @@ public class Player extends Ostacolo
 	private boolean selectable;
 	
 	private final float move = Global.Width/400;
-	
-	private boolean check;
 	
 	private float spazio, posX, posY = Global.Height/30;
 
@@ -228,9 +224,6 @@ public class Player extends Ostacolo
 			
 			lifes  = Global.lifes;
 			
-			drawLifes = false;
-			drawPoints = false;
-			
 			points = 0;
 			
 			powerUp = new ArrayList<PowerUp>();
@@ -245,12 +238,12 @@ public class Player extends Ostacolo
 			
 			selectable = true;
 			
-			prevArea = new Rectangle( 0, 0, width, height );
+			prevArea = new Rectangle( area.getX(), area.getY(), width, height );
 		}
 	
 	public void drawMoving( Graphics g )
 		{
-			// il personaggio NON si sta movendo
+			// il personaggio NON si sta muovendo
 			if(!isMoved)
 				{
 					if(dir == DESTRA)
@@ -303,14 +296,6 @@ public class Player extends Ostacolo
 						}
 				}
 		}
-	
-	public boolean isUpdatable()
-		{
-			if(moving || movingJ || jump || immortal || invincible || isShooting)
-				return true;
-			else
-				return false;
-		}
 
 	public void setMoving( boolean val )
 		{ moving = val; }
@@ -344,30 +329,27 @@ public class Player extends Ostacolo
 					g.fill( coolDown );
 					index--;
 				}
-			if(drawLifes)
+				
+			int j = 0;
+			for(;j < lifes/2; j++)
 				{
-					int j = 0;
-					for(;j < lifes/2; j++)
-						{
-							heart.draw( posX, posY, widthH, heightH );
-							posX = posX + widthH;
-						}
-					if(lifes%2 == 1)
-						{
-							j++;
-							halfHeart.draw( posX, posY, widthH, heightH );
-							posX = posX + widthH;
-						}
-					for(;j < Global.lifes/2; j++)
-						{
-							noHeart.draw( posX, posY, widthH, heightH );
-							posX = posX + widthH;
-						}
+					heart.draw( posX, posY, widthH, heightH );
+					posX = posX + widthH;
+				}
+			if(lifes%2 == 1)
+				{
+					j++;
+					halfHeart.draw( posX, posY, widthH, heightH );
+					posX = posX + widthH;
+				}
+			for(;j < Global.lifes/2; j++)
+				{
+					noHeart.draw( posX, posY, widthH, heightH );
+					posX = posX + widthH;
 				}
 	
 			g.setColor( col );
-			if(drawPoints)
-				g.drawString( "SCORE : " + points, posX + Global.Width/100, posY );
+			g.drawString( "SCORE : " + points, posX + Global.Width/100, posY );
 		}
 
 	/** disegna il player durante la scelta livello e durante l'editing */
@@ -423,18 +405,6 @@ public class Player extends Ostacolo
 			else
 				return "green";
     	}
-    
-    public void setDrawLifes( boolean val )
-    	{ drawLifes = val; }
-    
-    public boolean getDrawLifes()
-    	{ return drawLifes; }
-    
-    public void setDrawPoints( boolean val )
-    	{ drawPoints = val; }
-    
-    public boolean getDrawPoints()
-    	{ return drawPoints; }
 	
 	public Image getImage()
 		{ return pgdx; }
@@ -496,9 +466,7 @@ public class Player extends Ostacolo
 		{
 			try
 				{
-					Player p = new Player( xPlayer, yPlayer, numPlayer, gc, color );				
-					p.setDrawLifes( getDrawLifes() );
-					p.setDrawPoints( getDrawPoints() );
+					Player p = new Player( xPlayer, yPlayer, numPlayer, gc, color );
 					return p;
 				}
 			catch (SlickException e)
@@ -549,16 +517,11 @@ public class Player extends Ostacolo
 	/** controlla se tutte le sfere sono state distrutte */
 	public void checkSpheres()
 		{
-			check = true;
 			for(Ostacolo ost: InGame.ostacoli)
 				if(ost.getID().equals( Global.BOLLA ))
-					{
-						check = false;
-						return;
-					}
+					return;
 			
-			if(check)
-				Global.inGame = false;
+			Global.inGame = false;
 		}
 
 	/** setta i tasti del player */
@@ -678,8 +641,6 @@ public class Player extends Ostacolo
 								{
 									if(--lifes == 0)
 										{
-											drawLifes = false;
-											drawPoints = false;
 											Global.inGame = false;
 											return;
 										}
