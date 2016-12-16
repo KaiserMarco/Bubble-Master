@@ -137,13 +137,13 @@ public class Shot
 							temp1.setMaxHeight( ost.getMaxHeight() );
 							temp2.setMaxHeight( ost.getMaxHeight() );
 							
-							temp1.setPrimoTubo( ((Bubble) ost).getPrimoTubo() );
-							temp2.setPrimoTubo( ((Bubble) ost).getPrimoTubo() );
+							temp1.setPrimoTubo( ost.getPrimoTubo() );
+							temp2.setPrimoTubo( ost.getPrimoTubo() );
 							
-							temp1.setIndexTube( ((Bubble) ost).getIndexTube() );
-							temp2.setIndexTube( ((Bubble) ost).getIndexTube() );
+							temp1.setIndexTube( ost.getIndexTube() );
+							temp2.setIndexTube( ost.getIndexTube() );
 							
-							float speedX = ((Bubble) ost).getSpeedX(), speedY = ((Bubble) ost).getSpeedY();
+							float speedX = ost.getSpeedX(), speedY = ost.getSpeedY();
 							
 							if(speedY == 0)
 								{

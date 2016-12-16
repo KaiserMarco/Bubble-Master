@@ -712,35 +712,36 @@ public class Player extends Ostacolo
 								fuoco.update();
 							
 							if(fuoco.getArea().getY() <= 0)
-								fuoco.setShot( false );
-							else
 								{
-									hit = false;
-									for(Bubble sfera: InGame.spheres)
+									fuoco.setShot( false );
+									continue;
+								}
+								
+							hit = false;
+							for(Bubble sfera: InGame.spheres)
+								{
+									if(fuoco.collisionSphere( this, sfera, gc ) )
 										{
-											if(fuoco.collisionSphere( this, sfera, gc ) )
+											hits++;
+											if(InGame.spheres.size() == 0)
 												{
-													hits++;
-													if(InGame.spheres.size() == 0)
-														{
-															Global.inGame = false;
-															return;
-														}
+													Global.inGame = false;
+													return;
+												}
+											fuoco.setShot( false );
+											break;
+										}
+								}
+						
+							if(!hit)
+								{
+									for(Ostacolo ost: InGame.ostacoli)
+										if(!ost.getID().equals( Global.TUBO ))
+											if(fuoco.getArea().intersects( ost.getArea() ))
+												{
 													fuoco.setShot( false );
 													break;
 												}
-										}
-								
-									if(!hit)
-										{
-											for(Ostacolo ost: InGame.ostacoli)
-												if(!ost.getID().equals( Global.TUBO ))
-													if(fuoco.getArea().intersects( ost.getArea() ))
-														{
-															fuoco.setShot( false );
-															break;
-														}
-										}
 								}
 						}
 				}
