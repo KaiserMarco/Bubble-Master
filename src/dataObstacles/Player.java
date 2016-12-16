@@ -703,7 +703,6 @@ public class Player extends Ostacolo
 									index = 270*timerShot/3000;
 									tickCd = coolDown.getHeight()/index;
 								}
-							else continue;
 							
 							InGame.powerUp.remove( powerUp );
 						}
