@@ -126,15 +126,34 @@ public class InGame
 			for(PowerUp pu: powerUp)
 				pu.draw( g );
 			
-			for(Bubble bolla: spheres)
+			// disegna le sfere solo quando sono visibili
+			for(int j = spheres.size() - 1; j >= 0; j--)
 				{
+					Bubble bolla = spheres.get( j );
 					dark = false;
+					
 					for(Ostacolo ost: ostacoli)
 						if(ost.contains( bolla.getArea() ))
 							{
 								dark = true;
 								break;
 							}
+					
+					if(!dark)
+						for(int i = 0; i < j; i++)
+							if(spheres.get( i ).contains( bolla.getArea() ))
+								{
+									dark = true;
+									break;
+								}
+					
+					if(!dark)
+						for(Player player: players)
+							if(player.contains( bolla.getArea() ))
+								{
+									dark = true;
+									break;
+								}
 					
 					if(!dark)
 						bolla.draw( g );
