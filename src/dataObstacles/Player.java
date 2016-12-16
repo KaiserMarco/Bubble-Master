@@ -752,10 +752,10 @@ public class Player extends Ostacolo
 			if(moving || jump)
 				animTime = (animTime + delta) % animTimeMove;
 			
-			if(!area.getLocation().equals( prevArea.getLocation() ))
-				isMoved = true;
-			else
+			if(area.getLocation().equals( prevArea.getLocation() ))
 				isMoved = false;
+			else
+				isMoved = true;
 		}
 
 	public void setType( String type )
