@@ -198,6 +198,9 @@ public class InGame
 				{
 					Start.startGame = 0;
 					Start.chooseLevel = 1;
+					
+					animNumbers = 30;
+					decrNumb = 4;
 				}
 		
 			if(!Global.drawCountdown)
@@ -209,13 +212,8 @@ public class InGame
 					for(Player player: players)
 						player.update( gc, delta, input );
 					
-					for(Ostacolo ost: ostacoli)
-						if(ost.getID().equals( Global.BOLLA ))
-							ost.update( gc, delta );
-					
-					for(Bubble ost: spheres)
-						if(ost.getID().equals( Global.BOLLA ))
-							ost.update( gc, delta );
+					for(Bubble sfera: spheres)
+						sfera.update( gc, delta );
 				}
 			
 			if(!Global.inGame)
