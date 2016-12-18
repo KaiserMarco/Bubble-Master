@@ -517,9 +517,32 @@ public class Player extends Ostacolo
 	public void setKeyButtons()
 		{ keyButtons = Global.mapButtons.get( numPlayer - 1 ); }
 	
+	/** controlla lo stato delle munizioni */
+	private void checkCurrAmmo( GameContainer gc )
+		{
+			if(currAmmo > 0)
+				{
+					cd = gc.getTime() - currentTimeShot;
+					if(cd >= timerShot)
+						{
+							cd = 0;
+							currAmmo = 0;
+							currentTimeShot = 0;
+						}
+				}
+			
+			if(!isShooting && currAmmo == 0)
+				if(fire.size() > 1)
+					for(int i = fire.size() - 1; i > 0; i--)
+						fire.remove( i );
+		}
+	
 	public void update( GameContainer gc, int delta, Input input ) throws SlickException
 		{
 			moving = false;
+			
+			// controlla lo stato delle munizioni
+			checkCurrAmmo( gc );
 			
 			/*ZONA SPOSTAMENTI DESTRA-SINISTRA*/			
 			if(input.isKeyDown( keyButtons.get( DESTRA ) ))
@@ -543,7 +566,7 @@ public class Player extends Ostacolo
 					tempJump = 60;
 				}
 			/*ZONA SPARO*/
-			if(!isShooting && input.isKeyPressed( keyButtons.get( Global.SPARO ) ))
+			if(input.isKeyPressed( keyButtons.get( Global.SPARO ) ) && !isShooting)
 	            {					
 					spazio = widthI/(currAmmo + 2);
 
@@ -563,22 +586,6 @@ public class Player extends Ostacolo
 				{
 					movingJ = true;
 					setXY( 0, move + Math.abs( 0.1f * tempJump-- ), MOVE );
-				}
-			
-			if(!isShooting && currAmmo == 0)
-				if(fire.size() > 1)
-					for(int i = fire.size() - 1; i > 0; i--)
-						fire.remove( i );
-			
-			if(currAmmo > 0)
-				{
-					cd = gc.getTime() - currentTimeShot;
-					if(cd >= timerShot)
-						{
-							cd = 0;
-							currAmmo = 0;
-							currentTimeShot = 0;
-						}
 				}
 			
 			if(immortal)
