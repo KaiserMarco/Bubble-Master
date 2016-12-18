@@ -600,27 +600,24 @@ public class Player extends Ostacolo
 							currentTimeInv = 0;
 				}
 			
-			/*controlla se non sono stati superati i limiti della schermata*/
-			if(moving || movingJ)
+			/*controlla se sono stati superati i limiti della schermata*/
+			if(area.getMaxX() > Global.Width)
+				setXY( Global.Width - width, area.getY(), RESTORE );
+			else if(area.getX() < 0)
+				setXY( 0, area.getY(), RESTORE );
+			if(area.getMaxY() > Global.maxHeight)
 				{
-					if(area.getMaxX() > Global.Width)
-						setXY( Global.Width - width, area.getY(), RESTORE );
-					else if(area.getX() < 0)
-						setXY( 0, area.getY(), RESTORE );
-					if(area.getMaxY() > Global.maxHeight)
-						{
-							maxJump = 0;
-							jump = false;
-							movingJ = false;
-							setXY( area.getX(), maxHeight - height, RESTORE );
-						}
-					else if(area.getY() < 0)
-						{
-							maxJump = 0;
-							tempJump = 0;
-							animTime = animTimeJump/5;
-							setXY( area.getX(), 0, RESTORE );
-						}
+					maxJump = 0;
+					jump = false;
+					movingJ = false;
+					setXY( area.getX(), maxHeight - height, RESTORE );
+				}
+			else if(area.getY() < 0)
+				{
+					maxJump = 0;
+					tempJump = 0;
+					animTime = animTimeJump/5;
+					setXY( area.getX(), 0, RESTORE );
 				}
 			
 			/*ZONA CONTROLLO COLLISIONE PERSONAGGIO - OSTACOLI*/
