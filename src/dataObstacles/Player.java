@@ -588,11 +588,8 @@ public class Player extends Ostacolo
 					setXY( 0, move + Math.abs( 0.1f * tempJump-- ), MOVE );
 				}
 			
-			if(immortal)
-				{
-					if((gc.getTime() - currentTimeImm) >= timerImm)
-						immortal = false;
-				}
+			if(immortal && gc.getTime() - currentTimeImm >= timerImm)
+				immortal = false;
 			else if(invincible)
 				{
 					currentTimeInv = currentTimeInv + delta;
