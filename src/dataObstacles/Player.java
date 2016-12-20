@@ -772,9 +772,6 @@ public class Player extends Ostacolo
 	public float getHeight() 
 		{ return height; }
 
-	public void isCollision( Bubble bolla )
-		{}
-
 	public Shape getArea()
 		{ return area; }
 
@@ -783,12 +780,6 @@ public class Player extends Ostacolo
 
 	public float getMaxWidth()
 		{ return 0; }
-
-	public boolean getCollide()
-		{ return false; }
-
-	public void setCollide( boolean val )
-	 	{}
 
     public void setOrienting( GameContainer gc )
     	{}
