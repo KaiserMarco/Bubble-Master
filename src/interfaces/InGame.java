@@ -149,7 +149,7 @@ public class InGame
 					
 					if(!dark)
 						for(Player player: players)
-							if(player.contains( bolla.getArea() ))
+							if(!player.isInvincible() && player.contains( bolla.getArea() ))
 								{
 									dark = true;
 									break;

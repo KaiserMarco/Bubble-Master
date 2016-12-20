@@ -589,9 +589,9 @@ public class Edit
 				    	}
 				    else if(ost.getID().equals( Global.TUBO ))
 				    	{
-					    	if(temp.getArea().intersects( ((Tubo) ost).getBase().getArea() ))
+					    	if(areaTemp.intersects( ((Tubo) ost).getBase().getArea() ))
 			    				return false;
-			    			else if(temp.getArea().intersects( ((Tubo) ost).getEnter().getArea() ))
+			    			else if(areaTemp.intersects( ((Tubo) ost).getEnter().getArea() ))
 			    				return false;
 				    	}
 				    else if(areaTemp.intersects( ost.getArea() ))
@@ -711,7 +711,7 @@ public class Edit
 								temp = null;
 						}
 				}
-			//se NON ho ancora un elemento da inserire
+			//se NON ho un elemento da inserire
 			else if(temp == null)
 				{
 					if(input.isKeyPressed( Input.KEY_DOWN ))

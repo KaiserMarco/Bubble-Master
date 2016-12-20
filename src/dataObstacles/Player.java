@@ -560,6 +560,10 @@ public class Player extends Ostacolo
 				}
 		}
 	
+	/** ritorna lo stato di invincibilita' del personaggio */
+	public boolean isInvincible()
+		{ return invincible; }
+	
 	public void update( GameContainer gc, int delta, Input input ) throws SlickException
 		{
 			moving = false;
@@ -624,10 +628,6 @@ public class Player extends Ostacolo
 				}
 			
 			/*controlla se sono stati superati i limiti della schermata*/
-			if(area.getMaxX() > Global.Width)
-				setXY( Global.Width - width, area.getY(), RESTORE );
-			else if(area.getX() < 0)
-				setXY( 0, area.getY(), RESTORE );
 			if(area.getMaxY() > Global.maxHeight)
 				{
 					maxJump = 0;
@@ -635,12 +635,19 @@ public class Player extends Ostacolo
 					movingJ = false;
 					setXY( area.getX(), maxHeight - height, RESTORE );
 				}
-			else if(area.getY() < 0)
+			if(moving || jump)
 				{
-					maxJump = 0;
-					tempJump = 0;
-					animTime = animTimeJump/5;
-					setXY( area.getX(), 0, RESTORE );
+					if(area.getMaxX() > Global.Width)
+						setXY( Global.Width - width, area.getY(), RESTORE );
+					else if(area.getX() < 0)
+						setXY( 0, area.getY(), RESTORE );
+					if(area.getY() < 0)
+						{
+							maxJump = 0;
+							tempJump = 0;
+							animTime = animTimeJump/5;
+							setXY( area.getX(), 0, RESTORE );
+						}
 				}
 			
 			/*ZONA CONTROLLO COLLISIONE PERSONAGGIO - OSTACOLI*/
@@ -671,21 +678,24 @@ public class Player extends Ostacolo
 				}
 			
 			/*ZONA CONTROLLO COLLISIONE PERSONAGGIO-SFERE*/
-			for(Bubble sfera: InGame.spheres)
+			if(!immortal && !invincible)
 				{
-					if(area.intersects( sfera.getArea() ) && !immortal && !invincible)
+					for(Bubble sfera: InGame.spheres)
 						{
-							if(--lifes == 0)
+							if(area.intersects( sfera.getArea() ))
 								{
-									Global.inGame = false;
-									return;
-								}
-							else
-								{
-									points = points - 100;
-									invincible = true;
-									currentTimeInv = 0;
-									currentTickInv = tickInv;
+									if(--lifes == 0)
+										{
+											Global.inGame = false;
+											return;
+										}
+									else
+										{
+											points = points - 100;
+											invincible = true;
+											currentTimeInv = 0;
+											currentTickInv = tickInv;
+										}
 								}
 						}
 				}
