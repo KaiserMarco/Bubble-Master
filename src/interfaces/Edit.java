@@ -587,6 +587,13 @@ public class Edit
 					    				return false;
 				    			}
 				    	}
+				    else if(ost.getID().equals( Global.TUBO ))
+				    	{
+					    	if(temp.getArea().intersects( ((Tubo) ost).getBase().getArea() ))
+			    				return false;
+			    			else if(temp.getArea().intersects( ((Tubo) ost).getEnter().getArea() ))
+			    				return false;
+				    	}
 				    else if(areaTemp.intersects( ost.getArea() ))
 			    		return false;
 				}
