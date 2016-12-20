@@ -141,6 +141,8 @@ public class Player extends Ostacolo
 	
 	private int j;
 	
+	private ArrayList<Bubble> sfere;
+	
 	public Player( float x, float y, int numPlayer, GameContainer gc, Color color ) throws SlickException
 		{
 			super( "player" );
@@ -241,6 +243,8 @@ public class Player extends Ostacolo
 			selectable = true;
 			
 			prevArea = new Rectangle( area.getX(), area.getY(), width, height );
+			
+			sfere = new ArrayList<Bubble>();
 		}
 	
 	public void drawMoving( Graphics g )
@@ -564,6 +568,9 @@ public class Player extends Ostacolo
 	public boolean isInvincible()
 		{ return invincible; }
 	
+	public void setSpheres( ArrayList<Bubble> bolle )
+		{ sfere = bolle; }
+	
 	public void update( GameContainer gc, int delta, Input input ) throws SlickException
 		{
 			moving = false;
@@ -680,7 +687,7 @@ public class Player extends Ostacolo
 			/*ZONA CONTROLLO COLLISIONE PERSONAGGIO-SFERE*/
 			if(!immortal && !invincible)
 				{
-					for(Bubble sfera: InGame.spheres)
+					for(Bubble sfera: sfere)
 						{
 							if(area.intersects( sfera.getArea() ))
 								{
@@ -727,17 +734,17 @@ public class Player extends Ostacolo
 								}
 								
 							hit = false;
-							for(Bubble sfera: InGame.spheres)
+							for(Bubble sfera: sfere)
 								{
-									if(fuoco.collisionSphere( this, sfera, gc ) )
+									if(fuoco.collisionSphere( this, sfere, sfera, gc ) )
 										{
 											hits++;
-											if(InGame.spheres.size() == 0)
+											fuoco.setShot( false );
+											if(sfere.size() == 0)
 												{
 													Global.inGame = false;
 													return;
 												}
-											fuoco.setShot( false );
 											break;
 										}
 								}

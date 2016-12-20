@@ -13,6 +13,7 @@ import Utils.Global;
 import bubbleMaster.Start;
 import dataButton.Button;
 import dataButton.SimpleButton;
+import dataObstacles.Bubble;
 import dataObstacles.Ostacolo;
 import dataObstacles.Player;
 
@@ -31,6 +32,7 @@ public class End
 	// vettore degli ostacoli e dei giocatori partecipanti alla partita
 	private ArrayList<Ostacolo> ostacoli;
 	private ArrayList<Player> giocatori;
+	private ArrayList<Bubble> bolle;
 	
 	private boolean mouseDown = false;
 	
@@ -68,6 +70,7 @@ public class End
 			
 			ostacoli = InGame.ostacoli;
 			giocatori = InGame.players;
+			bolle = InGame.spheres;
 		}
 	
 	/** calcola il tempo di gioco in termini di ore minuti e secondi */
@@ -87,9 +90,12 @@ public class End
 			
 			for(Ostacolo player: giocatori)
 				((Player) player).drawPlay( g );
+			
+			for(Bubble bolla: bolle)
+				bolla.draw( g );
 				
-			for(int i = ostacoli.size() - 1; i >= 0; i--)
-				ostacoli.get( i ).draw( g );
+			for(Ostacolo ost: ostacoli)
+				ost.draw( g );
 			
 			Color black = new Color( 0, 0, 0, 185 );
 			g.setColor( black );

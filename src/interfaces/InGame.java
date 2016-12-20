@@ -102,6 +102,12 @@ public class InGame
 						ostacoli.add( elem );
 				}
 			
+			for(Player player: players)
+				{
+					player.setSpheres( spheres );
+					player.setKeyButtons();
+				}
+			
 			int size = ostacoli.size();
 			for(int i = 0; i < size; i++)
 				{

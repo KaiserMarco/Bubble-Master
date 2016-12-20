@@ -101,7 +101,7 @@ public class Shot
 	public void setAnimTime( int val )
 		{ countShot = val; }
 	
-	public boolean collisionSphere( Player play, Bubble ost, GameContainer gc ) throws SlickException
+	public boolean collisionSphere( Player play, ArrayList<Bubble> bolle, Bubble ost, GameContainer gc ) throws SlickException
 		{
 			if(getArea().intersects( ost.getArea() ))
 				{
@@ -128,7 +128,7 @@ public class Shot
 					else
 						play.setPoint( 300 );
 					
-					InGame.spheres.remove( ost );
+					bolle.remove( ost );
 					
 					if(ost.getWidth() >= Global.Width/32)
 						{
@@ -159,8 +159,8 @@ public class Shot
 									temp2.setSpeed( speedX, Math.abs( speedY ) );
 								}
 							
-							InGame.spheres.add( temp1 );
-							InGame.spheres.add( temp2 );
+							bolle.add( temp1 );
+							bolle.add( temp2 );
 						}
 					
 					return true;
