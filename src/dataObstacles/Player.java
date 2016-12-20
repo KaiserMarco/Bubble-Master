@@ -1,5 +1,7 @@
 package dataObstacles;
 
+import interfaces.InGame;
+
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -16,7 +18,6 @@ import org.newdawn.slick.geom.Shape;
 import Utils.Global;
 import dataPowers.Ammo;
 import dataPowers.PowerUp;
-import interfaces.InGame;
 
 public class Player extends Ostacolo
 {
@@ -121,8 +122,6 @@ public class Player extends Ostacolo
 	private float space = Global.Height*10/857;
 	
 	private	int indice;
-	
-	private static final String LIFE = "life", COIN = "coin", INVINCIBLE = "invincible", AMMO = "ammo";
 	
 	private Color col;
 	
@@ -421,6 +420,9 @@ public class Player extends Ostacolo
 	public int getLifes()
 		{ return lifes; }
 	
+	public void updateLifes()
+		{ lifes = Math.min( ++lifes, Global.lifes ); }
+	
 	public void setLifes( int val )
 		{ lifes = val; }
 
@@ -535,6 +537,27 @@ public class Player extends Ostacolo
 				if(fire.size() > 1)
 					for(int i = fire.size() - 1; i > 0; i--)
 						fire.remove( i );
+		}
+	
+	public void setImmortality( GameContainer gc )
+		{
+			immortal = true;
+			invincible = false;
+			currentTimeImm = gc.getTime();
+		}
+	
+	public void setNewAmmo( GameContainer gc ) throws SlickException
+		{
+			if(currAmmo < maxAmmo)
+				{
+					currAmmo++;
+					fire.add( new Shot( gc ) );
+					currentTimeShot = gc.getTime();
+					coolDown.setY( maxHeight );
+					coolDown.setHeight( Global.Height - maxHeight );
+					index = 270*timerShot/3000;
+					tickCd = coolDown.getHeight()/index;
+				}
 		}
 	
 	public void update( GameContainer gc, int delta, Input input ) throws SlickException
@@ -672,28 +695,8 @@ public class Player extends Ostacolo
 				{
 					PowerUp powerUp = InGame.powerUp.get( i );
 					if(area.intersects( powerUp.getArea() ))
-						{							
-							if(powerUp.getID().equals( COIN ))
-								points = points + 500;
-							else if(powerUp.getID().equals( LIFE ))
-								lifes = Math.min( ++lifes, Global.lifes );
-							else if(powerUp.getID().equals( INVINCIBLE ))
-								{
-									immortal = true;
-									invincible = false;
-									currentTimeImm = gc.getTime();
-								}
-							else if(powerUp.getID().equals( AMMO ) && currAmmo < maxAmmo)
-								{
-									currAmmo++;
-									fire.add( new Shot( gc ) );
-									currentTimeShot = gc.getTime();
-									coolDown.setY( maxHeight );
-									coolDown.setHeight( Global.Height - maxHeight );
-									index = 270*timerShot/3000;
-									tickCd = coolDown.getHeight()/index;
-								}
-							
+						{
+							powerUp.effect( this, gc );
 							InGame.powerUp.remove( powerUp );
 						}
 				}

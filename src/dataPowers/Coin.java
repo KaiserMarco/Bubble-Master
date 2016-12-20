@@ -8,6 +8,7 @@ import org.newdawn.slick.geom.Rectangle;
 
 import Utils.Global;
 import dataObstacles.Ostacolo;
+import dataObstacles.Player;
 import interfaces.InGame;
 
 public class Coin extends PowerUp
@@ -65,4 +66,7 @@ public class Coin extends PowerUp
 	
 	public void draw( Graphics g )
 		{ img.draw( ostr.getX(), ostr.getY(), ostr.getWidth(), ostr.getHeight() ); }
+	
+	public void effect( Player player, GameContainer gc )
+		{ InGame.players.get( player.getNumPlayer() - 1 ).setPoint( 500 ); }
 }

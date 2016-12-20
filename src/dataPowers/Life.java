@@ -100,4 +100,7 @@ public class Life extends PowerUp
 	
 	public void draw( Graphics g ) throws SlickException
 		{ img.draw( ostr.getX(), ostr.getY(), ostr.getWidth(), ostr.getHeight() ); }
+	
+	public void effect( Player player, GameContainer gc )
+		{ InGame.players.get( player.getNumPlayer() - 1 ).updateLifes(); }
 }

@@ -1,5 +1,7 @@
 package dataPowers;
 
+import interfaces.InGame;
+
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -8,7 +10,7 @@ import org.newdawn.slick.geom.Rectangle;
 
 import Utils.Global;
 import dataObstacles.Ostacolo;
-import interfaces.InGame;
+import dataObstacles.Player;
 
 public class Ammo extends PowerUp
 {
@@ -66,4 +68,7 @@ public class Ammo extends PowerUp
 	
 	public void draw( Graphics g )
 		{ img.draw( ostr.getX(), ostr.getY(), ostr.getWidth(), ostr.getHeight() ); }
+	
+	public void effect( Player player, GameContainer gc ) throws SlickException
+		{ InGame.players.get( player.getNumPlayer() - 1 ).setNewAmmo( gc ); }
 }

@@ -6,6 +6,8 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
 
+import dataObstacles.Player;
+
 public abstract class PowerUp
 {	
 	private String ID;
@@ -25,4 +27,6 @@ public abstract class PowerUp
 	public abstract Image getImage();
 	
 	public abstract boolean isArrived();
+	
+	public abstract void effect( Player player, GameContainer gc )  throws SlickException;
 }
