@@ -33,7 +33,9 @@ public class Player extends Ostacolo
 	private float widthI;
 	private float width, height;
 	
-	private ArrayList <Shot> fire;	
+	/** vettore dei colpi */
+	private ArrayList <Shot> fire;
+	
 	// determina il numero di colpi sparati
 	private int shots;
 	
@@ -140,6 +142,8 @@ public class Player extends Ostacolo
 
 	// determina se e' stata colpita o meno una sfera
 	private boolean hit;
+	
+	private int j;
 	
 	public Player( float x, float y, int numPlayer, GameContainer gc, Color color ) throws SlickException
 		{
@@ -332,7 +336,7 @@ public class Player extends Ostacolo
 					index--;
 				}
 				
-			int j = 0;
+			j = 0;
 			for(;j < lifes/2; j++)
 				{
 					heart.draw( posX, posY, widthH, heightH );
