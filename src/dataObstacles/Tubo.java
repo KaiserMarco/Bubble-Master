@@ -141,10 +141,18 @@ public class Tubo extends Ostacolo{
 	public void setXY( float x, float y, String function )
 		{ 
 			if(function.compareTo( "move" ) == 0)
-				ostr.setLocation( ostr.getX() + x, ostr.getY() + y );
+				{
+					ostr.setLocation( ostr.getX() + x, ostr.getY() + y );
+					base.setXY( x, y, function );
+					enter.setXY( x, y, function );
+				}
 			
 			else if(function.compareTo( "restore" ) == 0)
-				ostr.setLocation( x, y );
+				{
+					ostr.setLocation( x, y );
+					base.setXY( x, y, function );
+					enter.setXY( x, y, function );
+				}
 		}
 	
 	public Ostacolo getBase()

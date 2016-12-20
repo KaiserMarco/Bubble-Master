@@ -134,7 +134,13 @@ public class Base extends Ostacolo
 		{ return false; }
 
 	public void setXY( float x, float y, String function )
-		{}
+		{
+			if(function.compareTo( "move" ) == 0)
+				ostr.setLocation( ostr.getX() + x, ostr.getY() + y );
+			
+			else if(function.compareTo( "restore" ) == 0)
+				ostr.setLocation( x, y );
+		}
 
 	public void update( GameContainer gc ) throws SlickException
 		{}

@@ -27,6 +27,8 @@ import Utils.TextBox;
 import bubbleMaster.Start;
 import dataButton.Button;
 import dataButton.SimpleButton;
+import dataObstacles.Base;
+import dataObstacles.Enter;
 import dataObstacles.Ostacolo;
 import dataObstacles.Player;
 import dataObstacles.Tubo;
@@ -561,6 +563,30 @@ public class Edit
 				            else if(areaTemp.intersects( ost.component( Global.LATOGIU ) ))
 		                        return false;
 				        }
+				    else if(temp.getID().equals( Global.TUBO ))
+				    	{
+				    		Base base = (Base) ((Tubo) temp).getBase();
+				    		Enter enter = (Enter) ((Tubo) temp).getEnter();
+				    		
+				    		if(ost.getID().equals( Global.TUBO ))
+				    			{
+					    			if(base.getArea().intersects( ((Tubo) ost).getBase().getArea() ))
+					    				return false;
+					    			else if(base.getArea().intersects( ((Tubo) ost).getEnter().getArea() ))
+					    				return false;
+					    			else if(enter.getArea().intersects( ((Tubo) ost).getBase().getArea() ))
+					    				return false;
+					    			else if(enter.getArea().intersects( ((Tubo) ost).getEnter().getArea() ))
+					    				return false;
+				    			}
+				    		else if(!ost.getID().equals( Global.TUBO ))
+				    			{
+					    			if(base.getArea().intersects( ost.getArea() ))
+					    				return false;
+					    			else if(enter.getArea().intersects( ost.getArea() ))
+					    				return false;
+				    			}
+				    	}
 				    else if(areaTemp.intersects( ost.getArea() ))
 			    		return false;
 				}
