@@ -27,9 +27,6 @@ public class Configurations
 	private ArrayList<ArrowButton> arrows;
 	private ArrowButton left, right;
 	
-	// lo sfondo
-	//Image img;
-	
 	// determina se e' stato effettuato un click
 	private boolean mouseDown = false;
 	
@@ -226,7 +223,8 @@ public class Configurations
 			keys.get( 3 ).setKey( Input.getKeyName( ( maps.get( index ).get( DX ) ) ) );
 		}
 	
-	/** controlla se e' stato modificato un bind dei tasti */
+	/** controlla se e' stato modificato un bind dei tasti 
+	 * @return TRUE - se vi sono differenze, FALSE - altrimenti*/
 	public boolean checkDifference()
 		{
 			for(int i = 0; i < maps.size(); i++)
