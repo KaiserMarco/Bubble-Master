@@ -13,15 +13,15 @@ public class Enter extends Ostacolo
 	private Rectangle ostr;
 	
 	/*sottodivisione dell'area in lati e spigoli*/
-	public Rectangle latoSu, latoGiu, latoDx, latoSx;
-	public Rectangle spigASx, spigADx, spigBSx, spigBDx;
+	private Rectangle latoSu, latoGiu, latoDx, latoSx;
+	private Rectangle spigASx, spigADx, spigBSx, spigBDx;
 	
-	public final static String ID = "enter";
+	private final static String ID = "enter";
 	
 	//determina il tipo di direzione del tubo
 	private String dir = null;
 	
-	public int indexTube;
+	private int indexTube;
 	
 	private float width, height;
 	

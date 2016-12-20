@@ -53,10 +53,6 @@ public class Player extends Ostacolo
 	// la direzione di movimento del personaggio
 	private String dir;
 	
-	/*sottodivisione del rettangolo in lati e spigoli*/
-	public Rectangle latoSu = null, latoGiu = null, latoDx = null, latoSx = null;
-	public Rectangle spigASx = null, spigADx = null, spigBSx = null, spigBDx = null;
-	
 	/*altezza e larghezza dei frame dello spostamento laterale*/
 	private int widthS, heightS;
 	/*larghezza e altezza dei frame del salto*/
@@ -83,7 +79,7 @@ public class Player extends Ostacolo
 	private Color color;
 	
 	/*movimento a destra/sinistra - salto*/
-	boolean moving, movingJ;
+	private boolean moving, movingJ;
 	
 	// l'immagine delle vite del personaggio
 	private Image heart, halfHeart, noHeart;
@@ -107,13 +103,13 @@ public class Player extends Ostacolo
 	private int hits;
 	
 	// il valore dei frame di movimento e salto
-	float frameMove, frameJump;
+	private float frameMove, frameJump;
 	
 	// i poteri posseduti dal personaggio
 	private ArrayList<PowerUp> powerUp;
 
 	// determina se il personaggio sta sparando
-	boolean isShooting = false;
+	private boolean isShooting = false;
 	
 	/*numero di proiettili sparabili*/
 	private final int maxAmmo = 2;

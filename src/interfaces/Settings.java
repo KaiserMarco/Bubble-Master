@@ -56,7 +56,7 @@ public class Settings
 	
 	// determina se e' possibile effettuare i cambiamenti
 	private boolean setChanging;
-	float sum = Global.Height*10/75, yStart = Global.Height/9;
+	private float sum = Global.Height*10/75, yStart = Global.Height/9;
 	
 	// la posizione del mouse
 	private int mouseX, mouseY;

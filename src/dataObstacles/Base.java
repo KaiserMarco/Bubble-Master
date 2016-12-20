@@ -13,8 +13,8 @@ public class Base extends Ostacolo
 	private Rectangle ostr;
 	
 	/*sottodivisione dell'area in lati e spigoli*/
-	public Rectangle latoSu, latoGiu, latoDx, latoSx;
-	public Rectangle spigASx, spigADx, spigBSx, spigBDx;
+	private Rectangle latoSu, latoGiu, latoDx, latoSx;
+	private Rectangle spigASx, spigADx, spigBSx, spigBDx;
 	
 	public final static String ID = "base";
 	

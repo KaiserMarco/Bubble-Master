@@ -19,13 +19,13 @@ public class Sbarra extends Ostacolo
 	// lunghezza e altezza della sbarra
 	private float width, height;
 	
-	public Rectangle ostr;
+	private Rectangle ostr;
 	
 	private boolean collide;
 	
 	/*sottodivisione del rettangolo in lati e spigoli*/
-	public Rectangle latoSu, latoGiu, latoDx, latoSx;
-	public Rectangle spigASx, spigADx, spigBSx, spigBDx;
+	private Rectangle latoSu, latoGiu, latoDx, latoSx;
+	private Rectangle spigASx, spigADx, spigBSx, spigBDx;
 	
 	//insert = false -> oggetto rosso | insert = true -> oggetto verde
 	private boolean insert = false, checkInsert = false;
@@ -35,7 +35,7 @@ public class Sbarra extends Ostacolo
 	//determina la verticalita' o orizzontalita' della sbarra
 	private String type;
 	
-	public static final String ID = "sbarra";
+	private static final String ID = "sbarra";
 	
 	private float rotation;
 	

@@ -13,9 +13,9 @@ import bubbleMaster.Start;
 
 public class Tubo extends Ostacolo{
 
-    Image immagine;
-	Image tubosx = new Image( "./data/Image/tuboSx.png" ), tubodx = new Image( "./data/Image/tuboDx.png" );
-	Image tuboup = new Image( "./data/Image/tuboUp.png" ), tubodown = new Image( "./data/Image/tuboDown.png" );    
+	private Image immagine;
+	private Image tubosx = new Image( "./data/Image/tuboSx.png" ), tubodx = new Image( "./data/Image/tuboDx.png" );
+	private Image tuboup = new Image( "./data/Image/tuboUp.png" ), tubodown = new Image( "./data/Image/tuboDown.png" );    
 
     private Color cg = new Color( 50, 170, 50, 150 ), cr = new Color( 170, 50, 50, 150 );
     
@@ -23,16 +23,16 @@ public class Tubo extends Ostacolo{
     private boolean insert = false, checkInsert = false;
 	
     //lunghezza e altezza del tubo
-	float width, height;
+    private float width, height;
 	
 	//determina il tipo di direzione del tubo
-	String type = null;
+	private String type = null;
 	
 	public Rectangle ostr;
 	
 	/*sottodivisione del rettangolo in lati e spigoli*/
-	public Rectangle latoSu, latoGiu, latoDx, latoSx;
-	public Rectangle spigASx, spigADx, spigBSx, spigBDx;
+	private Rectangle latoSu, latoGiu, latoDx, latoSx;
+	private Rectangle spigASx, spigADx, spigBSx, spigBDx;
 	
 	private boolean collide;
 	
