@@ -642,6 +642,7 @@ public class Edit
 	public boolean flyPlayer()
 		{
 			deployer.setXY( 0, Global.Height/200, Global.MOVE );
+			
 			if(deployer.getMaxY() >= maxHeight)
 				{
 					deployer.setXY( deployer.getX(), maxHeight - deployer.getHeight(), Global.RESTORE );
