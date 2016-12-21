@@ -143,8 +143,6 @@ public class Player extends Ostacolo
 	
 	private ArrayList<Bubble> sfere;
 	
-	private boolean deployable = false;
-	
 	public Player( float x, float y, int numPlayer, GameContainer gc, Color color ) throws SlickException
 		{
 			super( "player" );
@@ -307,12 +305,6 @@ public class Player extends Ostacolo
 
 	public void setMoving( boolean val )
 		{ moving = val; }
-	
-	public void setDeploy( boolean val )
-		{ deployable = val; }
-	
-	public boolean isDeployable()
-		{ return deployable; }
 	
 	/** disegna il player durante e dopo la partita */
 	public void drawPlay( Graphics g ) throws SlickException

@@ -326,10 +326,7 @@ public class Edit
 											for(Ostacolo ost: ostacoli)
 												if(ost.getID().equals( Global.PLAYER ))
 													if(ost.getArea().intersects( temp.getArea() ))
-														{
-															deployer = (Player) ost;
-															deployer.setDeploy( true );
-														}
+														deployer = (Player) ost;
 										}
 									
 									temp.setInsert( checkCollision( temp, temp.getArea() ), true );
@@ -627,59 +624,55 @@ public class Edit
 			temp.setXY( temp.getX(), posY - temp.getHeight(), Global.RESTORE );
 		}
 	
-	/** reimposta la posizion del player quando viene tolto l'ostacolo sotto di esso */
+	/** reimposta la posizione del player quando viene tolto l'ostacolo sotto di esso */
 	public boolean flyPlayer()
 		{
 			deployer.setXY( 0, Global.Height/200, Global.MOVE );
 			if(deployer.getMaxY() >= maxHeight)
 				{
 					deployer.setXY( deployer.getX(), maxHeight - deployer.getHeight(), Global.RESTORE );
-					deployer.setDeploy( false );
 					return true;
 				}
 			
 			for(Ostacolo ost: ostacoli)
 				{
 					if(!ost.getID().equals( Global.PLAYER ) && !ost.getID().equals( Global.BOLLA ))
-						if(ost.getID().equals( Global.TUBO ))
-							{
-								Base base = (Base) ((Tubo) ost).getBase();
-								Enter enter = (Enter) ((Tubo) ost).getEnter();
-							
-								if(base.getY() < enter.getY())
-									{
-										if(deployer.getArea().intersects( base.getArea() ))
-											{
-												deployer.setXY( deployer.getX(), base.getY() - deployer.getHeight(), Global.RESTORE );
-												deployer.setDeploy( false );
-												return true;
-											}
-										else if(deployer.getArea().intersects( enter.getArea() ))
-											{
-												deployer.setXY( deployer.getX(), enter.getY() - deployer.getHeight(), Global.RESTORE );
-												deployer.setDeploy( false );
-												return true;
-											}
-									}
-								else if(deployer.getArea().intersects( enter.getArea() ))
-									{
-										deployer.setXY( deployer.getX(), enter.getY() - deployer.getHeight(), Global.RESTORE );
-										deployer.setDeploy( false );
-										return true;
-									}
-								else if(deployer.getArea().intersects( base.getArea() ))
-									{
-										deployer.setXY( deployer.getX(), base.getY() - deployer.getHeight(), Global.RESTORE );
-										deployer.setDeploy( false );
-										return true;
-									}
-							}
-						else if(deployer.getArea().intersects( ost.getArea() ))
-							{
-								deployer.setXY( deployer.getX(), ost.getY() - deployer.getHeight(), Global.RESTORE );
-								deployer.setDeploy( false );
-								return true;
-							}
+						{
+							if(ost.getID().equals( Global.TUBO ))
+								{
+									Base base = (Base) ((Tubo) ost).getBase();
+									Enter enter = (Enter) ((Tubo) ost).getEnter();
+								
+									if(base.getY() < enter.getY())
+										{
+											if(deployer.getArea().intersects( base.getArea() ))
+												{
+													deployer.setXY( deployer.getX(), base.getY() - deployer.getHeight(), Global.RESTORE );
+													return true;
+												}
+											else if(deployer.getArea().intersects( enter.getArea() ))
+												{
+													deployer.setXY( deployer.getX(), enter.getY() - deployer.getHeight(), Global.RESTORE );
+													return true;
+												}
+										}
+									else if(deployer.getArea().intersects( enter.getArea() ))
+										{
+											deployer.setXY( deployer.getX(), enter.getY() - deployer.getHeight(), Global.RESTORE );
+											return true;
+										}
+									else if(deployer.getArea().intersects( base.getArea() ))
+										{
+											deployer.setXY( deployer.getX(), base.getY() - deployer.getHeight(), Global.RESTORE );
+											return true;
+										}
+								}
+							else if(deployer.getArea().intersects( ost.getArea() ))
+								{
+									deployer.setXY( deployer.getX(), ost.getY() - deployer.getHeight(), Global.RESTORE );
+									return true;
+								}
+						}
 				}
 			
 			return false;
@@ -691,7 +684,7 @@ public class Edit
 			mouseY = input.getMouseY();
 			
 			// setta la nuova posizione del player
-			if(deployer != null && deployer.isDeployable())
+			if(deployer != null)
 				{
 					if(flyPlayer())
 						{
