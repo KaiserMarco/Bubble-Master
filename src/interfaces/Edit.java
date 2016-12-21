@@ -547,67 +547,70 @@ public class Edit
 				{
 					Shape areaObs = ost.getArea();
 					
-				    if(obs.getID().equals( Global.PLAYER ))
-				        {						    	
-				            if(ost.getID().equals( Global.BOLLA ))
-				                {
-					                if(areaTemp.intersects( areaObs ))
-					                    return false;
-				                }
-				            else if(ost.getID().equals( Global.TUBO ))
-			            		{
-			            			Shape areaBase = ((Tubo) ost).getBase().getArea();
-			            			Shape areaEnter = ((Tubo) ost).getEnter().getArea();
-			            			
-			            			if(areaTemp.intersects( areaEnter ))
-		            					if(((Tubo) ost).getDirection().equals( SX ) || ((Tubo) ost).getDirection().equals( DX ))
-		            						if(areaTemp.getMaxY() > areaEnter.getY())
-		            							return false;
-		            						else
-		            							return true;
-			            				
-			            			if(areaTemp.intersects( areaBase ))
-		            					if(areaTemp.intersects( areaEnter ) || obs.getMaxY() > areaBase.getY())
-		            						return false;
-		            					else
-		            						return true;
-	            				}
-				            else if(areaTemp.intersects( ost.component( Global.LATOGIU ) ))
-		                        return false;
-				        }
-				    else if(obs.getID().equals( Global.TUBO ))
-				    	{
-				    		Base base = (Base) ((Tubo) obs).getBase();
-				    		Enter enter = (Enter) ((Tubo) obs).getEnter();
-				    		
-				    		if(ost.getID().equals( Global.TUBO ))
-				    			{
-					    			if(base.getArea().intersects( ((Tubo) ost).getBase().getArea() ))
+					if(!obs.equals( ost ))
+						{
+						    if(obs.getID().equals( Global.PLAYER ))
+						        {						    	
+						            if(ost.getID().equals( Global.BOLLA ))
+						                {
+							                if(areaTemp.intersects( areaObs ))
+							                    return false;
+						                }
+						            else if(ost.getID().equals( Global.TUBO ))
+					            		{
+					            			Shape areaBase = ((Tubo) ost).getBase().getArea();
+					            			Shape areaEnter = ((Tubo) ost).getEnter().getArea();
+					            			
+					            			if(areaTemp.intersects( areaEnter ))
+				            					if(((Tubo) ost).getDirection().equals( SX ) || ((Tubo) ost).getDirection().equals( DX ))
+				            						if(areaTemp.getMaxY() > areaEnter.getY())
+				            							return false;
+				            						else
+				            							return true;
+					            				
+					            			if(areaTemp.intersects( areaBase ))
+				            					if(areaTemp.intersects( areaEnter ) || obs.getMaxY() > areaBase.getY())
+				            						return false;
+				            					else
+				            						return true;
+			            				}
+						            else if(areaTemp.intersects( ost.component( Global.LATOGIU ) ))
+				                        return false;
+						        }
+						    else if(obs.getID().equals( Global.TUBO ))
+						    	{
+						    		Base base = (Base) ((Tubo) obs).getBase();
+						    		Enter enter = (Enter) ((Tubo) obs).getEnter();
+						    		
+						    		if(ost.getID().equals( Global.TUBO ))
+						    			{
+							    			if(base.getArea().intersects( ((Tubo) ost).getBase().getArea() ))
+							    				return false;
+							    			else if(base.getArea().intersects( ((Tubo) ost).getEnter().getArea() ))
+							    				return false;
+							    			else if(enter.getArea().intersects( ((Tubo) ost).getBase().getArea() ))
+							    				return false;
+							    			else if(enter.getArea().intersects( ((Tubo) ost).getEnter().getArea() ))
+							    				return false;
+						    			}
+						    		else if(!ost.getID().equals( Global.TUBO ))
+						    			{
+							    			if(base.getArea().intersects( ost.getArea() ))
+							    				return false;
+							    			else if(enter.getArea().intersects( ost.getArea() ))
+							    				return false;
+						    			}
+						    	}
+						    else if(ost.getID().equals( Global.TUBO ))
+						    	{
+							    	if(areaTemp.intersects( ((Tubo) ost).getBase().getArea() ))
 					    				return false;
-					    			else if(base.getArea().intersects( ((Tubo) ost).getEnter().getArea() ))
+					    			else if(areaTemp.intersects( ((Tubo) ost).getEnter().getArea() ))
 					    				return false;
-					    			else if(enter.getArea().intersects( ((Tubo) ost).getBase().getArea() ))
-					    				return false;
-					    			else if(enter.getArea().intersects( ((Tubo) ost).getEnter().getArea() ))
-					    				return false;
-				    			}
-				    		else if(!ost.getID().equals( Global.TUBO ))
-				    			{
-					    			if(base.getArea().intersects( ost.getArea() ))
-					    				return false;
-					    			else if(enter.getArea().intersects( ost.getArea() ))
-					    				return false;
-				    			}
-				    	}
-				    else if(ost.getID().equals( Global.TUBO ))
-				    	{
-					    	if(areaTemp.intersects( ((Tubo) ost).getBase().getArea() ))
-			    				return false;
-			    			else if(areaTemp.intersects( ((Tubo) ost).getEnter().getArea() ))
-			    				return false;
-				    	}
-				    else if(areaTemp.intersects( ost.getArea() ))
-			    		return false;
+						    	}
+						    else if(areaTemp.intersects( ost.getArea() ))
+					    		return false;
+						}
 				}
 		    
 		    return true;
@@ -688,8 +691,8 @@ public class Edit
 				{
 					if(flyPlayer())
 						{
-							if(checkCollision( deployer, deployer.getArea() ))
-								deployer.setInsert( true, true );
+							if(!checkCollision( deployer, deployer.getArea() ))
+								deployer.setInsert( false, true );
 							deployer = null;
 						}
 					if(temp != null)
