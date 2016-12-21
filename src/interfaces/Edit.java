@@ -797,13 +797,12 @@ public class Edit
 							if(temp.getID().equals( Global.PLAYER ))
 								updateItemPlayer( (Player) temp, false );
 
-							temp = null;
-							if(ostacoli.get( ostacoli.size() - 1 ).getID().equals( Global.TUBO ))
+							if(temp.getID().equals( Global.TUBO ))
 							    {
 									// inserisce una coppia nuova di tubi
 									if(nuovoTubo)
 										{
-											temp = ostacoli.get( ostacoli.size() - 1 ).clone( gc );
+											temp = temp.clone( gc );
 											temp.setSpigoli();
 											temp.setInsert( checkCollision( temp, temp.getArea() ), true );
 											nuovoTubo = false;
@@ -813,8 +812,12 @@ public class Edit
 										{
 											ostacoli.get( ostacoli.size() - 1 ).setUnion( indexFirstTube );
 											ostacoli.get( indexFirstTube ).setUnion( ostacoli.size() - 1 );
+
+											temp = null;
 										}
 							    }
+							else
+								temp = null;
 						}
 				}
 			//se NON ho un elemento da inserire
