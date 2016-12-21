@@ -632,7 +632,8 @@ public class Edit
 			temp.setXY( temp.getX(), posY - temp.getHeight(), Global.RESTORE );
 		}
 	
-	/** reimposta la posizione del player quando viene tolto l'ostacolo sotto di esso */
+	/** reimposta la posizione del player quando viene tolto l'ostacolo sotto di esso
+	 * @return TRUE - se il player e' stato riposizionato, FALSE - se e' ancora in fase di riposizionamento */
 	public boolean flyPlayer()
 		{
 			deployer.setXY( 0, Global.Height/200, Global.MOVE );
