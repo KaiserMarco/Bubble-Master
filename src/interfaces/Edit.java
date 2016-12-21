@@ -103,6 +103,9 @@ public class Edit
 	// la posizione del mouse
 	private int mouseX, mouseY;
 	
+	/*il player da dover essere riposizionato*/
+	private Player deployer = null;
+	
     public Edit( GameContainer gc ) throws SlickException
 		{
 			elem = new Elements( gc );
@@ -244,7 +247,7 @@ public class Edit
 				if(obs.getID().equals( Global.TUBO ) && obs.getUnion() > i)
 					obs.setUnion( obs.getUnion() - 1 );
 		}
-	/**resetta indexCursor, indexCursorButton e indexCursorSfondi*/
+	/** resetta indexCursor, indexCursorButton e indexCursorSfondi */
 	public void resetIndexCursor()
 		{ indexCursor = -1; }
 	
@@ -303,6 +306,7 @@ public class Edit
 							if(ostacoli.get( i ).contains( x, y ))
 								{
 									temp = ostacoli.get( i );
+									
 									//modifica la posizione di un tubo gia' esistente
 									if(temp.getID().equals( Global.TUBO ))
 										{								
@@ -316,6 +320,17 @@ public class Edit
 									//sistema gli indici dei tubi puntati
 									aggiornaIndiciTubi( i );
 									ostacoli.remove( i );
+
+									if(!temp.getID().equals( Global.PLAYER ))
+										{
+											for(Ostacolo ost: ostacoli)
+												if(ost.getID().equals( Global.PLAYER ))
+													if(ost.getArea().intersects( temp.getArea() ))
+														{
+															deployer = (Player) ost;
+															deployer.setDeploy( true );
+														}
+										}
 									
 									temp.setInsert( checkCollision( temp.getArea() ), true );
 									
@@ -612,10 +627,79 @@ public class Edit
 			temp.setXY( temp.getX(), posY - temp.getHeight(), Global.RESTORE );
 		}
 	
+	/** reimposta la posizion del player quando viene tolto l'ostacolo sotto di esso */
+	public boolean flyPlayer()
+		{
+			deployer.setXY( 0, Global.Height/200, Global.MOVE );
+			if(deployer.getMaxY() >= maxHeight)
+				{
+					deployer.setXY( deployer.getX(), maxHeight - deployer.getHeight(), Global.RESTORE );
+					deployer.setDeploy( false );
+					return true;
+				}
+			
+			for(Ostacolo ost: ostacoli)
+				{
+					if(!ost.getID().equals( Global.PLAYER ) && !ost.getID().equals( Global.BOLLA ))
+						if(ost.getID().equals( Global.TUBO ))
+							{
+								Base base = (Base) ((Tubo) ost).getBase();
+								Enter enter = (Enter) ((Tubo) ost).getEnter();
+							
+								if(base.getY() < enter.getY())
+									{
+										if(deployer.getArea().intersects( base.getArea() ))
+											{
+												deployer.setXY( deployer.getX(), base.getY() - deployer.getHeight(), Global.RESTORE );
+												deployer.setDeploy( false );
+												return true;
+											}
+										else if(deployer.getArea().intersects( enter.getArea() ))
+											{
+												deployer.setXY( deployer.getX(), enter.getY() - deployer.getHeight(), Global.RESTORE );
+												deployer.setDeploy( false );
+												return true;
+											}
+									}
+								else if(deployer.getArea().intersects( enter.getArea() ))
+									{
+										deployer.setXY( deployer.getX(), enter.getY() - deployer.getHeight(), Global.RESTORE );
+										deployer.setDeploy( false );
+										return true;
+									}
+								else if(deployer.getArea().intersects( base.getArea() ))
+									{
+										deployer.setXY( deployer.getX(), base.getY() - deployer.getHeight(), Global.RESTORE );
+										deployer.setDeploy( false );
+										return true;
+									}
+							}
+						else if(deployer.getArea().intersects( ost.getArea() ))
+							{
+								deployer.setXY( deployer.getX(), ost.getY() - deployer.getHeight(), Global.RESTORE );
+								deployer.setDeploy( false );
+								return true;
+							}
+				}
+			
+			return false;
+		}
+	
 	public void update( GameContainer gc, int delta, Input input )throws SlickException
 		{
 			mouseX = input.getMouseX();
 			mouseY = input.getMouseY();
+			
+			// setta la nuova posizione del player
+			if(deployer != null && deployer.isDeployable())
+				{
+					if(flyPlayer())
+						{
+							deployer.setInsert( checkCollision( deployer.getArea() ), true );
+							deployer = null;
+						}
+					temp.setInsert( checkCollision( temp.getArea() ), true );
+				}
 			
 			// aggiornamento altezza editor
 			if(moveEditor)
