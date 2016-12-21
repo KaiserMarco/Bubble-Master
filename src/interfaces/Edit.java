@@ -281,7 +281,7 @@ public class Edit
 									if(temp.getID().equals( Global.TUBO ))
 										nuovoTubo = true;
 
-									temp.setInsert( checkCollision( temp.getArea() ), true );
+									temp.setInsert( checkCollision( temp, temp.getArea() ), true );
 									
 									tempX = x;
 									tempY = y;
@@ -332,7 +332,7 @@ public class Edit
 														}
 										}
 									
-									temp.setInsert( checkCollision( temp.getArea() ), true );
+									temp.setInsert( checkCollision( temp, temp.getArea() ), true );
 									
 									tempX = x;
 									tempY = y;
@@ -544,13 +544,13 @@ public class Edit
 	/** controlla la collisione fra i vari oggetti
 	 * return false = collide
 	 * return true = non collide */
-	private boolean checkCollision( Shape areaTemp )
+	private boolean checkCollision( Ostacolo obs, Shape areaTemp )
 		{
 			for(Ostacolo ost: ostacoli)
 				{
 					Shape areaObs = ost.getArea();
-				
-				    if(temp.getID().equals( Global.PLAYER ))
+					
+				    if(obs.getID().equals( Global.PLAYER ))
 				        {						    	
 				            if(ost.getID().equals( Global.BOLLA ))
 				                {
@@ -570,7 +570,7 @@ public class Edit
 		            							return true;
 			            				
 			            			if(areaTemp.intersects( areaBase ))
-		            					if(areaTemp.intersects( areaEnter ) || temp.getMaxY() > areaBase.getY())
+		            					if(areaTemp.intersects( areaEnter ) || obs.getMaxY() > areaBase.getY())
 		            						return false;
 		            					else
 		            						return true;
@@ -578,10 +578,10 @@ public class Edit
 				            else if(areaTemp.intersects( ost.component( Global.LATOGIU ) ))
 		                        return false;
 				        }
-				    else if(temp.getID().equals( Global.TUBO ))
+				    else if(obs.getID().equals( Global.TUBO ))
 				    	{
-				    		Base base = (Base) ((Tubo) temp).getBase();
-				    		Enter enter = (Enter) ((Tubo) temp).getEnter();
+				    		Base base = (Base) ((Tubo) obs).getBase();
+				    		Enter enter = (Enter) ((Tubo) obs).getEnter();
 				    		
 				    		if(ost.getID().equals( Global.TUBO ))
 				    			{
@@ -695,10 +695,12 @@ public class Edit
 				{
 					if(flyPlayer())
 						{
-							deployer.setInsert( checkCollision( deployer.getArea() ), true );
+							if(checkCollision( deployer, deployer.getArea() ))
+								deployer.setInsert( true, true );
 							deployer = null;
 						}
-					temp.setInsert( checkCollision( temp.getArea() ), true );
+					if(temp != null)
+						temp.setInsert( checkCollision( temp, temp.getArea() ), true );
 				}
 			
 			// aggiornamento altezza editor
@@ -732,7 +734,7 @@ public class Edit
 								temp.setXY( temp.getX(), maxHeight - temp.getHeight(), Global.RESTORE );
 
 							// setta il colore dell'oggetto in fase di inserimento
-							temp.setInsert( checkCollision( temp.getArea() ), true );
+							temp.setInsert( checkCollision( temp, temp.getArea() ), true );
 							
 							tempX = mouseX;
 							tempY = mouseY;
@@ -779,7 +781,7 @@ public class Edit
 									if(nuovoTubo)
 										{
 											temp = ostacoli.get( ostacoli.size() - 1 ).clone( gc );
-											temp.setInsert( checkCollision( temp.getArea() ), true );
+											temp.setInsert( checkCollision( temp, temp.getArea() ), true );
 											nuovoTubo = false;
 											indexFirstTube = ostacoli.size() - 1;
 										}
