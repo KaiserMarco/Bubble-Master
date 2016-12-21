@@ -373,7 +373,7 @@ public class Player extends Ostacolo
 					col = cg;
 			
 			if(col != null)
-				pgdx.draw( xPlayer, yPlayer, widthI, height, col );					
+				pgdx.draw( xPlayer, yPlayer, widthI, height, col );
 		}
 	
 	public void setSelectable( boolean val )

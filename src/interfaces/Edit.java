@@ -681,6 +681,17 @@ public class Edit
 			return false;
 		}
 	
+	/** determina se tutti gli elementi inseriti non collidono */
+	public boolean checkInsert()
+		{
+			for(Ostacolo ost: ostacoli)
+				if(ost.getID().equals( Global.PLAYER ))
+					if(!((Player) ost).getInsert())
+						return false;
+		
+			return true;
+		}
+	
 	public void update( GameContainer gc, int delta, Input input )throws SlickException
 		{
 			mouseX = input.getMouseX();
@@ -844,7 +855,7 @@ public class Edit
 							                            {
 						                            		if(button.getName().equals( BACK ))
 							                            		resetStatus();
-						                            		else if(button.getName().equals( SAVE ))
+						                            		else if(button.getName().equals( SAVE ) && checkInsert())
 		                            					        tBox.setOpen( true );
 								                            return;
 							                            }
