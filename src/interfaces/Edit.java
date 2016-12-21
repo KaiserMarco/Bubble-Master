@@ -697,6 +697,19 @@ public class Edit
 			return true;
 		}
 	
+	/** controlla se l'ostacolo non supera i confini di gioco */
+	public void checkBorder()
+		{
+			if(temp.getX() <= 0)
+				temp.setXY( 0, temp.getY(), Global.RESTORE );
+			else if(temp.getMaxX() >= Global.Width)
+				temp.setXY( Global.Width - temp.getWidth(), temp.getY(), Global.RESTORE );
+			if(temp.getY() <= 0)
+				temp.setXY( temp.getX(), 0, Global.RESTORE );
+			else if(temp.getMaxY() > maxHeight)
+				temp.setXY( temp.getX(), maxHeight - temp.getHeight(), Global.RESTORE );
+		}
+	
 	public void update( GameContainer gc, int delta, Input input )throws SlickException
 		{
 			mouseX = input.getMouseX();
@@ -705,14 +718,15 @@ public class Edit
 			// setta la nuova posizione del player
 			if(deployer != null)
 				{
+					if(temp != null)
+						temp.setInsert( checkCollision( temp, temp.getArea() ), true );
 					if(flyPlayer())
 						{
 							if(!checkCollision( deployer, deployer.getArea() ))
 								deployer.setInsert( false, true );
+							
 							deployer = null;
 						}
-					if(temp != null)
-						temp.setInsert( checkCollision( temp, temp.getArea() ), true );
 				}
 			
 			// aggiornamento altezza editor
@@ -735,15 +749,8 @@ public class Edit
 							if(temp.getID().equals( Global.PLAYER ))
 								setPlayer();
 
-							// controlla se l'oggetto da inserire non supera i confini dello schermo di gioco					
-							if(temp.getX() <= 0)
-								temp.setXY( 0, temp.getY(), Global.RESTORE );
-							else if(temp.getMaxX() >= Global.Width)
-								temp.setXY( Global.Width - temp.getWidth(), temp.getY(), Global.RESTORE );
-							if(temp.getY() <= 0)
-								temp.setXY( temp.getX(), 0, Global.RESTORE );
-							else if(temp.getMaxY() > maxHeight)
-								temp.setXY( temp.getX(), maxHeight - temp.getHeight(), Global.RESTORE );
+							// controlla se l'oggetto da inserire non supera i confini dello schermo di gioco
+							checkBorder();
 
 							// setta il colore dell'oggetto in fase di inserimento
 							temp.setInsert( checkCollision( temp, temp.getArea() ), true );
@@ -754,7 +761,10 @@ public class Edit
 
 				    if(input.isKeyPressed( Input.KEY_SPACE ))
 						if(!(temp.getID().equals( Global.BOLLA ) || temp.getID().equals( Global.PLAYER )))
-					    	temp.setOrienting( gc );
+							{
+					    		temp.setOrienting( gc );
+					    		checkBorder();
+							}
 					
 					/*cancellazione oggetti del gioco*/
 					if(input.isMousePressed( Input.MOUSE_RIGHT_BUTTON ) || input.isKeyPressed( Input.KEY_DELETE ))
