@@ -46,8 +46,6 @@ public class Edit
 	
 	private ArrayList<Sfondo> sfondi;
 	
-	private int indexSfondo = 0;
-	
 	private Image up, down;
 	private float widthArrow, heightArrow;
 	
@@ -106,6 +104,8 @@ public class Edit
 	/*il player da dover essere riposizionato*/
 	private Player deployer = null;
 	
+	private Sfondo sfondo;
+	
     public Edit( GameContainer gc ) throws SlickException
 		{
 			elem = new Elements( gc );
@@ -114,7 +114,7 @@ public class Edit
 			items = elem.getItems();
 			ostacoli = new ArrayList<Ostacolo>();
 			
-			maxHeight = sfondi.get( indexSfondo ).getMaxHeight();
+			maxHeight = sfondi.get( 0 ).getMaxHeight();
 			
 			up = new Image( "./data/Image/up.png" );
 			down = new Image( "./data/Image/down.png" );
@@ -157,11 +157,13 @@ public class Edit
 			tBox = new TextBox( gc );
 			
 			moveEditor = false;
+			
+			sfondo = sfondi.get( 0 );
 		}
 	
 	public void draw( GameContainer gc, Graphics g ) throws SlickException
 		{
-			sfondi.get( indexSfondo ).draw( gc );
+			sfondo.draw( gc );
 						
 			for(Ostacolo obs: ostacoli)
 				{
@@ -223,8 +225,8 @@ public class Edit
 	/**setta gli elementi base di modifica livello*/
 	public void setElements( ArrayList<Ostacolo> ostacoli, String nameLvl, int index, Sfondo sfondo, GameContainer gc ) throws SlickException
 		{
-			indexSfondo = sfondo.getIndex();
-			maxHeight = sfondi.get( indexSfondo ).getMaxHeight();
+			maxHeight = sfondi.get( sfondo.getIndex() ).getMaxHeight();
+			this.sfondo = sfondo;
 		
 			for(Ostacolo obs: ostacoli)
 				{
@@ -309,7 +311,7 @@ public class Edit
 					for(Sfondo sfondo: sfondi)
 						if(sfondo.contains( x, y ))
 							{
-								indexSfondo = sfondo.getIndex();
+								this.sfondo = sfondi.get( sfondo.getIndex() );
 								return true;
 							}
 				}
@@ -365,8 +367,8 @@ public class Edit
 			ostacoli.clear();
 			nameLvl = null;
 			index = -1;
-			indexSfondo = 0;
-			maxHeight = sfondi.get( indexSfondo ).getMaxHeight();
+			sfondo = sfondi.get( 0 );
+			maxHeight = sfondi.get( 0 ).getMaxHeight();
 			insertEditor = false;
 			moveEditor = true;
 			temp = null;
@@ -460,21 +462,21 @@ public class Edit
 				    	}
 					
 		    		item = new Element( "sfondo" );
-		    		item.setAttribute( "name", sfondi.get( indexSfondo ).getName() );
+		    		item.setAttribute( "name", sfondo.getName() );
 		    		livello.addContent( item );
 		    		
 		    		if(nameLvl != null)
 		    			{
 		    				removeFile();
 		    				Begin.livelli.remove( index );
-		    				Begin.livelli.add( index, new Livello( ostacoli, sfondi.get( indexSfondo ), name ) );
+		    				Begin.livelli.add( index, new Livello( ostacoli, sfondo, name ) );
 	
 		    	    		outputter.output( document, new FileOutputStream( "data/livelli/" + name + ".xml" ) );
 		    	    		Start.cl.updateNameLvl();
 		    			}
 		    		else
 		    			{
-							Begin.livelli.add( new Livello( ostacoli, sfondi.get( indexSfondo ), name ) );
+							Begin.livelli.add( new Livello( ostacoli, sfondo, name ) );
 				    		outputter.output( document, new FileOutputStream( "data/livelli/" + name + ".xml" ) );
 		    			}
 		    		

@@ -11,5 +11,5 @@
   <ostacolo x="358.0" y="107.0" union="-1" type="null" ID="bolla" />
   <ostacolo x="36.0" y="424.0" union="-1" type="null" ID="bolla" />
   <ostacolo x="554.0" y="284.0" union="-1" type="null" ID="bolla" />
-  <sfondo name="sfondo1" />
+  <sfondo name="sfondo7" />
 </level>
