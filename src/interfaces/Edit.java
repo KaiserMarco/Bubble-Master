@@ -251,6 +251,15 @@ public class Edit
 	public void resetIndexCursor()
 		{ indexCursor = -1; }
 	
+	/** controlla se vi e' un player "volante" */
+	private void checkFlyingPlayer( Ostacolo obs )
+		{
+			for(Ostacolo ost: ostacoli)
+				if(ost.getID().equals( Global.PLAYER ))
+					if(ost.getArea().intersects( obs.getArea() ))
+						deployer = (Player) ost;
+		}
+	
 	/** controlla se e' stato cliccato su un qualche elemento del livello */
 	public boolean checkPressed( int x, int y, GameContainer gc ) throws SlickException
 		{
@@ -279,7 +288,10 @@ public class Edit
 									
 									//sto inserendo una nuova coppia di tubi
 									if(temp.getID().equals( Global.TUBO ))
-										nuovoTubo = true;
+										{
+											temp.setSpigoli();
+											nuovoTubo = true;
+										}
 
 									temp.setInsert( checkCollision( temp, temp.getArea() ), true );
 									
@@ -321,13 +333,8 @@ public class Edit
 									aggiornaIndiciTubi( i );
 									ostacoli.remove( i );
 
-									if(!temp.getID().equals( Global.PLAYER ))
-										{
-											for(Ostacolo ost: ostacoli)
-												if(ost.getID().equals( Global.PLAYER ))
-													if(ost.getArea().intersects( temp.getArea() ))
-														deployer = (Player) ost;
-										}
+									if(!(temp.getID().equals( Global.PLAYER ) || temp.getID().equals( Global.BOLLA )))
+										checkFlyingPlayer( temp );
 									
 									temp.setInsert( checkCollision( temp, temp.getArea() ), true );
 									
@@ -541,19 +548,17 @@ public class Edit
 	/** controlla la collisione fra i vari oggetti
 	 * return false = collide
 	 * return true = non collide */
-	private boolean checkCollision( Ostacolo obs, Shape areaTemp )
+	private boolean checkCollision( Ostacolo obs, Shape areaObs )
 		{
 			for(Ostacolo ost: ostacoli)
 				{
-					Shape areaObs = ost.getArea();
-					
 					if(!obs.equals( ost ))
 						{
 						    if(obs.getID().equals( Global.PLAYER ))
 						        {						    	
 						            if(ost.getID().equals( Global.BOLLA ))
 						                {
-							                if(areaTemp.intersects( areaObs ))
+							                if(areaObs.intersects( ost.getArea() ))
 							                    return false;
 						                }
 						            else if(ost.getID().equals( Global.TUBO ))
@@ -561,20 +566,20 @@ public class Edit
 					            			Shape areaBase = ((Tubo) ost).getBase().getArea();
 					            			Shape areaEnter = ((Tubo) ost).getEnter().getArea();
 					            			
-					            			if(areaTemp.intersects( areaEnter ))
+					            			if(areaObs.intersects( areaEnter ))
 				            					if(((Tubo) ost).getDirection().equals( SX ) || ((Tubo) ost).getDirection().equals( DX ))
-				            						if(areaTemp.getMaxY() > areaEnter.getY())
+				            						if(areaObs.getMaxY() > areaEnter.getY())
 				            							return false;
 				            						else
 				            							return true;
 					            				
-					            			if(areaTemp.intersects( areaBase ))
-				            					if(areaTemp.intersects( areaEnter ) || obs.getMaxY() > areaBase.getY())
+					            			if(areaObs.intersects( areaBase ))
+				            					if(areaObs.intersects( areaEnter ) || obs.getMaxY() > areaBase.getY())
 				            						return false;
 				            					else
 				            						return true;
 			            				}
-						            else if(areaTemp.intersects( ost.component( Global.LATOGIU ) ))
+						            else if(areaObs.intersects( ost.component( Global.LATOGIU ) ))
 				                        return false;
 						        }
 						    else if(obs.getID().equals( Global.TUBO ))
@@ -603,12 +608,12 @@ public class Edit
 						    	}
 						    else if(ost.getID().equals( Global.TUBO ))
 						    	{
-							    	if(areaTemp.intersects( ((Tubo) ost).getBase().getArea() ))
+							    	if(areaObs.intersects( ((Tubo) ost).getBase().getArea() ))
 					    				return false;
-					    			else if(areaTemp.intersects( ((Tubo) ost).getEnter().getArea() ))
+					    			else if(areaObs.intersects( ((Tubo) ost).getEnter().getArea() ))
 					    				return false;
 						    	}
-						    else if(areaTemp.intersects( ost.getArea() ))
+						    else if(areaObs.intersects( ost.getArea() ))
 					    		return false;
 						}
 				}
@@ -758,14 +763,14 @@ public class Edit
 							if(temp.getID().equals( Global.TUBO ))
 								{
 									if(indexFirstTube >= 0)
-										{
-											aggiornaIndiciTubi( indexFirstTube );
-											ostacoli.remove( indexFirstTube );
-											
-											indexFirstTube = -1;
-										}
-									else if(!nuovoTubo)
-										ostacoli.remove( ostacoli.size() - 1 );
+										aggiornaIndiciTubi( indexFirstTube );
+									else
+										indexFirstTube = ostacoli.size() - 1;
+
+									checkFlyingPlayer( ostacoli.get( indexFirstTube ) );
+									
+									ostacoli.remove( indexFirstTube );
+									indexFirstTube = -1;
 								}
 							else if(temp.getID().equals( Global.PLAYER ))
 								updateItemPlayer( (Player) temp, true );
@@ -788,6 +793,7 @@ public class Edit
 									if(nuovoTubo)
 										{
 											temp = ostacoli.get( ostacoli.size() - 1 ).clone( gc );
+											temp.setSpigoli();
 											temp.setInsert( checkCollision( temp, temp.getArea() ), true );
 											nuovoTubo = false;
 											indexFirstTube = ostacoli.size() - 1;

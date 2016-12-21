@@ -58,7 +58,7 @@ public class Player extends Ostacolo
 	/*larghezza e altezza dei frame del salto*/
 	private int widthJ, heightJ;
 	
-	private boolean insert = false, checkInsert = false;
+	private boolean insert = true, checkInsert = false;
 	
 	private Color cg = new Color( 50, 170, 50, 100 ), cr = new Color( 170, 50, 50, 100 );
 	private Color imm = new Color( 28, 57, 187, 220 );
