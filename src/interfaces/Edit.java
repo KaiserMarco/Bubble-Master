@@ -167,11 +167,14 @@ public class Edit
 				{
 					if(temp != null)
 						{
-							if(!temp.getID().equals( Global.TUBO ) && !temp.contains( obs.getArea() ))
+							if(temp.getID().equals( Global.TUBO ))
+								{
+									Shape[] area = ((Tubo) temp).getEnter().getArea().union( ((Tubo) temp).getBase().getArea() );
+									if(!area[0].contains( obs.getArea() ))
+										obs.draw( g );
+								}
+							else
 								obs.draw( g );
-							else if(temp.getID().equals( Global.TUBO ))
-								if(!(((Tubo) temp).getBase().contains( obs.getArea() ) && ((Tubo) temp).getEnter().contains( obs.getArea() )))
-									obs.draw( g );
 						}
 					else
 						obs.draw( g );
