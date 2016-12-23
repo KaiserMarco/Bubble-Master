@@ -701,7 +701,10 @@ public class Edit
 					if(!((Player) ost).getInsert())
 						return false;
 		
-			return true;
+			if(deployer != null)
+				return false;
+			else
+				return true;
 		}
 	
 	/** controlla se l'ostacolo non supera i confini di gioco */
