@@ -335,7 +335,7 @@ public class Player extends Ostacolo
 					g.setColor( col );
 					powerUp.get( 0 ).getImage().draw( zone.getX(), maxHeight, Global.Height - maxHeight, Global.Height - maxHeight );
 					g.drawString( "X " + currAmmo, zone.getMaxX() + space, maxHeight );
-					coolDown.setY( coolDown.getY() + tickCd );
+					coolDown.setLocation( zone.getX(), coolDown.getY() + tickCd );
 					coolDown.setHeight( coolDown.getHeight() - tickCd );
 					g.fill( coolDown );
 					index--;
@@ -417,8 +417,8 @@ public class Player extends Ostacolo
 	/** aggiorna le vite del giocatore */
 	public void updateLifes( int sum )
 		{
-			lifes = lifes + sum;
-			lifes = Math.min( lifes, Global.lifes );
+			lifes = Math.min( lifes + sum, Global.lifes );
+			
 			if(sum < 0)
 				{
 					if(lifes % 2 == 0)
@@ -433,19 +433,16 @@ public class Player extends Ostacolo
 							vite.add( indexLastLife, halfHeart );
 						}
 				}
+			else if(lifes % 2 == 0)
+				{
+					vite.remove( indexLastLife );
+					vite.add( indexLastLife, heart );
+				}
 			else
 				{
-					if(lifes % 2 == 0)
-						{
-							vite.remove( indexLastLife );
-							vite.add( indexLastLife, heart );
-						}
-					else
-						{
-							indexLastLife++;
-							vite.remove( indexLastLife );
-							vite.add( indexLastLife, halfHeart );
-						}
+					indexLastLife++;
+					vite.remove( indexLastLife );
+					vite.add( indexLastLife, halfHeart );
 				}
 		}
 	
