@@ -537,25 +537,6 @@ public class Edit
 			return 0;
 		}
 	
-	public void controllaPosizione( Ostacolo ost )
-		{
-			if(mouseY < ost.getY() && ost.getY() < posY)
-				if(!(temp.getMaxX() < ost.getX() || temp.getX() > ost.getMaxX()))
-					posY = ost.getY();
-		}
-	
-	/** determina la posizione del player rispetto agli ostacoli in fase di inserimento */
-	private void checkPosition( Ostacolo ost )
-		{
-			if(ost.getID().equals( Global.TUBO ))
-				{
-					controllaPosizione( ((Tubo) ost).getBase() );
-					controllaPosizione( ((Tubo) ost).getEnter() );
-				}
-			else
-				controllaPosizione( ost );
-		}
-	
 	/** controlla la collisione fra i vari oggetti
 	 * return false = collide
 	 * return true = non collide */
@@ -619,6 +600,25 @@ public class Edit
 				}
 		    
 		    return true;
+		}
+	
+	public void controllaPosizione( Ostacolo ost )
+		{
+			if(mouseY < ost.getY() && ost.getY() < posY)
+				if(!(temp.getMaxX() < ost.getX() || temp.getX() > ost.getMaxX()))
+					posY = ost.getY();
+		}
+	
+	/** determina la posizione del player rispetto agli ostacoli in fase di inserimento */
+	private void checkPosition( Ostacolo ost )
+		{
+			if(ost.getID().equals( Global.TUBO ))
+				{
+					controllaPosizione( ((Tubo) ost).getBase() );
+					controllaPosizione( ((Tubo) ost).getEnter() );
+				}
+			else
+				controllaPosizione( ost );
 		}
 	
 	/** muove il player attraverso gli ostacoli  */
