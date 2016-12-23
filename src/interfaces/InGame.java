@@ -86,6 +86,7 @@ public class InGame
 							players.add( (Player) elem.clone( gc ) );
 							
 							Player player = players.get( players.size() - 1 );
+							
 							player.setHeight( elem.getHeight() );
 							player.setWidth( elem.getWidth() );
 							player.setWidthI( ((Player) elem).getWidthI() );
