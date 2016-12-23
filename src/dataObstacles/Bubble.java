@@ -95,13 +95,13 @@ public class Bubble extends Ostacolo
  
     public void setXY( float x, float y, String function )
         {
-            if(function.compareTo( MOVE ) == 0)
+            if(function.equals( MOVE ))
                 ostr.setLocation( ostr.getX() + x, ostr.getY() + y );
              
-            else if(function.compareTo( RESTORE ) == 0)
+            else if(function.equals( RESTORE ))
                 ostr.setLocation( x, y );
              
-            else if(function.compareTo( RAY ) == 0)
+            else if(function.equals( RAY ))
             	ray = x;
         }
     

@@ -140,18 +140,12 @@ public class Tubo extends Ostacolo{
 	
 	public void setXY( float x, float y, String function ) throws SlickException
 		{ 
-			if(function.compareTo( "move" ) == 0)
-				{
-					ostr.setLocation( ostr.getX() + x, ostr.getY() + y );
-					base.setXY( x, y, function );
-					enter.setXY( x, y, function );
-				}
+			if(function.equals( "move" ))
+				ostr.setLocation( ostr.getX() + x, ostr.getY() + y );
+			else
+				ostr.setLocation( x, y );
 			
-			else if(function.compareTo( "restore" ) == 0)
-				{
-					ostr.setLocation( x, y );
-					setSpigoli();
-				}
+			setSpigoli();
 		}
 	
 	public Ostacolo getBase()
