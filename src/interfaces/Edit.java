@@ -324,6 +324,12 @@ public class Edit
 								{
 									temp = ostacoli.get( i );
 									
+									if(temp.equals( deployer ))
+										{
+											setPlayer();
+											deployer = null;
+										}
+									
 									//modifica la posizione di un tubo gia' esistente
 									if(temp.getID().equals( Global.TUBO ))
 										{								
@@ -557,15 +563,12 @@ public class Edit
 		{
 			for(Ostacolo ost: ostacoli)
 				{
-					if(!obs.equals( ost ))
+					if(!obs.equals( ost ) && areaObs.intersects( ost.getArea() ))
 						{
 						    if(obs.getID().equals( Global.PLAYER ))
 						        {						    	
 						            if(ost.getID().equals( Global.BOLLA ))
-						                {
-							                if(areaObs.intersects( ost.getArea() ))
-							                    return false;
-						                }
+					                    return false;
 						            else if(ost.getID().equals( Global.TUBO ))
 					            		{
 					            			Shape areaBase = ((Tubo) ost).getBase().getArea();
@@ -592,6 +595,7 @@ public class Edit
 						    		Base base = (Base) ((Tubo) obs).getBase();
 						    		Enter enter = (Enter) ((Tubo) obs).getEnter();
 						    		
+						    		// se collide con un tubo
 						    		if(ost.getID().equals( Global.TUBO ))
 						    			{
 							    			if(base.getArea().intersects( ((Tubo) ost).getBase().getArea() ))
@@ -603,23 +607,14 @@ public class Edit
 							    			else if(enter.getArea().intersects( ((Tubo) ost).getEnter().getArea() ))
 							    				return false;
 						    			}
-						    		else if(!ost.getID().equals( Global.TUBO ))
-						    			{
-							    			if(base.getArea().intersects( ost.getArea() ))
-							    				return false;
-							    			else if(enter.getArea().intersects( ost.getArea() ))
-							    				return false;
-						    			}
-						    	}
-						    else if(ost.getID().equals( Global.TUBO ))
-						    	{
-							    	if(areaObs.intersects( ((Tubo) ost).getBase().getArea() ))
+						    		// se collide con un'ostacolo diverso dal tubo
+						    		else if(base.getArea().intersects( ost.getArea() ))
 					    				return false;
-					    			else if(areaObs.intersects( ((Tubo) ost).getEnter().getArea() ))
+					    			else if(enter.getArea().intersects( ost.getArea() ))
 					    				return false;
 						    	}
-						    else if(areaObs.intersects( ost.getArea() ))
-					    		return false;
+						    else 
+						    	return false;
 						}
 				}
 		    
