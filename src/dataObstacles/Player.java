@@ -437,6 +437,21 @@ public class Player extends Ostacolo
 			
 			return false;
 		}
+	
+	/** setta la posizione delle arre body e head */
+	private void setBodyHead()
+		{
+			if(dir == DESTRA)
+				{
+					body.setLocation( xPlayer, yPlayer + Global.Height/40 );
+					head.setLocation( xPlayer + width/2 - Global.Width/110, yPlayer );
+				}
+			else
+				{
+					body.setLocation( xPlayer, yPlayer + Global.Height/40 );
+					head.setLocation( xPlayer + Global.Width/110, yPlayer );
+				}
+		}
 
 	public void setXY( float x, float y, String function ) 
 		{
@@ -452,32 +467,14 @@ public class Player extends Ostacolo
 				}
 			
 			area.setLocation( xPlayer, yPlayer );
-			if(dir == DESTRA)
-				{
-					body.setLocation( xPlayer, yPlayer + Global.Height/40 );
-					head.setLocation( xPlayer + width/2 - Global.Width/110, yPlayer );
-				}
-			else
-				{
-					body.setLocation( xPlayer, yPlayer + Global.Height/40 );
-					head.setLocation( xPlayer + Global.Width/110, yPlayer );
-				}
+			setBodyHead();
 		}
 	
 	public void setY( float y )
 		{
 			yPlayer = y;
 			area.setLocation( xPlayer, yPlayer );
-			if(dir == DESTRA)
-				{
-					body.setLocation( xPlayer, yPlayer + Global.Height/40 );
-					head.setLocation( xPlayer + width/2 - Global.Width/110, yPlayer );
-				}
-			else
-				{
-					body.setLocation( xPlayer, yPlayer + Global.Height/40 );
-					head.setLocation( xPlayer + Global.Width/110, yPlayer );
-				}
+			setBodyHead();
 		}
 	
 	public void setMaxHeight( float val )
