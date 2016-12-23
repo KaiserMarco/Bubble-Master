@@ -138,7 +138,7 @@ public class Tubo extends Ostacolo{
             this.insert = insert;
         }
 	
-	public void setXY( float x, float y, String function )
+	public void setXY( float x, float y, String function ) throws SlickException
 		{ 
 			if(function.compareTo( "move" ) == 0)
 				{
@@ -150,8 +150,7 @@ public class Tubo extends Ostacolo{
 			else if(function.compareTo( "restore" ) == 0)
 				{
 					ostr.setLocation( x, y );
-					base.setXY( x, y, function );
-					enter.setXY( x, y, function );
+					setSpigoli();
 				}
 		}
 	

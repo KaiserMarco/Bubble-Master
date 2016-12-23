@@ -626,8 +626,8 @@ public class Edit
 		    return true;
 		}
 	
-	/** muove il player attraverso gli ostacoli */
-	public void setPlayer()
+	/** muove il player attraverso gli ostacoli  */
+	public void setPlayer() throws SlickException
 		{
 			posY = maxHeight;
 			for(Ostacolo obs: ostacoli)
@@ -705,7 +705,7 @@ public class Edit
 		}
 	
 	/** controlla se l'ostacolo non supera i confini di gioco */
-	public void checkBorder()
+	public void checkBorder() throws SlickException
 		{
 			if(temp.getX() <= 0)
 				temp.setXY( 0, temp.getY(), Global.RESTORE );
