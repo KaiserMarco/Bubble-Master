@@ -613,18 +613,19 @@ public class Edit
 			posY = maxHeight;
 			for(Ostacolo obs: ostacoli)
 				if(!obs.getID().equals( Global.PLAYER ) && !obs.getID().equals( Global.BOLLA ))
-					if(obs.getID().equals( Global.TUBO ))
-						{
-							base = (Base) ((Tubo) obs).getBase();
-							enter = (Enter) ((Tubo) obs).getEnter();
-							
-							if(mouseY < base.getY() && base.getY() < posY && !(temp.getMaxX() < base.getX() || temp.getX() > base.getMaxX()))
-								posY = base.getY();
-							if(mouseY < enter.getY() && enter.getY() < posY && !(temp.getMaxX() < enter.getX() || temp.getX() > enter.getMaxX()))
-								posY = enter.getY();
-						}
-					else if(mouseY < obs.getY() && obs.getY() < posY && !(temp.getMaxX() < obs.getX() || temp.getX() > obs.getMaxX()))
-						posY = obs.getY();
+					if(!(temp.getMaxX() < obs.getX() || temp.getX() > obs.getMaxX()))
+						if(obs.getID().equals( Global.TUBO ))
+							{
+								base = (Base) ((Tubo) obs).getBase();
+								enter = (Enter) ((Tubo) obs).getEnter();
+								
+								if(mouseY < base.getY() && base.getY() < posY && !(temp.getMaxX() < base.getX() || temp.getX() > base.getMaxX()))
+									posY = base.getY();
+								if(mouseY < enter.getY() && enter.getY() < posY && !(temp.getMaxX() < enter.getX() || temp.getX() > enter.getMaxX()))
+									posY = enter.getY();
+							}
+						else if(mouseY < obs.getY() && obs.getY() < posY)
+							posY = obs.getY();
 			
 			temp.setY( posY - temp.getHeight() );
 		}
