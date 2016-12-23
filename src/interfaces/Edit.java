@@ -892,9 +892,8 @@ public class Edit
 				}
 			
 			// gestione della textbox per il nome del livello
-			if(tBox.isOpen())
-				if(tBox.update( input, index ))
-					addNewLevel( gc, tBox.getText() );
+			if(tBox.isOpen() && tBox.update( input, index ))
+				addNewLevel( gc, tBox.getText() );
 		}
 	
 	/** aggiorna l'inseribilita' di quello specifico player
