@@ -692,9 +692,8 @@ public class Edit
 	public boolean checkInsert()
 		{
 			for(Ostacolo ost: ostacoli)
-				if(ost.getID().equals( Global.PLAYER ))
-					if(!((Player) ost).getInsert())
-						return false;
+				if(ost.getID().equals( Global.PLAYER ) && !((Player) ost).getInsert())
+					return false;
 		
 			if(deployer != null)
 				return false;
