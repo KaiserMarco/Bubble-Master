@@ -58,7 +58,7 @@ public class Edit
 	
 	private boolean insertEditor, insertItem;
 	/**base -> la finestra di selezione sfondo/elemento*/
-	private Rectangle choise, base;
+	private Rectangle choise, section;
 	private float widthChoise, heightChoise;
 	private float widthBase, heightBase;
 	
@@ -84,6 +84,7 @@ public class Edit
 	//determina l'indice del livello
 	private int index = -1;
 	
+	// i nomi di alcune funzionalita'
 	private final static String SAVE = "SALVA LIVELLO", BACK = "INDIETRO",
 								SX = "sx", DX = "dx";
 	
@@ -104,7 +105,11 @@ public class Edit
 	/** il player da dover essere riposizionato */
 	private Player deployer = null;
 	
+	// lo sfondo del livello
 	private Sfondo sfondo;
+	
+	private Base base;
+	private Enter enter;
 	
     public Edit( GameContainer gc ) throws SlickException
 		{
@@ -135,7 +140,7 @@ public class Edit
 			heightBase = 0;
 			
 			choise = new Rectangle( Global.Width/2 - widthChoise/2, Global.Height - heightChoise, widthChoise, heightChoise );			
-			base = new Rectangle( Global.Width/2 - widthBase/2, Global.Height, widthBase, heightBase );
+			section = new Rectangle( Global.Width/2 - widthBase/2, Global.Height, widthBase, heightBase );
 			
 			insertEditor = false;
 			indexCursor = -1;
@@ -193,7 +198,7 @@ public class Edit
 			for(SimpleButton button: buttons)
 				button.draw( g );
 
-			baseI.draw( base.getX(), base.getY(), widthBase, heightBase );
+			baseI.draw( section.getX(), section.getY(), widthBase, heightBase );
 
 			if(insertItem)
 				{
@@ -502,15 +507,15 @@ public class Edit
 	    {
     	    if(insertEditor)
 	    	    {
-	                if(base.getY() - delta/2 > minHighEditor)
+	                if(section.getY() - delta/2 > minHighEditor)
 	                    {
-	                        base.setY( base.getY() - delta*6/5 );
+	                		section.setY( section.getY() - delta*6/5 );
 	                        heightBase = heightBase + delta*6/5;
 	                    }
 	                else
 	                    {
 	                        insertItem = true;
-	                        base.setY( minHighEditor );
+	                        section.setY( minHighEditor );
 	                        heightBase = Global.Height - minHighEditor;
 	                        moveEditor = false;
 	                    }
@@ -518,12 +523,12 @@ public class Edit
             else
                 {
                     insertItem = false;
-                    base.setY( Global.Height );
+                    section.setY( Global.Height );
                     heightBase = 0;
                     moveEditor = false;
                 }
     	    
-			choise.setY( base.getY() - heightChoise );
+			choise.setY( section.getY() - heightChoise );
 	    }
 	
 	private int checkButton( Button button, Input input, int i )
@@ -573,8 +578,8 @@ public class Edit
 						        }
 						    else if(obs.getID().equals( Global.TUBO ))
 						    	{
-						    		Base base = (Base) ((Tubo) obs).getBase();
-						    		Enter enter = (Enter) ((Tubo) obs).getEnter();
+						    		base = (Base) ((Tubo) obs).getBase();
+						    		enter = (Enter) ((Tubo) obs).getEnter();
 						    		
 						    		// se collide con un tubo
 						    		if(ost.getID().equals( Global.TUBO ))
@@ -610,8 +615,8 @@ public class Edit
 				if(!obs.getID().equals( Global.PLAYER ) && !obs.getID().equals( Global.BOLLA ))
 					if(obs.getID().equals( Global.TUBO ))
 						{
-							Base base = (Base) ((Tubo) obs).getBase();
-							Enter enter = (Enter) ((Tubo) obs).getEnter();
+							base = (Base) ((Tubo) obs).getBase();
+							enter = (Enter) ((Tubo) obs).getEnter();
 							
 							if(mouseY < base.getY() && base.getY() < posY && !(temp.getMaxX() < base.getX() || temp.getX() > base.getMaxX()))
 								posY = base.getY();
@@ -642,8 +647,8 @@ public class Edit
 						{
 							if(ost.getID().equals( Global.TUBO ))
 								{
-									Base base = (Base) ((Tubo) ost).getBase();
-									Enter enter = (Enter) ((Tubo) ost).getEnter();
+									base = (Base) ((Tubo) ost).getBase();
+									enter = (Enter) ((Tubo) ost).getEnter();
 								
 									if(base.getY() < enter.getY())
 										{
