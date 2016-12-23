@@ -414,10 +414,16 @@ public class Player extends Ostacolo
 	public int getShots()
 		{ return shots; }
 	
-	/** aggiorna le vite del giocatore */
-	public void updateLifes( int sum )
+	/** aggiorna le vite del giocatore
+	 * @return TRUE - se il personaggio ha finito le vite, FALSE - altrimenti */
+	public boolean updateLifes( int sum )
 		{
 			lifes = Math.min( lifes + sum, Global.lifes );
+			if(lifes == 0)
+				{
+					Global.inGame = false;
+					return true;
+				}
 			
 			if(sum < 0)
 				{
@@ -444,6 +450,8 @@ public class Player extends Ostacolo
 					vite.remove( indexLastLife );
 					vite.add( indexLastLife, halfHeart );
 				}
+			
+			return false;
 		}
 	
 	/** setta le vite del giocatore */
@@ -745,12 +753,8 @@ public class Player extends Ostacolo
 						{
 							if(area.intersects( sfera.getArea() ))
 								{
-									updateLifes( -1 );
-									if(lifes == 0)
-										{
-											Global.inGame = false;
-											return;
-										}
+									if(updateLifes( -1 ))
+										return;
 									else
 										{
 											points = points - 100;
