@@ -90,6 +90,10 @@ public class InGame
 							player.setWidth( elem.getWidth() );
 							player.setWidthI( ((Player) elem).getWidthI() );
 							player.setMaxHeight( sfondo.getMaxHeight() );
+
+							player.setSpheres( spheres );
+							player.setKeyButtons();
+							player.setLifes( Global.lifes );
 							
 							player.setArea( gc );
 						}
@@ -100,12 +104,6 @@ public class InGame
 						}
 					else
 						ostacoli.add( elem );
-				}
-			
-			for(Player player: players)
-				{
-					player.setSpheres( spheres );
-					player.setKeyButtons();
 				}
 			
 			int size = ostacoli.size();

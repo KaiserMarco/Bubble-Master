@@ -102,5 +102,5 @@ public class Life extends PowerUp
 		{ img.draw( ostr.getX(), ostr.getY(), ostr.getWidth(), ostr.getHeight() ); }
 	
 	public void effect( Player player, GameContainer gc )
-		{ InGame.players.get( player.getNumPlayer() - 1 ).updateLifes(); }
+		{ InGame.players.get( player.getNumPlayer() - 1 ).updateLifes( 1 ); }
 }

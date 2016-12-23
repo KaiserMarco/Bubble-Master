@@ -143,6 +143,9 @@ public class Player extends Ostacolo
 	
 	private ArrayList<Bubble> sfere;
 	
+	private ArrayList<Image> vite;
+	private int indexLastLife;
+	
 	public Player( float x, float y, int numPlayer, GameContainer gc, Color color ) throws SlickException
 		{
 			super( "player" );
@@ -245,6 +248,8 @@ public class Player extends Ostacolo
 			prevArea = new Rectangle( area.getX(), area.getY(), width, height );
 			
 			sfere = new ArrayList<Bubble>();
+			
+			vite = new ArrayList<Image>();
 		}
 	
 	public void drawMoving( Graphics g )
@@ -336,21 +341,9 @@ public class Player extends Ostacolo
 					index--;
 				}
 				
-			j = 0;
-			for(;j < lifes/2; j++)
-				{
-					heart.draw( posX, posY, widthH, heightH );
-					posX = posX + widthH;
-				}
-			if(lifes%2 == 1)
-				{
-					j++;
-					halfHeart.draw( posX, posY, widthH, heightH );
-					posX = posX + widthH;
-				}
-			for(;j < Global.lifes/2; j++)
-				{
-					noHeart.draw( posX, posY, widthH, heightH );
+			for(Image life: vite)
+				{ 
+					life.draw( posX, posY, widthH, heightH );
 					posX = posX + widthH;
 				}
 	
@@ -421,14 +414,64 @@ public class Player extends Ostacolo
 	public int getShots()
 		{ return shots; }
 	
+	/** aggiorna le vite del giocatore */
+	public void updateLifes( int sum )
+		{
+			lifes = lifes + sum;
+			lifes = Math.min( lifes, Global.lifes );
+			if(sum < 0)
+				{
+					if(lifes % 2 == 0)
+						{
+							vite.remove( indexLastLife );
+							vite.add( indexLastLife, noHeart );
+							indexLastLife--;
+						}
+					else
+						{
+							vite.remove( indexLastLife );
+							vite.add( indexLastLife, halfHeart );
+						}
+				}
+			else
+				{
+					if(lifes % 2 == 0)
+						{
+							vite.remove( indexLastLife );
+							vite.add( indexLastLife, heart );
+						}
+					else
+						{
+							indexLastLife++;
+							vite.remove( indexLastLife );
+							vite.add( indexLastLife, halfHeart );
+						}
+				}
+		}
+	
+	/** setta le vite del giocatore */
+	public void setLifes( int val )
+		{
+			if(val % 2 == 0)
+				indexLastLife = val/2 - 1;
+			else
+				indexLastLife = val/2;
+			
+			lifes = val;
+			
+			for(j = 0; j < lifes/2; j++)
+				vite.add( heart );
+			if(lifes%2 == 1)
+				{
+					j++;
+					vite.add( halfHeart );
+				}
+			for(;j < lifes/2; j++)
+				vite.add( noHeart );
+		}
+	
 	public int getLifes()
 		{ return lifes; }
-	
-	public void updateLifes()
-		{ lifes = Math.min( ++lifes, Global.lifes ); }
-	
-	public void setLifes( int val )
-		{ lifes = val; }
 
 	public boolean contains( int x, int y )
 		{
@@ -705,7 +748,8 @@ public class Player extends Ostacolo
 						{
 							if(area.intersects( sfera.getArea() ))
 								{
-									if(--lifes == 0)
+									updateLifes( -1 );
+									if(lifes == 0)
 										{
 											Global.inGame = false;
 											return;

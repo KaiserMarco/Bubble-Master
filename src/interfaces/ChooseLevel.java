@@ -17,7 +17,6 @@ import dataButton.ArrowButton;
 import dataButton.Button;
 import dataButton.SimpleButton;
 import dataObstacles.Ostacolo;
-import dataObstacles.Player;
 
 public class ChooseLevel
 {	
@@ -244,10 +243,7 @@ public class ChooseLevel
 				                                        {
 					                            			Start.ig.addOstacoli( Begin.livelli.get( pos ).getElements(), Begin.livelli.get( pos ).getImage(), gc );
 					                                        
-					                            			for(Ostacolo player: InGame.players)
-					                            				((Player) player).setKeyButtons();
-					                            			
-					                                        Start.stats.startTempo();
+					                            			Start.stats.startTempo();
 					                                        Global.drawCountdown = true;
 					                                        Global.inGame = true;
 
