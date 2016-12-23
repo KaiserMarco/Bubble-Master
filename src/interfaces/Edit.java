@@ -101,7 +101,7 @@ public class Edit
 	// la posizione del mouse
 	private int mouseX, mouseY;
 	
-	/*il player da dover essere riposizionato*/
+	/** il player da dover essere riposizionato */
 	private Player deployer = null;
 	
 	private Sfondo sfondo;
