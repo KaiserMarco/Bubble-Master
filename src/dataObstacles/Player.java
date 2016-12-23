@@ -464,6 +464,22 @@ public class Player extends Ostacolo
 				}
 		}
 	
+	public void setY( float y )
+		{
+			yPlayer = y;
+			area.setLocation( xPlayer, yPlayer );
+			if(dir == DESTRA)
+				{
+					body.setLocation( xPlayer, yPlayer + Global.Height/40 );
+					head.setLocation( xPlayer + width/2 - Global.Width/110, yPlayer );
+				}
+			else
+				{
+					body.setLocation( xPlayer, yPlayer + Global.Height/40 );
+					head.setLocation( xPlayer + Global.Width/110, yPlayer );
+				}
+		}
+	
 	public void setMaxHeight( float val )
 		{
 			coolDown.setY( maxHeight );

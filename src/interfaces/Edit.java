@@ -636,11 +636,11 @@ public class Edit
 	 * @return TRUE - se il player e' stato riposizionato, FALSE - se e' ancora in fase di riposizionamento */
 	public boolean flyPlayer()
 		{
-			deployer.setXY( 0, Global.Height/200, Global.MOVE );
+			deployer.setY( deployer.getY() + Global.Height/200 );
 			
 			if(deployer.getMaxY() >= maxHeight)
 				{
-					deployer.setXY( deployer.getX(), maxHeight - deployer.getHeight(), Global.RESTORE );
+					deployer.setY( maxHeight - deployer.getHeight() );
 					return true;
 				}
 			
@@ -657,29 +657,29 @@ public class Edit
 										{
 											if(deployer.getArea().intersects( base.getArea() ))
 												{
-													deployer.setXY( deployer.getX(), base.getY() - deployer.getHeight(), Global.RESTORE );
+													deployer.setY( base.getY() - deployer.getHeight() );
 													return true;
 												}
 											else if(deployer.getArea().intersects( enter.getArea() ))
 												{
-													deployer.setXY( deployer.getX(), enter.getY() - deployer.getHeight(), Global.RESTORE );
+													deployer.setY( enter.getY() - deployer.getHeight() );
 													return true;
 												}
 										}
 									else if(deployer.getArea().intersects( enter.getArea() ))
 										{
-											deployer.setXY( deployer.getX(), enter.getY() - deployer.getHeight(), Global.RESTORE );
+											deployer.setY( enter.getY() - deployer.getHeight() );
 											return true;
 										}
 									else if(deployer.getArea().intersects( base.getArea() ))
 										{
-											deployer.setXY( deployer.getX(), base.getY() - deployer.getHeight(), Global.RESTORE );
+											deployer.setY( base.getY() - deployer.getHeight() );
 											return true;
 										}
 								}
 							else if(deployer.getArea().intersects( ost.getArea() ))
 								{
-									deployer.setXY( deployer.getX(), ost.getY() - deployer.getHeight(), Global.RESTORE );
+									deployer.setY( ost.getY() - deployer.getHeight() );
 									return true;
 								}
 						}
