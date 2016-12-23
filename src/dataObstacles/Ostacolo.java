@@ -52,6 +52,8 @@ public abstract class Ostacolo
 	public abstract boolean contains( int x, int y );
 	
 	public abstract void setXY( float x, float y, String function )  throws SlickException;
+	public abstract void setX( float x );
+	public abstract void setY( float y );
 	
 	public abstract void update( GameContainer gc ) throws SlickException;
 	public abstract void update( GameContainer gc, int delta ) throws SlickException;

@@ -602,34 +602,26 @@ public class Edit
 		    return true;
 		}
 	
-	public void controllaPosizione( Ostacolo ost )
-		{
-			if(mouseY < ost.getY() && ost.getY() < posY)
-				if(!(temp.getMaxX() < ost.getX() || temp.getX() > ost.getMaxX()))
-					posY = ost.getY();
-		}
-	
-	/** determina la posizione del player rispetto agli ostacoli in fase di inserimento */
-	private void checkPosition( Ostacolo ost )
-		{
-			if(ost.getID().equals( Global.TUBO ))
-				{
-					controllaPosizione( ((Tubo) ost).getBase() );
-					controllaPosizione( ((Tubo) ost).getEnter() );
-				}
-			else
-				controllaPosizione( ost );
-		}
-	
 	/** muove il player attraverso gli ostacoli  */
 	public void setPlayer() throws SlickException
 		{
 			posY = maxHeight;
 			for(Ostacolo obs: ostacoli)
 				if(!obs.getID().equals( Global.PLAYER ) && !obs.getID().equals( Global.BOLLA ))
-					checkPosition( obs );
+					if(obs.getID().equals( Global.TUBO ))
+						{
+							Base base = (Base) ((Tubo) obs).getBase();
+							Enter enter = (Enter) ((Tubo) obs).getEnter();
+							
+							if(mouseY < base.getY() && base.getY() < posY && !(temp.getMaxX() < base.getX() || temp.getX() > base.getMaxX()))
+								posY = base.getY();
+							if(mouseY < enter.getY() && enter.getY() < posY && !(temp.getMaxX() < enter.getX() || temp.getX() > enter.getMaxX()))
+								posY = enter.getY();
+						}
+					else if(mouseY < obs.getY() && obs.getY() < posY && !(temp.getMaxX() < obs.getX() || temp.getX() > obs.getMaxX()))
+						posY = obs.getY();
 			
-			temp.setXY( temp.getX(), posY - temp.getHeight(), Global.RESTORE );
+			temp.setY( posY - temp.getHeight() );
 		}
 	
 	/** reimposta la posizione del player quando viene tolto l'ostacolo sotto di esso

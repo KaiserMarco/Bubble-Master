@@ -910,4 +910,7 @@ public class Player extends Ostacolo
 
 	public boolean getInsert()
 		{ return insert; }
+
+	public void setX(float x)
+		{}
 }

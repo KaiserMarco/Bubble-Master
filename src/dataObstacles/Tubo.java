@@ -363,4 +363,10 @@ public class Tubo extends Ostacolo{
 
 	public float getMaxY()
 		{ return ostr.getMaxY(); }
+
+	public void setX(float x)
+		{}
+
+	public void setY(float y)
+		{}
 }

@@ -182,4 +182,10 @@ public class Base extends Ostacolo
 
 	public boolean getInsert()
 		{ return false; }
+
+	public void setX(float x)
+		{}
+
+	public void setY(float y)
+		{}
 }

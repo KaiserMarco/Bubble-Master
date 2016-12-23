@@ -599,4 +599,10 @@ public class Bubble extends Ostacolo
 
 	public boolean getInsert()
 		{ return insert; }
+
+	public void setX(float x)
+		{}
+
+	public void setY(float y)
+		{}
 }
