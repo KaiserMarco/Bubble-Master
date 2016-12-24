@@ -257,7 +257,7 @@ public class Bubble extends Ostacolo
 						{
 							speedY = -speedY;
 							if(speedX == 0)
-								if(ostr.getCenterX() > ost.component( Global.SPIGADX ).getMaxY())
+								if(ostr.getCenterX() > ost.component( Global.SPIGADX ).getMaxX())
 									speedX = 1;
 						}
 					else if(ostr.intersects( ost.component( Global.SPIGASX ) ))
