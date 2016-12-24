@@ -146,6 +146,9 @@ public class Shot
 							temp1.setIndexTube( ost.getIndexTube() );
 							temp2.setIndexTube( ost.getIndexTube() );
 							
+							temp1.setOstacoli( InGame.ostacoli );
+							temp2.setOstacoli( InGame.ostacoli );
+							
 							float speedX = ost.getSpeedX(), speedY = ost.getSpeedY();
 							
 							if(speedY == 0)

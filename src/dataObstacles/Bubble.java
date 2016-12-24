@@ -34,8 +34,6 @@ public class Bubble extends Ostacolo
 	private int indexTube;
 	//determina se la sfera e' nel primo o secondo tubo
 	private boolean primoTubo, secondoTubo;
-	//determina se le velocita' della sfera sono state settate
-	private boolean setSpeed;
 	
 	private float backupSpeedX, backupSpeedY;
 	
@@ -322,8 +320,8 @@ public class Bubble extends Ostacolo
     			}
         }
     
-    /**setta la posizione della sfera all'interno dei 2 tubi e la velocita' nel secondo*/
-    public void setPositionInTube( Ostacolo ost, boolean primoTubo )
+    /** setta posizione e velocita' nei tubi */
+    public void setValuesInTube( Ostacolo ost, boolean primoTubo )
     	{
     		//orientamento del tubo
 			String pos = ost.getOrienting();
@@ -331,27 +329,36 @@ public class Bubble extends Ostacolo
     		//la sfera e' nel PRIMO tubo
     		if(primoTubo)
     			{
+    				backupSpeedX = Math.abs( speedX );
+    				backupSpeedY = Math.abs( speedY );
+    				
 	    			if(pos.equals( SX ) || pos.equals( DX ))
-						setXY( ostr.getX(), ost.getMidArea()[1] - ray, RESTORE );
+	    				{
+							setXY( ostr.getX(), ost.getMidArea()[1] - ray, RESTORE );
+							speedY = 0;
+	    				}
 	    			else if(pos.equals( DOWN ) || pos.equals( UP ))
-						setXY( ost.getMidArea()[0] - ray, ostr.getY(), RESTORE );
+	    				{
+							setXY( ost.getMidArea()[0] - ray, ostr.getY(), RESTORE );
+							speedX = 0;
+	    				}
     			}
     		//la sfera e' nel SECONDO tubo
     		else
     			{
 	    			setXY( ost.getMidArea()[0] - getWidth()/2, ost.getMidArea()[1] - getHeight()/2, RESTORE );
 					
-					if(ost.getOrienting().equals( SX ))
+					if(pos.equals( SX ))
 						{
 							speedX = -backupSpeedX;
 							speedY = 0;
 						}
-					else if(ost.getOrienting().equals( DX ))
+					else if(pos.equals( DX ))
 						{
 							speedX = backupSpeedX;
 							speedY = 0;
 						}
-					else if(ost.getOrienting().equals( UP ))
+					else if(pos.equals( UP ))
 						{
 							speedX = 0;
 							speedY = -backupSpeedY;
@@ -378,26 +385,12 @@ public class Bubble extends Ostacolo
 						primoTubo = false;
     				else if(tubo.getOrienting().equals( DOWN ) && ostr.getCenterY() <= tubo.getMidArea()[1])
 						primoTubo = false;
-
-    				// setta la velocita' nel PRIMO tubo
-        			if(!setSpeed)
-	        			{
-    		    			backupSpeedX = Math.abs( speedX );
-    		    			backupSpeedY = Math.abs( speedY );
-        				
-		    				if(tubo.getOrienting().equals( SX ) || tubo.getOrienting().equals( DX ))
-		    					speedY = 0;
-		    				else if(tubo.getOrienting().equals( DOWN ) || tubo.getOrienting().equals( UP ))
-		    					speedX = 0;
-		    				
-		    				setSpeed = true;
-	        			}
+        			
         			if(!primoTubo)
         				{
         					secondoTubo = true;
-        					setSpeed = true;
         					indexTube = ostacoli.get( indexTube ).getUnion();
-        					setPositionInTube( ostacoli.get( indexTube ), primoTubo );
+        					setValuesInTube( ostacoli.get( indexTube ), primoTubo );
         				}
 	    		}
     		// la sfera e' nel SECONDO tubo
@@ -423,7 +416,7 @@ public class Bubble extends Ostacolo
 		    					{
 	    							primoTubo = true;
 	    							secondoTubo = false;
-		        					setPositionInTube( ost, primoTubo );
+	    							setValuesInTube( ost, primoTubo );
 		        					return true;
 	    						}
 	    		}
@@ -435,7 +428,7 @@ public class Bubble extends Ostacolo
 		    					{
 	    							primoTubo = true;
 	    							secondoTubo = false;
-		        					setPositionInTube( ost, primoTubo );
+	    							setValuesInTube( ost, primoTubo );
 		        					return true;
 	    						}
     			}
