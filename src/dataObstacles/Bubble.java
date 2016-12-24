@@ -402,14 +402,14 @@ public class Bubble extends Ostacolo
     	}
     
     /**gestisce collisioni fra tutti gli elementi*/
-    public void checkAll( int i, Ostacolo ost )
+    public void checkAll( Ostacolo ost )
     	{
     		if(ost.getID().equals( Global.TUBO ) && !primoTubo)
 				{
 					// se la sfera ha colliso con l'ingresso di un tubo
-					if(i != indexTube)
+					if(ost.getIndex() != indexTube)
     					if(checkEnter( ((Tubo) ost) ))
-							indexTube = i;
+							indexTube = ost.getIndex();
 				}
         	
 			if(secondoTubo)
@@ -477,7 +477,7 @@ public class Bubble extends Ostacolo
         {
             for(Ostacolo ost: InGame.ostacoli)
             	if(!ost.getID().equals( Global.BOLLA ))
-            		checkAll( ost.getIndex(), ost );
+            		checkAll( ost );
              
             /*controllo collisione con i bordi della schermata*/
             checkBorders();
@@ -486,12 +486,12 @@ public class Bubble extends Ostacolo
             
             if((speedX == 0 || speedY == 0) && !primoTubo)
             	{
-                	/*controllo collisione con i bordi della schermata*/
-                    checkBorders();
-                    
                     for(Ostacolo ost: InGame.ostacoli)
                     	if(!ost.getID().equals( Global.BOLLA ))
-                    		checkAll( ost.getIndex(), ost );
+                    		checkAll( ost );
+                    
+                	/*controllo collisione con i bordi della schermata*/
+                    checkBorders();
 
                     setCenter( ostr, speedX, speedY );
             	}
@@ -499,29 +499,15 @@ public class Bubble extends Ostacolo
     
     public void checkBorders()
     	{
-	    	if(getMaxX() >= maxW)
+	        if(ostr.getX() <= 0 || getMaxX() >= maxW)
 	    		{
 	    			secondoTubo = false;
-	        		if(speedX > 0)
-	        			speedX = -speedX;
+	        		speedX = -speedX;
 	    		}
-	        if(ostr.getX() <= 0)
+	        if(ostr.getY() <= 0 || getMaxY() >= maxH)
 	        	{
     				secondoTubo = false;
-	        		if(speedX < 0)
-	        			speedX = -speedX;
-	        	}
-	        if(getMaxY() >= maxH)
-	        	{
-    				secondoTubo = false;
-	        		if(speedY > 0)
-	        			speedY = -speedY;
-	        	}
-	        if(ostr.getY() <= 0)
-	        	{
-    				secondoTubo = false;
-	        		if(speedY < 0)
-	        			speedY = -speedY;
+	        		speedY = -speedY;
 	        	}
     	}
  
