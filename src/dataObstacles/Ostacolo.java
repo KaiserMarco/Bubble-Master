@@ -55,6 +55,9 @@ public abstract class Ostacolo
 	public abstract void setX( float x );
 	public abstract void setY( float y );
 	
+	public abstract void setIndex( int val );
+	public abstract int getIndex();
+	
 	public abstract void update( GameContainer gc ) throws SlickException;
 	public abstract void update( GameContainer gc, int delta ) throws SlickException;
 	

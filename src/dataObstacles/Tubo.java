@@ -48,6 +48,8 @@ public class Tubo extends Ostacolo{
 	
 	private float rotation;
 	
+	private int index;
+	
 	public Tubo( int x, int y, String type, GameContainer gc ) throws SlickException
 	{
 		super( ID );
@@ -95,6 +97,12 @@ public class Tubo extends Ostacolo{
             //enter.draw( g );
             //base.draw( g );
 		}
+	
+	public void setIndex( int val )
+		{ index = val; }
+	
+	public int getIndex()
+		{ return index; }
 	
 	public int getIndexBase()
 		{ return indexBase; }

@@ -25,6 +25,8 @@ public class Enter extends Ostacolo
 	
 	private float width, height;
 	
+	private int index;
+	
 	public Enter( float x, float y, float width, float height ) throws SlickException
 		{
 			super( ID );
@@ -200,4 +202,10 @@ public class Enter extends Ostacolo
 
 	public void setY(float y)
 		{}
+	
+	public void setIndex( int val )
+		{ index = val; }
+	
+	public int getIndex()
+		{ return index; }
 }

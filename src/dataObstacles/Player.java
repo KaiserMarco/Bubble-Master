@@ -97,7 +97,7 @@ public class Player extends Ostacolo
 	// la differenza fra il tempo corrente e quello preso
 	private float cd = 0;
 	private float tickCd;	
-	private int index = 0;
+	private int pos, index = 0;
 	
 	// il numero di colpi andati a segno
 	private int hits;
@@ -913,4 +913,10 @@ public class Player extends Ostacolo
 
 	public void setX(float x)
 		{}
+	
+	public void setIndex( int val )
+		{ pos = val; }
+	
+	public int getIndex()
+		{ return pos; }
 }

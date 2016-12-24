@@ -20,7 +20,9 @@ public class Base extends Ostacolo
 	
 	private float width, height;
 	
-	public int indexTube;
+	private int indexTube;
+	
+	private int index;
 	
 	public Base( float x, float y, float width, float height ) throws SlickException
 		{
@@ -188,4 +190,10 @@ public class Base extends Ostacolo
 
 	public void setY(float y)
 		{}
+	
+	public void setIndex( int val )
+		{ index = val; }
+	
+	public int getIndex()
+		{ return index; }
 }

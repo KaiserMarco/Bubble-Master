@@ -78,6 +78,8 @@ public class InGame
 			powerUp.clear();
 			
 			this.sfondo = sfondo;
+			
+			int index = 0;
 		
 			for(Ostacolo elem: obs)
 				{
@@ -96,15 +98,21 @@ public class InGame
 							player.setKeyButtons();
 							player.setLifes( Global.lifes );
 							
+							player.setIndex( index );
 							player.setArea( gc );
 						}
 					else if(elem.getID().equals( Global.BOLLA ))
 						{
 							spheres.add( (Bubble) elem.clone( gc ) );
 							spheres.get( spheres.size() - 1 ).setMaxHeight( sfondo.getMaxHeight() );
+							spheres.get( spheres.size() - 1 ).setIndex( index );
 						}
 					else
-						ostacoli.add( elem );
+						{
+							ostacoli.add( elem );
+							ostacoli.get( ostacoli.size() - 1 ).setIndex( index );
+						}
+					index++;
 				}
 			
 			int size = ostacoli.size();

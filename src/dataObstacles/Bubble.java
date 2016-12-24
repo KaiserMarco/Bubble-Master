@@ -39,6 +39,8 @@ public class Bubble extends Ostacolo
 	private float backupSpeedX, backupSpeedY;
 	
 	private static final String UP = "up", DOWN = "down", SX = "sx", DX = "dx", RESTORE = "restore", RAY = "setRay", MOVE = "move";
+	
+	private int index;
  
     public Bubble( Ostacolo ost, GameContainer gc ) throws SlickException
         { this( ost.getX(), ost.getY(), ost.getWidth()/2, ost.getMaxWidth(), gc ); }
@@ -473,9 +475,9 @@ public class Bubble extends Ostacolo
  
     public void update( GameContainer gc, int delta ) throws SlickException
         {
-            for(int i = 0; i < InGame.ostacoli.size(); i++)
-            	if(!InGame.ostacoli.get( i ).getID().equals( Global.BOLLA ))
-            		checkAll( i, InGame.ostacoli.get( i ) );
+            for(Ostacolo ost: InGame.ostacoli)
+            	if(!ost.getID().equals( Global.BOLLA ))
+            		checkAll( ost.getIndex(), ost );
              
             /*controllo collisione con i bordi della schermata*/
             checkBorders();
@@ -487,9 +489,9 @@ public class Bubble extends Ostacolo
                 	/*controllo collisione con i bordi della schermata*/
                     checkBorders();
                     
-                    for(int i = 0; i < InGame.ostacoli.size(); i++)
-                    	if(!InGame.ostacoli.get( i ).getID().equals( Global.BOLLA ))
-                    		checkAll( i, InGame.ostacoli.get( i ) );
+                    for(Ostacolo ost: InGame.ostacoli)
+                    	if(!ost.getID().equals( Global.BOLLA ))
+                    		checkAll( ost.getIndex(), ost );
 
                     setCenter( ostr, speedX, speedY );
             	}
@@ -605,4 +607,10 @@ public class Bubble extends Ostacolo
 
 	public void setY(float y)
 		{}
+	
+	public void setIndex( int val )
+		{ index = val; }
+	
+	public int getIndex()
+		{ return index; }
 }

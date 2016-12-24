@@ -39,6 +39,8 @@ public class Sbarra extends Ostacolo
 	
 	private float rotation;
 	
+	private int index;
+	
 	public Sbarra( float x, float y, String type, GameContainer gc ) throws SlickException
 		{
 			super( ID );
@@ -276,4 +278,10 @@ public class Sbarra extends Ostacolo
 
 	public void setY(float y)
 		{}
+	
+	public void setIndex( int val )
+		{ index = val; }
+	
+	public int getIndex()
+		{ return index; }
 }
