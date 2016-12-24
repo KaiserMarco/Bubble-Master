@@ -372,7 +372,7 @@ public class Bubble extends Ostacolo
     	}
     
     /**determina se la sfera e' ancora nel primo o nel secondo tubo*/
-    public void gestioneSferaInTubo( Tubo tubo )
+    public void gestioneSferaInTubo( Ostacolo tubo )
     	{
     		// se la sfera e' nel PRIMO tubo
     		if(primoTubo)
@@ -439,13 +439,10 @@ public class Bubble extends Ostacolo
     /**gestisce collisioni fra tutti gli elementi*/
     public void checkAll( Ostacolo ost )
     	{
+    		// controlla se la sfera ha colliso con l'ingresso di un tubo
     		if(ost.getID().equals( Global.TUBO ) && !primoTubo)
-				{
-					// se la sfera ha colliso con l'ingresso di un tubo
-					if(ost.getIndex() != indexTube)
-    					if(checkEnter( ((Tubo) ost) ))
-							indexTube = ost.getIndex();
-				}
+				if(ost.getIndex() != indexTube && checkEnter( ((Tubo) ost) ))
+					indexTube = ost.getIndex();
         	
 			if(secondoTubo)
 				{
@@ -471,7 +468,7 @@ public class Bubble extends Ostacolo
 					gestioneCollisioni( ost );
 			
 			if(primoTubo || secondoTubo)
-				gestioneSferaInTubo( (Tubo) ostacoli.get( indexTube ) );
+				gestioneSferaInTubo( ostacoli.get( indexTube ) );
     	}
  
     public void update( GameContainer gc, int delta ) throws SlickException
