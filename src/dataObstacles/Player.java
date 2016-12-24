@@ -255,7 +255,7 @@ public class Player extends Ostacolo
 	public void drawMoving( Graphics g )
 		{
 			// il personaggio NON si sta muovendo
-			if(!isMoved)
+			if(!isMoved && !jump)
 				{
 					if(dir == DESTRA)
 						{
