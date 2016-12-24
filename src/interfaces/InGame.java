@@ -106,6 +106,7 @@ public class InGame
 							spheres.add( (Bubble) elem.clone( gc ) );
 							spheres.get( spheres.size() - 1 ).setMaxHeight( sfondo.getMaxHeight() );
 							spheres.get( spheres.size() - 1 ).setIndex( index );
+							spheres.get( spheres.size() - 1 ).setOstacoli( ostacoli );
 						}
 					else
 						{

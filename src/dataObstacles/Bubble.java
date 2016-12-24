@@ -1,5 +1,7 @@
 package dataObstacles;
  
+import java.util.ArrayList;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -10,7 +12,6 @@ import org.newdawn.slick.geom.Shape;
 
 import Utils.Global;
 import bubbleMaster.Start;
-import interfaces.InGame;
  
 public class Bubble extends Ostacolo
 {
@@ -41,6 +42,8 @@ public class Bubble extends Ostacolo
 	private static final String UP = "up", DOWN = "down", SX = "sx", DX = "dx", RESTORE = "restore", RAY = "setRay", MOVE = "move";
 	
 	private int index;
+	
+	private ArrayList<Ostacolo> ostacoli;
  
     public Bubble( Ostacolo ost, GameContainer gc ) throws SlickException
         { this( ost.getX(), ost.getY(), ost.getWidth()/2, ost.getMaxWidth(), gc ); }
@@ -133,6 +136,9 @@ public class Bubble extends Ostacolo
             ostr.setCenterX( ostr.getCenterX() + x );
             ostr.setCenterY( ostr.getCenterY() + y );
         }
+    
+    public void setOstacoli( ArrayList<Ostacolo> ostacoli )
+    	{ this.ostacoli = ostacoli; }
      
     public void setMaxHeight( float val )
         { maxH = val; }
@@ -389,8 +395,8 @@ public class Bubble extends Ostacolo
         				{
         					secondoTubo = true;
         					setSpeed = true;
-        					indexTube = InGame.ostacoli.get( indexTube ).getUnion();
-        					setPositionInTube( InGame.ostacoli.get( indexTube ), primoTubo );
+        					indexTube = ostacoli.get( indexTube ).getUnion();
+        					setPositionInTube( ostacoli.get( indexTube ), primoTubo );
         				}
 	    		}
     		// la sfera e' nel SECONDO tubo
@@ -399,6 +405,41 @@ public class Bubble extends Ostacolo
 					secondoTubo = false;
 					indexTube = -1;
 				}
+    	}
+    
+    /** controlla se la sfera ha colliso con l'ingresso di un tubo */
+    public boolean checkEnter( Tubo ost )
+    	{
+    		String dir = ost.getDirection();
+    		Enter enter = (Enter) ost.getEnter();
+    		Shape ingr = enter.getArea();
+
+    		if(dir.equals( SX ) || dir.equals( DX ))
+	    		{
+	    			if(!ostr.intersects( enter.component( Global.LATOSU ) ) && !ostr.intersects( enter.component( Global.LATOGIU ) ))
+	    				if(ostr.intersects( ingr ))
+	    					if((ostr.getCenterY() > ingr.getY() && ostr.getCenterY() < ingr.getMaxY()))
+		    					{
+	    							primoTubo = true;
+	    							secondoTubo = false;
+		        					setPositionInTube( ost, primoTubo );
+		        					return true;
+	    						}
+	    		}
+    		else if(dir.equals( UP ) || dir.equals( DOWN ))
+    			{
+	    			if(!ostr.intersects( enter.component( Global.LATOSX ) ) && !ostr.intersects( enter.component( Global.LATODX ) ))
+	    				if(ostr.intersects( ingr ))
+	    					if((ostr.getCenterX() > ingr.getX() && ostr.getCenterX() < ingr.getMaxX()))
+		    					{
+	    							primoTubo = true;
+	    							secondoTubo = false;
+		        					setPositionInTube( ost, primoTubo );
+		        					return true;
+	    						}
+    			}
+    		
+    		return false;
     	}
     
     /**gestisce collisioni fra tutti gli elementi*/
@@ -436,48 +477,12 @@ public class Bubble extends Ostacolo
 					gestioneCollisioni( ost );
 			
 			if(primoTubo || secondoTubo)
-				gestioneSferaInTubo( (Tubo) InGame.ostacoli.get( indexTube ) );
-    	}
-    
-    public boolean checkEnter( Tubo ost )
-    	{
-    		String dir = ost.getDirection();
-    		Enter enter = (Enter) ost.getEnter();
-    		Shape ingr = enter.getArea();
-
-    		if(dir.equals( SX ) || dir.equals( DX ))
-	    		{
-	    			if(!ostr.intersects( enter.component( Global.LATOSU ) ) && !ostr.intersects( enter.component( Global.LATOGIU ) ))
-	    				if(ostr.intersects( ingr ))
-	    					if((ostr.getCenterY() > ingr.getY() && ostr.getCenterY() < ingr.getMaxY()))
-		    					{
-	    							primoTubo = true;
-	    							secondoTubo = false;
-		        					setPositionInTube( ost, primoTubo );
-		        					return true;
-	    						}
-	    		}
-    		else if(dir.equals( UP ) || dir.equals( DOWN ))
-    			{
-	    			if(!ostr.intersects( enter.component( Global.LATOSX ) ) && !ostr.intersects( enter.component( Global.LATODX ) ))
-	    				if(ostr.intersects( ingr ))
-	    					if((ostr.getCenterX() > ingr.getX() && ostr.getCenterX() < ingr.getMaxX()))
-		    					{
-	    							primoTubo = true;
-	    							secondoTubo = false;
-		        					setPositionInTube( ost, primoTubo );
-		        					return true;
-	    						}
-    			}
-    		
-    		return false;
+				gestioneSferaInTubo( (Tubo) ostacoli.get( indexTube ) );
     	}
  
     public void update( GameContainer gc, int delta ) throws SlickException
         {
-    		// TODO FORINIRE LE SFERE DEL VETTORE OSTACOLI (INVECE DI RICHIAMARE QUELLO INGAME)
-    	
-            for(Ostacolo ost: InGame.ostacoli)
+            for(Ostacolo ost: ostacoli)
             	if(!ost.getID().equals( Global.BOLLA ))
             		checkAll( ost );
              
@@ -488,7 +493,7 @@ public class Bubble extends Ostacolo
             
             if((speedX == 0 || speedY == 0) && !primoTubo)
             	{
-                    for(Ostacolo ost: InGame.ostacoli)
+                    for(Ostacolo ost: ostacoli)
                     	if(!ost.getID().equals( Global.BOLLA ))
                     		checkAll( ost );
                     
