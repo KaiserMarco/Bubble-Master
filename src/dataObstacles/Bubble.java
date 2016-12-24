@@ -363,6 +363,7 @@ public class Bubble extends Ostacolo
 						}
     			}
     	}
+    
     /**determina se la sfera e' ancora nel primo o nel secondo tubo*/
     public void gestioneSferaInTubo( Tubo tubo )
     	{
@@ -416,8 +417,8 @@ public class Bubble extends Ostacolo
 
     		if(dir.equals( SX ) || dir.equals( DX ))
 	    		{
-	    			if(!ostr.intersects( enter.component( Global.LATOSU ) ) && !ostr.intersects( enter.component( Global.LATOGIU ) ))
-	    				if(ostr.intersects( ingr ))
+					if(ostr.intersects( ingr ))
+						if(!ostr.intersects( enter.component( Global.LATOSU ) ) && !ostr.intersects( enter.component( Global.LATOGIU ) ))
 	    					if((ostr.getCenterY() > ingr.getY() && ostr.getCenterY() < ingr.getMaxY()))
 		    					{
 	    							primoTubo = true;
@@ -428,8 +429,8 @@ public class Bubble extends Ostacolo
 	    		}
     		else if(dir.equals( UP ) || dir.equals( DOWN ))
     			{
-	    			if(!ostr.intersects( enter.component( Global.LATOSX ) ) && !ostr.intersects( enter.component( Global.LATODX ) ))
-	    				if(ostr.intersects( ingr ))
+					if(ostr.intersects( ingr ))
+						if(!ostr.intersects( enter.component( Global.LATOSX ) ) && !ostr.intersects( enter.component( Global.LATODX ) ))
 	    					if((ostr.getCenterX() > ingr.getX() && ostr.getCenterX() < ingr.getMaxX()))
 		    					{
 	    							primoTubo = true;
