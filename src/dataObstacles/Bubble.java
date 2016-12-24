@@ -357,7 +357,7 @@ public class Bubble extends Ostacolo
 						}
     			}
     	}
-    /**determina se la sfera e' ancora nel primo tubo o se e' ancora nel secondo*/
+    /**determina se la sfera e' ancora nel primo o nel secondo tubo*/
     public void gestioneSferaInTubo( Tubo tubo )
     	{
     		// se la sfera e' nel PRIMO tubo
