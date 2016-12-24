@@ -475,6 +475,8 @@ public class Bubble extends Ostacolo
  
     public void update( GameContainer gc, int delta ) throws SlickException
         {
+    		// TODO FORINIRE LE SFERE DEL VETTORE OSTACOLI (INVECE DI RICHIAMARE QUELLO INGAME)
+    	
             for(Ostacolo ost: InGame.ostacoli)
             	if(!ost.getID().equals( Global.BOLLA ))
             		checkAll( ost );
