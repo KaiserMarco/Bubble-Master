@@ -123,10 +123,10 @@ public class InGame
 					if(ost.getID().equals( Global.TUBO ))
 						{
 							ost.setSpigoli();
-							ostacoli.add( ((Tubo) ost).getBase() );
-							((Base) ostacoli.get( ostacoli.size() - 1 )).setIndexTube( i );
 							ostacoli.add( ((Tubo) ost).getEnter() );
 							((Enter) ostacoli.get( ostacoli.size() - 1 )).setIndexTube( i );
+							ostacoli.add( ((Tubo) ost).getBase() );
+							((Base) ostacoli.get( ostacoli.size() - 1 )).setIndexTube( i );
 						}
 				}
 			
