@@ -90,7 +90,6 @@ public class InGame
 							
 							player.setHeight( elem.getHeight() );
 							player.setWidth( elem.getWidth() );
-							player.setWidthI( ((Player) elem).getWidthI() );
 							player.setMaxHeight( sfondo.getMaxHeight() );
 
 							player.setSpheres( spheres );
@@ -180,7 +179,7 @@ public class InGame
 				ost.draw( g );
 			
 			for(Player player: players)
-				player.drawPlay( g );
+				player.drawPlay( gc );
 			
 			// disegna il countdown iniziale
 			if(Global.drawCountdown)

@@ -89,7 +89,7 @@ public class End
 			Global.sfondo.draw( gc );
 			
 			for(Ostacolo player: giocatori)
-				((Player) player).drawPlay( g );
+				((Player) player).drawPlay( gc );
 			
 			for(Bubble bolla: bolle)
 				bolla.draw( g );

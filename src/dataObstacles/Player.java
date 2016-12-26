@@ -147,9 +147,13 @@ public class Player extends Ostacolo
 	private ArrayList<Image> vite;
 	private int indexLastLife;
 	
+	private Graphics g;
+	
 	public Player( float x, float y, int numPlayer, GameContainer gc, Color color ) throws SlickException
 		{
 			super( "player" );
+			
+			g = gc.getGraphics();
 			
 			this.color = color;
 			col = new Color( color.getRed(), color.getGreen(), color.getBlue(), 220 );
@@ -251,8 +255,10 @@ public class Player extends Ostacolo
 			vite = new ArrayList<Image>();
 		}
 	
-	public void drawMoving( Graphics g )
+	public void drawMoving( GameContainer gc )
 		{
+			setArea( gc );
+		
 			// il personaggio NON si sta muovendo
 			if(!isMoved && !jump)
 				{
@@ -270,22 +276,16 @@ public class Player extends Ostacolo
 			// il personaggio sta saltando
 			else if(movingJ)
 				{
+					setAreaJump();
+					
 					indice = Math.min( (int) (animTime/frameJump), 8 );
 					if(dir == DESTRA)
 						{
-							area = new Rectangle( xPlayer, yPlayer, width, height );
-							body = new Rectangle( xPlayer, yPlayer + Global.Height/40, width, Global.Height/12 );
-							head = new Rectangle( xPlayer + width/2 - Global.Width/110, yPlayer, width/2, Global.Height/40 );
-							
 							saltoDx[indice].draw( xPlayer, yPlayer, width, height );
 							saltoDx[indice].draw( xPlayer, yPlayer, width, height, imm );
 						}
 					else
 						{
-							area = new Rectangle( xPlayer, yPlayer, width, height );
-							body = new Rectangle( xPlayer, yPlayer + Global.Height/40, width, Global.Height/10 );
-							head = new Rectangle( xPlayer + Global.Width/110, yPlayer, width/2, Global.Height/40 );
-
 							saltoSx[indice].draw( xPlayer, yPlayer, width, height );
 							saltoSx[indice].draw( xPlayer, yPlayer, width, height, imm );
 						}
@@ -311,7 +311,7 @@ public class Player extends Ostacolo
 		{ moving = val; }
 	
 	/** disegna il player durante e dopo la partita */
-	public void drawPlay( Graphics g ) throws SlickException
+	public void drawPlay( GameContainer gc ) throws SlickException
 		{
 			if(immortal)
 				imm = new Color( 28, 57, 187, 200 );
@@ -319,7 +319,7 @@ public class Player extends Ostacolo
 				imm = new Color( 255, 255, 255, 255 );
 			
 			if(!invincible || (invincible && currentTickInv > 0 && currentTickInv % 2 == 0))
-				drawMoving( g );
+				drawMoving( gc );
 			
 			for(Shot fuoco: fire)
 				if(fuoco.isShooting())
@@ -385,12 +385,30 @@ public class Player extends Ostacolo
 						yPlayer = obs.getY() - height;
 		}
     
-    public void setArea( GameContainer gc )
+	/** setta le aree durante il SALTO */
+    public void setAreaJump()
     	{ 
     		area = new Rectangle( xPlayer, yPlayer, width, height );
-    		head = new Rectangle( xPlayer + Global.Width/110, yPlayer, width/2, Global.Height/40 );
     		body = new Rectangle( xPlayer, yPlayer + Global.Height/40, width, Global.Height/10 );
+    		head = new Rectangle( xPlayer + Global.Width/110, yPlayer, width/2, Global.Height/40 );
 		}
+    
+    /** setta le aree durante il MOVIMENTO/QUIETE */
+    public void setArea( GameContainer gc )
+    	{
+    		if(dir == DESTRA)
+    			{
+			    	area = new Rectangle( xPlayer, yPlayer, width, height );
+					body = new Rectangle( xPlayer, yPlayer + Global.Height/40, width, Global.Height/10 );
+					head = new Rectangle( xPlayer + width/2 - Global.Width/600, yPlayer, width/2, Global.Height/40 );
+    			}
+    		else
+    			{
+    				area = new Rectangle( xPlayer + offset, yPlayer, width, height );
+    				body = new Rectangle( xPlayer + offset, yPlayer + Global.Height/40, width, Global.Height/10 );
+					head = new Rectangle( xPlayer + width/2 - Global.Width/600, yPlayer, width/2, Global.Height/40 );
+    			}
+    	}
     
     public String getColor()
     	{
