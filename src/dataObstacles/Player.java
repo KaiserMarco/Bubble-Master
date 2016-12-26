@@ -142,6 +142,7 @@ public class Player extends Ostacolo
 	private int j;
 	
 	private ArrayList<Bubble> sfere;
+	private ArrayList<Ostacolo> ostacoli;
 	
 	private ArrayList<Image> vite;
 	private int indexLastLife;
@@ -246,8 +247,6 @@ public class Player extends Ostacolo
 			selectable = true;
 			
 			prevArea = new Rectangle( area.getX(), area.getY(), width, height );
-			
-			sfere = new ArrayList<Bubble>();
 			
 			vite = new ArrayList<Image>();
 		}
@@ -486,7 +485,7 @@ public class Player extends Ostacolo
 			return false;
 		}
 	
-	/** setta la posizione delle arre body e head */
+	/** setta la posizione delle aree body e head */
 	private void setBodyHead()
 		{
 			if(dir == DESTRA)
@@ -632,6 +631,9 @@ public class Player extends Ostacolo
 	public void setSpheres( ArrayList<Bubble> bolle )
 		{ sfere = bolle; }
 	
+	public void setOstacoli( ArrayList<Ostacolo> ostacoli )
+		{ this.ostacoli = ostacoli; }
+	
 	public void update( GameContainer gc, int delta, Input input ) throws SlickException
 		{
 			moving = false;
@@ -720,7 +722,7 @@ public class Player extends Ostacolo
 				}
 			
 			/*ZONA CONTROLLO COLLISIONE PERSONAGGIO - OSTACOLI*/
-			for(Ostacolo ost: InGame.ostacoli)
+			for(Ostacolo ost: ostacoli)
 				{
 					if(!ost.getID().equals( Global.TUBO ))
 						{
@@ -810,7 +812,7 @@ public class Player extends Ostacolo
 						
 							if(!hit)
 								{
-									for(Ostacolo ost: InGame.ostacoli)
+									for(Ostacolo ost: ostacoli)
 										if(!ost.getID().equals( Global.TUBO ))
 											if(fuoco.getArea().intersects( ost.getArea() ))
 												{

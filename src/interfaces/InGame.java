@@ -80,7 +80,6 @@ public class InGame
 			this.sfondo = sfondo;
 			
 			int index = 0;
-		
 			for(Ostacolo elem: obs)
 				{
 					if(elem.getID().equals( Global.PLAYER ))
@@ -95,6 +94,7 @@ public class InGame
 							player.setMaxHeight( sfondo.getMaxHeight() );
 
 							player.setSpheres( spheres );
+							player.setOstacoli( ostacoli );
 							player.setKeyButtons();
 							player.setLifes( Global.lifes );
 							
