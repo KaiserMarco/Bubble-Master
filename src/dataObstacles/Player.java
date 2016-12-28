@@ -149,8 +149,6 @@ public class Player extends Ostacolo
 	
 	private Graphics g;
 	
-	private Rectangle areaTmp = null;
-	
 	public Player( float x, float y, int numPlayer, GameContainer gc, Color color ) throws SlickException
 		{
 			super( "player" );
@@ -258,9 +256,6 @@ public class Player extends Ostacolo
 	
 	public void drawMoving( GameContainer gc )
 		{
-			if(areaTmp != null)
-				g.fill( areaTmp );
-		
 			// il personaggio NON si sta muovendo
 			if(!isMoved && !jump)
 				{
@@ -698,7 +693,7 @@ public class Player extends Ostacolo
 			/*controllo del salto/planata*/
 			if(maxJump > 0)
 				setXY( 0, -move + 0.2f*(40 - tempJump--), MOVE );
-			else if(isMoved || jump)
+			else
 				{
 					setAreaJump();
 					movingJ = true;
@@ -748,36 +743,23 @@ public class Player extends Ostacolo
 						{
 							if(area.intersects( ost.component( Global.LATOSU ) ) && prevArea.getMaxY() <= ost.getY())
 								{
-									System.out.println( "SONO SOPRA ID = " + ost.getID() );
 									maxJump = 0;
 									tempJump = 0;
 									jump = false;
 									movingJ = false;
-									setY( ost.getY() - height );
-									if(areaTmp == null)
-										{
-											System.out.println( "DISEGNO" );
-											areaTmp = new Rectangle( xPlayer, yPlayer, width, height );
-										}
+									setXY( area.getX(), ost.getY() - height, RESTORE );
 								}										
 							else if(area.intersects( ost.component( Global.LATOGIU ) ) && prevArea.getY() > ost.getMaxY())
 								{
-									System.out.println( "SONO SOTTO ID = " + ost.getID() );
 									maxJump = 0;
 									tempJump = 0;
 									animTime = animTimeJump/5;
 									setXY( area.getX(), ost.getMaxY(), RESTORE );
 								}
 							else if(area.intersects( ost.component( Global.LATODX ) ))
-								{
-									System.out.println( "SONO DESTRA ID = " + ost.getID() );
-									setXY( ost.getMaxX(), area.getY(), RESTORE );
-								}
+								setXY( ost.getMaxX(), area.getY(), RESTORE );
 							else if(area.intersects( ost.component( Global.LATOSX ) ))
-								{
-									System.out.println( "SONO SINISTRA ID = " + ost.getID() );
-									setXY( ost.getX() - width, area.getY(), RESTORE );
-								}
+								setXY( ost.getX() - width, area.getY(), RESTORE );
 						}
 				}
 			
