@@ -736,7 +736,6 @@ public class Player extends Ostacolo
 				}
 			
 			/*ZONA CONTROLLO COLLISIONE PERSONAGGIO - OSTACOLI*/
-			// TODO CAPIRE PERCHE FA COSI
 			for(Ostacolo ost: ostacoli)
 				{
 					if(!ost.getID().equals( Global.TUBO ))

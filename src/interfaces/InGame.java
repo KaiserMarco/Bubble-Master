@@ -140,7 +140,7 @@ public class InGame
 				pu.draw( g );
 			
 			// disegna le sfere solo quando sono visibili
-			/*for(int j = spheres.size() - 1; j >= 0; j--)
+			for(int j = spheres.size() - 1; j >= 0; j--)
 				{
 					Bubble bolla = spheres.get( j );
 					dark = false;
@@ -170,7 +170,7 @@ public class InGame
 					
 					if(!dark)
 						bolla.draw( g );
-				}*/
+				}
 			
 			for(Bubble sfera: spheres)
 				sfera.draw( g );
