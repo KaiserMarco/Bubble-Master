@@ -846,10 +846,7 @@ public class Player extends Ostacolo
 			if(area.getLocation().equals( prevArea.getLocation() ))
 				isMoved = false;
 			else
-				{
-					isMoved = true;
-					//prevArea.setLocation( area.getX(), area.getY() );
-				}
+				isMoved = true;
 		}
 
 	public void setType( String type )
