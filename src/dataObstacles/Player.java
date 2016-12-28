@@ -753,7 +753,7 @@ public class Player extends Ostacolo
 									tempJump = 0;
 									jump = false;
 									movingJ = false;
-									setY( ost.getY() - area.getHeight() );
+									setY( ost.getY() - height );
 									if(areaTmp == null)
 										{
 											System.out.println( "DISEGNO" );

@@ -8,14 +8,14 @@
   <ostacolo x="113.0" y="461.0" union="5" type="sx" ID="tubo" />
   <ostacolo x="558.0" y="275.0" union="4" type="sx" ID="tubo" />
   <ostacolo x="566.0" y="52.0" union="3" type="sx" ID="tubo" />
-  <ostacolo x="379.0" y="277.0" union="1" type="dx" ID="tubo" />
-  <ostacolo x="189.0" y="402.0" union="-1" type="null" ID="bolla" />
-  <ostacolo x="500.0" y="425.0" union="-1" type="null" ID="bolla" />
+  <ostacolo x="376.0" y="266.0" union="1" type="dx" ID="tubo" />
   <ostacolo x="27.0" y="296.0" union="-1" type="null" ID="bolla" />
   <ostacolo x="98.0" y="51.0" union="-1" type="hor" ID="sbarra" />
   <ostacolo x="683.0" y="264.0" union="-1" type="null" ID="bolla" />
   <ostacolo x="682.0" y="55.0" union="-1" type="null" ID="bolla" />
   <ostacolo x="274.0" y="31.0" union="-1" type="null" number="1" color="yellow" ID="player" />
-  <ostacolo x="594.0" y="358.0" union="-1" type="hor" ID="sbarra" />
+  <ostacolo x="189.0" y="402.0" union="-1" type="null" ID="bolla" />
+  <ostacolo x="185.0" y="246.0" union="-1" type="hor" ID="sbarra" />
+  <ostacolo x="500.0" y="425.0" union="-1" type="null" ID="bolla" />
   <sfondo name="sfondo1" />
 </level>
