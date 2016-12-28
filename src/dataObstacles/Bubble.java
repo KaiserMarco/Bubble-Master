@@ -329,8 +329,10 @@ public class Bubble extends Ostacolo
     		//la sfera e' nel PRIMO tubo
     		if(primoTubo)
     			{
-    				backupSpeedX = Math.abs( speedX );
-    				backupSpeedY = Math.abs( speedY );
+    				if(speedX != 0)
+    					backupSpeedX = Math.abs( speedX );
+    				if(speedY != 0)
+    					backupSpeedY = Math.abs( speedY );
     				
 	    			if(pos.equals( SX ) || pos.equals( DX ))
 	    				{

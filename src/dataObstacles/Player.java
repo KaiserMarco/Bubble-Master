@@ -149,6 +149,8 @@ public class Player extends Ostacolo
 	
 	private Graphics g;
 	
+	private Rectangle areaTmp = null;
+	
 	public Player( float x, float y, int numPlayer, GameContainer gc, Color color ) throws SlickException
 		{
 			super( "player" );
@@ -201,9 +203,10 @@ public class Player extends Ostacolo
 			sheetJumpDx = new SpriteSheet( new Image( "./data/Image/jumpDx" + colour + ".png" ), wJump, hJump );
 			sheetJumpSx = new SpriteSheet( new Image( "./data/Image/jumpSx" + colour + ".png" ), wJump, hJump );
 			
+			dir = DESTRA;
+			
 			area = new Rectangle( xPlayer, yPlayer, width, height );
-			body = new Rectangle( xPlayer, yPlayer + Global.Height/40, width, Global.Height/10 );
-			head = new Rectangle( xPlayer + width/2 - Global.Width/600, yPlayer, width/2, Global.Height/40 );
+			setArea( gc );
 			
 			for(int i = 0; i < 9; i++)
 				{
@@ -246,8 +249,6 @@ public class Player extends Ostacolo
 			currAmmo = 0;
 			hits = 0;
 			
-			dir = DESTRA;
-			
 			selectable = true;
 			
 			prevArea = new Rectangle( area.getX(), area.getY(), width, height );
@@ -257,7 +258,8 @@ public class Player extends Ostacolo
 	
 	public void drawMoving( GameContainer gc )
 		{
-			setArea( gc );
+			if(areaTmp != null)
+				g.fill( areaTmp );
 		
 			// il personaggio NON si sta muovendo
 			if(!isMoved && !jump)
@@ -276,8 +278,6 @@ public class Player extends Ostacolo
 			// il personaggio sta saltando
 			else if(movingJ)
 				{
-					setAreaJump();
-					
 					indice = Math.min( (int) (animTime/frameJump), 8 );
 					if(dir == DESTRA)
 						{
@@ -387,8 +387,7 @@ public class Player extends Ostacolo
     
 	/** setta le aree durante il SALTO */
     public void setAreaJump()
-    	{ 
-    		area = new Rectangle( xPlayer, yPlayer, width, height );
+    	{
     		body = new Rectangle( xPlayer, yPlayer + Global.Height/40, width, Global.Height/10 );
     		head = new Rectangle( xPlayer + Global.Width/110, yPlayer, width/2, Global.Height/40 );
 		}
@@ -398,13 +397,11 @@ public class Player extends Ostacolo
     	{
     		if(dir == DESTRA)
     			{
-			    	area = new Rectangle( xPlayer, yPlayer, width, height );
 					body = new Rectangle( xPlayer, yPlayer + Global.Height/40, width, Global.Height/10 );
 					head = new Rectangle( xPlayer + width/2 - Global.Width/600, yPlayer, width/2, Global.Height/40 );
     			}
     		else
     			{
-    				area = new Rectangle( xPlayer + offset, yPlayer, width, height );
     				body = new Rectangle( xPlayer + offset, yPlayer + Global.Height/40, width, Global.Height/10 );
 					head = new Rectangle( xPlayer + width/2 - Global.Width/600, yPlayer, width/2, Global.Height/40 );
     			}
@@ -655,6 +652,8 @@ public class Player extends Ostacolo
 	public void update( GameContainer gc, int delta, Input input ) throws SlickException
 		{
 			moving = false;
+
+			prevArea.setLocation( area.getX(), area.getY() );
 			
 			// controlla lo stato delle munizioni
 			checkCurrAmmo( gc );
@@ -675,6 +674,7 @@ public class Player extends Ostacolo
 			/*ZONA SALTO*/
 			if(input.isKeyDown( keyButtons.get( Global.SALTO ) ) && !jump)
 				{
+					setAreaJump();
 					movingJ = true;
 					jump = true;
 					maxJump = 1;
@@ -698,8 +698,9 @@ public class Player extends Ostacolo
 			/*controllo del salto/planata*/
 			if(maxJump > 0)
 				setXY( 0, -move + 0.2f*(40 - tempJump--), MOVE );
-			else
+			else if(isMoved || jump)
 				{
+					setAreaJump();
 					movingJ = true;
 					setXY( 0, move + Math.abs( 0.1f * tempJump-- ), MOVE );
 				}
@@ -740,29 +741,43 @@ public class Player extends Ostacolo
 				}
 			
 			/*ZONA CONTROLLO COLLISIONE PERSONAGGIO - OSTACOLI*/
+			// TODO CAPIRE PERCHE FA COSI
 			for(Ostacolo ost: ostacoli)
 				{
 					if(!ost.getID().equals( Global.TUBO ))
 						{
 							if(area.intersects( ost.component( Global.LATOSU ) ) && prevArea.getMaxY() <= ost.getY())
 								{
+									System.out.println( "SONO SOPRA ID = " + ost.getID() );
 									maxJump = 0;
 									tempJump = 0;
 									jump = false;
 									movingJ = false;
-									setXY( area.getX(), ost.getY() - height, RESTORE );
+									setY( ost.getY() - area.getHeight() );
+									if(areaTmp == null)
+										{
+											System.out.println( "DISEGNO" );
+											areaTmp = new Rectangle( xPlayer, yPlayer, width, height );
+										}
 								}										
 							else if(area.intersects( ost.component( Global.LATOGIU ) ) && prevArea.getY() > ost.getMaxY())
 								{
+									System.out.println( "SONO SOTTO ID = " + ost.getID() );
 									maxJump = 0;
 									tempJump = 0;
 									animTime = animTimeJump/5;
 									setXY( area.getX(), ost.getMaxY(), RESTORE );
 								}
 							else if(area.intersects( ost.component( Global.LATODX ) ))
-								setXY( ost.getMaxX(), area.getY(), RESTORE );
+								{
+									System.out.println( "SONO DESTRA ID = " + ost.getID() );
+									setXY( ost.getMaxX(), area.getY(), RESTORE );
+								}
 							else if(area.intersects( ost.component( Global.LATOSX ) ))
-								setXY( ost.getX() - width, area.getY(), RESTORE );
+								{
+									System.out.println( "SONO SINISTRA ID = " + ost.getID() );
+									setXY( ost.getX() - width, area.getY(), RESTORE );
+								}
 						}
 				}
 			
@@ -852,7 +867,7 @@ public class Player extends Ostacolo
 			else
 				{
 					isMoved = true;
-					prevArea.setLocation( area.getX(), area.getY() );
+					//prevArea.setLocation( area.getX(), area.getY() );
 				}
 		}
 
