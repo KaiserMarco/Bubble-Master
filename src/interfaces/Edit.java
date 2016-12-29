@@ -329,10 +329,11 @@ public class Edit
 								{
 									temp = ostacoli.get( i );
 									
-									if(temp.equals( deployer ))
+									if(temp.getID().equals( Global.PLAYER ))
 										{
 											setPlayer();
-											deployer = null;
+											if(temp.equals( deployer ))
+												deployer = null;
 										}
 									
 									//modifica la posizione di un tubo gia' esistente
